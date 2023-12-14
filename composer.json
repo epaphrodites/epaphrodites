@@ -4,7 +4,10 @@
   "type": "project",
   "keywords": [
     "mongodb",
+    "redis",
     "mysql",
+    "sqLite",
+    "sqlserver",
     "postgresql",
     "php",
     "python",
