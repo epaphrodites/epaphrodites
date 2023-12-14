@@ -1,4 +1,3 @@
-
 ![](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
