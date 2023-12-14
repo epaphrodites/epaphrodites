@@ -55,14 +55,14 @@ define('_DIR_ADMIN_TEMP_', '/admin/');
 // Database directory
 define('_DIR_database_', 'bin/database');
 
-// Epaphrodite main directory
-define('_EPAPHRODITE_', 'bin/epaphrodite');
+// Epaphrodites main directory
+define('_EPAPHRODITE_', 'bin/epaphrodites');
 
 // Main static datas (static storage)
 define('_DIR_CONFIG_', 'bin/database/datas/arrays/');
 
 // Main email param file
-define('_DIR_MAIL_', 'bin/epaphrodite/define/config/ini/');
+define('_DIR_MAIL_', 'bin/epaphrodites/define/config/ini/');
 
 // Main Json datas directory
 define('_DIR_JSON_DATAS_', 'bin/database/datas/json');
@@ -85,7 +85,7 @@ define('_HOME_', 'views/index/');
 // Logout
 define('_LOGOUT_', 'logout/');
 
-define('_PYTHON_', 'bin/epaphrodite/python/');
+define('_PYTHON_', 'bin/epaphrodites/python/');
 
 // Dashboard home page
 define('_DASHBOARD_', 'dashboard/');

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphroditesdefine\config;
+namespace Epaphrodites\epaphrodites\define\config;
 
 use Epaphrodites\epaphrodites\define\config\traits\currentStaticArray;
 use Epaphrodites\epaphrodites\define\config\traits\currentSetGuardSecure;
