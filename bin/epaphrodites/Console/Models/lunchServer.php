@@ -46,17 +46,15 @@ class lunchServer extends AddServerConfig
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $port = $input->getOption('port');
-        $host = $input->getOption('host');
 
         try {
             $this->validatePort($port);
-            $this->validateHost($host);
 
             if ($this->isPortInUse($port)) {
                 throw new \RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
 
-            $this->startServer($host, $port);
+            $this->startServer($port);
             return self::SUCCESS;
 
         } catch (\InvalidArgumentException $e) {
@@ -73,10 +71,10 @@ class lunchServer extends AddServerConfig
      * @param string $host The host IP address.
      * @param int $port The port number.
      */
-    private function startServer($host, $port)
+    private function startServer($port)
     {
-        echo "Starting the server on port $port, host $host...\n";
-        exec("php -S $host:$port");
+        echo "Starting the server on port $port, host 127.0.0.1...\n";
+        shell_exec("php -S 127.0.0.1:$port");
     }
 
     /**

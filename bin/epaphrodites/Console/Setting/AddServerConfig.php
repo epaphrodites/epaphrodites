@@ -12,7 +12,6 @@ class AddServerConfig extends Command
     {
         $this->setDescription('Run server')
              ->setHelp('This command allows you to Run server.')
-             ->addOption('port' , null , InputOption::VALUE_REQUIRED, 'Port')
-             ->addOption('host' , null, InputOption::VALUE_REQUIRED, 'Host');
+             ->addOption('port' , null , InputOption::VALUE_REQUIRED, 'Port');
     }
 }

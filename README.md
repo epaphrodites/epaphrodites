@@ -80,7 +80,7 @@ php heredia create:db epaphroditesdb
 > Run server
 ```bash  
 cd your_project
-php heredia run:server --port=8000 --host=127.0.0.1
+php heredia run:server --port=8000
 ```
 
 > Authentification access
