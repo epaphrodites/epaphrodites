@@ -1,0 +1,54 @@
+{
+  "name": "epaphrodite/epaphrodite",
+  "description": "Epaphrodite-Framework combines simplicity, compatibility with Python, support for multiple databases, and a commitment to open-source principles.",
+  "type": "project",
+  "keywords": [
+    "mongodb",
+    "mysql",
+    "postgresql",
+    "php",
+    "python",
+    "javascript",
+    "twig",
+    "html",
+    "css",
+    "epaphrodite",
+    "epaphrodite-framework"
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Epaphrodite\\": "bin/",
+      "Database\\Epaphrodite\\": "bin/database/"
+
+    }
+  },
+  "authors": [
+    {
+      "name": "Y'srael Aimé N'dri",
+      "email": "ysraelaimendri@epaphrodite.org",
+      "role": "Lead Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "support": {
+    "issues": "https://github.com/Epaphrodite-framework/epaphrodite/issues",
+    "source": "https://github.com/Epaphrodite-framework/epaphrodite"
+  },
+  "require": {
+    "chillerlan/php-qrcode": "^4.3",
+    "brick/math": "^0.11.0",
+    "symfony/console": "^6.2",
+    "mongodb/mongodb": "^1.16",
+    "mpdf/mpdf": "^8.2"
+  },
+  "require-dev": {
+    "twig/twig": "^3.5",
+    "phpoffice/phpspreadsheet": "^1.28",
+    "phpmailer/phpmailer": "^6.8",
+    "php-ai/php-ml": "^0.10.0",
+    "guzzlehttp/guzzle": "^7.5",
+    "phpunit/phpunit": "^10.4",
+    "php": ">=8.1"
+  }
+}

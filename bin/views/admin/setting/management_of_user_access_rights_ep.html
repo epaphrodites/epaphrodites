@@ -1,0 +1,48 @@
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from forms
+import loader %}{% from message import alert_msg %} {% block content %}{{ breadcrumb_field('ASSIGNING RIGHTS TO USERS' )}}
+<div class="container">
+    {{ alert_msg( reponse , alert ) }}
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12 text-center">
+            <div class="outer-form">
+                <form method="post" name="ifSendDatas">
+                    <table id="TableFromDatas" class="table-striped table table-bordered tableaffichage">
+                        {{ loader() }}{{ __csrf() }}
+                        <thead>
+                            <tr>
+                                <th class="head">Nº</th>
+                                <th class="head">USERS GROUP</th>
+                                <th class="head">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        {% for select in select %} {% set counter = (counter | default (0))+1 %}
+                        <tbody>
+                            <tr>
+                                <td class='tblcenter' style="width: 3%">{{ counter|e }}</td>
+                                <td class="text-uppercase" style="width: 20%">{{ select }}</td>
+                                <td style="width: 50%" id="tablecontent">
+                                    <button type="btn" name="__edit__" rel="tooltip"
+                                        class="btn btn-success btn-just-icon btn-sm">
+                                        <a style="text-decoration:none;"
+                                            href="{{ __pathId( 'setting@assign_user_access_rights' , { '_see': counter }) }}"><i
+                                                class="icofont-key"></i> Add Access Rights</a>
+                                    </button>
+                                    <button type="btn" name="__edit__" rel="tooltip"
+                                        class="btn btn-primary btn-just-icon btn-sm">
+                                        <a style="text-decoration:none;"
+                                            href="{{ __pathId( 'setting@list_of_user_rights_management' , { '_see': counter }) }}"><i
+                                                class="icofont-eye"></i> List of Access Rights</a>
+                                    </button>
+                                    <button class="deleted" type="btn" name="__deleted__" rel="tooltip"
+                                        class="btn btn-danger btn-just-icon btn-sm" value="{{ counter|e }}"><i
+                                            class="icofont-bin"></i> Clear Access Rights</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> {% endblock %}

@@ -1,0 +1,66 @@
+{% extends layouts %} {% block content %}
+<div class="container-fluid maindashboard">
+    <div class="row">
+        <div class="col-lg-8 mb-8">
+            <div class="row">
+                <div class="col-lg-6 mb-6">
+                    <div class="card menuuser">
+                        <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS GROUP</h4>
+                        <div class="card-body">
+                            <p class="card-text" id="pourcentage"><strong>0{{ data.userGroup()|length }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="card menuuser">
+                        <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS</h4>
+                        <div class="card-body">
+                            <p class="card-text" id="pourcentage"><strong>{{ '01' }}</strong></p>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="row">
+                <div class="col-lg-12 mb-12">
+                    <div class="card onathermenu">
+                        <div class="card-body">
+                            <h5 class="card-title">Recents actions</h5>
+                            {% for select in select.RecentlyActions() %}
+                            <div class="activity">
+                                <div class="activity-item d-flex">
+                                    <div class="activite-label">{{ select.dateactions|e|date('d/m/Y H:i:s') }}</div>
+                                    <i class='bi bi-clock activity-badge text-white align-self-start'></i>
+                                    <div class="activity-content">
+                                        {{ select.libactions|e }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-12 mt-20">
+                    <div class="card menuuserinfos">
+                        <h4 class="card-header text-light" id="card-informations"> <i class="icofont-comment"></i> INFORMATIONS</h4>
+                        <div class="card-body usersinfos">
+                            <div class="news">
+                                <div class="post-item">
+                                    <i class="bi bi-exclamation-triangle-fill text-success"></i>
+                                    <p class="text-success">Welcome to Epaphrodite</p>
+                                </div>                                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+                <div class="col-lg-12 mb-12">
+                    <div class="logodsps aos-init pt-20" align="center" data-aos-offset="300">
+                        <img src="{{ __img('/logo.png') }}" class="img-fluid logoimg">
+                        {{ __QRCodes('https://epaphrodite.org') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

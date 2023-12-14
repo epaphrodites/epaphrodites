@@ -1,0 +1,199 @@
+{# --- Input Field -- #}
+{% macro input_field( inputOptions ) %}
+	<div class="form-group g-3">
+		{% if inputOptions.label is defined %}
+			<label class="form-label">{{ inputOptions.label }}</label>
+		{% endif %}
+		<input class="form-control" type="{{ inputOptions.type | default('text') }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'placeholder', 'value', 'id', 'maxlength'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ inputOptions.require is defined and inputOptions.require ? 'required' }} {{ inputOptions.readOnly is defined ? 'readonly="readonly"' }} {% if inputOptions.character is defined %} {% set characterActions = { 'mixed': "mixed(this); this.value=this.value.toUpperCase();", 'string': "onlyChaines(this); this.value=this.value.toUpperCase();", 'numeric': "onlyNumeric(this);" } %} {% set eventCode = characterActions[inputOptions.character] ?? '' %} {% if eventCode %} onkeyup="{{ eventCode|e }}" {% endif %} {% endif %}>
+		{% if inputOptions.feedback is defined %}
+			<div class="invalid-feedback">{{ inputOptions.feedback }}</div>
+		{% endif %}
+		<div class="message"></div>
+	</div>
+{% endmacro %}
+{# --- End Input Field -- #}
+
+{# --- submit buttom -- #}
+{% macro submit( submitOptions ) %}
+	<div class="form-group">
+		<button name="submit" class="btn btn-block w-100 {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="BtnValidate" type="submit" style="padding-right: 10px;background-color:#00738c;color: #fff;margin-top:7px">
+			{% if submitOptions.icon is defined %}
+				<i class="{{ submitOptions.icon }} "></i>
+			{% endif %}
+			{{ submitOptions.label is defined and submitOptions.label ? submitOptions.label }}
+		</button>
+	</div>
+{% endmacro %}
+{# --- End submit buttom -- #}
+
+{# --- Input Field for filters -- #}
+{% macro filter_field() %}
+	<div class="input-group">
+		<input type="text" id="LargeFilters" class="form-control border-0 bg-light" placeholder="All columns...">
+		<div class="input-group-append">
+			<button id="button-addon1" type="submit" class="btn btn-link text-success">
+				<i class="fa fa-search"></i>
+			</button>
+		</div>
+	</div>
+{% endmacro %}
+{# --- End Input Field for filters -- #}
+
+{# --- Other Input Field for filters -- #}
+{% macro input_filter() %}
+	<div class="bg-light rounded rounded-pill classsearch">
+		<div class="input-group" id="searchbar">
+			<input type="search" placeholder="All columns..." class="form-control border-0 bg-light" id="LargeFilters">
+			<div class="input-group-append">
+				<button id="button-addon1" type="submit" class="btn btn-link text-dark">
+					<i class="fa fa-search"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+{% endmacro %}
+{# --- End Other Input Field for filters -- #}
+
+{# --- Other Input Field for filters -- #}
+{% macro filter_search(name_searchbar , name_submit , placeholder , id ) %}
+	<form {% if id == false %} class="{{ id }}" novalidate {% endif %} method="GET">
+		<div class="bg-light rounded rounded-pill classsearch">
+			<div class="input-group" id="searchbar">
+				<input type="search" name="{{ name_searchbar }}" placeholder="{{ placeholder }}" class="form-control border-0 bg-light" id="LargeFilters">
+				<div class="input-group-append">
+					<button id="button-addon1" name="{{ name_submit }}" type="submit" class="btn btn-link text-dark">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+{% endmacro %}
+{# --- End Other Input Field for filters -- #}
+
+{# --- Textarea input field -- #}
+{% macro textarea_field( inputOptions ) %}
+	<div class="form-group">
+		{% if inputOptions.label is defined %}
+			<label class="form-label">{{ inputOptions.label }}</label>
+		{% endif %}
+		<textarea class="form-control textarea {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'value', 'rows' , 'maxlength' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} onkeyup="mixed(this);" id="textarea_input" {{ inputOptions.require is defined and inputOptions.require ? 'required' }}></textarea>
+		{% if inputOptions.feedback is defined %}
+			<div class="invalid-feedback">{{ inputOptions.feedback }}</div>
+		{% endif %}
+	</div>
+{% endmacro %}
+{# --- End Textarea input field -- #}
+
+{# --- Import input field -- #}
+{% macro import_field( selectOptions ) %}
+	{% if selectOptions.label is defined %}
+		<label class="form-label">{{ selectOptions.label }}</label>
+	{% endif %}
+
+	<br><input type="file" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'accept', 'value', 'id' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {% if selectOptions.size is defined %} data-max-size="{{ selectOptions.size }}" {% endif %} {{ selectOptions.require is defined and selectOptions.require ? "required" }}>
+
+	{% if selectOptions.feedback is defined %}
+		<div class="invalid-feedback">{{ selectOptions.feedback }}</div>
+	{% endif %}
+
+	<p id="errorMessage"></p>
+	<hr>
+{% endmacro %}
+{# --- End Import input field -- #}
+
+{# --- Action select Field -- #}
+{% macro actions_field( inputOptions ) %}
+	<!-- The validation select has started -->
+	<div class="blockactionsfroms">
+		<select id="export-options" class="form-select custom-select actionsbutton" name="_sendselected_" onchange="submitActions();">
+			<option selected="selected" value="">----------- Actions list ----------</option>
+			{% if inputOptions.datas is defined %}
+				{% for action in inputOptions.datas %}
+					{% set counter = (counter | default(0)) + 1 %}
+					<option value="{{ counter }}">{{ action }}</option>
+				{% endfor %}
+			{% endif %}
+			{% if inputOptions.export is defined %}
+				<option id="custom-excel" value="excel" data-filename="{{ inputOptions.export ? inputOptions.export : 'Export_table' }}">EXPORT TABLE</option>
+			{% endif %}
+		</select>
+		{% if inputOptions.pagination is defined %}
+			{{ inputOptions.pagination }}
+		{% endif %}
+	</div>
+	<!-- End of validation select -->
+{% endmacro %}
+{# --- End Action select Field -- #}
+
+{# --- Check box Field -- #}
+{% macro checkbox_field( inputOptions ) %}
+	{% if inputOptions.label is defined %}
+		<div class="form-check">
+		{% endif %}
+		<input type="checkbox" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'class', 'value', 'id' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %}>
+		{{ inputOptions.require is defined and inputOptions.require ? 'required' }}
+		{{ inputOptions.disabled is defined and inputOptions.disabled ? 'disabled' }}
+		{% if inputOptions.label is defined %}
+			<label class="form-check-label" for="flexCheckChecked">{{ inputOptions.label }}</label>
+		</div>
+	{% endif %}
+{% endmacro %}
+{# --- End Check box Field -- #}
+
+{# --- loader Field -- #}
+{% macro loader() %}
+	<div class="loaderpage">
+		<span class="pagetools_loader"></span>
+	</div>
+{% endmacro %}
+{# --- End loader Field -- #}
+
+{# --- Export buttom Field -- #}
+{% macro ExportFiles( libelle , add , xlsx , copie , csv ) %}
+	<div class="btn-group" id="backbouton" align="right">
+		{% if xlsx == true %}
+			<button class="btn btn-secondary" id="custom-excel" data-filename="{{ libelle }}" tabindex="0" aria-controls="TableFromDatas" type="button">
+				<span>Export
+					{{ add }}
+					(.xlsx)</span>
+			</button>
+		{% endif %}
+		{% if copie == true %}
+			<button class="btn btn-secondary buttons-copy" id="custom-copy" data-filename="{{ libelle }}" tabindex="0" aria-controls="TableFromDatas" type="button">
+				<span>Copy
+					{{ add }}</span>
+			</button>
+		{% endif %}
+		{% if csv == true %}
+			<button class="btn btn-secondary" id="custom-csv" data-filename="{{ libelle }}" tabindex="0" aria-controls="TableFromDatas" type="button">
+				<span>Export
+					{{ add }}
+					(.csv)</span>
+			</button>
+		{% endif %}
+	</div>
+{% endmacro %}
+{# --- End Export buttom Field -- #}
+
+{# --- select Field -- #}
+{% macro select_field( selectOptions ) %}
+	<div class="form-group">
+		{% if selectOptions.label is defined %}
+			<label class="form-label">{{ selectOptions.label|e }}</label>
+		{% endif %}
+
+		<select class="form-select custom-select selecteur {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }}" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'id' , 'onchange' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ selectOptions.require is defined and selectOptions.require ? 'required' }}>
+			{% if selectOptions.init is defined %}
+				<option value="">------ {{ selectOptions.init }} ------</option> 
+			{% endif %}
+			{% if selectOptions.datas is defined %}
+				{% for datas in selectOptions.datas %}
+					{% set counter = (counter | default (0))+1 %}
+					<option {% if selectOptions.position is defined and ((selectOptions.value and datas[selectOptions.value]|e == selectOptions.position|e) or selectOptions.position == counter|e) %} selected="selected" {% endif %} value="{{ selectOptions.value is defined and selectOptions.value ? datas[selectOptions.value]|e : counter|e }}">{{ selectOptions.selected is defined and selectOptions.selected ? datas[selectOptions.selected]|e : datas|e }}</option>
+				{% endfor %}
+			{% endif %}
+		</select>
+	</div>
+{% endmacro %}
+{# --- End select Field -- #}

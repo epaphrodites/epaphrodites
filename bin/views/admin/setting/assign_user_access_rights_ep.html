@@ -1,0 +1,52 @@
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from forms import input_field , loader , import_field, submit %}{% from message import alert_msg %} {% block content %} 
+    <div class="container-fluid" id="contenu">
+    {{ breadcrumb_field( "USER RIGHTS MANAGEMENT", "setting@management_of_user_access_rights" ,"ASSIGNING RIGHTS TO USERS" )}}
+        {{ alert_msg( reponse , alert ) }}
+        <form class="laodForm" method="post" novalidate>
+            {{ loader() }}{{ __csrf() }}
+            <div class="row g-3">
+                <div class="col-12">
+                    {{ input_field( 
+                        {
+                            name : '__group__', 
+                            label : 'Users group' , 
+                            maxlength : 50 , 
+                            require : true , 
+                            value : datas.userGroup(type) , 
+                            character : 'mixed' ,
+                            readOnly : true
+                        })
+                    }}
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Pages list</label>
+                        <select class="form-select custom-select selecteur" name="__rights__" required>
+                        {% for selected in select.YedidiahRightList() %}
+                        {% set counter = (counter | default (0)+1) %}
+                        <option value="{{ selected.apps ~ '@' ~ selected.path }}">{{ select.ModulesLists(selected.apps) ~ ' | ' ~ selected.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Authorizations</label>
+                        <select class="form-select custom-select selecteur" name="__actions__" required>
+                        {% for datas in datas.autorisation() %}
+                            {% set counter = (counter | default (0)+1) %}
+                                <option value="{{ counter|e-1 }}">{{ datas }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    {{ submit({
+                        label : 'Assign the right',
+                        icon : 'bi bi-key'
+                    }) }}                       
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

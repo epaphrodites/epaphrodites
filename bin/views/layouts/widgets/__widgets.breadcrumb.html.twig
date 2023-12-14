@@ -1,0 +1,29 @@
+{# --- Breadcrumb Field --- #}
+{% macro breadcrumb_field(firstTitle, secondHref, secondTitle, thirdTitle) %}
+	<nav aria-label="breadcrumb" class="custom-breadcrumb">
+		<ol class="breadcrumb">
+			{% if firstTitle %}
+				<li class="breadcrumb-item first-item">
+					<a href="{{ __host() }}">DASHBOARD</a>
+				</li>
+				{% if not secondTitle and not thirdTitle %}
+					<span class="breadcombTitle">{{ firstTitle }}</span>
+				{% endif %}
+			{% endif %}
+
+			{% if secondTitle and secondHref %}
+				<li class="breadcrumb-item second-item">
+					<a href="{{ __path(secondHref) }}">{{ secondTitle }}</a>
+				</li>
+				{% if not thirdTitle %}
+					<span class="breadcombTitle">{{ firstTitle }}</span>
+				{% endif %}
+			{% endif %}
+
+			{% if thirdTitle %}
+				<li class="breadcrumb-item active" aria-current="page">{{ thirdTitle }}</li>
+			{% endif %}
+		</ol>
+	</nav>
+{% endmacro %}
+{# --- End of Breadcrumb Field --- #}

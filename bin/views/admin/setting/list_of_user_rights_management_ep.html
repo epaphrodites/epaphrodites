@@ -1,0 +1,47 @@
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %}{% from message import alert_msg %} {% from forms
+import checkbox_field , loader , actions_field %}{% from message import alert_msg %} {% block content %}
+<div class="container-fluid">
+    {{ breadcrumb_field( "USERS RIGHT MANAGEMENT", "setting@management_of_user_access_rights" ,"USERS AUTHORIZATIONS" )}}
+    {{ alert_msg( reponse , alert ) }}
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12 text-center">
+            <div class="outer-form">
+                <form method="post" name="ifSendDatas">
+                    <table id="TableFromDatas" class="table-striped table table-bordered tableaffichage">
+                        {{ loader() }}{{ __csrf() }}
+                        <thead>
+                            <tr>
+                                <th>{{ checkbox_field({  id : 'checkall' }) }}</th>
+                                <th class="head">USERS GROUP</th>
+                                <th class="head">MODULES | AUTHORIZATIONS</th>
+                                <th class="head">STATE</th>
+                            </tr>
+                        </thead>
+                        {% for select in select %}
+                        <tbody>
+                            <tr>
+                                <td class='tblcenter' style="width: 1%;">{{ checkbox_field( { name : 'group[]' , class : 'checkitem' , value : select.IndexRight|e }) }}</td>
+                                <td style="width: 20%">{{ data.userGroup( select.IdtypeUserRights|e ) }}</td>
+                                <td style="width: 35%">{{ list.SearchModules('path' , select.IndexRight ) }}</td>
+                                {% if select.Autorisations|e == 1 %}
+                                <td style="width:5%;text-align:center;" align="center"><i
+                                        class="icofont-check-circled activ"></i></td>
+                                {% else %}
+                                <td style="width:5%;text-align:center;" align="center"><i
+                                        class="icofont-close desact"></i></td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                    {{ actions_field( 
+                        {
+                            datas : data.ActionsRights() ,
+                            export : "List_of_users_rights"  , 
+                        }) 
+                    }} 
+                </form>
+            </div>
+        </div>
+    </div>
+</div> {% endblock %}

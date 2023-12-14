@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+ <html lang="fr" dir="ltr">
+   <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ __css('bootstrap/bootstrap.min') }}" rel="stylesheet">
+        <link href="{{ __cssfont('font-awesome-min') }}" rel="stylesheet" type="text/css">
+        <link href="{{ __cssbsico('bootstrap-icons') }}" rel="stylesheet" type="text/css">
+        <link href="{{ __cssiconfont('icofont.min') }}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{ __css('default/default.main.style') }}">
+        <link rel="icon" href="{{ __img('logo_o.png') }}">
+        <title>{{ __msg('site-title') }}</title>
+  </head>
+  <body>
+      {{ include('layouts/display/__header.html.html') }}
+        {% block content %}{% endblock %}
+      {{ include('layouts/display/__footer.html.html') }}
+      <script src="{{ __js('jquery/jquery') }}"></script><script src="{{ __js('bootstrap/bootstrap.bundle.min') }}"></script><script src="{{ __js('bootstrap/bootstrap.min') }}"></script>
+  </body>
+</html>

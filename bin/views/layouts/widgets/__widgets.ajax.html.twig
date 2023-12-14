@@ -1,0 +1,45 @@
+{% macro ajax(ajaxOptions) %}
+  <script>
+    $(document).ready(function() {
+      // Selectors for form and submission elements
+      var formSelector = "{{ ajaxOptions.form | default('') }}";
+      var submitSelector = "{{ ajaxOptions.submit | default('') }}";
+      
+      // Submit event listener for forms
+      $(document).on('submit', formSelector, function(event) {
+        event.preventDefault();
+        sendAjaxRequest();
+      });
+    
+      // Click event listener for submission elements
+      $(document).on('click', submitSelector, function() {
+        sendAjaxRequest();
+      });
+    
+      // Function to send AJAX request
+      function sendAjaxRequest() {
+        var param = {};
+        // Constructing param for the AJAX request
+        {% for value in ajaxOptions.value %}
+          param['parametre{{ loop.index }}'] = "{{ value | escape('js') }}";
+        {% endfor %}
+    
+        // AJAX request configuration
+        $.ajax({
+          url: "{{ ajaxOptions.url | escape('js') }}",
+          type: "{{ ajaxOptions.method | default('POST') }}",
+          data: param,
+          success: function(response) {
+            // Handling successful AJAX response
+            $("#msgvalidation").html(response);
+          },
+          error: function(xhr, status, error) {
+            // Handling AJAX errors
+            $("#msgvalidation").html("An error occurred while submitting the form.");
+            console.error('AJAX Error: ', error);
+          }
+        });
+      }
+    });
+  </script>
+{% endmacro %}

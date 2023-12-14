@@ -1,0 +1,25 @@
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from forms import import_field , loader , submit , select_field %} {% block content %} {{ breadcrumb_field( 'USERS IMPORT' )}} {{ alert_msg( reponse , alert ) }}
+    <form class="laodForm" method="post" novalidate name="frmExcelImport" enctype="multipart/form-data">
+        {{ loader() }}{{ __csrf() }}
+
+        {{ select_field({
+            label:"USERS GROUP",
+            name : "__group__",
+            datas : data.userGroup(),
+            require : true })
+        }}
+
+        {{ import_field({
+            name : 'file', 
+            id : 'file' , 
+            accept : '.xls,.xlsx',
+            require : true,
+            feedback : "This field is required!!!" }) 
+        }}
+
+        {{ submit({
+            label : 'Import users',
+            icon : 'bi bi-upload'
+        }) }}    
+    </form>
+{% endblock %}

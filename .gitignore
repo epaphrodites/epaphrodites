@@ -1,0 +1,16 @@
+composer.lock
+sqLite.session.sql
+postgres.session.sql
+cassandra.session.sql
+mysql.session.sql
+.phpunit.result.cache
+.phpunit.cache
+.DS_Store
+.DS_Store?
+!.gitignore
+.Spotlight-V100
+.Trashes
+.idea/
+/.vscode
+/vendor
+/node_modules

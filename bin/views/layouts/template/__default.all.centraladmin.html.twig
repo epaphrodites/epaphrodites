@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ __css('bootstrap/aos') }}" rel="stylesheet" type="text/css">
+    <link href="{{ __css('select2.min') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ __css('bootstrap/bootstrap.min') }}" rel="stylesheet">
+    <link href="{{ __cssfont('font-awesome-min') }}" rel="stylesheet" type="text/css">
+    <link href="{{ __cssbsico('bootstrap-icons') }}" rel="stylesheet" type="text/css">
+    <link href="{{ __cssiconfont('icofont.min') }}" rel="stylesheet" type="text/css">
+    <link href="{{ __css('default/default.admin.style') }}" rel="stylesheet" type="text/css">
+    <script src="{{ __js('jquery/jquery.min') }}"></script>
+    <script src="{{ __js('select2.min') }}"></script>
+    <script src="{{ __js('chart/default.chart.min') }}"></script>
+    <script src="{{ __js('chart/default.echarts.min') }}"></script>
+    <link rel="icon" href="{{ __img('logo_o.png') }}">
+    <title>{{ __msg('site-title') }}</title>
+</head>
+<body>
+
+ <!-- ======= Header ======= -->
+ <header id="header" class="header fixed-top d-flex align-items-center">
+
+ <div class="d-flex align-items-center justify-content-between">
+     <a href="{{ __host() }}" class="logo d-flex align-items-center">
+         <span class="d-none d-lg-block">{{ __msg('version') }}</span>
+     </a>
+     <i class="bi bi-list toggle-sidebar-btn"></i>
+ </div>
+ <!-- End Logo -->
+
+ <nav class="header-nav ms-auto">
+     <ul class="d-flex align-items-center">
+
+         <li class="nav-item d-block d-lg-none">
+             <a class="nav-link nav-icon search-bar-toggle" href="#">
+                 <i class="bi bi-search"></i>
+             </a>
+         </li>
+         <!-- End Search Icon-->
+
+         <li class="nav-item dropdown">
+
+             <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                 <i class="bi bi-chat-left-text"></i>
+                 <span class="badge bg-success badge-number">0</span>
+             </a>
+             <!-- End Messages Icon -->
+         </li>
+         <!-- End Messages Nav -->
+
+         <li class="nav-item dropdown pe-3">
+
+             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                 <img src="{{ __img('avatar.png') }}" alt="Profile" class="rounded-circle">
+                 <span class="d-none d-md-block dropdown-toggle ps-2">{{ login }}</span>
+             </a>
+             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                 <li class="dropdown-header">
+                     <h6>{{ login }}</h6>
+                     <span>{{ data.user(1) }}</span>
+                 </li>
+                 <li>
+                     <hr class="dropdown-divider">
+                 </li>
+                 <li>
+                     <a class="dropdown-item d-flex align-items-center" href="{{ __path('users@edit_users_infos') }}">
+                         <i class="bi bi-person"></i>
+                         <span>My personal information</span>
+                     </a>
+                 </li>
+                 <li>
+                     <hr class="dropdown-divider">
+                 </li>
+                 <li>
+                     <a class="dropdown-item d-flex align-items-center" href="{{ __path('users@change_password') }}">
+                         <i class="bi bi-gear"></i>
+                         <span>Change password</span>
+                     </a>
+                 </li>
+                 <li>
+                     <hr class="dropdown-divider">
+                 </li>
+                 <li>
+                     <hr class="dropdown-divider">
+                 </li>
+                 <li>
+                     <a class="dropdown-item d-flex align-items-center" href="{{ __logout() }}">
+                         <i class="bi bi-power"></i>
+                         <span>Log out</span>
+                     </a>
+                 </li>
+             </ul>
+         </li>
+     </ul>
+ </nav>
+</header>
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link " href="{{ __host() }}">
+                    <i class="bi bi-house"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <!-- End Dashboard Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#profil-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-person-circle"></i><span>My profile</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="profil-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ __path('users@edit_users_infos') }}">
+                            <i class="bi bi-circle"></i><span>My personal information</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ __path('users@change_password/') }}">
+                            <i class="bi bi-circle"></i><span>Change password</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-folder"></i><span>Documents</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="icons-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a target="_blank" href="https://epaphrodite.org/">
+                            <i class="bi bi-circle"></i><span>Epaphrodite docs</span>
+                        </a>
+                    </li>
+                </ul>
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#messenger-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-chat-left-text"></i><span>Messenger service</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="messenger-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ __path("chats@list_of_messages") }}">
+                            <i class="bi bi-circle"></i><span>List of messages</span>
+                        </a>                                              
+                    </li>
+                </ul>
+            </li>                           
+            <li class="nav-item">
+                <a class="nav-link " target="_blank" href="https://epaphrodite.slack.com/">
+                    <i class="bi bi-slack"></i>
+                    <span>Epaphrodite Slack</span>
+                </a>
+            </li>                  
+        </ul>
+    </aside>
+    <!-- End Sidebar-->  
+
+  <main id="main" class="main">
+    {% block content %}{% endblock %}
+  </main>
+<div class="loader"><div class="tools_loader" id="loader-1"></div></div>
+<script src="{{ __js('jquery/jquery.default.main') }}"></script><script src="{{ __js('jquery/jquery') }}"></script><script src="{{ __js('bootstrap/bootstrap.bundle.min') }}"></script><script src="{{ __js('bootstrap/bootstrap.min') }}"></script><script src="{{ __js('bootstrap/aos') }}"></script><script>jQuery(function ($) {$(".sidebar-dropdown > a").click(function() {$(".sidebar-submenu").slideUp(300);if ($(this).parent().hasClass("active")) {$(".sidebar-dropdown").removeClass("active");$(this).parent().removeClass("active");}else{$(".sidebar-dropdown").removeClass("active");$(this).next(".sidebar-submenu").slideDown(300);$(this).parent().addClass("active");}});$("#close-sidebar").click(function() {$(".page-wrapper").removeClass("toggled");});$("#show-sidebar").click(function() {$(".page-wrapper").addClass("toggled");});});</script><script>jQuery(window).load(function(){ jQuery(".loader").fadeOut("200"); });</script><script>$(".loaderpage").hide();</script><script type="text/javascript">$(document).ready(function(){$('#datasform').submit(function() {$('#loaderdatas').show(); return true;});});</script><script src="{{ __js('datatable/jquery.dataTables.min') }}"></script><script src="{{ __js('datatable/dataTables.bootstrap4.min') }}"></script><script src="{{ __js('datatable/dataTables.buttons.min')}}"></script><script src="{{ __js('datatable/buttons.html5.min')}}"></script><script src="{{ __js('datatable/jszip.min')}}"></script><script src="{{ __js('datatable/pdfmake.min')}}"></script><script src="{{ __js('datatable/vfs_fonts')}}"></script>
+</body>
+</html>
