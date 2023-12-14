@@ -1,13 +1,13 @@
 <?php
 
-namespace Epaphrodite\controllers\controllerMap;
+namespace Epaphrodites\controllers\controllerMap;
 
-use Epaphrodite\controllers\controllers\api;
-use Epaphrodite\controllers\controllers\main;
-use Epaphrodite\controllers\controllers\users;
-use Epaphrodite\controllers\controllers\chats;
-use Epaphrodite\controllers\controllers\setting;
-use Epaphrodite\controllers\controllers\dashboard;
+use Epaphrodites\controllers\controllers\api;
+use Epaphrodites\controllers\controllers\main;
+use Epaphrodites\controllers\controllers\users;
+use Epaphrodites\controllers\controllers\chats;
+use Epaphrodites\controllers\controllers\setting;
+use Epaphrodites\controllers\controllers\dashboard;
 
 trait controllerMap
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\migrations;
+namespace Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\migrations;
 
 trait redisdbMigrations{
 

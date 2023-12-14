@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\query;
+namespace Epaphrodites\database\query;
 
-use Epaphrodite\database\config\Contracts\Builders as ContractsBuilders;
+use Epaphrodites\database\config\Contracts\Builders as ContractsBuilders;
 
 class Builders extends checkQueryChaines implements ContractsBuilders
 {

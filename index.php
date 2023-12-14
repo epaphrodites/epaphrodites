@@ -5,7 +5,7 @@
     | Run main directory containt which first Config
     |--------------------------------------------------------------------------
 */   
-    require 'bin/epaphrodite/define/config/SetDirectory.php';
+    require 'bin/epaphrodites/define/config/SetDirectory.php';
 
 /*
     |--------------------------------------------------------------------------
@@ -19,4 +19,4 @@
     | Run App
     |--------------------------------------------------------------------------
 */ 
-    Epaphrodite\controllers\render\buildEpaphroditeApp::Run();
+    Epaphrodites\controllers\render\buildEpaphroditeApp::Run();

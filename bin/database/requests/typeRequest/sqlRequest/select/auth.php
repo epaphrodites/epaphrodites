@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\sqlRequest\select;
+namespace Epaphrodites\database\requests\typeRequest\sqlRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\select\auth as SelectAuth;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\select\auth as SelectAuth;
 
 class auth extends SelectAuth
 {

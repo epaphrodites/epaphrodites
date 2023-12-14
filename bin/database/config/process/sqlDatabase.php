@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Epaphrodite\database\config\process;
+namespace Epaphrodites\database\config\process;
 
 use PDO;
-use Database\Epaphrodite\config\SwitchDatabase;
-use Epaphrodite\database\config\Contracts\DatabaseRequest;
+use Database\Epaphrodites\config\SwitchDatabase;
+use Epaphrodites\database\config\Contracts\DatabaseRequest;
 
 class sqlDatabase extends SwitchDatabase implements DatabaseRequest
 {

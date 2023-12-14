@@ -1,7 +1,7 @@
 <?php
 
-namespace Epaphrodite\controllers\render;
+namespace Epaphrodites\controllers\render;
 
-use Epaphrodite\epaphrodite\Kernel\runKernel;
+use Epaphrodites\epaphrodites\Kernel\runKernel;
 
 class buildEpaphroditeApp extends runKernel{}

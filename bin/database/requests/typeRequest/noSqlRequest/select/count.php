@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\noSqlRequest\select;
+namespace Epaphrodites\database\requests\typeRequest\noSqlRequest\select;
 
-use Epaphrodite\database\query\Builders;
+use Epaphrodites\database\query\Builders;
 
 class count extends Builders
 {

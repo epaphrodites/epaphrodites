@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\Console;
+namespace Epaphrodites\Console;
 
 class ConsoleKernel
 {
@@ -12,18 +12,18 @@ class ConsoleKernel
     public function GetConsolesCommands():array
     {
         return [
-            new \Epaphrodite\epaphrodite\Console\commands\CommandsUsers,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandRunServer,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandAddRights,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandAddModules,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandCreatFront,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandController,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandUpdateUser,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandAddDatabase,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandRequestFiles,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandAddSqlRequest,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandAddNoSqlRequest,
-            new \Epaphrodite\epaphrodite\Console\commands\CommandAddControllerFunction,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandsUsers,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandRunServer,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddRights,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddModules,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandCreatFront,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandController,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandUpdateUser,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddDatabase,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandRequestFiles,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddSqlRequest,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddNoSqlRequest,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddControllerFunction,
         ];
     }    
 }

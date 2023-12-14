@@ -1,6 +1,6 @@
 {
-  "name": "epaphrodite/epaphrodite",
-  "description": "Epaphrodite-Framework combines simplicity, compatibility with Python, support for multiple databases, and a commitment to open-source principles.",
+  "name": "epaphrodites/epaphrodites",
+  "description": "Epaphrodites combines simplicity, compatibility with Python, support for multiple databases, and a commitment to open-source principles.",
   "type": "project",
   "keywords": [
     "mongodb",
@@ -13,13 +13,13 @@
     "html",
     "css",
     "epaphrodite",
-    "epaphrodite-framework"
+    "Epaphrodites-framework"
   ],
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Epaphrodite\\": "bin/",
-      "Database\\Epaphrodite\\": "bin/database/"
+      "Epaphrodites\\": "bin/",
+      "Database\\Epaphrodites\\": "bin/database/"
 
     }
   },
@@ -32,8 +32,8 @@
   ],
   "minimum-stability": "stable",
   "support": {
-    "issues": "https://github.com/Epaphrodite-framework/epaphrodite/issues",
-    "source": "https://github.com/Epaphrodite-framework/epaphrodite"
+    "issues": "https://github.com/epaphrodites/epaphrodites/issues",
+    "source": "https://github.com/epaphrodites/epaphrodite"
   },
   "require": {
     "chillerlan/php-qrcode": "^4.3",

@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\query\buildQuery;
+namespace Epaphrodites\database\query\buildQuery;
 
-use Epaphrodite\database\config\process\getDatabase;
+use Epaphrodites\database\config\process\getDatabase;
 
 trait buildQuery
 {

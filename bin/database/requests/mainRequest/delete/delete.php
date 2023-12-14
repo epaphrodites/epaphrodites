@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\mainRequest\delete;
+namespace Epaphrodites\database\requests\mainRequest\delete;
 
-use Epaphrodite\database\requests\typeRequest\sqlRequest\delete\delete as DeleteDelete;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\delete\delete as DeleteDelete;
 
 final class delete extends DeleteDelete
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations;
+namespace Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations;
 
-use Epaphrodite\database\query\Builders;
-use Epaphrodite\epaphrodite\danho\GuardPassword;
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\seeders\noSqlSeeders;
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\migrations\mongodbMigrations;
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\migrations\redisdbMigrations;
+use Epaphrodites\database\query\Builders;
+use Epaphrodites\Epaphrodites\danho\GuardPassword;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\seeders\noSqlSeeders;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\migrations\mongodbMigrations;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\migrations\redisdbMigrations;
 
 class InitNoSeederGenerated extends Builders
 {

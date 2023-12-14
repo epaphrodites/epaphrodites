@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\mainRequest\select;
+namespace Epaphrodites\database\requests\mainRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\sqlRequest\select\count as CountCount;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\select\count as CountCount;
 
 final class count extends CountCount
 {

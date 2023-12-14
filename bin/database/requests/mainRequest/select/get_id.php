@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\mainRequest\select;
+namespace Epaphrodites\database\requests\mainRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\sqlRequest\select\get_id as GetId;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\select\get_id as GetId;
 
 final class get_id extends GetId
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\seeders;
+namespace Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\seeders;
 
 use MongoDB\BSON\ObjectId;
 

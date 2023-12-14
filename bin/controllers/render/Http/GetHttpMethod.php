@@ -2,7 +2,7 @@
 
 namespace Epaphrodite\controllers\render\Http;
 
-use Epaphrodite\epaphrodite\constant\epaphroditeClass;
+use Epaphrodite\epaphrodites\constant\epaphroditeClass;
 
 class GetHttpMethod extends epaphroditeClass
 {

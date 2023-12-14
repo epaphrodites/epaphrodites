@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\seeders;
+namespace Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\seeders;
 
 trait sqlSeeder{
    

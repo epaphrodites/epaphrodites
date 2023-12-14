@@ -1,14 +1,14 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations;
+namespace Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations;
 
-use Epaphrodite\database\query\Builders;
-use Epaphrodite\epaphrodite\danho\GuardPassword;
-use Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\seeders\sqlSeeder;
-use Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\mysqlMigrations;
-use Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\sqLiteMigrations;
-use Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\postgreSqlMigrations;
-use Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\sqlServerMigrations;
+use Epaphrodites\database\query\Builders;
+use Epaphrodites\epaphrodites\danho\GuardPassword;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\seeders\sqlSeeder;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\mysqlMigrations;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\sqLiteMigrations;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\postgreSqlMigrations;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\sqlServerMigrations;
 
 class InitSeederGenerated extends Builders
 {

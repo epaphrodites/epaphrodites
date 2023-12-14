@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\mainRequest\select;
+namespace Epaphrodites\database\requests\mainRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\sqlRequest\select\general as GeneralGeneral;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\select\general as GeneralGeneral;
 
 final class general extends GeneralGeneral
 {

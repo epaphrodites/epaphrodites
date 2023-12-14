@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\sqlRequest\select;
+namespace Epaphrodites\database\requests\typeRequest\sqlRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\select\count as SelectCount;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\select\count as SelectCount;
 
 class count extends SelectCount
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\sqlRequest\select;
+namespace Epaphrodites\database\requests\typeRequest\sqlRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\select\general as SelectGeneral;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\select\general as SelectGeneral;
 
 class general extends SelectGeneral
 {

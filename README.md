@@ -52,7 +52,7 @@ composer dump-autoload
     1DB_PORT = 8889
 
     // First DB name
-    1DB_DATABASE = epaphroditedb
+    1DB_DATABASE = epaphroditesdb
 
     // First DB SOCKET support
     1DB_SOCKET = false

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations;
+namespace Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations;
 
 trait mysqlMigrations
 {

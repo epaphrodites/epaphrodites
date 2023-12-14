@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodite\database\requests\typeRequest\noSqlRequest\delete;
+namespace Epaphrodites\database\requests\typeRequest\noSqlRequest\delete;
 
-use Epaphrodite\database\query\Builders;
+use Epaphrodites\database\query\Builders;
 
 class delete extends Builders
 { 

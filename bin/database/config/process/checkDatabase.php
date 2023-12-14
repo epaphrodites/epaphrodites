@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Epaphrodite\database\config\process;
+namespace Epaphrodites\database\config\process;
 
-use Epaphrodite\database\config\getConnexion\getConnexion;
-use Epaphrodite\epaphrodite\ErrorsExceptions\epaphroditeException;
-use Epaphrodite\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\InitSeederGenerated;
-use Epaphrodite\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\InitNoSeederGenerated;
+use Epaphrodites\database\config\getConnexion\getConnexion;
+use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\InitSeederGenerated;
+use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\InitNoSeederGenerated;
 
 class checkDatabase extends getConnexion
 {

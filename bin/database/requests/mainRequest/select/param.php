@@ -1,7 +1,7 @@
 <?php
 
-namespace Epaphrodite\database\requests\mainRequest\select;
+namespace Epaphrodites\database\requests\mainRequest\select;
 
-use Epaphrodite\database\requests\typeRequest\sqlRequest\select\param as SelectParam;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\select\param as SelectParam;
 
 final class param extends SelectParam{}

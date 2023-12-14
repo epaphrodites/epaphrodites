@@ -1,5 +1,5 @@
 <?php
 
-namespace Epaphrodite\database\config\process;
+namespace Epaphrodites\database\config\process;
 
 class process extends sqlDatabase{   }

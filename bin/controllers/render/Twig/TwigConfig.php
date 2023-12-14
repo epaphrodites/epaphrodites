@@ -1,12 +1,12 @@
 <?php
 
-namespace Epaphrodite\controllers\render\Twig;
+namespace Epaphrodites\controllers\render\Twig;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use Epaphrodite\epaphrodite\env\config\ResponseSequence;
-use Epaphrodite\epaphrodite\define\config\traits\currentFunctionNamespaces;
-use Epaphrodite\epaphrodite\define\config\traits\currentVariableNameSpaces;
+use Epaphrodites\epaphrodites\env\config\ResponseSequence;
+use Epaphrodites\epaphrodites\define\config\traits\currentFunctionNamespaces;
+use Epaphrodites\epaphrodites\define\config\traits\currentVariableNameSpaces;
 
 class TwigConfig extends ResponseSequence{
 

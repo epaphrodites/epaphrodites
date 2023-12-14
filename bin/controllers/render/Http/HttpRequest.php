@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\controllers\render\Http;
+namespace Epaphrodites\controllers\render\Http;
 
 class HttpRequest extends GetHttpMethod
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodite\database\datas\arrays;
+namespace Epaphrodites\database\datas\arrays;
 
 class ApiStaticKeygen
 {

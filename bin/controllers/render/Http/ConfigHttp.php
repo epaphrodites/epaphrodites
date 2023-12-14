@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Epaphrodite\controllers\render\Http;
+namespace Epaphrodites\controllers\render\Http;
 
 class ConfigHttp extends HttpClient
 {

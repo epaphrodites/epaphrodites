@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Epaphrodite\config\getConnexion\etablishConnexion;
+namespace Database\Epaphrodites\config\getConnexion\etablishConnexion;
 
 use Redis;
 
