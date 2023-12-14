@@ -3,8 +3,8 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-## 👋 About Epaphrodite
-Epaphrodites combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodite-Framework can offer for your web projects.
+## 👋 About Epaphrodites
+Epaphrodites combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodites can offer for your web projects.
 
 ## 🚀 Installation
 
@@ -27,7 +27,7 @@ composer dump-autoload
 
 1. Open this file (SetDirectory.php)
 ```bash  
-    bin\epaphrodite\define\config\SetDirectory.php
+    bin\epaphrodites\define\config\SetDirectory.php
 ```
 
 2. Choose your first database connexion type (accepted : sql or nosql )
@@ -72,7 +72,7 @@ composer dump-autoload
 
 > Run this command to create your database
 ```bash  
-php heredia create:db epaphroditedb
+php heredia create:db epaphroditesdb
 ```
 
 ### 🔥 Run your App
