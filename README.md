@@ -8,10 +8,14 @@ Epaphrodites combines simplicity, compatibility with `Python`, support for `mult
 ## 🚀 Installation
 
 ```bash
-composer create-project --prefer-dist epaphrodites/epaphrodites project-name
+composer create-project --prefer-dist epaphrodites/epaphrodites your-project-name
 ```
 
-⚠️ Recommendation : If `MongoDB` is not installed on your machine, we recommend removing the `mongodb/mongodb` line from your `composer.json` file. This will prevent errors during the framework installation.
+⚠️ Recommendation : If `MongoDB` is not installed on your machine, we recommend removing the `mongodb/mongodb` line from your `composer.json` file. This will prevent errors during the framework installation. Or run this command :
+
+```bash
+composer create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name
+```
 
 Continue the installation by doing :
 ```bash
