@@ -1,15 +1,15 @@
 
-![](https://github.com/Epaphrodite-framework/epaphrodite/blob/master/static/img/logo.png)
+![](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 ## 👋 About Epaphrodite
-Epaphrodite-Framework combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodite-Framework can offer for your web projects.
+epaphrodites combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodite-Framework can offer for your web projects.
 
 ## 🚀 Installation
 
 ```bash
-composer create-project --prefer-dist epaphrodite/epaphrodite project-name
+composer create-project --prefer-dist epaphrodites/epaphrodites project-name
 ```
 
 ⚠️ Recommendation : If `MongoDB` is not installed on your machine, we recommend removing the `mongodb/mongodb` line from your `composer.json` file. This will prevent errors during the framework installation.
