@@ -23,7 +23,7 @@ class SetFrenchTextMessages
                 'author' => 'Agence Epaphrodites',
                 'back' => "Retour page d'accueil",
                 'description' => 'agence epaphrodites',
-                'version' => 'EPAPHRODITES V0.1 (PHP 8.2.11)',
+                'version' => 'EPAPHRODITES V0.01 (PHP 8.2.11)',
                 'denie' => "Traitement impossible !!!",
                 '419' => 'Votre session a expirée !!!',
                 'mdpnotsame' => 'Mot de passe incorrect',

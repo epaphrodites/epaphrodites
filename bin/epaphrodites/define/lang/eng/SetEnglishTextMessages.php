@@ -28,7 +28,7 @@ class SetEnglishTextMessages
             'fileempty' => "No file selected!!!",
             'description' => 'epaphrodites agency',
             '419' => "Your session has expired!!!",
-            'version' => 'EPAPHRODITES V0.1 (PHP 8.2.11)',
+            'version' => 'EPAPHRODITES V0.01 (PHP 8.2.11)',
             'error_text' => 'txt error epaphrodites',
             'denie' => "Processing not possible!!!",
             'noformat' => "The file format is incorrect!",

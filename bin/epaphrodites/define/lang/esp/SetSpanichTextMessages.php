@@ -28,7 +28,7 @@ class SetSpanichTextMessages
             'fileempty' => "¡No se ha seleccionado ningún archivo!",
             'description' => 'epaphrodite agency',
             '419' => "¡Tu sesión ha expirado!",
-            'version' => 'EPAPHRODITES V0.1 (PHP 8.2.11)',
+            'version' => 'EPAPHRODITES V0.01 (PHP 8.2.11)',
             'error_text' => 'txt error epaphrodites',
             'denie' => "¡Procesamiento no posible!",
             'noformat' => "El formato del archivo es incorrecto",
