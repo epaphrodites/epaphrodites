@@ -14,28 +14,29 @@ final class count extends CountCount
   public function chat_messages(): int
   {
 
-    return $this->checkDbType() === true ? $this->sqlChatMessages() : $this->noSqlchatMessages();
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlchatMessages(),
+      'redis' => $this->noSqlchatMessages(),
+
+      default => $this->sqlChatMessages(),
+    };
   }
 
   /**
    * Request to count all users
    * @return array
    */
-  public function CountAllUsers():int
+  public function CountAllUsers(): int
   {
 
-    return $this->checkDbType() === true ? $this->sqlCountAllUsers() : $this->noSqlCountAllUsers();
-  } 
-  
-  /**
-   * Request to count all users per group
-   * @param string $loginuser
-   * @return array
-   */
-  public function CountUsersByGroup(int $Group ):int
-  {
+    return match (_FIRST_DRIVER_) {
 
-    return $this->checkDbType() === true ? $this->sqlCountUsersByGroup($Group) : $this->noSqlCountUsersByGroup($Group);
+      'mongo' => $this->noSqlCountAllUsers(),
+      'redis' => $this->noSqlCountAllUsers(),
+
+      default => $this->sqlCountAllUsers(),
+    };
   }
 
   /**
@@ -43,10 +44,32 @@ final class count extends CountCount
    * @param string $loginuser
    * @return array
    */
-  public function countUsersRecentActions():int
+  public function CountUsersByGroup(int $Group): int
   {
 
-    return $this->checkDbType() === true ? $this->sqlCountUsersRecentActions() : $this->noSqlCountUsersRecentActions();
-  }  
- 
- }
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlCountUsersByGroup($Group),
+      'redis' => $this->noSqlCountUsersByGroup($Group),
+
+      default => $this->sqlCountUsersByGroup($Group),
+    };
+  }
+
+  /**
+   * Request to count all users per group
+   * @param string $loginuser
+   * @return array
+   */
+  public function countUsersRecentActions(): int
+  {
+
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlCountUsersRecentActions(),
+      'redis' => $this->noSqlCountUsersRecentActions(),
+
+      default => $this->sqlCountUsersRecentActions(),
+    };
+  }
+}

@@ -11,10 +11,10 @@ class auth extends Builders
    * Verify if useraccount table exist in database (For mongodb)
    * @return bool
    */
-  protected function ifCollectionExist():bool
+  private function ifCollectionExist():bool
   {
 
-    $collections = $this->db(1)->listCollections();
+    $collections = $this->rdb(1)->listCollections();
 
     $result = false;
 
@@ -29,6 +29,18 @@ class auth extends Builders
   }
 
   /**
+   * Verify if useraccount table exist in database (For mongodb)
+   * @return bool
+   */
+  private function ifKeyExist():bool
+  {
+
+    $result = $this->key('useraccount')->isExist();
+
+    return $result;
+  }  
+
+  /**
    * Request to select all users of database (For mongo db)
    * 
    * @param string $loginuser
@@ -36,8 +48,6 @@ class auth extends Builders
    */
   public function findNosqlUsers(string $loginuser):array|bool
   {
-
-    //$this->rdb(1)->key('testdb');die;
 
     if ($this->ifCollectionExist() === true) {
 
@@ -59,4 +69,26 @@ class auth extends Builders
       return false;
     }
   }
+
+ /**
+   * Request to select all users of database (For mongo db)
+   * 
+   * @param string $loginuser
+   * @return array|bool
+   */
+  public function findNosqlRedisUsers(string $loginuser):array|bool
+  {
+
+    if ($this->ifKeyExist() === true) {
+
+  
+      return [];
+
+    } else {
+
+      static::firstSeederGeneration();
+
+      return false;
+    }
+  }  
 }

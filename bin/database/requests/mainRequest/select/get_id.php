@@ -47,7 +47,13 @@ final class get_id extends GetId
   public function GetUsersDatas(?string $login = null):array
   {
 
-    return $this->checkDbType() === true ? $this->sqlGetUsersDatas($login) : $this->noSqlGetUsersDatas($login);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlGetUsersDatas($login),
+      'redis' => $this->noSqlGetUsersDatas($login),
+
+      default => $this->sqlGetUsersDatas($login),
+    };    
   }
 
   /**
@@ -59,7 +65,14 @@ final class get_id extends GetId
   public function GetUsersByGroup(int $page, int $Nbreligne, int $UsersGroup):array
   {
 
-    return $this->checkDbType() === true ? $this->sqlGetUsersByGroup($page , $Nbreligne , $UsersGroup) : $this->noSqlGetUsersByGroup($page , $Nbreligne , $UsersGroup);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlGetUsersByGroup($page , $Nbreligne , $UsersGroup),
+      'redis' => $this->noSqlGetUsersByGroup($page , $Nbreligne , $UsersGroup),
+
+      default => $this->sqlGetUsersByGroup($page , $Nbreligne , $UsersGroup),
+    };        
+    
   }
 
   /**
@@ -71,7 +84,13 @@ final class get_id extends GetId
   public function getUsersRecentsActions(?string $login = null):array
   {
 
-    return $this->checkDbType() === true ? $this->sqlGetUsersRecentsActions($login) : $this->noSqlGetUsersRecentsActions($login);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlGetUsersRecentsActions($login),
+      'redis' => $this->noSqlGetUsersRecentsActions($login),
+
+      default => $this->sqlGetUsersRecentsActions($login),
+    };      
   }
 
 }

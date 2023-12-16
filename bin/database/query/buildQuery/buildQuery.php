@@ -86,23 +86,8 @@ trait buildQuery
      */
     public function rdb($db)
     {
-
         
-        $getConnexion = (new getDatabase)->GetConnexion($db);
-        
-        $this->executeRedis($getConnexion);
-
-        // Return the database connexion
-       // return (new getDatabase)->GetConnexion($db);
-    }
-
-
-    public function executeRedis(array $getConnexion=[]){
-
-        
-        $key = "{$getConnexion['db']}:test";
-
-        var_dump($key);
+        return (new getDatabase)->GetConnexion($db);
     }
 
 }

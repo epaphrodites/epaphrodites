@@ -44,14 +44,6 @@ class InitNoSeederGenerated extends Builders
   public function CreateRedisMigration()
   {
 
-    $this->CreateRedisDbUserIfNotExist();
-
     $this->CreateRedisDbFirstUserIfNotExist();
-
-    $this->CreateAuthSecureRedisDbIfNotExist();
-
-    $this->CreateChatMessagesRedisDbIfNotExist();
-
-    $this->createRecentlyActionsRedisDbIfNotExist();
   }  
 }

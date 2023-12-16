@@ -31,15 +31,15 @@ trait buildQueryChaines
             $query .= " {$this->join}";
         }
 
-        /* 
-            Add where if exist
+        /**
+        * Add where if exist
         */
         if ($this->where) {
             $query .= " WHERE {$this->where}";
         }
 
-        /* 
-            Add LIKE if exist
+        /** 
+        * Add LIKE if exist
         */
         if ($this->like) {
             $query .= " WHERE {$this->like} LIKE ?";
@@ -334,6 +334,32 @@ trait buildQueryChaines
         }
 
         return $this->executeBuildRequest($query);
-    }    
+    }   
+    
+    
+    public function addToRedis(int $db = 1){
+
+        $getConnexion = $this->rdb($db);
+
+        $jsonData = json_encode($this->param);
+
+        $key = "{$getConnexion['db']}:{$this->key}";
+
+        return $getConnexion['connexion']->set($key, $jsonData);
+    }
+
+
+    public function isExist(int $db = 1){
+
+        $getConnexion = $this->rdb($db);
+
+        $key = "{$getConnexion['db']}:{$this->key}";
+
+        return $getConnexion['connexion']->exists($key) ? true : false;
+    }
+
+    public function redisGet(int $db = 1){
+
+    }
 
 }

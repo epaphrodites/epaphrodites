@@ -118,6 +118,11 @@ class checkDatabase extends getConnexion
                 return (new InitNoSeederGenerated)->createMongoCollections();
                 break;
 
+                // If the driver is MongoDB, create collections using InitNoSeederGenerated
+            case 'redis':
+                return (new InitNoSeederGenerated)->CreateRedisMigration();
+                break;                
+
             default:
                 throw new epaphroditeException("Unsupported database driver");
         }

@@ -13,10 +13,15 @@ final class general extends GeneralGeneral
    * @param string $loginuser
    * @return array
    */
-  public function RecentlyActions():array
+  public function RecentlyActions(): array
   {
 
-    return $this->checkDbType() === true ? $this->sqlRecentlyActions() : $this->noSqlRecentlyActions();
-  }
+    return match (_FIRST_DRIVER_) {
 
+      'mongo' => $this->noSqlRecentlyActions(),
+      'redis' => $this->noSqlRecentlyActions(),
+
+      default => $this->sqlRecentlyActions(),
+    };
+  }
 }

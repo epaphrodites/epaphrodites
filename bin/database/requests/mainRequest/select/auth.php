@@ -16,7 +16,12 @@ final class auth extends SelectAuth
   public function checkUsers(string $loginuser)
   {
 
-    return $this->checkDbType() === true ? $this->findSqlUsers($loginuser) : $this->findNosqlUsers($loginuser);
-  }
+    return match (_FIRST_DRIVER_) {
 
+          'mongo' => $this->findNosqlUsers($loginuser),
+          'redis' => $this->findNosqlRedisUsers($loginuser),
+
+          default => $this->findSqlUsers($loginuser),
+    };
+  }
 }

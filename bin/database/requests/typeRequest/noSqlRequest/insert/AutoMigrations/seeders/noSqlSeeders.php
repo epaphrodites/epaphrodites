@@ -43,7 +43,7 @@ trait noSqlSeeders{
       'typeusers'=> 1,
     ];
 
-    $this->db(1)->selectCollection('useraccount')->insertOne($document);
+    $this->key('useraccount')->param($document)->addToRedis();
   }  
 
 

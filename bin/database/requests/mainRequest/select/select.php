@@ -17,7 +17,13 @@ final class select extends SelectSelect
   public function listeOfAllUsers(int $page, int $nbreLigne):array
   {
 
-    return $this->checkDbType() === true ? $this->sqlListeOfAllUsers($page,$nbreLigne) : $this->noSqlListeOfAllUsers($page,$nbreLigne);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlListeOfAllUsers($page,$nbreLigne),
+      'redis' => $this->noSqlListeOfAllUsers($page,$nbreLigne),
+
+      default => $this->sqlListeOfAllUsers($page,$nbreLigne),
+    };       
   }  
   
   /**
@@ -30,7 +36,13 @@ final class select extends SelectSelect
   public function listOfRecentActions(int $page, int $nbreLigne):array
   {
 
-    return $this->checkDbType() === true ? $this->sqlListOfRecentActions($page,$nbreLigne) : $this->noSqlListOfRecentActions($page,$nbreLigne);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlListOfRecentActions($page,$nbreLigne),
+      'redis' => $this->noSqlListOfRecentActions($page,$nbreLigne),
+
+      default => $this->sqlListOfRecentActions($page,$nbreLigne),
+    };           
   }   
 
 }
