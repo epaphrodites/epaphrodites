@@ -80,9 +80,8 @@ class auth extends Builders
   {
 
     if ($this->ifKeyExist() === true) {
-
-  
-      return [];
+      
+      return $this->key('useraccount')->search(['loginusers' , 'usersstat'])->param([$loginuser , 1])->redisGet();
 
     } else {
 

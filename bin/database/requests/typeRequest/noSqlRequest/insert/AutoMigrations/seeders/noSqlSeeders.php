@@ -33,7 +33,6 @@ trait noSqlSeeders{
   {
     
     $document =[
-      'idusers'=> 1,
       'loginusers'=>'admin',
       'userspwd'=>$this->Guard->CryptPassword('admin'),
       'nomprenomsusers'=> NULL,
@@ -43,7 +42,7 @@ trait noSqlSeeders{
       'typeusers'=> 1,
     ];
 
-    $this->key('useraccount')->param($document)->addToRedis();
+    $this->key('useraccount')->id('idusers')->param($document)->addToRedis();
   }  
 
 

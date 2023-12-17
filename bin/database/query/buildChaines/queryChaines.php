@@ -8,10 +8,11 @@ trait queryChaines
     private $table;
     private $key;
     private $rdb;
-    private $add;
+    private $id;
     private $chaine;
+    private $count;
     private $where;
-    private $get;
+    private $search;
     private $like;
     private $match;
     private $between;
@@ -68,6 +69,45 @@ trait queryChaines
     public function param(array $param = []): self
     {
         $this->param = $param;
+
+        return $this;
+    }
+
+    /**
+     * Sets parameters for the query
+     *
+     * @param array|null $param
+     * @return self
+     */
+    public function count(): self
+    {
+        $this->count = 'count';
+
+        return $this;
+    }    
+
+    /**
+     * Sets parameters for the query
+     *
+     * @param array|null $search
+     * @return self
+     */
+    public function search(array $search = []): self
+    {
+        $this->search = $search;
+
+        return $this;
+    }    
+
+    /**
+     * Sets the query string or string
+     *
+     * @param string $string The query string or chain
+     * @return self
+     */
+    public function id(string $id): self
+    {
+        $this->id = "$id";
 
         return $this;
     }
