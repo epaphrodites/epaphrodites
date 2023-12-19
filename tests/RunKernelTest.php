@@ -3,13 +3,13 @@
 namespace tests;
 
 use PHPUnit\Framework\TestCase;
-use Epaphrodite\epaphrodite\Kernel\runKernel;
+use Epaphrodites\epaphrodites\Kernel\runKernel;
 
 class RunKernelTest extends TestCase
 {
     public function testGetSomeValueReturnsExpectedValue()
     {
-        require_once 'bin/epaphrodite/define/config/SetDirectory.php';
+        require_once 'bin/epaphrodites/define/config/SetDirectory.php';
 
         $runKernel = new runKernel();
 

@@ -42,7 +42,7 @@ trait noSqlSeeders{
       'typeusers'=> 1,
     ];
 
-    $this->key('useraccount')->id('idusers')->param($document)->addToRedis();
+    $this->key('useraccount')->id('idusers')->index('admin')->param($document)->addToRedis();
   }  
 
 

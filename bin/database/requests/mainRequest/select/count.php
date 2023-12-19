@@ -16,8 +16,8 @@ final class count extends CountCount
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlchatMessages(),
-      'redis' => $this->noSqlchatMessages(),
+      'mongo' => $this->noSqlChatMessages(),
+      'redis' => $this->noSqlRedisChatMessages(),
 
       default => $this->sqlChatMessages(),
     };
@@ -33,7 +33,7 @@ final class count extends CountCount
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlCountAllUsers(),
-      'redis' => $this->noSqlCountAllUsers(),
+      'redis' => $this->noSqlRedisCountAllUsers(),
 
       default => $this->sqlCountAllUsers(),
     };
@@ -50,7 +50,7 @@ final class count extends CountCount
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlCountUsersByGroup($Group),
-      'redis' => $this->noSqlCountUsersByGroup($Group),
+      'redis' => $this->noSqlRedisCountUsersByGroup($Group),
 
       default => $this->sqlCountUsersByGroup($Group),
     };
@@ -67,7 +67,7 @@ final class count extends CountCount
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlCountUsersRecentActions(),
-      'redis' => $this->noSqlCountUsersRecentActions(),
+      'redis' => $this->noSqlRedisCountUsersRecentActions(),
 
       default => $this->sqlCountUsersRecentActions(),
     };

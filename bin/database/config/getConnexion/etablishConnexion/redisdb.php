@@ -32,7 +32,7 @@ private function setRedisDBConnexion(int $db)
         }
 
         // Return the Redis connection
-        return [ "db" => $dbPrefix, "connexion" => $redis];
+        return [ "db" => $dbPrefix , "connexion" => $redis];
         
     } catch (\Exception $e) {
         throw static::getError('Redis Connection Error: ' . $e->getMessage());

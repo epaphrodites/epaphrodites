@@ -33,4 +33,18 @@ class general extends Builders
 
         return $documents;
     }
+
+    /**
+     * Request to select all recent users actions of database
+     * @return array
+     */
+    public function noSqlRedisRecentlyActions():array
+    {
+
+        $UserConnected = static::initNamespace()['session']->login();
+
+        $result = $this->key('recentactions')->index($UserConnected)->all()->rlimit(0,6)->redisGet();
+
+        return $result;
+    }    
 }

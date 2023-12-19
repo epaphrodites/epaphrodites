@@ -11,7 +11,7 @@ use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigration
 class InitNoSeederGenerated extends Builders
 {
 
-  use mongodbMigrations, redisdbMigrations, noSqlSeeders;
+  use mongodbMigrations, noSqlSeeders;
 
   protected $Guard;
 

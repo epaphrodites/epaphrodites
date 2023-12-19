@@ -7,10 +7,13 @@ trait queryChaines
 
     private $table;
     private $key;
+    private $lastIndex;
     private $rdb;
     private $id;
+    private $all;
     private $chaine;
     private $count;
+    private $index;
     private $where;
     private $search;
     private $like;
@@ -20,6 +23,8 @@ trait queryChaines
     private $order;
     private $join;
     private $limit;
+    private $rlimit;
+    private $rset;
     private $limit_i;
     private $group;
     private $insert;
@@ -76,7 +81,6 @@ trait queryChaines
     /**
      * Sets parameters for the query
      *
-     * @param array|null $param
      * @return self
      */
     public function count(): self
@@ -84,7 +88,44 @@ trait queryChaines
         $this->count = 'count';
 
         return $this;
+    }  
+    
+    /**
+     * Sets parameters for the query
+     *
+     * @return self
+     */
+    public function all(): self
+    {
+        $this->all = 'all';
+
+        return $this;
     }    
+    
+    /**
+     * Sets parameters for the query
+     *
+     * @return self
+     */
+    public function lastIndex(): self
+    {
+        $this->lastIndex = 'lastIndex';
+
+        return $this;
+    }    
+
+    /**
+     * Sets parameters for the query
+     *
+     * @param array|null $index
+     * @return self
+     */
+    public function index(string $index): self
+    {
+        $this->index = $index;
+
+        return $this;
+    }        
 
     /**
      * Sets parameters for the query
@@ -235,16 +276,28 @@ trait queryChaines
     /**
      * Sets the LIMIT and OFFSET for the query
      *
-     * @param string $beginning The beginning limit
-     * @param string $end The ending limit
+     * @param int $begin The begin limit
+     * @param int $end The end limit
      * @return self
      */
-    public function limit(string $beginning, string $end): self
+    public function limit(int $begin, int $end): self
     {
-        $this->limit = "LIMIT $end OFFSET $beginning";
+        $this->limit = "LIMIT $end OFFSET $begin";
 
         return $this;
     }
+
+    /**
+     * @param int $begin The begin limit
+     * @param int $end The end limit
+     * @return self
+     */
+    public function rlimit(int $begin, int $end): self
+    {
+        $this->rlimit = [ 'begin' => $begin , 'end' => $end ];
+
+        return $this;
+    }    
 
     /**
      * Sets the IS condition for the query
@@ -374,6 +427,19 @@ trait queryChaines
 
         return $this;
     }
+
+    /**
+     * Sets parameters for the query
+     *
+     * @param array|null $rset
+     * @return self
+     */
+    public function rset(array $rset = []): self
+    {
+        $this->rset = $rset;
+
+        return $this;
+    }     
 
     /**
      * Sets the SET clause with arithmetic operations for the query

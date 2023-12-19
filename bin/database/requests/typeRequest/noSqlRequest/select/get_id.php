@@ -53,6 +53,20 @@ class get_id extends Builders
 
         return $documents;
     }
+
+   /** 
+     * Request to select users by login
+     *
+     * @param string|null $login
+     * @return array
+     */    
+    public function noSqlRedisGetUsersDatas(?string $login = null)
+    {
+
+        $result = $this->key('useraccount')->index($login)->redisGet();
+
+        return $result;
+    }    
     
     /** 
      * Request to select users actions list by login

@@ -54,6 +54,47 @@ class update extends Builders
             return false;
         }                    
     }  
+
+   /**
+     * Update users informations
+     *
+     * @param string $nomprenoms
+     * @param string $email
+     * @param string $number
+     * @return bool
+     */
+    public function noSqlRedisUpdateUserDatas(string $nomprenoms, string $email, string $number): bool
+    {
+
+        $login = static::initNamespace()['session']->login();
+
+        $datas = [
+                'contactusers' => $number,
+                'emailusers' => $email,
+                'nomprenomsusers' => $nomprenoms,
+                'usersstat' => 1,
+        ];   
+
+        $this->key('useraccount')->index($login)->rset($datas)->updRedis();
+
+        if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
+
+            $_SESSION["nom_prenoms"] = $nomprenoms;
+
+            $_SESSION["contact"] = $number;
+
+            $_SESSION["email"] = $email;
+            
+            $actions = "Edit Personal Information : " . static::initNamespace()['session']->login();
+            static::initQuery()['setting']->noSqlRedisActionsRecente($actions);            
+
+            $this->desconnect = static::initNamespace()['paths']->dashboard();
+            header("Location: $this->desconnect ");
+            exit;
+        } else {
+            return false;
+        }                    
+    }      
     
     /**
      * Update users state

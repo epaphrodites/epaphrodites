@@ -11,7 +11,7 @@ class count extends Builders
     * Request to create 
     * @return int
     */ 
-    public function noSqlchatMessages():int
+    public function noSqlChatMessages():int
     {
 
         $login = static::initNamespace()['session']->login();
@@ -19,6 +19,20 @@ class count extends Builders
         $result = $this->db(1)
             ->selectCollection('chatsmessages')
             ->countDocuments(['destinataire' => $login, 'etatmessages' => 1]);
+
+        return $result;
+    }
+
+   /**
+    * Request to create 
+    * @return int
+    */ 
+    public function noSqlRedisChatMessages():int
+    {
+
+        $login = static::initNamespace()['session']->login();
+
+        $result = $this->key('chatsmessages')->search(['destinataire' , 'etatmessages'])->param([ $login , 1])->count()->redisGet();
 
         return $result;
     }
@@ -36,6 +50,18 @@ class count extends Builders
         return $result;
     }
 
+    /**
+     * Get total number of users db
+     * @return int
+     */
+    public function noSqlRedisCountAllUsers():int
+    {
+
+        $result = $this->key('useraccount')->all()->count()->redisGet();
+
+        return $result;
+    }    
+
     /** 
      * Get total number of users db per group
      * @return int
@@ -50,7 +76,19 @@ class count extends Builders
         return $result;
     }
 
-    /**
+    /** 
+     * Get total number of users db per group
+     * @return int
+     */
+    public function noSqlRedisCountUsersByGroup(int $Group):int
+    {
+
+        $result = $this->key('useraccount')->search(['typeusers'])->param([$Group])->all()->count()->redisGet();
+
+        return $result;
+    }    
+
+    /** 
      * Get total number of users recent actions
      * @return int
      */
@@ -61,5 +99,17 @@ class count extends Builders
             ->countDocuments([]);
 
         return $result;
-    }    
+    }  
+    
+    /** 
+     * Get total number of users recent actions
+     * @return int
+     */
+    public function noSqlRedisCountUsersRecentActions():int
+    {
+
+        $result = $this->key('recentactions')->all()->count()->redisGet();
+
+        return $result;
+    }      
 }

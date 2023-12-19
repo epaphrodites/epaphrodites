@@ -50,7 +50,7 @@ final class get_id extends GetId
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlGetUsersDatas($login),
-      'redis' => $this->noSqlGetUsersDatas($login),
+      'redis' => $this->noSqlRedisGetUsersDatas($login),
 
       default => $this->sqlGetUsersDatas($login),
     };    

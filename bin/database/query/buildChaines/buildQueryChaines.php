@@ -53,56 +53,56 @@ trait buildQueryChaines
 
         /** 
          * Add BETWEEN if exist
-        */
+         */
         if ($this->between) {
             $query .= " WHERE {$this->between} BETWEEN ? AND ? ";
         }
 
         /** 
          * Add AND if exist
-        */
+         */
         if ($this->and) {
             $query .= "{$this->and}";
         }
 
         /** 
          * Add IS NOT NULL OR IS NULL if exist
-        */
+         */
         if ($this->is) {
             $query .= " {$this->is}";
         }
 
         /** 
          * Add OR if exist
-        */
+         */
         if ($this->or) {
             $query .= "{$this->or}";
         }
 
         /** 
          * Add ORDER BY if exist
-        */
+         */
         if ($this->order) {
             $query .= " {$this->order}";
         }
 
         /** 
          * Add GROUP BY if exist
-        */
+         */
         if ($this->group) {
             $query .= " {$this->group}";
         }
 
         /** 
          * Add HAVING if exist
-        */
+         */
         if ($this->having) {
             $query .= " {$this->having}";
         }
 
         /** 
          * Add LIMIT if exist
-        */
+         */
         if ($this->limit) {
             $query .= " {$this->limit}";
         }
@@ -121,19 +121,19 @@ trait buildQueryChaines
 
         /** 
          * Insert initial query chaine
-        */
+         */
         $Iquery = "INSERT INTO {$this->table} ";
 
         /**
          * Add DATAS if exist
-        */
+         */
         if ($this->insert) {
             $Iquery .= "( {$this->insert} )";
         }
 
         /**
          * Add VALUES if exist
-        */
+         */
         if ($this->values) {
             $Iquery .= " VALUES ( {$this->values} )";
         }
@@ -151,12 +151,12 @@ trait buildQueryChaines
 
         /** 
          * Update inital query chaine
-        */
+         */
         $query = "UPDATE {$this->table} ";
 
         /** 
          * Add join if exist
-        */
+         */
         if ($this->join) {
 
             $query .= " {$this->join}";
@@ -164,56 +164,56 @@ trait buildQueryChaines
 
         /** 
          * Add SET if exist
-        */
+         */
         if ($this->set) {
             $query .= " SET {$this->set}";
         }
 
         /** 
          * Add SET if exist
-        */
+         */
         if ($this->set_i) {
             $query .= " SET {$this->set_i}";
         }
 
         /** 
          * Add REPLACE if exist
-        */
+         */
         if ($this->replace) {
             $query .= " SET {$this->replace}";
         }
 
         /** 
          * Add WHERE if exist
-        */
+         */
         if ($this->where) {
             $query .= " WHERE {$this->where} ";
         }
 
         /** 
          * Add IS NOT NULL OR IS NULL if exist
-        */
+         */
         if ($this->is) {
             $query .= " {$this->is}";
         }
 
         /** 
          * Add match if exist
-        */
+         */
         if ($this->match) {
             $query .= " WHERE MATCH ({$this->match}) AGAINST (?)";
         }
 
         /** 
          * Add BETWEEN if exist
-        */
+         */
         if ($this->between) {
             $query .= " WHERE {$this->between} BETWEEN ? AND ? ";
         }
 
         /** 
          * Add LIKE if exist
-        */
+         */
         if ($this->like) {
             $query .= " WHERE {$this->like} LIKE ? ";
         }
@@ -227,28 +227,28 @@ trait buildQueryChaines
 
         /** 
          * Add OR if exist
-        */
+         */
         if ($this->or) {
             $query .= "{$this->or}";
         }
 
         /** 
          * Add ORDER BY if exist
-        */
+         */
         if ($this->order) {
             $query .= " {$this->order}";
         }
 
         /** 
          * Add HAVING if exist
-        */
+         */
         if ($this->having) {
             $query .= " {$this->having}";
         }
 
         /** 
          * Add LIMIT if exist
-        */
+         */
         if ($this->limit_i) {
             $query .= " {$this->limit_i}";
         }
@@ -265,7 +265,7 @@ trait buildQueryChaines
 
         /** 
          * Update inital query chaine
-        */
+         */
         $query = "DELETE FROM {$this->table} ";
 
         /* 
@@ -277,56 +277,56 @@ trait buildQueryChaines
 
         /** 
          * Add LIKE if exist
-        */
+         */
         if ($this->like) {
             $query .= " WHERE {$this->like} LIKE ? ";
         }
 
         /** 
          * Add IS NOT NULL OR IS NULL if exist
-        */
+         */
         if ($this->is) {
             $query .= " {$this->is}";
         }
 
         /** 
          * Add match if exist
-        */
+         */
         if ($this->match) {
             $query .= " WHERE MATCH ({$this->match}) AGAINST (?)";
         }
 
         /** 
          * Add BETWEEN if exist
-        */
+         */
         if ($this->between) {
             $query .= " WHERE {$this->between} BETWEEN ? AND ? ";
         }
 
         /** 
          * Add AND if exist
-        */
+         */
         if ($this->and) {
             $query .= " {$this->and}";
         }
 
         /** 
          * Add OR if exist
-        */
+         */
         if ($this->or) {
             $query .= "{$this->or}";
         }
 
         /** 
          * Add HAVING if exist
-        */
+         */
         if ($this->having) {
             $query .= " {$this->having}";
         }
 
         /** 
-        * Add LIMIT if exist
-        */
+         * Add LIMIT if exist
+         */
         if ($this->limit_i) {
             $query .= " {$this->limit_i}";
         }
@@ -343,13 +343,21 @@ trait buildQueryChaines
 
         $getConnexion = $this->rdb($db);
 
-        $key = "{$getConnexion['db']}:{$this->key}";
+        $index = !isset($this->index) ?: ":{$this->index}";
+
+        $key = "{$getConnexion['db']}:{$this->key}{$index}";
+
+        $autoIncr = "";
 
         $order = $getConnexion['connexion']->incr("{$key}:id");
 
+        if (isset($this->lastIndex)) {
+            $autoIncr = ":{$order}";
+        }
+
         $jsonData = json_encode(array_merge([$this->id => $order], $this->param));
 
-        $getConnexion['connexion']->set($key, $jsonData);
+        $getConnexion['connexion']->set("{$key}{$autoIncr}", $jsonData);
 
         return true;
     }
@@ -360,12 +368,67 @@ trait buildQueryChaines
      */
     public function isExist(int $db = 1): bool
     {
+        $cursor = '0';
 
         $getConnexion = $this->rdb($db);
 
-        $key = "{$getConnexion['db']}:{$this->key}";
+        $index = isset($this->index) ? ":{$this->index}" : '*';
 
-        return $getConnexion['connexion']->exists($key) ? true : false;
+        $key = "{$getConnexion['db']}:{$this->key}{$index}";
+
+        $result = $getConnexion['connexion']->scan($cursor, $key, 3);
+
+        return !empty($result) ? true : false;
+    }
+
+    /**
+     * @param int $db
+     * @return bool
+     */
+    public function delRedis(int $db = 1): bool
+    {
+
+        $getConnexion = $this->rdb($db);
+
+        $index = !isset($this->index) ?: ":{$this->index}";
+
+        $key = "{$getConnexion['db']}:{$this->key}{$index}";
+
+        $getConnexion['connexion']->del($key);
+
+        return true;
+    }
+
+    /**
+     * @param int $db
+     * @return bool
+     */
+    public function updRedis(int $db = 1): bool
+    {
+
+        $getConnexion = $this->rdb($db);
+
+        $index = !isset($this->index) ?: ":{$this->index}";
+
+        $key = "{$getConnexion['db']}:{$this->key}{$index}";
+
+        $existingData = $getConnexion['connexion']->get($key);
+
+        $existingHash = json_decode($existingData, true);
+
+        foreach ($this->rset as $field => $value) {
+
+            if (array_key_exists($field, $existingHash)) {
+
+                $existingHash[$field] = $value;
+            }
+        }
+
+        $updatedData = json_encode($existingHash);
+
+        $getConnexion['connexion']->set($key, $updatedData);
+
+        return true;
     }
 
     /**
@@ -374,30 +437,41 @@ trait buildQueryChaines
      */
     public function redisGet(int $db = 1): int|array
     {
+        $begin = 0;
+        $end = 1;
+
+        $excludedSuffix = ':id';
+
+        if (isset($this->rlimit)) {
+            $end = $this->rlimit["end"];
+            $begin = $this->rlimit["begin"];
+        }
 
         $getConnexion = $this->rdb($db);
+        $keyPattern = "{$getConnexion['db']}:{$this->key}" . ($this->index ? ":{$this->index}" : '') . ($this->all ? ":*" : '');
 
-        $key = "{$getConnexion['db']}:{$this->key}";
+        $keys = $getConnexion['connexion']->keys($keyPattern);
+        $data = [];
+        
+        foreach ($keys as $key) {
+            if (!str_ends_with($key, $excludedSuffix)) {
+                $getDatas = $getConnexion['connexion']->get($key);
 
-        $keysInit = $getConnexion['connexion']->keys($key);
-
-        $retrievedDatas = [];
-
-        foreach ($keysInit as $key) {
-
-            $getDatas = $getConnexion['connexion']->get($key);
-
-            $decodedDatas = json_decode($getDatas, true);
-
-            if (!(isset($this->search) && isset($this->param)) || $this->verifyDatas($decodedDatas, $this->search, $this->param) !== false) {
-
-                $retrievedDatas[] = $decodedDatas;
+                if ($getDatas !== false) {
+                    $decodedDatas = json_decode($getDatas, true);
+                    if (is_array($decodedDatas)) {
+                        $id = (int)substr($key, strrpos($key, ':') + 1);
+                        $data[$id] = $decodedDatas;
+                    }
+                }
             }
         }
 
-        $retrievedDatas = isset($this->count) ? count($retrievedDatas) : $retrievedDatas;
+        krsort($data);
+        
+        $paginatedData = array_slice($data, $begin, $end - $begin);
 
-        return $retrievedDatas;
+        return $this->count ? count($paginatedData) : $paginatedData;
     }
 
     /**

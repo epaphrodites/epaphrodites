@@ -19,7 +19,7 @@ final class general extends GeneralGeneral
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlRecentlyActions(),
-      'redis' => $this->noSqlRecentlyActions(),
+      'redis' => $this->noSqlRedisRecentlyActions(),
 
       default => $this->sqlRecentlyActions(),
     };

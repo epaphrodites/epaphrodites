@@ -30,6 +30,21 @@ class select extends Builders
         return $documents;        
     }  
     
+   /**
+     * Afficher la liste des utilisateurs
+     *
+     * @param integer $page
+     * @param integer $Nbreligne
+     * @return array
+     */
+    public function noSqlRedisListeOfAllUsers( int $page, int $Nbreligne):array
+    {
+
+        $result = $this->key('useraccount')->all()->lastIndex()->redisGet();
+
+        return $result;        
+    } 
+
     /**
      * Request to get list of users recents actions
      *
@@ -52,4 +67,19 @@ class select extends Builders
         
         return $documents;         
     }
+
+    /**
+     * Request to get list of users recents actions
+     *
+     * @param integer $page
+     * @param integer $Nbreligne
+     * @return array
+     */
+    public function noSqlRedisListOfRecentActions( int $page, int $Nbreligne):array
+    {
+
+        $result = $this->key('recentactions')->all()->rlimit($page , $Nbreligne)->redisGet();
+        
+        return $result;         
+    }    
 }

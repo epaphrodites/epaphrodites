@@ -35,7 +35,7 @@ class auth extends Builders
   private function ifKeyExist():bool
   {
 
-    $result = $this->key('useraccount')->isExist();
+    $result = $this->key('useraccount')->index('*')->isExist();
 
     return $result;
   }  
@@ -71,7 +71,7 @@ class auth extends Builders
   }
 
  /**
-   * Request to select all users of database (For mongo db)
+   * Request to select all users of database (For Redis db)
    * 
    * @param string $loginuser
    * @return array|bool
@@ -80,8 +80,8 @@ class auth extends Builders
   {
 
     if ($this->ifKeyExist() === true) {
-      
-      return $this->key('useraccount')->search(['loginusers' , 'usersstat'])->param([$loginuser , 1])->redisGet();
+
+      return $this->key('useraccount')->search(['usersstat'])->param([1])->index($loginuser)->redisGet();
 
     } else {
 

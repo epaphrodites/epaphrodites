@@ -33,14 +33,14 @@ class StartUsersSession extends epaphroditeClass
    */
   private function key(): string
   {
-    if(_DATABASE_ === 'sql'){
+    return match (_FIRST_DRIVER_) {
 
-      return !empty(static::class('secure')->CheckUserCrsfToken()) ? static::class('secure')->CheckUserCrsfToken() : $_COOKIE[static::class('msg')->answers('token_name')];
-    }else{
-      
-      return !empty(static::class('secure')->noSqlCheckUserCrsfToken()) ? static::class('secure')->noSqlCheckUserCrsfToken() : $_COOKIE[static::class('msg')->answers('token_name')];
-    }
+      'mongo' => !empty(static::class('secure')->noSqlCheckUserCrsfToken()) ? static::class('secure')->noSqlCheckUserCrsfToken() : $_COOKIE[static::class('msg')->answers('token_name')],
+      'redis' => !empty(static::class('secure')->noSqlRedisCheckUserCrsfToken()) ? static::class('secure')->noSqlRedisCheckUserCrsfToken() : $_COOKIE[static::class('msg')->answers('token_name')],
 
+      default => !empty(static::class('secure')->CheckUserCrsfToken()) ? static::class('secure')->CheckUserCrsfToken() : $_COOKIE[static::class('msg')->answers('token_name')],
+  };
+  
 
   }
 }

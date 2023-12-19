@@ -13,7 +13,7 @@ class setting extends Builders
      * @param string|null $action
      * @return bool
      */
-    public function ActionsRecente(?string $action = null):bool
+    public function ActionsRecente(?string $action = null): bool
     {
 
         $this->table('recentactions ')
@@ -31,7 +31,7 @@ class setting extends Builders
      * @param string|null $action
      * @return bool
      */
-    public function noSqlActionsRecente(?string $action = null):bool
+    public function noSqlActionsRecente(?string $action = null): bool
     {
 
         $document =
@@ -42,6 +42,29 @@ class setting extends Builders
             ];
 
         $this->db(1)->selectCollection('recentactions')->insertOne($document);
+
+        return true;
+    }
+
+    /**
+     * To record recent actions
+     * 
+     * @param string|null $action
+     * @return bool
+     */
+    public function noSqlRedisActionsRecente(?string $action = null): bool
+    {
+
+        $login = static::initNamespace()['session']->login();
+
+        $document =
+            [
+                'usersactions' => $login,
+                'dateactions' => date("Y-m-d H:i:s"),
+                'libactions' => $action,
+            ];
+
+        $this->key('recentactions')->id('idrecentactions')->index($login)->param($document)->lastIndex()->addToRedis();
 
         return true;
     }

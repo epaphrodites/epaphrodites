@@ -52,10 +52,15 @@ class validate_token extends GeneratedValues
     protected function verifyOn(): bool
     {
 
-        $hashedSecure = static::gostHash( 
-            _DATABASE_ === 'sql' ? 
-            $this->secure->secure() 
-            :$this->secure->noSqlSecure());
+        $request = match (_FIRST_DRIVER_) {
+
+            'mongo' => $this->secure->noSqlSecure(),
+            'redis' => $this->secure->noSqlRedisSecure(),
+  
+            default => $this->secure->secure(),
+      };
+
+        $hashedSecure = static::gostHash($request);
 
         $hashedInput = static::gostHash($this->getInputToken());
 

@@ -20,7 +20,7 @@ final class select extends SelectSelect
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlListeOfAllUsers($page,$nbreLigne),
-      'redis' => $this->noSqlListeOfAllUsers($page,$nbreLigne),
+      'redis' => $this->noSqlRedisListeOfAllUsers($page,$nbreLigne),
 
       default => $this->sqlListeOfAllUsers($page,$nbreLigne),
     };       
@@ -39,7 +39,7 @@ final class select extends SelectSelect
     return match (_FIRST_DRIVER_) {
 
       'mongo' => $this->noSqlListOfRecentActions($page,$nbreLigne),
-      'redis' => $this->noSqlListOfRecentActions($page,$nbreLigne),
+      'redis' => $this->noSqlRedisListOfRecentActions($page,$nbreLigne),
 
       default => $this->sqlListOfRecentActions($page,$nbreLigne),
     };           

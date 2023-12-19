@@ -29,7 +29,13 @@ final class update extends UpdateUpdate
   public function updateUserDatas(string $nomprenoms, string $email, string $number): bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlUpdateUserDatas($nomprenoms, $email, $number) : $this->noSqlUpdateUserDatas($nomprenoms, $email, $number);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlUpdateUserDatas($nomprenoms, $email, $number),
+      'redis' => $this->noSqlRedisUpdateUserDatas($nomprenoms, $email, $number),
+
+      default => $this->sqlUpdateUserDatas($nomprenoms, $email, $number),
+    };
   }
 
   /**
@@ -41,7 +47,13 @@ final class update extends UpdateUpdate
   public function updateEtatsUsers(string $login): bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlUpdateEtatsUsers($login) : $this->noSqlUpdateEtatsUsers($login);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlUpdateEtatsUsers($login),
+      'redis' => $this->noSqlUpdateEtatsUsers($login),
+
+      default => $this->sqlUpdateEtatsUsers($login),
+    };
   }
 
   /**
@@ -53,7 +65,13 @@ final class update extends UpdateUpdate
   public function initUsersPassword(string $login): bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlInitUsersPassword($login) : $this->noSqlInitUsersPassword($login);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlInitUsersPassword($login),
+      'redis' => $this->noSqlInitUsersPassword($login),
+
+      default => $this->sqlInitUsersPassword($login),
+    };
   }
 
   /**
@@ -67,7 +85,13 @@ final class update extends UpdateUpdate
   public function changeUsersPassword(string $oldPassword, string $newPassword, string $confirMdp): bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp) : $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
+      'redis' => $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
+
+      default => $this->sqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp)
+    };
   }
 
   /**
@@ -81,6 +105,12 @@ final class update extends UpdateUpdate
   public function ConsoleUpdateUsers(?string $login = null, ?string $password = NULL, ?int $userGroup = NULL): bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlConsoleUpdateUsers($login, $password, $userGroup) : $this->noSqlConsoleUpdateUsers($login, $password, $userGroup);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqlConsoleUpdateUsers($login, $password, $userGroup),
+      'redis' => $this->noSqlConsoleUpdateUsers($login, $password, $userGroup),
+
+      default => $this->sqlConsoleUpdateUsers($login, $password, $userGroup)
+    };
   }
 }

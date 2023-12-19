@@ -19,7 +19,7 @@ final class api extends HerediaApiSwitcher
      * All users list
      * @return array
      */
-    public function listeDesUtilisateurs()
+    public function listeOfAllUsers()
     {
 
         $Result = [];
@@ -27,10 +27,10 @@ final class api extends HerediaApiSwitcher
 
         if (!empty($_GET['list'])) {
 
-            return $Result == true ? $this->Response->JsonResponse(200, []) : $this->Response->JsonResponse(400, []);
+            return !empty($Result) ? $this->Response->JsonResponse(200, []) : $this->Response->JsonResponse(400, []);
         } else {
 
-            return $this->Response->JsonResponse(400, $Result);
+            return $this->Response->JsonResponse(200, $Result);
         }
     }
 }

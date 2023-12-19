@@ -16,11 +16,8 @@ define('_KEYGEN_', 'CRSF');
 // Main directory folder
 define('_DIR_MAIN_', 'bin');
 
-// Set database accpeted 'sql' or 'nosql'
-define('_DATABASE_', 'nosql');
-
 // Set database accpeted 'mysql/postgre/sqlserver/sqlite/mongo/redis'
-define('_FIRST_DRIVER_', 'redis');
+define('_FIRST_DRIVER_', 'sqlite');
 
 // vendor directory
 define('_DIR_VENDOR_', 'vendor');
