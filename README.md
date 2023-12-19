@@ -5,6 +5,20 @@
 ## 👋 About Epaphrodites
 Epaphrodites combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodites can offer for your web projects.
 
+## System needs
+What you should know before starting the installation. To create a new application, please first ensure that your computer meets the following requirements.
+
+- PHP >= 8.1
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- pgsql Extension (if you use PostgreSQL)
+- MongoDB Extension (if you use MongoDB)
+- Redis Extension (if you use Redis)
+- Mbstring PHP Extension
+- XML PHP Extension
+- JSON PHP Extension
+- Python installation (If you prefer to include elements of code written in Python)
+
 ## 🚀 Installation
 
 ```bash
@@ -38,9 +52,9 @@ composer update --ignore-platform-req=ext-mongodb
     bin\epaphrodites\define\config\SetDirectory.php
 ```
 
-2. Choose your first database connexion type (accepted : sql or nosql )
+2. Set database accpeted : ('mysql/postgre/sqlserver/sqlite/mongo/redis')
 ```bash  
-    define('_DATABASE_', 'sql');
+    define('_FIRST_DRIVER_', 'sqlite');
 ```
 
 3. Open this file (Config.ini)
@@ -51,28 +65,28 @@ composer update --ignore-platform-req=ext-mongodb
 4. Choose your first configuration
 ```bash  
     // First DB username
-    1DB_USER = root
+    1DB_USER =
 
     // First DB password
-    1DB_PASSWORD = root
+    1DB_PASSWORD =
 
     // First DB port
-    1DB_PORT = 8889
+    1DB_PORT =
 
     // First DB name
-    1DB_DATABASE = epaphroditesdb
+    1DB_DATABASE = "epaphroditesdb.sqlite"
 
     // First DB SOCKET support
     1DB_SOCKET = false
 
     // First DB socket
-    1DB_SOCKET_PATH = "unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock"
+    1DB_SOCKET_PATH = ""
 
     // First DB host
     1DB_HOST = "127.0.0.1"
 
     // First DB DRIVER (accepted : mysql/pgsql/sqlserver/sqlite/mongodb/redis)
-    1DB_DIVER = "mysql"
+    1DB_DIVER = "sqlite"
 
 ```
 
@@ -102,7 +116,9 @@ Password : admin
 
 ### Authors
 
-- [Y'srael Aime N'dri (Lead) ](https://github.com/ysrael-aime-ndri)
+- [Y'srael Aime N'DRI (Lead) ](https://github.com/ysrael-aime-ndri)
+- [Jonathan EKLOU ]()
+- [Eric ADAYE ]()
 
 ### Contributing
 
