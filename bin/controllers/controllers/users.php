@@ -8,6 +8,7 @@ final class users extends MainSwitchers
 {
 
     private object $msg;
+    private object $session;
     private object $getId;    
     private object $count;
     private object $update;
@@ -31,7 +32,7 @@ final class users extends MainSwitchers
     public function editUsersInfos(string $html): void
     {
 
-        $login = static::initNamespace()['session']->login();
+        $login = $this->session->login();
 
         if (static::isValidMethod()) {
 
@@ -206,6 +207,7 @@ final class users extends MainSwitchers
         $this->select = $this->getFunctionObject(static::initQuery(), 'select');
         $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
         $this->update = $this->getFunctionObject(static::initQuery(), 'update');
+        $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
         $this->importFiles = $this->getFunctionObject(static::initConfig(), 'import');
     }     
 }
