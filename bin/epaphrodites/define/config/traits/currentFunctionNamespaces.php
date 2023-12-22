@@ -42,12 +42,12 @@ trait currentFunctionNamespaces
 
         return [
             'qrcode' => new \chillerlan\QRCode\QRCode,
-            'auth' => new \Epaphrodites\epaphrodites\danho\DanhoAuth,
             'qroptions' => new \chillerlan\QRCode\QROptions,         
             'csv' => new \PhpOffice\PhpSpreadsheet\Reader\Csv,            
             'Ods' => new \PhpOffice\PhpSpreadsheet\Reader\Ods,
             'xls' => new \PhpOffice\PhpSpreadsheet\Reader\Xls,
             'xlsx' => new \PhpOffice\PhpSpreadsheet\Reader\Xlsx,
+            'auth' => new \Epaphrodites\epaphrodites\danho\DanhoAuth,
             'guard' => new \Epaphrodites\epaphrodites\danho\GuardPassword,
             'addright' => new \Epaphrodites\epaphrodites\yedidiah\AddRights,
             'process' => new \Epaphrodites\database\config\process\process,
@@ -60,6 +60,7 @@ trait currentFunctionNamespaces
             'listright' => new \Epaphrodites\epaphrodites\yedidiah\YedidiaGetRights,
             'python' => new \Epaphrodites\epaphrodites\translate\PythonCodesTranslate,
             'extension' => new \Epaphrodites\epaphrodites\Extension\EpaphroditeExtension,
+            'import' => new \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles,
         ];
     }
 
