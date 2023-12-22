@@ -6,6 +6,8 @@ use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
 trait currentSubmit
 {
+    private static array $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
+
     /**
      * Check if a variable exists in the $_POST array.
      *
@@ -22,6 +24,22 @@ trait currentSubmit
 
         return $_SERVER['REQUEST_METHOD'] === 'POST' && filter_input(INPUT_POST, $key, FILTER_DEFAULT) !== null;
     }
+
+    /**
+     * @param string $accepted
+     * @return bool
+     */
+    public static function isValidMethod(string $accepted = 'POST'): bool
+    {
+        // Retrieve and sanitize the request method
+        $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : null;
+        
+        // Check if the method is not null and is among the allowed methods
+        return ($method !== null && in_array($method, self::$allowedMethods) && $method === $accepted);
+    }
+    
+    
+
 
     /**
      * Get the value from $_POST array for a given key with a default value.

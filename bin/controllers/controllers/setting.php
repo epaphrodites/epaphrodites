@@ -6,10 +6,29 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class setting extends MainSwitchers
 {
-
+    
+    private object $env;
+    private object $mozart;
+    private object $update;
+    private object $select;
+    private object $insert;
+    private object $delete;
+    private object $count;
+    private object $msg;
+    private object $datas;
+    private object $getId;
     private string $alert = '';
     private string $ans = '';
     private array|bool $result = [];
+
+    /**
+     * Initialize object properties when an instance is created
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->initializeObjects();
+    }
 
     /**
      * Adds user access rights.
@@ -22,29 +41,29 @@ final class setting extends MainSwitchers
 
         $idtype = static::isGet('_see') ? static::getGet('_see') : 0;
 
-        if (static::isPost('submit') && $idtype !== 0) {
+        if (static::isValidMethod() && $idtype !== 0) {
 
-            $this->result = static::initQuery()['insert']->AddUsersRights($idtype, static::getPost('__rights__'), static::getPost('__actions__'));
+            $this->result = $this->insert->AddUsersRights($idtype, static::getPost('__rights__'), static::getPost('__actions__'));
 
             if ($this->result === true) {
                 $this->alert = 'alert-success';
-                $this->ans = static::initNamespace()['msg']->answers('succes');
+                $this->ans = $this->msg->answers('succes');
             }
 
             if ($this->result === false) {
                 $this->alert = 'alert-danger';
-                $this->ans = static::initNamespace()['msg']->answers('rightexist');
+                $this->ans = $this->msg->answers('rightexist');
             }
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
             [
                 'type' => $idtype,
+                'env' => $this->env,
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
-                'env' => static::initNamespace()['env'],
-                'datas' => static::initNamespace()['datas'],
-                'select' => static::initNamespace()['mozart']
+                'datas' => $this->datas,
+                'select' => $this->mozart
             ],
             true
         )->get();
@@ -68,16 +87,16 @@ final class setting extends MainSwitchers
 
                 foreach (static::isArray('group') as $UsersGroup) {
 
-                    $this->result = static::initQuery()['update']->updateUserRights($UsersGroup, 1);
+                    $this->result = $this->update->updateUserRights($UsersGroup, 1);
                 }
 
                 if ($this->result === true) {
                     $this->alert = 'alert-success';
-                    $this->ans = static::initNamespace()['msg']->answers('succes');
+                    $this->ans = $this->msg->answers('succes');
                 }
                 if ($this->result === false) {
                     $this->alert = 'alert-danger';
-                    $this->ans = static::initNamespace()['msg']->answers('error');
+                    $this->ans = $this->msg->answers('error');
                 }
             }
 
@@ -86,16 +105,16 @@ final class setting extends MainSwitchers
 
                 foreach (static::isArray('group') as $UsersGroup) {
 
-                    $this->result = static::initQuery()['update']->updateUserRights($UsersGroup, 0);
+                    $this->result = $this->update->updateUserRights($UsersGroup, 0);
                 }
 
                 if ($this->result === true) {
                     $this->alert = 'alert-success';
-                    $this->ans = static::initNamespace()['msg']->answers('succes');
+                    $this->ans = $this->msg->answers('succes');
                 }
                 if ($this->result === false) {
                     $this->alert = 'alert-danger';
-                    $this->ans = static::initNamespace()['msg']->answers('error');
+                    $this->ans = $this->msg->answers('error');
                 }
             }
 
@@ -104,16 +123,16 @@ final class setting extends MainSwitchers
 
                 foreach (static::isArray('group') as $UsersGroup) {
 
-                    $this->result = static::initQuery()['delete']->DeletedUsersRights($UsersGroup);
+                    $this->result = $this->delete->DeletedUsersRights($UsersGroup);
                 }
 
                 if ($this->result === true) {
                     $this->alert = 'alert-success';
-                    $this->ans = static::initNamespace()['msg']->answers('succes');
+                    $this->ans = $this->msg->answers('succes');
                 }
                 if ($this->result === false) {
                     $this->alert = 'alert-danger';
-                    $this->ans = static::initNamespace()['msg']->answers('error');
+                    $this->ans = $this->msg->answers('error');
                 }
             }
         }
@@ -122,8 +141,8 @@ final class setting extends MainSwitchers
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
-                'list' => static::initNamespace()['mozart'],
-                'select' => static::initQuery()['getid']->getUsersRights($idtype),
+                'list' => $this->mozart,
+                'select' => $this->getId->getUsersRights($idtype),
             ],
             true
         )->get();
@@ -140,21 +159,21 @@ final class setting extends MainSwitchers
 
         if (static::isPost('__deleted__')) {
 
-            $this->result = static::initQuery()['delete']->EmptyAllUsersRights(static::getPost('__deleted__'));
+            $this->result = $this->delete->EmptyAllUsersRights(static::getPost('__deleted__'));
 
             if ($this->result === true) {
                 $this->alert = 'alert-success';
-                $this->ans = static::initNamespace()['msg']->answers('succes');
+                $this->ans = $this->msg->answers('succes');
             }
             if ($this->result === false) {
                 $this->alert = 'alert-danger';
-                $this->ans = static::initNamespace()['msg']->answers('error');
+                $this->ans = $this->msg->answers('error');
             }
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
             [
-                'select' => static::initNamespace()['datas']->userGroup(),
+                'select' => $this->datas->userGroup(),
                 'auth' => static::class('session'),
                 'reponse' => $this->ans,
                 'alert' => $this->alert
@@ -179,12 +198,12 @@ final class setting extends MainSwitchers
 
         if (static::isGet('submitsearch') && static::notEmpty(['datasearch'] , 'GET')) {
 
-            $list = static::initQuery()['getid']->getUsersRecentsActions($_GET['datasearch']);
+            $list = $this->getId->getUsersRecentsActions($_GET['datasearch']);
             $total = count($list ?? []);
         } else {
 
-            $total = static::initQuery()['count']->countUsersRecentActions();
-            $list = static::initQuery()['select']->listOfRecentActions($page, $Nbreligne);
+            $total = $this->count->countUsersRecentActions();
+            $list = $this->select->listOfRecentActions($page, $Nbreligne);
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
@@ -196,9 +215,26 @@ final class setting extends MainSwitchers
                 'alert' => $this->alert,
                 'position' => $position,
                 'nbrePage' => ceil(($total) / $Nbreligne),
-                'select' => static::initQuery()['getid'],
+                'select' => $this->getId,
             ],
             true
         )->get();
+    }    
+
+    /**
+     * @return void
+     */
+    private function initializeObjects(): void
+    {
+        $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
+        $this->env = $this->getFunctionObject(static::initNamespace(), 'env');
+        $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
+        $this->count = $this->getFunctionObject(static::initQuery(), 'count');
+        $this->select = $this->getFunctionObject(static::initQuery(), 'select');
+        $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
+        $this->delete = $this->getFunctionObject(static::initQuery(), 'delete');
+        $this->update = $this->getFunctionObject(static::initQuery(), 'update');
+        $this->datas = $this->getFunctionObject(static::initNamespace(), 'datas');
+        $this->mozart = $this->getFunctionObject(static::initNamespace(), 'mozart');
     }    
 }

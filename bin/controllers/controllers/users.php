@@ -7,6 +7,13 @@ use Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles;
 
 final class users extends MainSwitchers
 {
+
+    private object $update;
+    private object $select;
+    private object $insert;
+    private object $count;
+    private object $msg;
+    private object $getId;    
     private string $ans = '';
     private string $alert = '';
     private array|bool $result = [];
@@ -14,7 +21,7 @@ final class users extends MainSwitchers
 
     public function __construct()
     {
-        $this->importFiles = new ImportFiles;
+        $this->initializeObjects();
     }
 
     /**
@@ -27,15 +34,15 @@ final class users extends MainSwitchers
 
         $login = static::initNamespace()['session']->login();
 
-        if (static::isPost('submit')) {
+        if (static::isValidMethod()) {
 
-            $this->result = static::initQuery()['update']->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'));
+            $this->result = $this->update->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'));
             if ($this->result === true) {
-                $this->ans = static::initNamespace()['msg']->answers('succes');
+                $this->ans = $this->msg->answers('succes');
                 $this->alert = 'alert-success';
             }
             if ($this->result === false) {
-                $this->ans = static::initNamespace()['msg']->answers('erreur');
+                $this->ans = $this->msg->answers('erreur');
                 $this->alert = 'alert-danger';
             }
         }
@@ -44,7 +51,7 @@ final class users extends MainSwitchers
             [
                 'alert' => $this->alert,
                 'reponse' => $this->ans,
-                'select' => static::initQuery()['getid']->GetUsersDatas($login),
+                'select' => $this->getId->GetUsersDatas($login),
             ],
             true
         )->get();
@@ -58,20 +65,20 @@ final class users extends MainSwitchers
     public function changePassword(string $html): void
     {
 
-        if (static::isPost('submit')) {
+        if (static::isValidMethod()) {
 
-            $this->result = static::initQuery()['update']->changeUsersPassword(static::getPost('__oldpassword__'), static::getPost('__newpassword__'), static::getPost('__confirm__'));
+            $this->result = $this->update->changeUsersPassword(static::getPost('__oldpassword__'), static::getPost('__newpassword__'), static::getPost('__confirm__'));
 
             if ($this->result === 1) {
-                $this->ans = static::initNamespace()['msg']->answers('no-identic');
+                $this->ans = $this->msg->answers('no-identic');
                 $this->alert = 'alert-danger';
             }
             if ($this->result === 2) {
-                $this->ans = static::initNamespace()['msg']->answers('no-identic');
+                $this->ans = $this->msg->answers('no-identic');
                 $this->alert = 'alert-danger';
             }
             if ($this->result === 3) {
-                $this->ans = static::initNamespace()['msg']->answers('mdpnotsame');
+                $this->ans = $this->msg->answers('mdpnotsame');
                 $this->alert = 'alert-danger';
             }
         }
@@ -94,7 +101,7 @@ final class users extends MainSwitchers
     public function importUsers(string $html): void
     {
 
-        if (static::isPost('submit')) {
+        if (static::isValidMethod()) {
 
             $SheetData = $this->importFiles->ImportExcelFiles($_FILES['file']['name']);
 
@@ -104,19 +111,19 @@ final class users extends MainSwitchers
 
                     $CodeUtilisateur = $SheetData[$i][0];
 
-                    $this->result = static::initQuery()['insert']->addUsers($CodeUtilisateur, static::getPost('__group__'));
+                    $this->result = $this->insert->addUsers($CodeUtilisateur, static::getPost('__group__'));
 
                     if ($this->result === true) {
-                        $this->ans = static::initNamespace()['msg']->answers('succes');
+                        $this->ans = $this->msg->answers('succes');
                         $this->alert = 'alert-success';
                     }
                     if ($this->result === false) {
-                        $this->ans = static::initNamespace()['msg']->answers('erreur');
+                        $this->ans = $this->msg->answers('erreur');
                         $this->alert = 'alert-danger';
                     }
                 }
             } else {
-                $this->ans = static::initNamespace()['msg']->answers('fileempty');
+                $this->ans = $this->msg->answers('fileempty');
                 $this->alert = 'alert-danger';
             }
         }
@@ -149,29 +156,29 @@ final class users extends MainSwitchers
             foreach (static::isArray('users') as $login) {
 
                 $this->result = static::isSelected('_sendselected_', 1 ) 
-                    ? static::initQuery()['update']->updateEtatsUsers($login) : 
-                    static::initQuery()['update']->initUsersPassword($login);
+                    ? $this->update->updateEtatsUsers($login) : 
+                    $this->update->initUsersPassword($login);
             }
 
             if ($this->result === true) {
-                $this->ans = static::initNamespace()['msg']->answers('succes');
+                $this->ans = $this->msg->answers('succes');
                 $this->alert = 'alert-success';
             }
             if ($this->result === false) {
-                $this->ans = static::initNamespace()['msg']->answers('error');
+                $this->ans = $this->msg->answers('error');
                 $this->alert = 'alert-danger';
             }
         }
 
         if (static::isGet('submitsearch') && static::notEmpty(['datasearch'] , 'GET')) {
 
-            $list = static::initQuery()['getid']->GetUsersDatas($_GET['datasearch']);
+            $list = $this->getId->GetUsersDatas($_GET['datasearch']);
             $total = count($list ?? []);
             
         }else {
 
-            $total = static::notEmpty(['filtre'] , 'GET') ? static::initQuery()['count']->CountUsersByGroup($_GET['filtre']) : static::initQuery()['count']->CountAllUsers();
-            $list = static::notEmpty(['filtre'] , 'GET') ? static::initQuery()['getid']->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) : static::initQuery()['select']->listeOfAllUsers($page, $Nbreligne);
+            $total = static::notEmpty(['filtre'] , 'GET') ? $this->count->CountUsersByGroup($_GET['filtre']) : $this->count->CountAllUsers();
+            $list = static::notEmpty(['filtre'] , 'GET') ? $this->getId->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) : $this->select->listeOfAllUsers($page, $Nbreligne);
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
@@ -182,10 +189,24 @@ final class users extends MainSwitchers
                 'alert' => $this->alert,
                 'reponse' => $this->ans,
                 'position' => $position,
-                'select' => static::initQuery()['getid'],
+                'select' => $this->getId,
                 'nbrePage' => ceil(($total) / $Nbreligne),
             ],
             true
         )->get();
     }
+
+    /**
+     * @return void
+     */
+    private function initializeObjects(): void
+    {
+        $this->importFiles = new ImportFiles;
+        $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
+        $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
+        $this->count = $this->getFunctionObject(static::initQuery(), 'count');
+        $this->select = $this->getFunctionObject(static::initQuery(), 'select');
+        $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
+        $this->update = $this->getFunctionObject(static::initQuery(), 'update');
+    }     
 }

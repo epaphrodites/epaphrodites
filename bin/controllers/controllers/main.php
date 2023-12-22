@@ -29,7 +29,7 @@ final class main extends MainSwitchers
     public function Login(string $html): void
     {
 
-        if (static::isPost('submit')) {
+        if (static::isValidMethod()) {
 
             $result = static::initConfig()['auth']->usersAuthManagers(
                static::getPost('__codeuser__'),
@@ -40,6 +40,7 @@ final class main extends MainSwitchers
                 
                 $this->ans = static::initNamespace()['msg']->answers('login-wrong');
                 $this->htmlClass = "error";
+                return;
             }
         }
 
