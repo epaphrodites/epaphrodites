@@ -3,17 +3,16 @@
 namespace Epaphrodites\controllers\controllers;
 
 use Epaphrodites\controllers\switchers\MainSwitchers;
-use Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles;
 
 final class users extends MainSwitchers
 {
 
+    private object $msg;
+    private object $getId;    
+    private object $count;
     private object $update;
     private object $select;
     private object $insert;
-    private object $count;
-    private object $msg;
-    private object $getId;    
     private string $ans = '';
     private string $alert = '';
     private array|bool $result = [];
@@ -201,12 +200,12 @@ final class users extends MainSwitchers
      */
     private function initializeObjects(): void
     {
-        $this->importFiles = new ImportFiles;
         $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
         $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
         $this->count = $this->getFunctionObject(static::initQuery(), 'count');
         $this->select = $this->getFunctionObject(static::initQuery(), 'select');
         $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
         $this->update = $this->getFunctionObject(static::initQuery(), 'update');
+        $this->importFiles = $this->getFunctionObject(static::initConfig(), 'import');
     }     
 }
