@@ -97,7 +97,7 @@ composer update --ignore-platform-req=ext-mongodb
 php heredia create:db epaphroditesdb
 ```
 
-### 💾 update database request
+### 💾 update database driver
 
 ```bash  
 php heredia update:driver
