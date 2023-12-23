@@ -6,18 +6,40 @@ class ControllerStub{
 
     public static function GenerateControlleurs($FilesNames, $name , $html='$html')
     {
-$stub = 
-"<?php
-    namespace Epaphrodites\\controllers\\controllers;
+$stub = "<?php
+namespace Epaphrodites\\controllers\\controllers;
+        
+use Epaphrodites\\controllers\\switchers\\MainSwitchers;
+        
+final class $name extends MainSwitchers
+{
+    private object \$msg;
 
-    use Epaphrodites\\controllers\\switchers\\MainSwitchers;
-
-    final class $name extends MainSwitchers
+    /**
+    * Initialize object properties when an instance is created
+    * @return void
+    */    
+    public function __construct()
     {
-        'public function exemplePages(string $html): void{
-            //
-        }
-    }'";
+        \$this->initializeObjects();
+    }
+        
+    public function exemplePages(string \$html): void
+    {
+        //
+    }
+        
+    /**
+    * Get object
+    * @return void
+    */
+    private function initializeObjects(): void
+    {
+        \$this->msg = \$this->getFunctionObject(static::initNamespace(), 'msg');
+    }        
+        
+}";
+        
     file_put_contents($FilesNames, $stub);
     }
 }

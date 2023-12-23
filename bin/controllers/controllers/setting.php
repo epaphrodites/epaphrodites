@@ -222,6 +222,7 @@ final class setting extends MainSwitchers
     }    
 
     /**
+     * Get object
      * @return void
      */
     private function initializeObjects(): void

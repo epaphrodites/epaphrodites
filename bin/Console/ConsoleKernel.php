@@ -20,6 +20,7 @@ class ConsoleKernel
             new \Epaphrodites\epaphrodites\Console\commands\CommandController,
             new \Epaphrodites\epaphrodites\Console\commands\CommandUpdateUser,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddDatabase,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandFirstDrivers,
             new \Epaphrodites\epaphrodites\Console\commands\CommandRequestFiles,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddSqlRequest,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddNoSqlRequest,

@@ -19,6 +19,10 @@ final class users extends MainSwitchers
     private array|bool $result = [];
     private object $importFiles;
 
+    /**
+     * Initialize object properties when an instance is created
+     * @return  object
+     */
     public function __construct()
     {
         $this->initializeObjects();
