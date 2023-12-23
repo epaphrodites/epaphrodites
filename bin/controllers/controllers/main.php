@@ -40,7 +40,7 @@ final class main extends MainSwitchers
                 
                 $this->ans = static::initNamespace()['msg']->answers('login-wrong');
                 $this->htmlClass = "error";
-                return;
+                
             }
         }
 
