@@ -10,17 +10,8 @@ final class dashboard extends MainSwitchers
     private object $count;
     private object $select;
 
-   /**
-     * Initialize each property using values retrieved from static configurations
-     * @return void
-     */
-    private function initializeObjects():void
-    {
-        $this->count = $this->getObject( static::$initQueryConfig , "count");
-        $this->select = $this->getObject( static::$initQueryConfig , 'general');
-    }    
-
     /**
+     * Initialize object properties when an instance is created
      * @return void
      */
     public function __construct()
@@ -79,5 +70,15 @@ final class dashboard extends MainSwitchers
             ], 
             true 
         )->get();
-    }        
+    }      
+    
+   /**
+     * Initialize each property using values retrieved from static configurations
+     * @return void
+     */
+    private function initializeObjects():void
+    {
+        $this->count = $this->getObject( static::$initQueryConfig , "count");
+        $this->select = $this->getObject( static::$initQueryConfig , 'general');
+    }       
 }
