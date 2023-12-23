@@ -97,6 +97,12 @@ composer update --ignore-platform-req=ext-mongodb
 php heredia create:db epaphroditesdb
 ```
 
+### 💾 update database request
+
+```bash  
+php heredia update:driver
+```
+
 ### 🔥 Run your App
 - Note: For SQL databases, you must create your database before running your application. In the case of MongoDB, the system will generate your database based on your configuration.
 
