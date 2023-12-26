@@ -11,18 +11,18 @@ class get_id extends SelectGet_id
      * Request to get users by group
      *
      * @param integer $page
-     * @param integer $Nbreligne
-     * @param integer $UsersGroup
+     * @param integer $numLines
+     * @param integer $usersGroup
      * @return array
      */
-    public function sqlGetUsersByGroup(int $page, int $Nbreligne, int $UsersGroup):array
+    public function sqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
     {
 
         $result = $this->table('useraccount')
             ->where('typeusers')
-            ->limit((($page - 1) * $Nbreligne), $Nbreligne)
-            ->orderby('loginusers', 'ASC')
-            ->param([$UsersGroup])
+            ->limit((($page - 1) * $numLines), $numLines)
+            ->orderBy('loginusers', 'ASC')
+            ->param([$usersGroup])
             ->SQuery();
 
         return $result;
