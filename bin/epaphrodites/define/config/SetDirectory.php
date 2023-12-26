@@ -76,9 +76,6 @@ define('_DIR_CONFIG_INI_', 'bin/database/config/ini/');
 // Set Application domaine when you are in local "epaphrodite-framework/"
 define('_DOMAINE_', "");
 
-// Share directory
-define('_DIR_PRINTER_', 'bin/share/FilesImportLibrary/fpdf');
-
 // Main home page
 define('_HOME_', 'views/index/');
 

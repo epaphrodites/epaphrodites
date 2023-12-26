@@ -36,10 +36,6 @@ Continue the installation by doing :
 composer update
 ```
 
-```bash
-composer create-project --prefer-dist epaphrodites/epaphrodites your-project-name
-```
-
 If mongodb is not installing :
 ```bash
 composer update --ignore-platform-req=ext-mongodb

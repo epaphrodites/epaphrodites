@@ -1,4 +1,4 @@
-{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from forms import textarea_field , loader , submit %} {% block content %}{{ alert_msg( reponse , alert ) }}
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import ajax %}{% from forms import textarea_field , loader , submit %} {% block content %}{{ alert_msg( reponse , alert ) }}
 {{ breadcrumb_field('CHAT MESSAGES' )}}
 <section>
   <div class="container chatcard">
@@ -11,7 +11,7 @@
               <div class="col-md-6 col-lg-7 col-xl-8">
                 <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
                   <div class="d-flex flex-row justify-content-start">
-                    <img src="{{ __img('avatar.png') }}"
+                    <img src="{{ __img('receiver.png') }}"
                       alt="avatar 1" style="width: 45px; height: 100%;">
                     <div>
                       <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Lorem ipsum
@@ -30,7 +30,7 @@
                         nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                       <p class="small me-3 mb-3 rounded-3 text-muted">12:00 PM | Aug 13</p>
                     </div>
-                    <img src="{{ __img('receiver.png') }}"
+                    <img src="{{ __img('avatar.png') }}"
                       alt="avatar 1" style="width: 45px; height: 100%;">
                   </div>
 
@@ -52,12 +52,12 @@
                         <a href="#!" class="d-flex justify-content-between">
                           <div class="d-flex flex-row">
                             <div>
-                              <img src="{{ __img('avatar.png') }}"
+                              <img src="{{ __img('receiver.png') }}"
                                 alt="avatar" class="d-flex align-self-center me-3" width="60">
                               <span class="badge bg-success badge-dot"></span>
                             </div>
                             <div class="pt-1">
-                              <p class="fw-bold mb-0">Epaphrodite</p>
+                              <p class="fw-bold mb-0">Epaphrodites</p>
                               <p class="small text-muted">Hello, Are you there?</p>
                             </div>
                           </div>
@@ -79,4 +79,8 @@
     </div>
   </div>
 </section>
+{{ ajax({
+  method : "POST",
+  url : "list_of_messages",
+}) }}
 {% endblock %}
