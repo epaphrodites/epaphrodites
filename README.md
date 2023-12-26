@@ -45,6 +45,10 @@ If mongodb is not installing :
 composer update --ignore-platform-req=ext-mongodb
 ```
 
+```bash
+composer update dump-autoload
+```
+
 ## ⚙️ First configuration
 
 1. Open this file (SetDirectory.php)
