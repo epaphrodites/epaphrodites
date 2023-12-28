@@ -28,17 +28,17 @@ class auth extends SelectAuth
   /**
    * Request to select all users of database (For mysql/postgresql)
    * 
-   * @param string $loginuser
+   * @param string $loginUser
    * @return array|bool
    */
-  public function findSqlUsers(string $loginuser):array|bool
+  public function findSqlUsers(string $loginUser):array|bool
   {
 
     if ($this->if_table_exist() === true) {
 
       $result = $this->table('useraccount')
           ->like('loginusers')
-          ->param([$loginuser])
+          ->param([$loginUser])
           ->SQuery();
 
       return $result;

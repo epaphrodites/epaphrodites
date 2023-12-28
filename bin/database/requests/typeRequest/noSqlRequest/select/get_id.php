@@ -8,22 +8,22 @@ class get_id extends Builders
 {
 
     /**
-     * Afficher la liste des utilisateurs
+     * Get users list
      *
      * @param integer $page
-     * @param integer $Nbreligne
-     * @param integer $UsersGroup
+     * @param integer $numLines
+     * @param integer $usersGroup
      * @return array
      */
-    public function noSqlGetUsersByGroup(int $page, int $Nbreligne, int $UsersGroup):array
+    public function noSqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
     {
 
         $documents = [];
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->find(['typeusers' => $UsersGroup], [
-                'limit' => $Nbreligne, 'skip' => ($page-1),
+            ->find(['typeusers' => $usersGroup], [
+                'limit' => $numLines, 'skip' => ($page-1),
             ]);
 
         foreach ($result as $document) {

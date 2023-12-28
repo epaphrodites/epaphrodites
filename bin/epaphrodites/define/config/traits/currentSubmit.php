@@ -38,9 +38,6 @@ trait currentSubmit
         return ($method !== null && in_array($method, self::$allowedMethods) && $method === $accepted);
     }
     
-    
-
-
     /**
      * Get the value from $_POST array for a given key with a default value.
      *

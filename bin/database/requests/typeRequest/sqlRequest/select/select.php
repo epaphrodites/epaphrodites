@@ -11,14 +11,14 @@ class select extends SelectSelect
      * Request to get users list
      *
      * @param integer $page
-     * @param integer $Nbreligne
+     * @param integer $numLines
      * @return array
      */
-    public function sqlListeOfAllUsers( int $page, int $Nbreligne):array
+    public function sqlListeOfAllUsers( int $page, int $numLines):array
     {
 
         $result = $this->table('useraccount')
-            ->limit((($page - 1) * $Nbreligne), $Nbreligne)
+            ->limit((($page - 1) * $numLines), $numLines)
             ->orderby('typeusers', 'ASC')
             ->SQuery();
 
@@ -29,14 +29,14 @@ class select extends SelectSelect
      * Request to get list of users recents actions
      *
      * @param integer $page
-     * @param integer $Nbreligne
+     * @param integer $numLines
      * @return array
      */
-    public function sqlListOfRecentActions( int $page, int $Nbreligne):array
+    public function sqlListOfRecentActions( int $page, int $numLines):array
     {
 
         $result = $this->table('recentactions')
-            ->limit((($page - 1) * $Nbreligne), $Nbreligne)
+            ->limit((($page - 1) * $numLines), $numLines)
             ->orderby('dateactions', 'ASC')
             ->SQuery();
 
