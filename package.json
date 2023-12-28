@@ -1,7 +1,7 @@
 {
-  "name": "epaphrodite",
+  "name": "epaphrodites",
   "version": "1.0.0",
-  "description": "![](https://github.com/Epaphrodite-framework/epaphrodite/blob/master/static/img/logo.png)",
+  "description": "![](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)",
   "main": "index.js",
   "directories": {
     "test": "tests"
