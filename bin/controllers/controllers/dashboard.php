@@ -75,6 +75,7 @@ final class dashboard extends MainSwitchers
     
    /**
      * Initialize each property using values retrieved from static configurations
+     * 
      * @return void
      */
     private function initializeObjects(): void
