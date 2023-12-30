@@ -12,6 +12,7 @@ final class dashboard extends MainSwitchers
 
     /**
      * Initialize object properties when an instance is created
+     * 
      * @return void
      */
     public function __construct()
@@ -23,7 +24,7 @@ final class dashboard extends MainSwitchers
      * Dashboard for super admin
      * 
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function superAdmin(string $html):void
     {
@@ -41,7 +42,7 @@ final class dashboard extends MainSwitchers
      * Dashboard for admin
      * 
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function Administrator(string $html): void
     {
@@ -59,7 +60,7 @@ final class dashboard extends MainSwitchers
      * Dashboard for users
      * 
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function Users(string $html): void
     {
@@ -76,7 +77,7 @@ final class dashboard extends MainSwitchers
      * Initialize each property using values retrieved from static configurations
      * @return void
      */
-    private function initializeObjects():void
+    private function initializeObjects(): void
     {
         $this->count = $this->getObject( static::$initQueryConfig , "count");
         $this->select = $this->getObject( static::$initQueryConfig , 'general');

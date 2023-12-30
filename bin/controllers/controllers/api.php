@@ -10,13 +10,19 @@ final class api extends HerediaApiSwitcher
 
     protected object $Response;
 
+    /**
+     * Initialize object properties when an instance is created
+     * 
+     * @return void
+     */    
     public function __construct()
     {
-        $this->Response = new ResponseSequence;
+        $this->initializeObjects();
     }
 
     /**
      * All users list
+     * 
      * @return array
      */
     public function listeOfAllUsers()
@@ -33,4 +39,13 @@ final class api extends HerediaApiSwitcher
             return $this->Response->JsonResponse(200, $Result);
         }
     }
+
+    /**
+     * Initialize each property using values retrieved from static configurations
+     * @return void
+     */
+    private function initializeObjects():void
+    {
+        $this->Response = new ResponseSequence;
+    }    
 }

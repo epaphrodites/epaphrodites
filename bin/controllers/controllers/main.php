@@ -12,7 +12,7 @@ final class main extends MainSwitchers
     /**
      * Index page
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function Index(string $html): void
     {

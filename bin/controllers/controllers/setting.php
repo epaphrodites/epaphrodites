@@ -7,22 +7,23 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 final class setting extends MainSwitchers
 {
     
+    private object $msg;
     private object $env;
+    private object $datas;
+    private object $count;
+    private object $getId;
     private object $mozart;
     private object $update;
     private object $select;
     private object $insert;
     private object $delete;
-    private object $count;
-    private object $msg;
-    private object $datas;
-    private object $getId;
     private string $alert = '';
     private string $ans = '';
     private array|bool $result = [];
 
     /**
      * Initialize object properties when an instance is created
+     * 
      * @return void
      */
     public function __construct()
@@ -34,7 +35,7 @@ final class setting extends MainSwitchers
      * Adds user access rights.
      *
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function assignUserAccessRights(string $html): void
     {
@@ -73,7 +74,7 @@ final class setting extends MainSwitchers
      * Lists all user groups with their rights.
      *
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function listOfUserRightsManagement(string $html): void
     {
@@ -152,7 +153,7 @@ final class setting extends MainSwitchers
      * Manages user access rights per group.
      *
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function managementOfUserAccessRights(string $html): void
     {
@@ -222,7 +223,8 @@ final class setting extends MainSwitchers
     }    
 
     /**
-     * Get object
+     * Initialize each property using values retrieved from static configurations
+     * 
      * @return void
      */
     private function initializeObjects(): void

@@ -30,8 +30,9 @@ final class users extends MainSwitchers
 
     /**
      * Update user datas
+     * 
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function editUsersInfos(string $html): void
     {
@@ -63,8 +64,9 @@ final class users extends MainSwitchers
 
     /**
      * Update user password
+     * 
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function changePassword(string $html): void
     {
@@ -100,7 +102,7 @@ final class users extends MainSwitchers
      * upload users datas
      * 
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function importUsers(string $html): void
     {
@@ -142,7 +144,8 @@ final class users extends MainSwitchers
     }
 
     /**
-     * Users list
+     * Users 
+     * 
      * @param string $html
      * @return void
      */
@@ -201,6 +204,8 @@ final class users extends MainSwitchers
     }
 
     /**
+     * Initialize each property using values retrieved from static configurations
+     * 
      * @return void
      */
     private function initializeObjects(): void

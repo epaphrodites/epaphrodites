@@ -6,9 +6,8 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class chats extends MainSwitchers
 {
-
-    private string $alert = '';
     private string $ans = '';
+    private string $alert = '';
     private array|bool $result = [];
 
     /**
@@ -17,7 +16,7 @@ final class chats extends MainSwitchers
      * Receive users messages
      *
      * @param string $html
-     * @return mixed
+     * @return void
      */
     public function listOfMessages(string $html): void
     {
