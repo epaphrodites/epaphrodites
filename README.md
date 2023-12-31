@@ -83,7 +83,7 @@ composer update dump-autoload
     1DB_SOCKET_PATH = ""
 
     // First DB host
-    1DB_HOST = "127.0.0.1"
+    1DB_HOST = "127.0.0.1" 
 
     // First DB DRIVER (accepted : mysql/pgsql/sqlserver/sqlite/mongodb/redis)
     1DB_DIVER = "sqlite"
