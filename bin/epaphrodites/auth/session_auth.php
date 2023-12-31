@@ -41,17 +41,6 @@ class session_auth implements AuthSession
 
     /**
      * 
-     * User session login data
-     * @return string
-     */
-    public function login_other():string|null
-    {
-
-        return !empty($this->config->GetSessions(_AUTH_OTHER_LOGIN_)) ? $this->config->GetSessions(_AUTH_OTHER_LOGIN_) : NULL;
-    }    
-
-    /**
-     * 
      * User session iduser data
      * @return string
      */

@@ -12,11 +12,6 @@ interface AuthSession
 
     /**
      * @return string|null
-     */
-    public function login_other():string|null;
-
-    /**
-     * @return string|null
     */    
     public function id():string|null;
 

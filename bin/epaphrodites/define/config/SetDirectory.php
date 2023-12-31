@@ -82,6 +82,7 @@ define('_HOME_', 'views/index/');
 // Logout
 define('_LOGOUT_', 'logout/');
 
+// python directory
 define('_PYTHON_', 'bin/epaphrodites/python/');
 
 // Dashboard home page
@@ -92,9 +93,6 @@ define('_LOGIN_', 'views/login/');
 
 // Session auth login
 define('_AUTH_LOGIN_', 'login');
-
-// Session auth login
-define('_AUTH_OTHER_LOGIN_', 'login_other');
 
 // Session auth contact
 define('_AUTH_CONTACT_', 'contact');
@@ -108,7 +106,7 @@ define('_AUTH_TYPE_', 'type');
 // Session auth nom et prenoms
 define('_AUTH_NAME_', 'nom_prenoms');
 
-// Session auth nom et prenoms
+// Session auth email
 define('_AUTH_EMAIL_', 'email');
 
 // Token field name

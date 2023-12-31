@@ -23,10 +23,7 @@ class HardSession extends GeneralConfig{
 
         // Set login session value
         $this->SetSession( _AUTH_LOGIN_ , $login);
-
-        // Set others login session value
-        $this->SetSession( _AUTH_OTHER_LOGIN_ , 'D'.$login);        
-
+        
         // Set name and surname session value
         $this->SetSession( _AUTH_NAME_ , $nameSurname);
 
