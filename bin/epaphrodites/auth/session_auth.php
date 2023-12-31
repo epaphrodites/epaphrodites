@@ -14,12 +14,17 @@ class session_auth implements AuthSession
     protected $config;
     protected $result;
 
+    /**
+     * Initialize object properties when an instance is created
+     * @return void
+     */
     public function __construct()
     {
         $this->initializeObject();
     }
 
     /**
+     * Initialize each property using values retrieved from static configurations
      * @return void
      */
     private function initializeObject():void{
@@ -93,44 +98,6 @@ class session_auth implements AuthSession
     {
         
         return !empty($this->config->GetSessions(_AUTH_CONTACT_)) ? $this->config->GetSessions(_AUTH_CONTACT_)  : NULL;
-    }
-
-    /**
-     * 
-     * User session email data
-     * @var mixed $email
-     * @return mixed
-     */
-    public function soumettre($datas)
-    {
-
-        $_SESSION['soumettre'] = implode(" ", $datas);
-
-        return $_SESSION['soumettre'];
-    }
-
-    /**
-     * 
-     * User session email data
-     * @var mixed $email
-     * @return mixed
-     */
-    public function soumis($datas)
-    {
-        $_SESSION['soumis'] = implode(" ", $datas);
-
-        return $_SESSION['soumis'];
-    }
-    
-    public function verify_formulaire()
-    {
-        $this->result = false;
-
-        if (isset($_SESSION['soumis'])) {
-            $this->result = $_SESSION['soumettre'] === $_SESSION['soumis'] ? true : false;
-        }
-
-        return $this->result;
     }
 
     /**
