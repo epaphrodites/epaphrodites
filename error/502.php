@@ -1,10 +1,10 @@
-<?php require "error/getHost/getHost.php"; $host = (new getHost)->host(); ?>
-<html lang="fr">
+<?php require "../error/getHost/getHost.php"; $host = (new getHost())->host() ?>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 ERROR</title>
+    <title>500 error</title>
 </head>
 <style>
     .error {
@@ -35,9 +35,9 @@
 
 <body>
     <div class="error">
-        <h1>404 ERREOR</h1>
-        <p>Page Not Found</p>
-        <a href="<?= $host; ?>">Go Back</a>
+        <h1>ERROR 502</h1>
+        <p>Bad Gateway</p>
+        <a href="<?=$host; ?>">Go Back</a>
     </div>
 </body>
 

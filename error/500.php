@@ -1,4 +1,4 @@
-<?php require "error/getHost/getHost.php"; $host = (new getHost)->host(); ?>
+<?php require "../error/getHost/getHost.php"; $host = (new getHost())->host() ?>
 <html lang="en">
 
 <head>
@@ -37,7 +37,7 @@
     <div class="error">
         <h1>500 ERROR</h1>
         <p>Internal server error...</p>
-        <a href="<?= $host; ?>">Go Back</a>
+        <a href="<?=$host; ?>">Go Back</a>
     </div>
 </body>
 

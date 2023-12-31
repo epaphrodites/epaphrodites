@@ -12,7 +12,7 @@ class getHost
   private function domain()
   {
 
-    return _DOMAINE_;
+    return '';
   }
 
   /**

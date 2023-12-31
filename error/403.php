@@ -1,12 +1,12 @@
-<?php require "error/getHost/getHost.php"; $host = (new getHost)->host(); ?>
+<?php require "../error/getHost/getHost.php"; $host = (new getHost())->host() ?>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>403 Forbidden</title>
-</head>
-<style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>403 Forbidden</title>
+    </head>
+    <style>
     .error {
         padding-top: 150px;
         text-align: center;
@@ -33,12 +33,11 @@
     }
 </style>
 
-<body>
-    <div class="error">
-        <h1>FORBIDDEN 403</h1>
-        <p>You don't have permission to access...</p>
-        <a href="<?= $host; ?>">Go Back</a>
-    </div>
-</body>
-
+    <body>
+        <div class="error">
+            <h1>FORBIDDEN 403</h1>
+            <p>You don't have permission to access...</p>
+            <a href="<?=$host; ?>">Go Back</a>
+        </div>
+    </body>
 </html>

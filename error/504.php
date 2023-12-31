@@ -1,4 +1,4 @@
-<?php require "error/getHost/getHost.php"; $host = (new getHost)->host(); ?>
+<?php require "../error/getHost/getHost.php"; $host = (new getHost())->host() ?>
 <html lang="en">
 
 <head>
@@ -37,7 +37,7 @@
     <div class="error">
         <h1>ERROR 504</h1>
         <p>HTTP 504 (Gateway Timeout)</p>
-        <a href="<?= $host; ?>">Go Back</a>
+        <a href="<?=$host; ?>">Go Back</a>
     </div>
 </body>
 
