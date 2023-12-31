@@ -28,7 +28,7 @@ class StartUsersSession extends epaphroditeClass
     header("Location: $this->locate ");
   }
 
-  /**
+/**
  * Current cookies value
  */
 private function key(): string
