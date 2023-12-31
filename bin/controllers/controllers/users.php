@@ -23,7 +23,7 @@ final class users extends MainSwitchers
      * Initialize object properties when an instance is created
      * @return  object
      */
-    public function __construct()
+    public final function __construct()
     {
         $this->initializeObjects();
     }
@@ -51,7 +51,7 @@ final class users extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function editUsersInfos(string $html): void
+    public final function editUsersInfos(string $html): void
     {
 
         $login = $this->session->login();
@@ -85,7 +85,7 @@ final class users extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function changePassword(string $html): void
+    public final function changePassword(string $html): void
     {
 
         if (static::isValidMethod()) {
@@ -121,7 +121,7 @@ final class users extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function importUsers(string $html): void
+    public final function importUsers(string $html): void
     {
 
         if (static::isValidMethod()) {
@@ -166,7 +166,7 @@ final class users extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function allUsersList(string $html): void
+    public final function allUsersList(string $html): void
     {
 
         $total = 0;

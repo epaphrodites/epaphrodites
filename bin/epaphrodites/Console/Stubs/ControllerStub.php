@@ -19,29 +19,29 @@ final class $name extends MainSwitchers
     * Initialize object properties when an instance is created
     * @return void
     */    
-    public function __construct()
+    public final function __construct()
     {
         \$this->initializeObjects();
     }
+
+    /**
+    * Initialize each property using values retrieved from static configurations
+    * @return void
+    */
+    private function initializeObjects(): void
+    {
+        \$this->msg = \$this->getFunctionObject(static::initNamespace(), 'msg');
+    }       
         
     /**
      * Start exemple page
      * @param string \$html
      * @return void
     */      
-    public function exemplePages(string \$html): void
+    public final function exemplePages(string \$html): void
     {
         //
-    }
-        
-    /**
-    * Get object
-    * @return void
-    */
-    private function initializeObjects(): void
-    {
-        \$this->msg = \$this->getFunctionObject(static::initNamespace(), 'msg');
-    }        
+    }     
         
 }";
         

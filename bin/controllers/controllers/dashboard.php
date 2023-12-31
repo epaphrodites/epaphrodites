@@ -15,7 +15,7 @@ final class dashboard extends MainSwitchers
      * 
      * @return void
      */
-    public function __construct()
+    public final function __construct()
     {
         $this->initializeObjects();
     }    
@@ -37,7 +37,7 @@ final class dashboard extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function superAdmin(string $html):void
+    public final function superAdmin(string $html):void
     {
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
@@ -55,7 +55,7 @@ final class dashboard extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function administrator(string $html): void
+    public final function administrator(string $html): void
     {
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
@@ -73,7 +73,7 @@ final class dashboard extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function users(string $html): void
+    public final function users(string $html): void
     {
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(

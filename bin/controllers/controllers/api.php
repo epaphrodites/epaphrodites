@@ -15,7 +15,7 @@ final class api extends HerediaApiSwitcher
      * 
      * @return void
      */    
-    public function __construct()
+    public final function __construct()
     {
         $this->initializeObjects();
     }
@@ -34,7 +34,7 @@ final class api extends HerediaApiSwitcher
      * 
      * @return array
      */
-    public function listeOfAllUsers()
+    public final function listeOfAllUsers()
     {
 
         $Result = [];

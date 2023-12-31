@@ -37,7 +37,7 @@
          * @param string \$html
          * @return void
          */
-        public function {$functionName}(string \$html): void{
+        public final function {$functionName}(string \$html): void{
     
         }";  
         

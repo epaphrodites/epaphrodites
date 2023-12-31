@@ -26,7 +26,7 @@ final class setting extends MainSwitchers
      * 
      * @return void
      */
-    public function __construct()
+    public final function __construct()
     {
         $this->initializeObjects();
     }
@@ -56,7 +56,7 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function assignUserAccessRights(string $html): void
+    public final function assignUserAccessRights(string $html): void
     {
 
         $idtype = static::isGet('_see') ? static::getGet('_see') : 0;
@@ -95,7 +95,7 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function listOfUserRightsManagement(string $html): void
+    public final function listOfUserRightsManagement(string $html): void
     {
 
         $idtype = static::isGet('_see') ? static::getGet('_see') : 0;
@@ -174,7 +174,7 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function managementOfUserAccessRights(string $html): void
+    public final function managementOfUserAccessRights(string $html): void
     {
 
         if (static::isPost('__deleted__')) {
@@ -207,7 +207,7 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function listOfRecentActions(string $html): void
+    public final function listOfRecentActions(string $html): void
     {
 
         $total = 0;

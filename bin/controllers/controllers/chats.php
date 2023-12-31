@@ -18,7 +18,7 @@ final class chats extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function listOfMessages(string $html): void
+    public final function listOfMessages(string $html): void
     {
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
