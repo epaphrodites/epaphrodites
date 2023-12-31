@@ -77,7 +77,7 @@ class MergeControllers extends epaphroditeClass implements contractController
             return ucfirst($part);
         }, $parts);
 
-        $camelCaseString = implode('', $camelCaseParts);
+        $camelCaseString = lcfirst(implode('', $camelCaseParts));
 
         $contract = explode('/', $camelCaseString);
 

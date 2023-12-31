@@ -29,6 +29,23 @@ final class users extends MainSwitchers
     }
 
     /**
+     * Initialize each property using values retrieved from static configurations
+     * 
+     * @return void
+     */
+    private function initializeObjects(): void
+    {
+        $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
+        $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
+        $this->count = $this->getFunctionObject(static::initQuery(), 'count');
+        $this->select = $this->getFunctionObject(static::initQuery(), 'select');
+        $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
+        $this->update = $this->getFunctionObject(static::initQuery(), 'update');
+        $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
+        $this->importFiles = $this->getFunctionObject(static::initConfig(), 'import');
+    }         
+
+    /**
      * Update user datas
      * 
      * @param string $html
@@ -202,21 +219,4 @@ final class users extends MainSwitchers
             true
         )->get();
     }
-
-    /**
-     * Initialize each property using values retrieved from static configurations
-     * 
-     * @return void
-     */
-    private function initializeObjects(): void
-    {
-        $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
-        $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
-        $this->count = $this->getFunctionObject(static::initQuery(), 'count');
-        $this->select = $this->getFunctionObject(static::initQuery(), 'select');
-        $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
-        $this->update = $this->getFunctionObject(static::initQuery(), 'update');
-        $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
-        $this->importFiles = $this->getFunctionObject(static::initConfig(), 'import');
-    }     
 }

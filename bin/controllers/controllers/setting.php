@@ -31,6 +31,25 @@ final class setting extends MainSwitchers
         $this->initializeObjects();
     }
 
+     /**
+     * Initialize each property using values retrieved from static configurations
+     * 
+     * @return void
+     */
+    private function initializeObjects(): void
+    {
+        $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
+        $this->env = $this->getFunctionObject(static::initNamespace(), 'env');
+        $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
+        $this->count = $this->getFunctionObject(static::initQuery(), 'count');
+        $this->select = $this->getFunctionObject(static::initQuery(), 'select');
+        $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
+        $this->delete = $this->getFunctionObject(static::initQuery(), 'delete');
+        $this->update = $this->getFunctionObject(static::initQuery(), 'update');
+        $this->datas = $this->getFunctionObject(static::initNamespace(), 'datas');
+        $this->mozart = $this->getFunctionObject(static::initNamespace(), 'mozart');
+    }      
+
     /**
      * Adds user access rights.
      *
@@ -220,24 +239,5 @@ final class setting extends MainSwitchers
             ],
             true
         )->get();
-    }    
-
-    /**
-     * Initialize each property using values retrieved from static configurations
-     * 
-     * @return void
-     */
-    private function initializeObjects(): void
-    {
-        $this->msg = $this->getFunctionObject(static::initNamespace(), 'msg');
-        $this->env = $this->getFunctionObject(static::initNamespace(), 'env');
-        $this->getId = $this->getFunctionObject(static::initQuery(), 'getid');
-        $this->count = $this->getFunctionObject(static::initQuery(), 'count');
-        $this->select = $this->getFunctionObject(static::initQuery(), 'select');
-        $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
-        $this->delete = $this->getFunctionObject(static::initQuery(), 'delete');
-        $this->update = $this->getFunctionObject(static::initQuery(), 'update');
-        $this->datas = $this->getFunctionObject(static::initNamespace(), 'datas');
-        $this->mozart = $this->getFunctionObject(static::initNamespace(), 'mozart');
-    }    
+    }     
 }

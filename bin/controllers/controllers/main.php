@@ -14,7 +14,7 @@ final class main extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function Index(string $html): void
+    public function index(string $html): void
     {
 
         static::rooter()->target(_DIR_MAIN_TEMP_ . $html)->content([])->get();
@@ -26,7 +26,7 @@ final class main extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public function Login(string $html): void
+    public function login(string $html): void
     {
 
         if (static::isValidMethod()) {

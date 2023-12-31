@@ -21,6 +21,15 @@ final class api extends HerediaApiSwitcher
     }
 
     /**
+     * Initialize each property using values retrieved from static configurations
+     * @return void
+     */
+    private function initializeObjects():void
+    {
+        $this->Response = new ResponseSequence;
+    }      
+
+    /**
      * All users list
      * 
      * @return array
@@ -38,14 +47,5 @@ final class api extends HerediaApiSwitcher
 
             return $this->Response->JsonResponse(200, $Result);
         }
-    }
-
-    /**
-     * Initialize each property using values retrieved from static configurations
-     * @return void
-     */
-    private function initializeObjects():void
-    {
-        $this->Response = new ResponseSequence;
-    }    
+    }  
 }

@@ -10,28 +10,29 @@ class SqlStub{
 public static function insertNoSql($name){
 
     $stub = 
-    '
+    "
     /**
-     * @param string $value1
-     * @param string $value2
+     * Request to insert datas
+     * @param string \$value1
+     * @param string \$value2
      * @return bool
     */
-    '."public function $name".'($value1 , $value2){
+    public function {$name}(\$value1 , \$value2){
         
-        $document =
+        \$document =
             [
-                "value1" => $value1,
-                "value2" => $value2,
+                'value1' => \$value1,
+                'value2' => \$value2,
             ];
         
-        $this->db(1)->selectCollection("collection")->insertOne($document);
+        \$this->db(1)->selectCollection('collection')->insertOne(\$document);
 
-        $actions = "Titre action recente";
-        $this->setting->noSqlActionsRecente($actions);
+        \$actions = 'Recent action title';
+        static::initQuery()['setting']->noSqlActionsRecente(\$actions);;
 
         return true;
 
-    }'; 
+    }"; 
         
     return $stub;    
 
@@ -43,30 +44,31 @@ public static function insertNoSql($name){
 public static function updateNoSql($name){
 
     $stub = 
-    '
+    "
       /**
-         * @param string $value1
-         * @param string $value2
+        * Request to update 
+         * @param string \$value1
+         * @param string \$value2
          * @return bool
        */
-    '."public function $name".'($value1 , $value2 , $Id){
+      public function {$name}(\$value1 , \$value2 , \$Id){
         
-        $filter = [ "_id" => $Id ];
+        \$filter = [ '_id' => \$Id ];
     
-        $update = [
-            \'$set\'=> [ 
-                "value1" => $value1,
-                "value2" => $value2
+        \$update = [
+            \'\$set\'=> [ 
+                'value1' => \$value1,
+                'value2' => \$value2
                 ]
         ];   
 
-        $this->db(1)->selectCollection("collection")->updateMany($filter, $update);
+        \$this->db(1)->selectCollection('collection')->updateMany(\$filter, \$update);
 
-        $actions = "Titre action recente";
-        $this->setting->noSqlActionsRecente($actions);
+        \$actions = 'Recent action title';
+        static::initQuery()['setting']->noSqlActionsRecente(\$actions);
 
         return true;
-    }'; 
+    }"; 
         
     return $stub;    
 }
@@ -77,27 +79,25 @@ public static function updateNoSql($name){
 public static function deleteNoSql($name){
 
     $stub = 
-    '/**
-     * @param string $value1
+    "/**
+     * Request to delete
+     * @param int \$Id
      * @return bool
      */
-    '."public function $name".'($value1){
+    public function {$name}(\$Id){
         
-        $sql = $this->table("table")
-                    ->where("id")
-                    ->DQuery();
-    
-        static::process()->delete($sql, [$value1] , true ); 
+        \$filter = [ '_id' => \$Id ];
+
+        \$this->db(1)->selectCollection('collection')->deleteMany(\$filter);
         
-        $actions = "Titre action recente";
-        $this->setting->ActionsRecente($actions);      
+        \$actions = 'Recent action title';
+        static::initQuery()['setting']->noSqlActionsRecente(\$actions);     
 
         return true;
-    }'; 
+    }"; 
         
     return $stub;    
 }
-
 
 /**
  * @return string
@@ -105,21 +105,26 @@ public static function deleteNoSql($name){
 public static function selectNoSql($name){
 
 $stub = 
-'
+"
   /**
-    * @param string $value1
-    * @return bool
+    * Request to select
+    * @param string \$value
+    * @return array
    */
-'."public function $name".'($value1){
+   public function {$name}(\$value){
         
-        $sql = $this->table("table")
-                    ->where("id")
-                    ->SQuery();
-    
-        $Result = static::process()->select($sql, [$value1] , true );    
-        
-        return $Result;
-    }'; 
+    \$documents = [];
+
+    \$result = \$this->db(1)
+        ->selectCollection('recentactions')
+        ->find(['usersactions' => \$value ]);
+
+    foreach (\$result as \$document) {
+        \$documents[] = \$document;
+    }
+
+    return  \$documents;
+    "; 
         
     return $stub;    
 }
@@ -127,18 +132,19 @@ $stub =
 public static function countNoSql($name){
 
 $stub = 
-'
+"
   /**
+    * Request to count
     * @return int
    */
-'." public function $name".'(){
+   public function {$name}(){
         
-        $result = $this->db(1)
-            ->selectCollection("collection")
+        \$result = \$this->db(1)
+            ->selectCollection('collection')
             ->countDocuments([]);
 
-        return $result;
-    }'; 
+        return \$result;
+    }"; 
         
 return $stub;    
 
@@ -150,28 +156,28 @@ return $stub;
 public static function insertSql($name){
 
     $stub = 
-    '
+    "
     /**
-     * @param string $value1
-     * @param string $value2
-     * @param string $value3
+     * Request to insert datas
+     * @param string \$value1
+     * @param string \$value2
+     * @param string \$value3
      * @return bool
     */
-    '."public function $name".'($value1 , $value2 , $value3){
+    public function {$name}(\$value1 , \$value2 , \$value3){
         
-        $sql = $this->table("table")
-                    ->insert(" value1 , value2 , value3 ")
-                    ->values(" ? , ? , ? ")
-                    ->IQuery();
+    \$this->table('table')
+            ->insert(' value1 , value2 , value3 ')
+            ->values(' ? , ? , ? ')
+            ->param([\$value1 , \$value2 , \$value3])
+            ->IQuery();
     
-    static::process()->insert($sql, [$value1 , $value2 , $value3] , true );                
-    
-    $actions = "Titre action recente";
-    $this->setting->ActionsRecente($actions);
+    \$actions = 'Recent action title';
+    static::initQuery()['setting']->ActionsRecente(\$actions);
 
     return true;
 
-    }'; 
+    }"; 
         
     return $stub;    
 
@@ -183,26 +189,26 @@ public static function insertSql($name){
 public static function updateSql($name){
 
     $stub = 
-    '
-      /**
-         * @param string $value1
-         * @param string $value2
-         * @return bool
-       */
-    '."public function $name".'($value1 , $value2 , $Id){
+    "
+    /**
+     * @param string \$value1
+     * @param string \$value2
+     * @param int \$Id
+     * @return bool
+    */
+    public function {$name}(\$value1 , \$value2 , \$Id){
         
-        $sql = $this->table("table")
-                    ->set(["value1" , "value2"])
-                    ->where("id")
-                    ->UQuery();
+        \$this->table('table')
+                ->set(['value1' , 'value2'])
+                ->where('id')
+                ->param([\$value1 , \$value2 ,  \$Id])
+                ->UQuery();
     
-        static::process()->update($sql, [$value1 , $value2 ,  $Id] , true );   
-        
-        $actions = "Titre action recente";
-        $this->setting->ActionsRecente($actions);
+        \$actions = 'Recent action title';
+        static::initQuery()['setting']->ActionsRecente(\$actions);
 
         return true;
-    }'; 
+    }"; 
         
     return $stub;    
 }
@@ -213,23 +219,23 @@ public static function updateSql($name){
 public static function deleteSql($name){
 
     $stub = 
-    '/**
-     * @param string $value1
+    "/**
+     * Request to delete
+     * @param string \$value
      * @return bool
-     */
-    '."public function $name".'($value1){
+    */
+    public function {$name}(\$value){
         
-        $sql = $this->table("table")
-                    ->where("id")
+        \$this->table('table')
+                    ->where('id')
+                    ->param([\$value])
                     ->DQuery();
     
-        static::process()->delete($sql, [$value1] , true ); 
-        
-        $actions = "Titre action recente";
-        $this->setting->ActionsRecente($actions);      
+        \$actions = 'Recent action title';
+        static::initQuery()['setting']->ActionsRecente(\$actions);      
 
         return true;
-    }'; 
+    }"; 
         
     return $stub;    
 }
@@ -241,21 +247,21 @@ public static function deleteSql($name){
 public static function selectSql($name){
 
 $stub = 
-'
+"
   /**
-    * @param string $value1
+    * Request to select
+    * @param string \$value
     * @return bool
    */
-'."public function $name".'($value1){
+   public function {$name}(\$value1){
         
-        $sql = $this->table("table")
-                    ->where("id")
+        \$result = \$this->table('table')
+                    ->where('id')
+                    ->param([\$value])
                     ->SQuery();
     
-        $Result = static::process()->select($sql, [$value1] , true );    
-        
-        return $Result;
-    }'; 
+        return \$result;
+    }"; 
         
     return $stub;    
 }
@@ -263,19 +269,18 @@ $stub =
 public static function countSql($name){
 
 $stub = 
-    '
+    "
     /**
-        * @return int
+     * Request to count
+     * @return int
     */
-    '."public function $name".'(){
+    public function {$name}(){
         
-        $sql = $this->table("table")
-                    ->SQuery("count(id) as nbre");
-    
-        $result = static::process()->select($sql, NULL , false );   
-                
-        return $result[0]["nbre"];
-    }'; 
+        \$result = \$this->table('table')
+                    ->SQuery('count(id) as nbre');
+          
+        return \$result[0]['nbre'];
+    }"; 
         
 return $stub;    
 
