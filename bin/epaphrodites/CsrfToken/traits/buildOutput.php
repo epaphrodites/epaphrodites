@@ -14,7 +14,7 @@ trait buildOutput
     private function buildInputField():void
     {
 
-        echo "<input type='hidden' name='".CSRF_FIELD_NAME."' value='". htmlspecialchars($this->getValue(), ENT_QUOTES, 'UTF-8')."' required \>";
+        echo "<input type='hidden' name='".CSRF_FIELD_NAME."' value='". htmlspecialchars($this->getValue(), ENT_QUOTES, 'UTF-8')."' required />";
     }  
     
     /**
