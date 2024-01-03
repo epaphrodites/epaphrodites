@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\bot;
+namespace Epaphrodites\epaphrodites\chatBot;
 
 trait jaccardCoefficient
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\bot;
+namespace Epaphrodites\epaphrodites\chatBot;
 
-use Exception;
+use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
 trait loadJson
 {
@@ -11,9 +11,9 @@ trait loadJson
      * Loads and retrieves data from a JSON file.
      * 
      * @return array|null Returns the decoded JSON data as an array or NULL if there's an issue.
-     * @throws Exception If there's an error in file reading, JSON decoding, or the file is not found.
+     * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    public function loadJsonFile(): ?array
+    private function loadJsonFile(): ?array
     {
         // Path to the JSON file
         $jsonFilePath = _DIR_JSON_DATAS_ . '/chatbot.json';
@@ -33,15 +33,15 @@ trait loadJson
                     return $questionsAnswers; // Return the decoded data
                 } else {
                     // Handle an error if JSON decoding fails or the data type is not an array
-                    throw new Exception("Error: Unable to decode the JSON file or the data type is not an array.");
+                    throw new epaphroditeException("Error: Unable to decode the JSON file or the data type is not an array.");
                 }
             } else {
                 // Handle an error if file reading fails
-                throw new Exception("Error: Unable to read the JSON file.");
+                throw new epaphroditeException("Error: Unable to read the JSON file.");
             }
         } else {
             // Handle an error if the JSON file does not exist
-            throw new Exception("Error: JSON file not found.");
+            throw new epaphroditeException("Error: JSON file not found.");
         }
     }
 }

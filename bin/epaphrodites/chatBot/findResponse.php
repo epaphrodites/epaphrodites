@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\bot;
+namespace Epaphrodites\epaphrodites\chatBot;
 
 trait findResponse
 {
@@ -11,7 +11,7 @@ trait findResponse
      * @param string $userMessage The message input by the user.
      * @return string The best-matching response.
      */
-    public function findResponse(string $userMessage): string
+    private function getResponse(string $userMessage): string
     {
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);

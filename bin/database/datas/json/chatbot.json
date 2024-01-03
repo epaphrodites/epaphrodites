@@ -1,1 +1,10 @@
-{}
+{
+    "hello, hi" : {
+        "reponse" : "Je suis Epaphrodite votre assistant AI",
+        "type" : "txt"
+    },
+    "generate create controller controllers" : {
+        "reponse" : "To create a controller you must",
+        "type" : "code"
+    }
+}
