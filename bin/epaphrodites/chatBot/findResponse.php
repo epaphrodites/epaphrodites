@@ -9,16 +9,17 @@ trait findResponse
      * Finds the best response based on the user's input by calculating Jaccard coefficients.
      *
      * @param string $userMessage The message input by the user.
-     * @return string The best-matching response.
+     * @return array The best-matching response.
      */
-    private function getResponse(string $userMessage): string
+    private function getResponse(string $userMessage): array
     {
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
 
         // Initialize variables to store the best coefficient and the response
         $bestCoefficient = 0;
-        $response = '';
+        $response = [];
+        $defaultMessage = [];
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile();
@@ -38,7 +39,12 @@ trait findResponse
             }
         }
 
+        $defaultMessage = [ 
+            'reponse' => "I am a work assistance AI. I do not handle this kind of information." , 
+            'type' => "txt",
+        ];
+
         // Return the response with the highest similarity coefficient
-        return !empty($response) ? $response : "";
+        return !empty($response) ? $response : $defaultMessage;
     }
 }
