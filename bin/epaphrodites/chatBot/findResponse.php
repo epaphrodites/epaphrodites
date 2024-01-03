@@ -39,6 +39,6 @@ trait findResponse
         }
 
         // Return the response with the highest similarity coefficient
-        return $response;
+        return !empty($response) ? $response : "";
     }
 }

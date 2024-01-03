@@ -12,7 +12,7 @@ trait jaccardCoefficient
      * @param array $set2 The second array.
      * @return float The Jaccard coefficient value.
      */
-    public function calculateJaccardCoefficient(array $set1, array $set2): float
+    private function calculateJaccardCoefficient(array $set1, array $set2): float
     {
         // Calculate the size of the intersection of the two arrays
         $intersection = count(array_intersect($set1, $set2));
