@@ -2,8 +2,9 @@
 
 namespace Epaphrodites\epaphrodites\shares;
 
-use Epaphrodites\epaphrodites\env\generatePdf;
+use Epaphrodites\epaphrodites\shares\ajaxTemplate\chatBot;
 
-class ajaxMakeStubs extends generatePdf{
+class ajaxMakeStubs{
 
+    use chatBot;
 }
