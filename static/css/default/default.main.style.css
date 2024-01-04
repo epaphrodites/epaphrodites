@@ -155,6 +155,10 @@ body {
     box-shadow: none;
 }
 
+#BtnValidate{
+    width: 100%;
+  }
+
 .form-control {
     padding-left: 0;
     padding-right: 0;

@@ -1,0 +1,32 @@
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import ajax %}{% from forms import input_field , loader , submit %} {% block content %}{{ alert_msg( reponse , alert ) }}
+{{ breadcrumb_field('CHAT MESSAGES' )}}
+<section>
+  <div class="container">
+    <div class="wrapper">
+      <div class="box"></div>
+      <div class="typing-area">
+        <div class="input-field">
+            {{ input_field(
+              {
+                  require : true , 
+                  name : '__send__' , 
+                  id : '__send__' , 
+                  placeholder : "Message to Epaphrodite Bot..."
+              }
+            )}} 
+              {{ submit({
+                icon : 'bi bi-send'
+            }) }}
+          </div>
+      </div>
+  </div>
+  </div>
+</section>
+{{ ajax({
+  method : "POST",
+  url : "chats@start_epaphrodites_chatbots",
+  value : ['__send__'],
+  submit : '#BtnValidate',
+  msg : '.box'
+}) }}
+{% endblock %}

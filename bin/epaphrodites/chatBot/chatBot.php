@@ -6,9 +6,12 @@ class Chatbot {
 
 use loadJson, cleanNormalize, jaccardCoefficient, findResponse;
 
-
-    protected function findResponse(string $userMessage)
+    /**
+     * @param string $userMessage
+     * @return array
+     */
+    protected function findResponse(string $userMessage):array
     {
-        $this->getResponse($userMessage);
+       return $this->getResponse($userMessage);
     }
 }

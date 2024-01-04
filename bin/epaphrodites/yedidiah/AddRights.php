@@ -6,8 +6,8 @@ use Epaphrodites\epaphrodites\constant\epaphroditeClass;
 
 class AddRights extends epaphroditeClass{
 
- /**
-     * Ajouter des droits utilisateurs
+    /**
+     * Add users rights
      * index ( module , type_user , idpage , action)
      * @param int|null $IdTypeUsers
      * @param string|null $pages
@@ -23,7 +23,7 @@ class AddRights extends epaphroditeClass{
 
         if (!empty($IdTypeUsers) && !empty($pages) && !empty($JsonDatas) && $this->IfRightExist($IdTypeUsers, $pages[1] , $JsonDatas) === false) {
 
-            $SaveRights = json_decode($JsonDatas, true);
+            $SaveRights = json_decode($JsonDatas , true);
 
             $SaveRights[] = array(
                 'IduserRights' => count($SaveRights) + 1,
@@ -43,7 +43,7 @@ class AddRights extends epaphroditeClass{
     }
 
 
-    /** **********************************************************************************************
+    /**
      * Request to select user right if exist
      * 
      * @return bool

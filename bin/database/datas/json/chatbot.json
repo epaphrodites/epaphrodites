@@ -1,10 +1,14 @@
 {
-    "hello, hi" : {
-        "reponse" : "Je suis Epaphrodite votre assistant AI",
+    "hello hi" : {
+        "answers" : "I am Epaphrodite, your AI assistant.",
+        "type" : "txt"
+    },
+    "what epaphrodite framework" : {
+        "answers" : "Epaphrodite Framework is an open-source PHP development environment that stands out due to its versatility and its ability to cater to the needs of web programming enthusiasts. Its uniqueness lies in its capability to execute Python code within the same environment, offering a rare linguistic flexibility. Moreover, it allows the simultaneous use of various types of databases (SQL and NoSQL) within a single project, providing unprecedented flexibility for developers.",
         "type" : "txt"
     },
     "generate create controller controllers" : {
-        "reponse" : "To create a controller you must",
+        "answers" : "To quickly generate a new controller, run the command heredia <em>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <strong>bin/controllers/controllers</strong> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;</br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;</pre>",
         "type" : "code"
     }
 }

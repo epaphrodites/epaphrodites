@@ -13,9 +13,10 @@ trait findResponse
      */
     private function getResponse(string $userMessage): array
     {
+        
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
-
+        
         // Initialize variables to store the best coefficient and the response
         $bestCoefficient = 0;
         $response = [];
@@ -23,7 +24,7 @@ trait findResponse
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile();
-
+        
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
             // Clean and normalize the question
@@ -39,12 +40,17 @@ trait findResponse
             }
         }
 
+        // Default messages
         $defaultMessage = [ 
-            'reponse' => "I am a work assistance AI. I do not handle this kind of information." , 
+            'answers' => "I am a work assistance AI. I do not handle this kind of information." , 
             'type' => "txt",
         ];
 
+        $userQuestion = [ 'question' => $userMessage ];
+
+        $result = !empty($response) ? array_merge( $userQuestion , $response ) : array_merge( $userQuestion , $defaultMessage);
+
         // Return the response with the highest similarity coefficient
-        return !empty($response) ? $response : $defaultMessage;
+        return $result;
     }
 }

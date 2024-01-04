@@ -10,7 +10,7 @@ class processBotAnswers extends Chatbot {
      * @param string $userMessage
      * @return array
      */
-    public final function chatProcess(string $userMessage)
+    public final function chatProcess(string $userMessage ):array
     {
         // Find and store the response for the user message
         $response = $this->findResponse($userMessage);

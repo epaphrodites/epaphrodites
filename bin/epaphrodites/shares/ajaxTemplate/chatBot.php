@@ -4,9 +4,30 @@ namespace Epaphrodites\epaphrodites\shares\ajaxTemplate;
 
 trait chatBot{
   
-    public function chatMessageContent( array $datas){
+    /**
+     * @return string
+     */
+    public function chatMessageContent(array $datas){
 
-        $html = "<form></form>";
+        $datas = array_reverse($datas);
+
+        $html = '<div class="chat-container">';
+    
+        foreach($datas as $key => $value) {
+            $html .= '<div class="chat-item">
+                <div class="msg">
+                    <strong>You :</strong>
+                    <p>' . $datas[$key]["question"] . '</p>
+                </div>
+                <div class="msg">
+                    <strong>EpaphroditeBot :</strong>
+                    <p>' . $datas[$key]["answers"] . '</p>
+                </div>
+            </div>';
+        }
+    
+        $html .= '</div>';
+    
         return $html;
     }
 }
