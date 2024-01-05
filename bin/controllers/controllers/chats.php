@@ -57,14 +57,18 @@ final class chats extends MainSwitchers
     public final function startEpaphroditesChatBots(string $html): void
     {
 
+
         if (static::isValidMethod()) {
 
-            $this->result = $this->chatBot->chatProcess(static::isAjax('__send__'));
+            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
+
+            $this->result = $this->chatBot->chatProcess($send);
 
             echo $this->ajaxTemplate->chatMessageContent($this->result);
+           
             return;
         }
-
+     
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content([], true )->get();
     }    
 }

@@ -67,7 +67,7 @@ trait currentSubmit
     public static function isAjax($key)
     {
 
-        if (!isset($key) || $key === '') {
+        if (!isset($key) || empty($key)) {
             throw new \InvalidArgumentException('Invalid key: Key is required and cannot be empty.');
         }
     

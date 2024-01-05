@@ -2,7 +2,10 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
-class processBotAnswers extends Chatbot {
+use Epaphrodites\epaphrodites\auth\session_auth;
+
+class processBotAnswers extends Chatbot
+{
 
     use saveJsonDatas, loadUsersAnswers;
 
@@ -10,21 +13,34 @@ class processBotAnswers extends Chatbot {
      * @param string $userMessage
      * @return array
      */
-    public final function chatProcess(string $userMessage ):array
+    public final function chatProcess(string $userMessage): array
     {
-        // Find and store the response for the user message
-        $response = $this->findResponse($userMessage);
-    
-        // Add the new response to existing data
-        $existingData[] = $response;
-    
-        // Save the updated data to the JSON file
-        $this->saveJson($existingData);
+        $result =[];
+        
+        if (!empty($userMessage)) {
+
+            // Find and store the response for the user message
+            $response = $this->findResponse($userMessage);
+
+            // Add the new response to existing data
+            $existingData[] = $response;
+
+            // Save the updated data to the JSON file
+            $this->saveJson($existingData);
+        }
+
+        $login = (new session_auth)->login();
 
         // Load existing JSON data, if any
-        $existingData = $this->loadJsonFile();        
-    
+        $existingData = $this->loadJsonFile();
+
+        foreach ($existingData as $key => $value) {
+            if ($value['login'] === $login) {
+                $result[] = $existingData[$key];
+            }
+        }
+
         // Return the updated data including the new response
-        return $existingData;
+        return $result;
     }
 }

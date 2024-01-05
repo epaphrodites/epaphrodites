@@ -210,17 +210,22 @@ function CountTableLigne() {
   compteur.textContent = nbreLignes;
 }
 
-const selectAll = document.getElementById("checkall");
-selectAll.addEventListener("change", function () {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const isChecked = selectAll.checked;
-  checkboxes.forEach((checkbox, index) => {
-    if (index > 0) {
-      checkbox.checked = isChecked;
-    }
-  });
-  CountTableLigne();
+document.addEventListener("DOMContentLoaded", function() {
+  const selectAll = document.getElementById("checkall");
+  if (selectAll) {
+    selectAll.addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const isChecked = selectAll.checked;
+      checkboxes.forEach((checkbox, index) => {
+        if (index > 0) {
+          checkbox.checked = isChecked;
+        }
+      });
+      CountTableLigne();
+    });
+  }
 });
+
 
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 checkboxes.forEach((checkbox, index) => {
@@ -239,17 +244,23 @@ $(document).ready(function () {
   });
 });
 
-selectAll.addEventListener("change", function () {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const isChecked = selectAll.checked;
-  checkboxes.forEach((checkbox, index) => {
-    if (index > 0) {
-      checkbox.checked = isChecked;
-      toggleRowColor(checkbox);
-    }
-  });
-  CountTableLigne();
+document.addEventListener("DOMContentLoaded", function() {
+  const selectAll = document.getElementById("checkall");
+  if (selectAll) {
+    selectAll.addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const isChecked = selectAll.checked;
+      checkboxes.forEach((checkbox, index) => {
+        if (index > 0) {
+          checkbox.checked = isChecked;
+          toggleRowColor(checkbox);
+        }
+      });
+      CountTableLigne();
+    });
+  }
 });
+
 
 checkboxes.forEach((checkbox, index) => {
   if (index > 0) {
@@ -301,13 +312,18 @@ function mixed(chars) {
   }
 }
 
-const input = document.querySelector("input");
-const maxLength = input.getAttribute("maxlength");
-input.addEventListener("input", (event) => {
-  const valueLength = event.target.value.length;
-  const leftCharLength = maxLength - valueLength;
-  if (leftCharLength < 0) return;
+document.addEventListener("DOMContentLoaded", function() {
+  const input = document.querySelector("input");
+  if (input) {
+    const maxLength = input.getAttribute("maxlength");
+    input.addEventListener("input", (event) => {
+      const valueLength = event.target.value.length;
+      const leftCharLength = maxLength - valueLength;
+      if (leftCharLength < 0) return;
+    });
+  }
 });
+
 
 if (window.history.replaceState) {
   window.history.replaceState(null, null, window.location.href);
@@ -323,17 +339,24 @@ function submitActions() {
   document.ifSendDatas.submit();
 }
 
-document.getElementById("BtnValidate").addEventListener("click", function () {
-  const errorMessage = document.getElementById("errorMessage");
-  const inputFile = document.getElementById("file");
-  if (inputFile.files.length > 0) {
-    const file = inputFile.files[0];
-    const fileSize = file.size;
-    const maxSize = parseInt(inputFile.dataset.maxSize, 10);
-    if (fileSize > maxSize) {
-      errorMessage.textContent =
-        "The file size exceeds the allowed limit of " + maxSize / 1024 + " ko.";
-      inputFile.value = "";
-    }
+document.addEventListener("DOMContentLoaded", function() {
+  const btnValidate = document.getElementById("BtnValidate");
+  if (btnValidate) {
+    btnValidate.addEventListener("click", function () {
+      const errorMessage = document.getElementById("errorMessage");
+      const inputFile = document.getElementById("file");
+      if (inputFile && inputFile.files.length > 0) {
+        const file = inputFile.files[0];
+        const fileSize = file.size;
+        const maxSize = parseInt(inputFile.dataset.maxSize, 10);
+        if (fileSize > maxSize) {
+          errorMessage.textContent =
+            "The file size exceeds the allowed limit of " + maxSize / 1024 + " ko.";
+          inputFile.value = "";
+        }
+      }
+    });
   }
 });
+
+

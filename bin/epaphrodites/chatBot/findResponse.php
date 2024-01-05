@@ -1,6 +1,8 @@
 <?php
 
 namespace Epaphrodites\epaphrodites\chatBot;
+use Epaphrodites\epaphrodites\auth\session_auth;
+
 
 trait findResponse
 {
@@ -40,15 +42,20 @@ trait findResponse
             }
         }
 
-        // Default messages
+        $login = (new session_auth)->login();
+
+        // Get bot default messages
         $defaultMessage = [ 
             'answers' => "I am a work assistance AI. I do not handle this kind of information." , 
             'type' => "txt",
         ];
 
+        // Get user connected login
+        $defaultUsers = [ 'login' => $login ];
+
         $userQuestion = [ 'question' => $userMessage ];
 
-        $result = !empty($response) ? array_merge( $userQuestion , $response ) : array_merge( $userQuestion , $defaultMessage);
+        $result = !empty($response) ? array_merge( $defaultUsers , $userQuestion , $response ) : array_merge( $defaultUsers , $userQuestion , $defaultMessage);
 
         // Return the response with the highest similarity coefficient
         return $result;
