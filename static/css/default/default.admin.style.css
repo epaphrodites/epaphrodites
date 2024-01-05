@@ -6,6 +6,7 @@
   /* colors */
   --main-text: #333;
   --color-code: #ddd;
+  --color-red : #d32b01;
   --color-green: #07984d;
   --breadcrumb-bg: #f5f5f5;
   --breadcrumb-text: #fff;
@@ -1522,6 +1523,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 150px;
   border: 1px solid #000;
 }
+
 .localisation_setting {
   padding-top: 50px;
   width: 50%;
@@ -1535,6 +1537,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .imgmap img {
   width: 50%;
 }
+
 .deldemandeimma #validate_btn button {
   margin-top: 11px;
   border-radius: 20px;
@@ -2349,4 +2352,11 @@ pre.code {
   border-radius: 10px;
   color: var(--color-code);
   background-color: var(--background-code);
+}
+
+em.bot{
+  font-style: normal;
+  background-color: var(--background-main);
+  color: var(--color-red);
+  padding: 2px 10px 3px 10px;
 }

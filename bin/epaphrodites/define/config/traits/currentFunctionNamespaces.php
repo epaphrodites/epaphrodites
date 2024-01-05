@@ -28,11 +28,11 @@ trait currentFunctionNamespaces
             'qrcode' => new \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode,
             'bot' => new \Epaphrodites\epaphrodites\chatBot\processBotAnswers,
             'verify' => new \Epaphrodites\epaphrodites\env\VerifyInputCharacteres,
-            'layout' => new \Epaphrodites\epaphrodites\EpaphMozart\Templates\LayoutsConfig,
             'eng' => new \Epaphrodites\epaphrodites\define\lang\eng\SetEnglishTextMessages,
             'french' => new \Epaphrodites\epaphrodites\define\lang\fr\SetFrenchTextMessages,
             'spanish' => new \Epaphrodites\epaphrodites\define\lang\esp\SetSpanichTextMessages,
             'mozart' => new \Epaphrodites\epaphrodites\EpaphMozart\ModulesConfig\SwitchersList,
+            'layout' => new \Epaphrodites\epaphrodites\EpaphMozart\templatesConfig\LayoutsConfig,
         ];
     }
 

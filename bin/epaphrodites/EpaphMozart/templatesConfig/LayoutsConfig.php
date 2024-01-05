@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\EpaphMozart\Templates;
+namespace Epaphrodites\epaphrodites\EpaphMozart\templatesConfig;
 
 class LayoutsConfig
 {

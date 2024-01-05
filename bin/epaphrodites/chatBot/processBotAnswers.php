@@ -4,7 +4,7 @@ namespace Epaphrodites\epaphrodites\chatBot;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 
-class processBotAnswers extends Chatbot
+class processBotAnswers extends chatBot
 {
 
     use saveJsonDatas, loadUsersAnswers;

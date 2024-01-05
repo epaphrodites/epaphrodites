@@ -4,7 +4,7 @@ namespace Epaphrodites\epaphrodites\Kernel;
 
 use Epaphrodites\controllers\render\Http\ConfigHttp;
 use Epaphrodites\controllers\switchers\GetControllers;
-use Epaphrodites\epaphrodites\EpaphMozart\Templates\ConfigDashboardPages;
+use Epaphrodites\epaphrodites\EpaphMozart\templatesConfig\ConfigDashboardPages;
 
 class runKernel extends ConfigHttp
 {

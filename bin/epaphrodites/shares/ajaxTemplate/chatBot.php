@@ -20,7 +20,7 @@ trait chatBot{
                     <p>' . $datas[$key]["question"] . '</p>
                 </div>
                 <div class="msg">
-                    <strong>EpaphroditeBot :</strong>
+                    <strong>EpaphroditesBot :</strong>
                     <p>' . $datas[$key]["answers"] . '</p>
                 </div>
             </div>';

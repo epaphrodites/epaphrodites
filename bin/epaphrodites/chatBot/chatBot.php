@@ -2,7 +2,7 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
-class Chatbot {
+class chatBot {
 
 use loadJson, cleanNormalize, jaccardCoefficient, findResponse;
 

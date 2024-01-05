@@ -51,8 +51,8 @@ trait currentVariableNameSpaces
         'bot' => \Epaphrodites\epaphrodites\chatBot\processBotAnswers::class,
         'qrcode' => \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode::class,
         'verify' => \Epaphrodites\epaphrodites\env\VerifyInputCharacteres::class,
-        'layout' => \Epaphrodites\epaphrodites\EpaphMozart\Templates\LayoutsConfig::class,
         'mozart' => \Epaphrodites\epaphrodites\EpaphMozart\ModulesConfig\SwitchersList::class,
+        'layout' => \Epaphrodites\epaphrodites\EpaphMozart\templatesConfig\LayoutsConfig::class,
     ];  
 
     /**
