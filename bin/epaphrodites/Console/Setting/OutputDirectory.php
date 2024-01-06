@@ -16,6 +16,7 @@ class OutputDirectory
         $list = [
             'main' => 'bin/views/main',
             'admin' => 'bin/views/admin',
+            'json' => 'bin/database/datas/json',
             'startsession' => 'bin/epaphrodites/auth',
             'crsfsecure' => 'bin/epaphrodites/CsrfToken',
             'controlleur' => 'bin/controllers/controllers',

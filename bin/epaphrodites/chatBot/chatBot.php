@@ -4,7 +4,7 @@ namespace Epaphrodites\epaphrodites\chatBot;
 
 class chatBot {
 
-use loadJson, cleanNormalize, jaccardCoefficient, findResponse;
+use loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse;
 
     /**
      * @param string $userMessage
@@ -14,4 +14,14 @@ use loadJson, cleanNormalize, jaccardCoefficient, findResponse;
     {
        return $this->getResponse($userMessage);
     }
+
+    /**
+     * @param string $userMessage
+     * @param string $botName
+     * @return array
+     */
+    protected function findHerediaResponse(string $userMessage , string $botName):array
+    {
+       return $this->getHerediaResponse($userMessage , $botName);
+    }    
 }

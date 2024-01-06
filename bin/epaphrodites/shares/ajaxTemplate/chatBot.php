@@ -7,7 +7,7 @@ trait chatBot{
     /**
      * @return string
      */
-    public function chatMessageContent(array $datas){
+    public function chatMessageContent(array $datas , string $chatBotName = "EpaphroditesBot"){
 
         $datas = array_reverse($datas);
 
@@ -20,7 +20,7 @@ trait chatBot{
                     <p>' . $datas[$key]["question"] . '</p>
                 </div>
                 <div class="msg">
-                    <strong>EpaphroditesBot :</strong>
+                    <strong>'.$chatBotName.' :</strong>
                     <p>' . $datas[$key]["answers"] . '</p>
                 </div>
             </div>';
