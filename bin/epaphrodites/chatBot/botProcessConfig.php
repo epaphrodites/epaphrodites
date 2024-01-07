@@ -11,7 +11,7 @@ trait botProcessConfig
      * @param string $userMessage
      * @return array
      */
-    private final function chatProcessConfig(string $userMessage): array
+    private function chatProcessConfig(string $userMessage): array
     {
         $result =[];
         
@@ -46,27 +46,28 @@ trait botProcessConfig
      * @param string $userMessage
      * @return array
      */
-    private final function herediaBotConfig(string $userMessage , string $botName): array
+    private function herediaBotConfig(string $userMessage , string $botName): array
     {
+
         $result =[];
         
         if (!empty($userMessage)) {
 
             // Find and store the response for the user message
             $response = $this->findHerediaResponse($userMessage , $botName);
-
+            
             // Add the new response to existing data
             $existingData[] = $response;
 
             // Save the updated data to the JSON file
-            $this->saveJson($existingData);
+            $this->saveJson($existingData , $botName);
         }
 
         $login = (new session_auth)->login();
 
         // Load existing JSON data, if any
-        $existingData = $this->loadJsonFile();
-
+        $existingData = $this->loadJsonFile($botName);
+        
         foreach ($existingData as $key => $value) {
             if ($value['login'] === $login) {
                 $result[] = $existingData[$key];

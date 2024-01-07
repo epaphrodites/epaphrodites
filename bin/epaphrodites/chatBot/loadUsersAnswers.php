@@ -17,7 +17,7 @@ trait loadUsersAnswers
     {
         // Path to the JSON file
         $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
-
+       
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
             // Read the file content

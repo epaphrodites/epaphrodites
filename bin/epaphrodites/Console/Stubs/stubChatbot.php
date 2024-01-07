@@ -4,10 +4,12 @@
 
  class stubChatbot{
     
-    public static function Generate(string $FilesNames, string $chatBotName , string $controller = "main" )
+    public static function Generate(string $jsonPath , string $userJsonPath, string $chatBotName , string $controller = "main" )
     {
        
         $stubs = static::stubs($chatBotName);
+
+        $jsonStubs = static::JsonContentModel($chatBotName);
 
         $FilesContent = file_get_contents($controller);
    
@@ -20,40 +22,56 @@
         if ($lastBracketPosition !== false) {
 
             $FilesContent = substr_replace($FilesContent, $stubs."\n}", $lastBracketPosition);
-            file_put_contents($FilesNames, $FilesContent, LOCK_EX);
+            file_put_contents($controller, $FilesContent, LOCK_EX);
+            file_put_contents($jsonPath, json_encode($jsonStubs,JSON_PRETTY_PRINT));
+            file_put_contents($userJsonPath, json_encode([],JSON_PRETTY_PRINT));
         }
     } 
     
     
-    public static function stubs($chatBotName){
+    private static function stubs($chatBotName){
 
         $functionName = static::transformToFunction($chatBotName);
 
         $stub = 
         "
-        /**
-         * start view function
-         * 
-         * @param string \$html
-         * @return void
-         */
-        public final function {$functionName}(string \$html): void{
-    
-            \$chatBotName='$chatBotName';
+    /**
+    * start {$chatBotName} chatBot
+    * 
+    * @param string \$html
+    * @return void
+    */
+    public final function {$functionName}Started(string \$html): void
+    {
+        \$botResponse = '';
 
-            if (static::isValidMethod()) {
+        \$chatBotName='$chatBotName';
 
-                \$send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
+        if (static::isValidMethod()) {
+
+            \$send = static::isPost('__send__') ? static::isPost('__send__') : '';
     
-                \$this->result = \$this->chatBot->herediaBot(\$send , \$chatBotName);
+            \$result = \$this->initNamespace()['bot']->herediaBot(\$send , \$chatBotName);
     
-                echo \$this->ajaxTemplate->chatMessageContent(\$this->result , \$chatBotName);
-               
-                return;
-            }
-        }";  
+            \$botResponse = \$this->initNamespace()['ajax']->chatMessageContent(\$result , \$chatBotName);
+        }
+
+        static::rooter()->target(_DIR_MAIN_TEMP_ . \$html)->content([ 'botResponse' => \$botResponse ])->get();
+    }";  
         
         return $stub;
+    }
+
+    private static function JsonContentModel($chatBotName):array
+    {
+
+        return [
+            "hello hi"=>[
+                "answers" => "I am {$chatBotName}, your AI assistant.",
+                "type" => "txt"
+            ]
+        ];
+
     }
 
     /**

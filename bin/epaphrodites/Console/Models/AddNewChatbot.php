@@ -10,7 +10,6 @@ use Epaphrodites\epaphrodites\Console\Setting\AddChatbotCommands;
 
 class AddNewChatbot extends AddChatbotCommands{
 
-
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
@@ -21,18 +20,26 @@ class AddNewChatbot extends AddChatbotCommands{
         $chatBotName = $input->getArgument('name');
         $controller = $input->getArgument('controller');
 
+        (string) $controller = empty($controller) ? 'main' : $controller;
+
         $jsonPath = OutputDirectory::Files('json') . "/{$chatBotName}.json";
         $userJsonPath= OutputDirectory::Files('json') . "/user{$chatBotName}.json";
         $controller = OutputDirectory::Files('controlleur') . "/{$controller}.php";
 
         if(file_exists($jsonPath)===false&&file_exists($userJsonPath)===false){
 
-            stubChatbot::generate($jsonPath , $chatBotName, $controller);
-            $output->writeln("<info>Your chatbo {$chatBotName} has been generated successfully!!!✅</info>");
-            return self::SUCCESS;            
+            if(file_exists($controller)===true){
+
+                stubChatbot::generate($jsonPath , $userJsonPath , $chatBotName, $controller);
+                $output->writeln("<info>Your chatbo {$chatBotName} has been generated successfully!!!✅</info>");
+                return self::SUCCESS;  
+            }else{
+                $output->writeln("<error>Sorry this controller '{$controller}' don't exist❌</error>");
+                return self::FAILURE;
+            }  
 
         }else{
-            $output->writeln("<error>Sorry this chatbot '{$jsonPath}' don't exist❌</error>");
+            $output->writeln("<error>Sorry this chatbot '{$chatBotName}' exist❌</error>");
             return self::FAILURE;
         }
     }

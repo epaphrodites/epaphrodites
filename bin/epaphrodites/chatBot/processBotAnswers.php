@@ -2,7 +2,7 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
-final class processBotAnswers extends chatBot
+class processBotAnswers extends chatBot
 {
 
     use saveJsonDatas, loadUsersAnswers, botProcessConfig;

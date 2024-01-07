@@ -4,7 +4,12 @@
 
  class StubsControllerFunction{
     
-    public static function Generate($FilesNames, $name )
+    /**
+     * @param string $FilesNames
+     * @param string $name
+     * @return void
+     */
+    public static function Generate(string $FilesNames, string $name ):void
     {
        
         $stubs = static::stubs($name);
@@ -24,8 +29,12 @@
         }
     } 
     
-    
-    public static function stubs($initPage){
+    /**
+     * @param string $initPage
+     * @return string
+     */
+    public static function stubs(string $initPage):string
+    {
 
         $functionName = static::transformToFunction($initPage);
 
