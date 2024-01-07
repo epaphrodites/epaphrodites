@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot;
+namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 
@@ -45,10 +45,7 @@ trait herediaResponse
         $login = (new session_auth)->login();
 
         // Get bot default messages
-        $defaultMessage = [ 
-            'answers' => "I am a work assistance AI. I do not handle this kind of information." , 
-            'type' => "txt",
-        ];
+        $defaultMessage = $this->defaultAnswers();
 
         // Get user connected login
         $defaultUsers = [ 'login' => $login ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot;
+namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 

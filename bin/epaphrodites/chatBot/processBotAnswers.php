@@ -2,6 +2,10 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
+use Epaphrodites\epaphrodites\chatBot\loadSave\saveJsonDatas;
+use Epaphrodites\epaphrodites\chatBot\loadSave\loadUsersAnswers;
+use Epaphrodites\epaphrodites\chatBot\botConfig\botProcessConfig;
+
 class processBotAnswers extends chatBot
 {
 

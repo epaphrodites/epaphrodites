@@ -1,10 +1,10 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot;
+namespace Epaphrodites\epaphrodites\chatBot\loadSave;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
-trait loadJson
+trait loadUsersAnswers
 {
 
     /**
@@ -13,11 +13,11 @@ trait loadJson
      * @return array|null Returns the decoded JSON data as an array or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    private function loadJsonFile(string $jsonFiles = 'chatbot'): ?array
+    private function loadJsonFile(string $jsonFiles = "BotSession"): ?array
     {
         // Path to the JSON file
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/{$jsonFiles}.json";
-
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
+       
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
             // Read the file content
@@ -26,11 +26,11 @@ trait loadJson
             // Check if file reading is successful
             if ($jsonData !== false) {
                 // Decode the JSON content
-                $questionsAnswers = json_decode($jsonData, true);
+                $usersAnswers = json_decode($jsonData, true);
 
                 // Check if JSON decoding is successful and the result is an array
-                if ($questionsAnswers !== null && is_array($questionsAnswers)) {
-                    return $questionsAnswers; // Return the decoded data
+                if ($usersAnswers !== null && is_array($usersAnswers)) {
+                    return $usersAnswers; // Return the decoded data
                 } else {
                     // Handle an error if JSON decoding fails or the data type is not an array
                     throw new epaphroditeException("Error: Unable to decode the JSON file or the data type is not an array.");

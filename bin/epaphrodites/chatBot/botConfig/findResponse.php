@@ -1,8 +1,8 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot;
-use Epaphrodites\epaphrodites\auth\session_auth;
+namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
+use Epaphrodites\epaphrodites\auth\session_auth;
 
 trait findResponse
 {
@@ -20,9 +20,8 @@ trait findResponse
         $userWords = $this->cleanAndNormalize($userMessage);
         
         // Initialize variables to store the best coefficient and the response
-        $bestCoefficient = 0;
         $response = [];
-        $defaultMessage = [];
+        $bestCoefficient = 0;
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile();
@@ -43,12 +42,8 @@ trait findResponse
         }
 
         $login = (new session_auth)->login();
-
         // Get bot default messages
-        $defaultMessage = [ 
-            'answers' => "I am a work assistance AI. I do not handle this kind of information." , 
-            'type' => "txt",
-        ];
+        $defaultMessage = $this->epaphroditesDefaultAnswers();
 
         // Get user connected login
         $defaultUsers = [ 'login' => $login ];
