@@ -13,20 +13,86 @@ trait herediaResponse
      * @param string $userMessage The message input by the user.
      * @return array The best-matching response.
      */
-    private function getHerediaResponse(string $userMessage , string $jsonFiles): array
+    private function getHerediaResponssse(string $userMessage, string $jsonFiles): array
     {
-        
+        // Constants for array keys
+        $loginKey = 'login';
+        $answersKey = 'answers';
+        $questionKey = 'question';
+    
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
         
         // Initialize variables to store the best coefficient and the response
-        $bestCoefficient = 0;
+        $bestCoefficient = 0.3;
         $response = [];
-        $defaultMessage = [];
-
+    
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile($jsonFiles);
         
+        // Iterate through each question and its associated answer
+        foreach ($questionsAnswers as $question => $associatedAnswer) {
+            // Clean and normalize the question
+            $questionWords = $this->cleanAndNormalize($question);
+    
+            // Calculate the Jaccard coefficient between user input and each question
+            $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
+    
+            // Update the best coefficient and the corresponding response
+            if ($coefficient >= $bestCoefficient) {
+                $bestCoefficient = $coefficient;
+                $response = $associatedAnswer[$answersKey];
+                $response = [$response[array_rand($response)]];
+            }
+        }
+    
+        // Get bot default messages if no response is found
+        if (empty($response)) {
+            $defaultMessage = $this->defaultAnswers()[$answersKey];
+            $defaultMessage = [$defaultMessage[array_rand($defaultMessage)]];
+            $response = [$answersKey => $defaultMessage];
+        }
+    
+        // Get user connected login
+        $login = (new session_auth)->login();
+        $defaultUsers = [ $loginKey => $login];
+    
+        $userQuestion = [ $questionKey => $userMessage];
+    
+        // Merge appropriate elements based on the response availability
+        $result = array_merge($defaultUsers, $userQuestion, [$answersKey => $response]);
+    
+        // Return the response with the highest similarity coefficient
+        return $result;
+    }
+    
+   /**
+     * Finds the best response based on the user's input by calculating Jaccard coefficients.
+     *
+     * @param string $userMessage The message input by the user.
+     * @return array The best-matching response.
+     */
+    private function getHerediaResponse(string $userMessage, string $jsonFiles): array
+    {
+        // Keys for array elements
+        $loginKey = 'login';
+        $answersKey = 'answers';
+        $questionKey = 'question';
+        
+        // Clean and normalize the user's message
+        $userWords = $this->cleanAndNormalize($userMessage);
+
+        // Load questions and answers from a JSON file
+        $questionsAnswers = $this->loadJsonFile($jsonFiles);
+
+        // Set default message
+        $defaultMessage = $this->defaultAnswers()[$answersKey];
+        $defaultMessage = $defaultMessage[array_rand($defaultMessage)];
+
+        // Set initial values and threshold
+        $bestCoefficient = 0.3;
+        $response = [];
+
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
             // Clean and normalize the question
@@ -35,26 +101,30 @@ trait herediaResponse
             // Calculate the Jaccard coefficient between user input and each question
             $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
 
-            // Update the best coefficient and the corresponding response
-            if ($coefficient > $bestCoefficient) {
+            // Update response based on similarity coefficient
+            if ($coefficient >= $bestCoefficient && $coefficient > 0) {
                 $bestCoefficient = $coefficient;
-                $response = $associatedAnswer;
+                $response = $associatedAnswer[$answersKey];
+                $response = $response[array_rand($response)];
             }
         }
 
-        $login = (new session_auth)->login();
-
-        // Get bot default messages
-        $defaultMessage = $this->defaultAnswers();
-
         // Get user connected login
-        $defaultUsers = [ 'login' => $login ];
+        $login = (new session_auth)->login();
+        $defaultUsers = [$loginKey => $login];
 
-        $userQuestion = [ 'question' => $userMessage ];
+        // Prepare user question data
+        $userQuestion = [$questionKey => $userMessage];
+       
 
-        $result = !empty($response) ? array_merge( $defaultUsers , $userQuestion , $response ) : array_merge( $defaultUsers , $userQuestion , $defaultMessage);
+        // Construct final response array
+        $bestAnswers = empty($response)
+            ? array_merge($defaultUsers, $userQuestion, [$answersKey => $defaultMessage])
+            : array_merge($defaultUsers, $userQuestion, [$answersKey => $response]);
 
-        // Return the response with the highest similarity coefficient
-        return $result;
-    }
+
+        // Return the response with the highest similarity coefficient or default message
+        return $bestAnswers;
+    }    
+
 }

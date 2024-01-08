@@ -53,7 +53,7 @@
     
             \$result = \$this->initNamespace()['bot']->herediaBot(\$send , \$chatBotName);
     
-            \$botResponse = \$this->initNamespace()['ajax']->chatMessageContent(\$result , \$chatBotName);
+            \$botResponse = \$this->initNamespace()['ajax']->chatMessageContent(\$result , \$send , \$chatBotName);
         }
 
         static::rooter()->target(_DIR_MAIN_TEMP_ . \$html)->content([ 'botResponse' => \$botResponse ])->get();
@@ -62,12 +62,16 @@
         return $stub;
     }
 
-    private static function JsonContentModel($chatBotName):array
+    /**
+     * @param string $chatBotName
+     * @return array
+     */
+    private static function JsonContentModel(string $chatBotName):array
     {
 
         return [
-            "hello hi"=>[
-                "answers" => "I am {$chatBotName}, your AI assistant.",
+            'hello hi' => [
+                "answers" => ["I am {$chatBotName}, your AI assistant."],
                 "type" => "txt"
             ]
         ];
@@ -78,7 +82,7 @@
      *  @param string $initPage
      * @return string
      */
-    private static function transformToFunction($initPage): string
+    private static function transformToFunction(string $initPage): string
     {
 
         $parts = explode('_', $initPage);

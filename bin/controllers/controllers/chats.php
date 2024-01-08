@@ -63,7 +63,7 @@ final class chats extends MainSwitchers
 
             $this->result = $this->chatBot->chatProcess($send);
 
-            echo $this->ajaxTemplate->chatMessageContent($this->result);
+            echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
            
             return;
         }

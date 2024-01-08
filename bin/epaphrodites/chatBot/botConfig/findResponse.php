@@ -15,17 +15,25 @@ trait findResponse
      */
     private function getResponse(string $userMessage): array
     {
-        
+        // Keys for array elements
+        $loginKey = 'login';
+        $answersKey = 'answers';
+        $questionKey = 'question';
+
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
-        
-        // Initialize variables to store the best coefficient and the response
-        $response = [];
-        $bestCoefficient = 0;
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile();
-        
+
+        // Set default message
+        $defaultMessage = $this->epaphroditesDefaultAnswers()[$answersKey];
+        $defaultMessage = $defaultMessage[array_rand($defaultMessage)];
+
+        // Set initial values and threshold
+        $bestCoefficient = 0.3;
+        $response = [];
+
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
             // Clean and normalize the question
@@ -34,25 +42,28 @@ trait findResponse
             // Calculate the Jaccard coefficient between user input and each question
             $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
 
-            // Update the best coefficient and the corresponding response
-            if ($coefficient > $bestCoefficient) {
+            // Update response based on similarity coefficient
+            if ($coefficient >= $bestCoefficient && $coefficient > 0) {
                 $bestCoefficient = $coefficient;
-                $response = $associatedAnswer;
+                $response = $associatedAnswer[$answersKey];
+                $response = $response[array_rand($response)];
             }
         }
 
-        $login = (new session_auth)->login();
-        // Get bot default messages
-        $defaultMessage = $this->epaphroditesDefaultAnswers();
-
         // Get user connected login
-        $defaultUsers = [ 'login' => $login ];
+        $login = (new session_auth)->login();
+        $defaultUsers = [$loginKey => $login];
 
-        $userQuestion = [ 'question' => $userMessage ];
+        // Prepare user question data
+        $userQuestion = [$questionKey => $userMessage];
 
-        $result = !empty($response) ? array_merge( $defaultUsers , $userQuestion , $response ) : array_merge( $defaultUsers , $userQuestion , $defaultMessage);
+        // Construct final response array
+        $bestAnswers = empty($response)
+            ? array_merge($defaultUsers, $userQuestion, [$answersKey => $defaultMessage])
+            : array_merge($defaultUsers, $userQuestion, [$answersKey => $response]);
 
-        // Return the response with the highest similarity coefficient
-        return $result;
+        // Return the response with the highest similarity coefficient or default message
+        return $bestAnswers;
     }
+
 }
