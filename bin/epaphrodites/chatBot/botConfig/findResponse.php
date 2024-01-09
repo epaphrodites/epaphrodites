@@ -15,25 +15,23 @@ trait findResponse
      */
     private function getResponse(string $userMessage): array
     {
-        // Keys for array elements
+        
         $loginKey = 'login';
         $answersKey = 'answers';
         $questionKey = 'question';
 
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
+        
+        // Initialize variables to store the best coefficient and the response
+        $response = [];
+        $defaultUsers = [];
+        $defaultMessage = [];
+        $bestCoefficient = 0.3;
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile();
-
-        // Set default message
-        $defaultMessage = $this->epaphroditesDefaultAnswers()[$answersKey];
-        $defaultMessage = $defaultMessage[array_rand($defaultMessage)];
-
-        // Set initial values and threshold
-        $bestCoefficient = 0.3;
-        $response = [];
-
+        
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
             // Clean and normalize the question
@@ -41,29 +39,44 @@ trait findResponse
 
             // Calculate the Jaccard coefficient between user input and each question
             $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
-
-            // Update response based on similarity coefficient
-            if ($coefficient >= $bestCoefficient && $coefficient > 0) {
+            
+            // Update the best coefficient and the corresponding response
+            if ($coefficient >= $bestCoefficient) {
                 $bestCoefficient = $coefficient;
                 $response = $associatedAnswer[$answersKey];
-                $response = $response[array_rand($response)];
+                $randomIndex = array_rand($response);
+                $response = $response[$randomIndex];
             }
+
+            if ($coefficient > 0.1 && $coefficient < $bestCoefficient) {
+                $needMoreInfos = $this->needMoreAnswers()[$answersKey];
+                $response = $needMoreInfos[array_rand($needMoreInfos)];
+            }  
+        }
+        
+
+        $login = (new session_auth)->login();
+
+        if(empty($response)){
+
+            // Get bot default messages
+            $defaultMessage = $this->epaphroditesDefaultAnswers()[$answersKey];
+            $randomIndex = array_rand($defaultMessage);
+            $defaultMessage = $defaultMessage[$randomIndex];
+
+            $defaultMessage = [ $answersKey => $defaultMessage ];
+        }else{
+            $response = [ $answersKey => $response ];
         }
 
         // Get user connected login
-        $login = (new session_auth)->login();
-        $defaultUsers = [$loginKey => $login];
+        $defaultUsers = [ $loginKey => $login ];
 
-        // Prepare user question data
-        $userQuestion = [$questionKey => $userMessage];
+        $userQuestion = [ $questionKey => $userMessage ];
 
-        // Construct final response array
-        $bestAnswers = empty($response)
-            ? array_merge($defaultUsers, $userQuestion, [$answersKey => $defaultMessage])
-            : array_merge($defaultUsers, $userQuestion, [$answersKey => $response]);
+        $result = !empty($response) ? array_merge( $defaultUsers , $userQuestion , $response ) : array_merge( $defaultUsers , $userQuestion , $defaultMessage);
 
-        // Return the response with the highest similarity coefficient or default message
-        return $bestAnswers;
+        // Return the response with the highest similarity coefficient
+        return $result;
     }
-
 }

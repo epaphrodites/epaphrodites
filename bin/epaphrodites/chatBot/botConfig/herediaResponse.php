@@ -107,6 +107,11 @@ trait herediaResponse
                 $response = $associatedAnswer[$answersKey];
                 $response = $response[array_rand($response)];
             }
+
+            if ($coefficient > 0.1 && $coefficient < $bestCoefficient) {
+                $needMoreInfos = $this->needMoreAnswers()[$answersKey];
+                $response = $needMoreInfos[array_rand($needMoreInfos)];
+            }  
         }
 
         // Get user connected login
@@ -116,11 +121,10 @@ trait herediaResponse
         // Prepare user question data
         $userQuestion = [$questionKey => $userMessage];
        
-
         // Construct final response array
         $bestAnswers = empty($response)
-            ? array_merge($defaultUsers, $userQuestion, [$answersKey => $defaultMessage])
-            : array_merge($defaultUsers, $userQuestion, [$answersKey => $response]);
+            ? array_merge($defaultUsers, $userQuestion, [ $answersKey => $defaultMessage])
+            : array_merge($defaultUsers, $userQuestion, [ $answersKey => $response]);
 
 
         // Return the response with the highest similarity coefficient or default message
