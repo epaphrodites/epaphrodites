@@ -77,5 +77,4 @@ trait botProcessConfig
         // Return the updated data including the new response
         return $result;
     }
-
 }

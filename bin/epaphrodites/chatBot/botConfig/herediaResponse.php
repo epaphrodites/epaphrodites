@@ -6,66 +6,7 @@ use Epaphrodites\epaphrodites\auth\session_auth;
 
 trait herediaResponse
 {
-
-    /**
-     * Finds the best response based on the user's input by calculating Jaccard coefficients.
-     *
-     * @param string $userMessage The message input by the user.
-     * @return array The best-matching response.
-     */
-    private function getHerediaResponssse(string $userMessage, string $jsonFiles): array
-    {
-        // Constants for array keys
-        $loginKey = 'login';
-        $answersKey = 'answers';
-        $questionKey = 'question';
-    
-        // Clean and normalize the user's message
-        $userWords = $this->cleanAndNormalize($userMessage);
-        
-        // Initialize variables to store the best coefficient and the response
-        $bestCoefficient = 0.3;
-        $response = [];
-    
-        // Load questions and answers from a JSON file
-        $questionsAnswers = $this->loadJsonFile($jsonFiles);
-        
-        // Iterate through each question and its associated answer
-        foreach ($questionsAnswers as $question => $associatedAnswer) {
-            // Clean and normalize the question
-            $questionWords = $this->cleanAndNormalize($question);
-    
-            // Calculate the Jaccard coefficient between user input and each question
-            $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
-    
-            // Update the best coefficient and the corresponding response
-            if ($coefficient >= $bestCoefficient) {
-                $bestCoefficient = $coefficient;
-                $response = $associatedAnswer[$answersKey];
-                $response = [$response[array_rand($response)]];
-            }
-        }
-    
-        // Get bot default messages if no response is found
-        if (empty($response)) {
-            $defaultMessage = $this->defaultAnswers()[$answersKey];
-            $defaultMessage = [$defaultMessage[array_rand($defaultMessage)]];
-            $response = [$answersKey => $defaultMessage];
-        }
-    
-        // Get user connected login
-        $login = (new session_auth)->login();
-        $defaultUsers = [ $loginKey => $login];
-    
-        $userQuestion = [ $questionKey => $userMessage];
-    
-        // Merge appropriate elements based on the response availability
-        $result = array_merge($defaultUsers, $userQuestion, [$answersKey => $response]);
-    
-        // Return the response with the highest similarity coefficient
-        return $result;
-    }
-    
+   
    /**
      * Finds the best response based on the user's input by calculating Jaccard coefficients.
      *
@@ -126,9 +67,7 @@ trait herediaResponse
             ? array_merge($defaultUsers, $userQuestion, [ $answersKey => $defaultMessage])
             : array_merge($defaultUsers, $userQuestion, [ $answersKey => $response]);
 
-
         // Return the response with the highest similarity coefficient or default message
         return $bestAnswers;
     }    
-
 }

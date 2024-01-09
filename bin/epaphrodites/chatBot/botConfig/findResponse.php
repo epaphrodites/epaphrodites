@@ -54,7 +54,6 @@ trait findResponse
             }  
         }
         
-
         $login = (new session_auth)->login();
 
         if(empty($response)){
