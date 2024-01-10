@@ -42,7 +42,7 @@ final class users extends MainSwitchers
         $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
         $this->update = $this->getFunctionObject(static::initQuery(), 'update');
         $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
-        $this->importFiles = $this->getFunctionObject(static::initConfig(), 'import');
+        $this->importFiles = $this->getFunctionObject(static::initNamespace(), 'import');
     }         
 
     /**
@@ -126,7 +126,7 @@ final class users extends MainSwitchers
 
         if (static::isValidMethod()) {
 
-            $SheetData = $this->importFiles->ImportExcelFiles($_FILES['file']['name']);
+            $SheetData = $this->importFiles->importExcelFiles($_FILES['file']['name']);
 
             if (!empty($SheetData)) {
                 
@@ -171,7 +171,7 @@ final class users extends MainSwitchers
 
         $total = 0;
         $list = [];
-        $Nbreligne = 100;
+        $numLines = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
@@ -202,7 +202,7 @@ final class users extends MainSwitchers
         }else {
 
             $total = static::notEmpty(['filtre'] , 'GET') ? $this->count->CountUsersByGroup($_GET['filtre']) : $this->count->CountAllUsers();
-            $list = static::notEmpty(['filtre'] , 'GET') ? $this->getId->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) : $this->select->listeOfAllUsers($page, $Nbreligne);
+            $list = static::notEmpty(['filtre'] , 'GET') ? $this->getId->GetUsersByGroup($page, $numLines, $_GET['filtre']) : $this->select->listeOfAllUsers($page, $numLines);
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
@@ -214,7 +214,7 @@ final class users extends MainSwitchers
                 'reponse' => $this->ans,
                 'position' => $position,
                 'select' => $this->getId,
-                'nbrePage' => ceil(($total) / $Nbreligne),
+                'nbrePage' => ceil(($total) / $numLines),
             ],
             true
         )->get();

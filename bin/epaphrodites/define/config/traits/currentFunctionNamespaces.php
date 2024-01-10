@@ -28,6 +28,7 @@ trait currentFunctionNamespaces
             'qrcode' => new \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode,
             'bot' => new \Epaphrodites\epaphrodites\chatBot\processBotAnswers,
             'verify' => new \Epaphrodites\epaphrodites\env\VerifyInputCharacteres,
+            'import' => new \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles,
             'eng' => new \Epaphrodites\epaphrodites\define\lang\eng\SetEnglishTextMessages,
             'french' => new \Epaphrodites\epaphrodites\define\lang\fr\SetFrenchTextMessages,
             'spanish' => new \Epaphrodites\epaphrodites\define\lang\esp\SetSpanichTextMessages,
@@ -62,7 +63,6 @@ trait currentFunctionNamespaces
             'listright' => new \Epaphrodites\epaphrodites\yedidiah\YedidiaGetRights,
             'python' => new \Epaphrodites\epaphrodites\translate\PythonCodesTranslate,
             'extension' => new \Epaphrodites\epaphrodites\Extension\EpaphroditeExtension,
-            'import' => new \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles,
         ];
     }
 

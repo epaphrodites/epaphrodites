@@ -8,7 +8,7 @@ class SendMail extends config
 {
 
     /**
-     * Send Message
+     * Send Email
      * @param null|array $contacts
      * @param null|string $msgHeader
      * @param null|string $msgContent

@@ -212,7 +212,7 @@ final class setting extends MainSwitchers
 
         $total = 0;
         $list = [];
-        $Nbreligne = 100;
+        $numLines = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
@@ -223,7 +223,7 @@ final class setting extends MainSwitchers
         } else {
 
             $total = $this->count->countUsersRecentActions();
-            $list = $this->select->listOfRecentActions($page, $Nbreligne);
+            $list = $this->select->listOfRecentActions($page, $numLines);
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
@@ -234,7 +234,7 @@ final class setting extends MainSwitchers
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
                 'position' => $position,
-                'nbrePage' => ceil(($total) / $Nbreligne),
+                'nbrePage' => ceil(($total) / $numLines),
                 'select' => $this->getId,
             ],
             true

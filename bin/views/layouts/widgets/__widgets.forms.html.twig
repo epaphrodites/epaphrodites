@@ -106,7 +106,7 @@
 {% macro actions_field( inputOptions ) %}
 	<!-- The validation select has started -->
 	<div class="blockactionsfroms">
-		<select id="export-options" class="form-select custom-select actionsbutton" name="_sendselected_" onchange="submitActions();">
+		<select id="export-options" class="form-select custom-select actionsbutton" name="{{ inputOptions.name ? inputOptions.name : '_sendselected_' }}" onchange="submitActions();">
 			<option selected="selected" value="">----------- Actions list ----------</option>
 			{% if inputOptions.datas is defined %}
 				{% for action in inputOptions.datas %}

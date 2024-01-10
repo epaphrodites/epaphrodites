@@ -123,7 +123,6 @@ Password : admin
 ### Authors
 
 - [Y'srael Aime N'DRI (Lead) ](https://github.com/ysrael-aime-ndri)
-- [Pascal smith DANHO ]()
 - [Jonathan EKLOU ]()
 - [Eric ADAYE ]()
 

@@ -91,4 +91,16 @@ class validate_token extends GeneratedValues
             return false;
         }
     }
+
+    private function checkMaindriver(){
+
+        return match (_FIRST_DRIVER_) {
+
+            'mongo' => $this->secure->noSqlSecure(),
+            'redis' => $this->secure->noSqlRedisSecure(),
+  
+            default => $this->secure->secure(),
+      };
+
+    }
 }

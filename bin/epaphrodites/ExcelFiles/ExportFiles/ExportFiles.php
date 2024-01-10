@@ -30,7 +30,7 @@ class ExportFiles
      * @var mixed $sheet
      * @return void
      */
-    public function ExportExcelFiles( array $header , array $content , string $title , ?string $type = 'xlsx' )
+    public function exportExcelFiles( array $header , array $content , string $title , ?string $type = 'xlsx' )
     {
 
         $sheet = $this->spreadsheet->getActiveSheet();
