@@ -55,7 +55,7 @@ trait adminUsersOptions{
             | Set login (Choose Name and surname) to front in default
             |--------------------------------------------------------------------------
             */
-                'login' => $this->session->nomprenoms(),
+                'login' => $this->session->nameSurname(),
 
                 /*
             |--------------------------------------------------------------------------

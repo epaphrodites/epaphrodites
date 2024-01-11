@@ -23,7 +23,7 @@ interface AuthSession
     /**
      * @return string|null
      */    
-    public function nomprenoms():string|null;
+    public function nameSurname():string|null;
 
     /**
      * @return string|null

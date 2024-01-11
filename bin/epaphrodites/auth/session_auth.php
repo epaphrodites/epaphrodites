@@ -69,10 +69,10 @@ class session_auth implements AuthSession
 
     /**
      * 
-     * User session nom et prenoms
+     * User session name and surname
      * @return string
      */
-    public function nomprenoms():string|null
+    public function nameSurname():string|null
     {
 
         return !empty($this->config->GetSessions(_AUTH_NAME_)) ? $this->config->GetSessions(_AUTH_NAME_)  : NULL;

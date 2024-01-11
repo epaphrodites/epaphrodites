@@ -36,5 +36,4 @@ class HardSession extends GeneralConfig{
         // Set usersGroup user session value
         $this->SetSession( _AUTH_TYPE_ , $usersGroup );
     }
-
 }

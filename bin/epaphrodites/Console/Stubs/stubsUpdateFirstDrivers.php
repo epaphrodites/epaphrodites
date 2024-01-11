@@ -125,7 +125,10 @@ class StubsUpdateFirstDrivers
     private function validateToken(string $driver): string
     {
         return <<<PHP
-        private function checkMainDriverRequest():string{
+        /**
+            * @return string
+            */        
+            private function checkMainDriverRequest():string{
 
             return {$this->findValidateToken($driver)};
             }\n

@@ -53,7 +53,7 @@ trait mainUsersOptions{
             | Set login (Choose Name and surname default) to front in default
             |--------------------------------------------------------------------------
             */
-                'login' => $this->session->nomprenoms(),
+                'login' => $this->session->nameSurname(),
 
                 /*
             |--------------------------------------------------------------------------

@@ -70,7 +70,7 @@ class runKernel extends ConfigHttp
          * Force users to users to save his informations
          * @return string
          */
-        if (static::class('session')->id() !== NULL && static::class('session')->login() !== NULL && empty(static::class('session')->nomprenoms()) && empty(static::class('session')->email()) && empty(static::class('session')->contact())) {
+        if (static::class('session')->id() !== NULL && static::class('session')->login() !== NULL && empty(static::class('session')->nameSurname()) && empty(static::class('session')->email()) && empty(static::class('session')->contact())) {
 
             $this->GetUrl = (string) $this->InterfaceManager->identification();
         }
