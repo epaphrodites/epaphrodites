@@ -123,8 +123,9 @@ Password : admin
 ### Authors
 
 - [Y'srael Aime N'DRI (Lead) ](https://github.com/ysrael-aime-ndri)
-- [Jonathan EKLOU ]()
-- [Eric ADAYE ]()
+- [Pascal smith DANHO ](https://github.com/smith9522)
+- [Jonathan EKLOU ](https://github.com/Jonath-Mess-eklou)
+- [Eric ADAYE ](https://github.com/Adayek)
 
 ### Contributing
 
