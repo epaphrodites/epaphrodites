@@ -9,13 +9,15 @@ class StubsUpdateFirstDrivers
      *
      * @param string $csrfSecure    The CSRF secure file path
      * @param string $startSession  The start session file path
+     * @param string $validateToken  The start session file path
      * @param string $driver        The driver name
      * @return void
      */
-    public function generateRequest(string $csrfSecure, string $startSession, string $driver): void
+    public function generateRequest(string $csrfSecure, string $startSession, string $validateToken, string $driver): void
     {
         $currentCsrfSecureContent = file_get_contents($csrfSecure);
         $currentStartSessionContent = file_get_contents($startSession);
+        $currentValidateTokenContent = file_get_contents($validateToken);
         
 
         $secureFileContent = preg_replace(
@@ -30,8 +32,15 @@ class StubsUpdateFirstDrivers
             $currentStartSessionContent
         );
 
+        $keyValidateTokenFileContent = preg_replace(
+            '/\/\*\*.*checkMainDriverRequest\(\).*?\}\n/s',
+            $this->findValidateToken($driver),
+            $currentValidateTokenContent
+        );
+
         file_put_contents($csrfSecure, $secureFileContent);
         file_put_contents($startSession, $keySessionFileContent);
+        file_put_contents($validateToken, $keyValidateTokenFileContent);
     }
 
     /**
@@ -62,7 +71,16 @@ class StubsUpdateFirstDrivers
             'redis' => "!empty(static::class('secure')->noSqlRedisCheckUserCrsfToken()) ? static::class('secure')->noSqlRedisCheckUserCrsfToken() : \$_COOKIE[static::class('msg')->answers('token_name')]",
             'mysql', 'pgsql', 'sqlite', 'sqlserver' => "!empty(static::class('secure')->CheckUserCrsfToken()) ? static::class('secure')->CheckUserCrsfToken() : \$_COOKIE[static::class('msg')->answers('token_name')]",
         };
-    }   
+    }
+    
+    private function findValidateToken(string $driver):string
+    {
+        return match ($driver) {
+            'mongo' => "\$this->secure->noSqlSecure()",
+            'redis' => "\$this->secure->noSqlRedisSecure()",
+            'mysql', 'pgsql', 'sqlite', 'sqlserver' => "\$this->secure->secure()",
+      };
+    }
     
     /**
      * Generates session key function content based on the driver.

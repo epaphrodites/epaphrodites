@@ -180,8 +180,8 @@ final class users extends MainSwitchers
             foreach (static::isArray('users') as $login) {
 
                 $this->result = static::isSelected('_sendselected_', 1 ) 
-                    ? $this->update->updateEtatsUsers($login) : 
-                    $this->update->initUsersPassword($login);
+                            ? $this->update->updateEtatsUsers($login) : 
+                              $this->update->initUsersPassword($login);
             }
 
             if ($this->result === true) {
@@ -201,8 +201,13 @@ final class users extends MainSwitchers
             
         }else {
 
-            $total = static::notEmpty(['filtre'] , 'GET') ? $this->count->CountUsersByGroup($_GET['filtre']) : $this->count->CountAllUsers();
-            $list = static::notEmpty(['filtre'] , 'GET') ? $this->getId->GetUsersByGroup($page, $numLines, $_GET['filtre']) : $this->select->listeOfAllUsers($page, $numLines);
+            $total = static::notEmpty(['filtre'] , 'GET') 
+                                        ? $this->count->CountUsersByGroup($_GET['filtre']) : 
+                                          $this->count->CountAllUsers();
+
+            $list = static::notEmpty(['filtre'] , 'GET') 
+                                        ? $this->getId->GetUsersByGroup($page, $numLines, $_GET['filtre']) : 
+                                          $this->select->listeOfAllUsers($page, $numLines);
         }
 
         static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(

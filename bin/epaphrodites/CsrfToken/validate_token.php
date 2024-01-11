@@ -52,13 +52,7 @@ class validate_token extends GeneratedValues
     protected function verifyOn(): bool
     {
 
-        $request = match (_FIRST_DRIVER_) {
-
-            'mongo' => $this->secure->noSqlSecure(),
-            'redis' => $this->secure->noSqlRedisSecure(),
-  
-            default => $this->secure->secure(),
-      };
+        $request = $this->checkMainDriverRequest();
 
         $hashedSecure = static::gostHash($request);
 
@@ -92,7 +86,7 @@ class validate_token extends GeneratedValues
         }
     }
 
-    private function checkMaindriver(){
+    private function checkMainDriverRequest(){
 
         return match (_FIRST_DRIVER_) {
 
@@ -101,6 +95,5 @@ class validate_token extends GeneratedValues
   
             default => $this->secure->secure(),
       };
-
     }
 }

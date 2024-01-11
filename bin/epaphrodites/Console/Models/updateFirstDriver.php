@@ -24,11 +24,12 @@ class updateFirstDriver extends AddFirstDriver{
         $checkDriver = in_array($driver , self::$allowedMethods);
 
         $crsfSecure = OutputDirectory::Files('crsfsecure') . '/csrf_secure.php';
+        $validateToken = OutputDirectory::Files('crsfsecure') . '/validate_token.php';
         $startSession = OutputDirectory::Files('startsession') . '/StartUsersSession.php';
 
         if($checkDriver===true){
 
-            (new stubsUpdateFirstDrivers)->generateRequest($crsfSecure, $startSession , $driver);
+            (new stubsUpdateFirstDrivers)->generateRequest($crsfSecure, $startSession , $validateToken , $driver);
             $output->writeln("<info>{$driver} driver has created successfully!!!✅</info>");
             return self::SUCCESS;            
 
