@@ -23,6 +23,20 @@ class validate_token extends GeneratedValues
         $this->secure = new csrf_secure;
     }
 
+        /** 5
+     * @return string
+     */
+    private function checkMainDriverRequest():string {
+
+        return match (_FIRST_DRIVER_) {
+
+            'mongo' => $this->secure->noSqlSecure(),
+            'redis' => $this->secure->noSqlRedisSecure(),
+  
+            default => $this->secure->secure(),
+      };
+    }
+
     /**
      * Get the CSRF token from POST or GET
      *
@@ -84,16 +98,5 @@ class validate_token extends GeneratedValues
             $this->error->send();
             return false;
         }
-    }
-
-    private function checkMainDriverRequest(){
-
-        return match (_FIRST_DRIVER_) {
-
-            'mongo' => $this->secure->noSqlSecure(),
-            'redis' => $this->secure->noSqlRedisSecure(),
-  
-            default => $this->secure->secure(),
-      };
     }
 }

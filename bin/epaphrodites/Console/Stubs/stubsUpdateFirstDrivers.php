@@ -9,7 +9,7 @@ class StubsUpdateFirstDrivers
      *
      * @param string $csrfSecure    The CSRF secure file path
      * @param string $startSession  The start session file path
-     * @param string $validateToken  The start session file path
+     * @param string $validateToken  The validate token file path
      * @param string $driver        The driver name
      * @return void
      */
@@ -19,26 +19,25 @@ class StubsUpdateFirstDrivers
         $currentStartSessionContent = file_get_contents($startSession);
         $currentValidateTokenContent = file_get_contents($validateToken);
         
-
-        $secureFileContent = preg_replace(
+        $keySecureFileContent = preg_replace(
              '/private function getTokenCrsf\(\?string \$key=null\):bool\|string\|null\s*{[^}].*?\}\n/s',
             $this->csrfSecureFunction($driver),
             $currentCsrfSecureContent
         );
 
         $keySessionFileContent = preg_replace(
-            '/\/\*\*.*key\(\).*?\}\n/s',
+            '/\/\*\*.*key\(\):string\s*{[^}]*}.*?\}\n/s',
             $this->sessionKeyFunction($driver),
             $currentStartSessionContent
         );
-
+        
         $keyValidateTokenFileContent = preg_replace(
-            '/\/\*\*.*checkMainDriverRequest\(\).*?\}\n/s',
-            $this->findValidateToken($driver),
+            '/\/\*\*.*checkMainDriverRequest\(\):string\s*{[^}]*}.*?\}\n/s',
+            $this->validateToken($driver),
             $currentValidateTokenContent
         );
-
-        file_put_contents($csrfSecure, $secureFileContent);
+        
+        file_put_contents($csrfSecure, $keySecureFileContent);
         file_put_contents($startSession, $keySessionFileContent);
         file_put_contents($validateToken, $keyValidateTokenFileContent);
     }
@@ -93,12 +92,12 @@ class StubsUpdateFirstDrivers
         return <<<PHP
         /**
          * Current cookies value
-         */
-        private function key(): string
-        {
+        */        
+        private function key():string {
             return {$this->findStartSessionRequest($driver)};
-        }}
-        PHP;        
+          }\n
+        PHP; 
+        
     }
 
     /**
@@ -110,15 +109,26 @@ class StubsUpdateFirstDrivers
     private function csrfSecureFunction(string $driver): string
     {
         return <<<PHP
-        /**
-         * Get rooting csrf 
-         * @param string \$key
-         * @return bool|string|null
-         */
-        private function getTokenCrsf(?string \$key=null): bool|string|null
-        {
+        private function getTokenCrsf(?string \$key=null):bool|string|null{
+
             return {$this->findSecureRequest($driver)};
-        } 
+            }\n
         PHP;         
-    }    
+    }  
+    
+     /**
+     * Generates session key function content based on the driver.
+     *
+     * @param string $driver The driver name
+     * @return string
+     */
+    private function validateToken(string $driver): string
+    {
+        return <<<PHP
+        private function checkMainDriverRequest():string{
+
+            return {$this->findValidateToken($driver)};
+            }\n
+        PHP;        
+    }   
 }
