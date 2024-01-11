@@ -29,6 +29,7 @@ trait currentFunctionNamespaces
             'bot' => new \Epaphrodites\epaphrodites\chatBot\processBotAnswers,
             'verify' => new \Epaphrodites\epaphrodites\env\VerifyInputCharacteres,
             'import' => new \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles,
+            'export' => new \Epaphrodites\epaphrodites\ExcelFiles\ExportFiles\ExportFiles,
             'eng' => new \Epaphrodites\epaphrodites\define\lang\eng\SetEnglishTextMessages,
             'french' => new \Epaphrodites\epaphrodites\define\lang\fr\SetFrenchTextMessages,
             'spanish' => new \Epaphrodites\epaphrodites\define\lang\esp\SetSpanichTextMessages,
