@@ -36,7 +36,7 @@ class validate_token extends GeneratedValues
             default => $this->secure->secure(),
       };
     }
-
+    
     /**
      * Get the CSRF token from POST or GET
      *

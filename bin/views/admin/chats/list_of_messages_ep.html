@@ -1,4 +1,4 @@
-{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import ajax %}{% from forms import textarea_field , loader , submit %} {% block content %}{{ alert_msg( reponse , alert ) }}
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import send_ajax_request , get_ajax_request %}{% from forms import textarea_field , loader , submit %} {% block content %}{{ alert_msg( reponse , alert ) }}
 {{ breadcrumb_field('CHAT MESSAGES' )}}
 <section>
   <div class="container chatcard">
@@ -76,8 +76,8 @@
     </div>
   </div>
 </section>
-{{ ajax({
+{{ send_ajax_request({
   method : "POST",
-  url : "list_of_messages",
+  url : "chat@list_of_messages",
 }) }}
 {% endblock %}
