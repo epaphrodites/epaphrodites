@@ -120,6 +120,10 @@ Password : admin
 
 😎 Enjoy yourself
 
+### Documentation
+
+[Documentation](https://epaphrodite.org/)
+
 ### Authors
 
 - [Y'srael Aime N'DRI (Lead) ](https://github.com/ysrael-aime-ndri)

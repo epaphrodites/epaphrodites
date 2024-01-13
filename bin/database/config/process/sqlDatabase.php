@@ -15,9 +15,9 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      * Disconnection from the database
      * 
      * @param int $bd
-     * @return null
+     * @return int|null
      */
-    private function closeConnection(int $bd): null
+    private function closeConnection(int $bd): int|null
     {
         return NULL; // Placeholder function for disconnection
     }
@@ -25,16 +25,16 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
     /**
      * SQL request to select data
      * 
-     * @param string|null $SqlChaine The SQL query
+     * @param string|null $sqlChaine The SQL query
      * @param array|null $datas The data for query parameters
      * @param bool|null $param Flag to indicate if query parameters are set
      * @param bool|null $etat Flag to indicate if connection should be closed after execution
      * @param int|1 $bd The database reference
      * @return array|null The fetched data
      */
-    public function select($SqlChaine, $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): array|NULL
+    public function select($sqlChaine, $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): array|NULL
     {
-        $request = $this->dbConnect($bd)->prepare($SqlChaine);
+        $request = $this->dbConnect($bd)->prepare($sqlChaine);
 
         if ($param === true) {
             foreach ($datas as $k => &$v) {
@@ -53,16 +53,16 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
     /**
      * SQL request execution
      * 
-     * @param string|null $SqlChaine The SQL query
+     * @param string|null $sqlChaine The SQL query
      * @param array|null $datas The data for query parameters
      * @param bool|null $param Flag to indicate if query parameters are set
      * @param bool|null $etat Flag to indicate if connection should be closed after execution
      * @param int|1 $bd The database reference
      * @return bool|null True if the execution is successful, otherwise false
      */
-    public function runRequest($SqlChaine, $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): bool|NULL
+    public function runRequest($sqlChaine, $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): bool|NULL
     {
-        $request = $this->dbConnect($bd)->prepare($SqlChaine);
+        $request = $this->dbConnect($bd)->prepare($sqlChaine);
 
         if ($param === true) {
             foreach ($datas as $k => &$v) {
