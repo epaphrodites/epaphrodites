@@ -21,9 +21,9 @@ class AddUsersRights extends AddRightsConfig
     {
         # Get console arguments
         $module = $input->getArgument('moduleKey');
-        $path = str_replace( '@' , '/' , $input->getArgument('path'));
         $libelle = str_replace( '_' , ' ' , $input->getArgument('libelle'));
-        
+        $path = str_replace( '@' , '/' , $input->getArgument('path'));
+
         # Get module list and verify key
         $ModuleList = GetModulesList::GetModuleList();
         $IfModuleKeyExist = array_key_exists($module,$ModuleList);    

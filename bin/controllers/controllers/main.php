@@ -6,6 +6,7 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class main extends MainSwitchers
 {
+    
     private string $ans = '';
     private string $htmlClass = '';
 
@@ -16,7 +17,7 @@ final class main extends MainSwitchers
      */
     public final function index(string $html): void
     {
-
+  
         static::rooter()->target(_DIR_MAIN_TEMP_ . $html)->content([])->get();
     }
 

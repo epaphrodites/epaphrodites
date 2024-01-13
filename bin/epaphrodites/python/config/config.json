@@ -1,22 +1,26 @@
 {
     "convert_img_to_text": {
-        "script": "env/translateImgToText.py",
+        "script": "env\/translateImgToText.py",
         "function": "getImgContent"
     },
     "convert_pdf_to_text": {
-        "script": "env/translatepdfToText.py",
+        "script": "env\/translatepdfToText.py",
         "function": "pdf_converter"
-    },    
+    },
     "encrypt": {
-        "script": "env/encryptDecrypt.py",
+        "script": "env\/encryptDecrypt.py",
         "function": "encryptValue"
     },
     "decrypt": {
-        "script": "env/encryptDecrypt.py",
+        "script": "env\/encryptDecrypt.py",
         "function": "decryptValue"
     },
     "report": {
-        "script": "env/sendDailyReport.py",
+        "script": "env\/sendDailyReport.py",
         "function": "send_daily_report"
-    }    
+    },
+    "hello_world": {
+        "script": "hello_world.py",
+        "function": "hello_world"
+    }
 }

@@ -17,6 +17,7 @@ class OutputDirectory
             'main' => 'bin/views/main',
             'admin' => 'bin/views/admin',
             'json' => 'bin/database/datas/json',
+            'python' => 'bin/epaphrodites/python',
             'startsession' => 'bin/epaphrodites/auth',
             'crsfsecure' => 'bin/epaphrodites/CsrfToken',
             'controlleur' => 'bin/controllers/controllers',
