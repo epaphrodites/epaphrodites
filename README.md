@@ -120,7 +120,7 @@ Password : admin
 
 😎 Enjoy yourself
 
-### Documentation
+### 📗 Documentation
 
 [Documentation](https://epaphrodite.org/)
 
