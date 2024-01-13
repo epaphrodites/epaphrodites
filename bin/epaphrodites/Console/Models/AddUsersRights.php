@@ -21,7 +21,7 @@ class AddUsersRights extends AddRightsConfig
     {
         # Get console arguments
         $module = $input->getArgument('moduleKey');
-        $path = $input->getArgument('path');
+        $path = str_replace( '@' , '/' , $input->getArgument('path'));
         $libelle = str_replace( '_' , ' ' , $input->getArgument('libelle'));
         
         # Get module list and verify key
