@@ -11,7 +11,7 @@ class AddControllerPage extends Command
     protected function configure()
     {
         $this->setDescription('Add view function page')
-             ->setHelp('This command allows you to Add View pas.')
+             ->setHelp('This command allows you to Add View.')
              ->addArgument('controller', InputArgument::REQUIRED, 'Select the controller)')
              ->addArgument('path', InputArgument::REQUIRED, 'Select the path');
     }

@@ -25,7 +25,7 @@ class AddNoSqlRequest extends AddNoSqlConfig
 
         if(!empty(OutputDirectory::Files($directory))){
 
-            $FileName = OutputDirectory::Files($directory) . '/' . $file . '.php';
+            $FileName = OutputDirectory::Files($directory) . "/{$file}.php";
            
             if(file_exists($FileName)===true){
                 AddNoSqlRequestStub::generate($FileName, $name , $type);

@@ -16,6 +16,7 @@ class ConsoleKernel
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddPython,
             new \Epaphrodites\epaphrodites\Console\commands\CommandRunServer,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddRights,
+            new \Epaphrodites\epaphrodites\Console\commands\CommandAddCommand,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddModules,
             new \Epaphrodites\epaphrodites\Console\commands\CommandCreatFront,
             new \Epaphrodites\epaphrodites\Console\commands\CommandController,

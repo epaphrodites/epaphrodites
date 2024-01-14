@@ -21,7 +21,7 @@ class AddControllerViewPages extends AddControllerPage{
         $controller = $input->getArgument('controller');
         $name = $input->getArgument('path');
 
-        $FileName = OutputDirectory::Files('controlleur') . '/' . $controller . '.php';
+        $FileName = OutputDirectory::Files('controlleur') . "/{$controller}.php";
 
         if(file_exists($FileName)===true){
 

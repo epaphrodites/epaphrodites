@@ -28,7 +28,7 @@ class AddPythonFiles extends AddPythonFilesCommand{
            (string) $functionName = $getFunction[1];
         }
 
-        $FileName = OutputDirectory::Files('python') . '/' . $fileName . '.py';
+        $FileName = OutputDirectory::Files('python') . "/{$fileName}.py";
 
         if(file_exists($FileName)===false){
 

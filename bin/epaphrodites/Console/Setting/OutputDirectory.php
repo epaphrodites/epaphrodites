@@ -15,6 +15,7 @@ class OutputDirectory
 
         $list = [
             'main' => 'bin/views/main',
+            'console' => 'bin/epaphrodites/Console',
             'admin' => 'bin/views/admin',
             'json' => 'bin/database/datas/json',
             'python' => 'bin/epaphrodites/python',
