@@ -8,7 +8,7 @@ use Epaphrodites\database\query\Builders;
 class databaseSeeding extends Builders{
 
     /**
-     * Seed the application's database.
+     * Seed the application's database (sql/nosql).
      */    
     public function noSqlRun(): void
     {

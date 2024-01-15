@@ -20,7 +20,7 @@ class modelseeding extends settingseeding{
 
         $seeding = new databaseSeeding;
 
-        $databaseType = $input->getArgument('type');
+        $databaseType = strtolower($input->getArgument('type'));
 
         if (in_array($databaseType, self::$Autorise)) {
             
