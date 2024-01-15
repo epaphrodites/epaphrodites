@@ -20,7 +20,7 @@ class CreateRequestFiles extends RequestFileConfig
         $type = $input->getArgument('type');
         $name = $input->getArgument('name');
         if(is_dir(OutputDirectory::Files($type))!==false){
-            $FileName = OutputDirectory::Files($type) . '/' . $name . '.php';
+            $FileName = OutputDirectory::Files($type) . "/{$name}.php";
             RequestFilesStub::generate($FileName, $name , $type);
             $output->writeln("<info>The request file {$name} has been successfully created!!!</info>");
     

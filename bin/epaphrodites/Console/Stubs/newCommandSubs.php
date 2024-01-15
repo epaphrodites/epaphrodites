@@ -23,7 +23,7 @@ namespace Epaphrodites\\epaphrodites\\Console\commands;
 
 use Epaphrodites\\epaphrodites\\Console\\Models\\model{$fileName};
 
-class commd{$fileName} extends model{$fileName}{
+class command{$fileName} extends model{$fileName}{
 
     protected static \$defaultName = '{$command}';
 }
@@ -77,7 +77,7 @@ class setting{$fileName} extends Command
     {
         \$this->setDescription('Add your command description')
                 ->setHelp('This is help.')
-                ->addArgument('name', InputArgument::REQUIRED, 'Your argument name )');
+                ->addArgument('name', InputArgument::REQUIRED, 'Your argument name');
     }
 }        
         ";

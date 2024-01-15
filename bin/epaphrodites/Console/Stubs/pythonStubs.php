@@ -30,12 +30,12 @@
 
 class {$functionName}:
 
-    def print_hello_world(self):
-        print('Hello, World!')
+    def func_{$functionName}(self):
+        print('Hello welcome to epaphrodites from Python!')
 
 if __name__ == '__main__':  
-    hello_world_instance = {$functionName}()
-    hello_world_instance.print_hello_world()  
+    print_instance = {$functionName}()
+    print_instance.func_{$functionName}  
         ";  
         
         return $stub;
@@ -47,7 +47,7 @@ if __name__ == '__main__':
 
         $newJsonData = [
                 "script" => "{$fileName}.py",
-                "function" => $functionName
+                "function" => "func_{$functionName}"
             ];
 
         $jsonConfigArray = json_decode($jsonConfigContent, true);

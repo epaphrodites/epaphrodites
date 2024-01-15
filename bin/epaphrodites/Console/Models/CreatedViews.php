@@ -24,7 +24,7 @@ class CreatedViews extends CreateViewsConfig
 
         if(is_dir(OutputDirectory::Files($directory).$locate)!==false){
             
-            $fileName = OutputDirectory::Files($directory) .$locate. '/' . $name . _MAIN_EXTENSION_ . _FRONT_;
+            $fileName = OutputDirectory::Files($directory) .$locate. "/{$name}" . _MAIN_EXTENSION_ . _FRONT_;
             
             AllViewsStub::generate($fileName, $name , $directory);
             $output->writeln("<info>The view file {$name} has been successfully created!!!✅</info>");
