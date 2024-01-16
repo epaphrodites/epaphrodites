@@ -19,10 +19,10 @@ class count extends SelectCount
     $login = static::initNamespace()['session']->login();
 
     $result = $this->table('chatsmessages')
-      ->like('destinataire')
-      ->and(['etatmessages'])
-      ->param([$login, 1])
-      ->SQuery('COUNT(*) AS nbre');
+                  ->like('destinataire')
+                  ->and(['etatmessages'])
+                  ->param([$login, 1])
+                  ->SQuery('COUNT(*) AS nbre');
 
     return $result[0]['nbre'];
   }
@@ -46,9 +46,9 @@ class count extends SelectCount
   public function sqlCountUsersByGroup(int $Group): int
   {
     $result = $this->table('useraccount')
-      ->where('typeusers')
-      ->param([$Group])
-      ->SQuery("COUNT(*) AS nbre");
+                  ->where('typeusers')
+                  ->param([$Group])
+                  ->SQuery("COUNT(*) AS nbre");
 
     return $result[0]['nbre'];
   }

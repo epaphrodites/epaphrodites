@@ -19,7 +19,7 @@ class select extends SelectSelect
 
         $result = $this->table('useraccount')
             ->limit((($page - 1) * $numLines), $numLines)
-            ->orderby('typeusers', 'ASC')
+            ->orderBy('typeusers', 'ASC')
             ->SQuery();
 
         return $result;
@@ -37,7 +37,7 @@ class select extends SelectSelect
 
         $result = $this->table('recentactions')
             ->limit((($page - 1) * $numLines), $numLines)
-            ->orderby('dateactions', 'ASC')
+            ->orderBy('dateactions', 'ASC')
             ->SQuery();
 
         return $result;
