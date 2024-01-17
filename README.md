@@ -25,20 +25,15 @@ What you should know before starting the installation. To create a new applicati
 composer create-project --prefer-dist epaphrodites/epaphrodites your-project-name
 ```
 
-⚠️ Recommendation : If `MongoDB` is not installed on your machine, we recommend removing the `mongodb/mongodb` line from your `composer.json` file. This will prevent errors during the framework installation. Or run this command :
+⚠️ Recommendation : If you have already installed `MongoDB` on your machine and wish to incorporate its usage into your project, please execute the following command:
 
 ```bash
-composer create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name
+composer require mongodb/mongodb
 ```
 
 Continue the installation by doing :
 ```bash
 composer update
-```
-
-If mongodb is not installing :
-```bash
-composer update --ignore-platform-req=ext-mongodb
 ```
 
 ```bash

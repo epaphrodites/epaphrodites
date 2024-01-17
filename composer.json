@@ -42,7 +42,6 @@
     "chillerlan/php-qrcode": "^4.3",
     "brick/math": "^0.11.0",
     "symfony/console": "^6.2",
-    "mongodb/mongodb": "^1.16",
     "mpdf/mpdf": "^8.2"
   },
   "require-dev": {
