@@ -14,6 +14,7 @@ class ConsoleKernel
         return [
             new \Epaphrodites\epaphrodites\Console\commands\CommandsUsers,
             new \Epaphrodites\epaphrodites\Console\commands\commandseeding,
+            new \Epaphrodites\epaphrodites\Console\commands\commandMigration,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddPython,
             new \Epaphrodites\epaphrodites\Console\commands\CommandRunServer,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddRights,
