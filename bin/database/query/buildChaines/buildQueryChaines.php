@@ -30,6 +30,30 @@ trait buildQueryChaines
             $query .= " {$this->join}";
         }
 
+        /* 
+         * Add join left if exist
+        */
+        if ($this->joinLeft) {
+
+            $query .= " {$this->joinLeft}";
+        }
+
+        /* 
+         * Add join right if exist
+        */
+        if ($this->joinRight) {
+
+            $query .= " {$this->joinRight}";
+        }  
+        
+        /* 
+         * Add join right if exist
+        */
+        if ($this->joinFull) {
+
+            $query .= " {$this->joinFull}";
+        }           
+
         /**
          * Add where if exist
          */

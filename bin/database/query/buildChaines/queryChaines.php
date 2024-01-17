@@ -22,6 +22,9 @@ trait queryChaines
     private $and;
     private $order;
     private $join;
+    private $joinFull;
+    private $joinLeft;
+    private $joinRight;
     private $limit;
     private $rlimit;
     private $rset;
@@ -405,11 +408,56 @@ trait queryChaines
     public function join(array $getJoin = []): self
     {
         foreach ($getJoin as $val) {
-            $this->join .= ' JOIN ' . str_replace('|', ' ON ', $val);
+            $this->join .= ' INNER JOIN ' . str_replace('|', ' ON ', $val);
         }
 
         return $this;
     }
+
+    /**
+     * Sets the LEFT JOIN clauses for the query
+     *
+     * @param array $getJoin The array of JOIN clauses
+     * @return self
+     */
+    public function joinLeft(array $getJoin = []): self
+    {
+        foreach ($getJoin as $val) {
+            $this->joinLeft .= ' LEFT JOIN ' . str_replace('|', ' ON ', $val);
+        }
+
+        return $this;
+    }   
+    
+    /**
+     * Sets the RIGHT JOIN clauses for the query
+     *
+     * @param array $getJoin The array of JOIN clauses
+     * @return self
+     */
+    public function joinRight(array $getJoin = []): self
+    {
+        foreach ($getJoin as $val) {
+            $this->joinRight .= ' RIGHT JOIN ' . str_replace('|', ' ON ', $val);
+        }
+
+        return $this;
+    } 
+    
+    /**
+     * Sets the FULL JOIN clauses for the query
+     *
+     * @param array $getJoin The array of JOIN clauses
+     * @return self
+     */
+    public function joinFull(array $getJoin = []): self
+    {
+        foreach ($getJoin as $val) {
+            $this->joinFull .= ' FULL JOIN ' . str_replace('|', ' ON ', $val);
+        }
+
+        return $this;
+    }     
 
     /**
      * Sets the SET clause for the query
