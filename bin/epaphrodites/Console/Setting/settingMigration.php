@@ -12,7 +12,7 @@ class settingMigration extends Command
     {
         $this->setDescription('Command to make database migration')
                 ->setHelp('Add type of migration.')
-                ->addArgument('name', InputArgument::REQUIRED, 'Set magration type');
+                ->addArgument('type', InputArgument::REQUIRED, 'Set magration type');
     }
 }        
         

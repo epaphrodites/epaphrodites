@@ -8,7 +8,8 @@ use Epaphrodites\database\gearShift\databaseGearShift;
 use Epaphrodites\epaphrodites\Console\Setting\settingMigration;
         
 class modelMigration extends settingMigration{
-        
+ 
+    
  
     /**
     * @param \Symfony\Component\Console\Input\InputInterface $input
@@ -16,16 +17,28 @@ class modelMigration extends settingMigration{
     */
     protected function execute( InputInterface $input, OutputInterface $output)
     {
-      
-        $gearDatabase = new databaseGearShift;
-
-        $test = $gearDatabase->addGearShift();
-
         # Get console arguments
-        $name = $input->getArgument('name');
+        $actionType = $input->getArgument('type');
+
+        $test = $this->checkActionsType($actionType);
 
         var_dump($test);die;
         // Your actions
+    }
+
+
+    public function checkActionsType(string $action):string
+    {
+        $gearShift = new databaseGearShift;
+
+        return match ($action) {
+
+            'upd' => $gearShift->addGearShift(),
+            'add' => $gearShift->addGearShift(),
+            'drop' => $gearShift->addGearShift(),
+      
+            default => $gearShift->addGearShift(),
+          };
     }
 
 }

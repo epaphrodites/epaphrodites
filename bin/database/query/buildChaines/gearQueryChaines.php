@@ -6,9 +6,9 @@ trait gearQueryChaines
 {
     protected $columns = [];
 
-    public function id()
+    public function id(string $id = "id")
     {
-        $this->addColumn('id', 'INT', ['unsigned' => true, 'autoIncrement' => true, 'primary' => true]);
+        $this->addColumn($id , 'INT', ['unsigned' => true, 'autoIncrement' => true, 'primary' => true]);
 
         return $this;
     }
