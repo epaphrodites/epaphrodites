@@ -14,9 +14,9 @@ class buildGearShift{
         $callback($this);
 
         $columns = implode(', ', $this->getColumns());
-        $sql = "CREATE TABLE `$tableName` ($columns)";
+
+        $sql = "CREATE TABLE IF NOT EXISTS `$tableName` ($columns)";
 
         return $sql;
     }    
-
 }

@@ -15,13 +15,4 @@ class Builders extends checkQueryChaines implements ContractsBuilders
 
     return static::initConfig()['seeder']->SeederGenerated();
   }
-
-  /**
-   * @return mixed
-   */
-  public function checkDbType()
-  {
-
-    return _DATABASE_ === 'sql' ? true : false;
-  }
 }

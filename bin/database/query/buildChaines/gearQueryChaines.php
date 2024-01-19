@@ -5,6 +5,7 @@ namespace Epaphrodites\database\query\buildChaines;
 trait gearQueryChaines
 {
     protected $columns = [];
+    protected int $db;
 
     public function id(string $id = "id")
     {
@@ -13,11 +14,31 @@ trait gearQueryChaines
         return $this;
     }
 
-    public function string($columnName, $length = 255)
+    public function key(string $key = "id")
     {
-        $this->addColumn($columnName, 'VARCHAR', ['length' => $length]);
+        $this->addColumn($key , 'INTEGER PRIMARY KEY', ['unsigned' => true, 'autoIncrement' => true, 'primary' => true]);
 
         return $this;
+    }    
+
+    public function string($columnName, $length = 255)
+    {
+        $this->addColumn($columnName, 'string', ['length' => $length]);
+
+        return $this;
+    }
+
+    public function text($columnName, $length = 255)
+    {
+        $this->addColumn($columnName, 'TEXT', ['length' => $length]);
+
+        return $this;
+    }    
+
+    public function db(int $db = 1){
+
+        $this->db = $db;
+        $this;
     }
 
     public function timestamp($columnName)
@@ -26,8 +47,6 @@ trait gearQueryChaines
 
         return $this;
     }
-
-    // Autres méthodes pour d'autres types de colonnes...
 
     public function getColumns()
     {

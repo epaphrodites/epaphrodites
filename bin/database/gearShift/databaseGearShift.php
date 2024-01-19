@@ -11,14 +11,12 @@ class databaseGearShift extends buildGearShift{
      */
     public function addGearShift():string{
 
-        $sql = $this->generateTable('users', function ($table) {
-
-            $table->id();
-            $table->string('name', 12);
-            $table->string('test');
-        });
+        // $sql = $this->generateTable('test', function ($table) {
+        //     $table->string('name' , 12 );
+        //     $table->string('surname' , 12 );
+        // });
         
-        return $sql;        
+        return '';        
     }
 
 }

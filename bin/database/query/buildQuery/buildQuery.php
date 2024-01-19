@@ -89,5 +89,4 @@ trait buildQuery
         
         return (new getDatabase)->GetConnexion($db);
     }
-
 }

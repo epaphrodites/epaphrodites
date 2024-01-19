@@ -88,7 +88,7 @@ trait queryChaines
      */
     public function count(): self
     {
-        $this->count = 'count';
+        $this->count = 'COUNT';
 
         return $this;
     }  

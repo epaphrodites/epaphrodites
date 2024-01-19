@@ -2,6 +2,7 @@
 
 namespace Epaphrodites\epaphrodites\Console\Models;
         
+use Epaphrodites\database\query\Builders;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Epaphrodites\database\gearShift\databaseGearShift;
@@ -20,10 +21,13 @@ class modelMigration extends settingMigration{
         # Get console arguments
         $actionType = $input->getArgument('type');
 
-        $test = $this->checkActionsType($actionType);
+        $getQueryChaine = $this->checkActionsType($actionType);
 
-        var_dump($test);die;
-        // Your actions
+        $this->executeQuery($getQueryChaine);
+
+        $output->writeln("<info>The migration has been successfully created!!!✅</info>");
+            return self::SUCCESS;
+
     }
 
 
@@ -39,6 +43,13 @@ class modelMigration extends settingMigration{
       
             default => $gearShift->addGearShift(),
           };
+    }
+
+    private function executeQuery(string $queryChaine){
+
+        $database = new Builders;
+
+        $database->chaine($queryChaine)->setQuery();
     }
 
 }
