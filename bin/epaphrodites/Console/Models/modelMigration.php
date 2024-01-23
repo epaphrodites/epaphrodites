@@ -23,14 +23,18 @@ class modelMigration extends settingMigration{
 
         $getQueryChaine = (string) $this->checkActionsType($actionType);
 
-        $this->executeQuery($getQueryChaine);
+        if(!empty($getQueryChaine)){
 
-        $output->writeln("<info>The migration has been successfully created!!!✅</info>");
-        return self::SUCCESS;
+            $this->executeQuery($getQueryChaine);
+            $output->writeln("<info>The migration has been successfully created!!!✅</info>");
+            return self::SUCCESS;
+        }else{
+            $output->writeln("<error>Sorry, check your request before starting the migration ❌</error>");
+            return self::FAILURE;
+        }
     }
 
-
-    public function checkActionsType(string $action)
+    private function checkActionsType(string $action)
     {
         $gearShift = new databaseGearShift;
 

@@ -2,47 +2,56 @@
 
 namespace Epaphrodites\database\query\buildChaines;
 
-trait GearQueryChaines
+trait gearQueryChaines
 {
+    private ?string $tableName = null;
+    private array $columns = [];
 
-    private $tableName;
-    private $columns = [];
-    private $indexes = [];
 
-    public function createTable($tableName, $callback)
+    public function createTable(string $tableName, callable $callback): string
     {
         $this->tableName = $tableName;
         $callback($this);
         return $this->executeMigration();
     }
 
-    public function dropTable($table)
+    public function dropTable(string $table, callable $callback = null): string
     {
-
         $sql = "DROP TABLE IF EXISTS {$table}";
-        $this->executeQuery($sql);
+
+        if ($callback !== null) {
+            
+            $additionalSql = $callback($this);
+    
+            if (!empty($additionalSql)) {
+                
+                $sql .= strpos($additionalSql, 'DROP COLUMN') !== false ? ' ' . $additionalSql : ' ' . trim($additionalSql, ';') . ';';
+            }
+        }
+
         return $sql;
     }
-    
-    public function dropColumn($column)
+
+    public function dropColumn(string $column): string
     {
         $sql = "ALTER TABLE {$this->tableName} DROP COLUMN IF EXISTS {$column};";
-        return $this->executeQuery($sql);
+
+        return $sql;
     }
 
-    public function addColumn($columnName, $type, $options = [])
+    public function addColumn(string $columnName, string $type, array $options = []): self
     {
         $this->columns[] = compact('columnName', 'type', 'options');
         return $this;
     }
 
-    private function executeMigration()
+    private function executeMigration(): string
     {
         $sql = $this->generateSQL();
         return $sql;
     }
 
-    private function generateSQL()
+    private function generateSQL(): string
     {
         $sql = "CREATE TABLE IF NOT EXISTS {$this->tableName} (";
 
@@ -50,7 +59,7 @@ trait GearQueryChaines
             $columnName = $column['columnName'];
             $type = $column['type'];
             $options = isset($column['options']) ? implode(' ', $column['options']) : '';
-            $sql .= "$columnName $type $options, ";
+            $sql .= "{$columnName} {$type} {$options}, ";
         }
 
         $sql = rtrim($sql, ', ');
@@ -58,11 +67,6 @@ trait GearQueryChaines
 
         return $sql;
     }
-    
-
-    private function executeQuery($sql)
-    {
-        echo $sql . PHP_EOL;
-    }
 }
+
 
