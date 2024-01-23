@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Epaphrodites\database\gearShift\databaseGearShift;
 use Epaphrodites\epaphrodites\Console\Setting\settingMigration;
-        
+
 class modelMigration extends settingMigration{
  
     
@@ -21,16 +21,12 @@ class modelMigration extends settingMigration{
         # Get console arguments
         $actionType = $input->getArgument('type');
 
-        $getQueryChaine = $this->checkActionsType($actionType);
-
-
-        var_dump($getQueryChaine);die;
+        $getQueryChaine = (string) $this->checkActionsType($actionType);
 
         $this->executeQuery($getQueryChaine);
 
         $output->writeln("<info>The migration has been successfully created!!!✅</info>");
-            return self::SUCCESS;
-
+        return self::SUCCESS;
     }
 
 
@@ -40,11 +36,10 @@ class modelMigration extends settingMigration{
 
         return match ($action) {
 
-            'upd' => $gearShift->addGearShift(),
-            'add' => $gearShift->addGearShift(),
-            'drop' => $gearShift->addGearShift(),
+            'up' => $gearShift->up(),
+            'down' => $gearShift->down(),
       
-            default => $gearShift->addGearShift(),
+            default => $gearShift->up(),
           };
     }
 

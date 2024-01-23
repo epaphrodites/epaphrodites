@@ -2,48 +2,55 @@
 
 namespace Epaphrodites\database\query\buildChaines;
 
-trait gearQueryChaines
+trait GearQueryChaines
 {
+
     private $tableName;
     private $columns = [];
     private $indexes = [];
 
-    public function createTable($tableName, $callback) {
-
+    public function createTable($tableName, $callback)
+    {
         $this->tableName = $tableName;
         $callback($this);
-        $this->executeMigration();
+        return $this->executeMigration();
     }
 
-    public function addColumn($columnName, $type, $options = []) {
+    public function dropTable($table)
+    {
+
+        $sql = "DROP TABLE IF EXISTS {$table}";
+        $this->executeQuery($sql);
+        return $sql;
+    }
+    
+    public function dropColumn($column)
+    {
+        $sql = "ALTER TABLE {$this->tableName} DROP COLUMN IF EXISTS {$column};";
+        return $this->executeQuery($sql);
+    }
+
+    public function addColumn($columnName, $type, $options = [])
+    {
         $this->columns[] = compact('columnName', 'type', 'options');
         return $this;
     }
 
-    public function addIndex($columns, $indexName = null) {
-        $this->indexes[] = compact('columns', 'indexName');
-        return $this;
+    private function executeMigration()
+    {
+        $sql = $this->generateSQL();
+        return $sql;
     }
 
-    private function executeMigration() {
-        
-        echo $this->generateSQL();
-    }
-
-    private function generateSQL() {
-        
+    private function generateSQL()
+    {
         $sql = "CREATE TABLE IF NOT EXISTS {$this->tableName} (";
+
         foreach ($this->columns as $column) {
             $columnName = $column['columnName'];
             $type = $column['type'];
-            $options = implode(' ', $column['options']);
+            $options = isset($column['options']) ? implode(' ', $column['options']) : '';
             $sql .= "$columnName $type $options, ";
-        }
-
-        foreach ($this->indexes as $index) {
-            $columns = implode(', ', $index['columns']);
-            $indexName = $index['indexName'] ? $index['indexName'] : uniqid("idx");
-            $sql .= "INDEX $indexName ($columns), ";
         }
 
         $sql = rtrim($sql, ', ');
@@ -51,4 +58,11 @@ trait gearQueryChaines
 
         return $sql;
     }
+    
+
+    private function executeQuery($sql)
+    {
+        echo $sql . PHP_EOL;
+    }
 }
+

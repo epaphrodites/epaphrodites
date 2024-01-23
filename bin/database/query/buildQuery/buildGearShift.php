@@ -1,6 +1,7 @@
 <?php
 
 namespace Epaphrodites\database\query\buildQuery;
+
 use Epaphrodites\database\query\buildChaines\gearQueryChaines;
 
 class buildGearShift{
