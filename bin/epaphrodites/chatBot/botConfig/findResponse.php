@@ -3,6 +3,7 @@
 namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
+use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
 
 trait findResponse
 {
@@ -18,8 +19,10 @@ trait findResponse
         
         $loginKey = 'login';
         $answersKey = 'answers';
+        $actionsKey = 'actions';
         $questionKey = 'question';
         $coefficientKey = 'coefficient';
+        $login = (new session_auth)->login();
 
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
@@ -29,9 +32,10 @@ trait findResponse
         $bestAnswers ='';
         $coefficient = 0;
         $defaultUsers = [];
+        $makeAction ='none';
         $defaultMessage = [];
-        $mainCoefficient = 0.3;
         $bestCoefficient = 0;
+        $mainCoefficient = 0.3;
         $temporaryResponses = [];
 
         // Load questions and answers from a JSON file
@@ -50,7 +54,8 @@ trait findResponse
                 $temporaryResponses[] = 
                 [ 
                     $coefficientKey => $coefficient , 
-                    $answersKey=>$associatedAnswer[$answersKey] 
+                    $answersKey=>$associatedAnswer[$answersKey] ,
+                    $actionsKey=>$associatedAnswer[$actionsKey]
                 ];
             }
         }
@@ -63,12 +68,15 @@ trait findResponse
         
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
+            $makeAction = $maxComment[$actionsKey] ?? null;
         }
         
         // Update the best coefficient and the corresponding response
         if ($bestCoefficient >= $mainCoefficient) {
+
             $mainCoefficient = $bestCoefficient;
             $response = $bestAnswers[array_rand($bestAnswers)];
+            $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction , $login);
         } elseif ($bestCoefficient > 0.1) {
             $response = $this->needMoreAnswers()[$answersKey][array_rand($this->needMoreAnswers()[$answersKey])];
         }
@@ -86,7 +94,7 @@ trait findResponse
         }
         
         // Get user login and question
-        $login = (new session_auth)->login();
+        
         $defaultUsers = [ $loginKey => $login ];
         $userQuestion = [ $questionKey => $userMessage ];
 

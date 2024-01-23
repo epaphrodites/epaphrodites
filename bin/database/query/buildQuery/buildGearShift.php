@@ -7,16 +7,8 @@ class buildGearShift{
 
     use gearQueryChaines;
 
-    public function generateTable($tableName, callable $callback)
+    public function generateTable($tableName, $callback)
     {
-        $this->columns = [];
-
-        $callback($this);
-
-        $columns = implode(', ', $this->getColumns());
-
-        $sql = "CREATE TABLE IF NOT EXISTS `$tableName` ($columns)";
-
-        return $sql;
+       return $this->createTable($tableName, $callback);
     }    
 }

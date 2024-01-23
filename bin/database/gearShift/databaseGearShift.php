@@ -9,14 +9,18 @@ class databaseGearShift extends buildGearShift{
     /**
      * @return string
      */
-    public function addGearShift():string{
+    public function addGearShift(){
 
-        // $sql = $this->generateTable('test', function ($table) {
-        //     $table->string('name' , 12 );
-        //     $table->string('surname' , 12 );
-        // });
-        
-        return '';        
+       $request = $this->createTable('userstest', function ($table) {
+
+            $table->addColumn('user_id', 'INT', ['PRIMARY KEY']);
+            $table->addColumn('name', 'VARCHAR(255)');
+            $table->addColumn('created_at', 'TIMESTAMP');
+            $table->addIndex(['user_id']);
+            $table->addIndex(['name', 'created_at'], 'custom_index_name');
+        });
+
+        return $request;
     }
 
 }

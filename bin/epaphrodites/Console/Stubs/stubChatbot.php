@@ -72,8 +72,14 @@
         return [
             'hello hi' => [
                 "answers" => ["I am {$chatBotName}, your AI assistant."],
-                "type" => "txt"
-            ]
+                "type" => "txt",
+                "actions" => "none"
+            ],
+            'clear clean' => [
+                "answers" => [""],
+                "type" => "txt",
+                "actions" => "clear"
+            ]            
         ];
 
     }

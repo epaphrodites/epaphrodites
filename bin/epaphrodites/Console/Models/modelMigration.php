@@ -23,6 +23,9 @@ class modelMigration extends settingMigration{
 
         $getQueryChaine = $this->checkActionsType($actionType);
 
+
+        var_dump($getQueryChaine);die;
+
         $this->executeQuery($getQueryChaine);
 
         $output->writeln("<info>The migration has been successfully created!!!✅</info>");
@@ -31,7 +34,7 @@ class modelMigration extends settingMigration{
     }
 
 
-    public function checkActionsType(string $action):string
+    public function checkActionsType(string $action)
     {
         $gearShift = new databaseGearShift;
 

@@ -4,58 +4,51 @@ namespace Epaphrodites\database\query\buildChaines;
 
 trait gearQueryChaines
 {
-    protected $columns = [];
-    protected int $db;
+    private $tableName;
+    private $columns = [];
+    private $indexes = [];
 
-    public function id(string $id = "id")
-    {
-        $this->addColumn($id , 'INT', ['unsigned' => true, 'autoIncrement' => true, 'primary' => true]);
+    public function createTable($tableName, $callback) {
 
+        $this->tableName = $tableName;
+        $callback($this);
+        $this->executeMigration();
+    }
+
+    public function addColumn($columnName, $type, $options = []) {
+        $this->columns[] = compact('columnName', 'type', 'options');
         return $this;
     }
 
-    public function key(string $key = "id")
-    {
-        $this->addColumn($key , 'INTEGER PRIMARY KEY', ['unsigned' => true, 'autoIncrement' => true, 'primary' => true]);
-
-        return $this;
-    }    
-
-    public function string($columnName, $length = 255)
-    {
-        $this->addColumn($columnName, 'string', ['length' => $length]);
-
+    public function addIndex($columns, $indexName = null) {
+        $this->indexes[] = compact('columns', 'indexName');
         return $this;
     }
 
-    public function text($columnName, $length = 255)
-    {
-        $this->addColumn($columnName, 'TEXT', ['length' => $length]);
-
-        return $this;
-    }    
-
-    public function db(int $db = 1){
-
-        $this->db = $db;
-        $this;
+    private function executeMigration() {
+        
+        echo $this->generateSQL();
     }
 
-    public function timestamp($columnName)
-    {
-        $this->addColumn($columnName, 'TIMESTAMP');
+    private function generateSQL() {
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->tableName} (";
+        foreach ($this->columns as $column) {
+            $columnName = $column['columnName'];
+            $type = $column['type'];
+            $options = implode(' ', $column['options']);
+            $sql .= "$columnName $type $options, ";
+        }
 
-        return $this;
-    }
+        foreach ($this->indexes as $index) {
+            $columns = implode(', ', $index['columns']);
+            $indexName = $index['indexName'] ? $index['indexName'] : uniqid("idx");
+            $sql .= "INDEX $indexName ($columns), ";
+        }
 
-    public function getColumns()
-    {
-        return $this->columns;
-    }
+        $sql = rtrim($sql, ', ');
+        $sql .= ")";
 
-    protected function addColumn($name, $type, $options = [])
-    {
-
-        $this->columns[] = "`$name` $type";
+        return $sql;
     }
 }

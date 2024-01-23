@@ -17,6 +17,7 @@ trait dafaultAnswers
                 "I am an artificial intelligence specialized in technical assistance, however, this data does not fall within my processing capabilities."
             ], 
             'type' => "txt",
+            'actions' => "none"
         ];
     }
 
@@ -32,6 +33,7 @@ trait dafaultAnswers
                 "I am an artificial intelligence specialized in technical assistance, however, this data does not fall within my processing capabilities.
                 "], 
             'type' => "txt",
+            'actions' => "none"
         ];
     }
     
@@ -47,6 +49,7 @@ trait dafaultAnswers
                 "Your concern is unclear to me. Could you elaborate further, please?"
             ], 
             'type' => "txt",
+            'actions' => "none"
         ];
     } 
     
@@ -62,6 +65,7 @@ trait dafaultAnswers
                 "Your concern is unclear to me. Could you elaborate further, please?"
             ], 
             'type' => "txt",
+            'actions' => "none"
         ];
     }     
 }
