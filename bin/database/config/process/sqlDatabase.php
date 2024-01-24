@@ -32,7 +32,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      * @param int|1 $bd The database reference
      * @return array|null The fetched data
      */
-    public function select($sqlChaine, $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): array|NULL
+    public function select(string $sqlChaine, array $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): array|NULL
     {
         $request = $this->dbConnect($bd)->prepare($sqlChaine);
 
@@ -60,7 +60,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      * @param int|1 $bd The database reference
      * @return bool|null True if the execution is successful, otherwise false
      */
-    public function runRequest($sqlChaine, $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): bool|NULL
+    public function runRequest(string $sqlChaine, array $datas = [], ?bool $param = false, ?bool $etat = false, ?int $bd = 1): bool|NULL
     {
         $request = $this->dbConnect($bd)->prepare($sqlChaine);
 

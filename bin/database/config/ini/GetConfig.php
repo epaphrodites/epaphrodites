@@ -122,7 +122,7 @@ class GetConfig extends errors
      * @var string
      * @return string
      */
-    protected static function DB_DRIVER($db): string
+    public static function DB_DRIVER($db): string
     {
 
         return static::ConfigIniContent()[$db . "DB_DIVER"];

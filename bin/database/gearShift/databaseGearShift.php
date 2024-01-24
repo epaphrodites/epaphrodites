@@ -19,8 +19,12 @@ class databaseGearShift extends buildGearShift{
     public function down(){
         
         // return $this->dropTable('users_test', function ($table) {
-            
+        //     $table->dropColumn('name');
         // });
     }   
+
+    public function db(){
+        return 1;
+    }
     
 }

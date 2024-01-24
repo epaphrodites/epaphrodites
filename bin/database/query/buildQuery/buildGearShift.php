@@ -2,14 +2,9 @@
 
 namespace Epaphrodites\database\query\buildQuery;
 
-use Epaphrodites\database\query\buildChaines\gearQueryChaines;
+use Epaphrodites\database\query\buildChaines\gearQueryChains;
 
 class buildGearShift{
 
-    use gearQueryChaines;
-
-    public function generateTable($tableName, $callback)
-    {
-       return $this->createTable($tableName, $callback);
-    }    
+    use gearQueryChains;
 }

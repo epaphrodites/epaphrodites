@@ -16,7 +16,7 @@ interface DatabaseRequest
      * @return array
      * 
     */
-    public function select($SqlChaine, $datas = [], ?bool $param=false , ?bool $etat = false , ?int $bd=1 ):array|NULL;
+    public function select(string $SqlChaine, array $datas = [], ?bool $param=false , ?bool $etat = false , ?int $bd=1 ):array|NULL;
 
 
     /**
@@ -30,5 +30,5 @@ interface DatabaseRequest
      * @return bool
      * 
     */    
-    public function runRequest($SqlChaine, $datas=[], ?bool $param=false , ?bool $etat = false , ?int $db=1):bool|NULL;
+    public function runRequest(string $SqlChaine, array $datas=[], ?bool $param=false , ?bool $etat = false , ?int $db=1):bool|NULL;
 }

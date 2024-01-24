@@ -11,12 +11,12 @@ trait buildQuery
      *
      * @return string
      */
-    public function getQuery(): string
+    public function getQuery(int $db = 1): string
     {
         $query = "$this->chaine"; // Get initial query chain
 
         // Execute the SELECT query
-        return $this->selectBuildRequest($query);
+        return $this->selectBuildRequest($query , $db);
     }   
     
     /**
@@ -24,11 +24,11 @@ trait buildQuery
      *
      * @return string
      */
-    public function setQuery(): string
+    public function setQuery(int $db = 1): string
     {
-        $query = "$this->chaine"; // Get initial query chain
-        // Execute the query
-        return $this->executeBuildRequest($query);
+        $query = "$this->chaine";
+
+        return $this->executeBuildRequest($query , $db);
     }     
 
     /**
@@ -37,10 +37,10 @@ trait buildQuery
      * @param string $query The query to execute
      * @return mixed The query execution result
      */
-    public function selectBuildRequest($query)
+    public function selectBuildRequest(string $query , int $db = 1)
     {
         $param = $this->param ?? null;
-        $db = $this->db ?? 1;
+        $db = $this->db ?? $db;
         $setParam = !is_null($this->param);
         $close = !is_null($this->close);
     
@@ -54,10 +54,10 @@ trait buildQuery
      * @param string $query The query to execute
      * @return mixed The query execution result
      */
-    public function executeBuildRequest($query)
+    public function executeBuildRequest(string $query , int $db = 1)
     {
         $param = $this->param ?? null;
-        $db = $this->db ?? 1;
+        $db = $this->db ?? $db;
         $setParam = !is_null($this->param);
         $close = !is_null($this->close);
 
@@ -68,12 +68,11 @@ trait buildQuery
     /**
      * Get the database connection
      *
-     * @param mixed $db The database reference
+     * @param int|1 $db The database reference
      * @return mixed The database connection
      */
-    public function db($db)
+    public function db(int $db = 1)
     {
-
         // Return the database connexion
         return (new getDatabase)->GetConnexion($db);
     }
@@ -81,12 +80,12 @@ trait buildQuery
     /**
      * Get the database connection
      *
-     * @param mixed $db The database reference
+     * @param int|1 $db The database reference
      * @return mixed The database connection
      */
-    public function rdb($db)
+    public function rdb(int $db = 1)
     {
-        
+        // Return the database connexion
         return (new getDatabase)->GetConnexion($db);
     }
 }
