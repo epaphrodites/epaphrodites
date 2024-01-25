@@ -20,9 +20,9 @@ class SetFrenchTextMessages
                 '500-title' => 'ERREUR 500',
                 '403' => 'Acces restreint !!!',
                 '500' => 'Internal server error',
-                'author' => 'Agence Epaphrodites',
+                'author' => 'Communauté Epaphrodites',
                 'back' => "Retour page d'accueil",
-                'description' => 'agence epaphrodites',
+                'description' => 'framework epaphrodites',
                 'version' => 'EPAPHRODITES V0.01 (PHP 8.2.11)',
                 'denie' => "Traitement impossible !!!",
                 '419' => 'Votre session a expirée !!!',
@@ -45,7 +45,7 @@ class SetFrenchTextMessages
                 'tailleauto' => "La taille du fichier dépasse la limite autorisée de 500 Ko",
                 'errorsending' => "Désolé un problème est survenu lors de l'envoi de votre message !!!",
                 'denie_action' => "Traitement impossible !!! Vous n'avez pas l'autorisation d'effectué cette action.",
-                'keywords' => "Agence epaphrodites  , Création; site web; digitale; community manager; logo; identité visuelle; marketing; communication;",
+                'keywords' => "framework epaphrodites , Création; site web; digitale; community manager; logo; identité visuelle; marketing; communication;",
             ];
 
         return $this->AllMessages[0][$MessageCode];

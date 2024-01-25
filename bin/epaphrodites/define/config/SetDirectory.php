@@ -55,6 +55,9 @@ define('_DIR_ADMIN_TEMP_', '/admin/');
 // Database directory
 define('_DIR_database_', 'bin/database');
 
+// Migration directory
+define('_DIR_MIGRATION_', 'bin/database/gearShift');
+
 // Epaphrodites main directory
 define('_EPAPHRODITE_', 'bin/epaphrodites');
 

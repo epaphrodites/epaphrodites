@@ -20,7 +20,7 @@ class SetSpanichTextMessages
             'token_name' => _CRSF_TOKEN_,
             'back' => "Volver a la página de inicio",
             '403' => "¡Acceso restringido!!!",
-            'author' => 'Epaphrodites Agency',
+            'author' => 'Epaphrodites comunidad',
             '500' => 'Error interno del servidor',
             '404' => "¡Oops! No se encontró la página",
             'site-title' => 'INICIO | EPAPHRODITES',
@@ -45,7 +45,7 @@ class SetSpanichTextMessages
             'send' => "¡Enhorabuena, tu mensaje ha sido enviado exitosamente!",
             'errorsending' => "Lo siento, se produjo un problema al enviar tu mensaje",
             'denie_action' => "¡Procesamiento no posible! No tienes autorización para realizar esta acción",
-            'keywords' => "Epaphrodites Agency, Creación; sitio web; digital; community manager; logo; identidad visual; marketing; comunicación;",
+            'keywords' => "Epaphrodites framework, Creación; sitio web; digital; community manager; logo; identidad visual; marketing; comunicación;",
         ];
 
         return $this->AllMessages[0][$MessageCode];

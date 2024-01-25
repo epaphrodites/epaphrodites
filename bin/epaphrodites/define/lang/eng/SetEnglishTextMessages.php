@@ -20,7 +20,7 @@ class SetEnglishTextMessages
             'token_name' => _CRSF_TOKEN_,
             'back' => "Return to homepage",
             '403' => "Restricted access!!!",
-            'author' => 'Epaphrodites Agency',
+            'author' => 'Epaphrodites community',
             '500' => 'Internal server error',
             '404' => "Oops! No page found!!!",
             'site-title' => 'HOME | EPAPHRODITES',
@@ -45,7 +45,7 @@ class SetEnglishTextMessages
             'send' => "Congratulations, your message has been successfully sent!!!",
             'errorsending' => "Sorry, an issue occurred while sending your message!!!",
             'denie_action' => "Processing not possible!!! You do not have authorization to perform this action.",
-            'keywords' => "Epaphrodites Agency, Creation; website; digital; community manager; logo; visual identity; marketing; communication;",
+            'keywords' => "Epaphrodites framework, Creation; website; digital; community manager; logo; visual identity; marketing; communication;",
         ];
 
         return $this->AllMessages[0][$MessageCode];

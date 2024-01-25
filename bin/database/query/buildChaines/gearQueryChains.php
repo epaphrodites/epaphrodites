@@ -3,12 +3,20 @@
 namespace Epaphrodites\database\query\buildChaines;
 
 use Epaphrodites\database\config\ini\GetConfig;
-use Epaphrodites\database\gearShift\databaseGearShift;
+
 trait gearQueryChains
 {
     private ?string $tableName = null;
     private array $columns = [];
     private ?array $dropColumn = null;
+    private int $db ;
+
+
+    public function db(int $db = 1):self
+    {
+        $this->db = $db;
+        return $this;
+    }
 
     /**
      * Create a new table with the specified name and callback.
@@ -16,7 +24,7 @@ trait gearQueryChains
      * @param callable $callback  The callback function to define table columns and properties.
      * @return string The generated SQL for creating the table.
      */
-    public function createTable(string $tableName, callable $callback): string
+    public function createTable(string $tableName, callable $callback)
     {
         $this->reset();
         $this->tableName = $tableName;
@@ -30,7 +38,7 @@ trait gearQueryChains
      * @param callable $callback  Optional callback function for additional configurations.
      * @return string The generated SQL for dropping the table or columns.
      */
-    public function dropTable(string $tableName, callable $callback = null): string
+    public function dropTable(string $tableName, callable $callback = null)
     {
         $this->reset();
         $this->tableName = $tableName;
@@ -70,8 +78,11 @@ trait gearQueryChains
      * Generate the SQL statement for creating the table.
      * @return string The generated SQL for creating the table.
      */
-    private function generateSQL(): string
+    private function generateSQL(): array
     {
+
+        $db = empty($this->db) ? 1 : $this->db;
+
         $sql = "CREATE TABLE IF NOT EXISTS {$this->tableName} (";
 
         foreach ($this->columns as $column) {
@@ -84,19 +95,24 @@ trait gearQueryChains
         $sql = rtrim($sql, ', ');
         $sql .= ")";
 
-        return $sql;
+        return [ 'request' => $sql , 'db' => $db] ;
     }
 
     /**
      * Generate the SQL statement for dropping the table or columns.
      * @return string The generated SQL for dropping the table or columns.
      */
-    private function dropTableColumn(): string
+    private function dropTableColumn(): array
     {
-        $comma = $this->driver() !== 'sqlite' ? ',' : '';
+
+        $db = empty($this->db) ? 1 : $this->db;
+
+        $comma = $this->driver($db) !== 'sqlite' ? ',' : '';
     
         if (empty($this->dropColumn)) {
-            return "DROP TABLE IF EXISTS {$this->tableName}";
+            
+            $sql = "DROP TABLE IF EXISTS {$this->tableName}";
+            return [ 'request' => $sql , 'db' => $db] ;
         }
     
         $sql = "ALTER TABLE {$this->tableName}";
@@ -105,16 +121,18 @@ trait gearQueryChains
             $sql .= " DROP COLUMN {$column['column']}{$comma}";
         }
     
-        return rtrim($sql, $comma);
+        $sql = rtrim($sql, $comma);
+
+        return [ 'request' => $sql , 'db' => $db] ;
     }
     
-
     /**
      * Reset the properties of the trait.
      * @return void
      */
     private function reset(): void
     {
+        $this->db = 1;
         $this->tableName = null;
         $this->columns = [];
         $this->dropColumn = null;
@@ -124,19 +142,10 @@ trait gearQueryChains
      * Check database driver
      * @return string
      */
-    private function driver():string
+    private function driver($key):string
     {
-        $db = max(1, (int) $this->shift()->db());
+        $db = max(1, (int) $key);
         return GetConfig::DB_DRIVER($db);
-    }    
-
-   /**
-     * Get an instance of the database gear shift.
-     * @return databaseGearShift
-    */    
-    private function shift():databaseGearShift
-    {
-        return new databaseGearShift;
     }    
 }
 
