@@ -12,7 +12,8 @@ class create_users_account_table extends buildGearShift
         return $this->createTable('users_account', function ($table) {
 
             $table->addColumn('idusers_account', 'INTEGER', ['PRIMARY KEY']);
-            $table->addColumn('name', 'VARCHAR(255)');
+            $table->addColumn('name', 'VARCHAR(100)');
+            $table->db();
         });
     }  
     

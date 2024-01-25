@@ -29,7 +29,7 @@ class modelMigration extends settingMigration{
             return self::FAILURE;
         }
     }
-
+    
     private function setUsersRequest(string $actions):bool
     {
         $result = explode( '_' , $actions);
@@ -39,6 +39,12 @@ class modelMigration extends settingMigration{
             $type = end($result);
             $action = reset($result);
             $tableName = implode('_', array_slice($result, 1, -1));
+            $positionTo = strpos($tableName, "_to_");
+            
+            if ($positionTo !== false) {
+                $columnName = substr($tableName, 0, $positionTo);
+                $oldTable = substr($tableName, $positionTo + strlen("_to_"));
+            }
 
             if($action === "create" && $type === "table"){
 
@@ -46,11 +52,17 @@ class modelMigration extends settingMigration{
                 return true;
             }
 
-            if($action === "drop" && $type === "table"){
+            if($action === "drop"&&$type === "table"){
 
                 migrationStubs::dropMigration( $actions , $tableName);
                 return true;
-            }            
+            }  
+            
+            if($action === "add"&&$type === "table"&&$positionTo !== false && !empty($oldTable) && !empty($columnName)){
+
+                migrationStubs::addColumn( $actions , $oldTable , $columnName );
+                return true;
+            }                        
         }
         
         return false;

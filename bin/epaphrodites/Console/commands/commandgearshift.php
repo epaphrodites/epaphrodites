@@ -6,6 +6,6 @@ use Epaphrodites\epaphrodites\Console\Models\modelgearshift;
 
 class commandgearshift extends modelgearshift{
 
-    protected static $defaultName = 'migration';
+    protected static $defaultName = 'migrate';
 }
         

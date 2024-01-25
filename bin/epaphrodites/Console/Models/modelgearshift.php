@@ -17,7 +17,7 @@ class modelgearshift extends settinggearshift
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         # Get console arguments
-        $action = $input->getArgument('name');
+        $action = $input->getArgument('type');
 
         $results = $this->newMigration($action);
 
@@ -64,13 +64,17 @@ class modelgearshift extends settinggearshift
                         // Execute the 'up' method if it exists
                         if (method_exists($migration, 'up')) {
                             $getUp = $migration->up();
-                            $this->executeQuery($getUp["request"], $getUp["db"]);
+                            if(!empty($getUp)){
+                                $this->executeQuery($getUp["request"], $getUp["db"]);
+                            }
                         }
 
                         // Execute the 'down' method if it exists
                         if (method_exists($migration, 'down')) {
                             $getDown = $migration->down();
-                            $this->executeQuery($getDown["request"], $getDown["db"]);
+                            if(!empty($getDown)){
+                                $this->executeQuery($getDown["request"], $getDown["db"]);
+                            }
                         }
 
                         return true;

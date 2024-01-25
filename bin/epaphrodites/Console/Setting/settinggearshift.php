@@ -10,9 +10,9 @@ class settinggearshift extends Command
         
     protected function configure()
     {
-        $this->setDescription('Add your command description')
+        $this->setDescription('Run the database migrations')
                 ->setHelp('This is help.')
-                ->addArgument('name', InputArgument::OPTIONAL, 'Your argument name');
+                ->addArgument('type', InputArgument::OPTIONAL, 'Migration type');
     }
 }        
         

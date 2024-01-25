@@ -11,7 +11,9 @@ trait gearQueryChains
     private ?array $dropColumn = null;
     private int $db ;
 
-
+    /**
+     * @param int $db
+     */
     public function db(int $db = 1):self
     {
         $this->db = $db;
@@ -22,7 +24,7 @@ trait gearQueryChains
      * Create a new table with the specified name and callback.
      * @param string   $tableName The name of the table to be created.
      * @param callable $callback  The callback function to define table columns and properties.
-     * @return string The generated SQL for creating the table.
+     * @return array The generated SQL for creating the table.
      */
     public function createTable(string $tableName, callable $callback)
     {
@@ -33,10 +35,24 @@ trait gearQueryChains
     }
 
     /**
+     * Create a new table with the specified name and callback.
+     * @param string   $tableName The name of the table to be created.
+     * @param callable $callback  The callback function to define table columns and properties.
+     * @return array The generated SQL for creating the table.
+     */
+    public function createColumn(string $tableName, callable $callback)
+    {
+        $this->reset();
+        $this->tableName = $tableName;
+        $callback($this);
+        return $this->generateColumn();
+    }    
+
+    /**
      * Drop a table with the specified name and optional callback for additional configurations.
      * @param string $tableName The name of the table to be dropped.
      * @param callable $callback  Optional callback function for additional configurations.
-     * @return string The generated SQL for dropping the table or columns.
+     * @return array The generated SQL for dropping the table or columns.
      */
     public function dropTable(string $tableName, callable $callback = null)
     {
@@ -53,9 +69,9 @@ trait gearQueryChains
      * @param string $column The name of the column to be dropped.
      * @return $this
      */
-    public function dropColumn(string $column): self
+    public function dropColumn(string $column , array $option = []): self
     {
-        $this->dropColumn[] = compact('column');
+        $this->dropColumn[] = compact('column' , 'option');
         return $this;
     }
 
@@ -68,7 +84,7 @@ trait gearQueryChains
      *
      * @return $this
      */
-    public function addColumn(string $columnName, string $type, array $options = []): self
+    public function addColumn(string $columnName, string $type = '', array $options = []): self
     {
         $this->columns[] = compact('columnName', 'type', 'options');
         return $this;
@@ -99,6 +115,30 @@ trait gearQueryChains
     }
 
     /**
+     * @return array
+     */
+    public function generateColumn():array
+    {
+        
+        $db = empty($this->db) ? 1 : $this->db;
+
+        $sql = "ALTER TABLE {$this->tableName} ";
+    
+        $columnsSql = [];
+    
+        foreach ($this->columns as $column) {
+            $columnName = $column['columnName'];
+            $type = $column['type'];
+            $options = isset($column['options']) ? implode(' ', $column['options']) : '';
+            $columnsSql[] = "{$columnName} {$type} {$options}";
+        }
+    
+        $sql .= "ADD COLUMN " . implode(', ADD COLUMN ', $columnsSql);
+    
+        return ['request' => $sql, 'db' => $db];
+    }
+
+    /**
      * Generate the SQL statement for dropping the table or columns.
      * @return string The generated SQL for dropping the table or columns.
      */
@@ -118,7 +158,10 @@ trait gearQueryChains
         $sql = "ALTER TABLE {$this->tableName}";
     
         foreach ($this->dropColumn as $column) {
-            $sql .= " DROP COLUMN {$column['column']}{$comma}";
+
+            $options = !empty($column['option']) ? implode(' ', $column['option']) : 'COLUMN';
+
+            $sql .= " DROP {$options} {$column['column']}{$comma}";
         }
     
         $sql = rtrim($sql, $comma);
@@ -148,6 +191,3 @@ trait gearQueryChains
         return GetConfig::DB_DRIVER($db);
     }    
 }
-
-
-

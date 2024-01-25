@@ -1,38 +1,37 @@
 {% extends layouts %} {% from forms import input_field , submit %}{% block content %}
-<div class="cardform">
-    <div class="loginImg" align="center">
-        <img src="{{ __img('secure.svg') }}" alt="">
+    <div class="cardform">
+        <div class="loginImg" align="center">
+            <img src="{{ __img('secure.svg') }}" alt="">
+        </div>
+        <div class="texthead"><strong>AUTHENTIFICATION</strong></div>
+        <div class="reponses {{ class }}">{{ reponse ? reponse : "" }}</div>
+        <form method="POST">
+            {{ __csrf() }} 
+
+            {{ input_field(
+                { 
+                    type : 'text' , 
+                    require : true ,
+                    name : '__codeuser__' ,
+                    placeholder : 'Login...',
+                }) }} 
+            {{ input_field(
+                {
+                    require : true ,
+                    type : 'password' , 
+                    name : '__password__',
+                    placeholder : 'Password...',
+                }) 
+            }} 
+            
+            {{ submit({
+                label : 'Connexion',
+                icon : 'bi bi-lock'
+            }) }}
+        </form>
     </div>
-    <div class="texthead"><strong>AUTHENTIFICATION</strong></div>
-    <div class="reponses {{ class }}">{{ reponse ? reponse : "" }}</div>
-    <form method="POST">
-        {{ __csrf() }} 
 
-        {{ input_field(
-            { 
-                type : 'text' , 
-                require : true ,
-                name : '__codeuser__' ,
-                placeholder : 'Login...',
-            }) }} 
-        {{ input_field(
-            {
-                require : true ,
-                type : 'password' , 
-                name : '__password__',
-                placeholder : 'Password...',
-            }) 
-        }} 
-        
-        {{ submit({
-            label : 'Connexion',
-            icon : 'bi bi-lock'
-        }) }}
-    </form>
-</div>
-
-<div class="col-md-12 epaphrodite" align="center">
-    <a href="{{ __host() }}"><i class="icofont-long-arrow-left"></i> ADMINISTRATION</a>
-</div>
-
+    <div class="col-md-12 epaphrodite" align="center">
+        <a href="{{ __host() }}"><i class="icofont-long-arrow-left"></i> ADMINISTRATION</a>
+    </div>
 {% endblock %}
