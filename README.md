@@ -16,6 +16,7 @@ What you should know before starting the installation. To create a new applicati
 - Redis Extension (if you use Redis)
 - Mbstring PHP Extension
 - XML PHP Extension
+- ZIP PHP Extension
 - JSON PHP Extension
 - Python installation (If you prefer to include elements of code written in Python)
 
