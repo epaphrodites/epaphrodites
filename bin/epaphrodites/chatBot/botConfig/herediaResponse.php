@@ -21,6 +21,7 @@ trait herediaResponse
         $loginKey = 'login';
         $answersKey = 'answers';
         $actionsKey = 'actions';
+        $contextKey = 'context';
         $questionKey = 'question';
         $coefficientKey = 'coefficient';
         $login = (new session_auth)->login();
@@ -34,6 +35,7 @@ trait herediaResponse
         $coefficient = 0;
         $defaultUsers = [];
         $makeAction ='none';
+        $correctSentence ="";
         $defaultMessage = [];
         $bestCoefficient = 0;
         $mainCoefficient = 0.3;
@@ -56,7 +58,8 @@ trait herediaResponse
                 [ 
                     $coefficientKey => $coefficient , 
                     $answersKey=>$associatedAnswer[$answersKey] ,
-                    $actionsKey=>$associatedAnswer[$actionsKey]
+                    $actionsKey=>$associatedAnswer[$actionsKey],
+                    $contextKey=>$associatedAnswer[$contextKey]
                 ];
             }
         }
@@ -70,10 +73,11 @@ trait herediaResponse
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
+            $correctSentence = $this->findAnswerInCorrectQuestion($userMessage , $maxComment[$contextKey]) ?? null;
         }
         
         // Update the best coefficient and the corresponding response
-        if ($bestCoefficient >= $mainCoefficient) {
+        if ($bestCoefficient >= $mainCoefficient&&!empty($correctSentence)) {
             $mainCoefficient = $bestCoefficient;
             $response = $bestAnswers[array_rand($bestAnswers)];
             $makeAction == "none"&&$bestCoefficient>0.5 ? : (new botActions)->actions($makeAction , $login , $jsonFiles);

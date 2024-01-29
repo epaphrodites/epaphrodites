@@ -32,9 +32,13 @@ trait jaccardCoefficient
         return $jaccardCoefficient;
     }
 
-
-    
-
-#var_dump($jaccardCoefficient);die;
-
+    /**
+     * @param string $question
+     * @param array $answers
+     * @return null|string
+     */
+    private function findAnswerInCorrectQuestion(string $question, array $answers): ?string 
+    {
+        return array_reduce($answers, fn($found, $answer) => $found ?: str_contains($question, $answer), null);
+    }
 }
