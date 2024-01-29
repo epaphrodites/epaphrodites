@@ -44,9 +44,14 @@ class modelgearshift extends settinggearshift
         $files = array_diff($files, array('.', '..'));
         sort($files);
 
+        $result = false;
+
+        #var_dump($files);die;
+
         // Iterate through each file in the directory
-        foreach ($files as $file) {
-            $filePath = $directory . '/' . $file;
+        foreach ($files as $key => $value) {
+
+            $filePath = $directory . '/' . $files[$key];
 
             // Check if the file is a PHP file
             if (is_file($filePath) && pathinfo($filePath, PATHINFO_EXTENSION) === 'php') {
@@ -77,17 +82,17 @@ class modelgearshift extends settinggearshift
                             }
                         }
 
-                        return true;
+                        $result = true;
                     } else {
-                        return false;
+                        $result = false;
                     }
                 } else {
-                    return false;
+                    $result = false;
                 }
             }
         }
 
-        return false;
+        return $result;
     }
 
     /**

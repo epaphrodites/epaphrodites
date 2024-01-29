@@ -11,7 +11,7 @@ class drop_users_account_table extends buildGearShift
     public function down(){
         
         return $this->dropTable('users_account', function ($table) {
-            $table->dropColumn('name');
+            $table->dropColumn('surname');
             $table->db();
         });
     }           
