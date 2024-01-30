@@ -37,7 +37,7 @@ trait jaccardCoefficient
      * @param array $answers
      * @return null|string
      */
-    private function findAnswerInCorrectQuestion(string $question, array $answers): ?string 
+    private function calculateContext(string $question, array $answers): ?string 
     {
         return array_reduce($answers, fn($found, $answer) => $found ?: str_contains($question, $answer), null);
     }

@@ -73,7 +73,7 @@ trait herediaResponse
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
-            $correctSentence = $this->findAnswerInCorrectQuestion($userMessage , $maxComment[$contextKey]) ?? null;
+            $correctSentence = $this->calculateContext($userMessage , $maxComment[$contextKey]) ?? null;
         }
         
         // Update the best coefficient and the corresponding response
