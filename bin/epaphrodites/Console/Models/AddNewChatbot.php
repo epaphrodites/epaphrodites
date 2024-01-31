@@ -31,7 +31,7 @@ class AddNewChatbot extends AddChatbotCommands{
             if(file_exists($controller)===true){
 
                 stubChatbot::generate($jsonPath , $userJsonPath , $chatBotName, $controller);
-                $output->writeln("<info>Your chatbo {$chatBotName} has been generated successfully!!!✅</info>");
+                $output->writeln("<info>Your chatbot {$chatBotName} has been generated successfully!!!✅</info>");
                 return self::SUCCESS;  
             }else{
                 $output->writeln("<error>Sorry this controller '{$controller}' don't exist❌</error>");

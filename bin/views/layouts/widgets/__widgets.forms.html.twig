@@ -16,7 +16,7 @@
 {# --- submit buttom -- #}
 {% macro submit( submitOptions ) %}
 	<div class="form-group">
-		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="BtnValidate" type="submit" style="padding-right: 10px;background-color:#00738c;color: #fff;margin-top:7px">
+		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="BtnValidate" type="submit" style="padding-right: 10px; background-color:#{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "00738c" }}; color: #fff;margin-top:7px">
 			{% if submitOptions.icon is defined %}
 				<i class="{{ submitOptions.icon }} "></i>
 			{% endif %}
