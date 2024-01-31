@@ -71,17 +71,32 @@
 
         return [
             'hello hi' => [
-                "answers" => ["I am {$chatBotName}, your AI assistant."],
+                "answers" => [
+                    "I am {$chatBotName}, your AI assistant.",
+                    "{$chatBotName} here, your AI technical support",
+                    "Hi there, I'm {$chatBotName}, your personal AI tech helper",
+                ],
+                "context" => [
+                    "hi",
+                    "hello"
+                ],
                 "type" => "txt",
+                "language" => "eng",
                 "actions" => "none"
             ],
-            'clear clean' => [
-                "answers" => [""],
+            'clear' => [
+                "answers" => [
+                    "Hello, I am {$chatBotName}, your technical AI assistant. What can I do for you?",
+                    "Greetings, I'm {$chatBotName}, your AI technical assistant. How may I assist you?",
+                ],
+                "context" => [
+                    "clear"
+                ],
                 "type" => "txt",
+                "language" => "eng",
                 "actions" => "clear"
             ]            
         ];
-
     }
 
     /**

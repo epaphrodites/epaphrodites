@@ -2,7 +2,10 @@
     "hello hi" : {
         "answers" : [
             "I am Epaphrodites, your technical AI assistant.",
-            "Epaphrodites here, your AI technical support"
+            "Epaphrodites here, ready to assist as your AI technical support",
+            "Epaphrodites at your service, your AI tech support.",
+            "Hi there, I'm Epaphrodites, your personal AI tech helper",
+            "Hey, it's Epaphrodites, here to provide AI technical assistance at your service."
         ],
         "context" : [
             "hi",

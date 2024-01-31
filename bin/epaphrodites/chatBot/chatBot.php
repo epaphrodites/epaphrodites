@@ -3,6 +3,7 @@
 namespace Epaphrodites\epaphrodites\chatBot;
 
 use Epaphrodites\epaphrodites\chatBot\loadSave\loadJson;
+use Epaphrodites\epaphrodites\chatBot\botConfig\randomArray;
 use Epaphrodites\epaphrodites\chatBot\botConfig\findResponse;
 use Epaphrodites\epaphrodites\chatBot\botConfig\cleanNormalize;
 use Epaphrodites\epaphrodites\chatBot\botConfig\dafaultAnswers;
@@ -11,7 +12,7 @@ use Epaphrodites\epaphrodites\chatBot\botConfig\jaccardCoefficient;
 
 class chatBot {
 
-use loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers;
+use loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers, randomArray;
 
     /**
      * @param string $userMessage

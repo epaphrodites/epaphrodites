@@ -79,19 +79,18 @@ trait findResponse
         if ($bestCoefficient >= $mainCoefficient&&!empty($correctSentence)) {
 
             $mainCoefficient = $bestCoefficient;
-            $response = $bestAnswers[array_rand($bestAnswers)];
+            $response = $this->answersChanging($bestAnswers);
             $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction , $login);
+            
         } elseif ($bestCoefficient > 0.1) {
-            $response = $this->needMoreAnswers()[$answersKey][array_rand($this->needMoreAnswers()[$answersKey])];
+            $response = $this->answersChanging($this->needMoreAnswers()[$answersKey]);
         }
         
         // If no response is found, get a default bot message
         if(empty($response)){
 
             $defaultMessage = $this->epaphroditesDefaultAnswers()[$answersKey];
-            $randomIndex = array_rand($defaultMessage);
-            $defaultMessage = $defaultMessage[$randomIndex];
-
+            $defaultMessage = $this->answersChanging($defaultMessage);
             $response = [ $answersKey => $defaultMessage ];
         }else{
             $response = [ $answersKey => $response ];

@@ -16,8 +16,10 @@ trait dafaultAnswers
                 "I am designed to assist with technical tasks, but this type of information is beyond my capabilities." , 
                 "I am an artificial intelligence specialized in technical assistance, however, this data does not fall within my processing capabilities."
             ], 
-            'type' => "txt",
-            'actions' => "none"
+            "context" => [],
+            "type" => "txt",
+            "language" => "eng",
+            "actions" => "none"
         ];
     }
 
@@ -32,8 +34,10 @@ trait dafaultAnswers
                 "I am designed to assist with technical tasks, but this type of information is beyond my capabilities." , 
                 "I am an artificial intelligence specialized in technical assistance, however, this data does not fall within my processing capabilities.
                 "], 
-            'type' => "txt",
-            'actions' => "none"
+            "context" => [],
+            "type" => "txt",
+            "language" => "eng",
+            "actions" => "none"
         ];
     }
     
@@ -48,8 +52,10 @@ trait dafaultAnswers
                 "Your concern isn't clear to me. Could you provide more details, please?",
                 "Your concern is unclear to me. Could you elaborate further, please?"
             ], 
-            'type' => "txt",
-            'actions' => "none"
+            "context" => [],
+            "type" => "txt",
+            "language" => "eng",
+            "actions" => "none"
         ];
     } 
     
@@ -64,8 +70,10 @@ trait dafaultAnswers
                 "Your concern isn't clear to me. Could you provide more details, please?",
                 "Your concern is unclear to me. Could you elaborate further, please?"
             ], 
-            'type' => "txt",
-            'actions' => "none"
+            "context" => [],
+            "type" => "txt",
+            "language" => "eng",
+            "actions" => "none"
         ];
     }     
 }

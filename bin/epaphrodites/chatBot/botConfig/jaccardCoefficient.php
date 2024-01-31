@@ -2,8 +2,6 @@
 
 namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
-use ArrayIterator;
-
 trait jaccardCoefficient
 {
 
