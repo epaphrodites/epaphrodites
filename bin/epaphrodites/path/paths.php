@@ -73,7 +73,7 @@ class paths extends host
 
         $urlPath = explode('@', $url);
 
-        $this->path = count($urlPath) === 2 ? $this->getHost() . $this->slug($urlPath[0]) . '/' . $this->slug($urlPath[1]) . '/' : $this->getHost() . 'views/' . $this->slug($urlPath[0]) . '/';
+        $this->path = count($urlPath) === 2 ? $this->getHost() . $this->slug($urlPath[0]) . '/' . $this->slug($urlPath[1]) . '/' : $this->getHost() . _FAKE_ . $this->slug($urlPath[0]) . '/';
 
         return $this->path;
     }
@@ -95,7 +95,7 @@ class paths extends host
         $foldersUrl = explode('@', $targetFolder);
 
         // Build the URL with the admin folder, slugified URL, and trailing slash
-        $url = count($foldersUrl) === 2 ? $this->getHost() . $this->slug($foldersUrl[0]) . '/' . $this->slug($foldersUrl[1]) . '/' : $this->getHost() . 'views/' . $this->slug($foldersUrl[0]) . '/';
+        $url = count($foldersUrl) === 2 ? $this->getHost() . $this->slug($foldersUrl[0]) . '/' . $this->slug($foldersUrl[1]) . '/' : $this->getHost() . _FAKE_ . $this->slug($foldersUrl[0]) . '/';
 
         // Add query parameters to the URL
         if (!empty($queryParams)) {

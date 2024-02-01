@@ -210,6 +210,44 @@ trait phpEnv{
         return json_encode($datas, JSON_PRETTY_PRINT);
     }
 
+    /**
+     * Validate an email address securely.
+     *
+     * @param string $email The email address to validate.
+     * @return bool Returns true if the email address is valid, otherwise false.
+     */
+    public function validateEmail(string $email): bool {
+        // Check if the email address is empty or exceeds a reasonable length
+        if (empty($email) || strlen($email) > 254) {
+            return false;
+        }
+
+        // Check if the email address is in a valid format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        // Split the email address into local part and domain part
+        [$localPart, $domainPart] = explode('@', $email, 2);
+
+        // Check if the domain has a valid structure and is not an IP address
+        if (!checkdnsrr($domainPart, 'MX') || filter_var($domainPart, FILTER_VALIDATE_IP)) {
+            return false;
+        }
+
+        // Check if the domain can receive emails (has MX records)
+        $mxRecords = [];
+        if (!getmxrr($domainPart, $mxRecords)) {
+            return false;
+        }
+
+        // Check if the local part contains any suspicious characters
+        if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $localPart)) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      *

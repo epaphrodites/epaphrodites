@@ -14,9 +14,7 @@ class ConfigHttp extends HttpClient
     protected function provider(?array $url = null): string
     {
 
-        return static::class('session')->id() !== null && count($url) > 1
-            ? $url[0] . '/' . $url[1] . _MAIN_EXTENSION_
-            : $url[1] . _MAIN_EXTENSION_;
+        return str_replace( _FAKE_ , '', sprintf('%s/%s%s', isset($url[0]) ? $url[0] : '', $url[1], _MAIN_EXTENSION_ ));
     }
 
     /**

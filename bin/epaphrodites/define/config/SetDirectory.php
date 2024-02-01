@@ -79,6 +79,9 @@ define('_DIR_CONFIG_INI_', 'bin/database/config/ini/');
 // Set Application domaine when you are in local "epaphrodite-framework/"
 define('_DOMAINE_', "");
 
+// Fake folders link
+define('_FAKE_', 'views/');
+
 // Main home page
 define('_HOME_', 'views/index/');
 
