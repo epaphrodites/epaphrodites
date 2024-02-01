@@ -5,6 +5,7 @@ namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 use Epaphrodites\epaphrodites\auth\session_auth;
 use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
 
+
 trait findResponse
 {
 
@@ -21,7 +22,9 @@ trait findResponse
         $answersKey = 'answers';
         $actionsKey = 'actions';
         $contextKey = 'context';
+        $defaultLanguage = 'eng';
         $questionKey = 'question';
+        $languageKey = 'language';
         $coefficientKey = 'coefficient';
         $login = (new session_auth)->login();
 
@@ -43,6 +46,9 @@ trait findResponse
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile();
         
+        // Detect last language
+        $lastLanguage = $this->detectLastLang($login);
+
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
             // Clean and normalize the question
@@ -58,7 +64,8 @@ trait findResponse
                     $coefficientKey => $coefficient , 
                     $answersKey=>$associatedAnswer[$answersKey] ,
                     $actionsKey=>$associatedAnswer[$actionsKey],
-                    $contextKey=>$associatedAnswer[$contextKey]
+                    $contextKey=>$associatedAnswer[$contextKey],
+                    $languageKey=>$associatedAnswer[$languageKey]
                 ];
             }
         }
@@ -72,6 +79,7 @@ trait findResponse
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
+            $defaultLanguage = $maxComment[$languageKey];
             $correctSentence = $this->calculateContext($userMessage , $maxComment[$contextKey]) ?? null;
         }
         
@@ -83,14 +91,22 @@ trait findResponse
             $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction , $login);
             
         } elseif ($bestCoefficient > 0.1) {
-            $response = $this->answersChanging($this->needMoreAnswers()[$answersKey]);
+
+            $getContent = $lastLanguage === "fr" ? $this->needMoreAnswersInFrench() : $this->needMoreAnswersInEnglish();
+            
+            $getAnswers = $getContent[$answersKey];
+            $defaultLanguage = $getContent[$languageKey];
+            $response = $this->answersChanging($getAnswers);
         }
         
         // If no response is found, get a default bot message
         if(empty($response)){
 
-            $defaultMessage = $this->epaphroditesDefaultAnswers()[$answersKey];
-            $defaultMessage = $this->answersChanging($defaultMessage);
+            $getContent = $lastLanguage === "fr" ? $this->epaphroditesDefaultFrenchAnswers() : $this->epaphroditesDefaultEnglishAnswers();
+            
+            $getAnswers = $getContent[$answersKey];
+            $defaultLanguage = $getContent[$languageKey];
+            $defaultMessage = $this->answersChanging($getAnswers);
             $response = [ $answersKey => $defaultMessage ];
         }else{
             $response = [ $answersKey => $response ];
@@ -100,9 +116,10 @@ trait findResponse
         
         $defaultUsers = [ $loginKey => $login ];
         $userQuestion = [ $questionKey => $userMessage ];
+        $userLanguage = [ $languageKey => $defaultLanguage ];
 
         // Merge all information to form the final response
-        $result =  array_merge( $defaultUsers , $userQuestion , $response );
+        $result =  array_merge( $defaultUsers , $userQuestion , $response , $userLanguage );
 
         // Return the response with the highest similarity coefficient
         return $result;

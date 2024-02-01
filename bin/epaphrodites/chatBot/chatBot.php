@@ -8,11 +8,12 @@ use Epaphrodites\epaphrodites\chatBot\botConfig\findResponse;
 use Epaphrodites\epaphrodites\chatBot\botConfig\cleanNormalize;
 use Epaphrodites\epaphrodites\chatBot\botConfig\dafaultAnswers;
 use Epaphrodites\epaphrodites\chatBot\botConfig\herediaResponse;
+use Epaphrodites\epaphrodites\chatBot\botConfig\languageDetection;
 use Epaphrodites\epaphrodites\chatBot\botConfig\jaccardCoefficient;
 
 class chatBot {
 
-use loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers, randomArray;
+use loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers, randomArray, languageDetection;
 
     /**
      * @param string $userMessage

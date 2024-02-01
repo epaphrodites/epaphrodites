@@ -22,7 +22,9 @@ trait herediaResponse
         $answersKey = 'answers';
         $actionsKey = 'actions';
         $contextKey = 'context';
+        $defaultLanguage = 'eng';
         $questionKey = 'question';
+        $languageKey = 'language';
         $coefficientKey = 'coefficient';
         $login = (new session_auth)->login();
 
@@ -44,6 +46,9 @@ trait herediaResponse
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile($jsonFiles);
         
+        // Detect last language
+        $lastLanguage = $this->detectLastLang($login , $jsonFiles);
+
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
             // Clean and normalize the question
@@ -59,7 +64,8 @@ trait herediaResponse
                     $coefficientKey => $coefficient , 
                     $answersKey=>$associatedAnswer[$answersKey] ,
                     $actionsKey=>$associatedAnswer[$actionsKey],
-                    $contextKey=>$associatedAnswer[$contextKey]
+                    $contextKey=>$associatedAnswer[$contextKey],
+                    $languageKey=>$associatedAnswer[$languageKey]
                 ];
             }
         }
@@ -73,6 +79,7 @@ trait herediaResponse
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
+            $defaultLanguage = $maxComment[$languageKey];
             $correctSentence = $this->calculateContext($userMessage , $maxComment[$contextKey]) ?? null;
         }
         
@@ -84,14 +91,22 @@ trait herediaResponse
             $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $jsonFiles);
             
         } elseif ($bestCoefficient > 0.1) {
-            $response = $this->answersChanging($this->needMoreAnswers()[$answersKey]);
+
+            $getContent = $lastLanguage === "fr" ? $this->mainNeedFrenchMoreAnswers() : $this->mainNeedEnglishMoreAnswers();
+            
+            $getAnswers = $getContent[$answersKey];
+            $defaultLanguage = $getContent[$languageKey];
+            $response = $this->answersChanging($getAnswers);
         }
         
         // If no response is found, get a default bot message
         if(empty($response)){
 
-            $defaultMessage = $this->defaultAnswers()[$answersKey];
-            $defaultMessage = $this->answersChanging($defaultMessage);
+            $getContent = $lastLanguage === "fr" ? $this->defaultFrenchAnswers() : $this->defaultEnglishAnswers();
+            
+            $getAnswers = $getContent[$answersKey];
+            $defaultLanguage = $getContent[$languageKey];
+            $defaultMessage = $this->answersChanging($getAnswers);
             $response = [ $answersKey => $defaultMessage ];
         }else{
             $response = [ $answersKey => $response ];
@@ -101,9 +116,10 @@ trait herediaResponse
         
         $defaultUsers = [ $loginKey => $login ];
         $userQuestion = [ $questionKey => $userMessage ];
+        $userLanguage = [ $languageKey => $defaultLanguage ];
 
         // Merge all information to form the final response
-        $result =  array_merge( $defaultUsers , $userQuestion , $response );
+        $result =  array_merge( $defaultUsers , $userQuestion , $response , $userLanguage );
 
         // Return the response with the highest similarity coefficient
         return $result;
