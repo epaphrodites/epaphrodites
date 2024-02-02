@@ -15,6 +15,22 @@
         "language" : "eng",
         "actions" : "none"
     }, 
+    "salut bonjour" : {
+        "answers" : [
+            "Je suis Épaphrodites, votre assistant technique IA.",
+            "Épaphrodites ici, prêt à vous aider en tant que support technique IA.",
+            "Épaphrodites à votre service, votre support technique en IA.",
+            "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI.",
+            "Bonjour, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service."
+        ],
+        "context" : [
+            "bonjour",
+            "salut"
+        ],
+        "type" : "txt",
+        "language" : "fr",
+        "actions" : "none"
+    },     
     "about epaphrodites framework epaphrodite" : {
         "answers" : [
             "Epaphrodites-Framework is an open-source PHP development environment that stands out due to its versatility and its ability to cater to the needs of web programming enthusiasts. Its uniqueness lies in its capability to execute Python code within the same environment, offering a rare linguistic flexibility. Moreover, it allows the simultaneous use of various types of databases (SQL and NoSQL) within a single project, providing unprecedented flexibility for developers."
@@ -46,11 +62,10 @@
             "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
         ],
         "context" : [
-            "generate a view",
-            "create a view",
-            "generate a new view",
-            "create a new view",
-            "craft a view"
+            "generate view",
+            "create view",
+            "generate new view",
+            "create new view"
         ],
         "type" : "code",
         "language" : "eng",
@@ -61,11 +76,10 @@
             "To quickly generate a new controller, run the command heredia <em class='bot'>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <em class='bot'>bin/controllers/controllers</em> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;<br>&#125;</pre>"
         ],
         "context" : [
-            "generate a controller",
-            "create a controller",
-            "generate a new controller",
-            "create a new controller",
-            "craft a controller"
+            "generate controller",
+            "create controller",
+            "generate new controller",
+            "create new controller"
         ],       
         "type" : "code",
         "language" : "eng",

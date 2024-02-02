@@ -4,7 +4,7 @@ namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
-
+use Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainEpaphroditesDefaultMessages;
 
 trait findResponse
 {
@@ -92,7 +92,7 @@ trait findResponse
             
         } elseif ($bestCoefficient > 0.1) {
 
-            $getContent = $lastLanguage === "fr" ? $this->needMoreAnswersInFrench() : $this->needMoreAnswersInEnglish();
+            $getContent = $this->epaphroditesDefaultMessageToGetMorePrecision($lastLanguage , $this->getMainClass() );
             
             $getAnswers = $getContent[$answersKey];
             $defaultLanguage = $getContent[$languageKey];
@@ -102,7 +102,7 @@ trait findResponse
         // If no response is found, get a default bot message
         if(empty($response)){
 
-            $getContent = $lastLanguage === "fr" ? $this->epaphroditesDefaultFrenchAnswers() : $this->epaphroditesDefaultEnglishAnswers();
+            $getContent = $this->epaphroditesDefaultMessageWhereNoResult($lastLanguage , $this->getMainClass() );
             
             $getAnswers = $getContent[$answersKey];
             $defaultLanguage = $getContent[$languageKey];
@@ -113,7 +113,6 @@ trait findResponse
         }
         
         // Get user login and question
-        
         $defaultUsers = [ $loginKey => $login ];
         $userQuestion = [ $questionKey => $userMessage ];
         $userLanguage = [ $languageKey => $defaultLanguage ];
@@ -123,5 +122,10 @@ trait findResponse
 
         // Return the response with the highest similarity coefficient
         return $result;
+    }
+
+    private function getMainClass(){
+
+        return new mainEpaphroditesDefaultMessages;
     }
 }

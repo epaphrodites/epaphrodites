@@ -4,6 +4,7 @@ namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
+use Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainHerediaDefaultMessages;
 
 trait herediaResponse
 {
@@ -92,7 +93,7 @@ trait herediaResponse
             
         } elseif ($bestCoefficient > 0.1) {
 
-            $getContent = $lastLanguage === "fr" ? $this->mainNeedFrenchMoreAnswers() : $this->mainNeedEnglishMoreAnswers();
+            $getContent = $this->herediaDefaultMessageToGetMorePrecision($lastLanguage , $this->getClass() );
             
             $getAnswers = $getContent[$answersKey];
             $defaultLanguage = $getContent[$languageKey];
@@ -102,7 +103,7 @@ trait herediaResponse
         // If no response is found, get a default bot message
         if(empty($response)){
 
-            $getContent = $lastLanguage === "fr" ? $this->defaultFrenchAnswers() : $this->defaultEnglishAnswers();
+            $getContent = $this->herediaDefaultMessageWhereNoResult($lastLanguage , $this->getClass() );
             
             $getAnswers = $getContent[$answersKey];
             $defaultLanguage = $getContent[$languageKey];
@@ -113,7 +114,6 @@ trait herediaResponse
         }
         
         // Get user login and question
-        
         $defaultUsers = [ $loginKey => $login ];
         $userQuestion = [ $questionKey => $userMessage ];
         $userLanguage = [ $languageKey => $defaultLanguage ];
@@ -123,5 +123,10 @@ trait herediaResponse
 
         // Return the response with the highest similarity coefficient
         return $result;
-    }    
+    }   
+    
+    private function getClass(){
+
+        return new mainHerediaDefaultMessages;
+    }
 }
