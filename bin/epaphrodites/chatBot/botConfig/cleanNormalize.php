@@ -62,7 +62,7 @@ trait cleanNormalize
         [
             'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'à', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 
             'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi', 'toi', 
-            'soi', 'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'qui', 'que', 'quoi', 'dont', 'où', 'quand', 'combien',
+            'soi', 'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'qui', 'que', 'quoi', 'dont', 'où', 'quand', 'comment', 'combien',
             'the', 'a', 'an', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 
             'our', 'their', 'whose', 'which', 'whichever', 'whatever', 'who', 'whom', 'whosever', 'whomever', 'whatever', 'somebody', 
             'someone', 'something', 'anybody', 'anyone', 'anything', 'nobody', 'none', 'no one', 'nothing', 'everybody', 'everyone', 'everything'

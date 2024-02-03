@@ -1,11 +1,12 @@
 {            
     "hello hi" : {
         "answers" : [
-            "I am Epaphrodites, your technical AI assistant.",
-            "Epaphrodites here, ready to assist as your AI technical support",
-            "Epaphrodites at your service, your AI tech support.",
-            "Hi there, I'm Epaphrodites, your personal AI tech helper",
-            "Hey, it's Epaphrodites, here to provide AI technical assistance at your service."
+            "I am Epaphrodites, your AI technical assistant. How can I help you today?",
+            "Epaphrodites here, ready to assist you as an AI technical support. What can I do for you?",
+            "Epaphrodites at your service, your AI technical support. How can I assist you now?",
+            "Hi, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?",
+            "Greetings! I'm Epaphrodites, your AI technical support. How can I make your day better?",
+            "Hello, this is Epaphrodites, here to provide you with AI technical assistance at your service."
         ],
         "context" : [
             "hi",
@@ -15,17 +16,19 @@
         "language" : "eng",
         "actions" : "none"
     }, 
-    "salut bonjour" : {
+    "salut bonjour bonsoir" : {
         "answers" : [
-            "Je suis Épaphrodites, votre assistant technique IA.",
-            "Épaphrodites ici, prêt à vous aider en tant que support technique IA.",
-            "Épaphrodites à votre service, votre support technique en IA.",
-            "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI.",
-            "Bonjour, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service."
+            "Je suis Épaphrodites, votre assistant technique IA. Comment puis-je vous aider aujourd'hui ?",
+            "Épaphrodites ici, prêt à vous aider en tant que support technique IA. Que puis-je faire pour vous ?",
+            "Épaphrodites à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
+            "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI. Comment puis-je vous être utile ?",
+            "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
+            "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service."
         ],
         "context" : [
             "bonjour",
-            "salut"
+            "salut",
+            "bonsoir"
         ],
         "type" : "txt",
         "language" : "fr",
@@ -89,7 +92,8 @@
         "answers" : [
             "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
             "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
-            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?"
+            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
+            "Delighted to see you again. How may I assist you?"
         ],
         "context" : [
             "clear"
@@ -97,5 +101,19 @@
         "type" : "txt",
         "language" : "eng",
         "actions" : "clear"
-    }    
+    },
+    "init" : {
+        "answers" : [
+            "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
+            "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
+            "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+            "Enchanté de vous revoir. Comment puis-je vous assister ?"
+        ],
+        "context" : [
+            "init"
+        ],
+        "type" : "txt",
+        "language" : "fr",
+        "actions" : "clear"
+    }      
 }

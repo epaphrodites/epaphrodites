@@ -14,6 +14,7 @@ use defaultActions, dropJson, loadJson;
         match ($actionName) {
 
             'clear' => $this->cleanJsonFile($login , $jsonFile),
+            'init' => $this->cleanJsonFile($login , $jsonFile),
 
             default => null,
         };
