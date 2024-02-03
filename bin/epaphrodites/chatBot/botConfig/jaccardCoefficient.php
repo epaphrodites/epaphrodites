@@ -37,6 +37,6 @@ trait jaccardCoefficient
      */
     private function calculateContext(string $question, array $answers): ?string 
     {
-        return array_reduce($answers, fn($found, $answer) => $found ?: str_contains($question, $answer), null);
+        return array_reduce($answers, fn($found, $answer) => $found ?: str_contains(strtolower($question), $answer), null);
     }
 }
