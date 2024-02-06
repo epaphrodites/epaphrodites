@@ -1,12 +1,29 @@
 {            
-    "hello hi" : {
+    "process install method installation [epaphrodite]" : {
+        "answers" : [
+            "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
+        ],
+        "context" : [
+            "install epaphrodite",
+            "installation method",
+            "installation process",
+            "install epaphrodite"
+        ],
+        "type" : "code",
+        "language" : "eng",
+        "actions" : "none"
+    }, "hello hi morning" : {
         "answers" : [
             "I am Epaphrodites, your AI technical assistant. How can I help you today?",
             "Epaphrodites here, ready to assist you as an AI technical support. What can I do for you?",
             "Epaphrodites at your service, your AI technical support. How can I assist you now?",
             "Hi, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?",
             "Greetings! I'm Epaphrodites, your AI technical support. How can I make your day better?",
-            "Hello, this is Epaphrodites, here to provide you with AI technical assistance at your service."
+            "Hello, this is Epaphrodites, here to provide you with AI technical assistance at your service.",
+            "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
+            "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
+            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
+            "Delighted to see you again. How may I assist you?"
         ],
         "context" : [
             "hi",
@@ -23,7 +40,11 @@
             "Épaphrodites à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
             "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI. Comment puis-je vous être utile ?",
             "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
-            "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service."
+            "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service.",
+            "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
+            "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
+            "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+            "Enchanté de vous revoir. Comment puis-je vous assister ?"
         ],
         "context" : [
             "bonjour",
@@ -34,7 +55,7 @@
         "language" : "fr",
         "actions" : "none"
     },     
-    "about epaphrodites framework epaphrodite" : {
+    "about framework epaphrodite" : {
         "answers" : [
             "Epaphrodites-Framework is an open-source PHP development environment that stands out due to its versatility and its ability to cater to the needs of web programming enthusiasts. Its uniqueness lies in its capability to execute Python code within the same environment, offering a rare linguistic flexibility. Moreover, it allows the simultaneous use of various types of databases (SQL and NoSQL) within a single project, providing unprecedented flexibility for developers."
         ],
@@ -45,49 +66,43 @@
         "type" : "txt",
         "language" : "eng",
         "actions" : "none"
-    },      
-    "process install method installation epaphrodites epaphrodite" : {
+    },       
+    "generate create build [controller]" : {
         "answers" : [
-            "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
+            "To quickly generate a new controller, run the command heredia <em class='bot'>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <em class='bot'>bin/controllers/controllers</em> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;<br>&#125;</pre>"
         ],
         "context" : [
-            "install epaphrodite",
-            "installation method",
-            "installation process",
-            "install epaphrodite"
-        ],
+            "generate controller",
+            "generated controller",
+            "create controller",
+            "created controller",
+            "create new controller",
+            "build controller",
+            "generate new controller",
+            "created controller",
+            "build new controller"
+        ],       
         "type" : "code",
         "language" : "eng",
         "actions" : "none"
-    },  
-    "generate create generated created views view" : {
+    },
+    "generate create build [view]" : {
         "answers" : [
             "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
         ],
         "context" : [
             "generate view",
             "create view",
+            "create new view",
+            "build view",
             "generate new view",
-            "create new view"
+            "create new view",
+            "build new view"
         ],
         "type" : "code",
         "language" : "eng",
         "actions" : "none"
-    },  
-    "generate create generated created controller" : {
-        "answers" : [
-            "To quickly generate a new controller, run the command heredia <em class='bot'>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <em class='bot'>bin/controllers/controllers</em> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;<br>&#125;</pre>"
-        ],
-        "context" : [
-            "generate controller",
-            "create controller",
-            "generate new controller",
-            "create new controller"
-        ],       
-        "type" : "code",
-        "language" : "eng",
-        "actions" : "none"
-    },
+    },      
     "clear" : {
         "answers" : [
             "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",

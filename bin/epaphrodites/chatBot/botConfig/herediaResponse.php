@@ -18,6 +18,20 @@ trait herediaResponse
      */
     private function getHerediaResponse(string $userMessage , string $jsonFiles): array
     {
+
+        // Initialize variables to store the best coefficient and the response
+        $response = [];
+        $bestAnswers ='';
+        $coefficient = 0;
+        $maxComment = null;
+        $defaultUsers = [];
+        $makeAction ='none';
+        $correctSentence ="";
+        $defaultMessage = [];
+        $bestCoefficient = 0;
+        $mainCoefficient = 0.3;
+        $questionsAnswers = [];
+        $temporaryResponses = [];
         
         $loginKey = 'login';
         $answersKey = 'answers';
@@ -32,28 +46,17 @@ trait herediaResponse
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
         
-        // Initialize variables to store the best coefficient and the response
-        $response = [];
-        $bestAnswers ='';
-        $coefficient = 0;
-        $defaultUsers = [];
-        $makeAction ='none';
-        $correctSentence ="";
-        $defaultMessage = [];
-        $bestCoefficient = 0;
-        $mainCoefficient = 0.3;
-        $temporaryResponses = [];
-
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->loadJsonFile($jsonFiles);
-        
+
         // Detect last language
         $lastLanguage = $this->detectLastLang($login , $jsonFiles);
 
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
+
             // Clean and normalize the question
-            $questionWords = $this->cleanAndNormalize($question);
+            $questionWords = $this->splitTextIntoWords($question);
             
             // Calculate the Jaccard coefficient between user input and each question
             $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
@@ -73,17 +76,24 @@ trait herediaResponse
 
         // Select the top comments based on coefficient
         $commentsToConsider = array_slice($temporaryResponses, 0, min(count($temporaryResponses), 100));
-        
+
         if (!empty($commentsToConsider)) {
-            $maxComment = max($commentsToConsider);
-        
+
+            foreach ($commentsToConsider as $checkTheBestAnswers) {
+
+                if ($maxComment === null || $checkTheBestAnswers[$coefficientKey] > $maxComment[$coefficientKey]) 
+                {
+                    $maxComment = $checkTheBestAnswers;
+                }
+            }
+
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
             $defaultLanguage = $maxComment[$languageKey];
-            $correctSentence = $this->calculateContext($userMessage , $maxComment[$contextKey]) ?? null;
+            $correctSentence = $this->calculateContext($userWords , $maxComment[$contextKey]) ?? null;
         }
-        
+
         // Update the best coefficient and the corresponding response
         if ($bestCoefficient >= $mainCoefficient&&!empty($correctSentence)) {
 
@@ -123,10 +133,13 @@ trait herediaResponse
 
         // Return the response with the highest similarity coefficient
         return $result;
-    }   
-    
-    private function getClass(){
+    }
 
+    /** 
+     * @return \Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainHerediaDefaultMessages
+    */
+    private function getClass():object
+    {
         return new mainHerediaDefaultMessages;
     }
 }

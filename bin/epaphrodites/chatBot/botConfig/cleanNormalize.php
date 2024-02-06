@@ -36,7 +36,9 @@ trait cleanNormalize
      */
     private function splitTextIntoWords(string $cleanText): array
     {
-        return explode(" ", $cleanText);
+        $arrayDatas = explode(" ", $cleanText);
+
+        return $this->filterWords($arrayDatas);
     }
 
     /**

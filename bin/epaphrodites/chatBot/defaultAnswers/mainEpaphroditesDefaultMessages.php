@@ -8,7 +8,8 @@ class mainEpaphroditesDefaultMessages
     /**
      * @return array
      */
-    public function defaultMessageInEnglishWhereNoAnswers():array{
+    public function defaultMessageInEnglishWhereNoAnswers():array
+    {
         // Get bot default messages
         return [ 
             'answers' => [
@@ -28,7 +29,8 @@ class mainEpaphroditesDefaultMessages
     /**
      * @return array
      */
-    public function defaultMessageInFrenchWhereNoAnswers():array{
+    public function defaultMessageInFrenchWhereNoAnswers():array
+    {
         // Get bot default messages
         return [ 
             'answers' => [
@@ -48,7 +50,8 @@ class mainEpaphroditesDefaultMessages
     /**
      * @return array
      */    
-    public function defaultMessageInEnglishToGetMorePrecision():array{
+    public function defaultMessageInEnglishToGetMorePrecision():array
+    {
         // Get bot default messages
         return [ 
             'answers' => [
@@ -68,7 +71,8 @@ class mainEpaphroditesDefaultMessages
     /**
      * @return array
      */    
-    public function defaultMessageInFrenchToGetMorePrecision():array{
+    public function defaultMessageInFrenchToGetMorePrecision():array
+    {
         // Get bot default messages
         return [ 
             'answers' => [
