@@ -1,18 +1,5 @@
 {            
-    "process install method installation [epaphrodite]" : {
-        "answers" : [
-            "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
-        ],
-        "context" : [
-            "install epaphrodite",
-            "installation method",
-            "installation process",
-            "install epaphrodite"
-        ],
-        "type" : "code",
-        "language" : "eng",
-        "actions" : "none"
-    }, "hello hi morning" : {
+  "hello hi morning" : {
         "answers" : [
             "I am Epaphrodites, your AI technical assistant. How can I help you today?",
             "Epaphrodites here, ready to assist you as an AI technical support. What can I do for you?",
@@ -27,7 +14,8 @@
         ],
         "context" : [
             "hi",
-            "hello"
+            "hello",
+            "morning"
         ],
         "type" : "txt",
         "language" : "eng",
@@ -86,6 +74,20 @@
         "language" : "eng",
         "actions" : "none"
     },
+    "process install method installation [epaphrodite]" : {
+        "answers" : [
+            "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
+        ],
+        "context" : [
+            "install epaphrodite",
+            "installation method",
+            "installation process",
+            "install epaphrodite"
+        ],
+        "type" : "code",
+        "language" : "eng",
+        "actions" : "none"
+    },    
     "generate create build [view]" : {
         "answers" : [
             "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
