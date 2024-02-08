@@ -40,8 +40,10 @@ trait jaccardCoefficient
 
         $otherKeywordCoefficient = $otherKeywordIntersec * 0.47;
 
-        // Calculate the size of the union of the two arrays (using AnswersArray as reference)
-        $union = !empty($mainKeyword)&&count($questionArray)!==count($initQuestionArray) ? count($AnswersArray)-1 : count($AnswersArray);
+        $mainKeyword = !is_null($mainKeyword)&&!in_array("", $mainKeyword) ? 1: 0;
+        $othersKeyword = !is_null($othersKeyword)&&!in_array("", $othersKeyword) ? 1: 0;
+      
+        $union = count($AnswersArray) - ($mainKeyword+$othersKeyword);
 
         // Calculate the Jaccard coefficient
         $jaccardCoefficient = ($union !== 0) ? $intersection / $union : 0;
