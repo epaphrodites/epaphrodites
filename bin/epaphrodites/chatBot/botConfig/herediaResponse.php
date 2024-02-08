@@ -45,18 +45,18 @@ trait herediaResponse
 
         // Clean and normalize the user's message
         $userWords = $this->cleanAndNormalize($userMessage);
-        
-        // Load questions and answers from a JSON file
-        $questionsAnswers = $this->loadJsonFile($jsonFiles);
 
-        // Detect last language
-        $lastLanguage = $this->detectLastLang($login , $jsonFiles);
+        // Detect user language
+        $mainLanguage = $this->detectMainLanguage($userMessage , $login , $jsonFiles);
+
+        // Load questions and answers from a JSON file
+        $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage , $jsonFiles);
 
         // Iterate through each question and its associated answer
         foreach ($questionsAnswers as $question => $associatedAnswer) {
 
             // Clean and normalize the question
-            $questionWords = $this->splitTextIntoWords($question);
+            $questionWords = $this->splitTextIntoWords($associatedAnswer["key"]);
             
             // Calculate the Jaccard coefficient between user input and each question
             $coefficient = $this->calculateJaccardCoefficient($userWords, $questionWords);
@@ -76,24 +76,24 @@ trait herediaResponse
 
         // Select the top comments based on coefficient
         $commentsToConsider = array_slice($temporaryResponses, 0, min(count($temporaryResponses), 100));
-
+        
         if (!empty($commentsToConsider)) {
-
+            
             foreach ($commentsToConsider as $checkTheBestAnswers) {
-
-                if ($maxComment === null || $checkTheBestAnswers[$coefficientKey] > $maxComment[$coefficientKey]) 
-                {
+                
+                if ($maxComment === null || $checkTheBestAnswers[$coefficientKey] > $maxComment[$coefficientKey]) {
+                    
                     $maxComment = $checkTheBestAnswers;
                 }
             }
-
+            
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
             $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
             $defaultLanguage = $maxComment[$languageKey];
             $correctSentence = $this->calculateContext($userWords , $maxComment[$contextKey]) ?? null;
         }
-
+        
         // Update the best coefficient and the corresponding response
         if ($bestCoefficient >= $mainCoefficient&&!empty($correctSentence)) {
 
@@ -103,7 +103,7 @@ trait herediaResponse
             
         } elseif ($bestCoefficient > 0.1) {
 
-            $getContent = $this->herediaDefaultMessageToGetMorePrecision($lastLanguage , $this->getClass() );
+            $getContent = $this->herediaDefaultMessageToGetMorePrecision($mainLanguage , $this->getClass() );
             
             $getAnswers = $getContent[$answersKey];
             $defaultLanguage = $getContent[$languageKey];
@@ -113,7 +113,7 @@ trait herediaResponse
         // If no response is found, get a default bot message
         if(empty($response)){
 
-            $getContent = $this->herediaDefaultMessageWhereNoResult($lastLanguage , $this->getClass() );
+            $getContent = $this->herediaDefaultMessageWhereNoResult($mainLanguage , $this->getClass() );
             
             $getAnswers = $getContent[$answersKey];
             $defaultLanguage = $getContent[$languageKey];

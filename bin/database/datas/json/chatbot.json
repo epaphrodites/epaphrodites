@@ -1,136 +1,207 @@
-{            
-  "hello hi morning" : {
-        "answers" : [
-            "I am Epaphrodites, your AI technical assistant. How can I help you today?",
-            "Epaphrodites here, ready to assist you as an AI technical support. What can I do for you?",
-            "Epaphrodites at your service, your AI technical support. How can I assist you now?",
-            "Hi, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?",
-            "Greetings! I'm Epaphrodites, your AI technical support. How can I make your day better?",
-            "Hello, this is Epaphrodites, here to provide you with AI technical assistance at your service.",
-            "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
-            "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
-            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
-            "Delighted to see you again. How may I assist you?"
-        ],
-        "context" : [
-            "hi",
-            "hello",
-            "morning"
-        ],
-        "type" : "txt",
-        "language" : "eng",
-        "actions" : "none"
-    }, 
-    "salut bonjour bonsoir" : {
-        "answers" : [
-            "Je suis Épaphrodites, votre assistant technique IA. Comment puis-je vous aider aujourd'hui ?",
-            "Épaphrodites ici, prêt à vous aider en tant que support technique IA. Que puis-je faire pour vous ?",
-            "Épaphrodites à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
-            "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI. Comment puis-je vous être utile ?",
-            "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
-            "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service.",
-            "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
-            "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
-            "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
-            "Enchanté de vous revoir. Comment puis-je vous assister ?"
-        ],
-        "context" : [
-            "bonjour",
-            "salut",
-            "bonsoir"
-        ],
-        "type" : "txt",
-        "language" : "fr",
-        "actions" : "none"
-    },     
-    "about framework epaphrodite" : {
-        "answers" : [
-            "Epaphrodites-Framework is an open-source PHP development environment that stands out due to its versatility and its ability to cater to the needs of web programming enthusiasts. Its uniqueness lies in its capability to execute Python code within the same environment, offering a rare linguistic flexibility. Moreover, it allows the simultaneous use of various types of databases (SQL and NoSQL) within a single project, providing unprecedented flexibility for developers."
-        ],
-        "context" : [
-            "about epaphrodite",
-            "this framework"
-        ],
-        "type" : "txt",
-        "language" : "eng",
-        "actions" : "none"
-    },       
-    "generate create build [controller]" : {
-        "answers" : [
-            "To quickly generate a new controller, run the command heredia <em class='bot'>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <em class='bot'>bin/controllers/controllers</em> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;<br>&#125;</pre>"
-        ],
-        "context" : [
-            "generate controller",
-            "generated controller",
-            "create controller",
-            "created controller",
-            "create new controller",
-            "build controller",
-            "generate new controller",
-            "created controller",
-            "build new controller"
-        ],       
-        "type" : "code",
-        "language" : "eng",
-        "actions" : "none"
-    },
-    "process install method installation [epaphrodite]" : {
-        "answers" : [
-            "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
-        ],
-        "context" : [
-            "install epaphrodite",
-            "installation method",
-            "installation process",
-            "install epaphrodite"
-        ],
-        "type" : "code",
-        "language" : "eng",
-        "actions" : "none"
-    },    
-    "generate create build [view]" : {
-        "answers" : [
-            "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
-        ],
-        "context" : [
-            "generate view",
-            "create view",
-            "create new view",
-            "build view",
-            "generate new view",
-            "create new view",
-            "build new view"
-        ],
-        "type" : "code",
-        "language" : "eng",
-        "actions" : "none"
-    },      
-    "clear" : {
-        "answers" : [
-            "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
-            "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
-            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
-            "Delighted to see you again. How may I assist you?"
-        ],
-        "context" : [
-            "clear"
-        ],
-        "type" : "txt",
-        "language" : "eng",
-        "actions" : "clear"
-    },
-    "init" : {
-        "answers" : [
-            "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
-            "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
-            "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
-            "Enchanté de vous revoir. Comment puis-je vous assister ?"
-        ],
-        "context" : [
-            "init"
-        ],
-        "type" : "txt",
-        "language" : "fr",
-        "actions" : "clear"
-    }      
-}
+[
+    {
+          "answers" : [
+              "I am Epaphrodites, your AI technical assistant. How can I help you today?",
+              "Epaphrodites here, ready to assist you as an AI technical support. What can I do for you?",
+              "Epaphrodites at your service, your AI technical support. How can I assist you now?",
+              "Hi, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?",
+              "Greetings! I'm Epaphrodites, your AI technical support. How can I make your day better?",
+              "Hello, this is Epaphrodites, here to provide you with AI technical assistance at your service.",
+              "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
+              "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
+              "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
+              "Delighted to see you again. How may I assist you?"
+          ],
+          "key" : "hello morning hi {evening}",
+          "context" : [
+              "hi",
+              "hello",
+              "morning",
+              "evening"
+          ],
+          "type" : "txt",
+          "language" : "eng",
+          "actions" : "none"
+      }, 
+      {
+          "answers" : [
+              "Je suis Épaphrodites, votre assistant technique IA. Comment puis-je vous aider aujourd'hui ?",
+              "Épaphrodites ici, prêt à vous aider en tant que support technique IA. Que puis-je faire pour vous ?",
+              "Épaphrodites à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
+              "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI. Comment puis-je vous être utile ?",
+              "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
+              "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service.",
+              "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
+              "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
+              "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+              "Enchanté de vous revoir. Comment puis-je vous assister ?"
+          ],
+          "key" : "salut bonjour bonsoir",
+          "context" : [
+              "bonjour",
+              "salut",
+              "bonsoir"
+          ],
+          "type" : "txt",
+          "language" : "fr",
+          "actions" : "none"
+      },     
+      {
+          "answers" : [
+              "Epaphrodites-framework is an open-source PHP development environment that stands out due to its versatility and its ability to cater to the needs of web programming enthusiasts. Its uniqueness lies in its capability to execute Python code within the same environment, offering a rare linguistic flexibility. Moreover, it allows the simultaneous use of various types of databases (SQL and NoSQL) within a single project, providing unprecedented flexibility for developers.",
+              "Epaphrodite-framework stands out from other PHP development environments due to its versatility and ability to meet the needs of the most demanding web programmers. Its uniqueness lies in its dual capability: <ul> <li>Execution of Python code: It can execute Python code in addition to PHP, offering rare linguistic flexibility and allowing the combination of the power of both languages within a single project.</li><br><li>Multi-database management: It allows the simultaneous use of different types of databases (SQL and NoSQL) within the same project, providing increased freedom and flexibility to developers.</li> </ul>Epaphrodite-framework is a powerful and versatile tool that can help you achieve your most ambitious web projects."
+          ],
+          "key" : "about know information features framework [epaphrodite]",
+          "context" : [
+              "info framework",
+              "about framework",
+              "feature framework",
+              "about epaphrodite",
+              "features framework",
+              "epaphrodite framework",
+              "epaphrodites framework",
+              "information framework"
+          ],
+          "type" : "txt",
+          "language" : "eng",
+          "actions" : "none"
+      },  
+      {
+          "answers" : [
+              "Epaphrodites est un framework web open source, écrit principalement en PHP. Flexible et robuste, il convient à tous les développeurs. De plus, son architecture modulaire facilite la création et la maintenance d'applications web évolutives et performantes. Sa caractéristique principale réside dans sa capacité à intégrer de manière transparente des fonctionnalités avancées, notamment : <ul><li>Exécution de code Python : En plus du PHP, il peut exécuter du code Python, offrant ainsi une flexibilité linguistique rare et permettant de combiner la puissance des deux langages dans un même projet.</li><li>Gestion multi-bases de données : Il permet l'utilisation simultanée de différents types de bases de données, notamment Mysql, PostgreSQL, SQLite, SQLServer, MongoDB et Redis, au sein d'un même projet. Cette capacité offre une liberté et une flexibilité accrues aux développeurs.</li></ul>Epaphrodite-framework est un framework web sophistiqué offrant une multitude d'outils et de fonctionnalités pour concrétiser vos projets web les plus ambitieux.",
+              "Epaphrodite-framework se démarque des autres environnements de développement PHP par sa polyvalence et sa capacité à répondre aux besoins des programmeurs web les plus exigeants. Sa particularité réside dans sa double compétence : <ul> <li>Exécution de code Python: il est capable d'exécuter du code Python en plus du PHP, offrant une flexibilité linguistique rare et permettant de combiner la puissance des deux langages dans un même projet.</li><br><li> Gestion multi-bases de données: il permet d'utiliser simultanément différents types de bases de données (SQL et NoSQL) au sein d'un même projet, ce qui offre une liberté et une flexibilité accrues aux développeurs.</li></ul>Epaphrodite-framework est un outil puissant et polyvalent qui peut vous aider à réaliser vos projets web les plus ambitieux."
+          ],
+          "key" : "propos sais information parle framework [epaphrodite]",
+          "context" : [
+              "epaphrodite",
+              "framework"
+          ],
+          "type" : "txt",
+          "language" : "fr",
+          "actions" : "none"
+      },                             
+      {
+          "answers" : [
+              "To quickly generate a new controller, run the command heredia <em class='bot'>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <em class='bot'>bin/controllers/controllers</em> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;<br>&#125;</pre>"
+          ],
+          "key" : "generate create build [controller]",
+          "context" : [
+              "controller",
+              "controllers"
+          ],       
+          "type" : "code",
+          "language" : "eng",
+          "actions" : "none"
+      },
+      {
+          "answers" : [
+              "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
+          ],
+          "key" : "process install method installation [epaphrodite]",
+          "context" : [
+              "install",
+              "installation"
+          ],
+          "type" : "code",
+          "language" : "eng",
+          "actions" : "none"
+      },    
+      {
+          "answers" : [
+              "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
+          ],
+          "key" : "generate create build [view]" ,
+          "context" : [
+              "view",
+              "views"
+          ],
+          "type" : "code",
+          "language" : "eng",
+          "actions" : "none"
+      },      
+      {
+          "answers" : [
+              "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
+              "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
+              "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
+              "Delighted to see you again. How may I assist you?"
+          ],
+          "key" : "clear",
+          "context" : [
+              "clear"
+          ],
+          "type" : "txt",
+          "language" : "eng",
+          "actions" : "clear"
+      },
+      {
+          "answers" : [
+              "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
+              "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
+              "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+              "Enchanté de vous revoir. Comment puis-je vous assister ?"
+          ],
+          "key" : "init",
+          "context" : [
+              "init"
+          ],
+          "type" : "txt",
+          "language" : "fr",
+          "actions" : "clear"
+      },
+      {
+          "answers" : [
+              "Ma formation s'est arrêtée en février 2024, donc ma base de connaissances s'arrête à cette date. Je n'ai pas de mises à jour en temps réel au-delà de cela.",
+              "Depuis février 2024, ma formation a pris fin, ce qui signifie que mes connaissances se limitent à cette date. Je ne suis pas en mesure de vous fournir des informations actualisées au-delà de ce point.",
+              "À partir de février 2024, ma formation a pris fin, et par conséquent, ma capacité à fournir des informations s'arrête également à cette date. Je n'ai pas de mises à jour en temps réel au-delà de ce point.",
+              "Ma formation s'est conclue en février 2024, donc toutes les informations que je peux fournir sont basées sur ce que je savais jusqu'à cette date. Je n'ai pas de données actualisées au-delà de ce point.",
+              "Depuis février 2024, ma base de connaissances est restée inchangée, car ma formation s'est terminée à cette date. Je ne suis pas en mesure de vous fournir des informations actualisées au-delà de ce moment."
+          ],
+          "key" : "derniere recent version [mise jour,update,entrainement,entrainer]",
+          "context" : [
+              "mise jour",
+              "mises jour",
+              "mise jou",
+              "mis jou",
+              "mis jour",
+              "version",
+              "update",
+              "updat",
+              "entrainer",
+              "entraine",
+              "entrainement"
+          ],
+          "type" : "txt",
+          "language" : "fr",
+          "actions" : "none"        
+      } ,
+      {
+          "answers" : [
+              "My training ended in February 2024, so my knowledge base stops at that date. I don't have real-time updates beyond that.",
+              "Since February 2024, my training has ceased, meaning my knowledge is limited to that date. I am unable to provide updated information beyond this point.",
+              "Starting from February 2024, my training concluded, and therefore, my ability to provide information also stops at that date. I have no real-time updates beyond this point.",
+              "My training concluded in February 2024, so all the information I can provide is based on what I knew up to that date. I don't have updated data beyond this point.",
+              "Since February 2024, my knowledge base has remained unchanged as my training ended at that date. I am unable to provide updated information beyond that moment."
+              ],
+          "key" : "last latest recent version [update,training,train,refreshe,upgrade]",
+          "context" : [
+              "update",
+              "updat",
+              "train",
+              "trainin",
+              "training",
+              "versio",
+              "version",
+              "refres",
+              "refresh",
+              "refreshe",
+              "refreshed",
+              "upgrad",
+              "upgrade",
+              "upgraded"
+          ],
+          "type" : "txt",
+          "language" : "eng",
+          "actions" : "none"        
+      }        
+  ]

@@ -10,18 +10,16 @@ class Authorize extends epaphroditeClass
     /**
      * @return bool
     */
-    private static function checkAuthorization($pages){
-
-        $JsonDatas = file_get_contents(static::JsonDatas());
-        
+    private static function checkAuthorization($pages):bool
+    {
         $actions = false;
-        
+        $JsonDatas = file_get_contents(static::JsonDatas());
         $pages = str_replace( _MAIN_EXTENSION_ , '', $pages);
 
         $index = md5(static::class('session')->type() . ',' . $pages);
-        $json_arr = json_decode($JsonDatas, true);
+        $jsonFileDatas = json_decode($JsonDatas, true);
        
-        foreach ($json_arr as $key => $value) {
+        foreach ($jsonFileDatas as $key => $value) {
 
             if ($value['IndexRight'] == $index) {
                 $actions = $value['Autorisations'] == 1 ? true : false;
@@ -34,8 +32,8 @@ class Authorize extends epaphroditeClass
     /**
      * @return bool
     */
-    public static function Authorize($pages){
-
+    public static function Authorize($pages):bool
+    {
         $action = true;
 
         if(static::class('session')->type()!==1){ 
@@ -44,6 +42,4 @@ class Authorize extends epaphroditeClass
 
         return $action;
     }
-
-
 }

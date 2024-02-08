@@ -12,13 +12,13 @@ class YedidiaDeleted extends epaphroditeClass{
      * @param int $idRights
      * @return bool
      */
-    public function DeletedUsersRights($IdRights):bool
+    public function DeletedUsersRights($idRights):bool
     {
 
         $JsonDatas = json_decode(file_get_contents(static::JsonDatas()), true);
 
         foreach ($JsonDatas as $key => $value) {
-            if ($value['IndexRight'] == $IdRights) {
+            if ($value['IndexRight'] == $idRights) {
                 unset($JsonDatas[$key]);
             }
         }
@@ -33,13 +33,13 @@ class YedidiaDeleted extends epaphroditeClass{
      * @param int $typeUsers
      * @return bool
      */
-    public function EmptyAllUsersRight($TypeUsers):bool
+    public function EmptyAllUsersRight($typeUsers):bool
     {
 
         $JsonDatas = json_decode(file_get_contents(static::JsonDatas()), true);
 
         foreach ($JsonDatas as $key => $value) {
-            if ($value['IdtypeUserRights'] == $TypeUsers) {
+            if ($value['IdtypeUserRights'] == $typeUsers) {
                 unset($JsonDatas[$key]);
             }
         }

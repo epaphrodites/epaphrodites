@@ -44,4 +44,23 @@ trait loadJson
             throw new epaphroditeException("Error: JSON file not found.");
         }
     }
+
+    /**
+     * Checking language answers
+     * @param string $language
+     * @param string $jsonFiles
+     * @return array 
+    */    
+    private function getContenAccordingLanguage(string $language = "eng" , string $jsonFiles = 'chatbot'){
+
+        $result = [];
+        $jsonFilesResult = $this->loadJsonFile($jsonFiles);
+
+        foreach ($jsonFilesResult as $key => $value) {
+            if ($value['language'] == $language) {
+                $result[] = $value;
+            }
+        }
+        return $result;
+    }
 }

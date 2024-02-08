@@ -10,18 +10,18 @@ class UpdateRights extends epaphroditeClass
     /**
      * Request to update users rights
      * 
-     * @param int|null $IdTypeUsers
+     * @param int|null $idTypeUsers
      * @param int|null $etat
      * @return bool
      */
-    public function UpdateUsersRights( ?string $IdTypeUsers = null, ?int $etat = null ): bool
+    public function UpdateUsersRights( ?string $idTypeUsers = null, ?int $etat = null ): bool
     {
 
         $JsonDatas = json_decode(file_get_contents(static::JsonDatas()), true);
 
         foreach ($JsonDatas as $key => $value) {
 
-            if ($value['IndexRight'] == $IdTypeUsers) {
+            if ($value['IndexRight'] == $idTypeUsers) {
                 $JsonDatas[$key]['Autorisations'] = $etat;
             }
         }
@@ -30,5 +30,4 @@ class UpdateRights extends epaphroditeClass
 
         return true;
     }
-
 }

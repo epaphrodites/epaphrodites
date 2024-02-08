@@ -17,9 +17,9 @@ class YedidiaGetRights extends epaphroditeClass{
         $result = false;
         $index = $module . ',' . static::class('session')->type();
 
-        $json_arr = json_decode(file_get_contents(static::JsonDatas()), true);
+        $jsonFileDatas = json_decode(file_get_contents(static::JsonDatas()), true);
 
-        foreach ($json_arr as $key => $value) {
+        foreach ($jsonFileDatas as $key => $value) {
             if ($value['IndexModule'] == $index) {
                 $result = true;
                 break;
@@ -39,11 +39,11 @@ class YedidiaGetRights extends epaphroditeClass{
     {
 
         $result = [];
-        $json_arr = json_decode(file_get_contents(static::JsonDatas()), true);
+        $jsonFileDatas = json_decode(file_get_contents(static::JsonDatas()), true);
 
-        foreach ($json_arr as $key => $value) {
+        foreach ($jsonFileDatas as $key => $value) {
             if ($value['IdtypeUserRights'] == $idUserGroup) {
-                $result[] = $json_arr[$key];
+                $result[] = $jsonFileDatas[$key];
             }
         }
 
@@ -62,11 +62,11 @@ class YedidiaGetRights extends epaphroditeClass{
         $result = [];
         $index = $key . ',' . static::class('session')->type();
 
-        $json_arr = json_decode(file_get_contents(static::JsonDatas()), true);
+        $jsonFileDatas = json_decode(file_get_contents(static::JsonDatas()), true);
 
-        foreach ($json_arr as $key => $value) {
+        foreach ($jsonFileDatas as $key => $value) {
             if ($value['IndexModule'] === $index) {
-                $result[] = $json_arr[$key];
+                $result[] = $jsonFileDatas[$key];
             }
         }
 

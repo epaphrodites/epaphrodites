@@ -70,32 +70,64 @@
     {
 
         return [
-            'hello hi' => [
+            [
                 "answers" => [
                     "I am {$chatBotName}, your AI assistant.",
                     "{$chatBotName} here, your AI technical support",
-                    "Hi there, I'm {$chatBotName}, your personal AI tech helper",
+                    "Hi there, I'm {$chatBotName}, your personal AI tech helper"
                 ],
+                "key" => "hello morning hi {evening}",
                 "context" => [
                     "hi",
-                    "hello"
+                    "hello",
+                    "evening"
                 ],
                 "type" => "txt",
                 "language" => "eng",
                 "actions" => "none"
             ],
-            'clear' => [
+            [
+                "answers" => [
+                    "Je suis {$chatBotName}, votre assistant technique IA. Comment puis-je vous aider aujourd'hui ?",
+                    "{$chatBotName} ici, prêt à vous aider en tant que support technique IA. Que puis-je faire pour vous ?",
+                    "{$chatBotName} à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
+                ],
+                "key" => "salut bonjour bonsoir",
+                "context" => [
+                    "salut",
+                    "bonjour",
+                    "bonsoir"
+                ],
+                "type" => "txt",
+                "language" => "fr",
+                "actions" => "none"
+            ],            
+            [
                 "answers" => [
                     "Hello, I am {$chatBotName}, your technical AI assistant. What can I do for you?",
-                    "Greetings, I'm {$chatBotName}, your AI technical assistant. How may I assist you?",
+                    "Greetings, I'm {$chatBotName}, your AI technical assistant. How may I assist you?"
                 ],
+                "key" => "clear",
                 "context" => [
                     "clear"
                 ],
                 "type" => "txt",
                 "language" => "eng",
                 "actions" => "clear"
-            ]            
+            ],
+            [
+                "answers" => [
+                    "Bonjour, je suis {$chatBotName}, votre assistant technique en IA. Que puis-je faire pour vous ?",
+                    "Salutations, je suis {$chatBotName}, votre assistant technique en IA. Comment puis-je vous aider ?"
+                ],
+                "key" => "init",
+                "context" => [
+                    "init"
+                ],
+                "type" => "txt",
+                "language" => "fr",
+                "actions" => "clear"
+            ]                         
         ];
     }
 

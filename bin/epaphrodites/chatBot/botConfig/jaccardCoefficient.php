@@ -16,23 +16,29 @@ trait jaccardCoefficient
      */
     private function calculateJaccardCoefficient(array $initQuestionArray, array $AnswersArray): float
     {
-        
-        $mainKeyword = $this->extractBracketValues($AnswersArray);
-
-        $questionArray = $this->filterUsersQuestion( $initQuestionArray , $mainKeyword);
 
         // Convert arrays to sets to remove duplicates
         $AnswersArray = array_unique($AnswersArray);
-        $questionArray = array_unique($questionArray);
-        $initQuestionArray = array_unique($initQuestionArray);
+        $initQuestionArray = array_unique($initQuestionArray);        
 
-        // Calculate the weighted intersection of the two arrays
+        $mainKeyword = $this->extractBracketValues($AnswersArray);
+
+        $othersKeyword = $this->extractBracesValues($AnswersArray);
+
+        $questionArray = $this->filterUsersQuestion( $initQuestionArray , array_merge( $othersKeyword , $mainKeyword ));
+        
+        // Calculate the weighted intersection of the two arrays 
         $intersection = $this->countSimilarWords($questionArray , $AnswersArray);
-
+        
         // Calculate the weighted intersection of the main keyword and the AnswersArray
-        $mainKeywordIntersec = $this->countSimilarWords($initQuestionArray , $mainKeyword);
-
+        (int) $mainKeywordIntersec = $this->getMainKeyCoefficient($mainKeyword , $initQuestionArray);
+        
+        // Calculate the weighted intersection of the main keyword and the AnswersArray
+        (int) $otherKeywordIntersec = $this->getMainKeyCoefficient($othersKeyword , $initQuestionArray);
+    
         $mainKeywordCoefficient = $mainKeywordIntersec * 0.27;
+
+        $otherKeywordCoefficient = $otherKeywordIntersec * 0.47;
 
         // Calculate the size of the union of the two arrays (using AnswersArray as reference)
         $union = !empty($mainKeyword)&&count($questionArray)!==count($initQuestionArray) ? count($AnswersArray)-1 : count($AnswersArray);
@@ -40,9 +46,19 @@ trait jaccardCoefficient
         // Calculate the Jaccard coefficient
         $jaccardCoefficient = ($union !== 0) ? $intersection / $union : 0;
 
-        $jaccardCoefficient = $mainKeywordCoefficient + $jaccardCoefficient;
+        $jaccardCoefficient = $mainKeywordCoefficient + $jaccardCoefficient + $otherKeywordCoefficient;
 
         return $jaccardCoefficient;
+    }
+   
+
+    private function getMainKeyCoefficient( $mainKeyword , $initQuestionArray ):int
+    {
+        $intersection = $this->countSimilarWords( $initQuestionArray , $mainKeyword);
+
+        $intersection = $intersection > 0 ? 1 : 0;
+
+        return $intersection;
     }
 
     /**
@@ -54,7 +70,7 @@ trait jaccardCoefficient
     {
 
       (string) $question = implode(' ', $questions);
-      
+
       return array_reduce($answers, fn($found, $answer) => $found ?: str_contains(strtolower($question), $answer), null);
     }
 
@@ -64,18 +80,53 @@ trait jaccardCoefficient
     */
     private function extractBracketValues(array $botAnswers):array{
 
-        $pattern = '/\[(\w*)\]/';
-        $extractedValues = [];
         
-        foreach ($botAnswers as $element) {
-            if (preg_match($pattern, $element, $matches)) {
-                $extractedValue = $matches[1];
-                $extractedValues[] = $extractedValue;
+        $extractedValues = [];
+        $pattern = '/\[(.*?)\]/';
+        $botAnswersString = implode(' ', $botAnswers);
+    
+        preg_match_all($pattern, $botAnswersString, $matches);
+    
+        foreach ($matches[1] as $match) {
+            $values = explode(',', $match);
+            foreach ($values as $value) {
+                if (!empty($value)) {
+                    $extractedValues[] = $value;
+                }
             }
         }
-
+        $arrayToRemove = implode(' ' , $extractedValues);
+        $extractedValues = explode(' ' , $arrayToRemove);
+        
         return $extractedValues;
     }
+
+    /**
+     * @param array $botAnswers
+     * @return array
+    */
+    private function extractBracesValues(array $botAnswers):array{
+
+        
+        $extractedValues = [];
+        $pattern = '/\{(.*?)\}/';
+        $botAnswersString = implode(' ', $botAnswers);
+    
+        preg_match_all($pattern, $botAnswersString, $matches);
+    
+        foreach ($matches[1] as $match) {
+            $values = explode(',', $match);
+            foreach ($values as $value) {
+                if (!empty($value)) {
+                    $extractedValues[] = $value;
+                }
+            }
+        }
+        $arrayToRemove = implode(' ' , $extractedValues);
+        $extractedValues = explode(' ' , $arrayToRemove);
+        
+        return $extractedValues;
+    }    
 
     /**
      * @param array $initQuestionArray

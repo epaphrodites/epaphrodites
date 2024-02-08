@@ -4,6 +4,10 @@ namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
 trait randomArray
 {    
+    /**
+     * @param null|array &$array
+     * @return string
+    */
     private function answersChanging(?array &$array = null): string {
         // Check if $array is null or empty
         if ($array === null || empty($array)) {

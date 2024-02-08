@@ -2,6 +2,8 @@
 
 namespace Epaphrodites\epaphrodites\chatBot\botConfig;
 
+use Normalizer;
+
 trait cleanNormalize
 {
     /**
@@ -14,7 +16,7 @@ trait cleanNormalize
     private function cleanAndNormalize(string $text): array
     {
         $cleanText = $this->cleanText($text);
-        return $this->splitTextIntoWords($cleanText);
+        return $this->splitTextIntoWords($this->wordNormalizer($cleanText));
     }
 
     /**
@@ -25,8 +27,19 @@ trait cleanNormalize
      */
     private function cleanText(string $text): string
     {
-        return strtolower(preg_replace('/[^\p{L}\p{N}\s]/u', '', $text));
+        return strtolower(preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $text));
     }
+
+    private function wordNormalizer($word) {
+    
+        // Appliquer les remplacements
+        foreach ($this->letterTranslate() as $caractere => $equivalent) {
+            $word = str_replace($caractere, $equivalent, $word);
+        }
+    
+        return $word;
+    }
+    
 
     /**
      * Splits the cleaned text into an array of words.
@@ -60,14 +73,100 @@ trait cleanNormalize
      */
     private function getWordsToRemove(): array
     {
+        return array_merge( $this->frenchWord() , $this->englishWord());
+    }
+
+    /**
+     * @return array
+    */    
+    private function frenchWord():array
+    {
         return 
         [
-            'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'à', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 
-            'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi', 'toi', 
+            'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'à', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 'd\'', 'sur',
+            'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi', 'toi', 'tu', 
             'soi', 'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'qui', 'que', 'quoi', 'dont', 'où', 'quand', 'comment', 'combien',
+        ];
+    }
+
+    /**
+     * @return array
+    */
+    private function englishWord():array
+    {   
+        return [
             'the', 'a', 'an', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 
             'our', 'their', 'whose', 'which', 'whichever', 'whatever', 'who', 'whom', 'whosever', 'whomever', 'whatever', 'somebody', 
             'someone', 'something', 'anybody', 'anyone', 'anything', 'nobody', 'none', 'no one', 'nothing', 'everybody', 'everyone', 'everything'
         ];
+    } 
+
+    /**
+     * @return array
+     */
+    private function letterTranslate():array {
+        return [
+            "î" => "i",
+            "ï" => "i",
+            "é" => "e",
+            "à" => "a",
+            "è" => "e",
+            "ô" => "o",
+            "û" => "u",
+            "ç" => "c",
+            "ö" => "o",
+            "ë" => "e",
+            "â" => "a",
+            "ê" => "e",
+            "ù" => "u",
+            "ü" => "u",
+            "ä" => "a",
+            "ß" => "ss",
+            "ñ" => "n",
+            "ø" => "o",
+            "æ" => "ae",
+            "œ" => "oe",
+            "ł" => "l",
+            "đ" => "d",
+            "þ" => "th",
+            "ð" => "th",
+            "į" => "i",
+            "ė" => "e",
+            "ų" => "u",
+            "ą" => "a",
+            "ę" => "e",
+            "ņ" => "n",
+            "ķ" => "k",
+            "ļ" => "l",
+            "ž" => "z",
+            "š" => "s",
+            "ģ" => "g",
+            "č" => "c",
+            "ā" => "a",
+            "ē" => "e",
+            "ī" => "i",
+            "ū" => "u",
+            "ż" => "z",
+            "ć" => "c",
+            "ń" => "n",
+            "ó" => "o",
+            "ś" => "s",
+            "ź" => "z",
+            "ş" => "s",
+            "ğ" => "g",
+            "ı" => "i",
+            "ő" => "o",
+            "ű" => "u",
+            "ŕ" => "r",
+            "ĺ" => "l",
+            "ť" => "t",
+            "ý" => "y",
+            "č" => "c",
+            "ø" => "o",
+            "å" => "a",
+            "æ" => "ae",
+            "œ" => "oe",
+        ];
     }
+    
 }
