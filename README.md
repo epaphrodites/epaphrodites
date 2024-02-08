@@ -120,6 +120,8 @@ Password : admin
 
 [Documentation](https://epaphrodite.org/)
 
+[EpaphroditeBot](https://epaphrodite.org/views/chat-epaphrodites/)
+
 ### Authors
 
 - [Y'srael Aime N'DRI (Lead) ](https://github.com/ysrael-aime-ndri)
