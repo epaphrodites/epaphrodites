@@ -39,7 +39,10 @@
           "key" : "salut bonjour bonsoir",
           "context" : [
               "bonjour",
+              "bonjou",
               "salut",
+              "salu",
+              "bonsoi",
               "bonsoir"
           ],
           "type" : "txt",
@@ -84,8 +87,12 @@
           "answers" : [
               "To quickly generate a new controller, run the command heredia <em class='bot'>create:Controller</em> from the terminal or PowerShell. By default, all controllers for your application are stored in the <em class='bot'>bin/controllers/controllers</em> directory: <pre class='code'>php heredia create:Controller testController</pre> <p>After generating the controller, you insert it into the controllers root : <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em></p><pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;<br>&#125;</pre>"
           ],
-          "key" : "generate create build [controller]",
+          "key" : "generate create build [controller,controler]",
           "context" : [
+              "controle",
+              "controler",
+              "controlers",
+              "controlle",
               "controller",
               "controllers"
           ],       
@@ -95,17 +102,51 @@
       },
       {
           "answers" : [
-              "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you need to first install Composer on your machine. After you have installed composer, you may create a new Epaphrodites project via the Composer create-project command : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre> Now If MongoDB is not installed on your machine, we recommend removing the mongodb/mongodb line from your composer.json file. This will prevent errors during the framework installation. Or run this command : <pre class='code'>composer update create-project --prefer-dist --ignore-platform-req=ext-mongodb epaphrodites/epaphrodites your-project-name</pre>Continue the installation by doing :<pre class='code'>composer update</pre>If mongodb is not installing :<pre class='code'>composer update --ignore-platform-req=ext-mongodb</pre><pre class='code'>composer dump-autoload</pre>"
+              "Epaphrodites-Framework uses Composer to manage its dependencies. Therefore, you must first install Composer on your machine. After installing Composer, you can create a new Epaphrodites project using the Composer create-project command: <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre>. Proceed with the installation by running the following command to update your project's packages: <pre class='code'>composer update</pre>. Finally, execute this command to generate and optimize the Composer autoload file: <pre class='code'>composer dump-autoload</pre>",
+              "In the context of development with Epaphrodites, Composer plays a central role in managing dependencies. Before starting, it is essential to have Composer installed on your local environment. Once this step is completed, you can initiate a new Epaphrodites project using the Composer create-project command: <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre>. Subsequently, ensure the consistency of packages by running the following command to update the project's dependencies: <pre class='code'>composer update</pre>. Finally, to ensure optimal efficiency, remember to generate and optimize the Composer autoloader with the following command: <pre class='code'>composer dump-autoload</pre>",
+              "Epaphrodites-Framework uses Composer to manage its dependencies. Thus, before starting, make sure to have Composer installed on your machine. Once Composer is installed, you can start a new Epaphrodites project using the Composer create-project command: <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre>. To continue, update your project's packages by executing the following command: <pre class='code'>composer update</pre>. Finally, optimize the Composer autoload file by executing: <pre class='code'>composer dump-autoload</pre>",
+              "In the context of development with Epaphrodites, the use of Composer is essential for managing dependencies. Before starting, it is imperative to install Composer on your local environment. Once Composer is installed, you can start a new Epaphrodites project using the Composer create-project command: <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre>. Then, to ensure package consistency, please run the following command to update the project's dependencies: <pre class='code'>composer update</pre>. Finally, to ensure the efficiency of the Composer autoloader, execute the following command: <pre class='code'>composer dump-autoload</pre>",
+              "Epaphrodites-Framework relies on Composer to manage its dependencies. Therefore, before proceeding, make sure to have Composer installed on your machine. Once Composer is installed, you can create a new Epaphrodites project using the Composer create-project command: <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre>. Then, continue the installation by updating your project's packages with the following command: <pre class='code'>composer update</pre>. Finally, to optimize the Composer autoload file, execute the following command: <pre class='code'>composer dump-autoload</pre>"
           ],
-          "key" : "process install method installation [epaphrodite]",
+          "key" : "process install method installation download downloading [epaphrodite,framework]",
           "context" : [
+              "instal",
               "install",
+              "downloa",
+              "download",
+              "downloadin",
+              "downloading",
+              "installatio",
               "installation"
           ],
           "type" : "code",
           "language" : "eng",
           "actions" : "none"
-      },    
+      },  
+      {
+          "answers" : [
+              "Epaphrodites-Framework utilise Composer pour gérer ses dépendances. Par conséquent, vous devez d'abord installer Composer sur votre machine. Après avoir installé Composer, vous pouvez créer un nouveau projet Epaphrodites via la commande Composer create-project : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites nom-du-projet</pre>. Continuez l'installation en exécutant la commande suivante pour mettre à jour les packages de votre projet : <pre class='code'>composer update</pre>. Enfin, exécutez cette commande pour générer et optimiser le fichier d'autoload de Composer : <pre class='code'>composer dump-autoload</pre>",
+              "Dans le contexte du développement avec Epaphrodites, Composer joue un rôle central dans la gestion des dépendances. Avant de débuter, il est primordial d'avoir Composer installé sur votre environnement local. Une fois cette étape franchie, vous pouvez amorcer un nouveau projet Epaphrodites en utilisant la commande Composer create-project : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites nom-du-projet</pre>. Par la suite, assurez-vous de maintenir la cohérence des packages en exécutant la commande suivante pour mettre à jour les dépendances du projet : <pre class='code'>composer update</pre>. Enfin, pour garantir une efficacité optimale, pensez à générer et optimiser l'autoloader de Composer avec la commande suivante : <pre class='code'>composer dump-autoload</pre>",
+              "Epaphrodites-Framework utilise Composer pour gérer ses dépendances. Ainsi, avant de commencer, assurez-vous d'avoir installé Composer sur votre machine. Une fois Composer installé, vous pouvez démarrer un nouveau projet Epaphrodites en utilisant la commande Composer create-project : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites nom-du-projet</pre>. Pour continuer, mettez à jour les packages de votre projet en exécutant la commande suivante : <pre class='code'>composer update</pre>. Enfin, optimisez le fichier d'autoload de Composer en exécutant : <pre class='code'>composer dump-autoload</pre>",
+              "Dans le cadre du développement avec Epaphrodites, l'utilisation de Composer est essentielle pour la gestion des dépendances. Avant de commencer, il est impératif d'installer Composer sur votre environnement local. Une fois Composer installé, vous pouvez démarrer un nouveau projet Epaphrodites en utilisant la commande Composer create-project : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites nom-du-projet</pre>. Ensuite, pour garantir la cohérence des packages, veuillez exécuter la commande suivante pour mettre à jour les dépendances du projet : <pre class='code'>composer update</pre>. Enfin, pour assurer l'efficacité de l'autoloader de Composer, exécutez la commande suivante : <pre class='code'>composer dump-autoload</pre>",
+              "Epaphrodites-Framework fait appel à Composer pour gérer ses dépendances. Ainsi, avant de procéder, assurez-vous d'avoir Composer installé sur votre machine. Une fois Composer installé, vous pouvez créer un nouveau projet Epaphrodites en utilisant la commande Composer create-project : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites nom-du-projet</pre>. Poursuivez ensuite l'installation en mettant à jour les packages de votre projet avec la commande suivante : <pre class='code'>composer update</pre>. Enfin, pour optimiser le fichier d'autoload de Composer, exécutez la commande suivante : <pre class='code'>composer dump-autoload</pre>"
+          ],
+          "key" : "processus procedure installe method installation telecharge [epaphrodite,framework]",
+          "context" : [
+              "install",
+              "installe",
+              "installer",
+              "telecharg",
+              "telecharge",
+              "telecharger",
+              "installatio",
+              "installation",
+              "dinstallation"
+          ],
+          "type" : "code",
+          "language" : "fr",
+          "actions" : "none"
+      },       
       {
           "answers" : [
               "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
@@ -157,7 +198,7 @@
               "Ma formation s'est conclue en février 2024, donc toutes les informations que je peux fournir sont basées sur ce que je savais jusqu'à cette date. Je n'ai pas de données actualisées au-delà de ce point.",
               "Depuis février 2024, ma base de connaissances est restée inchangée, car ma formation s'est terminée à cette date. Je ne suis pas en mesure de vous fournir des informations actualisées au-delà de ce moment."
           ],
-          "key" : "derniere recent version [mise jour,update,entrainement,entrainer]",
+          "key" : "derniere recent version [mise jour,update,entrainement,entrainer,niveau]",
           "context" : [
               "mise jour",
               "mises jour",
@@ -169,7 +210,9 @@
               "updat",
               "entrainer",
               "entraine",
-              "entrainement"
+              "entrainement",
+              "niveau",
+              "niveaux"
           ],
           "type" : "txt",
           "language" : "fr",
@@ -203,5 +246,91 @@
           "type" : "txt",
           "language" : "eng",
           "actions" : "none"        
-      }        
+      },
+      {
+          "answers" : [
+              "Un contrôleur, dans le contexte du développement web, est une composante logicielle qui agit comme un point central de coordination entre les différentes parties d'une application web. Son rôle est de gérer les requêtes HTTP reçues du client, d'interpréter ces requêtes, de traiter les données associées, d'appliquer la logique métier nécessaire, puis de retourner une réponse appropriée au client.<br><br>Le rôle principal d'un contrôleur web est de : <ul><li>Recevoir les requêtes HTTP : Il intercepte les requêtes HTTP envoyées par le client vers l'application web.</li><li>Traiter les données : Il récupère les données envoyées par le client (par exemple, les données de formulaire) ou extrait les données nécessaires à partir du modèle de données (base de données, API, etc.).</li><li>Appliquer la logique métier : Le contrôleur contient la logique métier de l'application, qui détermine comment les données doivent être manipulées et traitées.</li><li>Sélectionner la vue : En fonction des données et de la logique métier, le contrôleur sélectionne la vue appropriée (la page HTML ou le modèle de vue) à renvoyer au client.</li><li>Gérer les sessions et l'authentification : Dans de nombreuses applications web, les contrôleurs gèrent également les sessions utilisateur et l'authentification, en s'assurant que seuls les utilisateurs autorisés peuvent accéder à certaines fonctionnalités ou données.</li></ul>En résumé, le contrôleur agit comme un chef d'orchestre dans une application web, coordonnant les interactions entre le client, le serveur et la base de données, et garantissant que les données sont traitées et présentées de manière appropriée.",
+              "Un contrôleur web joue un rôle essentiel dans le développement des applications web, agissant comme un chef d'orchestre central. Imaginez-le tel un chef d'orchestre dirigeant un concert : il reçoit les demandes du public (les requêtes HTTP du client), les interprète, guide les musiciens (les différentes parties de l'application) pour exécuter la musique (traiter les données et appliquer la logique métier), et veille à ce que le résultat final soit harmonieux et satisfaisant pour le public. En somme, le contrôleur web assure que chaque élément de l'application web collabore de manière fluide et efficace, tout comme un chef d'orchestre coordonne les interactions entre les différents instruments pour produire une symphonie harmonieuse.",
+              "Un contrôleur web est un composant logiciel qui joue un rôle crucial dans l'architecture d'une application web. Il agit comme un intermédiaire entre la couche d'interface utilisateur (front-end) et la couche métier (back-end).<br><br>Voici les principales responsabilités d'un contrôleur web :<ul><li>Réception des requêtes HTTP: Le contrôleur reçoit les requêtes HTTP envoyées par le client (navigateur web) via l'interface utilisateur.</li><li>Interprétation des requêtes: Le contrôleur analyse la requête HTTP pour déterminer l'action à entreprendre.</li><li>Appel de la logique métier: Le contrôleur délègue l'exécution de l'action à un ou plusieurs composants de la couche métier.</li><li>Préparation de la réponse: Le contrôleur récupère les données et les formats en fonction de la logique métier et prépare la réponse HTTP à envoyer au client.</li><li>Envoi de la réponse: Le contrôleur envoie la réponse HTTP au client, qui peut être une page HTML, un fichier JSON, une image, etc.</li></ul>En résumé, le contrôleur web agit comme un chef d'orchestre qui coordonne les interactions entre l'interface utilisateur et la couche métier d'une application web. Il est responsable de la réception des requêtes, de l'interprétation de leur contenu, de l'exécution de la logique métier et de la préparation et de l'envoi de la réponse au client.",
+              "Imaginez votre application web comme un grand orchestre. Le public, impatient, attend une mélodie captivante. Le chef d'orchestre, baguette en main, s'apprête à donner vie à la symphonie. Tout comme lui, le contrôleur web joue un rôle crucial dans le succès de votre application.<br><br>Le chef d'orchestre reçoit les demandes du public. Ce sont les requêtes HTTP envoyées par les utilisateurs. Il les interprète, les déchiffre, et comprend l'intention derrière chaque note. Le contrôleur web agit de la même manière, analysant chaque requête et identifiant son objectif.<br><br>Le chef d'orchestre guide ensuite les musiciens. Il donne le tempo, indique les nuances et veille à la cohésion de l'ensemble. Le contrôleur web orchestre de la même façon les différentes parties de l'application. Il appelle les modèles pour traiter les données, utilise la logique métier pour composer la réponse, et sollicite les vues pour afficher le résultat final.<br><br>Le chef d'orchestre s'assure de l'harmonie et de la satisfaction du public. Sa vigilance garantit une expérience fluide et agréable. Le contrôleur web s'engage de la même manière à offrir une navigation intuitive et des interactions impeccables. Il gère les erreurs, optimise les performances et s'assure que chaque utilisateur savoure la mélodie de votre application.<br><br>En résumé, le contrôleur web est le chef d'orchestre invisible de votre application web. Il coordonne les interactions, assure la cohérence et veille à la satisfaction de l'utilisateur. Sans lui, l'application serait une cacophonie, incapable de produire la symphonie harmonieuse que vous avez conçue.<br><br>Voici quelques autres métaphores pour illustrer le rôle du contrôleur web :<ul><li>Le cerveau de l'application, qui centralise la logique et prend les décisions.</li><li>Le metteur en scène, qui donne vie au scénario et orchestre les différents acteurs.</li><li>Le chef d'équipe, qui guide et coordonne le travail des différents modules.</li></ul>Quelle que soit la métaphore choisie, le rôle essentiel du contrôleur web est incontestable. Il est le pilier central qui permet à votre application web de fonctionner de manière fluide, efficace et harmonieuse."
+          ],
+          "key" : "role sert fonctionne fonctionnement orchestre servir definition [controleur,controlleur,controller]",
+          "context" : [
+              "controleu",
+              "controleur",
+              "controleurs",
+              "controleurs",
+              "controller",
+              "controllers",
+              "controlleur",
+              "controlleurs"
+          ],
+          "type" : "txt",
+          "language" : "fr",
+          "actions" : "none"
+      },
+      {
+          "answers" : [
+              "A controller, in the context of web development, is a software component that acts as a central point of coordination between the various parts of a web application. Its role is to handle HTTP requests received from the client, interpret these requests, process the associated data, apply the necessary business logic, and then return an appropriate response to the client.<br><br>The main role of a web controller is to: <ul><li>Receive HTTP requests: It intercepts the HTTP requests sent by the client to the web application.</li><li>Process data: It retrieves data sent by the client (e.g., form data) or extracts necessary data from the data model (database, API, etc.).</li><li>Apply business logic: The controller contains the business logic of the application, determining how the data should be manipulated and processed.</li><li>Select the view: Based on the data and business logic, the controller selects the appropriate view (HTML page or view template) to return to the client.</li><li>Manage sessions and authentication: In many web applications, controllers also handle user sessions and authentication, ensuring that only authorized users can access certain features or data.</li></ul>In summary, the controller acts as a conductor in a web application, coordinating interactions between the client, server, and database, and ensuring that data is processed and presented appropriately.",
+              "A web controller plays an essential role in the development of web applications, acting as a central conductor. Imagine it like a conductor leading a concert: it receives requests from the audience (client's HTTP requests), interprets them, guides the musicians (different parts of the application) to perform the music (process data and apply business logic), and ensures that the final result is harmonious and satisfying for the audience. In essence, the web controller ensures that each element of the web application collaborates smoothly and efficiently, just as a conductor coordinates interactions between different instruments to produce a harmonious symphony.",
+              "A web controller is a software component that plays a crucial role in the architecture of a web application. It acts as an intermediary between the user interface layer (front-end) and the business layer (back-end).<br><br>Here are the main responsibilities of a web controller: <ul><li>Receiving HTTP requests: The controller receives HTTP requests sent by the client (web browser) via the user interface.</li><li>Interpreting requests: The controller analyzes the HTTP request to determine the action to take.</li><li>Calling business logic: The controller delegates the execution of the action to one or more components of the business layer.</li><li>Preparing the response: The controller retrieves data and formats it based on business logic and prepares the HTTP response to send to the client.</li><li>Sending the response: The controller sends the HTTP response to the client, which can be an HTML page, JSON file, image, etc.</li></ul>In summary, the web controller acts as a conductor who coordinates interactions between the user interface and the business layer of a web application. It is responsible for receiving requests, interpreting their content, executing business logic, and preparing and sending the response to the client.",
+              "Imagine your web application as a grand orchestra. The audience, eagerly awaiting a captivating melody. The conductor, baton in hand, is about to bring the symphony to life. Just like him, the web controller plays a crucial role in the success of your application.<br><br>The conductor receives requests from the audience. These are the HTTP requests sent by users. He interprets them, deciphers them, and understands the intention behind each note. The web controller acts in the same way, analyzing each request and identifying its purpose.<br><br>The conductor then guides the musicians. He sets the tempo, indicates the nuances, and ensures the cohesion of the whole. The web controller orchestrates the different parts of the application in the same way. It calls on models to process data, uses business logic to compose the response, and requests views to display the final result.<br><br>The conductor ensures harmony and audience satisfaction. His vigilance guarantees a smooth and enjoyable experience. The web controller is similarly committed to providing intuitive navigation and flawless interactions. It handles errors, optimizes performance, and ensures that each user savors the melody of your application.<br><br>In summary, the web controller is the invisible conductor of your web application. It coordinates interactions, ensures consistency, and ensures user satisfaction. Without it, the application would be a cacophony, unable to produce the harmonious symphony you envisioned.<br><br>Here are a few other metaphors to illustrate the role of the web controller: <ul><li>The brain of the application, centralizing logic and making decisions.</li><li>The director, bringing the scenario to life and orchestrating the different actors.</li><li>The team leader, guiding and coordinating the work of different modules.</li></ul>Regardless of the chosen metaphor, the essential role of the web controller is undeniable. It is the central pillar that enables your web application to function smoothly, efficiently, and harmoniously."
+          ],
+          "key" : "role function conductor advantages use using definition [controler,controller]",
+          "context" : [
+              "controle",
+              "controler",
+              "controlers",
+              "controlle",
+              "controller",
+              "controllers"
+          ],
+          "type" : "txt",
+          "language" : "eng",
+          "actions" : "none"
+      },
+      {
+          "answers" : [
+              "Je peux comprendre et communiquer dans deux langues, notamment l'anglais et le français. Si tu veux, nous pouvons continuer cette conversation en français !",
+              "Je suis bilingue en anglais et en français. Si vous préférez, nous pouvons poursuivre notre conversation en français.",
+              "Je capable de comprendre et de m'exprimer dans les deux langues, anglais et français, je suis à votre disposition pour poursuivre cet échange en français si vous le désirez.",
+              "Bilingue et ouvert d'esprit, je suis heureux de poursuivre notre échange en français si cela vous arrange.",
+              "Je suis capable de naviguer entre l'anglais et le français avec aisance. Si vous le souhaitez, nous pouvons continuer notre conversation en français.",
+              "Anglais et français font partie de mon répertoire linguistique. N'hésitez pas à me parler en français si vous le souhaitez."
+          ], 
+          "key" : "utilise communique comprendre parle comprend exprime conversation converse continue [langue,francais,anglais]",
+          "context" : [
+              "francai",
+              "francais",
+              "anglai",
+              "anglais",
+              "langu",
+              "langue",
+              "langues"
+          ],
+          "type" : "txt",
+          "language" : "fr",
+          "actions" : "none"
+      },
+      {
+          "answers" : [
+              "I can understand and communicate in two languages, including English and French. If you'd like, we can continue this conversation in English!",
+              "I am bilingual in English and French. If you prefer, we can continue our conversation in English.",
+              "I am capable of understanding and expressing myself in both languages, English and French. I am at your disposal to continue this exchange in English if you wish.",
+              "Bilingual and open-minded, I am happy to continue our exchange in English if it suits you.",
+              "I am capable of navigating between English and French with ease. If you wish, we can continue our conversation in English.",
+              "English and French are part of my linguistic repertoire. Feel free to speak to me in English if you prefer."
+          ], 
+          "key" : "use using communicate fluent communicating understand speak speaking express continue [language,french,english]",
+          "context" : [
+              "french",
+              "english",
+              "languag",
+              "language",
+              "languages"
+          ],
+          "type" : "txt",
+          "language" : "eng",
+          "actions" : "none"
+      }                               
   ]
