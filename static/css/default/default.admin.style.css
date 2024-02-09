@@ -2298,8 +2298,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .wrapper .box {
   border: 1px solid #efefef;
   padding: 10px 15px;
-  min-height: 550px;
-  max-height: 550px;
+  min-height: 600px;
+  max-height: 600px;
   overflow-y: scroll;
 }
 
@@ -2310,20 +2310,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .wrapper .typing-area {
-  width: 100%;
+  width: 78%;
   height: 50px;
   display: flex;
   padding: 10px;
-  margin-top: 7px;
   align-items: center;
   justify-content: center;
-  background: none;
+  position: fixed;
+  bottom: 0;
 }
 
 .wrapper .typing-area .input-field {
   width: 100%;
   position: relative;
-  background: none;
+  bottom: 40px;
+  border-radius: 10px;
 }
 
 .wrapper .typing-area .input-field input {
@@ -2375,8 +2376,11 @@ em.bot{
     margin: auto;
   }  
 
-  .wrapper .typing-area input {
-    width: 78%;
-  }    
+  .wrapper .typing-area {
+    width: 80%;
+  }  
 
+  .wrapper .typing-area .input-field #BtnValidate {
+    right: 30px;
+  }
 }
