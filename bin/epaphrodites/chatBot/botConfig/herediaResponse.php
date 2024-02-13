@@ -26,20 +26,25 @@ trait herediaResponse
         $maxComment = null;
         $defaultUsers = [];
         $makeAction ='none';
-        $correctSentence ="";
+        $similarySentence ="";
         $defaultMessage = [];
         $bestCoefficient = 0;
         $mainCoefficient = 0.3;
         $questionsAnswers = [];
         $temporaryResponses = [];
         
+        $botKey = 'key';
+        $nameKey = 'name';
+        $dateKey = 'date';
         $loginKey = 'login';
+        $contextKey = 'context';
+        $assemblyKey = 'assembly';
         $answersKey = 'answers';
         $actionsKey = 'actions';
-        $contextKey = 'context';
         $defaultLanguage = 'eng';
         $questionKey = 'question';
         $languageKey = 'language';
+        $similarlyKey = 'similarly';
         $coefficientKey = 'coefficient';
         $login = (new session_auth)->login();
 
@@ -68,7 +73,11 @@ trait herediaResponse
                     $coefficientKey => $coefficient , 
                     $answersKey=>$associatedAnswer[$answersKey] ,
                     $actionsKey=>$associatedAnswer[$actionsKey],
+                    $similarlyKey=>$associatedAnswer[$similarlyKey],
+                    $nameKey=>$associatedAnswer[$nameKey],
+                    $botKey=>$associatedAnswer[$botKey],
                     $contextKey=>$associatedAnswer[$contextKey],
+                    $assemblyKey=>$associatedAnswer[$assemblyKey],
                     $languageKey=>$associatedAnswer[$languageKey]
                 ];
             }
@@ -88,17 +97,17 @@ trait herediaResponse
             }
             
             $bestCoefficient = $maxComment[$coefficientKey] ?? 0;
-            $bestAnswers = $maxComment[$answersKey] ?? null;
             $makeAction = $maxComment[$actionsKey] ?? null;
             $defaultLanguage = $maxComment[$languageKey];
-            $correctSentence = $this->calculateContext($userWords , $maxComment[$contextKey]) ?? null;
+            $similarySentence = $this->calculateSimilarWords($userWords , $maxComment[$similarlyKey]) ?? null;
+            $bestAnswers = $this->assemblyWords( $userWords, $maxComment[$assemblyKey] , $maxComment[$nameKey] , $maxComment[$botKey] , $maxComment[$contextKey] , $maxComment[$answersKey] , $maxComment[$similarlyKey] );
         }
         
         // Update the best coefficient and the corresponding response
-        if ($bestCoefficient >= $mainCoefficient&&!empty($correctSentence)) {
+        if ($bestCoefficient >= $mainCoefficient&&$similarySentence>0) {
 
             $mainCoefficient = $bestCoefficient;
-            $response = $this->answersChanging($bestAnswers);
+            $response = $bestAnswers;
             $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $jsonFiles);
             
         } elseif ($bestCoefficient > 0.1) {
@@ -127,6 +136,7 @@ trait herediaResponse
         $defaultUsers = [ $loginKey => $login ];
         $userQuestion = [ $questionKey => $userMessage ];
         $userLanguage = [ $languageKey => $defaultLanguage ];
+        $defaultDateTime = [ $dateKey => date("d-y-Y h:i:s") ];
 
         // Merge all information to form the final response
         $result =  array_merge( $defaultUsers , $userQuestion , $response , $userLanguage );

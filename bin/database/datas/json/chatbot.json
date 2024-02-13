@@ -10,14 +10,23 @@
               "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
               "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
               "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
-              "Delighted to see you again. How may I assist you?"
+              "Delighted to see you. How may I assist you?"
           ],
           "key" : "hello morning hi {evening}",
-          "context" : [
+          "similarly" : [
               "hi",
               "hello",
               "morning",
               "evening"
+          ],
+          "context" : "greeting",
+          "name" : ["name"],
+          "assembly" : [
+              "Delighted to see you {name}. How may I assist you?",
+              "Hello {name}, I am Epaphrodites, your AI technical assistant. How can I help you today?",
+              "Greetings {name}, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
+              "Hello {name}, this is Epaphrodites, your AI technical support. How can I help you today?",
+              "Hi {name}, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?"
           ],
           "type" : "txt",
           "language" : "eng",
@@ -30,21 +39,21 @@
               "Épaphrodites à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
               "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI. Comment puis-je vous être utile ?",
               "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
-              "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique IA à votre service.",
+              "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique.",
               "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
               "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
               "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
               "Enchanté de vous revoir. Comment puis-je vous assister ?"
           ],
           "key" : "salut bonjour bonsoir",
-          "context" : [
-              "bonjour",
-              "bonjou",
+          "similarly" : [
               "salut",
-              "salu",
-              "bonsoi",
+              "bonjour",
               "bonsoir"
           ],
+          "name" : [],
+          "context" : "salutation",
+          "assembly" : [],
           "type" : "txt",
           "language" : "fr",
           "actions" : "none"
@@ -56,14 +65,14 @@
               "Discover the Epaphrodites framework, an innovative solution that revolutionizes web development with its versatility and ability to meet the most demanding requirements of programmers. This framework stands out for its exceptional dual competence: <ul><li>Python Code Execution: Epaphrodites offers you the ability to integrate Python code into your PHP projects, thus opening up an infinite field of possibilities in development. This rare linguistic flexibility allows you to leverage the strengths of two of the most powerful and popular programming languages, providing a unique solution for your development needs.</li><li>Multi-Database Management: With Epaphrodites, you are not limited to a single type of database. Integrate and manage different types of databases simultaneously, whether SQL or NoSQL, in the same project. This capability provides developers with complete freedom, allowing them to choose the most suitable data storage solution for each aspect of their application.</li></ul> Epaphrodites is much more than just a framework; it is a powerful and versatile tool designed to help you realize your most ambitious web projects. With its flexible architecture and advanced features, Epaphrodites accompanies you at every stage of your development, enabling you to create high-quality, highly performing web applications.",
               "The open-source web framework Epaphrodites is primarily developed in PHP. Its flexibility and robustness make it a tool suitable for all developers. Thanks to its modular architecture, it simplifies the creation and maintenance of scalable and high-performing web applications. Its main feature lies in its ability to seamlessly integrate advanced functionalities, including: <ul><li>Python Code Execution: In addition to PHP, Epaphrodites can execute Python code, offering rare linguistic flexibility and allowing the power of both languages to be combined in a single project.</li><li>Multi-Database Management: Epaphrodites allows the simultaneous use of different types of databases, such as MySQL, PostgreSQL, SQLite, SQLServer, MongoDB, and Redis, within the same project. This capability provides increased freedom and flexibility to developers.</li></ul> Epaphrodites, this sophisticated web framework, offers a multitude of tools and features to realize your most ambitious web projects."
           ],
-          "key" : "about know information features framework [epaphrodite]",
-          "context" : [
-              "framewor",
+          "key" : "about know information features framework means [epaphrodite]",
+          "similarly" : [
               "framework",
-              "epaphrodit",
-              "epaphrodite",
-              "epaphrodites"
+              "epaphrodite"
           ],
+          "name" : [],
+          "context" : "about epaphrodites",
+          "assembly" : [],
           "type" : "txt",
           "language" : "eng",
           "actions" : "none"
@@ -75,11 +84,14 @@
               "Découvrez le framework Epaphrodites, une solution innovante qui révolutionne le développement web avec sa polyvalence et sa capacité à répondre aux exigences les plus pointues des programmeurs. Ce framework se distingue par sa double compétence exceptionnelle :<ul><li>Exécution de code Python : Epaphrodites vous offre la possibilité d'intégrer du code Python dans vos projets PHP, ouvrant ainsi un champ infini de possibilités en matière de développement. Cette flexibilité linguistique rare vous permet de tirer parti des avantages de deux des langages de programmation les plus puissants et populaires, offrant ainsi une solution unique pour vos besoins de développement.</li><li>Gestion multi-bases de données : Avec Epaphrodites, vous n'êtes pas limité à un seul type de base de données. Intégrez et gérez simultanément différents types de bases de données, qu'il s'agisse de SQL ou de NoSQL, dans un même projet. Cette capacité offre une liberté totale aux développeurs, leur permettant de choisir la solution de stockage de données la plus adaptée à chaque aspect de leur application.</li></ul> Epaphrodites est bien plus qu'un simple framework ; c'est un outil puissant et polyvalent conçu pour vous aider à concrétiser vos projets web les plus ambitieux. Avec son architecture flexible et ses fonctionnalités avancées, Epaphrodites vous accompagne dans chaque étape de votre développement, vous permettant de créer des applications web de haute qualité et hautement performantes.",
               "Le framework web open source Epaphrodites est principalement développé en PHP. Sa souplesse et sa robustesse en font un outil adapté à tous les développeurs. Grâce à son architecture modulaire, il simplifie la création et la maintenance d'applications web évolutives et performantes. Sa caractéristique principale réside dans sa capacité à intégrer de manière transparente des fonctionnalités avancées, notamment : <ul><li>Exécution de code Python : En plus du PHP, Epaphrodites peut exécuter du code Python, offrant ainsi une flexibilité linguistique rare et permettant de combiner la puissance des deux langages dans un même projet.</li><li>Gestion multi-bases de données : Epaphrodites permet l'utilisation simultanée de différents types de bases de données, tels que Mysql, PostgreSQL, SQLite, SQLServer, MongoDB et Redis, au sein d'un même projet. Cette capacité offre une liberté et une flexibilité accrues aux développeurs.</li></ul> Epaphrodites, ce framework web sophistiqué, propose une multitude d'outils et de fonctionnalités pour concrétiser vos projets web les plus ambitieux."
           ],
-          "key" : "propos sais savoir information parle cardre framework [epaphrodite]",
-          "context" : [
+          "key" : "propos sais savoir information parle cardre framework signifie [epaphrodite]",
+          "similarly" : [
               "epaphrodite",
               "framework"
           ],
+          "name" : [],
+          "context" : "a propos du framework epaphrodites",
+          "assembly" : [],
           "type" : "txt",
           "language" : "fr",
           "actions" : "none"
@@ -92,16 +104,14 @@
               "To simplify the creation of a new controller, use the Heredia command <em class='bot'>create:Controller</em> from your terminal or PowerShell. By default, all controllers are stored in the directory <em class='bot'>bin/controllers/controllers</em>. Here's an example command to create a controller named 'testController': <pre class='code'>php heredia create:Controller testController</pre>Once the controller is created, you can add it to the root directory of controllers, specifically in the file <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em>.<br>Here's how to integrate your new controller into the controller map: <pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br><br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;</pre>By following these simple steps, you will be able to efficiently create and integrate new controllers into your application. This approach will allow you to dedicate more time to business logic and implementing innovative features."
           ],
           "key" : "generate create build [controller,controler,command]",
-          "context" : [
+          "similarly" : [
               "command",
-              "commands",
-              "controle",
               "controler",
-              "controlers",
-              "controlle",
-              "controller",
-              "controllers"
-          ],       
+              "controller"
+          ],  
+          "name" : ["name","call","calle","callin"],
+          "context" : "makeControleur",
+          "assembly" : [],     
           "type" : "code",
           "language" : "eng",
           "actions" : "none"
@@ -114,17 +124,14 @@
               "Pour simplifier la création d'un nouveau contrôleur, utilisez la commande Heredia <em class='bot'>create:Controller</em> à partir de votre terminal ou de PowerShell. Par défaut, tous les contrôleurs sont stockés dans le répertoire <em class='bot'>bin/controllers/controllers</em>. Voici un exemple de commande pour créer un contrôleur nommé 'testController' : <pre class='code'>php heredia create:Controller testController</pre> Une fois le contrôleur créé, vous pouvez l'ajouter au répertoire racine des contrôleurs, spécifiquement dans le fichier <em class='bot'>bin/controllers/controllerMap/controllerMap.php</em>.<br> Voici comment intégrer votre nouveau contrôleur dans la carte des contrôleurs : <pre class='code'>&lt;?php<br>namespace Epaphrodites\\controllers\\controllerMap;<br><br>trait controllerMap<br>&#123;<br>&nbsp;&nbsp;&nbsp;private function controllerMap(): array<br>&nbsp;&nbsp;&nbsp;&#123;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'test' => [ new testController, 'SwitchControllers' , true ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];<br>&nbsp;&nbsp;&nbsp;&#125;<br>&#125;</pre> En appliquant ces étapes simples, vous serez en mesure de créer et d'intégrer efficacement de nouveaux contrôleurs dans votre application. Cette approche vous permettra de consacrer davantage de temps à la logique métier et à l'implémentation de fonctionnalités innovantes."
           ],
           "key" : "genere cree creation editer edition [controller,controler,commande]",
-          "context" : [
-              "command",
+          "similarly" : [
               "commande",
-              "commandes",
               "controle",
-              "controler",
-              "controlers",
-              "controlle",
-              "controller",
-              "controllers"
-          ],       
+              "controlle"
+          ],  
+          "name" : ["nom","nomme","appele","appelle"],
+          "context" : "faireControleur",
+          "assembly" : [],     
           "type" : "code",
           "language" : "fr",
           "actions" : "none"
@@ -138,16 +145,14 @@
               "Epaphrodites-Framework relies on Composer to manage its dependencies. Therefore, before proceeding, make sure to have Composer installed on your machine. Once Composer is installed, you can create a new Epaphrodites project using the Composer create-project command: <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites project-name</pre>. Then, continue the installation by updating your project's packages with the following command: <pre class='code'>composer update</pre>. Finally, to optimize the Composer autoload file, execute the following command: <pre class='code'>composer dump-autoload</pre>"
           ],
           "key" : "process install method installation download downloading [epaphrodite,framework]",
-          "context" : [
-              "instal",
+          "similarly" : [
               "install",
-              "downloa",
               "download",
-              "downloadin",
-              "downloading",
-              "installatio",
               "installation"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "code",
           "language" : "eng",
           "actions" : "none"
@@ -161,17 +166,14 @@
               "Epaphrodites-Framework fait appel à Composer pour gérer ses dépendances. Ainsi, avant de procéder, assurez-vous d'avoir Composer installé sur votre machine. Une fois Composer installé, vous pouvez créer un nouveau projet Epaphrodites en utilisant la commande Composer create-project : <pre class='code'>composer create-project --prefer-dist epaphrodites/epaphrodites nom-du-projet</pre>. Poursuivez ensuite l'installation en mettant à jour les packages de votre projet avec la commande suivante : <pre class='code'>composer update</pre>. Enfin, pour optimiser le fichier d'autoload de Composer, exécutez la commande suivante : <pre class='code'>composer dump-autoload</pre>"
           ],
           "key" : "processus procedure installe method installation telecharge [epaphrodite,framework]",
-          "context" : [
-              "install",
+          "similarly" : [
               "installe",
-              "installer",
-              "telecharg",
               "telecharge",
-              "telecharger",
-              "installatio",
-              "installation",
-              "dinstallation"
+              "installation"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "code",
           "language" : "fr",
           "actions" : "none"
@@ -181,10 +183,13 @@
               "To quickly generate a view, run the command <em class='bot'>heredia create:Front</em> from the terminal or PowerShell. By default, all views for your application are stored in the <em class='bot'>bin/views/main</em> directory when you use main or <em class='bot'>bin/views/admin</em> directory when you use admin  <pre class='code'>php heredia create:Front main test_new_view</pre> Here is an example of a View generated from the previous command : <pre class='code'>&#123;% extends layouts %&#125;<br>&#123;% from breadcrumb import breadcrumb_field %&#125;<br>&#123;% from message import alert_msg %&#125;<br>&#123;% from forms import input_field , loader , import_field , submit %&#125;<br>&#123;% from pagination import dataTable_pagination, pagination_field %&#125;<br>&#123;% block content %&#125;<br><br>&nbsp;&nbsp;&lt;div class='container-fluid admin'><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>SUCCESS - VIEWS CREATED&lt;/h1><br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;hr><br>&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; __msg('site-title') &#125;&#125;<br>&nbsp;&nbsp;&lt;/div><br>&nbsp;&nbsp;<br>&#123;% endblock %%&#125</pre>"
           ],
           "key" : "generate create build [view]" ,
-          "context" : [
+          "similarly" : [
               "view",
               "views"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "code",
           "language" : "eng",
           "actions" : "none"
@@ -197,9 +202,12 @@
               "Delighted to see you again. How may I assist you?"
           ],
           "key" : "clear",
-          "context" : [
+          "similarly" : [
               "clear"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "txt",
           "language" : "eng",
           "actions" : "clear"
@@ -212,9 +220,12 @@
               "Enchanté de vous revoir. Comment puis-je vous assister ?"
           ],
           "key" : "init",
-          "context" : [
+          "similarly" : [
               "init"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "txt",
           "language" : "fr",
           "actions" : "clear"
@@ -228,7 +239,7 @@
               "Depuis février 2024, ma base de connaissances est restée inchangée, car ma formation s'est terminée à cette date. Je ne suis pas en mesure de vous fournir des informations actualisées au-delà de ce moment."
           ],
           "key" : "derniere recent version [mise jour,update,entrainement,entrainer,niveau]",
-          "context" : [
+          "similarly" : [
               "mise jour",
               "mises jour",
               "mise jou",
@@ -236,13 +247,12 @@
               "mis jour",
               "version",
               "update",
-              "updat",
-              "entrainer",
               "entraine",
-              "entrainement",
-              "niveau",
-              "niveaux"
+              "niveau"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "txt",
           "language" : "fr",
           "actions" : "none"        
@@ -256,22 +266,16 @@
               "Since February 2024, my knowledge base has remained unchanged as my training ended at that date. I am unable to provide updated information beyond that moment."
               ],
           "key" : "last latest recent version [update,training,train,refreshe,upgrade]",
-          "context" : [
+          "similarly" : [
               "update",
-              "updat",
               "train",
-              "trainin",
-              "training",
-              "versio",
               "version",
-              "refres",
               "refresh",
-              "refreshe",
-              "refreshed",
-              "upgrad",
-              "upgrade",
-              "upgraded"
+              "upgrade"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "txt",
           "language" : "eng",
           "actions" : "none"        
@@ -284,16 +288,13 @@
               "Imaginez votre application web comme un grand orchestre. Le public, impatient, attend une mélodie captivante. Le chef d'orchestre, baguette en main, s'apprête à donner vie à la symphonie. Tout comme lui, le contrôleur web joue un rôle crucial dans le succès de votre application.<br><br>Le chef d'orchestre reçoit les demandes du public. Ce sont les requêtes HTTP envoyées par les utilisateurs. Il les interprète, les déchiffre, et comprend l'intention derrière chaque note. Le contrôleur web agit de la même manière, analysant chaque requête et identifiant son objectif.<br><br>Le chef d'orchestre guide ensuite les musiciens. Il donne le tempo, indique les nuances et veille à la cohésion de l'ensemble. Le contrôleur web orchestre de la même façon les différentes parties de l'application. Il appelle les modèles pour traiter les données, utilise la logique métier pour composer la réponse, et sollicite les vues pour afficher le résultat final.<br><br>Le chef d'orchestre s'assure de l'harmonie et de la satisfaction du public. Sa vigilance garantit une expérience fluide et agréable. Le contrôleur web s'engage de la même manière à offrir une navigation intuitive et des interactions impeccables. Il gère les erreurs, optimise les performances et s'assure que chaque utilisateur savoure la mélodie de votre application.<br><br>En résumé, le contrôleur web est le chef d'orchestre invisible de votre application web. Il coordonne les interactions, assure la cohérence et veille à la satisfaction de l'utilisateur. Sans lui, l'application serait une cacophonie, incapable de produire la symphonie harmonieuse que vous avez conçue.<br><br>Voici quelques autres métaphores pour illustrer le rôle du contrôleur web :<ul><li>Le cerveau de l'application, qui centralise la logique et prend les décisions.</li><li>Le metteur en scène, qui donne vie au scénario et orchestre les différents acteurs.</li><li>Le chef d'équipe, qui guide et coordonne le travail des différents modules.</li></ul>Quelle que soit la métaphore choisie, le rôle essentiel du contrôleur web est incontestable. Il est le pilier central qui permet à votre application web de fonctionner de manière fluide, efficace et harmonieuse."
           ],
           "key" : "role sert fonctionne fonctionnement orchestre servir definition [controleur,controlleur,controller]",
-          "context" : [
-              "controleu",
-              "controleur",
-              "controleurs",
-              "controleurs",
-              "controller",
-              "controllers",
-              "controlleur",
-              "controlleurs"
+          "similarly" : [
+              "controle",
+              "controlle"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "txt",
           "language" : "fr",
           "actions" : "none"
@@ -306,14 +307,13 @@
               "Imagine your web application as a grand orchestra. The audience, eagerly awaiting a captivating melody. The conductor, baton in hand, is about to bring the symphony to life. Just like him, the web controller plays a crucial role in the success of your application.<br><br>The conductor receives requests from the audience. These are the HTTP requests sent by users. He interprets them, deciphers them, and understands the intention behind each note. The web controller acts in the same way, analyzing each request and identifying its purpose.<br><br>The conductor then guides the musicians. He sets the tempo, indicates the nuances, and ensures the cohesion of the whole. The web controller orchestrates the different parts of the application in the same way. It calls on models to process data, uses business logic to compose the response, and requests views to display the final result.<br><br>The conductor ensures harmony and audience satisfaction. His vigilance guarantees a smooth and enjoyable experience. The web controller is similarly committed to providing intuitive navigation and flawless interactions. It handles errors, optimizes performance, and ensures that each user savors the melody of your application.<br><br>In summary, the web controller is the invisible conductor of your web application. It coordinates interactions, ensures consistency, and ensures user satisfaction. Without it, the application would be a cacophony, unable to produce the harmonious symphony you envisioned.<br><br>Here are a few other metaphors to illustrate the role of the web controller: <ul><li>The brain of the application, centralizing logic and making decisions.</li><li>The director, bringing the scenario to life and orchestrating the different actors.</li><li>The team leader, guiding and coordinating the work of different modules.</li></ul>Regardless of the chosen metaphor, the essential role of the web controller is undeniable. It is the central pillar that enables your web application to function smoothly, efficiently, and harmoniously."
           ],
           "key" : "role function conductor advantages use using definition [controler,controller]",
-          "context" : [
+          "similarly" : [
               "controle",
-              "controler",
-              "controlers",
-              "controlle",
-              "controller",
-              "controllers"
+              "controlle"
           ],
+          "name" : [],
+          "context" : "",
+          "assembly" : [],
           "type" : "txt",
           "language" : "eng",
           "actions" : "none"
@@ -328,15 +328,14 @@
               "Anglais et français font partie de mon répertoire linguistique. N'hésitez pas à me parler en français si vous le souhaitez."
           ], 
           "key" : "utilise communique comprendre parle comprend exprime conversation converse continue [langue,francais,anglais]",
-          "context" : [
-              "francai",
+          "similarly" : [
               "francais",
-              "anglai",
               "anglais",
-              "langu",
-              "langue",
-              "langues"
+              "langage"
           ],
+          "name" : [],
+          "context" : "comprehension",
+          "assembly" : [],
           "type" : "txt",
           "language" : "fr",
           "actions" : "none"
@@ -351,13 +350,14 @@
               "English and French are part of my linguistic repertoire. Feel free to speak to me in English if you prefer."
           ], 
           "key" : "use using communicate fluent communicating understand speak speaking express continue [language,french,english]",
-          "context" : [
+          "similarly" : [
               "french",
               "english",
-              "languag",
-              "language",
-              "languages"
+              "language"
           ],
+          "name" : [],
+          "context" : "speaking",
+          "assembly" : [],
           "type" : "txt",
           "language" : "eng",
           "actions" : "none"

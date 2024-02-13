@@ -38,7 +38,7 @@ trait jaccardCoefficient
     
         $mainKeywordCoefficient = $mainKeywordIntersec * 0.27;
 
-        $otherKeywordCoefficient = $otherKeywordIntersec * 0.47;
+        $otherKeywordCoefficient = $otherKeywordIntersec * 0.33;
 
         $mainKeyword = !is_null($mainKeyword)&&!in_array("", $mainKeyword) ? 1: 0;
         $othersKeyword = !is_null($othersKeyword)&&!in_array("", $othersKeyword) ? 1: 0;
@@ -53,7 +53,11 @@ trait jaccardCoefficient
         return $jaccardCoefficient;
     }
    
-
+    /**
+     * @param mixed $mainKeyword
+     * @param mixed $initQuestionArray
+     * @return int
+    */
     private function getMainKeyCoefficient( $mainKeyword , $initQuestionArray ):int
     {
         $intersection = $this->countSimilarWords( $initQuestionArray , $mainKeyword);
@@ -64,17 +68,28 @@ trait jaccardCoefficient
     }
 
     /**
-     * @param string $question
-     * @param array $answers
-     * @return null|string
+     * @param array $userQuestions
+     * @param array $wordToRemove
+     * @param float $threshold
+     * @return int
      */
-    private function calculateContext(array $questions = [], array $answers = []): ?string 
-    {
-
-      (string) $question = implode(' ', $questions);
-
-      return array_reduce($answers, fn($found, $answer) => $found ?: str_contains(strtolower($question), $answer), null);
+    private function calculateSimilarWords(array $userQuestions, array $wordsToRemove, float $threshold = 0.8): int {
+       
+        $countRemovedWords = 0;
+    
+        foreach ($userQuestions as $question) {
+            foreach ($wordsToRemove as $wordToRemove) {
+                similar_text(mb_strtolower($question), mb_strtolower($wordToRemove), $similarity);
+                if ($similarity >= $threshold * 100) {
+                    $countRemovedWords++;
+                    break 1;
+                }
+            }
+        }
+    
+        return $countRemovedWords;
     }
+    
 
     /**
      * @param array $botAnswers
@@ -82,7 +97,6 @@ trait jaccardCoefficient
     */
     private function extractBracketValues(array $botAnswers):array{
 
-        
         $extractedValues = [];
         $pattern = '/\[(.*?)\]/';
         $botAnswersString = implode(' ', $botAnswers);
@@ -109,7 +123,6 @@ trait jaccardCoefficient
     */
     private function extractBracesValues(array $botAnswers):array{
 
-        
         $extractedValues = [];
         $pattern = '/\{(.*?)\}/';
         $botAnswersString = implode(' ', $botAnswers);
@@ -169,19 +182,15 @@ trait jaccardCoefficient
     */    
     private function normalizeWords(string $sentence): array
     {
-        // Remove punctuation and convert to lowercase
+   
         $sentence = strtolower(preg_replace('/[^\p{L}\s]+/u', '', $sentence));
         
-        // Remove trailing 's' from words
         $sentence = preg_replace('/\b(\w+)s\b/', '$1', $sentence);
     
-        // Normalize Unicode characters to decomposed form
         $sentence = Normalizer::normalize($sentence, Normalizer::FORM_D);
     
-        // Remove diacritics
         $sentence = preg_replace('/\p{M}/u', '', $sentence);
     
-        // Split sentence into words
         return explode(' ', $sentence);
     }
     

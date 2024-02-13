@@ -16,6 +16,7 @@ trait cleanNormalize
     private function cleanAndNormalize(string $text): array
     {
         $cleanText = $this->cleanText($text);
+       
         return $this->splitTextIntoWords($this->wordNormalizer($cleanText));
     }
 
@@ -27,20 +28,25 @@ trait cleanNormalize
      */
     private function cleanText(string $text): string
     {
-        return strtolower(preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $text));
-    }
 
-    private function wordNormalizer($word) {
+        $cleanedText = preg_replace("/(?<=\s|^)'(\w+)/", '$1', $text);
+        return strtolower(preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $cleanedText));
+    }
     
-        // Appliquer les remplacements
-        foreach ($this->letterTranslate() as $caractere => $equivalent) {
+    /**
+     * @param string $word
+     * @return string
+     */
+    private function wordNormalizer(string $word):string {
+    
+        foreach ($this->letterTranslate() as $caractere => $equivalent) 
+        {
             $word = str_replace($caractere, $equivalent, $word);
         }
     
         return $word;
     }
     
-
     /**
      * Splits the cleaned text into an array of words.
      *
@@ -83,8 +89,8 @@ trait cleanNormalize
     {
         return 
         [
-            'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'à', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 'd\'', 'sur',
-            'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi', 'toi', 'tu', 
+            'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'à', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 'sur', 'es' , 'est' , 'sont' , 'sommes',
+            'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi' ,'je' , 'toi', 'tu', 
             'soi', 'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'qui', 'que', 'quoi', 'dont', 'où', 'quand', 'comment', 'combien',
         ];
     }
@@ -95,7 +101,7 @@ trait cleanNormalize
     private function englishWord():array
     {   
         return [
-            'the', 'a', 'an', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 
+            'the', 'a', 'an', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 'is', 'are',
             'our', 'their', 'whose', 'which', 'whichever', 'whatever', 'who', 'whom', 'whosever', 'whomever', 'whatever', 'somebody', 
             'someone', 'something', 'anybody', 'anyone', 'anything', 'nobody', 'none', 'no one', 'nothing', 'everybody', 'everyone', 'everything'
         ];

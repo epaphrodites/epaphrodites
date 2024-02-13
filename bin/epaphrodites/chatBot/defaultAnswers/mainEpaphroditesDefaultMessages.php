@@ -19,8 +19,11 @@ class mainEpaphroditesDefaultMessages
                 "I am a language model specialized in technical assistance; however, I do not deal with this kind of information.",
                 "I am a language model designed to assist with technical tasks, but I cannot help you with this type of information."
             ], 
-            "context" => [],
+            "similarly" => [],
+            "name" => [],
             "type" => "txt",
+            "context" => "",
+            "assembly" => [],            
             "language" => "eng",
             "actions" => "none"
         ];
@@ -40,8 +43,11 @@ class mainEpaphroditesDefaultMessages
                 "Je suis un modèle de langage spécialisé dans l'assistance technique, cependant, je ne traite pas ce genre d'information.",
                 "Je suis un modèle de langage conçu pour aider avec des tâches techniques, mais je ne peux pas vous aider avec ce type d'informations."
             ], 
-            "context" => [],
+            "similarly" => [],
+            "name" => [],
             "type" => "txt",
+            "context" => "",
+            "assembly" => [],            
             "language" => "fr",
             "actions" => "none"
         ];
@@ -61,8 +67,11 @@ class mainEpaphroditesDefaultMessages
                 "So that I can effectively address your concern, could you elaborate on your explanations?",
                 "I'm here to help you, but I need a bit more clarity. Could you detail your concern?"
             ], 
-            "context" => [],
+            "similarly" => [],
             "type" => "txt",
+            "name" => [],
+            "context" => "",
+            "assembly" => [],
             "language" => "eng",
             "actions" => "none"
         ];
@@ -82,8 +91,11 @@ class mainEpaphroditesDefaultMessages
                 "Pour que je puisse répondre efficacement à votre préoccupation, pourriez-vous étoffer vos explications ?",
                 "Je suis là pour vous aider, mais j'ai besoin d'un peu plus de clarté. Pourriez-vous détailler votre préoccupation ?"
             ], 
-            "context" => [],
+            "similarly" => [],
             "type" => "txt",
+            "name" => [],
+            "context" => "",
+            "assembly" => [],            
             "language" => "fr",
             "actions" => "none"
         ];

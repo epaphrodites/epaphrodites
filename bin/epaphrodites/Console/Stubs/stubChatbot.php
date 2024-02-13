@@ -77,10 +77,20 @@
                     "Hi there, I'm {$chatBotName}, your personal AI tech helper"
                 ],
                 "key" => "hello morning hi {evening}",
-                "context" => [
+                "similarly" => [
                     "hi",
                     "hello",
+                    "morning",
                     "evening"
+                ],
+                "context" => "greeting",
+                "name" => ["name"],
+                "assembly" => [
+                    "Delighted to see you {name}. How may I assist you?",
+                    "Hello {name}, I am Epaphrodites, your AI technical assistant. How can I help you today?",
+                    "Greetings {name}, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
+                    "Hello {name}, this is Epaphrodites, your AI technical support. How can I help you today?",
+                    "Hi {name}, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?"
                 ],
                 "type" => "txt",
                 "language" => "eng",
@@ -93,11 +103,14 @@
                     "{$chatBotName} à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
                 ],
                 "key" => "salut bonjour bonsoir",
-                "context" => [
+                "context" => "salutation",
+                "similarly" => [
                     "salut",
                     "bonjour",
                     "bonsoir"
                 ],
+                "name" => [],
+                "assembly" => [],
                 "type" => "txt",
                 "language" => "fr",
                 "actions" => "none"
@@ -108,9 +121,12 @@
                     "Greetings, I'm {$chatBotName}, your AI technical assistant. How may I assist you?"
                 ],
                 "key" => "clear",
-                "context" => [
+                "context" => "clear",
+                "similarly" => [
                     "clear"
                 ],
+                "name" => [],
+                "assembly" => [],
                 "type" => "txt",
                 "language" => "eng",
                 "actions" => "clear"
@@ -121,13 +137,60 @@
                     "Salutations, je suis {$chatBotName}, votre assistant technique en IA. Comment puis-je vous aider ?"
                 ],
                 "key" => "init",
-                "context" => [
+                "context" => "clear",
+                "similarly" => [
                     "init"
                 ],
+                "name" => [],
+                "assembly" => [],
                 "type" => "txt",
                 "language" => "fr",
                 "actions" => "clear"
-            ]                         
+            ],
+            [
+                "answers" => [
+                    "Je peux comprendre et communiquer dans deux langues, notamment l'anglais et le français. Si tu veux, nous pouvons continuer cette conversation en français !",
+                    "Je suis bilingue en anglais et en français. Si vous préférez, nous pouvons poursuivre notre conversation en français.",
+                    "Je capable de comprendre et de m'exprimer dans les deux langues, anglais et français, je suis à votre disposition pour poursuivre cet échange en français si vous le désirez.",
+                    "Bilingue et ouvert d'esprit, je suis heureux de poursuivre notre échange en français si cela vous arrange.",
+                    "Je suis capable de naviguer entre l'anglais et le français avec aisance. Si vous le souhaitez, nous pouvons continuer notre conversation en français.",
+                    "Anglais et français font partie de mon répertoire linguistique. N'hésitez pas à me parler en français si vous le souhaitez."
+                ], 
+                "key" => "utilise communique comprendre parle comprend exprime conversation converse continue [langue,francais,anglais]",
+                "similarly" => [
+                    "francais",
+                    "anglais",
+                    "langage"
+                ],
+                "name" => [],
+                "context" => "comprehension",
+                "assembly" => [],
+                "type" => "txt",
+                "language" => "fr",
+                "actions" => "none"
+            ],
+            [
+                "answers" => [
+                    "I can understand and communicate in two languages, including English and French. If you'd like, we can continue this conversation in English!",
+                    "I am bilingual in English and French. If you prefer, we can continue our conversation in English.",
+                    "I am capable of understanding and expressing myself in both languages, English and French. I am at your disposal to continue this exchange in English if you wish.",
+                    "Bilingual and open-minded, I am happy to continue our exchange in English if it suits you.",
+                    "I am capable of navigating between English and French with ease. If you wish, we can continue our conversation in English.",
+                    "English and French are part of my linguistic repertoire. Feel free to speak to me in English if you prefer."
+                ], 
+                "key" => "use using communicate fluent communicating understand speak speaking express continue [language,french,english]",
+                "similarly" => [
+                    "french",
+                    "english",
+                    "language"
+                ],
+                "name" => [],
+                "context" => "speaking",
+                "assembly" => [],
+                "type" => "txt",
+                "language" => "eng",
+                "actions" => "none"
+            ]                                      
         ];
     }
 
