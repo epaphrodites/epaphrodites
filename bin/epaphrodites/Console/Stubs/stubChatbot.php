@@ -121,7 +121,7 @@
                     "Greetings, I'm {$chatBotName}, your AI technical assistant. How may I assist you?"
                 ],
                 "key" => "clear",
-                "context" => "clear",
+                "context" => "initialiser",
                 "similarly" => [
                     "clear"
                 ],
@@ -137,7 +137,7 @@
                     "Salutations, je suis {$chatBotName}, votre assistant technique en IA. Comment puis-je vous aider ?"
                 ],
                 "key" => "init",
-                "context" => "clear",
+                "context" => "initialize",
                 "similarly" => [
                     "init"
                 ],
@@ -163,7 +163,7 @@
                     "langage"
                 ],
                 "name" => [],
-                "context" => "comprehension",
+                "context" => "langageCommunication",
                 "assembly" => [],
                 "type" => "txt",
                 "language" => "fr",
@@ -185,7 +185,7 @@
                     "language"
                 ],
                 "name" => [],
-                "context" => "speaking",
+                "context" => "communicateLanguage",
                 "assembly" => [],
                 "type" => "txt",
                 "language" => "eng",
