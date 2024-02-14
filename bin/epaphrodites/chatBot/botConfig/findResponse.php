@@ -37,10 +37,10 @@ trait findResponse
         $dateKey = 'date';
         $loginKey = 'login';
         $contextKey = 'context';
-        $assemblyKey = 'assembly';
         $answersKey = 'answers';
         $actionsKey = 'actions';
         $defaultLanguage = 'eng';
+        $assemblyKey = 'assembly';
         $questionKey = 'question';
         $languageKey = 'language';
         $similarlyKey = 'similarly';

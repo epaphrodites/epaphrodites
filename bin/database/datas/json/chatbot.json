@@ -71,7 +71,7 @@
               "epaphrodite"
           ],
           "name" : [],
-          "context" : "about epaphrodites",
+          "context" : "aboutEpaphrodites",
           "assembly" : [],
           "type" : "txt",
           "language" : "eng",
@@ -90,7 +90,7 @@
               "framework"
           ],
           "name" : [],
-          "context" : "a propos du framework epaphrodites",
+          "context" : "infosEpaphrodites",
           "assembly" : [],
           "type" : "txt",
           "language" : "fr",
@@ -130,7 +130,7 @@
               "controlle"
           ],  
           "name" : ["nom","nomme","appele","appelle"],
-          "context" : "faireControleur",
+          "context" : "editerControleur",
           "assembly" : [],     
           "type" : "code",
           "language" : "fr",
@@ -151,7 +151,7 @@
               "installation"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "installerEpaphrodites",
           "assembly" : [],
           "type" : "code",
           "language" : "eng",
@@ -172,7 +172,7 @@
               "installation"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "installEpaphrodites",
           "assembly" : [],
           "type" : "code",
           "language" : "fr",
@@ -188,7 +188,7 @@
               "views"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "createViews",
           "assembly" : [],
           "type" : "code",
           "language" : "eng",
@@ -206,7 +206,7 @@
               "clear"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "clear",
           "assembly" : [],
           "type" : "txt",
           "language" : "eng",
@@ -224,7 +224,7 @@
               "init"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "initialiser",
           "assembly" : [],
           "type" : "txt",
           "language" : "fr",
@@ -251,7 +251,7 @@
               "niveau"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "infosMiseAJour",
           "assembly" : [],
           "type" : "txt",
           "language" : "fr",
@@ -274,7 +274,7 @@
               "upgrade"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "infosLastUpdate",
           "assembly" : [],
           "type" : "txt",
           "language" : "eng",
@@ -293,7 +293,7 @@
               "controlle"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "roleControlleur",
           "assembly" : [],
           "type" : "txt",
           "language" : "fr",
@@ -312,7 +312,7 @@
               "controlle"
           ],
           "name" : [],
-          "context" : "",
+          "context" : "roleControler",
           "assembly" : [],
           "type" : "txt",
           "language" : "eng",
@@ -331,10 +331,11 @@
           "similarly" : [
               "francais",
               "anglais",
+              "langue",
               "langage"
           ],
           "name" : [],
-          "context" : "comprehension",
+          "context" : "langageCommunication",
           "assembly" : [],
           "type" : "txt",
           "language" : "fr",
@@ -356,7 +357,7 @@
               "language"
           ],
           "name" : [],
-          "context" : "speaking",
+          "context" : "communicateLanguage",
           "assembly" : [],
           "type" : "txt",
           "language" : "eng",
