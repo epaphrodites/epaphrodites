@@ -15,19 +15,20 @@ trait loadUsersAnswers
      */
     private function loadJsonFile(string $jsonFiles = "BotSession"): ?array
     {
+        
         // Path to the JSON file
         $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
-       
+        
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
             // Read the file content
-            $jsonData = file_get_contents($jsonFilePath);
-
+            $jsonData = !empty(file_get_contents($jsonFilePath)) ? file_get_contents($jsonFilePath) : "[]";
+            
             // Check if file reading is successful
             if ($jsonData !== false) {
                 // Decode the JSON content
                 $usersAnswers = json_decode($jsonData, true);
-
+               
                 // Check if JSON decoding is successful and the result is an array
                 if ($usersAnswers !== null && is_array($usersAnswers)) {
                     return $usersAnswers; // Return the decoded data

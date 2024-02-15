@@ -19,7 +19,7 @@ trait dropJson
         $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
 
         // Load the content of the JSON file
-        $jsonDatas = file_get_contents($jsonFilePath);
+        $jsonDatas = !empty(file_get_contents($jsonFilePath)) ? file_get_contents($jsonFilePath) : "[]";
 
         // Check for JSON encoding errors
         if ($jsonDatas === false) {

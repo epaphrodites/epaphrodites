@@ -25,9 +25,9 @@ trait findResponse
         $maxComment = null;
         $defaultUsers = [];
         $makeAction ='none';
-        $similarySentence ="";
         $defaultMessage = [];
         $bestCoefficient = 0;
+        $similarySentence ="";
         $mainCoefficient = 0.3;
         $questionsAnswers = [];
         $temporaryResponses = [];

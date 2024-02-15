@@ -17,19 +17,20 @@ trait loadJson
     {
         // Path to the JSON file
         $jsonFilePath = _DIR_JSON_DATAS_ . "/{$jsonFiles}.json";
-
+        
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
             // Read the file content
-            $jsonData = file_get_contents($jsonFilePath);
-
+            $jsonData = !empty(file_get_contents($jsonFilePath)) ? file_get_contents($jsonFilePath) : "[]";
+           
             // Check if file reading is successful
             if ($jsonData !== false) {
                 // Decode the JSON content
                 $questionsAnswers = json_decode($jsonData, true);
-
+             
                 // Check if JSON decoding is successful and the result is an array
                 if ($questionsAnswers !== null && is_array($questionsAnswers)) {
+                    
                     return $questionsAnswers; // Return the decoded data
                 } else {
                     // Handle an error if JSON decoding fails or the data type is not an array
