@@ -1,24 +1,5 @@
-{% macro bar_chart( xValues , yvalues , barColors , name , label ) %}
-<script>
-    var xValues = [ "{{ xValues }}" ];
-    var yValues = [ "{{ yvalues }}" ];
-    var barColors = [ "{{ barColors }}" ];
-
-    new Chart( "{{ name }}" , {
-        type: "bar",
-        data: {
-            labels: xValues,
-            datasets: [{
-                data: yValues,
-                backgroundColor: barColors,
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "{{ label }}"
-            }
-        }
-    });
-</script>
-{% endmacro %}}
+{% macro chart(chartOptions) %}
+    <script> 
+        document.addEventListener('DOMContentLoaded', function () { var xValues = {{ chartOptions.xValues|json_encode|raw }}; var datasets = {{ chartOptions.datasets|json_encode|raw }}; var id = "{{ chartOptions.id | default('epaphroditeChart') | escape('js') }}"; var border = "{{ chartOptions.border | default(1) | escape('js') }}"; var borderRadius = "{{ chartOptions.radius | default(0) | escape('js') }}"; var fill = "{{ chartOptions.fill | default(false) | escape('js') }}"; var label = "{{ chartOptions.label | default('Epaphrodites bar chart') | escape('js') }}"; var chartType = "{{ chartOptions.chartType | escape('js') }}"; createBarChart(xValues, datasets, id, label , chartType , border , fill , borderRadius ); function createBarChart(xValues, datasets, chartId, chartTitle , border , fill , borderRadius , chartType ) { new Chart(chartId, { data: { labels: xValues, datasets: datasets.map(function (dataset, index) { return { backgroundColor: dataset.color, label: dataset.label, fill: dataset.fill , borderColor: dataset.borderColor || 'rgb(6, 121, 25)', data: dataset.data , borderWidth: dataset.border, tension: dataset.radius, type: dataset.chartType || "bar" }; }) }, options: { animation: { duration: 400, easing: 'linear' }, hover: {  mode: 'nearest', intersect: true }, plugins: { legend: { display: true , position: 'bottom' }, title: { display: true, text: chartTitle } },  scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(0, 0, 0, 0.1)' } } }} }); } });
+    </script>
+{% endmacro %}
