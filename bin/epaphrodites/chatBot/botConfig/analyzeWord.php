@@ -41,6 +41,8 @@ trait analyzeWord
 
         foreach ($name as $name) {
             $getMain = $this->getUsersRequest($userQUestions, $name);
+
+            if (!empty($getMain)) { return $getMain; }
         }
 
         return $getMain;

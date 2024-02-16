@@ -23,7 +23,7 @@ trait botAssembly
         $getName = $this->getMainResultName( $userQuestions , $name );
 
         $answers = match (true) {
-            ($context === 'makeControleur' || $context === 'greeting') && !empty($getName) => str_replace('{name}', $getName, $this->answersChanging($assembly)),
+            ($context === 'makeControleur' || $context === 'greeting' || $context === 'salutation') && !empty($getName) => str_replace('{name}', $getName, $this->answersChanging($assembly)),
             default => $this->answersChanging($botAnswers),
         };
         

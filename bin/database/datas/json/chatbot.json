@@ -51,9 +51,15 @@
               "bonjour",
               "bonsoir"
           ],
-          "name" : [],
+          "name" : ["nom","nomme","appel","appelle"],
           "context" : "salutation",
-          "assembly" : [],
+          "assembly" : [
+             "Enchanté de vous voir {name}. Comment puis-je vous aider ?",
+             "Bonjour {name}, je suis Epaphrodites, votre assistant technique en intelligence artificielle. Comment puis-je vous aider aujourd'hui ?",
+             "Salutations {name}, je suis Epaphrodites, votre assistant technique en intelligence artificielle. Comment puis-je vous aider ?",
+             "Bonjour {name}, c'est Epaphrodites, votre support technique en intelligence artificielle. Comment puis-je vous aider aujourd'hui ?",
+             "Salut {name}, je suis Epaphrodites, votre assistant personnel en technologie d'intelligence artificielle. Comment puis-je vous être utile ?"
+          ],
           "type" : "txt",
           "language" : "fr",
           "actions" : "none"
