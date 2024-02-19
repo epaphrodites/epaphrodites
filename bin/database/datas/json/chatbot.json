@@ -45,11 +45,12 @@
               "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
               "Enchanté de vous revoir. Comment puis-je vous assister ?"
           ],
-          "key" : "salut bonjour bonsoir",
+          "key" : "salut bonjour bonsoir {hello}",
           "similarly" : [
               "salut",
               "bonjour",
-              "bonsoir"
+              "bonsoir",
+              "hello"
           ],
           "name" : ["nom","nomme","appel","appelle"],
           "context" : "salutation",

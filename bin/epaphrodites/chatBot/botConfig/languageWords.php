@@ -12,30 +12,25 @@ trait languageWords
     private function frenchLangWord(): array
     {
         return [
-            'le', 'la', 'les', 'des', 'une', 'un', 'a', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'sur', 'du', 'de', 'leur', 'leurs', 
-            'lui', 'eux', 'elle', 'elles', 'on', 'moi', 'toi', 'tu', 'je','il', 'soi', 'nous', 'vous', 'se', 'me', 'te', 'y', 'en',
-            'que', 'quoi', 'dont', 'quand', 'comment', 'combien', 'lesquels', 'lesquelles', 'dont', 'duquel', 'desquels', 'desquelles',
-            'apres', 'avant', 'avec', 'chez', 'contre', 'dans', 'depuis', 'derriere', 'devant', 'entre', 'hors', 'jusque', 'par', 'parmi',
-            'pendant', 'pour', 'sans', 'sauf', 'selon', 'sous', 'vers', 'via', 'et', 'ou', 'mais', 'car', 'donc', 'or', 'ni', 'malgre', 'grace',
-            'vis', 'pourquoi', 'qui', 'quoi', 'quel', 'quelle', 'quels', 'quelles', 'lequel', 'laquelle', 'communaute',
-            'quelle', 'quels', 'quelles', 'quel', 'pour quels', 'pour quelles', 'plus', 'moins', 'aussi', 'autant',
-            'tres', 'bien', 'mal', 'peu', 'beaucoup', 'trop', 'assez', 'vraiment', 'absolument', 'apparemment', 'bientot',
-            'bref', 'brusquement', 'certainement', 'constamment', 'abord', 'ailleurs', 'apres', 'habitude', 'deja', 'demain', 'emblee',
-            'densement', 'dernierement', 'ici', 'egalement', 'encore', 'enfin', 'enfouie', 'ensemble', 'ensuite', 'entierement',
-            'entre-temps', 'environ', 'evidemment', 'exclusivement', 'facilement', 'finalement', 'fort', 'franchement', 'frequemment', 'froidement',
-            'furieusement', 'generalement', 'gentiment', 'hardiment', 'hativement', 'heureusement', 'illegalement', 'immediatement', 'imparfaitement',
-            'infiniment', 'ingenument', 'involontairement', 'jamais', 'longtemps', 'lourdement', 'malheureusement', 'malicieusement', 'mechamment',
-            'mediocrement', 'meme', 'mensuellement', 'miserablement', 'modestement', 'naturellement', 'neanmoins', 'necessairement', 'sommes',
-            'importe', 'import', 'notamment', 'nouvellement', 'nulle' , 'part' , 'partie', 'obstinement', 'occasionnellement','etre', 'somme',
-            'parfois', 'partout', 'peniblement', 'peut', 'pleinement', 'plutot', 'poliment', 'precedemment', 'precieusement', 'preferablement',
-            'probablement', 'promptement', 'proportionnellement', 'provisoirement', 'publiquement', 'quelquefois', 'quelque', 'rarement',
-            'recemment', 'rapidement', 'regulierement', 'relativement', 'rigidement', 'sainement', 'serieusement', 'souvent', 'soigneusement',
-            'strictement', 'suffisamment', 'superficiellement', 'surtout', 'tantot', 'tard', 'tardivement', 'tellement', 'tendrement',
-            'tout', 'coup', 'tout de suite', 'droit' , 'gauche', 'toutefois', 'tristement', 'vaguement', 'vite', 'vivement', 'init' ,
-            'volontairement', 'vraisemblablement', 'presque', 'propos', 'sais' , 'information' , 'parle' , 'salut' , 'salu' , 'salutation' , 'bonjour' , 'bonjou' , 'bonsoir', 'bonsoi',
-            'janvier', 'fevrier', 'ta', 'ton' ,'son','jour','recente','suis','aider','remonte','entrainement', 'installe', 'installer', 'installation'
+            'le', 'la', 'les', 'des', 'une', 'un', 'a', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'sur', 'du', 'de', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles',
+            'on', 'moi', 'toi', 'tu', 'je','il', 'soi', 'nous', 'vous', 'se', 'me' ,'mon', 'te', 'tom','y', 'en','ta', 'ton', 'son', 'ici', 'que', 'quoi', 'dont', 'quand', 'comment', 'combien', 
+            'lesquels', 'lesquelles', 'duquel', 'desquels', 'desquelles', 'apres', 'avant', 'avec', 'chez', 'contre', 'dans', 'depuis', 'derriere', 'devant', 'entre', 'hors', 
+            'jusque', 'par', 'parmi', 'pendant', 'pour', 'sans', 'sauf', 'selon', 'sous', 'vers', 'via', 'et', 'ou', 'mais', 'car', 'donc', 'or', 'ni', 'malgre', 'grace', 'mechamment',
+            'vis', 'pourquoi', 'qui', 'quel', 'quelle', 'quels', 'quelles', 'lequel', 'laquelle', 'communaute', 'plus', 'moins', 'aussi', 'autant', 'tres', 'bien', 'mal', 'peu', 'beaucoup',
+            'trop', 'assez', 'vraiment', 'absolument', 'apparemment', 'bientot', 'bref', 'brusquement', 'certainement', 'constamment', 'abord', 'ailleurs', 'habitude', 'deja', 'demain', 'emblee',
+            'densement', 'dernierement', 'egalement', 'encore', 'enfin', 'enfouie', 'ensemble', 'ensuite', 'entierement', 'entre-temps', 'environ', 'evidemment', 'exclusivement', 
+            'facilement', 'finalement', 'fort', 'franchement', 'frequemment', 'froidement', 'furieusement', 'generalement', 'gentiment', 'hardiment', 'hativement', 'heureusement', 
+            'illegalement', 'immediatement', 'imparfaitement', 'infiniment', 'ingenument', 'involontairement', 'jamais', 'longtemps', 'lourdement', 'malheureusement', 'malicieusement',
+            'mediocrement', 'meme', 'mensuellement', 'miserablement', 'modestement', 'naturellement', 'neanmoins', 'necessairement', 'sommes', 'importe', 'import', 'notamment', 'nouvellement', 
+            'nulle' , 'part', 'obstinement', 'occasionnellement','etre', 'somme', 'precieusement', 'preferablement', 'parfois', 'partout', 'peniblement', 'peut', 'pleinement', 'plutot', 'poliment', 
+            'precedemment', 'probablement', 'promptement', 'proportionnellement', 'provisoirement', 'publiquement', 'quelquefois', 'quelque', 'rarement', 'nom', 'nomme', 'appel',
+            'recemment', 'rapidement', 'regulierement', 'relativement', 'rigidement', 'sainement', 'serieusement', 'souvent', 'soigneusement', 'strictement', 'suffisamment', 'superficiellement', 
+            'surtout', 'tantot', 'tard', 'tardivement', 'tellement', 'tendrement', 'tout', 'coup', 'tout de suite', 'droit' , 'gauche', 'toutefois', 'tristement', 'vaguement', 'vite', 'vivement', 'init' ,
+            'volontairement', 'vraisemblablement', 'presque', 'propos', 'sais' , 'information' , 'parl' , 'salut' , 'salutation' , 'bonjour', 'bonsoir', 'janvier', 'fevrier', 'mars' , 'avril' , 'mai' , 'juin' , 'juillet' , 'aout',
+            'septembre', 'octobre' , 'novembre', 'decembre','jour','recente','suis','aider','remonte','entrainement', 'install', 'installation'
         ];
     }
+    
 
     /**
      * English words
@@ -44,7 +39,7 @@ trait languageWords
     private function englishLangWord(): array
     {
         return [
-            'the', 'a', 'an', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 'from', 'advanced',
+            'the', 'a', 'an', 'am', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 'from', 'advanced',
             'our', 'their', 'whose', 'which', 'whichever', 'whatever', 'who', 'whom', 'whosever', 'whomever', 'somebody', 'out', 'one', 'make',
             'someone', 'something', 'anybody', 'anyone', 'anything', 'nobody', 'none', 'no', 'nothing', 'everybody', 'everyone', 'everything',
             'of', 'and', 'is', 'help', 'can', 'most', 'to', 'in', 'for', 'on', 'with', 'by', 'at', 'as', 'do', 'does', 'did', 'done', 'will', 'would',
@@ -59,8 +54,9 @@ trait languageWords
             'fewest', 'other', 'another', 'others', 'anymore', 'somewhat', 'anytime', 'everytime', 'noone', 'nothing', 'anyway', 'someway', 'noway', 'child',
             'whoever', 'whatever', 'whenever', 'wherever', 'however', 'whyever', 'whichever', 'whosever', 'please', 'clear', 'clean', 'mother', 'father',
             'hello', 'morning' , 'hi', 'generate', 'create', 'build','generated', 'created', 'building', 'tell', 'update', 'evening', 'want', 'children',
-            'database', 'databases', 'open', 'tool', 'developer', 'developers', 'feature', 'same', 'function', 'recent', 'thank', 'download', 'readme', 'install',
-            'available', 'workflows', 'start', 'started', 'though', 'insert', 'create', 'update', 'delete', 'power', 'custom' ,'awesome', 'work', 'do', 'give'
+            'database', 'databases', 'open', 'tool', 'developer', 'developers', 'feature', 'same', 'function', 'recent', 'thank', 'download', 'readme', 'instal',
+            'available', 'workflows', 'start', 'started', 'though', 'insert', 'create', 'update', 'delete', 'power', 'custom' ,'awesome', 'work', 'do', 'give',
+            'janvier', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'day', 'night', 'help'
         ];
     }
 }
