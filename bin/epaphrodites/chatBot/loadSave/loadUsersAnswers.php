@@ -45,4 +45,26 @@ trait loadUsersAnswers
             throw new epaphroditeException("Error: JSON file not found.");
         }
     }
+
+    /**
+     * @param string $login
+     * @param string $jsonFiles
+     * @return array|null
+    */
+    public function lastUsersQuestion(string $login , string $jsonFiles = "BotSession"):array|null {
+       
+        $lastMessage = null;
+        $result = $this->loadJsonFile($jsonFiles);
+
+        foreach (array_reverse($result) as $message) {
+            if ($message['login'] === $login) {
+                if ($message['previous'] === true) {
+                    $lastMessage = $message;
+                    break;
+                }
+            }
+        }
+    
+        return $lastMessage;
+    }
 }

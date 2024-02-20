@@ -24,6 +24,7 @@ trait findResponse
         $coefficient = 0;
         $maxComment = null;
         $defaultUsers = [];
+        $previous = false;
         $makeAction ='none';
         $defaultMessage = [];
         $bestCoefficient = 0;
@@ -40,6 +41,7 @@ trait findResponse
         $answersKey = 'answers';
         $actionsKey = 'actions';
         $defaultLanguage = 'eng';
+        $previousKey = 'previous';
         $assemblyKey = 'assembly';
         $questionKey = 'question';
         $languageKey = 'language';
@@ -47,11 +49,17 @@ trait findResponse
         $coefficientKey = 'coefficient';
         $login = (new session_auth)->login();
 
+        // Get last answers previous is true
+        $previousQuestion = $this->lastUsersQuestion($login);
+
+        // Get last question previous is true
+        $previousQuestion = !is_null($previousQuestion) ? $previousQuestion['question'] : "";
+
         // Clean and normalize the user's message
-        $userWords = $this->cleanAndNormalize($userMessage);
+        $userWords = $this->cleanAndNormalize("{$previousQuestion} {$userMessage}");
        
         // Detect user language
-        $mainLanguage = $this->detectMainLanguage($userMessage , $login);
+        $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login);
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage);
@@ -101,7 +109,6 @@ trait findResponse
             $similarySentence = $this->calculateSimilarWords($userWords , $maxComment[$similarlyKey]) ?? null;
             $bestAnswers = $this->assemblyWords( $userWords, $maxComment[$assemblyKey] , $maxComment[$nameKey] , $maxComment[$botKey] , $maxComment[$contextKey] , $maxComment[$answersKey] , $maxComment[$similarlyKey] );
         }
-      
 
         // Update the best coefficient and the corresponding response
         if ($bestCoefficient >= $mainCoefficient&&$similarySentence>0) {
@@ -112,6 +119,7 @@ trait findResponse
             
         } elseif ($bestCoefficient > 0.1) {
 
+            $previous = true;
             $getContent = $this->epaphroditesDefaultMessageToGetMorePrecision($mainLanguage , $this->getMainClass() );
             
             $getAnswers = $getContent[$answersKey];
@@ -134,12 +142,13 @@ trait findResponse
         
         // Get user login and question
         $defaultUsers = [ $loginKey => $login ];
+        $defaultPrevious = [ $previousKey => $previous ];
         $userQuestion = [ $questionKey => $userMessage ];
         $userLanguage = [ $languageKey => $defaultLanguage ];
         $defaultDateTime = [ $dateKey => date("d-y-Y h:i:s") ];
 
         // Merge all information to form the final response
-        $result =  array_merge( $defaultDateTime , $defaultUsers , $userQuestion , $response , $userLanguage );
+        $result =  array_merge( $defaultDateTime , $defaultUsers , $userQuestion , $response , $userLanguage , $defaultPrevious );
 
         // Return the response with the highest similarity coefficient
         return $result;

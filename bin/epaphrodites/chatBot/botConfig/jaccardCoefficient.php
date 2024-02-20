@@ -28,7 +28,7 @@ trait jaccardCoefficient
         $questionArray = $this->filterUsersQuestion( $initQuestionArray , array_merge( $othersKeyword , $mainKeyword ));
         
         // Calculate the weighted intersection of the two arrays 
-        $intersection = $this->countSimilarWords($questionArray , $AnswersArray);
+        $intersection = $this->calculateSimilarWords($questionArray , $AnswersArray , 0.90);
         
         // Calculate the weighted intersection of the main keyword and the AnswersArray
         (int) $mainKeywordIntersec = $this->getMainKeyCoefficient($mainKeyword , $initQuestionArray);
@@ -60,7 +60,7 @@ trait jaccardCoefficient
     */
     private function getMainKeyCoefficient( $mainKeyword , $initQuestionArray ):int
     {
-        $intersection = $this->countSimilarWords( $initQuestionArray , $mainKeyword);
+        $intersection = $this->calculateSimilarWords( $initQuestionArray , $mainKeyword , 0.90);
 
         $intersection = $intersection > 0 ? 1 : 0;
 
@@ -90,7 +90,6 @@ trait jaccardCoefficient
         return $countRemovedWords;
     }
     
-
     /**
      * @param array $botAnswers
      * @return array
@@ -153,28 +152,6 @@ trait jaccardCoefficient
         
         return array_diff($initQuestionArray, $arrayToRemove);
     }
-
-    /**
-     * @param array $questions
-     * @param array $answers
-     * @return int
-    */
-    private function countSimilarWords(array $questions, array $answers): int
-    {
-        $totalSimilarWords = 0;
-    
-        foreach ($questions as $question) {
-            $questionWords = $this->normalizeWords($question);
-
-            foreach ($answers as $answer) {
-                $answerWords = $this->normalizeWords($answer);
-
-                $totalSimilarWords += $this->verifySimilarWords($questionWords, $answerWords , 1);
-            }
-        }
-
-        return $totalSimilarWords;
-    }
     
     /**
      * @param string $sentence
@@ -184,7 +161,7 @@ trait jaccardCoefficient
     {
    
         $sentence = strtolower(preg_replace('/[^\p{L}\s]+/u', '', $sentence));
-        
+       
         $sentence = preg_replace('/\b(\w+)s\b/', '$1', $sentence);
     
         $sentence = Normalizer::normalize($sentence, Normalizer::FORM_D);
@@ -192,34 +169,5 @@ trait jaccardCoefficient
         $sentence = preg_replace('/\p{M}/u', '', $sentence);
     
         return explode(' ', $sentence);
-    }
-    
-    /**
-     * @param string $questionWords
-     * @param string $answerWords
-     * @return int 
-    */    
-    private function wordSimilarity(string $questionWords, string $answerWords):int {
-
-        return levenshtein($questionWords, $answerWords);
-    }
-    
-    /**
-     * @param array $questionWords
-     * @param array $answerWords
-     * @param int $threshold
-     * @return int 
-    */    
-    private function verifySimilarWords( array $questionWords, array $answerWords, int $threshold):int {
-        $count = 0;
-        foreach ($questionWords as $questionWords) {
-            foreach ($answerWords as $answerWords) {
-                if ($this->wordSimilarity($questionWords, $answerWords) <= $threshold) {
-                    $count++;
-                    break;
-                }
-            }
-        }
-        return $count;
     }
 }

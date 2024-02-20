@@ -26,6 +26,7 @@ trait herediaResponse
         $maxComment = null;
         $defaultUsers = [];
         $makeAction ='none';
+        $previous = false;
         $similarySentence ="";
         $defaultMessage = [];
         $bestCoefficient = 0;
@@ -38,21 +39,28 @@ trait herediaResponse
         $dateKey = 'date';
         $loginKey = 'login';
         $contextKey = 'context';
-        $assemblyKey = 'assembly';
         $answersKey = 'answers';
         $actionsKey = 'actions';
         $defaultLanguage = 'eng';
+        $previousKey = 'previous';
         $questionKey = 'question';
+        $assemblyKey = 'assembly';
         $languageKey = 'language';
         $similarlyKey = 'similarly';
         $coefficientKey = 'coefficient';
         $login = (new session_auth)->login();
 
+        // Get last answers previous is true
+        $previousQuestion = $this->lastUsersQuestion($login , $jsonFiles);
+
+        // Get last question previous is true
+        $previousQuestion = !is_null($previousQuestion) ? $previousQuestion['question'] : "";
+
         // Clean and normalize the user's message
-        $userWords = $this->cleanAndNormalize($userMessage);
+        $userWords = $this->cleanAndNormalize("{$previousQuestion} {$userMessage}");
 
         // Detect user language
-        $mainLanguage = $this->detectMainLanguage($userMessage , $login , $jsonFiles);
+        $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login , $jsonFiles);
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage , $jsonFiles);
@@ -112,6 +120,7 @@ trait herediaResponse
             
         } elseif ($bestCoefficient > 0.1) {
 
+            $previous = true;
             $getContent = $this->herediaDefaultMessageToGetMorePrecision($mainLanguage , $this->getClass() );
             
             $getAnswers = $getContent[$answersKey];
@@ -134,12 +143,13 @@ trait herediaResponse
         
         // Get user login and question
         $defaultUsers = [ $loginKey => $login ];
+        $defaultPrevious = [ $previousKey => $previous ];
         $userQuestion = [ $questionKey => $userMessage ];
         $userLanguage = [ $languageKey => $defaultLanguage ];
         $defaultDateTime = [ $dateKey => date("d-y-Y h:i:s") ];
 
         // Merge all information to form the final response
-        $result =  array_merge( $defaultUsers , $userQuestion , $response , $userLanguage );
+        $result =  array_merge( $defaultDateTime , $defaultUsers , $userQuestion , $response , $userLanguage , $defaultPrevious );
 
         // Return the response with the highest similarity coefficient
         return $result;

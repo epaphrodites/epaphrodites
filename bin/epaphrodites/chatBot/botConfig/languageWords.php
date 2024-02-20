@@ -12,7 +12,7 @@ trait languageWords
     private function frenchLangWord(): array
     {
         return [
-            'le', 'la', 'les', 'des', 'une', 'un', 'a', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'sur', 'du', 'de', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles',
+            'le', 'la', 'les', 'des', 'une', 'un', 'a', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'sur', 'du', 'de', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles','sui',
             'on', 'moi', 'toi', 'tu', 'je','il', 'soi', 'nous', 'vous', 'se', 'me' ,'mon', 'te', 'tom','y', 'en','ta', 'ton', 'son', 'ici', 'que', 'quoi', 'dont', 'quand', 'comment', 'combien', 
             'lesquels', 'lesquelles', 'duquel', 'desquels', 'desquelles', 'apres', 'avant', 'avec', 'chez', 'contre', 'dans', 'depuis', 'derriere', 'devant', 'entre', 'hors', 
             'jusque', 'par', 'parmi', 'pendant', 'pour', 'sans', 'sauf', 'selon', 'sous', 'vers', 'via', 'et', 'ou', 'mais', 'car', 'donc', 'or', 'ni', 'malgre', 'grace', 'mechamment',
@@ -25,9 +25,9 @@ trait languageWords
             'nulle' , 'part', 'obstinement', 'occasionnellement','etre', 'somme', 'precieusement', 'preferablement', 'parfois', 'partout', 'peniblement', 'peut', 'pleinement', 'plutot', 'poliment', 
             'precedemment', 'probablement', 'promptement', 'proportionnellement', 'provisoirement', 'publiquement', 'quelquefois', 'quelque', 'rarement', 'nom', 'nomme', 'appel',
             'recemment', 'rapidement', 'regulierement', 'relativement', 'rigidement', 'sainement', 'serieusement', 'souvent', 'soigneusement', 'strictement', 'suffisamment', 'superficiellement', 
-            'surtout', 'tantot', 'tard', 'tardivement', 'tellement', 'tendrement', 'tout', 'coup', 'tout de suite', 'droit' , 'gauche', 'toutefois', 'tristement', 'vaguement', 'vite', 'vivement', 'init' ,
+            'surtout', 'tantot', 'tard', 'tardivement', 'tellement', 'tendrement', 'tout', 'coup', 'suite', 'droit' , 'gauche', 'toutefois', 'tristement', 'vaguement', 'vite', 'vivement', 'init' ,
             'volontairement', 'vraisemblablement', 'presque', 'propos', 'sais' , 'information' , 'parl' , 'salut' , 'salutation' , 'bonjour', 'bonsoir', 'janvier', 'fevrier', 'mars' , 'avril' , 'mai' , 'juin' , 'juillet' , 'aout',
-            'septembre', 'octobre' , 'novembre', 'decembre','jour','recente','suis','aider','remonte','entrainement', 'install', 'installation'
+            'septembre', 'octobre' , 'novembre', 'decembre','jour','recente','aider','remonte','entrainement', 'install', 'installation'
         ];
     }
     

@@ -16,7 +16,6 @@ trait cleanNormalize
     private function cleanAndNormalize(string $text): array
     {
         $cleanText = $this->cleanText($text);
-       
         return $this->splitTextIntoWords($this->wordNormalizer($cleanText));
     }
 
@@ -28,7 +27,6 @@ trait cleanNormalize
      */
     private function cleanText(string $text): string
     {
-
         $cleanedText = preg_replace("/(?<=\s|^)'(\w+)/", '$1', $text);
         return strtolower(preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $cleanedText));
     }
@@ -172,6 +170,66 @@ trait cleanNormalize
             "å" => "a",
             "æ" => "ae",
             "œ" => "oe",
+            "Î" => "I",
+            "Ï" => "I",
+            "É" => "E",
+            "À" => "A",
+            "È" => "E",
+            "Ô" => "O",
+            "Û" => "U",
+            "Ç" => "C",
+            "Ö" => "O",
+            "Ë" => "E",
+            "Â" => "A",
+            "Ê" => "E",
+            "Ù" => "U",
+            "Ü" => "U",
+            "Ä" => "A",
+            "ẞ" => "SS",
+            "Ñ" => "N",
+            "Ø" => "O",
+            "Æ" => "AE",
+            "Œ" => "OE",
+            "Ł" => "L",
+            "Đ" => "D",
+            "Þ" => "TH",
+            "Ð" => "TH",
+            "Į" => "I",
+            "Ė" => "E",
+            "Ų" => "U",
+            "Ą" => "A",
+            "Ę" => "E",
+            "Ņ" => "N",
+            "Ķ" => "K",
+            "Ļ" => "L",
+            "Ž" => "Z",
+            "Š" => "S",
+            "Ģ" => "G",
+            "Č" => "C",
+            "Ā" => "A",
+            "Ē" => "E",
+            "Ī" => "I",
+            "Ū" => "U",
+            "Ż" => "Z",
+            "Ć" => "C",
+            "Ń" => "N",
+            "Ó" => "O",
+            "Ś" => "S",
+            "Ź" => "Z",
+            "Ş" => "S",
+            "Ğ" => "G",
+            "İ" => "I",
+            "Ő" => "O",
+            "Ű" => "U",
+            "Ŕ" => "R",
+            "Ĺ" => "L",
+            "Ť" => "T",
+            "Ý" => "Y",
+            "Č" => "C",
+            "Ø" => "O",
+            "Å" => "A",
+            "Æ" => "AE",
+            "Œ" => "OE"        
         ];
     }
     
