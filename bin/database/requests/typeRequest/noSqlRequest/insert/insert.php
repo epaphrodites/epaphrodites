@@ -9,7 +9,7 @@ class insert extends Builders
 {
 
     /**
-     * Ajouter des droits utilisateurs dans le systeme
+     * Add users to the system from the console
      *
      * @param string|null $login
      * @param int|null $idtype
@@ -43,7 +43,7 @@ class insert extends Builders
     }
 
     /**
-     * Ajouter des utilisateurs dans le systeme a partir de la console
+     * Add users to the system
      *
      * @param string|null $login
      * @param int|null $idtype

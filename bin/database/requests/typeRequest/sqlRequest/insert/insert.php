@@ -8,7 +8,7 @@ class insert extends InsertInsert
 {
 
     /**
-     * Ajouter des utilisateurs dans le systeme a partir de la console
+     * Add users to the system from the console
      *
      * @param string|null $login
      * @param int|null $idtype
@@ -34,7 +34,7 @@ class insert extends InsertInsert
     }
 
     /**
-     * Ajouter des chats
+     * Add chats
      * 
      * @param string|null $login
      * @param int|null $type
@@ -60,7 +60,7 @@ class insert extends InsertInsert
     }
 
     /**
-     * Ajouter des droits utilisateurs dans le systeme
+     * Add users to the system
      *
      * @param string|null $login
      * @param int|null $idtype

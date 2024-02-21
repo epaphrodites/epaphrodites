@@ -20,7 +20,7 @@ class AddNewChatbot extends AddChatbotCommands{
         $chatBotName = $input->getArgument('name');
         $controller = $input->getArgument('controller');
 
-        (string) $controller = empty($controller) ? 'main' : $controller;
+        (string) $controller = empty($controller) ? 'chats' : $controller;
 
         $jsonPath = OutputDirectory::Files('json') . "/{$chatBotName}.json";
         $userJsonPath= OutputDirectory::Files('json') . "/user{$chatBotName}.json";

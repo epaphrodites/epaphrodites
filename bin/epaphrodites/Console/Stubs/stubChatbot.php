@@ -43,20 +43,21 @@
     */
     public final function {$functionName}Started(string \$html): void
     {
-        \$botResponse = '';
 
         \$chatBotName='$chatBotName';
 
         if (static::isValidMethod()) {
 
-            \$send = static::isPost('__send__') ? static::isPost('__send__') : '';
+            \$send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
     
             \$result = \$this->initNamespace()['bot']->herediaBot(\$send , \$chatBotName);
     
-            \$botResponse = \$this->initNamespace()['ajax']->chatMessageContent(\$result , \$send , \$chatBotName);
+            echo \$this->initNamespace()['ajax']->chatMessageContent(\$result , \$send , \$chatBotName);
+
+            return;
         }
 
-        static::rooter()->target(_DIR_MAIN_TEMP_ . \$html)->content([ 'botResponse' => \$botResponse ])->get();
+        static::rooter()->target(_DIR_ADMIN_TEMP_ . \$html)->content([])->get();
     }";  
         
         return $stub;

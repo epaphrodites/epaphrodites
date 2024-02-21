@@ -2,4 +2,4 @@
 
 namespace Epaphrodites\database\config\process;
 
-class process extends sqlDatabase{   }
+class process extends sqlDatabase{}
