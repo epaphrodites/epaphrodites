@@ -4,7 +4,7 @@ namespace Epaphrodites\controllers\render;
 
 use Epaphrodites\controllers\render\Twig\TwigRender;
 use Epaphrodites\epaphrodites\Contracts\rootInterface;
-use Epaphrodites\epaphrodites\heredia\SettingHeredia;
+
 
 class rooter extends TwigRender implements rootInterface
 {
@@ -13,9 +13,9 @@ class rooter extends TwigRender implements rootInterface
     private string $target;
     private object $setting;
 
-    public function __construct()
+    public function __construct( object $setting)
     {
-        $this->setting = new SettingHeredia;
+        $this->setting = $setting;
     }
 
     /**
@@ -35,18 +35,18 @@ class rooter extends TwigRender implements rootInterface
     /**
      * Find content
      *
-     * @param array $InitContent
+     * @param array $initContent
      * @param bool|false $switch
      * @return self
      */
-    public function content( ?array $InitContent = [] , ?bool $switch = false  ):self
+    public function content( ?array $initContent = [] , ?bool $switch = false  ):self
     {
 
-        $GetLayoutsContent = $this->GetLayouts($switch, $InitContent);
+        $GetLayoutsContent = $this->GetLayouts($switch, $initContent);
 
         $init = $switch === true ? $this->setting->AdminInitMainLayouts() : $this->setting->MainUserInitLayouts();
         
-        $this->content = array_merge( $InitContent , $GetLayoutsContent , $init );
+        $this->content = array_merge( $initContent , $GetLayoutsContent , $init );
 
         return $this;
     }    

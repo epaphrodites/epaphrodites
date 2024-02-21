@@ -40,13 +40,13 @@ final class dashboard extends MainSwitchers
     public final function superAdmin(string $html):void
     {
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'select' => $this->select,
                 'count' => $this->count,
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -58,13 +58,13 @@ final class dashboard extends MainSwitchers
     public final function administrator(string $html): void
     {
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'select' => $this->select,
                 'count' => $this->count,
             ],
             true
-        )->get();
+        );
     } 
     
     /**
@@ -76,11 +76,11 @@ final class dashboard extends MainSwitchers
     public final function users(string $html): void
     {
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'select' => $this->select,
             ], 
             true 
-        )->get();
+        );
     }           
 }

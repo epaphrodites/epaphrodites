@@ -57,7 +57,7 @@
             return;
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . \$html)->content([])->get();
+        \$this->views(_DIR_ADMIN_TEMP_ . \$html, [] , true);
     }";  
         
         return $stub;

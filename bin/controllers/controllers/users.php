@@ -69,14 +69,14 @@ final class users extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'alert' => $this->alert,
                 'reponse' => $this->ans,
                 'select' => $this->getId->GetUsersDatas($login),
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -106,13 +106,13 @@ final class users extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -151,13 +151,13 @@ final class users extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -210,7 +210,7 @@ final class users extends MainSwitchers
                                           $this->select->listeOfAllUsers($page, $numLines);
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'total' => $total,
                 'current' => $page,
@@ -222,6 +222,6 @@ final class users extends MainSwitchers
                 'nbrePage' => ceil(($total) / $numLines),
             ],
             true
-        )->get();
+        );
     }
 }

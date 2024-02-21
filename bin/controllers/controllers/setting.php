@@ -76,7 +76,7 @@ final class setting extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'type' => $idtype,
                 'env' => $this->env,
@@ -86,7 +86,7 @@ final class setting extends MainSwitchers
                 'select' => $this->mozart
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -157,7 +157,7 @@ final class setting extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
@@ -165,7 +165,7 @@ final class setting extends MainSwitchers
                 'select' => $this->getId->getUsersRights($idtype),
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -191,7 +191,7 @@ final class setting extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'select' => $this->datas->userGroup(),
                 'auth' => static::class('session'),
@@ -199,7 +199,7 @@ final class setting extends MainSwitchers
                 'alert' => $this->alert
             ],
             true
-        )->get();
+        );
     }
 
     /**
@@ -226,7 +226,7 @@ final class setting extends MainSwitchers
             $list = $this->select->listOfRecentActions($page, $numLines);
         }
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content(
+        $this->views(_DIR_ADMIN_TEMP_ . $html, 
             [
                 'current' => $page,
                 'total' => $total,
@@ -238,6 +238,6 @@ final class setting extends MainSwitchers
                 'select' => $this->getId,
             ],
             true
-        )->get();
+        );
     }     
 }

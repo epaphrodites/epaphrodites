@@ -45,7 +45,7 @@ final class chats extends MainSwitchers
     public final function listOfMessages(string $html): void
     {
 
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content([], true )->get();
+        $this->views(_DIR_ADMIN_TEMP_ . $html, [], true );
     }
 
     /**
@@ -68,6 +68,6 @@ final class chats extends MainSwitchers
             return;
         }
      
-        static::rooter()->target(_DIR_ADMIN_TEMP_ . $html)->content([], true )->get();
+        $this->views(_DIR_ADMIN_TEMP_ . $html, [], true );
     }    
 }

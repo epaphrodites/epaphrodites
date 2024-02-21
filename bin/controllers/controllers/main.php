@@ -15,12 +15,11 @@ final class main extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function index(string $html): void
+    public final function index(string $html):void
     {
-  
-        static::rooter()->target(_DIR_MAIN_TEMP_ . $html)->content([])->get();
+         $this->views(_DIR_MAIN_TEMP_ . $html);
     }
-
+    
     /**
      * Authentification page ( login )
      * 
@@ -43,11 +42,11 @@ final class main extends MainSwitchers
             }
         }
 
-        static::rooter()->target(_DIR_MAIN_TEMP_ . $html)->content(
+        $this->views(_DIR_MAIN_TEMP_ . $html,
             [
                 'class' => $this->htmlClass,
                 'reponse' => $this->ans
             ]
-        )->get();
+        );
     }
 }
