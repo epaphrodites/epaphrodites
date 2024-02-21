@@ -28,7 +28,12 @@ class GetRightList extends epaphroditeClass
             'apps' => 'chats',
             'libelle' => 'Chat messages',
             'path' => 'chats/List_of_messages',
-         ],           
+         ],   
+         [
+            'apps' => 'chats',
+            'libelle' => 'Epaphrodites chatbot',
+            'path' => 'chats/start_epaphrodites_chatbots',
+         ],                   
          [
             'apps' => 'users',
             'libelle' => 'Import Users',

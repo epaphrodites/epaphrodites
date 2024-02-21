@@ -24,7 +24,7 @@ class GetModulesList extends RighstList
             'annuaire' => 'DIRECTORY MANAGEMENT',
             'habilit' => 'AUTHORIZATIONS',
             'faq' => 'FAQ (Frequently Asked Questions)',
-            'chats' => 'MESSAENGER SERVICE',
+            'chats' => 'CHAT MESSAGES',
             'users' => 'USERS MANAGEMENT',
             'actions' => 'ACTIONS MANAGEMENT',
             'setting' => 'SYSTEM SETTING',
