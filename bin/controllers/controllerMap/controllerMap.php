@@ -31,10 +31,10 @@ trait controllerMap
     {
         return [
             "api" => [ new api, 'SwitchApiControllers', false ],
-            "chats" => [ new chats, 'SwitchControllers', true ],
-            "users" => [ new users, 'SwitchControllers', true ],
-            "setting" => [ new setting, 'SwitchControllers', true ],
-            "dashboard" => [ new dashboard, 'SwitchControllers' , true ],
+            "chats" => [ new chats, 'SwitchControllers', true, _DIR_ADMIN_TEMP_ ],
+            "users" => [ new users, 'SwitchControllers', true, _DIR_ADMIN_TEMP_ ],
+            "setting" => [ new setting, 'SwitchControllers', true, _DIR_ADMIN_TEMP_ ],
+            "dashboard" => [ new dashboard, 'SwitchControllers' , true, _DIR_ADMIN_TEMP_ ],
         ];
     }
 }

@@ -76,7 +76,7 @@ final class setting extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'type' => $idtype,
                 'env' => $this->env,
@@ -157,7 +157,7 @@ final class setting extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
@@ -191,7 +191,7 @@ final class setting extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'select' => $this->datas->userGroup(),
                 'auth' => static::class('session'),
@@ -212,7 +212,7 @@ final class setting extends MainSwitchers
 
         $total = 0;
         $list = [];
-        $numLines = 100;
+        $Nbreligne = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
@@ -223,10 +223,10 @@ final class setting extends MainSwitchers
         } else {
 
             $total = $this->count->countUsersRecentActions();
-            $list = $this->select->listOfRecentActions($page, $numLines);
+            $list = $this->select->listOfRecentActions($page, $Nbreligne);
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'current' => $page,
                 'total' => $total,
@@ -234,7 +234,7 @@ final class setting extends MainSwitchers
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
                 'position' => $position,
-                'nbrePage' => ceil(($total) / $numLines),
+                'nbrePage' => ceil(($total) / $Nbreligne),
                 'select' => $this->getId,
             ],
             true

@@ -17,7 +17,7 @@ final class main extends MainSwitchers
      */
     public final function index(string $html):void
     {
-         $this->views(_DIR_MAIN_TEMP_ . $html);
+         $this->views( $html);
     }
     
     /**
@@ -42,7 +42,7 @@ final class main extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_MAIN_TEMP_ . $html,
+        $this->views( $html,
             [
                 'class' => $this->htmlClass,
                 'reponse' => $this->ans

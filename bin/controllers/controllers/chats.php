@@ -9,7 +9,6 @@ final class chats extends MainSwitchers
     private string $ans = '';
     private string $alert = '';
     private array|bool $result = [];
-
     private object $ajaxTemplate;
     private object $chatBot;
 
@@ -45,7 +44,7 @@ final class chats extends MainSwitchers
     public final function listOfMessages(string $html): void
     {
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, [], true );
+        $this->views( $html, [], true );
     }
 
     /**
@@ -68,6 +67,6 @@ final class chats extends MainSwitchers
             return;
         }
      
-        $this->views(_DIR_ADMIN_TEMP_ . $html, [], true );
+        $this->views( $html, [], true );
     }    
 }

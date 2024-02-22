@@ -40,7 +40,7 @@ final class dashboard extends MainSwitchers
     public final function superAdmin(string $html):void
     {
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'select' => $this->select,
                 'count' => $this->count,
@@ -58,7 +58,7 @@ final class dashboard extends MainSwitchers
     public final function administrator(string $html): void
     {
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'select' => $this->select,
                 'count' => $this->count,
@@ -76,7 +76,7 @@ final class dashboard extends MainSwitchers
     public final function users(string $html): void
     {
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'select' => $this->select,
             ], 

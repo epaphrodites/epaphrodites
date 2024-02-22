@@ -40,7 +40,7 @@ final class $name extends MainSwitchers
     */      
     public final function exemplePages(string \$html): void
     {
-        //
+        \$this->views( \$html, [], false );
     }     
         
 }";

@@ -69,7 +69,7 @@ final class users extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'alert' => $this->alert,
                 'reponse' => $this->ans,
@@ -106,7 +106,7 @@ final class users extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
@@ -151,7 +151,7 @@ final class users extends MainSwitchers
             }
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
@@ -171,7 +171,7 @@ final class users extends MainSwitchers
 
         $total = 0;
         $list = [];
-        $numLines = 100;
+        $Nbreligne = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
@@ -180,8 +180,8 @@ final class users extends MainSwitchers
             foreach (static::isArray('users') as $login) {
 
                 $this->result = static::isSelected('_sendselected_', 1 ) 
-                            ? $this->update->updateEtatsUsers($login) : 
-                              $this->update->initUsersPassword($login);
+                    ? $this->update->updateEtatsUsers($login) : 
+                    $this->update->initUsersPassword($login);
             }
 
             if ($this->result === true) {
@@ -201,16 +201,11 @@ final class users extends MainSwitchers
             
         }else {
 
-            $total = static::notEmpty(['filtre'] , 'GET') 
-                                        ? $this->count->CountUsersByGroup($_GET['filtre']) : 
-                                          $this->count->CountAllUsers();
-
-            $list = static::notEmpty(['filtre'] , 'GET') 
-                                        ? $this->getId->GetUsersByGroup($page, $numLines, $_GET['filtre']) : 
-                                          $this->select->listeOfAllUsers($page, $numLines);
+            $total = static::notEmpty(['filtre'] , 'GET') ? $this->count->CountUsersByGroup($_GET['filtre']) : $this->count->CountAllUsers();
+            $list = static::notEmpty(['filtre'] , 'GET') ? $this->getId->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) : $this->select->listeOfAllUsers($page, $Nbreligne);
         }
 
-        $this->views(_DIR_ADMIN_TEMP_ . $html, 
+        $this->views( $html, 
             [
                 'total' => $total,
                 'current' => $page,
@@ -219,7 +214,7 @@ final class users extends MainSwitchers
                 'reponse' => $this->ans,
                 'position' => $position,
                 'select' => $this->getId,
-                'nbrePage' => ceil(($total) / $numLines),
+                'nbrePage' => ceil(($total) / $Nbreligne),
             ],
             true
         );

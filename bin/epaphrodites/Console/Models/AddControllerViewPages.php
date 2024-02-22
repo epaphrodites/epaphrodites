@@ -18,7 +18,7 @@ class AddControllerViewPages extends AddControllerPage{
     {
         # Get console arguments
         $controller = $input->getArgument('controller');
-        $name = $input->getArgument('path');
+        $name = preg_replace('/[-*+\/@#$%^&=~`!?;:.,|\\<>[\]{}]/', '_', $input->getArgument('path'));
 
         $FileName = OutputDirectory::Files('controlleur') . "/{$controller}.php";
 

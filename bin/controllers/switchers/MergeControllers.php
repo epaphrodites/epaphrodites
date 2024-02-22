@@ -16,14 +16,13 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @param bool $switch
      * @return mixed
      */
-    public function SwitchControllers(object $class, string $pages, ?bool $switch = false): mixed
+    public function SwitchControllers(object $class, string $pages, ?bool $switch = false , string $views = ""): mixed
     {
 
         $targetFunction = $this->transformToFunction($pages);
-
         $switch === false ?: $this->checkAutorisation($pages, $switch);
-
-        return static::directory($pages, $switch) == false ? static::class('errors')->error_404() : $class->$targetFunction($pages);
+    
+        return static::directory($pages, $switch , $views) == false ? static::class('errors')->error_403() : $class->$targetFunction($views.$pages);
     }
 
     /**
@@ -43,10 +42,10 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @param bool|false $switch
      * @return bool
      */
-    private static function directory(?string $html = null, ?bool $switch = false): bool
+    private static function directory(?string $html = null, ?bool $switch = false , string $views = ""): bool
     {
 
-        return $switch === false ? file_exists(_DIR_VIEWS_ . _DIR_MAIN_TEMP_ . $html . _FRONT_) : file_exists(_DIR_VIEWS_ . _DIR_ADMIN_TEMP_ . $html . _FRONT_);
+        return $switch === false ? file_exists(_DIR_VIEWS_ . $views . $html . _FRONT_) : file_exists(_DIR_VIEWS_ . $views . $html . _FRONT_);
     }
 
     /**

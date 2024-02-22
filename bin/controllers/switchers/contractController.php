@@ -18,5 +18,5 @@ interface contractController
      * @param bool $switch
      * @return mixed
      */    
-    public function SwitchControllers(object $class, string $pages, ?bool $switch = false):mixed;
+    public function SwitchControllers(object $class, string $pages, ?bool $switch = false , string $views = ""):mixed;
 }
