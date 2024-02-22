@@ -5,16 +5,16 @@
  class StubsControllerFunction{
     
     /**
-     * @param string $FilesNames
+     * @param string $controllersName
      * @param string $name
      * @return void
      */
-    public static function Generate(string $FilesNames, string $name ):void
+    public static function Generate(string $controllersName, string $name , bool $model = false ):void
     {
        
-        $stubs = static::stubs($name);
+        $stubs = $model===true ? static::apiStubs($name) : static::stubs($name);
 
-        $FilesContent = file_get_contents($FilesNames);
+        $FilesContent = file_get_contents($controllersName);
    
         $lastBracketPosition = strrpos($FilesContent, '}');
 
@@ -25,7 +25,7 @@
         if ($lastBracketPosition !== false) {
 
             $FilesContent = substr_replace($FilesContent, $stubs."\n}", $lastBracketPosition);
-            file_put_contents($FilesNames, $FilesContent, LOCK_EX);
+            file_put_contents($controllersName, $FilesContent, LOCK_EX);
         }
     } 
     
@@ -53,6 +53,38 @@
         
         return $stub;
     }
+
+   /**
+     * @param string $initPage
+     * @return string
+     */
+    public static function apiStubs(string $initPage):string
+    {
+
+        $functionName = static::transformToFunction($initPage);
+
+        $stub = 
+        "
+    /**
+    * make api test
+    * @return array
+    */
+     public function {$functionName}(): array{
+    
+        \$Result = [];
+        \$code = 400;
+
+        if (static::isValidMethod()) {
+
+            \$code = 200;
+            \$Result = ['this' , 'is' , 'api' , 'result' , 'test']; 
+        }
+
+        return \$this->Response->JsonResponse(\$code, \$Result);
+    }";  
+        
+        return $stub;
+    }    
 
     /**
      *  @param string $initPage

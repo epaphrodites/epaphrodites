@@ -29,23 +29,22 @@ final class api extends HerediaApiSwitcher
         $this->Response = new ResponseSequence;
     }      
 
+
     /**
-     * All users list
-     * 
+     * make api test
      * @return array
      */
-    public final function listeOfAllUsers()
+    public final function makeApiTest()
     {
 
         $Result = [];
-        $list = static::isGet('list') ? static::getGet('list') : 0;
+        $code = 400;
+        if (static::isValidMethod()) {
 
-        if (!empty($_GET['list'])) {
-
-            return !empty($Result) ? $this->Response->JsonResponse(200, []) : $this->Response->JsonResponse(400, []);
-        } else {
-
-            return $this->Response->JsonResponse(200, $Result);
+            $code = 200;
+            $Result = ['this' , 'is' , 'api' , 'result' , 'test']; 
         }
-    }  
+
+        return $this->Response->JsonResponse($code, $Result);
+    }   
 }

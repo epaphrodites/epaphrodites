@@ -13,6 +13,7 @@ class ConsoleKernel
     {
         return [
             new \Epaphrodites\epaphrodites\Console\commands\CommandsUsers,
+            new \Epaphrodites\epaphrodites\Console\commands\commandmakeApi,
             new \Epaphrodites\epaphrodites\Console\commands\commandseeding,
             new \Epaphrodites\epaphrodites\Console\commands\commandgearshift,
             new \Epaphrodites\epaphrodites\Console\commands\commandMigration,
