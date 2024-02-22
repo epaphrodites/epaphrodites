@@ -29,7 +29,6 @@ final class api extends HerediaApiSwitcher
         $this->Response = new ResponseSequence;
     }      
 
-
     /**
      * make api test
      * @return array

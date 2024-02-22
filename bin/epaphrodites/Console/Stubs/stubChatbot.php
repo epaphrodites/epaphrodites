@@ -57,7 +57,7 @@
             return;
         }
 
-        \$this->views(_DIR_ADMIN_TEMP_ . \$html, [] , true);
+        \$this->views( \$html, [] , true);
     }";  
         
         return $stub;
