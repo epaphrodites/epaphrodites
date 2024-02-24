@@ -32,15 +32,9 @@ class csrf_secure extends Builders implements validateTokenInterface
      * @param string $key
      * @return bool|string|null
      */
-    private function getTokenCrsf(?string $key=null):bool|string|null
-    {
-        return match (_FIRST_DRIVER_) {
+    private function getTokenCrsf(?string $key=null):bool|string|null{
 
-            'redis' => empty($this->noSqlRedisSecure()) ? $this->noSqlRedisCreateUserCrsfToken($key) : $this->noSqlRedisUpdateUserCrsfToken($key),
-            'mongo' => empty($this->noSqlSecure()) ? $this->CreateUserCrsfToken($key) : $this->UpdateUserCrsfToken($key),
-
-            default => empty($this->secure()) ? $this->CreateUserCrsfToken($key) : $this->UpdateUserCrsfToken($key),
-        };
+    return empty($this->secure()) ? $this->CreateUserCrsfToken($key) : $this->UpdateUserCrsfToken($key);
     }
     
 }

@@ -38,9 +38,9 @@ trait HashVerify
      * @param string $data The data to hash.
      * @return string The generated hash.
      */
-    public function gostHash(?string $data = null):string
+    public function gostHash(string|int $data = null):string
     {
-        return !empty($data) ? hash('gost', $data) : '';
+        return !empty($data)&&$data!==0 ? hash('gost', $data) : '';
     }    
 }
 

@@ -22,6 +22,15 @@ class token_csrf extends GeneratedValues{
     }
 
     /**
+     * Forcing token process...
+     * @return bool
+     */
+    private function forcingProcess():bool{
+       
+        return static::initConfig()['crsf']->forcingValidToken();
+    }    
+
+    /**
      * Get Token csrf input field
      * @return void 
      * */    
@@ -47,4 +56,12 @@ class token_csrf extends GeneratedValues{
         return (isset($_POST[CSRF_FIELD_NAME])||isset($_GET[CSRF_FIELD_NAME])) ? $this->process() : true;
     }
 
+    /**
+     * Check if CSRF token exists and is valid
+     * @return bool
+     */    
+    public function toForceCrsf():bool{
+
+        return $this->forcingProcess();
+    }
 }

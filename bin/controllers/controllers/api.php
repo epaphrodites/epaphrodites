@@ -38,7 +38,7 @@ final class api extends HerediaApiSwitcher
 
         $Result = [];
         $code = 400;
-        if (static::isValidMethod()) {
+        if (static::isValidApiMethod(true)) {
 
             $code = 200;
             $Result = ['this' , 'is' , 'api' , 'result' , 'test']; 

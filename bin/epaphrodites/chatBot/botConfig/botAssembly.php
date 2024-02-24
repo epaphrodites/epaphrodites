@@ -18,7 +18,7 @@ trait botAssembly
 
         $wordToRemove = $this->aliasAndKey($key , $alias);
 
-        $userQuestions = $this->removeSimilarWords( $userQuestions, $wordToRemove);
+        $userQuestions = $this->removeSimilarWords( array_unique($userQuestions), $wordToRemove);
 
         $getName = $this->getMainResultName( $userQuestions , $name );
 

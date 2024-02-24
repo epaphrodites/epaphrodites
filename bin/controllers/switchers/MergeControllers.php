@@ -22,7 +22,9 @@ class MergeControllers extends epaphroditeClass implements contractController
         $targetFunction = $this->transformToFunction($pages);
         $switch === false ?: $this->checkAutorisation($pages, $switch);
     
-        return static::directory($pages, $switch , $views) == false ? static::class('errors')->error_403() : $class->$targetFunction($views.$pages);
+        return static::directory($pages, $switch , $views) == false 
+            ? static::class('errors')->error_404() 
+            : $class->$targetFunction($views.$pages);
     }
 
     /**
@@ -34,7 +36,10 @@ class MergeControllers extends epaphroditeClass implements contractController
     {
 
         $targetFunction = $this->transformToFunction($pages);
-        return $class->$targetFunction();
+
+        return method_exists($class, $targetFunction)
+            ? $class->$targetFunction()
+            : $this->class('response')->JsonResponse(400, ['error' => "Method not found"]);
     }
 
     /**
@@ -45,7 +50,9 @@ class MergeControllers extends epaphroditeClass implements contractController
     private static function directory(?string $html = null, ?bool $switch = false , string $views = ""): bool
     {
 
-        return $switch === false ? file_exists(_DIR_VIEWS_ . $views . $html . _FRONT_) : file_exists(_DIR_VIEWS_ . $views . $html . _FRONT_);
+        return $switch === false 
+            ? file_exists(_DIR_VIEWS_ . $views . $html . _FRONT_) 
+            : file_exists(_DIR_VIEWS_ . $views . $html . _FRONT_);
     }
 
     /**

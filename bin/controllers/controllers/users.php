@@ -56,7 +56,7 @@ final class users extends MainSwitchers
 
         $login = $this->session->login();
 
-        if (static::isValidMethod()) {
+        if (static::isValidMethod(true)) {
 
             $this->result = $this->update->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'));
             if ($this->result === true) {
@@ -88,7 +88,7 @@ final class users extends MainSwitchers
     public final function changePassword(string $html): void
     {
 
-        if (static::isValidMethod()) {
+        if (static::isValidMethod(true)) {
 
             $this->result = $this->update->changeUsersPassword(static::getPost('__oldpassword__'), static::getPost('__newpassword__'), static::getPost('__confirm__'));
 
@@ -124,7 +124,7 @@ final class users extends MainSwitchers
     public final function importUsers(string $html): void
     {
 
-        if (static::isValidMethod()) {
+        if (static::isValidMethod(true)) {
 
             $SheetData = $this->importFiles->importExcelFiles($_FILES['file']['name']);
 

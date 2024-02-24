@@ -61,7 +61,7 @@ final class setting extends MainSwitchers
 
         $idtype = static::isGet('_see') ? static::getGet('_see') : 0;
 
-        if (static::isValidMethod() && $idtype !== 0) {
+        if (static::isValidMethod(true) && $idtype !== 0) {
 
             $this->result = $this->insert->AddUsersRights($idtype, static::getPost('__rights__'), static::getPost('__actions__'));
 

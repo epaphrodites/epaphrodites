@@ -87,7 +87,7 @@ trait cleanNormalize
     {
         return 
         [
-            'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'à', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 'sur', 'es' , 'est' , 'sont' , 'sommes',
+            'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 'sur', 'es' , 'est' , 'sont' , 'sommes',
             'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi' ,'je' , 'toi', 'tu', 
             'soi', 'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'qui', 'que', 'quoi', 'dont', 'où', 'quand', 'comment', 'combien',
         ];

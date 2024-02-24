@@ -33,7 +33,6 @@ class SwitchersHeredia extends Authorize{
         return $target . _MAIN_EXTENSION_ === $url ? true : false;
     }
 
-
     /**
      * @param string|null $target
      * @param null|string $autorize

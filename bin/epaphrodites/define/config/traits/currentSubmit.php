@@ -4,8 +4,13 @@ namespace Epaphrodites\epaphrodites\define\config\traits;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
+
+
 trait currentSubmit
 {
+
+    use currentFunctionNamespaces;
+
     private static array $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
 
     /**
@@ -29,15 +34,55 @@ trait currentSubmit
      * @param string $accepted
      * @return bool
      */
-    public static function isValidMethod(string $accepted = 'POST'): bool
+    public static function isValidMethod(bool $crsf = false, string $accepted = 'POST'): bool
     {
+
+        $crsf === false ? :static::forcingTokenVerification();
+
         // Retrieve and sanitize the request method
         $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : null;
         
         // Check if the method is not null and is among the allowed methods
         return ($method !== null && in_array($method, self::$allowedMethods) && $method === $accepted);
     }
+
+    /**
+     * @param string $accepted
+     * @return bool
+     */
+    public static function isValidApiMethod(bool $crsf = false, string $accepted = 'POST'): bool
+    {
+
+        $crsf === false ? :static::forcingApiTokenVerification();
+
+        // Retrieve and sanitize the request method
+        $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : null;
+        
+        // Check if the method is not null and is among the allowed methods
+        return ($method !== null && in_array($method, self::$allowedMethods) && $method === $accepted);
+    }    
+
+    /**
+     * @return void
+     */
+    private static function forcingTokenVerification():void {
+
+        static::initNamespace()['crsf']->toForceCrsf() === false ? static::class('errors')->error_403() : NULL;
+    }
     
+    /**
+     * @return array|null
+     */
+    private static function forcingApiTokenVerification():array|null {
+
+        if (static::initNamespace()['crsf']->toForceCrsf() === false) {
+            static::initNamespace()['response']->JsonResponse(400, ['error' => "Method not found"]);
+            die;
+        } else {
+            return NULL;
+        }
+    }
+     
     /**
      * Get the value from $_POST array for a given key with a default value.
      *
@@ -230,28 +275,55 @@ trait currentSubmit
      */
     public static function notEmpty(array $keys = [], string $method = 'POST'): bool
     {
-        // Determine the data source based on the method (GET or POST)
+        // Validate the HTTP method
+        $method = strtoupper($method);
+        if (!in_array($method, self::$allowedMethods, true)) {
+            throw new \InvalidArgumentException('Invalid HTTP method provided.');
+        }
+
+        // Determine the data source based on the method
         $source = match ($method) {
             'GET' => $_GET,
-            'POST' => $_POST,
-            default => [], // If method is neither GET nor POST, set an empty array
+            'POST' => self::filterInputArray(INPUT_POST),
+            'PUT' => self::parseRawInputData(),
+            default => [],
         };
 
-        // If the data source is empty, return false
+        // Check if the data source is empty
         if (empty($source)) {
             return false;
         }
 
         // Check if each specified key exists in the data source and is not empty
         foreach ($keys as $key) {
-            // If the key doesn't exist or the corresponding value is empty, return false
             if (!array_key_exists($key, $source) || empty($source[$key])) {
                 return false;
             }
         }
 
-        // If all specified keys exist and are not empty, return true
         return true;
+    }
+
+    private static function filterInputArray(int $type): array {
+        $filtered = filter_input_array($type, [
+            '*' => [
+                'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                'flags' => FILTER_REQUIRE_SCALAR,
+                'options' => ['default' => '']
+            ]
+        ]);
+    
+        if ($filtered === null || $filtered === false) {
+            throw new \RuntimeException('Failed to retrieve input data.');
+        }
+    
+        return $filtered;
+    }
+    
+    private static function parseRawInputData(): array {
+        $rawData = file_get_contents('php://input');
+        parse_str($rawData, $putData);
+        return array_map('trim', $putData);
     }
 
     /**

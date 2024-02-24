@@ -17,7 +17,7 @@ final class main extends MainSwitchers
      */
     public final function index(string $html):void
     {
-         $this->views( $html);
+         $this->views($html);
     }
     
     /**

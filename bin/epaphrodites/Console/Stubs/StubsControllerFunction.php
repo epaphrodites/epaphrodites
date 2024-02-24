@@ -69,7 +69,7 @@
     * make api test
     * @return array
     */
-     public final function {$functionName}(){
+     public function {$functionName}(): array{
     
         \$Result = [];
         \$code = 400;

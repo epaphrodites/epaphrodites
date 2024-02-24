@@ -5,6 +5,7 @@ namespace Epaphrodites\controllers\render\Http;
 class ConfigHttp extends HttpClient
 {
 
+
     /**
      * Get the provider URL
      *
@@ -13,8 +14,8 @@ class ConfigHttp extends HttpClient
      */
     protected function provider(?array $url = null): string
     {
-
-        return str_replace( _FAKE_ , '', sprintf('%s/%s%s', isset($url[0]) ? $url[0] : '', $url[1], _MAIN_EXTENSION_ ));
+        
+        return str_replace(_FAKE_, '', sprintf('%s/%s%s', isset($url[0]) ? $url[0] : '', $url[1], _MAIN_EXTENSION_ ));
     }
 
     /**

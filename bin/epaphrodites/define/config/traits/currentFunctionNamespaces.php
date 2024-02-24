@@ -28,6 +28,7 @@ trait currentFunctionNamespaces
             'qrcode' => new \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode,
             'bot' => new \Epaphrodites\epaphrodites\chatBot\processBotAnswers,
             'verify' => new \Epaphrodites\epaphrodites\env\VerifyInputCharacteres,
+            'response' => new \Epaphrodites\epaphrodites\env\config\ResponseSequence,
             'import' => new \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles,
             'export' => new \Epaphrodites\epaphrodites\ExcelFiles\ExportFiles\ExportFiles,
             'eng' => new \Epaphrodites\epaphrodites\define\lang\eng\SetEnglishTextMessages,

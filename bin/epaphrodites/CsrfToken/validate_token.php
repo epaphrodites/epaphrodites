@@ -24,17 +24,11 @@ class validate_token extends GeneratedValues
     }
 
     /**
-     * @return string
-     */
-    private function checkMainDriverRequest():string {
-
-        return match (_FIRST_DRIVER_) {
-
-            'mongo' => $this->secure->noSqlSecure(),
-            'redis' => $this->secure->noSqlRedisSecure(),
-  
-            default => $this->secure->secure(),
-      };
+    * @return string
+    */        
+    private function checkMainDriverRequest():string|int{
+        
+    return $this->secure->secure();
     }
     
     /**
@@ -56,6 +50,17 @@ class validate_token extends GeneratedValues
     {
         
         return (static::class('session')->login() !== null) ? $this->verifyOn() : $this->verifyOff();
+    }
+
+        /**
+     * Verify the CSRF token
+     *
+     * @return bool
+     */
+    public function forcingValidToken(): bool
+    {
+
+        return $this->forcingOnVerification();
     }
 
     /**
@@ -98,5 +103,46 @@ class validate_token extends GeneratedValues
             $this->error->send();
             return false;
         }
+    }
+
+    /**
+     * Verify when CSRF is turned off
+     *
+     * @return bool
+     */
+    protected function forcingOnVerification(): bool
+    {
+       $request = $this->checkMainDriverRequest();
+
+        $hashedSecure = static::gostHash($request);
+        
+        $hashHeaderKey = static::gostHash($this->getHeaderTokenKey());
+   
+        if (static::verifyInputHashes($hashedSecure , $hashHeaderKey)&&!is_null($hashedSecure)) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+
+    /**
+     * Get header token value
+     * @return string|null
+     */
+    private function getHeaderTokenKey():string|null {
+
+        $headers = getallheaders();
+        $token = null;
+        
+        if (isset($headers['Cookie'])) {
+            $cookieString = $headers['Cookie'];
+            $cookieParams = [];
+    
+            parse_str(str_replace('; ', '&', $cookieString), $cookieParams);
+    
+            $token = isset($cookieParams[_CRSF_TOKEN_]) ? $cookieParams[_CRSF_TOKEN_] : null;
+        }
+    
+        return $token;
     }
 }

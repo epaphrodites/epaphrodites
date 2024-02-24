@@ -56,7 +56,7 @@ final class chats extends MainSwitchers
     public final function startEpaphroditesChatBots(string $html): void
     {
 
-        if (static::isValidMethod()) {
+        if (static::isValidMethod(true)) {
 
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 

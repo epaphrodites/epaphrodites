@@ -5,7 +5,6 @@ namespace Epaphrodites\controllers\render;
 use Epaphrodites\controllers\render\Twig\TwigRender;
 use Epaphrodites\epaphrodites\Contracts\rootInterface;
 
-
 class rooter extends TwigRender implements rootInterface
 {
 
@@ -35,18 +34,18 @@ class rooter extends TwigRender implements rootInterface
     /**
      * Find content
      *
-     * @param array $initContent
+     * @param array $InitContent
      * @param bool|false $switch
      * @return self
      */
-    public function content( ?array $initContent = [] , ?bool $switch = false  ):self
+    public function content( ?array $InitContent = [] , ?bool $switch = false  ):self
     {
 
-        $GetLayoutsContent = $this->GetLayouts($switch, $initContent);
+        $GetLayoutsContent = $this->GetLayouts($switch, $InitContent);
 
         $init = $switch === true ? $this->setting->AdminInitMainLayouts() : $this->setting->MainUserInitLayouts();
         
-        $this->content = array_merge( $initContent , $GetLayoutsContent , $init );
+        $this->content = array_merge( $InitContent , $GetLayoutsContent , $init );
 
         return $this;
     }    

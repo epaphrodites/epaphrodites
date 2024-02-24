@@ -14,11 +14,15 @@ trait noSqlCrsfRequest
     public function noSqlSecure(): string|int
     {
 
+        $login = static::initNamespace()['session']->login();
+        
+        $login = $login !== null ? md5($login) : NULL;
+
         $documents = [];
 
         $result = $this->db(1)
             ->selectCollection('authsecure')
-            ->find(['crsfauth' => md5(static::initNamespace()['session']->login())]);
+            ->find(['crsfauth' => $login]);
 
         foreach ($result as $document) {
             $documents[] = $document;

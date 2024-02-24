@@ -75,10 +75,13 @@ trait sqlCrsfRequest
      */
     public function secure(): string|int
     {
+        $login = static::initNamespace()['session']->login();
+        
+        $login = $login !== null ? md5($login) : NULL;
 
         $result = $this->table('authsecure')
             ->where('crsfauth')
-            ->param([md5(static::initNamespace()['session']->login())])
+            ->param([$login])
             ->SQuery();
 
         return !empty($result) ? $result[0]['authkey'] : 0;
