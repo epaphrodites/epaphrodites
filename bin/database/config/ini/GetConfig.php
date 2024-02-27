@@ -157,7 +157,7 @@ class GetConfig extends errors
         //If $dbName is not provided, get the default database name based on $db
         $dbName = $dbName ?? static::DB_DATABASE($db);
 
-        return 'bin/database/datas/SqlLite/'. $dbName;
+        return "bin/database/datas/SqlLite/{$dbName}";
     }
 
     /**

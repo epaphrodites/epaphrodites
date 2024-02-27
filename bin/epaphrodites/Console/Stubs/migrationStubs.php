@@ -4,97 +4,133 @@ namespace Epaphrodites\epaphrodites\Console\Stubs;
 
 class migrationStubs{
 
-    public static function generateMigration($FilesNames, $table)
+    /**
+     * @param string $schemaName
+     * @param string $table
+     * @param string $fileName
+     * @return void
+     */      
+    public static function generateMigration(string $schemaName, string $table , string $fileName , string $schemaFileName):void
     {
 
-        $filesPaths = _DIR_MIGRATION_."/".date('d_m_Y')."_{$FilesNames}.php";    
+        $dateTime = date("d/m/Y H:i:s");
 
-$stub = "<?php
-    
-use Epaphrodites\\database\\query\\buildQuery\\buildGearShift;
-        
-class $FilesNames extends buildGearShift
-{
-    /**
-     * Run
-    */ 
-    public function up()
+$stub = "    /**
+    * Create table $table
+    * create $dateTime
+    */
+    public function {$schemaName}()
     {
         return \$this->createTable('$table', function (\$table) {
 
-            \$table->addColumn('id$table', 'INTEGER', ['PRIMARY KEY']);
-            \$table->addColumn('name', 'VARCHAR(100)');
-            \$table->db();
+               \$table->addColumn('id{$table}', 'INTEGER', ['PRIMARY KEY']);
+               \$table->addColumn('name', 'VARCHAR(100)');
+               \$table->db();
         });
-    }  
-    
-    /**
-     * Drop
-    */     
-    public function down(){
-        
-        return \$this->dropTable('$table', function (\$table) {
-            \$table->dropColumn('name');
-            \$table->db();
-        });
-    }      
+    }     
 }";
-        
-    file_put_contents( $filesPaths, $stub);
+        static::generateSchema($fileName, $stub);  
+        static::addSchema($schemaFileName, "\t\t\t\$this->{$schemaName}()," , true);  
     }
 
-
-    public static function dropMigration($FilesNames, $table)
+    /**
+     * @param string $schemaName
+     * @param string $table
+     * @param string $fileName
+     * @return void
+     */  
+    public static function dropMigration(string $schemaName, string $table , string $fileName , string $schemaFileName):void
     {
 
-        $filesPaths = _DIR_MIGRATION_."/".date('d_m_Y')."_{$FilesNames}.php";    
+        $dateTime = date("d/m/Y H:i:s");
 
-$stub = "<?php
-    
-use Epaphrodites\\database\\query\\buildQuery\\buildGearShift;
-        
-class $FilesNames extends buildGearShift
-{
-    
-    /**
-     * Drop
-    */     
-    public function down(){
-        
+$stub = "    /**
+    * Drop $table
+    * create $dateTime
+    */
+    public function {$schemaName}()
+    {
         return \$this->dropTable('$table', function (\$table) {
-            \$table->dropColumn('name');
-            \$table->db();
+
+               \$table->dropColumn('name');
+               \$table->db();
         });
-    }           
+    }     
 }";
-        
-    file_put_contents( $filesPaths, $stub);
+
+    static::generateSchema($fileName, $stub);    
+    static::addSchema($schemaFileName, "\t\t\t\$this->{$schemaName}()," , false);
     }    
 
-    public static function addColumn($FilesNames , $newTable , $columnName)
+    /**
+     * @param string $schemaName
+     * @param string $table
+     * @param string $columnName
+     * @param string $fileName
+     * @return void
+     */    
+    public static function addColumn(string $schemaName , string $table , string $columnName , string $fileName , string $schemaFileName):void
     {
 
-        $filesPaths = _DIR_MIGRATION_."/".date('d_m_Y')."_{$FilesNames}.php";    
+        $dateTime = date("d/m/Y H:i:s");
 
-$stub = "<?php
-    
-use Epaphrodites\\database\\query\\buildQuery\\buildGearShift;
-        
-class $FilesNames extends buildGearShift
-{
+$stub = "    /**
+    * Add Column $columnName
+    * create $dateTime
+    */
+    public function {$schemaName}()
+    {
+        return \$this->createColumn('$table', function (\$table) {
+
+               \$table->addColumn('{$columnName}', 'VARCHAR(100)');
+               \$table->db();
+        });
+    }     
+}";
+        static::generateSchema($fileName, $stub);  
+        static::addSchema($schemaFileName, "\t\t\t\$this->{$schemaName}()," , true);        
+    }   
     
     /**
-     * Run
-    */     
-    public function up(){
-        
-        return \$this->createColumn('$newTable', function (\$table) {
-            \$table->addColumn('$columnName' , 'VARCHAR(100)');
-            \$table->db();
-        });
-    }           
-}";
-        
-    file_put_contents( $filesPaths, $stub);
-    }      
+     * @param string $fileName
+     * @param string $newFunctionContent
+     * @return void
+     */
+    public static function generateSchema(string $fileName, string $newFunctionContent):void
+    {
+        $fileContent = file_get_contents($fileName);
+    
+        $lastClassBracketPosition = strrpos($fileContent, '}');
+    
+        if ($lastClassBracketPosition !== false) {
+            $fileContent = substr($fileContent, 0, $lastClassBracketPosition);
+        }
+    
+        $fileContent .= "\n" . $newFunctionContent;
+    
+        file_put_contents($fileName, $fileContent, LOCK_EX);
+    }
+
+    /**
+     * @param string $fileName
+     * @param string $newFunctionContent
+     * @param bool $isUp
+     * @return void
+     */  
+    public static function addSchema(string $fileName, string $newFunctionContent, bool $isUp): void
+    {
+        $fileContent = file_get_contents($fileName);
+    
+        $lastMethodPosition = $isUp ? strrpos($fileContent, 'public final function up') : strrpos($fileContent, 'public final function down');
+    
+        if ($lastMethodPosition !== false) {
+            $openingBracketPosition = strpos($fileContent, '[', $lastMethodPosition);
+    
+            if ($openingBracketPosition !== false) {
+                $fileContent = substr_replace($fileContent, "\n" . $newFunctionContent, $openingBracketPosition + 1, 0);
+            }
+        }
+    
+        file_put_contents($fileName, $fileContent, LOCK_EX);
+    }
 }

@@ -19,7 +19,8 @@ class CreateControllers extends ControllersConfig
     {
         $name = $input->getArgument('name');
         $fileName = OutputDirectory::Files('controlleur') . "/{$name}.php";
-        ControllerStub::GenerateControlleurs($fileName, $name);
+        $controllerMaps = OutputDirectory::Files('controllermaps') . "/controllerMap.php";
+        ControllerStub::GenerateControlleurs($fileName, $name , $controllerMaps);
         $output->writeln("<info>The controller {$name} has been successfully created!!!✅</info>");
 
         return self::SUCCESS;

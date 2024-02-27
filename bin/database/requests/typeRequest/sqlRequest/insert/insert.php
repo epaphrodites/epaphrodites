@@ -84,5 +84,5 @@ class insert extends InsertInsert
         } else {
             return false;
         }
-    }
+    }   
 }

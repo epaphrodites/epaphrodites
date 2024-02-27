@@ -2,10 +2,10 @@
 
 namespace Epaphrodites\epaphrodites\Console\Models;
 
-use Epaphrodites\epaphrodites\Console\Stubs\AllViewsStub;
 use Symfony\Component\Console\Input\InputInterface;
-use Epaphrodites\epaphrodites\Console\Setting\OutputDirectory;
 use Symfony\Component\Console\Output\OutputInterface;
+use Epaphrodites\epaphrodites\Console\Stubs\AllViewsStub;
+use Epaphrodites\epaphrodites\Console\Setting\OutputDirectory;
 use Epaphrodites\epaphrodites\Console\Setting\CreateViewsConfig;
 
 class CreatedViews extends CreateViewsConfig

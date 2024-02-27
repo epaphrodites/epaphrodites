@@ -3,9 +3,11 @@
 namespace Epaphrodites\epaphrodites\Console\Models;
 
 use Epaphrodites\database\query\Builders;
+use Epaphrodites\database\gearShift\makeGearShift;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Epaphrodites\epaphrodites\Console\Setting\settinggearshift;
+
 
 class modelgearshift extends settinggearshift
 {
@@ -16,14 +18,15 @@ class modelgearshift extends settinggearshift
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        
         # Get console arguments
-        $action = $input->getArgument('type');
+        $action = $input->getOption('u') ? 'up' : ($input->getOption('d') ? 'down' : "");
 
-        $results = $this->newMigration($action);
+        $results = $this->makeMigration($action);
 
         if($results === true ){
 
-            $output->writeln("<info>All migration has been successfully created!!!✅</info>");
+            $output->writeln("<info>All '{$action}' migration has been successfully created!!!✅</info>");
             return self::SUCCESS;
         }else{
             $output->writeln("<error>Sorry, check your request before starting the migration ❌</error>");
@@ -35,64 +38,35 @@ class modelgearshift extends settinggearshift
      * Search for and execute PHP migrations in the specified directory.
      * @return bool Returns true if a migration was executed successfully, otherwise false.
      */
-    private function newMigration($action): bool
+    private function makeMigration($action): bool
     {
-        // Path to the migrations directory
-        $directory = _DIR_MIGRATION_;
+        
+        if(!empty($action)){
 
-        $files = scandir($directory);
-        $files = array_diff($files, array('.', '..'));
-        sort($files);
+            $schema = new makeGearShift;
 
-        $result = false;
+            if($action==="up"){
 
-        #var_dump($files);die;
+                foreach ( $schema->up() as $request ){
 
-        // Iterate through each file in the directory
-        foreach ($files as $key => $value) {
-
-            $filePath = $directory . '/' . $files[$key];
-
-            // Check if the file is a PHP file
-            if (is_file($filePath) && pathinfo($filePath, PATHINFO_EXTENSION) === 'php') {
-                // Read the file content using stream_get_contents
-                $fileContent = stream_get_contents(fopen($filePath, 'r'));
-
-                if (preg_match('/class\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s+extends buildGearShift/', $fileContent, $matches)) {
-                    $migrationClass = $matches[1];
-
-                    require $filePath;
-
-                    if (class_exists($migrationClass)) {
-                        $migration = new $migrationClass;
-
-                        // Execute the 'up' method if it exists
-                        if (method_exists($migration, 'up')) {
-                            $getUp = $migration->up();
-                            if(!empty($getUp)){
-                                $this->executeQuery($getUp["request"], $getUp["db"]);
-                            }
-                        }
-
-                        // Execute the 'down' method if it exists
-                        if (method_exists($migration, 'down')) {
-                            $getDown = $migration->down();
-                            if(!empty($getDown)){
-                                $this->executeQuery($getDown["request"], $getDown["db"]);
-                            }
-                        }
-
-                        $result = true;
-                    } else {
-                        $result = false;
-                    }
-                } else {
-                    $result = false;
+                    $this->executeQuery($request['request'] , $request['db']);
                 }
+
+                return true;  
+            }
+
+            if($action==="down"){
+
+                foreach ( $schema->down() as $request ){
+
+                    $this->executeQuery($request['request'] , $request['db']);
+                }
+
+                return true;
             }
         }
 
-        return $result;
+        return false;
     }
 
     /**
@@ -102,7 +76,7 @@ class modelgearshift extends settinggearshift
      */
     private function executeQuery(string $queryChaine , int $db):void
     {
-
+        
         $database = new Builders;
         $database->chaine($queryChaine)->setQuery($db);
     }

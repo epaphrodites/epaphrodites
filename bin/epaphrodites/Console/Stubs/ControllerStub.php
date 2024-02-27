@@ -4,7 +4,7 @@ namespace Epaphrodites\epaphrodites\Console\Stubs;
 
 class ControllerStub{
 
-    public static function GenerateControlleurs($FilesNames, $name)
+    public static function GenerateControlleurs($FilesNames, $name , $controllerMaps)
     {
 $stub = "<?php
 namespace Epaphrodites\\controllers\\controllers;
@@ -46,5 +46,60 @@ final class $name extends MainSwitchers
 }";
         
     file_put_contents($FilesNames, $stub);
+    static::addToControllerMaps($controllerMaps, "\t\t\t'{$name}' => [ new {$name}, 'SwitchControllers', true , _DIR_ADMIN_TEMP_ ],");
+    static::addToControllerNamespace($controllerMaps, "use Epaphrodites\\controllers\\controllers\\{$name};");
+
     }
+
+    /**
+     * @param string $fileName
+     * @param string $newFunctionContent
+     * @param bool $isUp
+     * @return void
+     */  
+    public static function addToControllerMaps(string $fileName, string $newFunctionContent)
+    {
+        $fileContent = file_get_contents($fileName);
+    
+        $lastMethodPosition = strrpos($fileContent, 'private function controllerMap');
+    
+        if ($lastMethodPosition !== false) {
+            $openingBracketPosition = strpos($fileContent, '[', $lastMethodPosition);
+    
+            if ($openingBracketPosition !== false) {
+                $fileContent = substr_replace($fileContent, "\n" . $newFunctionContent, $openingBracketPosition + 1, 0);
+            }
+        }
+    
+        file_put_contents($fileName, $fileContent, LOCK_EX);
+    } 
+    
+    /**
+     * @param string $fileName
+     * @param string $newFunctionContent
+     * @param bool $isUp
+     * @return void
+     */  
+    public static function addToControllerNamespace(string $fileName, string $newFunctionContent)
+    {
+        $fileContent = file_get_contents($fileName);
+        
+        // Trouver la position du début du trait controllerMap
+        $lastMethodPosition = strrpos($fileContent, 'trait controllerMap');
+        
+        if ($lastMethodPosition !== false) {
+            // Trouver la position du début de la ligne précédant la déclaration du trait
+            $startPosition = strrpos(substr($fileContent, 0, $lastMethodPosition), "\n\n");
+    
+            // Insérer le nouveau contenu juste après le début de la ligne
+            $fileContent = substr_replace($fileContent, "\n" . $newFunctionContent, $startPosition, 0);
+        }
+        
+        // Écrire le contenu modifié dans le fichier
+        file_put_contents($fileName, $fileContent, LOCK_EX);
+    }
+    
+    
+         
+
 }

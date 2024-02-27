@@ -15,13 +15,15 @@ class OutputDirectory
 
         $list = [
             'main' => 'bin/views/main',
-            'console' => 'bin/epaphrodites/Console',
             'admin' => 'bin/views/admin',
             'json' => 'bin/database/datas/json',
+            'schema' => 'bin/database/gearShift',
             'python' => 'bin/epaphrodites/python',
+            'console' => 'bin/epaphrodites/Console',
             'startsession' => 'bin/epaphrodites/auth',
             'crsfsecure' => 'bin/epaphrodites/CsrfToken',
             'controlleur' => 'bin/controllers/controllers',
+            'controllermaps' => 'bin/controllers/controllerMap',
             'count' => 'bin/database/requests/mainRequest/count',
             'insert' => 'bin/database/requests/mainRequest/insert',
             'update' => 'bin/database/requests/mainRequest/update',

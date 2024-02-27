@@ -66,15 +66,14 @@
         $stub = 
         "
     /**
-    * make api test
-    * @return array
+    * make your api
     */
-     public function {$functionName}(): array{
+     public final function {$functionName}(){
     
         \$Result = [];
         \$code = 400;
 
-        if (static::isValidMethod()) {
+        if (static::isValidApiMethod()) {
 
             \$code = 200;
             \$Result = ['this' , 'is' , 'api' , 'result' , 'test']; 

@@ -6,6 +6,6 @@ use Epaphrodites\epaphrodites\Console\Models\modelMigration;
 
 class commandMigration extends modelMigration{
 
-    protected static $defaultName = 'make:migration';
+    protected static $defaultName = 'make:schema';
 }
         

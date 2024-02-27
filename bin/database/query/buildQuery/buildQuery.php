@@ -27,7 +27,7 @@ trait buildQuery
     public function setQuery(int $db = 1): string
     {
         $query = "$this->chaine";
-
+        
         return $this->executeBuildRequest($query , $db);
     }     
 
@@ -40,9 +40,9 @@ trait buildQuery
     public function selectBuildRequest(string $query , int $db = 1)
     {
         $param = $this->param ?? null;
-        $db = $this->db ?? $db;
         $setParam = !is_null($this->param);
         $close = !is_null($this->close);
+        $db = $this->db&&$db===1 ? $this->db : $db;
     
         // Execute the SELECT query and return the result
         return static::initConfig()['process']->select($query, $param, $setParam, $close, $db);
@@ -56,10 +56,11 @@ trait buildQuery
      */
     public function executeBuildRequest(string $query , int $db = 1)
     {
+       
         $param = $this->param ?? null;
-        $db = $this->db ?? $db;
         $setParam = !is_null($this->param);
         $close = !is_null($this->close);
+        $db = $this->db&&$db===1 ? $this->db : $db;
 
         // Execute the INSERT query and return the result
         return static::initConfig()['process']->runRequest($query, $param, $setParam, $close, $db);
