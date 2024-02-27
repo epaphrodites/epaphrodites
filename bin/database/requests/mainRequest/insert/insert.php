@@ -8,7 +8,7 @@ final class insert extends InsertInsert
 {
 
     /**
-     * Ajouter des droits utilisateurs
+     * Add users rights
      * index ( module , type_user , idpage , action)
      * @param int|null $idtype_users
      * @param string|null $pages
@@ -38,7 +38,13 @@ final class insert extends InsertInsert
   public function addUsers(?string $login = null, ?int $idtype = null):bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlAddUsers($login , $idtype) : $this->noSqladdUsers($login , $idtype);
+    return match (_FIRST_DRIVER_) {
+
+      'mongo' => $this->noSqladdUsers($login , $idtype),
+      'redis' => $this->noSqladdUsers($login , $idtype),
+
+      default => $this->sqlAddUsers($login , $idtype),
+    };    
   } 
   
    /**
@@ -50,7 +56,12 @@ final class insert extends InsertInsert
   public function ConsoleAddUsers(?string $login = null, ?string $password = null, ?int $UserGroup = null): bool
   {
 
-    return $this->checkDbType() === true ? $this->sqlConsoleAddUsers($login , $password, $UserGroup) : $this->noSqlConsoleAddUsers($login , $password, $UserGroup);
-  }   
+    return match (_FIRST_DRIVER_) {
 
+      'mongo' => $this->noSqlConsoleAddUsers($login , $password, $UserGroup),
+      'redis' => $this->noSqlConsoleAddUsers($login , $password, $UserGroup),
+
+      default => $this->sqlConsoleAddUsers($login , $password, $UserGroup),
+    };     
+  }   
  }

@@ -28,7 +28,13 @@ class validate_token extends GeneratedValues
     */        
     private function checkMainDriverRequest():string|int{
         
-    return $this->secure->secure();
+        return match (_FIRST_DRIVER_) {
+
+            'mongo' => $this->secure->noSqlSecure(),
+            'redis' => $this->secure->noSqlRedisSecure(),
+  
+            default => $this->secure->secure(),
+      };
     }
     
     /**
