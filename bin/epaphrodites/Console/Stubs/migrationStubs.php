@@ -25,7 +25,7 @@ $stub = "    /**
 
                \$table->addColumn('id{$table}', 'INTEGER', ['PRIMARY KEY']);
                \$table->addColumn('name', 'VARCHAR(100)');
-               \$table->db();
+               \$table->db(1);
         });
     }     
 }";
@@ -51,9 +51,8 @@ $stub = "    /**
     public function {$schemaName}()
     {
         return \$this->dropTable('$table', function (\$table) {
-
                \$table->dropColumn('name');
-               \$table->db();
+               \$table->db(1);
         });
     }     
 }";
@@ -81,15 +80,14 @@ $stub = "    /**
     public function {$schemaName}()
     {
         return \$this->createColumn('$table', function (\$table) {
-
                \$table->addColumn('{$columnName}', 'VARCHAR(100)');
-               \$table->db();
+               \$table->db(1);
         });
     }     
 }";
         static::generateSchema($fileName, $stub);  
         static::addSchema($schemaFileName, "\t\t\t\$this->{$schemaName}()," , true);        
-    }   
+    }       
     
     /**
      * @param string $fileName

@@ -29,7 +29,27 @@ trait buildQuery
         $query = "$this->chaine";
         
         return $this->executeBuildRequest($query , $db);
-    }     
+    }  
+    
+    /**
+     * Set and execute the query
+     *
+     * @return string
+     */
+    public function setMultiQuery(int $db = 1): bool
+    {
+        $result = false;
+        
+        foreach($this->multiChaine as $query){
+    
+            if(!empty($query)){
+    
+                $result = $this->executeBuildRequest($query , $db);
+            }
+        }
+        
+        return $result;
+    }   
 
     /**
      * Execute SELECT query

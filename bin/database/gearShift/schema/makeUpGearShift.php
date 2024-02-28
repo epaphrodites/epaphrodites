@@ -13,9 +13,11 @@ trait makeUpGearShift{
     {
         return $this->createTable('users_account', function ($table) {
                 $table->addColumn('idusers_account', 'INTEGER', ['PRIMARY KEY']);
-                $table->addColumn('name', 'VARCHAR(100)');
-                $table->addColumn('surname', 'VARCHAR(100)');
-                $table->db(1);
+                $table->addColumn('username', 'VARCHAR' , ['NOT NULL']);
+                $table->addColumn('password', 'VARCHAR' , ['NOT NULL']);
+                $table->addColumn('usersemail', 'VARCHAR' , ['NOT NULL']);
+                $table->addIndex('usersemail');
+                $table->db(2);
         });
-    }                                      
+    }    
 }

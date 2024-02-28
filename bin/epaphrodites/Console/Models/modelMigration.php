@@ -68,7 +68,7 @@ class modelMigration extends settingMigration{
                 $fileName = OutputDirectory::Files('schema') . "/schema/makeUpGearShift.php";
                 migrationStubs::addColumn( $this->transformToFunction($actions) , $oldTable , $columnName , $fileName , $schemaFileName );
                 return true;
-            }                        
+            }                
         }
         
         return false;

@@ -38,9 +38,10 @@ trait queryChaines
     private $having;
     private $or;
     private $is;
-    private ?array $param = [];
     private ?int $db = 1;
+    private ?array $param = [];
     private ?bool $close = false;
+    private ?array $multiChaine = [];
 
     /**
      * Sets the database to use
@@ -168,6 +169,19 @@ trait queryChaines
 
         return $this;
     }
+
+    /**
+     * Sets parameters for the query
+     *
+     * @param array|null $multiChaine
+     * @return self
+     */
+    public function multiChaine(array $multiChaine = []): self
+    {
+        $this->multiChaine = $multiChaine;
+
+        return $this;
+    }     
 
     /**
      * Sets the query string or string

@@ -58,7 +58,7 @@ class modelgearshift extends settinggearshift
             if($action==="down"){
 
                 foreach ( $schema->down() as $request ){
-
+                    
                     $this->executeQuery($request['request'] , $request['db']);
                 }
 
@@ -71,13 +71,13 @@ class modelgearshift extends settinggearshift
 
     /**
      * Execute the database query.
-     * @param string $queryChaine
+     * @param array $queryChaine
      * @return void
      */
-    private function executeQuery(string $queryChaine , int $db):void
+    private function executeQuery(array $queryChaine , int $db):void
     {
-        
+       
         $database = new Builders;
-        $database->chaine($queryChaine)->setQuery($db);
+        $database->multiChaine($queryChaine)->setMultiQuery($db);
     }
 }

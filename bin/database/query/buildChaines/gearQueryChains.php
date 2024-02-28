@@ -9,12 +9,12 @@ trait gearQueryChains
     private ?string $tableName = null;
     private array $columns = [];
     private ?array $dropColumn = null;
-    private int $db ;
+    private int $db;
 
     /**
      * @param int $db
      */
-    public function db(int $db = 1):self
+    public function db(int $db = 1): self
     {
         $this->db = $db;
         return $this;
@@ -46,7 +46,7 @@ trait gearQueryChains
         $this->tableName = $tableName;
         $callback($this);
         return $this->generateColumn();
-    }    
+    }
 
     /**
      * Drop a table with the specified name and optional callback for additional configurations.
@@ -69,9 +69,9 @@ trait gearQueryChains
      * @param string $column The name of the column to be dropped.
      * @return $this
      */
-    public function dropColumn(string $column , array $option = []): self
+    public function dropColumn(string $column, array $option = []): self
     {
-        $this->dropColumn[] = compact('column' , 'option');
+        $this->dropColumn[] = compact('column', 'option');
         return $this;
     }
 
@@ -91,84 +91,146 @@ trait gearQueryChains
     }
 
     /**
+     * Add an index to the specified column(s) of the table.
+     * @param string|array $columns The name(s) of the column(s) to add the index to.
+     * @param string|null $indexName Optional name for the index. If not provided, a default name will be generated.
+     * @return $this
+     */
+    public function addIndex($columns, ?string $indexName = null): self
+    {
+        if (!is_array($columns)) {
+            $columns = [$columns];
+        }
+
+        $indexName = $indexName ?: 'idx' . implode('_', $columns);
+
+        $this->columns[] = compact('indexName', 'columns');
+
+        return $this;
+    }
+
+    /**
      * Generate the SQL statement for creating the table.
-     * @return string The generated SQL for creating the table.
+     * @return array The generated SQL for creating the table.
      */
     private function generateSQL(): array
     {
-
+        $requests = [];
         $db = empty($this->db) ? 1 : $this->db;
-
         $sql = "CREATE TABLE IF NOT EXISTS {$this->tableName} (";
 
         foreach ($this->columns as $column) {
-            $columnName = $column['columnName'];
-            $type = $column['type'];
-            $options = isset($column['options']) ? implode(' ', $column['options']) : '';
-            $sql .= "{$columnName} {$type} {$options}, ";
+            if (isset($column['columnName'])) {
+                $columnName = $column['columnName'];
+                $type = $column['type'];
+                $options = isset($column['options']) ? implode(' ', $column['options']) : '';
+                $sql .= "{$columnName} {$type} {$options}, ";
+            }
         }
 
-        $sql = rtrim($sql, ', ');
-        $sql .= ")";
+        $sql = rtrim($sql, ', ') . ")";
+        $requests[] = $sql;
 
-        return [ 'request' => $sql , 'db' => $db] ;
+        foreach ($this->columns as $column) {
+            if (isset($column['indexName'])) {
+                $indexName = $column['indexName'];
+                $columns = implode(', ', $column['columns']);
+                $requests[] = $this->generateIndexSQL($indexName, $columns, $db, "CREATE");
+            }
+        }
+
+        return [ 'request' => $requests, 'db' => $db ];
     }
 
     /**
-     * @return array
+     * Generate the SQL statement for adding columns and indexes to the table.
+     * @return array The generated SQL for adding columns and indexes.
      */
-    public function generateColumn():array
+    public function generateColumn(): array
     {
-        
         $db = empty($this->db) ? 1 : $this->db;
-
-        $sql = "ALTER TABLE {$this->tableName} ";
+    
+        $sql = "ALTER TABLE {$this->tableName}";
     
         $columnsSql = [];
+        $indexColumns = [];
     
         foreach ($this->columns as $column) {
-            $columnName = $column['columnName'];
-            $type = $column['type'];
-            $options = isset($column['options']) ? implode(' ', $column['options']) : '';
-            $columnsSql[] = "{$columnName} {$type} {$options}";
+            if (isset($column['columnName'], $column['type'])) {
+                $columnName = $column['columnName'];
+                $type = $column['type'];
+                $options = isset($column['options']) ? implode(' ', $column['options']) : '';
+                $columnsSql[] = "{$sql} ADD COLUMN {$columnName} {$type} {$options}";
+            }
+            
+            if (isset($column['indexName'], $column['columns'])) {
+                $indexName = $column['indexName'];
+                $columns = implode(', ', $column['columns']);
+                $indexSql = $this->generateIndexSQL($indexName, $columns, $db, "CREATE");
+                $indexColumns[] = $indexSql;
+            }
         }
     
-        $sql .= "ADD COLUMN " . implode(', ADD COLUMN ', $columnsSql);
-    
-        return ['request' => $sql, 'db' => $db];
+        $request = array_merge($columnsSql, $indexColumns);
+        
+        return ['request' => $request, 'db' => $db];
     }
-
+    
     /**
      * Generate the SQL statement for dropping the table or columns.
-     * @return string The generated SQL for dropping the table or columns.
+     * @return array The generated SQL for dropping the table or columns.
      */
     private function dropTableColumn(): array
     {
 
+        
         $db = empty($this->db) ? 1 : $this->db;
 
         $comma = $this->driver($db) !== 'sqlite' ? ',' : '';
-    
+
         if (empty($this->dropColumn)) {
-            
+
             $sql = "DROP TABLE IF EXISTS {$this->tableName}";
-            return [ 'request' => $sql , 'db' => $db] ;
+           
+            return ['request' => [$sql], 'db' => $db];
         }
-    
+
         $sql = "ALTER TABLE {$this->tableName}";
-    
+
         foreach ($this->dropColumn as $column) {
 
             $options = !empty($column['option']) ? implode(' ', $column['option']) : 'COLUMN';
 
             $sql .= " DROP {$options} {$column['column']}{$comma}";
         }
-    
+
         $sql = rtrim($sql, $comma);
 
-        return [ 'request' => $sql , 'db' => $db] ;
+        return ['request' => [$sql], 'db' => $db];
     }
-    
+
+   /**
+     * Generate the SQL statement for adding an index based on the database type.
+     * @param string $indexName The name of the index.
+     * @param string $columns The columns to include in the index.
+     * @param int $db The database type.
+     * @return string The generated SQL for adding the index.
+     */
+    private function generateIndexSQL(string $indexName, string $columns, int $db, string $option = "ADD"): string
+    {
+        switch ($this->getDatabaseType($db)) {
+            case 'mysql':
+                return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
+            case 'pgsql':
+                return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
+            case 'sqlsrv':
+            case 'sqlite':
+                return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
+            default:
+                throw new \InvalidArgumentException("Unsupported database type: {$db}");
+        }
+    }
+
     /**
      * Reset the properties of the trait.
      * @return void
@@ -185,9 +247,20 @@ trait gearQueryChains
      * Check database driver
      * @return string
      */
-    private function driver($key):string
+    private function driver($key): string
     {
         $db = max(1, (int) $key);
         return GetConfig::DB_DRIVER($db);
-    }    
+    }
+
+    /**
+     * Get the database type based on the given key.
+     * @param int $key The database key.
+     * @return string The database type.
+     */
+    private function getDatabaseType(int $key): string
+    {
+        $db = max(1, $key);
+        return GetConfig::DB_DRIVER($db);
+    }
 }
