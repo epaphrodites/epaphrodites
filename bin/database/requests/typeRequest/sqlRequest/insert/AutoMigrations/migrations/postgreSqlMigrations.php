@@ -17,10 +17,10 @@ trait postgreSqlMigrations
             useraccount (idusers SERIAL PRIMARY KEY, 
             loginusers varchar(20) NOT NULL , 
             userspwd varchar(100) NOT NULL , 
-            nomprenomsusers varchar(150) DEFAULT NULL , 
+            usersname varchar(150) DEFAULT NULL , 
             contactusers varchar(10) DEFAULT NULL , 
             emailusers varchar(50) DEFAULT NULL , 
-            typeusers INT NOT NULL DEFAULT 1 , 
+            usersgroup INT NOT NULL DEFAULT 1 , 
             usersstat INT NOT NULL DEFAULT 1)")->setQuery();
 
         $this->chaine("CREATE INDEX 

@@ -84,10 +84,10 @@ class update extends UpdateUpdate
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['typeusers'];
+            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
 
             $this->table('useraccount')
-                ->set(['userspwd', 'typeusers'])
+                ->set(['userspwd', 'usersgroup'])
                 ->where('loginusers')
                 ->param([static::initConfig()['guard']->CryptPassword($password), $UserGroup, "$login"])
                 ->UQuery();
@@ -158,23 +158,23 @@ class update extends UpdateUpdate
     /**
      * Request to update user datas
      *
-     * @param string $nomprenoms
+     * @param string $usersname
      * @param string $email
      * @param string $number
      * @return bool
      */
-    public function sqlUpdateUserDatas(string $nomprenoms, string $email, string $number)
+    public function sqlUpdateUserDatas(string $usersname, string $email, string $number)
     {
 
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
             $this->table('useraccount')
-                ->set(['contactusers', 'emailusers', 'nomprenomsusers', 'usersstat'])
+                ->set(['contactusers', 'emailusers', 'usersname', 'usersstat'])
                 ->where('idusers')
-                ->param([$number, $email, $nomprenoms, 1, static::initNamespace()['session']->id()])
+                ->param([$number, $email, $usersname, 1, static::initNamespace()['session']->id()])
                 ->UQuery();
 
-            $_SESSION["nom_prenoms"] = $nomprenoms;
+            $_SESSION["usersname"] = $usersname;
 
             $_SESSION["contact"] = $number;
 

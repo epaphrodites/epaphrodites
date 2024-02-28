@@ -11,12 +11,12 @@ class update extends Builders
     /**
      * Update users informations
      *
-     * @param string $nomprenoms
+     * @param string $usersname
      * @param string $email
      * @param string $number
      * @return bool
      */
-    public function noSqlUpdateUserDatas(string $nomprenoms, string $email, string $number): bool
+    public function noSqlUpdateUserDatas(string $usersname, string $email, string $number): bool
     {
 
         $filter = [
@@ -28,7 +28,7 @@ class update extends Builders
             [
                 'contactusers' => $number,
                 'emailusers' => $email,
-                'nomprenomsusers' => $nomprenoms,
+                'usersname' => $usersname,
                 'usersstat' => 1,
             ],
         ];   
@@ -38,7 +38,7 @@ class update extends Builders
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
 
-            $_SESSION["nom_prenoms"] = $nomprenoms;
+            $_SESSION["usersname"] = $usersname;
 
             $_SESSION["contact"] = $number;
 
@@ -58,12 +58,12 @@ class update extends Builders
    /**
      * Update users informations
      *
-     * @param string $nomprenoms
+     * @param string $usersname
      * @param string $email
      * @param string $number
      * @return bool
      */
-    public function noSqlRedisUpdateUserDatas(string $nomprenoms, string $email, string $number): bool
+    public function noSqlRedisUpdateUserDatas(string $usersname, string $email, string $number): bool
     {
 
         $login = static::initNamespace()['session']->login();
@@ -71,7 +71,7 @@ class update extends Builders
         $datas = [
                 'contactusers' => $number,
                 'emailusers' => $email,
-                'nomprenomsusers' => $nomprenoms,
+                'usersname' => $usersname,
                 'usersstat' => 1,
         ];   
 
@@ -79,7 +79,7 @@ class update extends Builders
 
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
-            $_SESSION["nom_prenoms"] = $nomprenoms;
+            $_SESSION["usersname"] = $usersname;
 
             $_SESSION["contact"] = $number;
 
@@ -220,12 +220,12 @@ class update extends Builders
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['typeusers'];
+            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
 
             $filter = [ 'loginusers' => $login ];
     
             $update = [
-                '$set' => [ 'userspwd' => static::initConfig()['guard']->CryptPassword($password), 'typeusers' => $UserGroup ]
+                '$set' => [ 'userspwd' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $UserGroup ]
             ];   
     
             $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);

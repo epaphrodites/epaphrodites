@@ -46,7 +46,7 @@ class count extends SelectCount
   public function sqlCountUsersByGroup(int $Group): int
   {
     $result = $this->table('useraccount')
-                  ->where('typeusers')
+                  ->where('usersgroup')
                   ->param([$Group])
                   ->SQuery("COUNT(*) AS nbre");
 

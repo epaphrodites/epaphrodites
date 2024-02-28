@@ -19,10 +19,10 @@ final class delete extends DeleteDelete
     /**
      * Request to delete users right by @id
      */
-    public function EmptyAllUsersRights($TypeUsers)
+    public function EmptyAllUsersRights($usersGroup)
     {
 
-        return  static::initConfig()['delright']->EmptyAllUsersRight($TypeUsers)===true ? true : false;
+        return  static::initConfig()['delright']->EmptyAllUsersRight($usersGroup)===true ? true : false;
     }    
 
 }

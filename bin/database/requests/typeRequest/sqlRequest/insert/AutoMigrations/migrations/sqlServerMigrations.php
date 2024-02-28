@@ -80,10 +80,10 @@ trait sqlServerMigrations
                 idusers INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
                 loginusers VARCHAR(20) NOT NULL,
                 userspwd VARCHAR(100) NOT NULL,
-                nomprenomsusers VARCHAR(150) NULL,
+                usersname VARCHAR(150) NULL,
                 contactusers VARCHAR(10) NULL,
                 emailusers VARCHAR(50) NULL,
-                typeusers INT NOT NULL DEFAULT '1',
+                usersgroup INT NOT NULL DEFAULT '1',
                 usersstat INT NOT NULL DEFAULT '1'
             );
 

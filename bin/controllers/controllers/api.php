@@ -31,9 +31,8 @@ final class api extends HerediaApiSwitcher
 
     /**
      * make api test
-     * @return array
      */
-    public final function makeApiTest():void
+    public final function makeApiTest()
     {
 
         $Result = [];

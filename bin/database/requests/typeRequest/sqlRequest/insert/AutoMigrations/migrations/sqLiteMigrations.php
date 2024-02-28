@@ -16,10 +16,10 @@ trait sqLiteMigrations
             idusers INTEGER PRIMARY KEY,
             loginusers TEXT NOT NULL,
             userspwd TEXT NOT NULL,
-            nomprenomsusers TEXT DEFAULT NULL,
+            usersname TEXT DEFAULT NULL,
             contactusers TEXT DEFAULT NULL,
             emailusers TEXT DEFAULT NULL,
-            typeusers INTEGER NOT NULL DEFAULT 1,
+            usersgroup INTEGER NOT NULL DEFAULT 1,
             usersstat INTEGER NOT NULL DEFAULT 1
         )")->setQuery();
 

@@ -15,7 +15,7 @@ class checkDatabase extends getConnexion
     protected function dbConnect(?int $db = 1)
     {
 
-        $mainDriver = $db === 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
+        $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
 
         // Switch based on the database driver type
         switch ($mainDriver) {

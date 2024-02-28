@@ -110,7 +110,7 @@ define('_AUTH_ID_', 'id');
 define('_AUTH_TYPE_', 'type');
 
 // Session auth nom et prenoms
-define('_AUTH_NAME_', 'nom_prenoms');
+define('_AUTH_NAME_', 'usersname');
 
 // Session auth email
 define('_AUTH_EMAIL_', 'email');

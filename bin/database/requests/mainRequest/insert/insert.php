@@ -15,12 +15,12 @@ final class insert extends InsertInsert
      * @param string|null $actions
      * @return bool
      */
-    public function AddUsersRights(?int $idtypeUsers = null, ?string $pages = null,  ?string  $actions = null)
+    public function AddUsersRights(?int $idUsersGroup = null, ?string $pages = null,  ?string  $actions = null)
     {
 
-        if (static::initConfig()['addright']->AddUsersRights($idtypeUsers, $pages, $actions) === true) {
+        if (static::initConfig()['addright']->AddUsersRights($idUsersGroup, $pages, $actions) === true) {
 
-            $actions = "Assign a right to the user group : " . static::initNamespace()['datas']->userGroup($idtypeUsers);
+            $actions = "Assign a right to the user group : " . static::initNamespace()['datas']->userGroup($idUsersGroup);
             static::initQuery()['setting']->ActionsRecente($actions);
 
             return true;

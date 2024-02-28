@@ -18,6 +18,7 @@ class OutputDirectory
             'admin' => 'bin/views/admin',
             'json' => 'bin/database/datas/json',
             'schema' => 'bin/database/gearShift',
+            'request' => 'bin/database/requests',
             'python' => 'bin/epaphrodites/python',
             'console' => 'bin/epaphrodites/Console',
             'startsession' => 'bin/epaphrodites/auth',
@@ -29,8 +30,8 @@ class OutputDirectory
             'update' => 'bin/database/requests/mainRequest/update',
             'delete' => 'bin/database/requests/mainRequest/delete',
             'select' => 'bin/database/requests/mainRequest/select',
-            'rightlist' => 'bin/epaphrodite/EpaphMozart/ModulesConfig/Lists/GetRightList',
-            'modulelist' => 'bin/epaphrodite/EpaphMozart/ModulesConfig/Lists/GetModulesList',
+            'rightlist' => 'bin/epaphrodites/EpaphMozart/ModulesConfig/Lists/GetRightList',
+            'modulelist' => 'bin/epaphrodites/EpaphMozart/ModulesConfig/Lists/GetModulesList',
         ];
 
         foreach ($list as $ListKey => $value) {

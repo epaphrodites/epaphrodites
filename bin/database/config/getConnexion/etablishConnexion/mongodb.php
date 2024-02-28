@@ -4,6 +4,7 @@ namespace Database\Epaphrodites\config\getConnexion\etablishConnexion;
 
 trait mongodb
 {
+    private $connection;
 
     /**
      * Connexion MongoDB

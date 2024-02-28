@@ -22,7 +22,7 @@ class get_id extends Builders
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->find(['typeusers' => $usersGroup], [
+            ->find(['usersgroup' => $usersGroup], [
                 'limit' => $numLines, 'skip' => ($page-1),
             ]);
 

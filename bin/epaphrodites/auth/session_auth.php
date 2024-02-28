@@ -57,8 +57,8 @@ class session_auth implements AuthSession
 
     /**
      * 
-     * User session type user
-     * @var int $type
+     * User session usersGroup user
+     * @var int $usersGroup
      * @return int
      */
     public function type():int|null

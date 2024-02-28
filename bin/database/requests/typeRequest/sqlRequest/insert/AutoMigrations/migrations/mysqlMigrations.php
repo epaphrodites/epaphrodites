@@ -67,10 +67,10 @@ trait mysqlMigrations
                 useraccount (idusers int(11) NOT NULL auto_increment , 
                 loginusers varchar(20)NOT NULL , 
                 userspwd varchar(100) NOT NULL , 
-                nomprenomsusers varchar(150) DEFAULT NULL , 
+                usersname varchar(150) DEFAULT NULL , 
                 contactusers varchar(10) DEFAULT NULL , 
                 emailusers varchar(50) DEFAULT NULL , 
-                typeusers int(1) NOT NULL DEFAULT '1' , 
+                usersgroup int(1) NOT NULL DEFAULT '1' , 
                 usersstat int(1) NOT NULL DEFAULT '1' , 
                 PRIMARY KEY(idUsers) , 
                 INDEX (loginusers) )")->setQuery();

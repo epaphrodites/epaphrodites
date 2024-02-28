@@ -71,7 +71,7 @@ class count extends Builders
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->countDocuments(['typeusers' => $Group]);
+            ->countDocuments(['usersgroup' => $Group]);
 
         return $result;
     }
@@ -83,7 +83,7 @@ class count extends Builders
     public function noSqlRedisCountUsersByGroup(int $Group):int
     {
 
-        $result = $this->key('useraccount')->search(['typeusers'])->param([$Group])->all()->count()->redisGet();
+        $result = $this->key('useraccount')->search(['usersgroup'])->param([$Group])->all()->count()->redisGet();
 
         return $result;
     }    

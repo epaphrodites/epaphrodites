@@ -18,15 +18,26 @@ class CreateRequestFiles extends RequestFileConfig
     protected function execute( InputInterface $input, OutputInterface $output)
     {
         $type = $input->getArgument('type');
+        $requestFile = $input->getArgument('file');
         $name = $input->getArgument('name');
-        if(is_dir(OutputDirectory::Files($type))!==false){
-            $FileName = OutputDirectory::Files($type) . "/{$name}.php";
-            RequestFilesStub::generate($FileName, $name , $type);
-            $output->writeln("<info>The request file {$name} has been successfully created!!!</info>");
-    
-            return self::SUCCESS;
+
+        $fileType = $type==="sql" ? "sqlRequest/":"noSqlRequest/";
+        $FileName = OutputDirectory::Files('request') . "/{$fileType}{$requestFile}/{$name}.php";
+
+        if(is_dir(OutputDirectory::Files('request'))."/{$fileType}"!==true){
+
+            if(file_exists($FileName)===false){
+     
+                RequestFilesStub::generate($FileName, $name , $type);
+                $output->writeln("<info>The request file {$name} has been successfully created!!!</info>");
+        
+                return self::SUCCESS;
+            }else{
+                $output->writeln("<error>Sorry this request file {$type} already exists.</error>");
+                return self::FAILURE;
+            }
         }else{
-            $output->writeln("<error>Sorry this request file {$type} already exists.</error>");
+            $output->writeln("<error>Sorry this request directory {$fileType} don't already.</error>");
             return self::FAILURE;
         }
     }

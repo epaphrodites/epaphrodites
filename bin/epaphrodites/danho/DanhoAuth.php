@@ -27,7 +27,7 @@ class DanhoAuth extends StartUsersSession
 
           if (static::getGuard('guard')->AuthenticatedPassword($result[0]["userspwd"], $usersPassword) === true && $result[0]["usersstat"] === 1) {
             
-            $this->StartUsersSession($result[0]["idusers"], $result[0]["loginusers"], $result[0]["nomprenomsusers"], $result[0]["contactusers"], $result[0]["emailusers"], $result[0]["typeusers"]);
+            $this->StartUsersSession($result[0]["idusers"], $result[0]["loginusers"], $result[0]["usersname"], $result[0]["contactusers"], $result[0]["emailusers"], $result[0]["usersgroup"]);
             return true;
           } else {
             return false;
