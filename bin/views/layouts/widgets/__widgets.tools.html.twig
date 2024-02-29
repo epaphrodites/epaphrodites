@@ -1,0 +1,7 @@
+{# --- Recognition -- #}
+{% macro recognition(recognitionOptions) %}
+    <script> 
+        document.addEventListener('DOMContentLoaded', function() { var toggleButton = document.getElementById('{{ recognitionOptions.button is defined and recognitionOptions.button ? recognitionOptions.button }}'); var transcriptionText = document.getElementById('{{ recognitionOptions.field is defined and recognitionOptions.field ? recognitionOptions.field }}'); if ('webkitSpeechRecognition' in window) { var recognition = new webkitSpeechRecognition(); var defaultLanguage = window.navigator.language; recognition.lang = defaultLanguage; var isRecording = false; toggleButton.addEventListener('click', function() { if (isRecording) { recognition.stop(); } else { recognition.start(); } }); recognition.onresult = function(event) { var transcript = event.results[0][0].transcript; transcriptionText.value += transcript; }; recognition.onerror = function(event) { console.error("Speech recognition error:", event.error); }; recognition.onstart = function() { toggleButton.innerHTML = '<i class="bi bi-mic-mute"></i>'; isRecording = true; toggleButton.classList.add('recording'); }; recognition.onend = function() { toggleButton.innerHTML = '<i class="bi bi-mic"></i>'; isRecording = false; toggleButton.classList.remove('recording'); }; } else { console.error("The SpeechRecognition API is not supported by your browser."); toggleButton.disabled = true; } }); 
+    </script>    
+{% endmacro %}
+{# --- End Recognition -- #}

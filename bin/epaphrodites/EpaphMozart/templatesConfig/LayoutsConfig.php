@@ -111,5 +111,15 @@ class LayoutsConfig
     {
 
         return "layouts/widgets/__widgets.ajax.html.twig";
-    }    
+    }  
+    
+    /**
+     * Get default template ( tools template )
+     * @return string
+     */
+    public function tools():string
+    {
+
+        return "layouts/widgets/__widgets.tools.html.twig";
+    }     
 }

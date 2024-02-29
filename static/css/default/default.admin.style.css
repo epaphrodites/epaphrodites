@@ -2329,12 +2329,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .wrapper .typing-area .input-field input {
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 10px 50px;
   outline: none;
   border-radius: 20px;
   transition: 0.3s all ease;
   border: 1px solid var(--color-red);
   font-family: "Poppins", sans-serif;
+}
+
+.wrapper .typing-area .input-field #startButton{
+  width: 5%;
+  top: 40%;
+  left: 0px;
+  cursor: pointer;
+  position: absolute;
+  transform: translateY(-50%);
+  border: none;  
 }
 
 .wrapper .typing-area .input-field #BtnValidate {
@@ -2349,6 +2359,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .wrapper .typing-area .input-field #BtnValidate i{
   font-size: 30px;
+  color: var(--color-red);
+}
+
+.wrapper .typing-area .input-field #startButton i{
+  font-size: 25px;
   color: var(--color-red);
 }
 

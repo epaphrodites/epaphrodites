@@ -4,23 +4,24 @@ namespace Epaphrodites\epaphrodites\Console\Stubs;
 
 class RequestFilesStub extends SqlStub{
 
-public static function generate($FilesNames, $name , $type)
+public static function generate($FilesNames, $requestFileName , $typeRequest)
 {
-    $content = static::SwicthRequestContent($type,$name);
-    
+
+
 $stub = 
 "<?php
-    namespace Epaphrodites\\database\\requests\\mainRequest\\$type;
 
-    use Epaphrodites\\database\\requests\\typeRequest\\sqlRequest\\$type\\$type as $type$type;
+namespace Epaphrodites\\database\\requests\\mainRequest\\$typeRequest;
 
-    class {$name} extends $type$type
-    {
+use Epaphrodites\\database\\query\\Builders;
 
-        $content
+class {$requestFileName} extends Builders
+{
 
-    }";
-    
+    //Add your request here
+
+}";
+
     file_put_contents($FilesNames, $stub);
     }
 }

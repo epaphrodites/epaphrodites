@@ -1,10 +1,15 @@
-{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import send_ajax_request , get_ajax_request %}{% from forms import input_field , loader , submit %} {% block content %}{{ alert_msg( reponse , alert ) }}{{ breadcrumb_field('CHAT MESSAGES' )}}
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import send_ajax_request , get_ajax_request %}{% from forms import input_field , loader , submit %}{% from tools import recognition %} {% block content %}{{ alert_msg( reponse , alert ) }}{{ breadcrumb_field('CHAT MESSAGES' )}}
 <section>
   <div class="container">
     <div class="wrapper">
       <div class="box"></div>
       <div class="typing-area">
         <div class="input-field">
+          {{ submit({
+            icon : 'bi bi-mic',
+            color : "transparent",
+            id : "startButton"
+          }) }}
           {{ input_field(
             {
               require : true ,
@@ -36,4 +41,12 @@
   msg : '.box',
   type : 'html'
 }) }}
+
+{{
+  recognition({
+    button : "startButton",
+    field : "__send__"
+  })
+}}
+
 {% endblock %}

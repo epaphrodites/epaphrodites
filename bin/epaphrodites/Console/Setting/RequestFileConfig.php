@@ -12,7 +12,6 @@ class RequestFileConfig extends Command
     {
         $this->setDescription('Create a new Request file')
              ->setHelp('This command allows you to create a new Request file.')
-             ->addArgument('type', InputArgument::REQUIRED, 'Request Type')
              ->addArgument('file', InputArgument::REQUIRED, 'Type of the Request file')
              ->addArgument('name', InputArgument::REQUIRED, 'Name of the Request file');
     }

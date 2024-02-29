@@ -288,6 +288,7 @@ return $stub;
 
 protected static function SwicthRequestContent($type,$name){
 
+    
     switch ($type) {
 
         case 'insert':
