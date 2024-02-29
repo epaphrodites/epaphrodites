@@ -16,7 +16,7 @@ trait SqlServer{
         // Try to connect to database to etablish connexion
         try {
             return new PDO(
-                "sqlsrv:Server=" . static::DB_HOST($db) . "," . static::DB_PORT($db) . ";Database=" . static::DB_DATABASE($db),
+                "sqlsrv:Server=" . static::DB_HOST($db) . "," . static::DB_PORT($db) . "Database=" . static::DB_DATABASE($db),
                 static::DB_USER($db),
                 static::DB_PASSWORD($db),
                 static::sqlServerOption()
