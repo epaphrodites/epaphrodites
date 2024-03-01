@@ -59,10 +59,12 @@ final class users extends MainSwitchers
         if (static::isValidMethod(true)) {
 
             $this->result = $this->update->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'));
+            
             if ($this->result === true) {
                 $this->ans = $this->msg->answers('succes');
                 $this->alert = 'alert-success';
             }
+
             if ($this->result === false) {
                 $this->ans = $this->msg->answers('erreur');
                 $this->alert = 'alert-danger';
@@ -96,10 +98,12 @@ final class users extends MainSwitchers
                 $this->ans = $this->msg->answers('no-identic');
                 $this->alert = 'alert-danger';
             }
+
             if ($this->result === 2) {
                 $this->ans = $this->msg->answers('no-identic');
                 $this->alert = 'alert-danger';
             }
+
             if ($this->result === 3) {
                 $this->ans = $this->msg->answers('mdpnotsame');
                 $this->alert = 'alert-danger';
@@ -116,7 +120,7 @@ final class users extends MainSwitchers
     }
 
     /**
-     * upload users datas
+     * Upload users datas
      * 
      * @param string $html
      * @return void
@@ -128,7 +132,7 @@ final class users extends MainSwitchers
 
             $SheetData = $this->importFiles->importExcelFiles($_FILES['file']['name']);
 
-            if (!empty($SheetData)) {
+            if (static::arrayNoEmpty($SheetData)) {
                 
                 for ($i = 1; $i < count($SheetData); $i++) {
 
@@ -140,6 +144,7 @@ final class users extends MainSwitchers
                         $this->ans = $this->msg->answers('succes');
                         $this->alert = 'alert-success';
                     }
+                    
                     if ($this->result === false) {
                         $this->ans = $this->msg->answers('erreur');
                         $this->alert = 'alert-danger';
@@ -161,7 +166,7 @@ final class users extends MainSwitchers
     }
 
     /**
-     * Users 
+     * Show users list 
      * 
      * @param string $html
      * @return void
@@ -175,22 +180,25 @@ final class users extends MainSwitchers
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
-        if (static::isPost('_sendselected_') && static::notEmpty(['users' , '_sendselected_'])) {
+        if (static::isValidMethod(true)) {
 
-            foreach (static::isArray('users') as $login) {
+            if (static::isPost('_sendselected_')) {
 
-                $this->result = static::isSelected('_sendselected_', 1 ) 
-                    ? $this->update->updateEtatsUsers($login) : 
-                    $this->update->initUsersPassword($login);
-            }
+                foreach (static::isArray('users') as $login) {
 
-            if ($this->result === true) {
-                $this->ans = $this->msg->answers('succes');
-                $this->alert = 'alert-success';
-            }
-            if ($this->result === false) {
-                $this->ans = $this->msg->answers('error');
-                $this->alert = 'alert-danger';
+                    $this->result = static::isSelected('_sendselected_', 1 ) 
+                        ? $this->update->updateEtatsUsers($login) : 
+                        $this->update->initUsersPassword($login);
+                }
+
+                if ($this->result === true) {
+                    $this->ans = $this->msg->answers('succes');
+                    $this->alert = 'alert-success';
+                }
+                if ($this->result === false) {
+                    $this->ans = $this->msg->answers('error');
+                    $this->alert = 'alert-danger';
+                }
             }
         }
 

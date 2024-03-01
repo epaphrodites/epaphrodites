@@ -165,7 +165,7 @@ class update extends UpdateUpdate
      */
     public function sqlUpdateUserDatas(string $usersname, string $email, string $number)
     {
-
+        
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
             $this->table('useraccount')

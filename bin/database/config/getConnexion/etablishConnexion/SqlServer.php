@@ -15,10 +15,11 @@ trait SqlServer{
 
         // Try to connect to database to etablish connexion
         try {
+            
             return new PDO(
-                "sqlsrv:Server=" . static::DB_HOST($db) . "," . static::DB_PORT($db) . "Database=" . static::DB_DATABASE($db),
-                static::DB_USER($db),
-                static::DB_PASSWORD($db),
+                "sqlsrv:".static::SQL_SERVER_DB_HOST($db) . static::SQL_SERVER_DB_PORT($db) . "Database=" . static::DB_DATABASE($db) , 
+                static::DB_USER($db), 
+                static::DB_PASSWORD($db) , 
                 static::sqlServerOption()
             );
 
@@ -35,14 +36,14 @@ trait SqlServer{
         // Try to connect to database to etablish connexion
         try {
 
-           $etablishConnexion = new PDO(
-                "sqlsrv:Server=" . static::DB_HOST($db) . ';' . static::DB_PORT($db),
-                static::DB_USER($db),
-                static::DB_PASSWORD($db),
+            $etablishConnexion = new PDO(
+                "sqlsrv:".static::SQL_SERVER_DB_HOST($db) . static::SQL_SERVER_DB_PORT($db) , 
+                static::DB_USER($db), 
+                static::DB_PASSWORD($db) , 
                 static::sqlServerOption()
             );
 
-           $etablishConnexion->exec( "CREATE DATABASE {$dbName}" );
+            $etablishConnexion->exec( "CREATE DATABASE {$dbName}" );
 
             return true;
             
@@ -62,5 +63,4 @@ trait SqlServer{
 
         return $this->setSqlServerConnexionWithoutDatabase($dbName , $db);
     }      
-
 }

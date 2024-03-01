@@ -18,6 +18,25 @@ class get_id extends SelectGet_id
     public function sqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
     {
 
+        return match (_FIRST_DRIVER_) {
+
+        'sqlserver' => $this->sqlServerGetUsersByGroup( $page, $numLines, $usersGroup),
+
+        default => $this->defaultSqlGetUsersByGroup( $page, $numLines, $usersGroup)
+        };
+    }     
+
+    /**
+     * Request to get users by group
+     *
+     * @param integer $page
+     * @param integer $numLines
+     * @param integer $usersGroup
+     * @return array
+     */
+    public function defaultSqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
+    {
+
         $result = $this->table('useraccount')
             ->where('usersgroup')
             ->limit((($page - 1) * $numLines), $numLines)
@@ -27,6 +46,27 @@ class get_id extends SelectGet_id
 
         return $result;
     }
+
+    /**
+     * Request to get users by group
+     *
+     * @param integer $page
+     * @param integer $numLines
+     * @param integer $usersGroup
+     * @return array
+     */
+    public function sqlServerGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
+    {
+
+        $result = $this->table('useraccount')
+            ->where('usersgroup')
+            ->offset((($page - 1) * $numLines), $numLines)
+            ->orderBy('loginusers', 'ASC')
+            ->param([$usersGroup])
+            ->SQuery();
+
+        return $result;
+    }    
 
     /** 
      * Request to select users by login

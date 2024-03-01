@@ -38,6 +38,7 @@ trait queryChaines
     private $having;
     private $or;
     private $is;
+    private $offset;
     private ?int $db = 1;
     private ?array $param = [];
     private ?bool $close = false;
@@ -303,6 +304,20 @@ trait queryChaines
 
         return $this;
     }
+
+    /**
+     * Sets OFFSET for the query
+     *
+     * @param int $begin The begin limit
+     * @param int $end The end limit
+     * @return self
+     */
+    public function offset(int $begin, int $end): self
+    {
+        $this->offset = "OFFSET $begin ROWS FETCH NEXT $end ROWS ONLY";
+
+        return $this;
+    }    
 
     /**
      * @param int $begin The begin limit

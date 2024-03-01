@@ -183,7 +183,6 @@ trait gearQueryChains
     private function dropTableColumn(): array
     {
 
-        
         $db = empty($this->db) ? 1 : $this->db;
 
         $comma = $this->driver($db) !== 'sqlite' ? ',' : '';

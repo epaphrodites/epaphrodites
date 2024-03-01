@@ -131,9 +131,15 @@ trait buildQueryChaines
             $query .= " {$this->limit}";
         }
 
+        /** 
+         * Add OFFSET if exist
+         */
+        if ($this->offset) {
+            $query .= " {$this->offset}";
+        }
+        
         return $this->selectBuildRequest($query);
     }
-
 
     /**
      * insert query chaine
@@ -164,7 +170,6 @@ trait buildQueryChaines
 
         return $this->executeBuildRequest($Iquery);
     }
-
 
     /**
      * Update query chaine
@@ -277,6 +282,13 @@ trait buildQueryChaines
             $query .= " {$this->limit_i}";
         }
 
+        /** 
+         * Add OFFSET if exist
+         */
+        if ($this->offset) {
+            $query .= " {$this->offset}";
+        }        
+
         return $this->executeBuildRequest($query);
     }
 
@@ -354,6 +366,13 @@ trait buildQueryChaines
         if ($this->limit_i) {
             $query .= " {$this->limit_i}";
         }
+
+        /** 
+         * Add OFFSET if exist
+         */
+        if ($this->offset) {
+            $query .= " {$this->offset}";
+        }        
 
         return $this->executeBuildRequest($query);
     }

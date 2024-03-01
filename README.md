@@ -11,6 +11,8 @@ What you should know before starting the installation. To create a new applicati
 - PHP >= 8.1
 - OpenSSL PHP Extension
 - PDO PHP Extension
+- PDO_ODBC Extension (if you use sqlServer)
+- pdo_sqlsrv Extension (if you use sqlServer)
 - pgsql Extension (if you use PostgreSQL)
 - MongoDB Extension (if you use MongoDB)
 - Redis Extension (if you use Redis)

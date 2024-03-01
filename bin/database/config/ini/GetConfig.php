@@ -11,13 +11,17 @@ class GetConfig extends errors
     /**
      * @var array
      */
+
     protected static function sqlServerOption(): array
     {
         return [
-            PDO::ATTR_ERRMODE, 
-            PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::SQLSRV_ATTR_ENCODING => PDO::SQLSRV_ENCODING_UTF8,
+            PDO::SQLSRV_ATTR_FETCHES_NUMERIC_TYPE => true
         ];
     }
+    
 
     /**
      * @var array
@@ -83,6 +87,18 @@ class GetConfig extends errors
 
         return empty($Port) ?: 'port=' . $Port . ';';
     }
+
+    /**
+     * @var string
+     * @return string
+     */
+    protected static function SQL_SERVER_DB_PORT($db): string
+    {
+
+        $Port = static::ConfigIniContent()[$db . "DB_PORT"];
+
+        return empty($Port) ? ";" : ",{$Port};";
+    }    
 
     /**
      * @var string
@@ -179,6 +195,16 @@ class GetConfig extends errors
 
         return static::DB_SOCKET($db) == false ? 'host=' . static::ConfigIniContent()[$db . "DB_HOST"] : static::ConfigIniContent()[$db . "DB_SOCKET_PATH"];
     }
+
+    /**
+     * @var string
+     * @return string
+     */
+    protected static function SQL_SERVER_DB_HOST($db)
+    {
+
+        return static::DB_SOCKET($db) == false ? 'server=' . static::ConfigIniContent()[$db . "DB_HOST"] : static::ConfigIniContent()[$db . "DB_SOCKET_PATH"];
+    }    
 
     /**
      * @var string

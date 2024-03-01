@@ -80,5 +80,4 @@ class HttpStatut
         598 => 'Network read timeout error',
         599 => 'Network connect timeout error'
     ];
-
 }

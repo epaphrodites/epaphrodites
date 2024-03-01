@@ -296,12 +296,33 @@ trait currentSubmit
 
         // Check if each specified key exists in the data source and is not empty
         foreach ($keys as $key) {
+            
             if (!array_key_exists($key, $source) || empty($source[$key])) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public function arrayNoEmpty($tableau, $strict = true) {
+        // Vérifie si l'argument est un tableau
+        if (!is_array($tableau)) {
+            return false;
+        }
+    
+        if ($strict) {
+            return !empty($tableau);
+        } else {
+            
+            foreach ($tableau as $element) {
+               
+                if ($element !== '' && $element !== null && $element !== false && $element !== []) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     private static function filterInputArray(int $type): array {

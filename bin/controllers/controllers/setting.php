@@ -114,6 +114,7 @@ final class setting extends MainSwitchers
                     $this->alert = 'alert-success';
                     $this->ans = $this->msg->answers('succes');
                 }
+
                 if ($this->result === false) {
                     $this->alert = 'alert-danger';
                     $this->ans = $this->msg->answers('error');
@@ -132,6 +133,7 @@ final class setting extends MainSwitchers
                     $this->alert = 'alert-success';
                     $this->ans = $this->msg->answers('succes');
                 }
+
                 if ($this->result === false) {
                     $this->alert = 'alert-danger';
                     $this->ans = $this->msg->answers('error');
@@ -150,6 +152,7 @@ final class setting extends MainSwitchers
                     $this->alert = 'alert-success';
                     $this->ans = $this->msg->answers('succes');
                 }
+
                 if ($this->result === false) {
                     $this->alert = 'alert-danger';
                     $this->ans = $this->msg->answers('error');
@@ -177,17 +180,21 @@ final class setting extends MainSwitchers
     public final function managementOfUserAccessRights(string $html): void
     {
 
-        if (static::isPost('__deleted__')) {
+        if (static::isValidMethod(true)) {
 
-            $this->result = $this->delete->EmptyAllUsersRights(static::getPost('__deleted__'));
+            if (static::isPost('__deleted__')) {
 
-            if ($this->result === true) {
-                $this->alert = 'alert-success';
-                $this->ans = $this->msg->answers('succes');
-            }
-            if ($this->result === false) {
-                $this->alert = 'alert-danger';
-                $this->ans = $this->msg->answers('error');
+                $this->result = $this->delete->EmptyAllUsersRights(static::getPost('__deleted__'));
+
+                if ($this->result === true) {
+                    $this->alert = 'alert-success';
+                    $this->ans = $this->msg->answers('succes');
+                }
+                
+                if ($this->result === false) {
+                    $this->alert = 'alert-danger';
+                    $this->ans = $this->msg->answers('error');
+                }
             }
         }
 
