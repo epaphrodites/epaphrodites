@@ -127,7 +127,7 @@ class update extends UpdateUpdate
      */
     public function sqlUpdateEtatsUsers(string $login): bool
     {
-
+        
         $GetUsersDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
 
         if (!empty($GetUsersDatas)) {
@@ -142,13 +142,13 @@ class update extends UpdateUpdate
 
             $this->table('useraccount')
                 ->set(['usersstat'])
-                ->where('loginusers')
+                ->like('loginusers')
                 ->param([$state, $GetUsersDatas[0]['loginusers']])
                 ->UQuery();
-
+              
             $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['loginusers'];
             static::initQuery()['setting']->ActionsRecente($actions);
-
+           
             return true;
         } else {
             return false;

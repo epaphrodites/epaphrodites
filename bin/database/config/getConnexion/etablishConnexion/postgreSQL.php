@@ -16,16 +16,16 @@ trait postgreSQL{
         try {
 
             return new PDO(
-                "pgsql:" . static::DB_HOST($db) . ';' . static::DB_PORT($db) . "dbname=" . static::DB_DATABASE($db),
-                    static::DB_USER($db),
-                    static::DB_PASSWORD($db),
-                    static::dbOptions()
+                static::POSTGRES_SQL_DNS($db) . "dbname=" . static::DB_DATABASE($db),
+                static::DB_USER($db),
+                static::DB_PASSWORD($db),
+                static::dbOptions()
             );
 
             // If impossible send error message        
         } catch (PDOException $e) {
 
-            $this->getError($e->getMessage());
+            throw new PDOException(static::getError($e->getMessage()));
         }
     }
 
@@ -36,7 +36,7 @@ trait postgreSQL{
         try {
 
             $etablishConnexion = new PDO(
-                "pgsql:" . static::DB_HOST($db) . ';' . static::DB_PORT($db),
+                static::POSTGRES_SQL_DNS($db),
                 static::DB_USER($db),
                 static::DB_PASSWORD($db),
                 static::dbOptions()

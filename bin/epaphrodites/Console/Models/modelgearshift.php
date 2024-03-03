@@ -48,7 +48,7 @@ class modelgearshift extends settinggearshift
             if($action==="up"){
 
                 foreach ( $schema->up() as $request ){
-
+                    
                     $this->executeQuery($request['request'] , $request['db']);
                 }
 

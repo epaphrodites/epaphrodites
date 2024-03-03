@@ -18,16 +18,16 @@ trait mysql{
         try {
 
             return new PDO(
-                "mysql:" . static::DB_HOST($db) . ';' . static::DB_PORT($db) . 'dbname=' . static::DB_DATABASE($db),
-                    static::DB_USER($db),
-                    static::DB_PASSWORD($db),
-                    static::dbOptions()
+                static::MYSQL_DNS($db) . 'dbname=' . static::DB_DATABASE($db),
+                static::DB_USER($db),
+                static::DB_PASSWORD($db),
+                static::dbOptions()
             );
 
             // If impossible send error message        
         } catch (PDOException $e) {
            
-            $this->getError($e->getMessage());
+            throw new PDOException(static::getError($e->getMessage()));
         }
     }
 
@@ -42,7 +42,7 @@ trait mysql{
         try {
 
             $etablishConnexion =  new PDO(
-                "mysql:" . static::DB_HOST($db) . ';' . static::DB_PORT($db),
+                static::MYSQL_DNS($db),
                 static::DB_USER($db),
                 static::DB_PASSWORD($db),
                 static::dbOptions()

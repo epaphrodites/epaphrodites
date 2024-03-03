@@ -8,8 +8,7 @@ class SwitchErrorsPages extends TwigRender
 {
 
     /**
-     * Page erreur 404
-     *
+     * Error 404
      * @return void
      */
     public function error_404():void
@@ -23,8 +22,7 @@ class SwitchErrorsPages extends TwigRender
     }
 
     /**
-     * Page erreur 403
-     *
+     * Error 403
      * @return void
      */
     public function error_403():void
@@ -37,8 +35,7 @@ class SwitchErrorsPages extends TwigRender
     }
 
     /**
-     * Page erreur 419 
-     *
+     * Error 419 
      * @return void
      */
     public function error_419():void
@@ -53,7 +50,7 @@ class SwitchErrorsPages extends TwigRender
     }
 
     /**
-     * Page erreur 500
+     * Error 500
      * 
      * @return void
      */
@@ -81,7 +78,6 @@ class SwitchErrorsPages extends TwigRender
  
     /**
      * back manager
-     * 
      * @return string
      */
     private function GoBack():string

@@ -497,7 +497,7 @@ trait queryChaines
     public function set(array $getSet = []): self
     {
         foreach ($getSet as $val) {
-            $this->set .= $val . " = ?" . " , ";
+            $this->set .= $val . " = ? " . " , ";
         }
 
         $this->set = rtrim($this->set, " , ");

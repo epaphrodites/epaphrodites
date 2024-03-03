@@ -178,118 +178,120 @@ trait buildQueryChaines
     public function UQuery(): string
     {
 
+        $UpdateQuery = "";
+
         /** 
          * Update inital query chaine
          */
-        $query = "UPDATE {$this->table} ";
+        $UpdateQuery = "UPDATE {$this->table} ";
 
         /** 
          * Add join if exist
          */
         if ($this->join) {
 
-            $query .= " {$this->join}";
+            $UpdateQuery .= " {$this->join}";
         }
 
         /** 
          * Add SET if exist
          */
         if ($this->set) {
-            $query .= " SET {$this->set}";
+            $UpdateQuery .= " SET {$this->set} ";
         }
 
         /** 
          * Add SET if exist
          */
         if ($this->set_i) {
-            $query .= " SET {$this->set_i}";
+            $UpdateQuery .= " SET {$this->set_i} ";
         }
 
         /** 
          * Add REPLACE if exist
          */
         if ($this->replace) {
-            $query .= " SET {$this->replace}";
+            $UpdateQuery .= " SET {$this->replace}";
         }
 
         /** 
          * Add WHERE if exist
          */
         if ($this->where) {
-            $query .= " WHERE {$this->where} ";
+            $UpdateQuery .= " WHERE {$this->where} ";
         }
 
         /** 
          * Add IS NOT NULL OR IS NULL if exist
          */
         if ($this->is) {
-            $query .= " {$this->is}";
+            $UpdateQuery .= " {$this->is}";
         }
 
         /** 
          * Add match if exist
          */
         if ($this->match) {
-            $query .= " WHERE MATCH ({$this->match}) AGAINST (?)";
+            $UpdateQuery .= " WHERE MATCH ({$this->match}) AGAINST (?)";
         }
 
         /** 
          * Add BETWEEN if exist
          */
         if ($this->between) {
-            $query .= " WHERE {$this->between} BETWEEN ? AND ? ";
+            $UpdateQuery .= " WHERE {$this->between} BETWEEN ? AND ? ";
         }
 
         /** 
          * Add LIKE if exist
          */
         if ($this->like) {
-            $query .= " WHERE {$this->like} LIKE ? ";
+            $UpdateQuery .= " WHERE {$this->like} LIKE ? ";
         }
 
         /* 
-            Add AND if exist
+        *Add AND if exist
         */
         if ($this->and) {
-            $query .= " {$this->and}";
+            $UpdateQuery .= " {$this->and}";
         }
 
         /** 
          * Add OR if exist
          */
         if ($this->or) {
-            $query .= "{$this->or}";
+            $UpdateQuery .= "{$this->or}";
         }
 
         /** 
          * Add ORDER BY if exist
          */
         if ($this->order) {
-            $query .= " {$this->order}";
+            $UpdateQuery .= " {$this->order}";
         }
 
         /** 
          * Add HAVING if exist
          */
         if ($this->having) {
-            $query .= " {$this->having}";
+            $UpdateQuery .= " {$this->having}";
         }
 
         /** 
          * Add LIMIT if exist
          */
         if ($this->limit_i) {
-            $query .= " {$this->limit_i}";
+            $UpdateQuery .= " {$this->limit_i}";
         }
 
         /** 
          * Add OFFSET if exist
          */
         if ($this->offset) {
-            $query .= " {$this->offset}";
+            $UpdateQuery .= " {$this->offset}";
         }        
 
-        return $this->executeBuildRequest($query);
+        return $this->executeBuildRequest($UpdateQuery);
     }
 
     /**

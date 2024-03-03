@@ -38,6 +38,7 @@ class SetFrenchTextMessages
                 'user-exist' => 'Désolé, ce utilisateur existe déjà.',
                 'connexion' => 'Veuillez vous reconnecter à nouveau svp !',
                 'vide' => 'Veuillez remplir correctement tous champs svp !!!',
+                'error' => 'Désolé une erreur s\'est produit lors du traitement',
                 'rightexist' => 'Désolé ce droit existe déjà pour ce utilisateur',
                 'no-identic' => 'Désolé, les mots de passes ne sont pas identiques',
                 'erreur' => "Désolé un problème est survenu lors du traitement !!!",

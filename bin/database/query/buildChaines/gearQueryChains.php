@@ -115,9 +115,13 @@ trait gearQueryChains
      */
     private function generateSQL(): array
     {
+        
         $requests = [];
         $db = empty($this->db) ? 1 : $this->db;
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->tableName} (";
+
+        $sql = $this->driver($db) !== 'sqlserver' ?
+            "CREATE TABLE IF NOT EXISTS {$this->tableName} (" :
+            "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$this->tableName}') BEGIN CREATE TABLE {$this->tableName} (";
 
         foreach ($this->columns as $column) {
             if (isset($column['columnName'])) {
@@ -128,7 +132,12 @@ trait gearQueryChains
             }
         }
 
-        $sql = rtrim($sql, ', ') . ")";
+        $sql = rtrim($sql, ', ');
+
+        $sql .= $this->driver($db) !== 'sqlserver' ?
+            ")" :
+            "); END";
+
         $requests[] = $sql;
 
         foreach ($this->columns as $column) {
@@ -139,8 +148,9 @@ trait gearQueryChains
             }
         }
 
-        return [ 'request' => $requests, 'db' => $db ];
+        return ['request' => $requests, 'db' => $db];
     }
+
 
     /**
      * Generate the SQL statement for adding columns and indexes to the table.
@@ -156,6 +166,7 @@ trait gearQueryChains
         $indexColumns = [];
     
         foreach ($this->columns as $column) {
+
             if (isset($column['columnName'], $column['type'])) {
                 $columnName = $column['columnName'];
                 $type = $column['type'];
@@ -169,6 +180,7 @@ trait gearQueryChains
                 $indexSql = $this->generateIndexSQL($indexName, $columns, $db, "CREATE");
                 $indexColumns[] = $indexSql;
             }
+
         }
     
         $request = array_merge($columnsSql, $indexColumns);
@@ -217,12 +229,12 @@ trait gearQueryChains
      */
     private function generateIndexSQL(string $indexName, string $columns, int $db, string $option = "ADD"): string
     {
-        switch ($this->getDatabaseType($db)) {
+        switch ($this->driver($db)) {
             case 'mysql':
                 return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
             case 'pgsql':
                 return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
-            case 'sqlsrv':
+            case 'sqlserver':
             case 'sqlite':
                 return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
             default:
@@ -249,17 +261,6 @@ trait gearQueryChains
     private function driver($key): string
     {
         $db = max(1, (int) $key);
-        return GetConfig::DB_DRIVER($db);
-    }
-
-    /**
-     * Get the database type based on the given key.
-     * @param int $key The database key.
-     * @return string The database type.
-     */
-    private function getDatabaseType(int $key): string
-    {
-        $db = max(1, $key);
         return GetConfig::DB_DRIVER($db);
     }
 }

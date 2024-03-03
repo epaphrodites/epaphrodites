@@ -26,6 +26,7 @@ trait mongodb
 
             // If impossible send error message      
         } catch (\Exception $e) {
+            
             throw static::getError($e->getMessage());
         }
     }

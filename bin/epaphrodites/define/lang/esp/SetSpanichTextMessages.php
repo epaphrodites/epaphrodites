@@ -41,6 +41,7 @@ class SetSpanichTextMessages
             'vide' => "Por favor, complete todos los campos correctamente!!!",
             'send' => "¡Enhorabuena, tu mensaje ha sido enviado exitosamente!",
             'false-mail' => 'Lo siento, este correo electrónico es incorrecto.',
+            'error' => "Lo siento, se produjo un error durante el procesamiento.",
             'rightexist' => "Lo siento, este derecho ya existe para este usuario",
             'erreur' => "Lo siento, ocurrió un problema durante el procesamiento",
             'no-data' => "Lo siento, no hay información que coincida con tu solicitud",

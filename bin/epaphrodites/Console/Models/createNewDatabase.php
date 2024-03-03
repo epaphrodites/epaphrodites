@@ -22,11 +22,11 @@ class createNewDatabase extends AddNewDatabase{
 
         if( $result == true ){
 
-            $output->writeln("<info>Your database {$database} has been created successfully!!!✅</info>");
+            $output->writeln("<info>Your database {$database} has been created successfully in configuration {$order}!!!✅</info>");
             return self::SUCCESS;            
 
         }else{
-            $output->writeln("<error>Please check your configuration or the existence of this database {$database} ❌</error>");
+            $output->writeln("<error>Please check your configuration or the existence of this database {$database} in configuration {$order} ❌</error>");
             return self::FAILURE;
         }
     }

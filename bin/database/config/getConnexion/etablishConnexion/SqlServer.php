@@ -17,7 +17,7 @@ trait SqlServer{
         try {
             
             return new PDO(
-                "sqlsrv:".static::SQL_SERVER_DB_HOST($db) . static::SQL_SERVER_DB_PORT($db) . "Database=" . static::DB_DATABASE($db) , 
+                static::SQL_SERVER_DNS($db) . "Database=" . static::DB_DATABASE($db) , 
                 static::DB_USER($db), 
                 static::DB_PASSWORD($db) , 
                 static::sqlServerOption()
@@ -26,7 +26,7 @@ trait SqlServer{
             // If impossible send error message        
         } catch (PDOException $e) {
 
-            $this->getError($e->getMessage());
+            throw new PDOException(static::getError($e->getMessage()));
         }
     }
 
@@ -37,7 +37,7 @@ trait SqlServer{
         try {
 
             $etablishConnexion = new PDO(
-                "sqlsrv:".static::SQL_SERVER_DB_HOST($db) . static::SQL_SERVER_DB_PORT($db) , 
+                static::SQL_SERVER_DNS($db) , 
                 static::DB_USER($db), 
                 static::DB_PASSWORD($db) , 
                 static::sqlServerOption()

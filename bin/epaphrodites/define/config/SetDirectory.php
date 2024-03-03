@@ -73,6 +73,9 @@ define('_DIR_JSON_DATAS_', 'bin/database/datas/json');
 // Main toml datas directory
 define('_DIR_TOML_DATAS_', 'bin/database/datas/toml/');
 
+// Main sqLite datas directory
+define('_DIR_SQLITE_DATAS_', 'bin/database/datas/SqlLite/');
+
 // Main config ini directory
 define('_DIR_CONFIG_INI_', 'bin/database/config/ini/');
 

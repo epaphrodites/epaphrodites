@@ -64,7 +64,7 @@ final class users extends MainSwitchers
                 $this->ans = $this->msg->answers('succes');
                 $this->alert = 'alert-success';
             }
-
+            
             if ($this->result === false) {
                 $this->ans = $this->msg->answers('erreur');
                 $this->alert = 'alert-danger';
@@ -144,7 +144,6 @@ final class users extends MainSwitchers
                         $this->ans = $this->msg->answers('succes');
                         $this->alert = 'alert-success';
                     }
-                    
                     if ($this->result === false) {
                         $this->ans = $this->msg->answers('erreur');
                         $this->alert = 'alert-danger';
@@ -178,7 +177,9 @@ final class users extends MainSwitchers
         $list = [];
         $Nbreligne = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
-        $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
+        $position = static::notEmpty(['filtre'] , 'GET') 
+                        ? static::getGet('filtre') 
+                        : NULL;
 
         if (static::isValidMethod(true)) {
 
@@ -187,8 +188,8 @@ final class users extends MainSwitchers
                 foreach (static::isArray('users') as $login) {
 
                     $this->result = static::isSelected('_sendselected_', 1 ) 
-                        ? $this->update->updateEtatsUsers($login) : 
-                        $this->update->initUsersPassword($login);
+                                        ? $this->update->updateEtatsUsers($login) 
+                                        : $this->update->initUsersPassword($login);
                 }
 
                 if ($this->result === true) {
@@ -209,8 +210,13 @@ final class users extends MainSwitchers
             
         }else {
 
-            $total = static::notEmpty(['filtre'] , 'GET') ? $this->count->CountUsersByGroup($_GET['filtre']) : $this->count->CountAllUsers();
-            $list = static::notEmpty(['filtre'] , 'GET') ? $this->getId->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) : $this->select->listeOfAllUsers($page, $Nbreligne);
+            $total = static::notEmpty(['filtre'] , 'GET') ? 
+                            $this->count->CountUsersByGroup($_GET['filtre']) 
+                            : $this->count->CountAllUsers();
+
+            $list = static::notEmpty(['filtre'] , 'GET') 
+                            ? $this->getId->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) 
+                            : $this->select->listeOfAllUsers($page, $Nbreligne);
         }
 
         $this->views( $html, 

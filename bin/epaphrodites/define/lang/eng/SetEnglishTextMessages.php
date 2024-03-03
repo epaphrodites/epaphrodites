@@ -38,6 +38,7 @@ class SetEnglishTextMessages
             'user-exist' => 'Sorry, this user already exists.',
             'succes' => "Processing completed successfully!!!",
             'no-identic' => "Sorry, the passwords do not match.",
+            'error' => 'Sorry, an error occurred during processing',
             'vide' => "Please fill in all fields correctly, please!!!",
             'no-data' => "Sorry, no information matches your request.",
             'erreur' => "Sorry, an issue occurred during processing!!!",

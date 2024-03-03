@@ -17,7 +17,7 @@ trait SqLite
         // Try to connect to database to etablish connexion
         try {
             return new PDO(
-                'sqlite:' . static::DB_SQLITE($db),
+                static::SQLITE_DNS($db),
                 static::DB_USER($db),
                 static::DB_PASSWORD($db),
                 static::sqLiteOptions()
@@ -26,7 +26,7 @@ trait SqLite
             // If impossible send error message    
         } catch (PDOException $e) {
 
-            static::getError($e->getMessage());
+            throw new PDOException(static::getError($e->getMessage()));
         }
     }
 
@@ -53,7 +53,7 @@ trait SqLite
             // If impossible send error message    
         } catch (PDOException $e) {
 
-            static::getError($e->getMessage());
+            return false;
         }
     }
 
