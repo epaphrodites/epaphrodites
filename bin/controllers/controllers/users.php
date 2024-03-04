@@ -177,6 +177,7 @@ final class users extends MainSwitchers
         $list = [];
         $Nbreligne = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
+        
         $position = static::notEmpty(['filtre'] , 'GET') 
                         ? static::getGet('filtre') 
                         : NULL;

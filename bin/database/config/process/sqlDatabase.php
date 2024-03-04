@@ -68,11 +68,12 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      */
     public function runRequest(string $sqlChaine, array $datas = [], bool $param = false, bool $etat = false, int $bd = 1): ?bool
     {
-        $pdo = $this->dbConnect($bd);
-        $pdo->beginTransaction();
+         $connection = $this->dbConnect($bd);
+
+         $connection->beginTransaction();
         
         try {
-            $request = $pdo->prepare($sqlChaine);
+            $request =  $connection->prepare($sqlChaine);
     
             if ($param) {
                 foreach ($datas as $k => &$v) {
@@ -82,12 +83,12 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
     
             $result = $request->execute();
             $etat === false ?: $this->closeConnection($bd);
-            $pdo->commit();
+             $connection->commit();
     
             return $result;
             
         } catch (\Exception $e) {
-            $pdo->rollBack();
+             $connection->rollBack();
             
             return false;
         }
