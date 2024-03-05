@@ -69,7 +69,7 @@ trait buildQuery
     }
 
     /**
-     * Execute INSERT query
+     * Execute INSERT/UPDATE/DELETE query
      *
      * @param string $query The query to execute
      * @return mixed The query execution result

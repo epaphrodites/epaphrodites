@@ -42,7 +42,7 @@ trait queryChaines
     private ?int $db = 1;
     private ?array $param = [];
     private ?bool $close = false;
-    private ?array $multiChaine = [];
+    private ?array $multiChaine = []; 
 
     /**
      * Sets the database to use
@@ -52,7 +52,6 @@ trait queryChaines
      */
     public function sdb(int $db = 1): mixed
     {
-    
         $this->db = $db;
         return $this;
     }  
@@ -78,7 +77,7 @@ trait queryChaines
      */
     public function param(array $param = []): self
     {
-        $this->param = [];
+        $this->param = NULL;
 
         $this->param = $param;
 
@@ -92,7 +91,7 @@ trait queryChaines
      */
     public function count(): self
     {
-        $this->count = '';
+        $this->count = NULL;
 
         $this->count = 'COUNT';
 
@@ -106,7 +105,7 @@ trait queryChaines
      */
     public function all(): self
     {
-        $this->all = '';
+        $this->all = NULL;
 
         $this->all = 'all';
 
@@ -120,7 +119,7 @@ trait queryChaines
      */
     public function lastIndex(): self
     {
-        $this->lastIndex = '';
+        $this->lastIndex = NULL;
 
         $this->lastIndex = 'lastIndex';
 
@@ -135,7 +134,7 @@ trait queryChaines
      */
     public function index(string $index): self
     {
-        $this->index = '';
+        $this->index = NULL;
 
         $this->index = $index;
 
@@ -150,7 +149,7 @@ trait queryChaines
      */
     public function search(array $search = []): self
     {
-        $this->search = [];
+        $this->search = NULL;
 
         $this->search = $search;
 
@@ -165,7 +164,7 @@ trait queryChaines
      */
     public function id(string $id): self
     {
-        $this->id = '';
+        $this->id = NULL;
 
         $this->id = "$id";
 
@@ -180,7 +179,7 @@ trait queryChaines
      */
     public function chaine(string $string): self
     {
-        $this->chaine = '';
+        $this->chaine = NULL;
 
         $this->chaine = "$string";
 
@@ -195,7 +194,7 @@ trait queryChaines
      */
     public function multiChaine(array $multiChaine = []): self
     {
-        $this->multiChaine = [];
+        $this->multiChaine = NULL;
 
         $this->multiChaine = $multiChaine;
 
@@ -210,7 +209,7 @@ trait queryChaines
      */
     public function key(string $key): self
     {
-        $this->key = '';
+        $this->key = NULL;
 
         $this->key = "$key";
 
@@ -225,7 +224,7 @@ trait queryChaines
      */
     public function table(string $table): self
     {
-        $this->table = '';
+        $this->table = NULL;
 
         $this->table = "$table";
 
@@ -240,7 +239,7 @@ trait queryChaines
      */
     public function insert(string $insert): self
     {
-        $this->insert = '';
+        $this->insert = NULL;
 
         $this->insert = "$insert";
 
@@ -255,7 +254,7 @@ trait queryChaines
      */
     public function values(string $values): self
     {
-        $this->values = '';
+        $this->values = NULL;
 
         $this->values = "$values";
 
@@ -270,7 +269,7 @@ trait queryChaines
      */
     public function where(string $where, ?string $type = null): self
     {
-        $this->where = '';
+        $this->where = NULL;
 
         if ($type === null) {
             $this->where = "$where = ?";
@@ -289,7 +288,7 @@ trait queryChaines
      */
     public function like(string $like): self
     {
-        $this->like = '';
+        $this->like = NULL;
 
         $this->like = "$like";
 
@@ -304,7 +303,7 @@ trait queryChaines
      */
     public function match(string $match): self
     {
-        $this->match = '';
+        $this->match = NULL;
 
         $this->match = "$match";
 
@@ -318,7 +317,7 @@ trait queryChaines
      */
     public function between(string $between): self
     {
-        $this->between = '';
+        $this->between = NULL;
 
         $this->between = "$between";
 
@@ -334,7 +333,7 @@ trait queryChaines
      */
     public function limit(int $begin, int $end): self
     {
-        $this->limit = '';
+        $this->limit = NULL;
 
         $this->limit = "LIMIT $end OFFSET $begin";
 
@@ -350,7 +349,7 @@ trait queryChaines
      */
     public function offset(int $begin, int $end): self
     {
-        $this->offset = '';
+        $this->offset = NULL;
 
         $this->offset = "OFFSET $begin ROWS FETCH NEXT $end ROWS ONLY";
 
@@ -365,7 +364,7 @@ trait queryChaines
     public function rlimit(int $begin, int $end): self
     {
 
-        $this->rlimit = '';
+        $this->rlimit = NULL;
 
         $this->rlimit = [ 'begin' => $begin , 'end' => $end ];
 
@@ -381,7 +380,7 @@ trait queryChaines
      */
     public function is(string $type, string $property): self
     {
-        $this->is = '';
+        $this->is = NULL;
 
         $this->is = " AND $property IS $type";
 
@@ -397,7 +396,7 @@ trait queryChaines
      */
     public function having(string $count, string $sign): self
     {
-        $this->having = '';
+        $this->having = NULL;
 
         $this->having = "HAVING COUNT($count) $sign ?";
 
@@ -412,7 +411,7 @@ trait queryChaines
      */
     public function limit_i(int $limit): self
     {
-        $this->limit_i = '';
+        $this->limit_i = NULL;
 
         $this->limit_i = "LIMIT $limit";
 
@@ -428,7 +427,7 @@ trait queryChaines
      */
     public function orderBy(string $key, string $direction): self
     {
-        $this->order = '';
+        $this->order = NULL;
 
         $this->order = "ORDER BY $key $direction";
 
@@ -443,7 +442,7 @@ trait queryChaines
     public function groupBy(string $group): self
     {
 
-        $this->group = '';
+        $this->group = NULL;
 
         $this->group = "GROUP BY $group";
 
@@ -458,7 +457,7 @@ trait queryChaines
      */
     public function and(array $getand = []): self
     {
-        $this->and = '';
+        $this->and = NULL;
 
         foreach ($getand as $val) {
             $this->and .= " AND " . $val . " = ? ";
@@ -475,7 +474,7 @@ trait queryChaines
      */
     public function or(array $getOr = []): self
     {
-        $this->or = '';
+        $this->or = NULL;
 
         foreach ($getOr as $val) {
             $this->or .= " OR " . $val . " = ? ";
@@ -493,7 +492,7 @@ trait queryChaines
     public function join(array $getJoin = []): self
     {
 
-        $this->join = '';
+        $this->join = NULL;
 
         foreach ($getJoin as $val) {
             $this->join .= ' INNER JOIN ' . str_replace('|', ' ON ', $val);
@@ -510,7 +509,7 @@ trait queryChaines
      */
     public function joinLeft(array $getJoin = []): self
     {
-        $this->joinLeft = '';
+        $this->joinLeft = NULL;
 
         foreach ($getJoin as $val) {
             $this->joinLeft .= ' LEFT JOIN ' . str_replace('|', ' ON ', $val);
@@ -528,7 +527,7 @@ trait queryChaines
     public function joinRight(array $getJoin = []): self
     {
 
-        $this->joinRight = '';
+        $this->joinRight = NULL;
 
         foreach ($getJoin as $val) {
             $this->joinRight .= ' RIGHT JOIN ' . str_replace('|', ' ON ', $val);
@@ -546,7 +545,7 @@ trait queryChaines
     public function joinFull(array $getJoin = []): self
     {
 
-        $this->joinFull = '';
+        $this->joinFull = NULL;
 
         foreach ($getJoin as $val) {
             $this->joinFull .= ' FULL JOIN ' . str_replace('|', ' ON ', $val);
@@ -564,7 +563,7 @@ trait queryChaines
     public function set(array $getSet = []): self
     {
 
-        $this->set = '';
+        $this->set = NULL;
 
         foreach ($getSet as $val) {
             $this->set .= $val . " = ? " . " , ";
@@ -583,7 +582,7 @@ trait queryChaines
      */
     public function rset(array $rset = []): self
     {
-        $this->rset = [];
+        $this->rset = NULL;
 
         $this->rset = $rset;
 
@@ -599,7 +598,7 @@ trait queryChaines
      */
     public function set_i(array $getSet = [], ?string $sign = "+"): self
     {
-        $this->set_i = '';
+        $this->set_i = NULL;
 
         foreach ($getSet as $val) {
             $this->set_i .= $val . " = $val $sign ?" . " , ";
@@ -619,7 +618,7 @@ trait queryChaines
     public function replace(array $properties = []): self
     {
 
-        $this->replace = '';
+        $this->replace = NULL;
 
         foreach ($properties as $val) {
             $this->replace .= $val . " = REPLACE( $val , ? , ? ) , ";
@@ -628,5 +627,5 @@ trait queryChaines
         $this->replace = rtrim($this->replace, " , ");
 
         return $this;
-    }
+    } 
 }
