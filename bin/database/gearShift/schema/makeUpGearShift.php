@@ -2,7 +2,6 @@
 
 namespace Epaphrodites\database\gearShift\schema;
 
-
 trait makeUpGearShift{
 
     /**
@@ -19,5 +18,5 @@ trait makeUpGearShift{
                 $table->addIndex('usersemail');
                 $table->db(2);
         });
-    }    
+    }       
 }

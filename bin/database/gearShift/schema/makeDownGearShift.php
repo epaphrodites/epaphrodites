@@ -14,5 +14,5 @@ trait makeDownGearShift{
             $table->dropColumn('username');
             $table->db(2);
         });
-    }                   
+    }                     
 }

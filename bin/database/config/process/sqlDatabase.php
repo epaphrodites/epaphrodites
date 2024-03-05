@@ -28,33 +28,32 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      * @param string|null $sqlChaine The SQL query
      * @param array|null $datas The data for query parameters
      * @param bool|null $param Flag to indicate if query parameters are set
-     * @param bool|null $etat Flag to indicate if connection should be closed after execution
+     * @param bool|false $closeConnection Flag to indicate if connection should be closed after execution
      * @param int|1 $bd The database reference
      * @return array|null The fetched data
      */
-    public function select(string $sqlChaine, array $datas = [], bool $param = false, bool $etat = false, int $bd = 1): ?array
+    public function select(string $sqlChaine, array $datas = [], bool $param = false, bool $closeConnection = false, int $db = 1): ?array
     {
-        $connection = $this->dbConnect($bd);
+        $connection = $this->dbConnect($db);
         $request = $connection->prepare($sqlChaine);
-    
+
         if ($param) {
-            foreach ($datas as $key => &$value) {
-                $request->bindParam($key + 1, $value, PDO::PARAM_STR);
+            foreach ($datas as $k => $v) {
+                $request->bindValue(is_int($k) ? $k + 1 : $k, $v, PDO::PARAM_STR);
             }
         }
-    
+
         $request->execute();
-    
+
         $result = $request->fetchAll();
-        
-        // Close the connection if $etat is true (or not null)
-        if ($etat) {
-            $this->closeConnection($bd);
+
+        if ($closeConnection) {
+            $this->closeConnection($db);
         }
-    
+
         return $result;
     }
-    
+
 
     /**
      * SQL request execution
@@ -62,36 +61,38 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      * @param string $sqlChaine The SQL query
      * @param array|[] $datas The data for query parameters
      * @param bool|false $param Flag to indicate if query parameters are set
-     * @param bool|false $etat Flag to indicate if connection should be closed after execution
+     * @param bool|false $closeConnection Flag to indicate if connection should be closed after execution
      * @param int|1 $bd The database reference
      * @return bool|null True if the execution is successful, otherwise false
      */
-    public function runRequest(string $sqlChaine, array $datas = [], bool $param = false, bool $etat = false, int $bd = 1): ?bool
+    public function runRequest(string $sqlChaine, array $datas = [], bool $param = false, bool $closeConnection = false, int $db = 1): bool
     {
-         $connection = $this->dbConnect($bd);
+        $connection = $this->dbConnect($db);
+        $connection->beginTransaction();
 
-         $connection->beginTransaction();
-        
         try {
-            $request =  $connection->prepare($sqlChaine);
-    
+            $request = $connection->prepare($sqlChaine);
+
             if ($param) {
-                foreach ($datas as $k => &$v) {
-                    $request->bindParam($k + 1, $datas[$k], PDO::PARAM_STR);
+                foreach ($datas as $k => $v) {
+                    $request->bindValue(is_int($k) ? $k + 1 : $k, $v, PDO::PARAM_STR);
                 }
             }
-    
+
             $result = $request->execute();
-            $etat === false ?: $this->closeConnection($bd);
-             $connection->commit();
-    
+
+            if ($closeConnection) {
+                $this->closeConnection($db);
+            }
+
+            $connection->commit();
             return $result;
             
         } catch (\Exception $e) {
-             $connection->rollBack();
-            
+            if ($connection->inTransaction()) {
+                $connection->rollBack();
+            }
             return false;
         }
     }
-    
 }
