@@ -27,7 +27,7 @@ trait languageWords
             'recemment', 'rapidement', 'regulierement', 'relativement', 'rigidement', 'sainement', 'serieusement', 'souvent', 'soigneusement', 'strictement', 'suffisamment', 'superficiellement', 
             'surtout', 'tantot', 'tard', 'tardivement', 'tellement', 'tendrement', 'tout', 'coup', 'suite', 'droit' , 'gauche', 'toutefois', 'tristement', 'vaguement', 'vite', 'vivement', 'init' ,
             'volontairement', 'vraisemblablement', 'presque', 'propos', 'sais' , 'information' , 'parl' , 'salut' , 'salutation' , 'bonjour', 'bonsoir', 'janvier', 'fevrier', 'mars' , 'avril' , 'mai' , 'juin' , 'juillet' , 'aout',
-            'septembre', 'octobre' , 'novembre', 'decembre','jour','recente','aider','remonte','entrainement', 'install', 'installation'
+            'septembre', 'octobre' , 'novembre', 'decembre','jour','recent','aider','remonte','entrainement', 'install', 'installation'
         ];
     }
     

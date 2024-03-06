@@ -6,7 +6,6 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class main extends MainSwitchers
 {
-    
     private string $ans = '';
     private string $htmlClass = '';
 

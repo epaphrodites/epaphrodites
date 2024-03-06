@@ -6,8 +6,6 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class chats extends MainSwitchers
 {
-    private string $ans = '';
-    private string $alert = '';
     private array|bool $result = [];
     private object $ajaxTemplate;
     private object $chatBot;

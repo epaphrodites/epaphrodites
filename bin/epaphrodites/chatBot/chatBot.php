@@ -10,13 +10,15 @@ use Epaphrodites\epaphrodites\chatBot\botConfig\findResponse;
 use Epaphrodites\epaphrodites\chatBot\botConfig\cleanNormalize;
 use Epaphrodites\epaphrodites\chatBot\botConfig\dafaultAnswers;
 use Epaphrodites\epaphrodites\chatBot\botConfig\herediaResponse;
+use Epaphrodites\epaphrodites\chatBot\botConfig\initVariables;
 use Epaphrodites\epaphrodites\chatBot\botConfig\languageDetection;
 use Epaphrodites\epaphrodites\chatBot\botConfig\jaccardCoefficient;
 use Epaphrodites\epaphrodites\chatBot\botConfig\languageWords;
+use Epaphrodites\epaphrodites\chatBot\treatment\answersChecking;
 
 class chatBot {
 
-use loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers, randomArray, languageDetection, botAssembly, analyzeWord, languageWords;
+use initVariables, loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers, randomArray, languageDetection, botAssembly, analyzeWord, languageWords, answersChecking;
 
     /**
      * @param string $userMessage
