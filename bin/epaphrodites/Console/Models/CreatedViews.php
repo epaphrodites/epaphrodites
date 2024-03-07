@@ -18,22 +18,22 @@ class CreatedViews extends CreateViewsConfig
     protected function execute( InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getArgument('directory');
-        $fileName = $input->getArgument('viewName');
+        $initFileNames = $input->getArgument('viewName');
 
         $directory = explode('@', $directory);
         $directory = implode('/', $directory);
 
         if(is_dir(OutputDirectory::Files("views")."/$directory")!==false){
             
-            $fileName = OutputDirectory::Files("views") . "/$directory/{$fileName}" . _MAIN_EXTENSION_ . _FRONT_;
+            $fileName = OutputDirectory::Files("views") . "/$directory/{$initFileNames}" . _MAIN_EXTENSION_ . _FRONT_;
             
             if(file_exists($fileName)===false){
 
                 AllViewsStub::generate($fileName, $fileName , $directory);
-                $output->writeln("<info>The view file {$fileName} has been successfully created!!!✅</info>");
+                $output->writeln("<info>The view file {$initFileNames} has been successfully created!!!✅</info>");
                 return self::SUCCESS;
             }else{
-                $output->writeln("<error>Sorry, this view file {$fileName} does not exist.❌</error>");
+                $output->writeln("<error>Sorry, this view file {$initFileNames} does not exist.❌</error>");
                 return self::FAILURE;
             }
         }else{
