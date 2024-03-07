@@ -68,14 +68,20 @@
     </div>
     {{ chart(
         {
-            xValues: ['A', 'B', 'C', 'D'],
             id: 'epaphroditeChart',
             label: 'Epaphrodite Example Chart',
             datasets: [
                 {
                     chartType : 'line',
                     label: 'Dataset 1',
-                    data: [5, 20, 10, 39],
+                    title : "title",
+                    keys : 'keys',
+                    data: [
+                        { "keys": 12969, "title": "TITLE 1" },
+                        { "keys": 1530, "title": "TITLE 2" },
+                        { "keys": 24593, "title": "TITLE 3" },
+                        { "keys": 6465, "title": "TITLE 4" }
+                    ],
                     border: 1,
                     radius : 0.4,
                     borderColor: '#d32b01',
@@ -83,8 +89,15 @@
                 },
                 {
                     chartType : 'bar',
-                    label: 'Dataset 2',
-                    data: [5, 15, 7, 25],
+                    label: ['Dataset 2'],
+                    title : "title",
+                    keys : 'keys',
+                    data: [
+                        { "keys": 12969, "title": "TITLE 1" },
+                        { "keys": 1530, "title": "TITLE 2" },
+                        { "keys": 24593, "title": "TITLE 3" },
+                        { "keys": 6465, "title": "TITLE 4" }
+                    ],
                     color: ['#056daa', '#ca9802', '#00738c' , '#6c048e']
                 }
             ]

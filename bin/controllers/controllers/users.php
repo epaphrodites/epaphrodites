@@ -66,7 +66,7 @@ final class users extends MainSwitchers
             }
             
             if ($this->result === false) {
-                $this->ans = $this->msg->answers('erreur');
+                $this->ans = $this->msg->answers('error');
                 $this->alert = 'alert-danger';
             }
         }
@@ -145,7 +145,7 @@ final class users extends MainSwitchers
                         $this->alert = 'alert-success';
                     }
                     if ($this->result === false) {
-                        $this->ans = $this->msg->answers('erreur');
+                        $this->ans = $this->msg->answers('error');
                         $this->alert = 'alert-danger';
                     }
                 }

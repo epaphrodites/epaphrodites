@@ -40,8 +40,6 @@ final class dashboard extends MainSwitchers
     public final function superAdmin(string $html):void
     {
 
-        $this->select->sqlRecentlyActions();
-
         $this->views( $html, 
             [
                 'select' => $this->select,
