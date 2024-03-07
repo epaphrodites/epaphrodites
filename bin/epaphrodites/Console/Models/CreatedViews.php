@@ -17,21 +17,27 @@ class CreatedViews extends CreateViewsConfig
     */    
     protected function execute( InputInterface $input, OutputInterface $output)
     {
-        $directory = $input->getArgument('directoryGroup');
-        $name = $input->getArgument('viewName');
-        $locate = $input->getArgument('locate');
-        $locate = $locate === NULL ? '': '/'.$locate;
+        $directory = $input->getArgument('directory');
+        $fileName = $input->getArgument('viewName');
 
-        if(is_dir(OutputDirectory::Files($directory).$locate)!==false){
+        $directory = explode('@', $directory);
+        $directory = implode('/', $directory);
+
+        if(is_dir(OutputDirectory::Files("views")."/$directory")!==false){
             
-            $fileName = OutputDirectory::Files($directory) .$locate. "/{$name}" . _MAIN_EXTENSION_ . _FRONT_;
+            $fileName = OutputDirectory::Files("views") . "/$directory/{$fileName}" . _MAIN_EXTENSION_ . _FRONT_;
             
-            AllViewsStub::generate($fileName, $name , $directory);
-            $output->writeln("<info>The view file {$name} has been successfully created!!!✅</info>");
-    
-            return self::SUCCESS;
+            if(file_exists($fileName)===false){
+
+                AllViewsStub::generate($fileName, $fileName , $directory);
+                $output->writeln("<info>The view file {$fileName} has been successfully created!!!✅</info>");
+                return self::SUCCESS;
+            }else{
+                $output->writeln("<error>Sorry, this view file {$fileName} does not exist.❌</error>");
+                return self::FAILURE;
+            }
         }else{
-            $output->writeln("<error>Sorry, this view directory {$directory}{$locate} does not exist.❌</error>");
+            $output->writeln("<error>Sorry, this view directory {$directory} does not exist.❌</error>");
             return self::FAILURE;
         }
     }

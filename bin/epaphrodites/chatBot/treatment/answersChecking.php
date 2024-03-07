@@ -9,7 +9,7 @@ trait answersChecking{
      * @param array $userWords
      * @return array
      */
-    public function iterateQuestionAnswersAssociated(array $questionsAnswers , array $userWords):array{
+    protected function iterateQuestionAnswersAssociated(array $questionsAnswers , array $userWords):array{
 
         $temporaryResponses = [];
 
@@ -44,7 +44,7 @@ trait answersChecking{
         return array_slice($temporaryResponses, 0, min(count($temporaryResponses), 100));
     }
 
-    public function commentToConsiders($commentsToConsider):array{
+    protected function commentToConsiders($commentsToConsider):array{
 
         if (!empty($commentsToConsider)) {
             
