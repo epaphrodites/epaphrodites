@@ -10,42 +10,50 @@ final class update extends UpdateUpdate
   /**
    * Request to update users rights
    * 
-   * @param int|null $idtype_user
+   * @param int|null $userGroup
    * @param int|null $etat
    * @return bool
    */
-  public function updateUserRights(?string $IdTypeUsers = null, ?int $etat = null): bool
-  {
+  public function updateUserRights(
+    ?string $userGroup = null, 
+    ?int $state = null
+  ): bool{
 
-    return static::initConfig()['updright']->UpdateUsersRights($IdTypeUsers, $etat) === true ? true : false;
+    return static::initConfig()['updright']->UpdateUsersRights($userGroup, $state) === true ? true : false;
   }
 
   /**
-   * Verify if exist in database
-   *
-   * @param string $loginuser
+   * Request to update users informations
+   * 
+   * @param string $userName
+   * @param string $email
+   * @param string $number
    * @return bool
    */
-  public function updateUserDatas(string $nomprenoms, string $email, string $number): bool
-  {
+  public function updateUserDatas(
+    string $userName,
+    string $email,
+    string $number
+  ): bool{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlUpdateUserDatas($nomprenoms, $email, $number),
-      'redis' => $this->noSqlRedisUpdateUserDatas($nomprenoms, $email, $number),
+      'mongo' => $this->noSqlUpdateUserDatas($userName, $email, $number),
+      'redis' => $this->noSqlRedisUpdateUserDatas($userName, $email, $number),
 
-      default => $this->sqlUpdateUserDatas($nomprenoms, $email, $number),
+      default => $this->sqlUpdateUserDatas($userName, $email, $number),
     };
   }
 
   /**
-   * Verify if exist in database
-   *
-   * @param string $loginuser
+   * Request to update users state
+   * 
+   * @param string $login
    * @return bool
    */
-  public function updateEtatsUsers(string $login): bool
-  {
+  public function updateEtatsUsers(
+    string $login
+  ): bool{
 
     return match (_FIRST_DRIVER_) {
 
@@ -57,13 +65,14 @@ final class update extends UpdateUpdate
   }
 
   /**
-   * Verify if exist in database
-   *
-   * @param string $loginuser
+   * Request to init users password
+   * 
+   * @param string $login
    * @return bool
    */
-  public function initUsersPassword(string $login): bool
-  {
+  public function initUsersPassword(
+    string $login
+  ): bool{
 
     return match (_FIRST_DRIVER_) {
 
@@ -75,15 +84,18 @@ final class update extends UpdateUpdate
   }
 
   /**
-   * Verify if exist in database
+   * Change users password
    *
-   * @param string $loginuser
+   * @param string $oldPassword
    * @param string $newPassword
    * @param string $confirMdp
    * @return array
    */
-  public function changeUsersPassword(string $oldPassword, string $newPassword, string $confirMdp): bool
-  {
+  public function changeUsersPassword(
+    string $oldPassword,
+    string $newPassword,
+    string $confirMdp
+  ): bool{
 
     return match (_FIRST_DRIVER_) {
 
@@ -95,15 +107,18 @@ final class update extends UpdateUpdate
   }
 
   /**
-   * Verify if exist in database
+   * Request to update users datas from console
    *
    * @param string $login
    * @param string $password
    * @param string $UserGroup
    * @return bool
    */
-  public function ConsoleUpdateUsers(?string $login = null, ?string $password = NULL, ?int $userGroup = NULL): bool
-  {
+  public function ConsoleUpdateUsers(
+    string $login,
+    string $password,
+    int $userGroup
+  ): bool{
 
     return match (_FIRST_DRIVER_) {
 

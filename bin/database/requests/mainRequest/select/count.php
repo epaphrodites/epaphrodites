@@ -41,24 +41,24 @@ final class count extends CountCount
 
   /**
    * Request to count all users per group
-   * @param string $loginuser
+   * @param string $usersGroup
    * @return array
    */
-  public function CountUsersByGroup(int $Group): int
-  {
+  public function CountUsersByGroup(
+    int $usersGroup
+  ):int{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlCountUsersByGroup($Group),
-      'redis' => $this->noSqlRedisCountUsersByGroup($Group),
+      'mongo' => $this->noSqlCountUsersByGroup($usersGroup),
+      'redis' => $this->noSqlRedisCountUsersByGroup($usersGroup),
 
-      default => $this->sqlCountUsersByGroup($Group),
+      default => $this->sqlCountUsersByGroup($usersGroup),
     };
   }
 
   /**
-   * Request to count all users per group
-   * @param string $loginuser
+   * Request to count all recent actions
    * @return array
    */
   public function countUsersRecentActions(): int

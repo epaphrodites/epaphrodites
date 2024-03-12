@@ -6,10 +6,15 @@ trait chatBot{
   
     /**
      * @param array $datas
+     * @param string $submit
      * @param string $chatBotName
      * @return string
      */
-    public function chatMessageContent(array $datas, string $submit, string $chatBotName = "EpaphroditesBot") {
+    public function chatMessageContent(
+        array $datas, 
+        string $submit, 
+        string $chatBotName = "EpaphroditesBot"
+    ):string {
         $datas = array_reverse($datas);
         $html = '<div class="chat-container">';
         $firstItem = true;
@@ -61,7 +66,4 @@ trait chatBot{
         
         return $html;
     }
-    
-    
-    
 }

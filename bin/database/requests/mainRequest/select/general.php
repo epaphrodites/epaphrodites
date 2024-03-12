@@ -8,9 +8,7 @@ final class general extends GeneralGeneral
 {
 
   /**
-   * Verify if exist in database
-   *
-   * @param string $loginuser
+   * Get all recents actions
    * @return array
    */
   public function RecentlyActions(): array

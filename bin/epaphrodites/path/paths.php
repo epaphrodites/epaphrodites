@@ -65,8 +65,9 @@ class paths extends host
      * @param string $url The link for the main path
      * @return string The main path
      */
-    public function main(string $url): string
-    {
+    public function main(
+        string $url
+    ): string{
         if (empty($url)) {
             throw new epaphroditeException('URL cannot be empty.');
         }
@@ -85,8 +86,10 @@ class paths extends host
      * @param array $queryParams Additional query parameters as an associative array
      * @return string The admin path with an ID
      */
-    public function adminId(?string $targetFolder = null, array $queryParams = []): string
-    {
+    public function adminId(
+        ?string $targetFolder = null, 
+        array $queryParams = []
+    ): string{
 
         if (empty($targetFolder)) {
             throw new epaphroditeException('Target folder cannot be empty.');
@@ -114,8 +117,9 @@ class paths extends host
      * @param string|null $img The image filename
      * @return string The image path
      */
-    public function img(?string $img = null): string
-    {
+    public function img(
+        ?string $img = null
+    ): string{
         $this->path = $this->getHost() . 'static/img/' . $img;
 
         return $this->path;
@@ -127,8 +131,9 @@ class paths extends host
      * @param string $js The JavaScript filename
      * @return string The JavaScript path
      */
-    public function js(string $js): string
-    {
+    public function js(
+        string $js
+    ): string{
         $this->path = $this->getHost() . 'static/js/' . $js . '.js';
 
         return $this->path;
@@ -140,8 +145,9 @@ class paths extends host
      * @param string $css The CSS filename
      * @return string The CSS path
      */
-    public function css(string $css): string
-    {
+    public function css(
+        string $css
+    ): string{
         $this->path = $this->getHost() . 'static/css/' . $css . '.css';
         return $this->path;
     }
@@ -152,8 +158,9 @@ class paths extends host
      * @param string $css The Font Awesome filename
      * @return string The Font Awesome path
      */
-    public function font(string $css): string
-    {
+    public function font(
+        string $css
+    ): string{
         $this->path = $this->getHost() . 'static/font-awesome/css/' . $this->slug($css) . '.css';
         return $this->path;
     }
@@ -164,8 +171,9 @@ class paths extends host
      * @param string $css The IcoFont filename
      * @return string The IcoFont path
      */
-    public function icofont(string $css): string
-    {
+    public function icofont(
+        string $css
+    ): string{
         $this->path = $this->getHost() . 'static/icofont/' . $css . '.css';
         return $this->path;
     }
@@ -176,8 +184,9 @@ class paths extends host
      * @param string $bsicon The Bootstrap Icons filename
      * @return string The Bootstrap Icons path
      */
-    public function bsicon(string $bsicon): string
-    {
+    public function bsicon(
+        string $bsicon
+    ): string{
         $this->path = $this->getHost() . 'static/bootstrap-icons/' . $bsicon . '.css';
         return $this->path;
     }
@@ -188,8 +197,9 @@ class paths extends host
      * @param string|null $docs The PDF filename
      * @return string The PDF path
      */
-    public function pdf(?string $docs = null): string
-    {
+    public function pdf(
+        ?string $docs = null
+    ): string{
         $this->path = $this->getHost() . 'static/docs/' . $docs;
         return $this->path;
     }
@@ -201,8 +211,10 @@ class paths extends host
      * @param string $delimiter The character used to replace spaces and non-alphanumeric characters in the slug. Default is an underscore (_).
      * @return string The generated slug.
      */
-    private function slug(string $string, string $delimiter = '-'): string
-    {
+    private function slug(
+        string $string, 
+        string $delimiter = '-'
+    ): string{
         // Validate input
         if (empty($string)) {
             throw new epaphroditeException('Input string cannot be empty.');
@@ -240,8 +252,10 @@ class paths extends host
      * @param string $delimiter The character used to replace spaces and non-alphanumeric characters in the slug. Default is an underscore (_).
      * @return string The generated slug.
      */
-    public function href_slug(string $string, string $delimiter = '_'): string
-    {
+    public function href_slug(
+        string $string,
+        string $delimiter = '_'
+    ): string{
 
         // Validate input
         if (empty($string)) {

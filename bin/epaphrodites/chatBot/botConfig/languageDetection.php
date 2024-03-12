@@ -41,13 +41,11 @@ trait languageDetection
         
         (int) $frenchhWord = $this->calculateSimilarWords($this->frenchLangWord(), $userMessages, 0.87);
 
-        if(empty($englishWord)&&empty($frenchhWord)){
-
-            $languageDetected = $detectLastLanguage;
-        }else{
-            $languageDetected = $frenchhWord > $englishWord ? 'fr' : 'eng';
-        }
-        
+        $languageDetected = match (true) {
+            empty($englishWord) && empty($frenchhWord) => $detectLastLanguage,
+            default => $frenchhWord > $englishWord ? 'fr' : 'eng',
+        };
+                
         return $languageDetected;
     }
 }

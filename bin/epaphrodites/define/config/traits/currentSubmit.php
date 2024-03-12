@@ -61,27 +61,6 @@ trait currentSubmit
         // Check if the method is not null and is among the allowed methods
         return ($method !== null && in_array($method, self::$allowedMethods) && $method === $accepted);
     }    
-
-    /**
-     * @return void
-     */
-    private static function forcingTokenVerification():void {
-
-        static::initNamespace()['crsf']->toForceCrsf() === false ? static::class('errors')->error_403() : NULL;
-    }
-    
-    /**
-     * @return array|null
-     */
-    private static function forcingApiTokenVerification():array|null {
-
-        if (static::initNamespace()['crsf']->toForceCrsf() === false) {
-            static::initNamespace()['response']->JsonResponse(400, ['error' => "Method not found"]);
-            die;
-        } else {
-            return NULL;
-        }
-    }
      
     /**
      * Get the value from $_POST array for a given key with a default value.
@@ -192,9 +171,7 @@ trait currentSubmit
             return false;
         }
 
-        static::noSpace($value);
-
-        return true;
+        return !empty(static::noSpace($value)) ? true : false;
     }
 
     /**
@@ -305,24 +282,63 @@ trait currentSubmit
         return true;
     }
 
-    public function arrayNoEmpty($tableau, $strict = true) {
-        // Vérifie si l'argument est un tableau
-        if (!is_array($tableau)) {
-            return false;
+        /**
+     * Checks if all specified keys in the array have non-empty values in the request data
+     * for the given HTTP method.
+     *
+     * @param array $array The keys to check in the request data.
+     * @param string $method The HTTP method of the request (e.g., 'GET', 'POST').
+     * @return bool Returns true if all specified keys have non-empty values, false otherwise.
+     * @throws epaphroditeException If the provided method is not supported.
+     */
+    public function arrayNoEmpty(array $array, string $method = "POST"): bool {
+        if (!in_array($method, static::$allowedMethods)) {
+            throw new epaphroditeException("Invalid method.");
         }
-    
-        if ($strict) {
-            return !empty($tableau);
-        } else {
-            
-            foreach ($tableau as $element) {
-               
-                if ($element !== '' && $element !== null && $element !== false && $element !== []) {
-                    return true;
-                }
+
+        $data = $this->filterMethod($array, $method);
+
+        foreach ($array as $key) {
+            // If a key is missing or its value is empty, return false
+            if (!isset($data[$key]) || empty($data[$key])) {
+                return false;
             }
-            return false;
         }
+
+        // Return true if all keys have non-empty values
+        return true;
+    }
+
+    /**
+     * Filters request data based on the HTTP method.
+     *
+     * @param array $keys The keys to retrieve from the request data.
+     * @param string $method The HTTP method of the request.
+     * @return array The filtered data from the request.
+     * @throws epaphroditeException If the method is not supported for superglobal access.
+     */
+    private function filterMethod(array $keys, string $method): array {
+        $data = []; // Initialize $data to avoid issues if the switch does not match
+        switch (strtoupper($method)) {
+            case 'GET':
+                $data = $_GET;
+                break;
+            case 'POST':
+                $data = $_POST;
+                break;
+            case 'PUT':
+            case 'DELETE':
+            case 'PATCH':
+                parse_str(file_get_contents('php://input'), $parsedData);
+                $data = $parsedData; // Assign parsed data to $data
+                break;
+            case 'OPTIONS':
+                // No specific processing needed for OPTIONS in this example
+                break;
+            default:
+                throw new epaphroditeException("Unsupported method for superglobal access.");
+        }
+        return $data; // Return $data at the end of the function
     }
 
     private static function filterInputArray(int $type): array {
@@ -368,4 +384,25 @@ trait currentSubmit
 
         return $string;
     }
+
+    /**
+     * @return void
+     */
+    private static function forcingTokenVerification():void {
+
+        static::initNamespace()['crsf']->toForceCrsf() === false ? static::class('errors')->error_403() : NULL;
+    }
+    
+    /**
+     * @return array|null
+     */
+    private static function forcingApiTokenVerification():array|null {
+
+        if (static::initNamespace()['crsf']->toForceCrsf() === false) {
+            static::initNamespace()['response']->JsonResponse(400, ['error' => "Method not found"]);
+            die;
+        } else {
+            return NULL;
+        }
+    }    
 }

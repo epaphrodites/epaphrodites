@@ -2,23 +2,23 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
+use Epaphrodites\epaphrodites\chatBot\bots\mainBot;
+use Epaphrodites\epaphrodites\chatBot\bots\herediaBot;
+use Epaphrodites\epaphrodites\chatBot\loadSave\loadJson;
 use Epaphrodites\epaphrodites\chatBot\botConfig\analyzeWord;
 use Epaphrodites\epaphrodites\chatBot\botConfig\botAssembly;
-use Epaphrodites\epaphrodites\chatBot\loadSave\loadJson;
 use Epaphrodites\epaphrodites\chatBot\botConfig\randomArray;
-use Epaphrodites\epaphrodites\chatBot\botConfig\findResponse;
+use Epaphrodites\epaphrodites\chatBot\botConfig\languageWords;
+use Epaphrodites\epaphrodites\chatBot\botConfig\initVariables;
 use Epaphrodites\epaphrodites\chatBot\botConfig\cleanNormalize;
 use Epaphrodites\epaphrodites\chatBot\botConfig\dafaultAnswers;
-use Epaphrodites\epaphrodites\chatBot\botConfig\herediaResponse;
-use Epaphrodites\epaphrodites\chatBot\botConfig\initVariables;
+use Epaphrodites\epaphrodites\chatBot\treatment\answersChecking;
 use Epaphrodites\epaphrodites\chatBot\botConfig\languageDetection;
 use Epaphrodites\epaphrodites\chatBot\botConfig\jaccardCoefficient;
-use Epaphrodites\epaphrodites\chatBot\botConfig\languageWords;
-use Epaphrodites\epaphrodites\chatBot\treatment\answersChecking;
 
 class chatBot {
 
-use initVariables, loadJson, cleanNormalize, jaccardCoefficient, findResponse, herediaResponse, dafaultAnswers, randomArray, languageDetection, botAssembly, analyzeWord, languageWords, answersChecking;
+use initVariables, loadJson, cleanNormalize, jaccardCoefficient, mainBot, herediaBot, dafaultAnswers, randomArray, languageDetection, botAssembly, analyzeWord, languageWords, answersChecking;
 
     /**
      * @param string $userMessage

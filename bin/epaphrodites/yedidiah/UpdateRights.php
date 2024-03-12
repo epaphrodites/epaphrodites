@@ -3,31 +3,34 @@
 namespace Epaphrodites\epaphrodites\yedidiah;
 
 use Epaphrodites\epaphrodites\constant\epaphroditeClass;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\loadJson;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\saveJsonDatas;
+use Epaphrodites\epaphrodites\yedidiah\treatement\getAndUpdateRights;
 
 class UpdateRights extends epaphroditeClass
 {
 
+    use loadJson, saveJsonDatas, getAndUpdateRights;
+
     /**
      * Request to update users rights
-     * 
-     * @param int|null $idTypeUsers
-     * @param int|null $etat
+     * @param int|null $usersGroup
+     * @param int|null $state
      * @return bool
      */
-    public function UpdateUsersRights( ?string $idTypeUsers = null, ?int $etat = null ): bool
-    {
+    public function UpdateUsersRights( 
+        ?string $usersGroup = null, 
+        ?int $state = null 
+    ):bool{
 
-        $JsonDatas = json_decode(file_get_contents(static::JsonDatas()), true);
+       $JsonDatas = static::loadJsonFile();
 
-        foreach ($JsonDatas as $key => $value) {
-
-            if ($value['IndexRight'] == $idTypeUsers) {
-                $JsonDatas[$key]['Autorisations'] = $etat;
-            }
+       if (!is_array($JsonDatas)) {
+        return false;
         }
 
-        file_put_contents(static::JsonDatas(), json_encode($JsonDatas));
+        $result = $this->updateUsersRightsDatas($JsonDatas, $usersGroup, $state);
 
-        return true;
+        return $result;
     }
 }

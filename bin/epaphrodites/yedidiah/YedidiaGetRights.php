@@ -3,69 +3,54 @@
 namespace Epaphrodites\epaphrodites\yedidiah;
 
 use Epaphrodites\epaphrodites\constant\epaphroditeClass;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\loadJson;
+use Epaphrodites\epaphrodites\yedidiah\treatement\getAndUpdateRights;
 
 class YedidiaGetRights extends epaphroditeClass{
 
+    use loadJson, getAndUpdateRights;
+
     /**
-     * Request to select user right by module and user type.
-     *
+     * Request to select user right by module and user group.
+     * 
      * @param string|null $module
      * @return bool
      */
-    public function modules(string $module = null): bool
-    {
+    public function modules(
+        string $module = null
+    ): bool{
         $result = false;
         $index = $module . ',' . static::class('session')->type();
 
-        $jsonFileDatas = json_decode(file_get_contents(static::JsonDatas()), true);
-
+        $jsonFileDatas = static::loadJsonFile();
+        
         foreach ($jsonFileDatas as $key => $value) {
-            if ($value['IndexModule'] == $index) {
+           
+            if (is_array($value) && $value['indexModule'] == $index) {
                 $result = true;
-                break;
             }
-        }
-
-        return $result;
-    }
-
-   /**
-     * Request to select user rights by user type.
-     *
-     * @param int $idUserGroup
-     * @return array
-     */
-    private function showYediadiahRights(int $idUserGroup): array
-    {
-
-        $result = [];
-        $jsonFileDatas = json_decode(file_get_contents(static::JsonDatas()), true);
-
-        foreach ($jsonFileDatas as $key => $value) {
-            if ($value['IdtypeUserRights'] == $idUserGroup) {
-                $result[] = $jsonFileDatas[$key];
-            }
-        }
+        }        
 
         return $result;
     }
 
    /**
      * Request to select user rights by user type and key.
-     *
+     * 
      * @param string|null $key
      * @return array
      */
-    public function liste_menu(?string $key = null): array
-    {
+    public function liste_menu(
+        ?string $key = null
+    ): array{
 
         $result = [];
         $index = $key . ',' . static::class('session')->type();
 
-        $jsonFileDatas = json_decode(file_get_contents(static::JsonDatas()), true);
+        $jsonFileDatas = static::loadJsonFile();
 
         foreach ($jsonFileDatas as $key => $value) {
-            if ($value['IndexModule'] === $index) {
+            if ($value['indexModule'] === $index) {
                 $result[] = $jsonFileDatas[$key];
             }
         }
@@ -74,11 +59,13 @@ class YedidiaGetRights extends epaphroditeClass{
     }
 
     /**
-     * @param int $idUserGroup
+     * @param int $userGroup
      * @return array
      */
-    public function getUsersRights(int $idUserGroup){
+    public function getUsersRights(
+    int $userGroup
+    ):array{
 
-        return $this->showYediadiahRights($idUserGroup);
+        return $this->showYediadiahRights($userGroup);
     }
 }

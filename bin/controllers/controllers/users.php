@@ -132,13 +132,13 @@ final class users extends MainSwitchers
 
             $SheetData = $this->importFiles->importExcelFiles($_FILES['file']['name']);
 
-            if (static::arrayNoEmpty($SheetData)) {
+            if (!empty($SheetData)) {
                 
                 for ($i = 1; $i < count($SheetData); $i++) {
 
-                    $CodeUtilisateur = $SheetData[$i][0];
+                    $usersLogin = $SheetData[$i][0];
 
-                    $this->result = $this->insert->addUsers($CodeUtilisateur, static::getPost('__group__'));
+                    $this->result = $this->insert->addUsers($usersLogin, static::getPost('__group__'));
 
                     if ($this->result === true) {
                         $this->ans = $this->msg->answers('succes');
@@ -175,7 +175,7 @@ final class users extends MainSwitchers
 
         $total = 0;
         $list = [];
-        $Nbreligne = 100;
+        $numLine = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         
         $position = static::notEmpty(['filtre'] , 'GET') 
@@ -216,8 +216,8 @@ final class users extends MainSwitchers
                             : $this->count->CountAllUsers();
 
             $list = static::notEmpty(['filtre'] , 'GET') 
-                            ? $this->getId->GetUsersByGroup($page, $Nbreligne, $_GET['filtre']) 
-                            : $this->select->listeOfAllUsers($page, $Nbreligne);
+                            ? $this->getId->GetUsersByGroup($page, $numLine, $_GET['filtre']) 
+                            : $this->select->listeOfAllUsers($page, $numLine);
         }
 
         $this->views( $html, 
@@ -229,7 +229,7 @@ final class users extends MainSwitchers
                 'reponse' => $this->ans,
                 'position' => $position,
                 'select' => $this->getId,
-                'nbrePage' => ceil(($total) / $Nbreligne),
+                'nbrePage' => ceil(($total) / $numLine),
             ],
             true
         );

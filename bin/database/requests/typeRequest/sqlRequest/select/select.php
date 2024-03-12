@@ -14,26 +14,10 @@ class select extends SelectSelect
      * @param integer $numLines
      * @return array
      */
-    public function sqlListeOfAllUsers(int $page, int $numLines):array
-    {
-
-        return match (_FIRST_DRIVER_) {
-
-        'sqlserver' => $this->sqlServerListeOfAllUsers( $page, $numLines),
-
-        default => $this->defaultSqlListeOfAllUsers( $page, $numLines)
-        };
-    } 
-
-    /**
-     * Request to get users list
-     *
-     * @param integer $page
-     * @param integer $numLines
-     * @return array
-     */
-    public function defaultSqlListeOfAllUsers( int $page, int $numLines):array
-    {
+    public function defaultSqlListeOfAllUsers(
+        int $page, 
+        int $numLines
+    ):array{
 
         $result = $this->table('useraccount')
             ->orderBy('usersgroup', 'ASC')
@@ -50,8 +34,10 @@ class select extends SelectSelect
      * @param integer $numLines
      * @return array
      */
-    public function sqlServerListeOfAllUsers( int $page, int $numLines):array
-    {
+    public function sqlServerListeOfAllUsers(
+        int $page,
+        int $numLines
+    ):array{
 
         $result = $this->table('useraccount')
             ->orderBy('usersgroup', 'ASC')
@@ -68,8 +54,10 @@ class select extends SelectSelect
      * @param integer $numLines
      * @return array
      */
-    public function sqlListOfRecentActions(int $page, int $numLines):array
-    {
+    public function sqlListOfRecentActions(
+        int $page, 
+        int $numLines
+    ):array{
 
         return match (_FIRST_DRIVER_) {
 
@@ -86,8 +74,10 @@ class select extends SelectSelect
      * @param integer $numLines
      * @return array
      */
-    public function defaultSqlListOfRecentActions( int $page, int $numLines):array
-    {
+    public function defaultSqlListOfRecentActions(
+        int $page,
+        int $numLines
+    ):array{
 
         $result = $this->table('recentactions')
             ->orderBy('dateactions', 'ASC')
@@ -104,8 +94,10 @@ class select extends SelectSelect
      * @param integer $numLines
      * @return array
      */
-    public function sqlServerListOfRecentActions( int $page, int $numLines):array
-    {
+    public function sqlServerListOfRecentActions( 
+        int $page,
+        int $numLines
+    ):array{
 
         $result = $this->table('recentactions')
             ->orderBy('dateactions', 'ASC')

@@ -3,49 +3,53 @@
 namespace Epaphrodites\epaphrodites\yedidiah;
 
 use Epaphrodites\epaphrodites\constant\epaphroditeClass;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\loadJson;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\saveJsonDatas;
+use Epaphrodites\epaphrodites\yedidiah\treatement\deleteUsersRights;
 
 class YedidiaDeleted extends epaphroditeClass{
 
+    use loadJson, saveJsonDatas, deleteUsersRights;
+
     /**
      * Request to delete users right by @id
-     *
-     * @param int $idRights
+     * 
+     * @param string $idUsersRights
      * @return bool
      */
-    public function DeletedUsersRights($idRights):bool
-    {
+    public function DeletedUsersRights(
+        string $idUsersRights
+    ):bool{
 
-        $JsonDatas = json_decode(file_get_contents(static::JsonDatas()), true);
+        $JsonDatas = $this->loadJsonFile();
 
-        foreach ($JsonDatas as $key => $value) {
-            if ($value['IndexRight'] == $idRights) {
-                unset($JsonDatas[$key]);
-            }
+        if (!is_array($JsonDatas)) {
+            return false;
         }
 
-        file_put_contents(static::JsonDatas(), json_encode($JsonDatas));
-        return true;
+        $result = $this->deletedSelectRights($JsonDatas, $idUsersRights , 'indexRight');
+    
+        return $result;
     }
 
     /**
-     * Request to delete all users right by users type
-     *
-     * @param int $typeUsers
+     * Request to delete all users right by users group
+     * 
+     * @param int $usersGroup
      * @return bool
      */
-    public function EmptyAllUsersRight($typeUsers):bool
-    {
+    public function EmptyAllUsersRight(
+        int $usersGroup
+    ):bool{
 
-        $JsonDatas = json_decode(file_get_contents(static::JsonDatas()), true);
+        $JsonDatas = static::loadJsonFile();
 
-        foreach ($JsonDatas as $key => $value) {
-            if ($value['IdtypeUserRights'] == $typeUsers) {
-                unset($JsonDatas[$key]);
-            }
-        }
+        if (!is_array($JsonDatas)) {
+            return false;
+        }        
 
-        file_put_contents(static::JsonDatas(), json_encode($JsonDatas));
-        return true;
+        $result = $this->deletedSelectRights($JsonDatas, $usersGroup , 'usersRightsGroup');
+
+        return $result;
     }    
-
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\botConfig;
+namespace Epaphrodites\epaphrodites\chatBot\bots;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
 use Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainEpaphroditesDefaultMessages;
 
-trait findResponse
+trait mainBot
 {
 
     /**

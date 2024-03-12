@@ -1,15 +1,6 @@
 {
-  "name": "epaphrodites",
-  "version": "1.0.0",
-  "description": "![](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }

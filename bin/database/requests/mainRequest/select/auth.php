@@ -8,20 +8,20 @@ final class auth extends SelectAuth
 {
 
   /**
-   * Verify if exist in database
-   *
-   * @param string $loginuser
+   * Check users
+   * @param string $login
    * @return array
    */
-  public function checkUsers(string $loginuser)
-  {
+  public function checkUsers(
+    string $login
+  ):array{
 
     return match (_FIRST_DRIVER_) {
 
-          'mongo' => $this->findNosqlUsers($loginuser),
-          'redis' => $this->findNosqlRedisUsers($loginuser),
+          'mongo' => $this->findNosqlUsers($login),
+          'redis' => $this->findNosqlRedisUsers($login),
 
-          default => $this->findSqlUsers($loginuser),
+          default => $this->findSqlUsers($login),
     };
   }
 }

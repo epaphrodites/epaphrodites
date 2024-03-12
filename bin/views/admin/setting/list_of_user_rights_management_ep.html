@@ -20,9 +20,9 @@ import checkbox_field , loader , actions_field %}{% from message import alert_ms
                         {% for select in select %}
                         <tbody>
                             <tr>
-                                <td class='tblcenter' style="width: 1%;">{{ checkbox_field( { name : 'group[]' , class : 'checkitem' , value : select.IndexRight|e }) }}</td>
-                                <td style="width: 20%">{{ data.userGroup( select.IdtypeUserRights|e ) }}</td>
-                                <td style="width: 35%">{{ list.SearchModules('path' , select.IndexRight ) }}</td>
+                                <td class='tblcenter' style="width: 1%;">{{ checkbox_field( { name : 'group[]' , class : 'checkitem' , value : select.indexRight|e }) }}</td>
+                                <td style="width: 20%">{{ data.userGroup( select.usersRightsGroup|e ) }}</td>
+                                <td style="width: 35%">{{ list.SearchModules('path' , select.indexRight ) }}</td>
                                 {% if select.Autorisations|e == 1 %}
                                 <td style="width:5%;text-align:center;" align="center"><i
                                         class="icofont-check-circled activ"></i></td>

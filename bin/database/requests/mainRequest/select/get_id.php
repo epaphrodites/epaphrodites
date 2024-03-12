@@ -7,45 +7,29 @@ use Epaphrodites\database\requests\typeRequest\sqlRequest\select\get_id as GetId
 final class get_id extends GetId
 {
 
+
     /**
-     * Request to select user right by module and 
+     * Request to select user right by user usersGroup
      * 
-     * @param string|null $module
-     */
-    public function GetModules(?string $module = null):array
-    {
-
-        return static::initConfig()['listright']->modules($module);
-    }
-
-    /**
-     * Request to select user right by user type
-     */
-    public function getUsersRights($idtype_user):array
-    {
-
-        return static::initConfig()['listright']->getUsersRights($idtype_user);
-    }
-
-    /**
-     * Request to select user right by user type
-     * @param string|null $key
+     * @param int $usersGroup
      * @return array
      */
-    public function liste_menu(?string $key = null):array
-    {
+    public function getUsersRights(
+      int $usersGroup
+    ):array{
 
-        return static::initConfig()['listright']->liste_menu($key);
-    }  
+        return static::initConfig()['listright']->getUsersRights($usersGroup);
+    }
 
   /**
    * Request to check users by login
-   *
-   * @param string $loginuser
+   * 
+   * @param string $login
    * @return array
    */
-  public function GetUsersDatas(?string $login = null):array
-  {
+  public function GetUsersDatas(
+    string $login
+  ):array{
 
     return match (_FIRST_DRIVER_) {
 
@@ -59,30 +43,35 @@ final class get_id extends GetId
   /**
    * Request to check users per group
    *
-   * @param string $loginuser
+   * @param int $page
+   * @param int $numLine
+   * @param int $UsersGroup
    * @return array
    */
-  public function GetUsersByGroup(int $page, int $Nbreligne, int $UsersGroup):array
-  {
+  public function GetUsersByGroup(
+    int $page, 
+    int $numLine, 
+    int $UsersGroup
+  ):array{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlGetUsersByGroup($page , $Nbreligne , $UsersGroup),
-      'redis' => $this->noSqlGetUsersByGroup($page , $Nbreligne , $UsersGroup),
+      'mongo' => $this->noSqlGetUsersByGroup($page , $numLine , $UsersGroup),
+      'redis' => $this->noSqlGetUsersByGroup($page , $numLine , $UsersGroup),
 
-      default => $this->sqlGetUsersByGroup($page , $Nbreligne , $UsersGroup),
+      default => $this->sqlGetUsersByGroup($page , $numLine , $UsersGroup),
     };        
-    
   }
 
   /**
    * Request to select users actions list by login
-   *
-   * @param string $loginuser
+   * 
+   * @param string|null $login
    * @return array
    */
-  public function getUsersRecentsActions(?string $login = null):array
-  {
+  public function getUsersRecentsActions(
+    ?string $login = null
+  ):array{
 
     return match (_FIRST_DRIVER_) {
 
@@ -92,5 +81,4 @@ final class get_id extends GetId
       default => $this->sqlGetUsersRecentsActions($login),
     };      
   }
-
 }

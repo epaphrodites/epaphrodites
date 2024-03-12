@@ -3,63 +3,38 @@
 namespace Epaphrodites\epaphrodites\yedidiah;
 
 use Epaphrodites\epaphrodites\constant\epaphroditeClass;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\loadJson;
+use Epaphrodites\epaphrodites\yedidiah\saveLoad\saveJsonDatas;
+use Epaphrodites\epaphrodites\yedidiah\treatement\addUsersRights;
+use Epaphrodites\epaphrodites\yedidiah\treatement\getAndUpdateRights;
 
 class AddRights extends epaphroditeClass{
+
+    use loadJson, saveJsonDatas, addUsersRights, getAndUpdateRights;
 
     /**
      * Add users rights
      * index ( module , type_user , idpage , action)
-     * @param int|null $idTypeUsers
+     * @param int|null $usersGroup
      * @param string|null $pages
      * @param string|null $actions
      * @return bool
      */
-    public function AddUsersRights(?int $idTypeUsers = null, ?string $ModulePages = null,  ?string  $actions = null):bool
-    {
+    public function AddUsersRights(
+        ?int $usersGroup = null, 
+        ?string $modulePage = null,  
+        ?string  $actions = null
+    ):bool{
 
-        $JsonDatas = file_get_contents(static::JsonDatas());
+        $JsonDatas = static::loadJsonFile();
+        $pages = explode( '@', $modulePage);
 
-        $pages = explode( '@' ,$ModulePages);
+        if (!empty($usersGroup) && !empty($pages) && $this->hasAccessRight($usersGroup, $pages[1] , $JsonDatas) === false) {
 
-        if (!empty($idTypeUsers) && !empty($pages) && !empty($JsonDatas) && $this->IfRightExist($idTypeUsers, $pages[1] , $JsonDatas) === false) {
-
-            $SaveRights = json_decode($JsonDatas , true);
-
-            $SaveRights[] = 
-                [
-                    'IduserRights' => count($SaveRights) + 1,
-                    'IdtypeUserRights' => $idTypeUsers,
-                    'Autorisations' => $actions,
-                    'Modules' => $pages[0],
-                    'IndexModule' => $pages[0] . ',' . $idTypeUsers,
-                    'IndexRight' => md5($idTypeUsers . ',' . $pages[1]),
-                ];
-
-            file_put_contents( static::JsonDatas(), json_encode($SaveRights));
-
+            $this->saveUsersRights($usersGroup, $actions , $pages[0] , "{$pages[0]},{$usersGroup}" , "{$usersGroup},{$pages[1]}");
             return true;
         } else {
             return false;
         }
     }
-
-    /**
-     * Request to select user right if exist
-     * @return bool
-     */
-    public function IfRightExist($idTypeUsers, $pages , $JsonDatas):bool
-    {
-
-        $result = false;
-        
-        $GetJsonArray = json_decode( $JsonDatas , true);
-        $index = md5($idTypeUsers . ',' . $pages);
-        foreach ($GetJsonArray as $key => $value) {
-            if ($value['IndexRight'] == $index) {
-                $result = true;
-            }
-        }
-
-        return $result;
-    }    
 }

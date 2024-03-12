@@ -59,11 +59,11 @@ final class setting extends MainSwitchers
     public final function assignUserAccessRights(string $html): void
     {
 
-        $idtype = static::isGet('_see') ? static::getGet('_see') : 0;
+        $userGroup = static::isGet('_see') ? static::getGet('_see') : 0;
 
-        if (static::isValidMethod(true) && $idtype !== 0) {
+        if (static::isValidMethod(true) && $userGroup !== 0) {
 
-            $this->result = $this->insert->AddUsersRights($idtype, static::getPost('__rights__'), static::getPost('__actions__'));
+            $this->result = $this->insert->AddUsersRights($userGroup, static::getPost('__rights__'), static::getPost('__actions__'));
 
             if ($this->result === true) {
                 $this->alert = 'alert-success';
@@ -78,7 +78,7 @@ final class setting extends MainSwitchers
 
         $this->views( $html, 
             [
-                'type' => $idtype,
+                'type' => $userGroup,
                 'env' => $this->env,
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
@@ -98,9 +98,9 @@ final class setting extends MainSwitchers
     public final function listOfUserRightsManagement(string $html): void
     {
 
-        $idtype = static::isGet('_see') ? static::getGet('_see') : 0;
+        $userGroup = static::isGet('_see') ? static::getGet('_see') : 0;
 
-        if (static::isPost('_sendselected_') && static::notEmpty(['group' , '_sendselected_'])) {
+        if (static::isValidMethod(true)&&static::arrayNoEmpty(['group'])) {
 
             // Authorize user right
             if (static::isSelected('_sendselected_', 1 )) {
@@ -124,9 +124,9 @@ final class setting extends MainSwitchers
             // Refuse user right
             if (static::isSelected('_sendselected_', 2 )) {
 
-                foreach (static::isArray('group') as $UsersGroup) {
+                foreach (static::isArray('group') as $usersGroupSelected) {
 
-                    $this->result = $this->update->updateUserRights($UsersGroup, 0);
+                    $this->result = $this->update->updateUserRights($usersGroupSelected, 0);
                 }
 
                 if ($this->result === true) {
@@ -143,9 +143,9 @@ final class setting extends MainSwitchers
             // Deleted user right
             if (static::isSelected('_sendselected_', 3 )) {
 
-                foreach (static::isArray('group') as $UsersGroup) {
+                foreach (static::isArray('group') as $usersGroupSelected) {
 
-                    $this->result = $this->delete->DeletedUsersRights($UsersGroup);
+                    $this->result = $this->delete->DeletedUsersRights($usersGroupSelected);
                 }
 
                 if ($this->result === true) {
@@ -165,7 +165,7 @@ final class setting extends MainSwitchers
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
                 'list' => $this->mozart,
-                'select' => $this->getId->getUsersRights($idtype),
+                'select' => $this->getId->getUsersRights($userGroup),
             ],
             true
         );
@@ -219,7 +219,7 @@ final class setting extends MainSwitchers
 
         $total = 0;
         $list = [];
-        $Nbreligne = 100;
+        $numLine = 100;
         $page = static::isGet('_p') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
@@ -230,7 +230,7 @@ final class setting extends MainSwitchers
         } else {
 
             $total = $this->count->countUsersRecentActions();
-            $list = $this->select->listOfRecentActions($page, $Nbreligne);
+            $list = $this->select->listOfRecentActions($page, $numLine);
         }
 
         $this->views( $html, 
@@ -241,7 +241,7 @@ final class setting extends MainSwitchers
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
                 'position' => $position,
-                'nbrePage' => ceil(($total) / $Nbreligne),
+                'nbrePage' => ceil(($total) / $numLine),
                 'select' => $this->getId,
             ],
             true

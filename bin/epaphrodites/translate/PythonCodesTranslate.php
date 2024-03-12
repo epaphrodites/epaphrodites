@@ -16,8 +16,10 @@ class PythonCodesTranslate extends GeneralConfig
      * @param array $datas
      * @return mixed
      */
-    public function executePython(?string $pyFunction = null, array $datas = [])
-    {
+    public function executePython(
+        ?string $pyFunction = null, 
+        array $datas = []
+    ):mixed{
         $getJsonContent = $this->loadJsonConfig();
 
         if (!empty($getJsonContent[$pyFunction])) {
