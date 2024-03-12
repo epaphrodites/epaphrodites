@@ -12,7 +12,7 @@ trait deleteUsersRights
      * @return bool
     */
     private function deletedSelectRights(
-        array $JsonDatas = [],
+        array $JsonDatas,
         string|int $searchType,
         string $arrayKey
     ):bool{
