@@ -14,7 +14,7 @@ final class auth extends SelectAuth
    */
   public function checkUsers(
     string $login
-  ):array{
+  ):array|bool{
 
     return match (_FIRST_DRIVER_) {
 
