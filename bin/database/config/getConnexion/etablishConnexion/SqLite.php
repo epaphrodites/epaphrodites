@@ -33,26 +33,32 @@ trait SqLite
     /**
      * Connexion SqLite
      */
-    private function setSqLiteConnexionWithoutDatabase(string $dbName, int $db)
+    private function setSqLiteConnexionWithoutDatabase(string $dbName, int $db, bool $requestAction)
     {
-        // Try to connect to database to etablish connexion
-        try {
 
-            $dbFilePath = static::DB_SQLITE($db, $dbName);
+        if($requestAction==true) {
 
-            // Check if the SQLite database file exists
-            if (file_exists($dbFilePath)) {
+            // Try to connect to database to etablish connexion
+            try {
+
+                $dbFilePath = static::DB_SQLITE($db, $dbName);
+
+                // Check if the SQLite database file exists
+                if (file_exists($dbFilePath)) {
+                    return false;
+                }
+
+                // Attempt to connect to the SQLite database
+                new \SQLite3("$dbFilePath.sqlite");
+
+                return true;
+
+                // If impossible send error message    
+            } catch (PDOException $e) {
+
                 return false;
             }
-
-            // Attempt to connect to the SQLite database
-            new \SQLite3($dbFilePath);
-
-            return true;
-
-            // If impossible send error message    
-        } catch (PDOException $e) {
-
+        }else{
             return false;
         }
     }
@@ -72,9 +78,9 @@ trait SqLite
      * @param int $db
      * @return bool
      */
-    public function etablishsqLite(string $dbName, int $db): bool
+    public function etablishsqLite(string $dbName, int $db, bool $requestAction): bool
     {
 
-        return $this->setSqLiteConnexionWithoutDatabase($dbName, $db);
+        return $this->setSqLiteConnexionWithoutDatabase($dbName, $db, $requestAction);
     }
 }

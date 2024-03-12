@@ -16,8 +16,10 @@ class AddRightsModules extends AddModulesConfig
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function execute( InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
         # Get console arguments
         $key = $input->getArgument('key');
         $libelle = str_replace( '_' , ' ' , $input->getArgument('libelle'));

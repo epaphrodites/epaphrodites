@@ -14,8 +14,10 @@ class AddNewChatbot extends AddChatbotCommands{
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
     */
-    protected function execute( InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
         # Get console arguments
         $chatBotName = $input->getArgument('name');
         $controller = $input->getArgument('controller');

@@ -54,7 +54,7 @@ class checkDatabase extends getConnexion
         }
     }
 
-    public function etablishConnect(string $dbName = NULL, int $db)
+    public function etablishConnect(string $dbName = NULL, int $db , bool $requestAction = true)
     {
 
         // Switch based on the database driver type
@@ -62,27 +62,27 @@ class checkDatabase extends getConnexion
 
                 // If the driver is MySQL, connect to MySQL using the Mysql method
             case 'mysql':
-                return $this->etablishMysql($dbName, $db);
+                return $this->etablishMysql($dbName, $db , $requestAction);
                 break;
 
                 // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
             case 'pgsql':
-                return $this->etablishPostgreSQL($dbName, $db);
+                return $this->etablishPostgreSQL($dbName, $db, $requestAction);
                 break;
 
                 // If the driver is sqlite, connect to sqlite using the sqlite method
             case 'sqlite':
-                return $this->etablishsqLite($dbName, $db);
+                return $this->etablishsqLite($dbName, $db, $requestAction);
                 break;
 
                 // If the driver is sqlserver, connect to sqlserver using the sqlserver method
             case 'sqlserver':
-                return $this->etablishSqlServer($dbName, $db);
+                return $this->etablishSqlServer($dbName, $db , $requestAction);
                 break;
 
                 // If the driver is MongoDB, connect to MongoDB using the MongoDB method
             case 'mongodb':
-                return $this->etablishMongoDB($dbName, $db);
+                return $this->etablishMongoDB($dbName, $db, $requestAction);
                 break;
 
             default:

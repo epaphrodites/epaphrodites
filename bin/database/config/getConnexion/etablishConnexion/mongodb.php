@@ -34,8 +34,11 @@ trait mongodb
     /**
      * Connexion MongoDB
      */
-    private function setMongoDBConnexionWithoutDatabase(string $dbName, int $db)
+    private function setMongoDBConnexionWithoutDatabase(string $dbName, int $db, bool $requestAction)
     {
+
+        if($requestAction==true) {
+                   
 
         $param = [
             "username" => static::DB_USER($db),
@@ -68,7 +71,10 @@ trait mongodb
 
             return false;
         }
-    }
+        }else{
+            return false;
+        }
+    }       
 
     public function MongoDB(int $db)
     {
@@ -76,9 +82,9 @@ trait mongodb
         return $this->setMongoDBConnexion($db);
     }
 
-    public function etablishMongoDB(string $dbName, int $db)
+    public function etablishMongoDB(string $dbName, int $db, bool $requestAction)
     {
 
-        return $this->setMongoDBConnexionWithoutDatabase($dbName, $db);
+        return $this->setMongoDBConnexionWithoutDatabase($dbName, $db, $requestAction);
     }
 }

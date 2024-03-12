@@ -15,8 +15,10 @@ class modelseeding extends settingseeding{
     * @param \Symfony\Component\Console\Input\InputInterface $input
     * @param \Symfony\Component\Console\Output\OutputInterface $output
     */
-    protected function execute( InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
 
         $seeding = new databaseSeeding;
 

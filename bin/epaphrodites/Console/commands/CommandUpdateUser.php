@@ -7,5 +7,5 @@ use Epaphrodites\epaphrodites\Console\Models\UpdateUsers;
 class CommandUpdateUser extends UpdateUsers
 {
     
-    protected static $defaultName = 'update:Users';
+    protected static $defaultName = 'update:users';
 }

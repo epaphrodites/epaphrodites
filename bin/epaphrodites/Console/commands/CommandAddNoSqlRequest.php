@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\AddNoSqlRequest;
 class CommandAddNoSqlRequest extends AddNoSqlRequest
 {
     
-    protected static $defaultName = 'Add:noSql';
+    protected static $defaultName = 'add:nosql';
 }

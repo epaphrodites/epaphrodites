@@ -12,7 +12,7 @@ class AddNewDatabase extends Command
     {
         $this->setDescription('Add a new database')
              ->setHelp('This command allows you to Add a new Database')
-             ->addArgument('datatase', InputArgument::REQUIRED, 'Select database name to create')
+             ->addArgument('database', InputArgument::REQUIRED, 'Select database name to create')
              ->addArgument('order', InputArgument::OPTIONAL, 'Select database param order');
     }
 }

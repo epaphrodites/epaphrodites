@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\CreateRequestFiles;
 class CommandRequestFiles extends CreateRequestFiles
 {
     
-    protected static $defaultName = 'create:RequestFile';
+    protected static $defaultName = 'create:requestfile';
 }

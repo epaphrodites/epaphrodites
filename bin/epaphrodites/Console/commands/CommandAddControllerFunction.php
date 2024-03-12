@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\AddControllerViewPages;
 
 class CommandAddControllerFunction extends AddControllerViewPages{
 
-    protected static $defaultName = 'Add:view';
+    protected static $defaultName = 'add:view';
 }

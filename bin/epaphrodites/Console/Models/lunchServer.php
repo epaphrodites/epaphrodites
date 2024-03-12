@@ -43,8 +43,10 @@ class lunchServer extends AddServerConfig
      * @param string $host The host IP address.
      * @param int $port The port number.
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
         $port = $input->getOption('port');
 
         try {

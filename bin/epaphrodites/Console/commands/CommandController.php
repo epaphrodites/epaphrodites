@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\CreateControllers;
 class CommandController extends CreateControllers
 {
 
-    protected static $defaultName = 'create:Controller';
+    protected static $defaultName = 'create:controller';
 }

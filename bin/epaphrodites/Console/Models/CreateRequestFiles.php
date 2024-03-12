@@ -15,8 +15,10 @@ class CreateRequestFiles extends RequestFileConfig
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
     */    
-    protected function execute( InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
 
         $requestFileName = $input->getArgument('name');
         $requestFileDirectory = $input->getArgument('file');

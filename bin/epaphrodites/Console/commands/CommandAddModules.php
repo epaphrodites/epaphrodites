@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\AddRightsModules;
 class CommandAddModules extends AddRightsModules
 {
 
-    protected static $defaultName = 'Add:Module';
+    protected static $defaultName = 'add:module';
 }

@@ -15,8 +15,10 @@ class CreatedViews extends CreateViewsConfig
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
     */    
-    protected function execute( InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
         $directory = $input->getArgument('directory');
         $initFileNames = $input->getArgument('viewName');
 

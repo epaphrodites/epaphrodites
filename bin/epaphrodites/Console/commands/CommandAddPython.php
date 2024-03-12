@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\AddPythonFiles;
 
 class CommandAddPython extends AddPythonFiles{
 
-    protected static $defaultName = 'Add:python';
+    protected static $defaultName = 'add:python';
 }

@@ -35,8 +35,10 @@ trait mysql{
      * Connexion Mysql
      * @param int $db
     */
-    private function setMysqlConnexionWithoutDatabase(string $dbName , int $db)
+    private function setMysqlConnexionWithoutDatabase(string $dbName , int $db, bool $actiomType)
     {
+
+        $requestAction = $actiomType ? "CREATE" : "DROP";
 
         // Try to connect to database to etablish connexion
         try {
@@ -48,7 +50,7 @@ trait mysql{
                 static::dbOptions()
             );
 
-            $etablishConnexion->exec( "CREATE DATABASE {$dbName}" );
+            $etablishConnexion->exec( "{$requestAction} DATABASE {$dbName}" );
 
             return true;
 
@@ -72,8 +74,8 @@ trait mysql{
      * Mysql database connexion
      * @param int $db
      */
-    public function etablishMysql(string $dbName , int $db ){
+    public function etablishMysql(string $dbName , int $db, bool $type){
 
-        return $this->setMysqlConnexionWithoutDatabase($dbName  , $db);
+        return $this->setMysqlConnexionWithoutDatabase($dbName  , $db, $type);
     }    
 }

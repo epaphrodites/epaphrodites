@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\AddSqlRequest;
 class CommandAddSqlRequest extends AddSqlRequest
 {
     
-    protected static $defaultName = 'Add:Sql';
+    protected static $defaultName = 'add:sql';
 }

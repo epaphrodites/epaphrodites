@@ -1,16 +1,18 @@
 <?php
-namespace Epaphrodites\epaphrodites\Console\Models;
 
+namespace Epaphrodites\epaphrodites\Console\Models;
+        
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Epaphrodites\database\config\process\checkDatabase;
-use Epaphrodites\epaphrodites\Console\Setting\AddNewDatabase;
-
-class createNewDatabase extends AddNewDatabase{
-
+use Epaphrodites\epaphrodites\Console\Setting\settingdropDatabase;
+        
+class modeldropDatabase extends settingdropDatabase{
+        
+        
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+    * @param \Symfony\Component\Console\Input\InputInterface $input
+    * @param \Symfony\Component\Console\Output\OutputInterface $output
     */
     protected function execute( 
         InputInterface $input, 
@@ -20,11 +22,11 @@ class createNewDatabase extends AddNewDatabase{
         $database = $input->getArgument('database');
         $order = $input->getArgument('order') ? $input->getArgument('order') : 1;
 
-        $result = (new checkDatabase)->etablishConnect($database , $order, true );
+        $result = (new checkDatabase)->etablishConnect($database , $order , false);
 
         if( $result == true ){
 
-            $output->writeln("<info>Your database {$database} has been created successfully in configuration {$order}!!!✅</info>");
+            $output->writeln("<info>Your database {$database} has been deleted successfully in configuration {$order}!!!✅</info>");
             return self::SUCCESS;            
 
         }else{
@@ -33,3 +35,4 @@ class createNewDatabase extends AddNewDatabase{
         }
     }
 }
+        

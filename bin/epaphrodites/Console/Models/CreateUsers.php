@@ -14,8 +14,10 @@ class CreateUsers extends UsersConfig
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */    
-    protected function execute( InputInterface $input, OutputInterface $output)
-    {
+    protected function execute( 
+        InputInterface $input, 
+        OutputInterface $output
+    ){
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
         $UserGroup = $input->getArgument('userGroup');

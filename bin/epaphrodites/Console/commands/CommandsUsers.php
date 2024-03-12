@@ -7,5 +7,5 @@ use Epaphrodites\epaphrodites\Console\Models\CreateUsers;
 class CommandsUsers extends CreateUsers
 {
     
-    protected static $defaultName = 'create:Users';
+    protected static $defaultName = 'create:users';
 }

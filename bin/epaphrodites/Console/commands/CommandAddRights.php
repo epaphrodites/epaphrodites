@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\AddUsersRights;
 class CommandAddRights extends AddUsersRights
 {
     
-    protected static $defaultName = 'Add:Right';
+    protected static $defaultName = 'add:Right';
 }

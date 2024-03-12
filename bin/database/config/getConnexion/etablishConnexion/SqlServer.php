@@ -30,8 +30,10 @@ trait SqlServer{
         }
     }
 
-    private function setSqlServerConnexionWithoutDatabase(string $dbName , int $db)
+    private function setSqlServerConnexionWithoutDatabase(string $dbName , int $db, bool $actionType)
     {
+
+        $requestAction = $actionType ? "CREATE" : "DROP";
 
         // Try to connect to database to etablish connexion
         try {
@@ -43,7 +45,7 @@ trait SqlServer{
                 static::sqlServerOption()
             );
 
-            $etablishConnexion->exec( "CREATE DATABASE {$dbName}" );
+            $etablishConnexion->exec( "{$requestAction} DATABASE {$dbName}" );
 
             return true;
             
@@ -59,8 +61,8 @@ trait SqlServer{
         return $this->setSqlServerConnexion($db);
     }  
     
-    public function etablishSqlServer(string $dbName , int $db ){
+    public function etablishSqlServer(string $dbName , int $db, bool $requestAction ){
 
-        return $this->setSqlServerConnexionWithoutDatabase($dbName , $db);
+        return $this->setSqlServerConnexionWithoutDatabase($dbName , $db, $requestAction);
     }      
 }

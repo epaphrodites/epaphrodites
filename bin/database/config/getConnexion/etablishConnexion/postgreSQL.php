@@ -29,8 +29,10 @@ trait postgreSQL{
         }
     }
 
-    private function setPostgreSQLConnexionWithoutDatabase(string $dbName , int $db)
+    private function setPostgreSQLConnexionWithoutDatabase(string $dbName , int $db , bool $actiomType)
     {
+
+       $requestAction = $actiomType ? "CREATE" : "DROP";
 
         // Try to connect to database to etablish connexion
         try {
@@ -42,7 +44,7 @@ trait postgreSQL{
                 static::dbOptions()
             );
 
-            $etablishConnexion->exec( "CREATE DATABASE {$dbName}" );
+            $etablishConnexion->exec( "{$requestAction} DATABASE {$dbName}" );
 
             return true;
             
@@ -58,8 +60,8 @@ trait postgreSQL{
         return $this->setPostgreSQLConnexion($db);
     }  
     
-    public function etablishPostgreSQL(string $dbName , int $db ){
+    public function etablishPostgreSQL(string $dbName , int $db , $actiomType ){
 
-        return $this->setPostgreSQLConnexionWithoutDatabase($dbName , $db);
+        return $this->setPostgreSQLConnexionWithoutDatabase($dbName , $db , $actiomType);
     }    
 }

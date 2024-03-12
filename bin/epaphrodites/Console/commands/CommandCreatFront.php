@@ -6,5 +6,5 @@ use Epaphrodites\epaphrodites\Console\Models\CreatedViews;
 
 class CommandCreatFront extends CreatedViews{
 
-    protected static $defaultName = 'create:Front';
+    protected static $defaultName = 'create:front';
 }
