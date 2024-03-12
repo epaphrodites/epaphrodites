@@ -13,7 +13,7 @@ class databaseSeeding extends Builders{
     public function noSqlRun(): void
     {
           $document =[
-             'loginusers'=>'admin',
+             'login'=>'admin',
              'userspwd'=>static::initConfig()['guard']->CryptPassword('admin'),
               'usersname'=> NULL,
               'contactusers'=> NULL,
@@ -34,7 +34,7 @@ class databaseSeeding extends Builders{
         $this->table('users_account')
              ->insert('idusers_account , name , surname')
             ->values( ' ? , ? , ?' )
-            ->param([8, "name" , "dialla" ])
+            ->param([1, "name" , "dialla" ])
             ->sdb(1)
             ->IQuery(); 
      }    
