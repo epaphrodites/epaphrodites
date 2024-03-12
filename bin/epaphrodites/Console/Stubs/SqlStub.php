@@ -253,7 +253,7 @@ $stub =
     * @param string \$value
     * @return bool
    */
-   public function {$name}(\$value1){
+   public function {$name}(\$value){
         
         \$result = \$this->table('table')
                     ->where('id')
