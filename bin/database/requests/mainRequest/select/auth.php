@@ -10,7 +10,7 @@ final class auth extends SelectAuth
   /**
    * Check users
    * @param string $login
-   * @return array
+   * @return array|bool
    */
   public function checkUsers(
     string $login
