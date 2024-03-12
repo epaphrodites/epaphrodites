@@ -13,13 +13,12 @@ class databaseSeeding extends Builders{
     public function noSqlRun(): void
     {
           $document =[
-             'idusers'=> new ObjectId,
              'loginusers'=>'admin',
              'userspwd'=>static::initConfig()['guard']->CryptPassword('admin'),
               'usersname'=> NULL,
               'contactusers'=> NULL,
               'emailusers'=> NULL,
-              'usersstat'=> 1,
+              'usersstate'=> 1,
              'usersgroup'=> 1,
             ];
       
