@@ -18,13 +18,15 @@ class MergeControllers extends epaphroditeClass implements contractController
      */
     public function SwitchControllers(object $class, string $pages, ?bool $switch = false , string $views = ""): mixed
     {
-
         $targetFunction = $this->transformToFunction($pages);
         $switch === false ?: $this->checkAutorisation($pages, $switch);
     
-        return static::directory($pages, $switch , $views) == false 
-            ? static::class('errors')->error_404() 
-            : $class->$targetFunction($views.$pages);
+        $checkMethods = method_exists($class, $targetFunction);
+        $checkDirectory = static::directory($pages, $switch , $views);
+
+        return $checkMethods === true && $checkDirectory === true
+            ? $class->$targetFunction($views.$pages)
+            : static::class('errors')->error_404();
     }
 
     /**
