@@ -20,12 +20,12 @@ class ConfigDashboardPages extends ConfigUsersMainPages
 
             $this->interface =
                 [
-                    1 => 'super_admin/',
-                    2 => 'administrator/',
-                    3 => 'users/',
+                    1 => "{$url}super_admin/",
+                    2 => "{$url}administrator/",
+                    3 => "{$url}users/",
                 ];
 
-            return $url . $this->interface[$key];
+            return $this->interface[$key];
         } else {
             return $this->login() . $url;
         }
