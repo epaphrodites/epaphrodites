@@ -15,7 +15,12 @@ class SendMail extends config
      * @param null|string $file
      * @return bool
      */
-    public function sendEmail(?array $contacts = null, ?string $msgHeader = null, ?string $msgContent = null, ?string $file = null)
+    public function sendEmail(
+        ?array $contacts = null, 
+        ?string $msgHeader = null, 
+        ?string $msgContent = null, 
+        ?string $file = null
+    ):bool
     {
         if ($this->settings() === true) {
             foreach ($contacts as $contact) {

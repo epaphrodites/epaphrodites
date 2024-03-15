@@ -34,7 +34,11 @@ trait mongodb
     /**
      * Connexion MongoDB
      */
-    private function setMongoDBConnexionWithoutDatabase(string $dbName, int $db, bool $requestAction)
+    private function setMongoDBConnexionWithoutDatabase(
+        string $dbName, 
+        int $db, 
+        bool $requestAction
+    )
     {
 
         if($requestAction==true) {
@@ -76,7 +80,7 @@ trait mongodb
         }
     }       
 
-    public function MongoDB(int $db)
+    public function MongoDB(int $db = 1)
     {
 
         return $this->setMongoDBConnexion($db);

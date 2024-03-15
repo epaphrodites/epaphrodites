@@ -65,7 +65,7 @@ trait mysql{
      * Mysql database connexion
      * @param int $db
      */
-    public function Mysql(int $db){
+    public function Mysql(int $db = 1){
 
         return $this->setMysqlConnexion($db);
     }

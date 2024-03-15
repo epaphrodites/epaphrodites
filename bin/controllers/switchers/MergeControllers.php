@@ -16,7 +16,12 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @param bool $switch
      * @return mixed
      */
-    public function SwitchControllers(object $class, string $pages, ?bool $switch = false , string $views = ""): mixed
+    public function SwitchControllers(
+        object $class, 
+        string $pages, 
+        ?bool $switch = false , 
+        string $views = ""
+    ): mixed
     {
         $targetFunction = $this->transformToFunction($pages);
         $switch === false ?: $this->checkAutorisation($pages, $switch);
@@ -34,9 +39,11 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @param mixed $pages
      * @return mixed
      */
-    public function SwitchApiControllers(object $class, string $pages): mixed
+    public function SwitchApiControllers(
+        object $class, 
+        string $pages
+    ): mixed
     {
-
         $targetFunction = $this->transformToFunction($pages);
 
         return method_exists($class, $targetFunction)
@@ -49,7 +56,11 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @param bool|false $switch
      * @return bool
      */
-    private static function directory(?string $html = null, ?bool $switch = false , string $views = ""): bool
+    private static function directory(
+        ?string $html = null, 
+        ?bool $switch = false , 
+        string $views = ""
+    ): bool
     {
 
         return $switch === false 
@@ -62,7 +73,10 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @param null|bool $autorize
      * @return bool|null
      */
-    private function checkAutorisation($target, $autorize): bool|null
+    private function checkAutorisation( 
+        string $target, 
+        bool $autorize
+    ): bool|null
     {
 
         return (new SwitchersHeredia)->swicthPagesAutorisation($target, $autorize);
@@ -72,7 +86,9 @@ class MergeControllers extends epaphroditeClass implements contractController
      *  @param string $initPage
      * @return string
      */
-    private function transformToFunction($initPage): string
+    private function transformToFunction( 
+        string $initPage
+    ): string
     {
 
         $extension = _MAIN_EXTENSION_;

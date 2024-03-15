@@ -6,57 +6,47 @@ class datas
 {
 
     /**
-     * Liste des types utilisateurs
+     * List of users group
      * @param int $key
      * @return mixed
      */
-    public function userGroup(?int $key = null)
+    public function userGroup(
+        ?int $key = null
+    ): mixed
     {
-        $list =
-            [
-                1 => 'SUPER ADMINISTRATOR',
-                2 => 'ADMINISTRATOR',
-                3 => 'USERS',
-            ];
-
-        if ($key === null) {
-            return $list;
-        } elseif (!empty($list[$key])) {
-            return $list[$key];
-        } else {
-            return 0;
-        }
+        $list = [
+            1 => 'SUPER ADMINISTRATOR',
+            2 => 'ADMINISTRATOR',
+            3 => 'USERS',
+        ];
+    
+        return $key === null ? $list : ($list[$key] ?? 0);
     }
+    
 
     /**
-     * Liste des autorisations 
+     * Authorization actions
      * @param int $key
      * @return mixed
      */
-    public function autorisation(?string $key = null)
+    public function autorisation(
+        ?string $key = null
+    ): mixed
     {
-        $list =
-            [
-                1 => 'DENY',
-                2 => 'ALLOW',
-            ];
-
-        if ($key === null) {
-            return $list;
-        } elseif (!empty($list[$key])) {
-            return $list[$key];
-        } else {
-            return 0;
-        }
-    } 
+        $list = [
+            1 => 'DENY',
+            2 => 'ALLOW',
+        ];
+    
+        return $key === null ? $list : ($list[$key] ?? 0);
+    }
+    
 
     /**
-     * Afficher les qualites du personnel
-     *
-     * @param int $key
-     * @return mixed
+     * Validation actions for users
+     * @return array
      */
-    public function ActionsUsers(?int $key = null)
+    public function ActionsUsers():array
     {
 
        return
@@ -67,30 +57,11 @@ class datas
     }   
     
     /**
-     * Afficher les qualites du personnel
-     *
-     * @param int $key
-     * @return mixed
+     * Rights actions
+     * @return array
      */
-    public function ActionsCourante(?int $key = null)
+    public function ActionsRights():array
     {
-
-       return
-            [
-                1 => "SET AS DEFAULT",
-                2 => "DELETE REQUEST",
-            ];
-    }  
-    
-    /**
-     * Afficher les qualites du personnel
-     *
-     * @param int $key
-     * @return mixed
-     */
-    public function ActionsRights(?int $key = null)
-    {
-
        return
             [
                 1 => "GRANT PERMISSION",
@@ -98,5 +69,4 @@ class datas
                 3 => "DELETE RIGHT",
             ];
     }     
-
 }

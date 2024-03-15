@@ -11,7 +11,9 @@ interface DriversConnexion
      * @param int|1 $db
      * @return mixed
     */    
-    public function SqlServer(int $db);
+    public function SqlServer(
+        int $db = 1
+    );
 
     /**
      * Mysql connexion
@@ -19,7 +21,9 @@ interface DriversConnexion
      * @param int|1 $db
      * @return mixed
     */     
-    public function Mysql(int $db);
+    public function Mysql(
+        int $db = 1
+    );
 
     /**
      * PostgreSQL connexion
@@ -27,7 +31,9 @@ interface DriversConnexion
      * @param int|1 $db
      * @return mixed
     */     
-    public function PostgreSQL(int $db);
+    public function PostgreSQL(
+        int $db = 1
+    );
 
     /**
      * SqlLite connexion
@@ -35,7 +41,9 @@ interface DriversConnexion
      * @param int|1 $db
      * @return mixed
     */     
-    public function SqLite(int $db);
+    public function SqLite(
+        int $db = 1
+    );
 
     /**
      * MongoDB connexion
@@ -43,5 +51,7 @@ interface DriversConnexion
      * @param int|1 $db
      * @return mixed
     */     
-    public function MongoDB(int $db);
+    public function MongoDB(
+        int $db = 1
+    );
 }

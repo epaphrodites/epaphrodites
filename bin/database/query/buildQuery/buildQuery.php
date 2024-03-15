@@ -11,7 +11,9 @@ trait buildQuery
      *
      * @return string
      */
-    public function getQuery(int $db = 1): string
+    public function getQuery(
+        int $db = 1
+    ): string
     {
         $query = "$this->chaine"; // Get initial query chain
 
@@ -24,7 +26,9 @@ trait buildQuery
      *
      * @return string
      */
-    public function setQuery(int $db = 1): string
+    public function setQuery(
+        int $db = 1
+    ): string
     {
         $query = "$this->chaine";
         
@@ -36,7 +40,9 @@ trait buildQuery
      *
      * @return string
      */
-    public function setMultiQuery(int $db = 1): bool
+    public function setMultiQuery(
+        int $db = 1
+    ): bool
     {
         $result = false;
         
@@ -57,7 +63,10 @@ trait buildQuery
      * @param string $query The query to execute
      * @return mixed The query execution result
      */
-    public function selectBuildRequest(string $query , int $db = 1)
+    public function selectBuildRequest(
+        string $query , 
+        int $db = 1
+    ):mixed
     {
         $param = $this->param ?? null;
         $setParam = !is_null($this->param);
@@ -74,7 +83,10 @@ trait buildQuery
      * @param string $query The query to execute
      * @return mixed The query execution result
      */
-    public function executeBuildRequest(string $query , int $db = 1)
+    public function executeBuildRequest(
+        string $query, 
+        int $db = 1
+    ): mixed
     {
    
         $param = $this->param ?? null;

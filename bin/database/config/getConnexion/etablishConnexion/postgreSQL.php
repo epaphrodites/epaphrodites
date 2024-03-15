@@ -55,7 +55,7 @@ trait postgreSQL{
         }
     }    
     
-    public function PostgreSQL(int $db){
+    public function PostgreSQL(int $db = 1){
 
         return $this->setPostgreSQLConnexion($db);
     }  

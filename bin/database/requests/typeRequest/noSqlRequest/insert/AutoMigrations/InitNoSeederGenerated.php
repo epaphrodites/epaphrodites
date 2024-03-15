@@ -37,7 +37,6 @@ class InitNoSeederGenerated extends Builders
     $this->createRecentlyActionsMongoIfNotExist();
   }
 
-
   /** 
    * generate to Mongo tables if not exist
    */

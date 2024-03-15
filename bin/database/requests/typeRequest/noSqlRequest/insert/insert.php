@@ -12,13 +12,16 @@ class insert extends Builders
      * Add users to the system from the console
      *
      * @param string|null $login
-     * @param int|null $idtype
+     * @param int|null $userGroup
      * @return bool
      */
-    public function noSqladdUsers(?string $login = null, ?int $idtype = null)
+    public function noSqladdUsers(
+        ?string $login = null,
+        ?int $userGroup = null
+    ):bool
     {
 
-        if (!empty($login) && !empty($idtype) && count(static::initQuery()['getid']->noSqlGetUsersDatas($login)) < 1) {
+        if (!empty($login) && !empty($userGroup) && count(static::initQuery()['getid']->noSqlGetUsersDatas($login)) < 1) {
 
             $document = [
                 'idusers' => new ObjectId(),
@@ -28,7 +31,7 @@ class insert extends Builders
                 'contactusers' => NULL,
                 'emailusers' => NULL,
                 'usersstat' => 1,
-                'usersgroup' => $idtype,
+                'usersgroup' => $userGroup,
             ];
 
             $this->db(1)->selectCollection('useraccount')->insertOne($document);
@@ -46,13 +49,18 @@ class insert extends Builders
      * Add users to the system
      *
      * @param string|null $login
-     * @param int|null $idtype
+     * @param string|null $password
+     * @param int|null $userGroup
      * @return bool
      */
-    public function noSqlConsoleAddUsers(?string $login = null, ?string $password = null, ?int $UserGroup = null)
+    public function noSqlConsoleAddUsers(
+        ?string $login = null, 
+        ?string $password = null, 
+        ?int $userGroup = null
+    ):bool
     {
 
-        $UserGroup = $UserGroup !== NULL ? $UserGroup : 1;
+        $userGroup = $userGroup !== NULL ? $userGroup : 1;
       
         if (!empty($login) && count(static::initQuery()['getid']->noSqlGetUsersDatas($login)) < 1) {
 
@@ -64,7 +72,7 @@ class insert extends Builders
                 'contactusers' => NULL,
                 'emailusers' => NULL,
                 'usersstat' => 1,
-                'usersgroup' => $UserGroup,
+                'usersgroup' => $userGroup,
             ];
             
             $this->db(1)->selectCollection('useraccount')->insertOne($document);

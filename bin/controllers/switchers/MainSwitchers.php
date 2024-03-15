@@ -27,7 +27,11 @@ class MainSwitchers extends SwitchersHeredia
      * @param bool $autorize
      * @return void
      */
-    public function views( string $html , array $content = [] , bool $autorize = false ):void{
+    public function views( 
+        string $html , 
+        array $content = [] , 
+        bool $autorize = false 
+    ):void{
         
         static::rooter()->target($html)->content($content , $autorize)->get();
     }

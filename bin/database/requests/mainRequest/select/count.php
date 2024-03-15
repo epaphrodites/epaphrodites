@@ -46,7 +46,8 @@ final class count extends CountCount
    */
   public function CountUsersByGroup(
     int $usersGroup
-  ):int{
+  ):int
+  {
 
     return match (_FIRST_DRIVER_) {
 

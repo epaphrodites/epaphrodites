@@ -3,7 +3,6 @@ import json
 import pytesseract
 from PIL import Image
 
-
 class TranslateImgToText:
 
     def __init__(self, img_path):

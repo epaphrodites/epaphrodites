@@ -13,14 +13,21 @@ trait buildQueryChaines
     public function SQuery($propriety = NULL): array
     {
 
-        if ($propriety === NULL) {
+        if ($propriety === NULL&&!isset($this->sumCase)) {
             $propriety = '*';
-        }
+        }    
+        
+        if($this->sumCase){
+
+            $propriety .= ",{$this->sumCase}";
+        }    
+        
+        $propriety = ltrim($propriety, ',');
 
         /* 
         * Select initial query chaine
         */
-        $query = "SELECT $propriety FROM {$this->table}";
+        $query = "SELECT {$propriety} FROM {$this->table}";
 
         /* 
          * Add join if exist

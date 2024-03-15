@@ -10,10 +10,12 @@ class update extends UpdateUpdate
     /**
      * Request to update chat messages
      * 
-     * @param string|null $users
+     * @param string $users
      * @return bool
      */
-    public function chat_messages(string $users): bool
+    public function chat_messages(
+        string $users
+    ): bool
     {
         $this->table('chatsmessages')
             ->set(['etatmessages'])
@@ -33,7 +35,11 @@ class update extends UpdateUpdate
      * @param string $confirmdp
      * @return int|bool
      */
-    public function sqlChangeUsersPassword($OldPassword, $NewPassword, $confirmdp):int|bool
+    public function sqlChangeUsersPassword(
+        string $OldPassword, 
+        string $NewPassword, 
+        string $confirmdp
+    ):int|bool
     {
 
         if (static::initConfig()['guard']->GostCrypt($NewPassword) === static::initConfig()['guard']->GostCrypt($confirmdp)) {
@@ -72,12 +78,16 @@ class update extends UpdateUpdate
     /**
      * Update user password and user group
      *
-     * @param integer $login
+     * @param string|NULL $login
      * @param string|NULL $password
      * @param int|NULL $UserGroup
      * @return bool
      */
-    public function sqlConsoleUpdateUsers(?string $login = null, ?string $password = NULL, ?int $UserGroup = NULL): bool
+    public function sqlConsoleUpdateUsers(
+        ?string $login = NULL, 
+        ?string $password = NULL, 
+        ?int $UserGroup = NULL
+    ): bool
     {
         $GetDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
 
@@ -104,7 +114,9 @@ class update extends UpdateUpdate
      * @param integer $UsersLogin
      * @return bool
      */
-    public function sqlInitUsersPassword(string $UsersLogin): bool
+    public function sqlInitUsersPassword(
+        string $UsersLogin
+    ): bool
     {
 
         $this->table('useraccount')
@@ -125,7 +137,9 @@ class update extends UpdateUpdate
      * @param integer $login
      * @return bool
      */
-    public function sqlUpdateEtatsUsers(string $login): bool
+    public function sqlUpdateEtatsUsers(
+        string $login
+    ): bool
     {
         
         $GetUsersDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
@@ -161,9 +175,13 @@ class update extends UpdateUpdate
      * @param string $usersname
      * @param string $email
      * @param string $number
-     * @return bool
+     * @return mixed
      */
-    public function sqlUpdateUserDatas(string $usersname, string $email, string $number)
+    public function sqlUpdateUserDatas(
+        string $usersname, 
+        string $email, 
+        string $number
+    ):mixed
     {
         
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {

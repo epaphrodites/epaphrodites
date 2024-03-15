@@ -15,7 +15,11 @@ class get_id extends SelectGet_id
      * @param integer $usersGroup
      * @return array
      */
-    public function sqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
+    public function sqlGetUsersByGroup(
+        int $page, 
+        int $numLines, 
+        int $usersGroup
+    ):array
     {
 
         return match (_FIRST_DRIVER_) {
@@ -34,7 +38,11 @@ class get_id extends SelectGet_id
      * @param integer $usersGroup
      * @return array
      */
-    public function defaultSqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
+    public function defaultSqlGetUsersByGroup(
+        int $page, 
+        int $numLines, 
+        int $usersGroup
+    ):array
     {
 
         $result = $this->table('useraccount')
@@ -55,7 +63,11 @@ class get_id extends SelectGet_id
      * @param integer $usersGroup
      * @return array
      */
-    public function sqlServerGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
+    public function sqlServerGetUsersByGroup(
+        int $page, 
+        int $numLines, 
+        int $usersGroup
+    ):array
     {
 
         $result = $this->table('useraccount')
@@ -74,7 +86,9 @@ class get_id extends SelectGet_id
      * @param string|null $login
      * @return array
      */
-    public function sqlGetUsersDatas(?string $login = null):array
+    public function sqlGetUsersDatas(
+        ?string $login = null
+    ):array
     {
 
         $login = static::initNamespace()['env']->no_space($login);
@@ -92,7 +106,9 @@ class get_id extends SelectGet_id
      * @param string|null $login
      * @return array
      */
-    public function sqlGetUsersRecentsActions(?string $login = null):array
+    public function sqlGetUsersRecentsActions(
+        ?string $login = null
+    ):array
     {
 
         $login = static::initNamespace()['env']->no_space($login);

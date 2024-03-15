@@ -16,7 +16,11 @@ class update extends Builders
      * @param string $number
      * @return bool
      */
-    public function noSqlUpdateUserDatas(string $usersname, string $email, string $number): bool
+    public function noSqlUpdateUserDatas(
+        string $usersname, 
+        string $email, 
+        string $number
+    ): bool
     {
 
         $filter = [
@@ -63,7 +67,11 @@ class update extends Builders
      * @param string $number
      * @return bool
      */
-    public function noSqlRedisUpdateUserDatas(string $usersname, string $email, string $number): bool
+    public function noSqlRedisUpdateUserDatas(
+        string $usersname, 
+        string $email, 
+        string $number
+    ): bool
     {
 
         $login = static::initNamespace()['session']->login();
@@ -99,11 +107,12 @@ class update extends Builders
     /**
      * Update users state
      *
-     * @param integer $type_user
-     * @param integer $id_user
+     * @param string $login
      * @return bool
      */
-    public function noSqlUpdateEtatsUsers(string $login): bool
+    public function noSqlUpdateEtatsUsers(
+        string $login
+    ): bool
     {
 
         $GetUsersDatas = static::initQuery()['getid']->noSqlGetUsersDatas($login);
@@ -138,11 +147,12 @@ class update extends Builders
     /**
      * Reinitialize user password
      *
-     * @param integer $type_user
-     * @param integer $id_user
+     * @param string $UsersLogin
      * @return bool
      */
-    public function noSqlInitUsersPassword(string $UsersLogin): bool
+    public function noSqlInitUsersPassword(
+        string $UsersLogin
+    ): bool
     {
 
         $filter = [ 'loginusers' => $UsersLogin ];
@@ -162,12 +172,16 @@ class update extends Builders
     /**
      * Update user password
      *
-     * @param string $ancienmdp
-     * @param string $newmdp
+     * @param string $OldPassword
+     * @param string $NewPassword
      * @param string $confirmdp
      * @return bool
      */
-    public function noSqlChangeUsersPassword( $OldPassword, $NewPassword, $confirmdp): bool
+    public function noSqlChangeUsersPassword( 
+        string $OldPassword, 
+        string $NewPassword, 
+        string $confirmdp
+    ): bool
     {
 
         if (static::initConfig()['guard']->GostCrypt($NewPassword) === static::initConfig()['guard']->GostCrypt($confirmdp)) {
@@ -208,12 +222,16 @@ class update extends Builders
    /**
      * Update user password and user group
      *
-     * @param integer $login
+     * @param string|NULL $login
      * @param string|NULL $password
      * @param int|NULL $UserGroup
      * @return bool
      */
-    public function noSqlConsoleUpdateUsers(?string $login = null, ?string $password = NULL, ?int $UserGroup = NULL): bool
+    public function noSqlConsoleUpdateUsers(
+        ?string $login = NULL, 
+        ?string $password = NULL, 
+        ?int $UserGroup = NULL
+    ): bool
     {
         $GetDatas = static::initQuery()['getid']->noSqlGetUsersDatas($login);
 
@@ -238,5 +256,4 @@ class update extends Builders
             return false;
         }
     }
-
 }

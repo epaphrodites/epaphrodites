@@ -22,6 +22,7 @@ trait queryChaines
     private $and;
     private $order;
     private $join;
+    private $sumCase;
     private $joinFull;
     private $joinLeft;
     private $joinRight;
@@ -566,13 +567,37 @@ trait queryChaines
         $this->set = NULL;
 
         foreach ($getSet as $val) {
-            $this->set .= $val . " = ? " . " , ";
+            $this->set .= " {$val} = ? ,";
         }
 
         $this->set = rtrim($this->set, " , ");
 
         return $this;
     }
+
+    /**
+     * Sets up the SUM(CASE...) clause for the query
+     * @param array $sumCase
+     * @return self
+     */
+    public function sumCase(array $sumCase = []): self
+    {
+        $this->sumCase = NULL;
+    
+        foreach ($sumCase as $val) {
+            $explod = explode('|', $val);
+            $property = $explod[0];
+            $alias = $explod[1] ?? $explod[0];
+    
+            $this->sumCase .= " SUM(CASE WHEN {$property} = ? THEN 1 ELSE 0 END) AS {$alias}, ";
+        }
+    
+        $this->sumCase = rtrim($this->sumCase, ", ");
+    
+        return $this;
+    }
+    
+   
 
     /**
      * Sets parameters for the query

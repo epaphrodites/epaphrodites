@@ -56,7 +56,7 @@ trait SqlServer{
         }
     }  
     
-    public function SqlServer(int $db){
+    public function SqlServer(int $db = 1){
 
         return $this->setSqlServerConnexion($db);
     }  

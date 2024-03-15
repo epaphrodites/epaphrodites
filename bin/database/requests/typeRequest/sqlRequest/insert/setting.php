@@ -13,7 +13,9 @@ class setting extends Builders
      * @param string|null $action
      * @return bool
      */
-    public function ActionsRecente(?string $action = null): bool
+    public function ActionsRecente(
+        ?string $action = null
+    ): bool
     {
 
         $this->table('recentactions ')
@@ -31,7 +33,9 @@ class setting extends Builders
      * @param string|null $action
      * @return bool
      */
-    public function noSqlActionsRecente(?string $action = null): bool
+    public function noSqlActionsRecente(
+        ?string $action = null
+    ): bool
     {
 
         $document =
@@ -52,7 +56,9 @@ class setting extends Builders
      * @param string|null $action
      * @return bool
      */
-    public function noSqlRedisActionsRecente(?string $action = null): bool
+    public function noSqlRedisActionsRecente(
+        ?string $action = null
+    ): bool
     {
 
         $login = static::initNamespace()['session']->login();

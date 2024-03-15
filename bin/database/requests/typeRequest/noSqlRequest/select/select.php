@@ -8,13 +8,16 @@ class select extends Builders
 {
 
     /**
-     * Afficher la liste des utilisateurs
+     * Request to select users list
      *
      * @param integer $page
      * @param integer $numLines
      * @return array
      */
-    public function noSqlListeOfAllUsers( $page, int $numLines):array
+    public function noSqlListeOfAllUsers( 
+        int $page, 
+        int $numLines
+    ):array
     {
 
         $documents =[];
@@ -31,14 +34,18 @@ class select extends Builders
     }  
     
    /**
-     * Afficher la liste des utilisateurs
+     * Request to select users list
      *
      * @param integer $page
      * @param integer $numLines
      * @return array
      */
-    public function noSqlRedisListeOfAllUsers( int $page, int $numLines):array
+    public function noSqlRedisListeOfAllUsers( 
+        int $page, 
+        int $numLines
+    ):array
     {
+        $result = [];
 
         $result = $this->key('useraccount')->all()->lastIndex()->redisGet();
 
@@ -52,7 +59,10 @@ class select extends Builders
      * @param integer $numLines
      * @return array
      */
-    public function noSqlListOfRecentActions( int $page, int $numLines):array
+    public function noSqlListOfRecentActions( 
+        int $page, 
+        int $numLines
+    ):array
     {
 
         $documents =[];
@@ -75,8 +85,13 @@ class select extends Builders
      * @param integer $numLines
      * @return array
      */
-    public function noSqlRedisListOfRecentActions( int $page, int $numLines):array
+    public function noSqlRedisListOfRecentActions( 
+        int $page, 
+        int $numLines
+    ):array
     {
+
+        $result = [];
 
         $result = $this->key('recentactions')->all()->rlimit($page , $numLines)->redisGet();
         

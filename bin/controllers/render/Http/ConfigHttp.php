@@ -12,7 +12,9 @@ class ConfigHttp extends HttpClient
      * @param array|null $url
      * @return string
      */
-    protected function provider(?array $url = null): string
+    protected function provider(
+        ?array $url = null
+    ): string
     {
         
         return str_replace(_FAKE_, '', sprintf('%s/%s%s', isset($url[0]) ? $url[0] : '', $url[1], _MAIN_EXTENSION_ ));

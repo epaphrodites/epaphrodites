@@ -66,7 +66,9 @@ class count extends Builders
      * Get total number of users db per group
      * @return int
      */
-    public function noSqlCountUsersByGroup(int $Group):int
+    public function noSqlCountUsersByGroup(
+        int $Group
+    ):int
     {
 
         $result = $this->db(1)
@@ -80,7 +82,9 @@ class count extends Builders
      * Get total number of users db per group
      * @return int
      */
-    public function noSqlRedisCountUsersByGroup(int $Group):int
+    public function noSqlRedisCountUsersByGroup(
+        int $Group
+    ):int
     {
 
         $result = $this->key('useraccount')->search(['usersgroup'])->param([$Group])->all()->count()->redisGet();

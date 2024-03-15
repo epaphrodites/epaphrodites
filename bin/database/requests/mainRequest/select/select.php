@@ -47,5 +47,4 @@ final class select extends SelectSelect
       default => $this->sqlListOfRecentActions($page, $numLine),
     };           
   }   
-
 }

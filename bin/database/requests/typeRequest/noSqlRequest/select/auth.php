@@ -43,10 +43,12 @@ class auth extends Builders
   /**
    * Request to select all users of database (For mongo db)
    * 
-   * @param string $loginuser
+   * @param string $login
    * @return array|bool
    */
-  public function findNosqlUsers(string $loginuser):array|bool
+  public function findNosqlUsers(
+    string $login
+  ):array|bool
   {
 
     if ($this->ifCollectionExist() === true) {
@@ -55,7 +57,7 @@ class auth extends Builders
 
       $result = $this->db(1)
         ->selectCollection('useraccount')
-        ->find(['loginusers' => $loginuser]);
+        ->find(['loginusers' => $login]);
 
       foreach ($result as $document) {
         $documents[] = $document;
@@ -73,15 +75,17 @@ class auth extends Builders
  /**
    * Request to select all users of database (For Redis db)
    * 
-   * @param string $loginuser
+   * @param string $login
    * @return array|bool
    */
-  public function findNosqlRedisUsers(string $loginuser):array|bool
+  public function findNosqlRedisUsers(
+    string $login
+  ):array|bool
   {
 
     if ($this->ifKeyExist() === true) {
 
-      return $this->key('useraccount')->search(['usersstat'])->param([1])->index($loginuser)->redisGet();
+      return $this->key('useraccount')->search(['usersstat'])->param([1])->index($login)->redisGet();
 
     } else {
 

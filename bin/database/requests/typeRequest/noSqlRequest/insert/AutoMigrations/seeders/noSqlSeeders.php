@@ -44,6 +44,4 @@ trait noSqlSeeders{
 
     $this->key('useraccount')->id('idusers')->index('admin')->param($document)->addToRedis();
   }  
-
-
 }

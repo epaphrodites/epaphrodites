@@ -14,9 +14,14 @@ interface DatabaseRequest
      * @param bool|false $closeConnection
      * @param int|1 $bd
      * @return array|NULL
-     * 
     */
-    public function select(string $SqlChaine, array $datas = [], bool $param=false , bool $closeConnection = false , int $db=1 ):array|NULL;
+    public function select(
+        string $SqlChaine, 
+        array $datas = [], 
+        bool $param = false , 
+        bool $closeConnection = false , 
+        int $db=1
+    ):array|NULL;
 
     /**
      * SQL run request  
@@ -27,7 +32,12 @@ interface DatabaseRequest
      * @param bool|false $closeConnection
      * @param int|1 $bd
      * @return bool
-     * 
     */    
-    public function runRequest(string $SqlChaine, array $datas=[], bool $param=false , bool $closeConnection = false , int $db=1):bool|NULL;
+    public function runRequest(
+        string $SqlChaine, 
+        array $datas=[], 
+        bool $param=false , 
+        bool $closeConnection = false , 
+        int $db=1
+    ):bool|NULL;
 }

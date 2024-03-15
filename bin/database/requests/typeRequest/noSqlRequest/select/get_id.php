@@ -15,7 +15,11 @@ class get_id extends Builders
      * @param integer $usersGroup
      * @return array
      */
-    public function noSqlGetUsersByGroup(int $page, int $numLines, int $usersGroup):array
+    public function noSqlGetUsersByGroup(
+        int $page, 
+        int $numLines, 
+        int $usersGroup
+    ):array
     {
 
         $documents = [];
@@ -38,7 +42,9 @@ class get_id extends Builders
      * @param string|null $login
      * @return array
      */    
-    public function noSqlGetUsersDatas(?string $login = null)
+    public function noSqlGetUsersDatas(
+        ?string $login = null
+    ):array
     {
 
         $documents = [];
@@ -60,8 +66,12 @@ class get_id extends Builders
      * @param string|null $login
      * @return array
      */    
-    public function noSqlRedisGetUsersDatas(?string $login = null)
+    public function noSqlRedisGetUsersDatas(
+        ?string $login = null
+    ):array
     {
+
+        $result = [];
 
         $result = $this->key('useraccount')->index($login)->redisGet();
 
@@ -74,7 +84,9 @@ class get_id extends Builders
      * @param string|null $login
      * @return array
      */
-    public function noSqlGetUsersRecentsActions(?string $login = null)
+    public function noSqlGetUsersRecentsActions(
+        ?string $login = null
+    ):array
     {
 
         $documents = [];

@@ -11,10 +11,15 @@ class insert extends InsertInsert
      * Add users to the system from the console
      *
      * @param string|null $login
-     * @param int|null $idtype
+     * @param string|null $password
+     * @param int|null $UserGroup
      * @return bool
      */
-    public function sqlConsoleAddUsers(?string $login = null, ?string $password = null, ?int $UserGroup = null):bool
+    public function sqlConsoleAddUsers(
+        ?string $login = null, 
+        ?string $password = null, 
+        ?int $UserGroup = null
+    ):bool
     {
 
         $UserGroup = $UserGroup !== NULL ? $UserGroup : 1;
@@ -36,21 +41,26 @@ class insert extends InsertInsert
     /**
      * Add chats
      * 
-     * @param string|null $login
+     * @param string|null $emitter
+     * @param string|null $recipient
      * @param int|null $type
-     * @param int|null $request
      * @param string|null $content
      * @return bool
      */
-    public function addUserChats(?string $emetteur = null, ?string $destinataire = null, ?int $type = null, ?string  $content = null):bool
+    public function addUserChats(
+        ?string $emitter = null, 
+        ?string $recipient = null, 
+        ?int $type = null, 
+        ?string $content = null
+    ):bool
     {
 
-        if (!empty($content) && !empty($destinataire)) {
+        if (!empty($content) && !empty($recipient)) {
 
             $this->table('chatsmessages')
                 ->insert(' emetteur , destinataire , typemessages , datemessages , contentmessages ')
                 ->values(' ? , ? , ? , ? , ? ')
-                ->param([static::initNamespace()['env']->no_space($emetteur), static::initNamespace()['env']->no_space($destinataire), $type, date("Y-m-d H:i:s"), $content])
+                ->param([static::initNamespace()['env']->no_space($emitter), static::initNamespace()['env']->no_space($recipient), $type, date("Y-m-d H:i:s"), $content])
                 ->IQuery();
 
             return true;
@@ -63,18 +73,21 @@ class insert extends InsertInsert
      * Add users to the system
      *
      * @param string|null $login
-     * @param int|null $idtype
+     * @param int|null $usersgroup
      * @return bool
      */
-    public function sqlAddUsers(?string $login = null, ?int $idtype = null):bool
+    public function sqlAddUsers(
+        ?string $login = null, 
+        ?int $usersgroup = null
+    ):bool
     {
 
-        if (!empty($login) && !empty($idtype) && count(static::initQuery()['getid']->sqlGetUsersDatas($login)) < 1) {
+        if (!empty($login) && !empty($usersgroup) && count(static::initQuery()['getid']->sqlGetUsersDatas($login)) < 1) {
 
             $this->table('useraccount')
                 ->insert(' loginusers , userspwd , usersgroup ')
                 ->values(' ? , ? , ? ')
-                ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($login . '@'), $idtype])
+                ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($login . '@'), $usersgroup])
                 ->IQuery();
 
             $actions = "Add a User : " . $login;

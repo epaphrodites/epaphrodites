@@ -14,7 +14,9 @@ trait gearQueryChains
     /**
      * @param int $db
      */
-    public function db(int $db = 1): self
+    public function db(
+        int $db = 1
+    ): self
     {
         $this->db = $db;
         return $this;
@@ -26,7 +28,10 @@ trait gearQueryChains
      * @param callable $callback  The callback function to define table columns and properties.
      * @return array The generated SQL for creating the table.
      */
-    public function createTable(string $tableName, callable $callback)
+    public function createTable(
+        string $tableName, 
+        callable $callback
+    ): array
     {
         $this->reset();
         $this->tableName = $tableName;
@@ -40,7 +45,10 @@ trait gearQueryChains
      * @param callable $callback  The callback function to define table columns and properties.
      * @return array The generated SQL for creating the table.
      */
-    public function createColumn(string $tableName, callable $callback)
+    public function createColumn(
+        string $tableName, 
+        callable $callback
+    ): array
     {
         $this->reset();
         $this->tableName = $tableName;
@@ -54,7 +62,10 @@ trait gearQueryChains
      * @param callable $callback  Optional callback function for additional configurations.
      * @return array The generated SQL for dropping the table or columns.
      */
-    public function dropTable(string $tableName, callable $callback = null)
+    public function dropTable(
+        string $tableName, 
+        callable $callback = null
+    ): array
     {
         $this->reset();
         $this->tableName = $tableName;
@@ -69,7 +80,10 @@ trait gearQueryChains
      * @param string $column The name of the column to be dropped.
      * @return $this
      */
-    public function dropColumn(string $column, array $option = []): self
+    public function dropColumn(
+        string $column, 
+        array $option = []
+    ): self
     {
         $this->dropColumn[] = compact('column', 'option');
         return $this;
@@ -84,9 +98,14 @@ trait gearQueryChains
      *
      * @return $this
      */
-    public function addColumn(string $columnName, string $type = '', array $options = []): self
+    public function addColumn(
+        string $columnName, 
+        string $type = '', 
+        array $options = []
+    ): self
     {
         $this->columns[] = compact('columnName', 'type', 'options');
+
         return $this;
     }
 
@@ -96,7 +115,10 @@ trait gearQueryChains
      * @param string|null $indexName Optional name for the index. If not provided, a default name will be generated.
      * @return $this
      */
-    public function addIndex($columns, ?string $indexName = null): self
+    public function addIndex(
+        string $columns, 
+        ?string $indexName = null
+    ): self
     {
         if (!is_array($columns)) {
             $columns = [$columns];
@@ -110,6 +132,28 @@ trait gearQueryChains
     }
 
     /**
+     * Add a foreign key constraint to the specified column(s) of the table.
+     * @param string|array $columns The name(s) of the column(s) to which the foreign key constraint is added.
+     * @param string $reference The reference table and column(s) for the foreign key in the format 'table(column)'.
+     * @param array $options Optional. Additional options for the foreign key constraint such as 'onDelete' and 'onUpdate'.
+     * @return $this
+     */
+    public function addForeign(
+        string $foreign, 
+        string $reference, 
+        array $options = []
+    ): self
+    {
+        if (!is_array($foreign)) {
+            $columns = [$foreign];
+        }
+
+        $this->columns[] = compact('foreign', 'reference', 'options');
+
+        return $this;
+    }    
+
+    /**
      * Generate the SQL statement for creating the table.
      * @return array The generated SQL for creating the table.
      */
@@ -119,15 +163,15 @@ trait gearQueryChains
         $requests = [];
         $db = empty($this->db) ? 1 : $this->db;
 
-        $sql = $this->driver($db) !== 'sqlserver' ?
-            "CREATE TABLE IF NOT EXISTS {$this->tableName} (" :
-            "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$this->tableName}') BEGIN CREATE TABLE {$this->tableName} (";
+        $sql = $this->driver($db) !== 'sqlserver' 
+            ? "CREATE TABLE IF NOT EXISTS {$this->tableName} (" 
+            : "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$this->tableName}') BEGIN CREATE TABLE {$this->tableName} (";
 
         foreach ($this->columns as $column) {
             if (isset($column['columnName'])) {
                 $columnName = $column['columnName'];
                 $type = $column['type'];
-                $options = isset($column['options']) ? implode(' ', $column['options']) : '';
+                $options = implode(' ', $column['options'] ?? '');
                 $sql .= "{$columnName} {$type} {$options}, ";
             }
         }
@@ -145,6 +189,15 @@ trait gearQueryChains
                 $indexName = $column['indexName'];
                 $columns = implode(', ', $column['columns']);
                 $requests[] = $this->generateIndexSQL($indexName, $columns, $db, "CREATE");
+            }
+        }
+        
+        foreach ($this->columns as $column) {
+            if (isset($column['foreign'], $column['reference'])) {
+                $foreignName = $column['foreign'];
+                $reference = $column['reference'];
+                $options = implode(' ', $column['options'] ?? []);
+                $requests[] = "ALTER TABLE {$this->tableName} ADD FOREIGN KEY ($foreignName) REFERENCES {$reference} $options";
             }
         }
 
@@ -227,7 +280,12 @@ trait gearQueryChains
      * @param int $db The database type.
      * @return string The generated SQL for adding the index.
      */
-    private function generateIndexSQL(string $indexName, string $columns, int $db, string $option = "ADD"): string
+    private function generateIndexSQL(
+        string $indexName, 
+        string $columns, 
+        int $db, 
+        string $option = "ADD"
+    ): string
     {
         switch ($this->driver($db)) {
             case 'mysql':

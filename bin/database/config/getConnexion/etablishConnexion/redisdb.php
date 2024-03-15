@@ -39,7 +39,7 @@ trait redisdb
         }
     }
 
-    public function RedisDB(int $db)
+    public function RedisDB(int $db = 1)
     {
 
         return $this->setRedisDBConnexion($db);

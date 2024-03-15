@@ -67,7 +67,7 @@ trait SqLite
      * @param int $db
      * @return \PDO
      */
-    public function sqLite(int $db)
+    public function sqLite(int $db = 1)
     {
 
         return $this->getSqLite($db);
