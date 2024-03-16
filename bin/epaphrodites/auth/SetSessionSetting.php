@@ -58,5 +58,4 @@ class SetSessionSetting extends SetUsersCookies
     {
         return $this->getSessionIfNotExist();
     }
-
 }

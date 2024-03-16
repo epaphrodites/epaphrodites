@@ -64,7 +64,9 @@ class session_auth implements AuthSession
     public function type():int|null
     {
 
-        return !empty($this->config->GetSessions(_AUTH_TYPE_)) ? $this->config->GetSessions(_AUTH_TYPE_)  : NULL;
+        return !empty($this->config->GetSessions(_AUTH_TYPE_)) 
+                                    ? $this->config->GetSessions(_AUTH_TYPE_)
+                                    : NULL;
     }
 
     /**
@@ -75,7 +77,9 @@ class session_auth implements AuthSession
     public function nameSurname():string|null
     {
 
-        return !empty($this->config->GetSessions(_AUTH_NAME_)) ? $this->config->GetSessions(_AUTH_NAME_)  : NULL;
+        return !empty($this->config->GetSessions(_AUTH_NAME_)) 
+                                    ? $this->config->GetSessions(_AUTH_NAME_)
+                                    : NULL;
     }
 
     /**
@@ -86,7 +90,9 @@ class session_auth implements AuthSession
     public function email():string|null
     {
 
-        return !empty($this->config->GetSessions(_AUTH_EMAIL_)) ? $this->config->GetSessions(_AUTH_EMAIL_)  : NULL;
+        return !empty($this->config->GetSessions(_AUTH_EMAIL_)) 
+                                    ? $this->config->GetSessions(_AUTH_EMAIL_)
+                                    : NULL;
     }
 
     /**
@@ -97,7 +103,9 @@ class session_auth implements AuthSession
     public function contact():string|null
     {
         
-        return !empty($this->config->GetSessions(_AUTH_CONTACT_)) ? $this->config->GetSessions(_AUTH_CONTACT_)  : NULL;
+        return !empty($this->config->GetSessions(_AUTH_CONTACT_))
+                                    ? $this->config->GetSessions(_AUTH_CONTACT_) 
+                                    : NULL;
     }
 
     /**
@@ -108,7 +116,9 @@ class session_auth implements AuthSession
      */
     public function token_csrf():mixed
     {
-        return !empty($_COOKIE[$this->msg->answers('token_name')]) ? $_COOKIE[$this->msg->answers('token_name')] : NULL;
+        return !empty($_COOKIE[$this->msg->answers('token_name')]) 
+                                        ? $_COOKIE[$this->msg->answers('token_name')]
+                                        : NULL;
     }
 
     /**
@@ -122,7 +132,6 @@ class session_auth implements AuthSession
         if ($this->login() !== NULL && $this->id() !== NULL) {
 
             session_unset();
-
             session_destroy();
         }
     }

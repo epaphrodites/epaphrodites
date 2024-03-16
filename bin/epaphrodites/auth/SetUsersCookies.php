@@ -24,7 +24,9 @@ class SetUsersCookies extends epaphroditeClass{
      * @param string $cookieValue
      * @return void
      */
-    public function set_user_cookies($cookieValue):void
+    public function set_user_cookies(
+        string $cookieValue
+    ):void
     {
         setcookie(static::class('msg')->answers('token_name'), $cookieValue, $this->setting->coookies());
 
