@@ -176,7 +176,7 @@ final class users extends MainSwitchers
         $total = 0;
         $list = [];
         $numLine = 100;
-        $page = static::isGet('_p') ? static::getGet('_p') : 1;
+        $page = static::isGet('_p', 'int') ? static::getGet('_p') : 1;
         
         $position = static::notEmpty(['filtre'] , 'GET') 
                         ? static::getGet('filtre') 
@@ -206,17 +206,17 @@ final class users extends MainSwitchers
 
         if (static::isGet('submitsearch') && static::notEmpty(['datasearch'] , 'GET')) {
 
-            $list = $this->getId->GetUsersDatas($_GET['datasearch']);
+            $list = $this->getId->GetUsersDatas(static::getGet('datasearch'));
             $total = count($list ?? []);
             
         }else {
 
             $total = static::notEmpty(['filtre'] , 'GET') ? 
-                            $this->count->CountUsersByGroup($_GET['filtre']) 
+                            $this->count->CountUsersByGroup(static::getGet('filtre')) 
                             : $this->count->CountAllUsers();
 
             $list = static::notEmpty(['filtre'] , 'GET') 
-                            ? $this->getId->GetUsersByGroup($page, $numLine, $_GET['filtre']) 
+                            ? $this->getId->GetUsersByGroup($page, $numLine, static::getGet('filtre')) 
                             : $this->select->listeOfAllUsers($page, $numLine);
         }
 

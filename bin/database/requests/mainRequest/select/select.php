@@ -14,7 +14,7 @@ final class select extends SelectSelect
    * @return array
    */
   public function listeOfAllUsers(
-    ?int $page, 
+    int $page, 
     int $numLine
   ):array{
 

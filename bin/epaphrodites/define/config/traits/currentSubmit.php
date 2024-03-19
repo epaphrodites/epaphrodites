@@ -17,17 +17,41 @@ trait currentSubmit
      * Check if a variable exists in the $_POST array.
      *
      * @param string $key The key to check.
+     * @param string $type if is ('int', 'float', 'bool', 'string')
      * @return bool True if the key exists in $_POST, false otherwise.
+     * @throws epaphroditeException if key is empty
      */
-
-    public static function isPost($key): bool
+    public static function isPost($key, $type = 'string'): bool
     {
-
         if (empty($key)) {
             throw new epaphroditeException('Invalid key');
         }
-
-        return $_SERVER['REQUEST_METHOD'] === 'POST' && filter_input(INPUT_POST, $key, FILTER_DEFAULT) !== null;
+    
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return false;
+        }
+    
+        $value = filter_input(INPUT_POST, $key, FILTER_DEFAULT);
+    
+        if ($value === null || $value === false) {
+            return false;
+        }
+    
+        if ($type !== null) {
+            $isValid = match ($type) {
+                'int' => filter_var($value, FILTER_VALIDATE_INT) !== false,
+                'float' => filter_var($value, FILTER_VALIDATE_FLOAT) !== false,
+                'bool' => filter_var($value, FILTER_VALIDATE_BOOLEAN) !== false,
+                'string' => is_string($value),
+                default => throw new epaphroditeException('Invalid type specified'),
+            };
+    
+            if (!$isValid) {
+                return false;
+            }
+        }
+    
+       return !empty(static::noSpace($value)) ? true : false;
     }
 
     /**
@@ -156,23 +180,38 @@ trait currentSubmit
      * Check if a variable exists in the $_GET array.
      *
      * @param string $key The key to check.
-     * @return bool True if the key exists in $_GET, false otherwise.
+     * @param string $type if is ('int', 'float', 'bool', 'string')
+     * @return bool True if the key exists in $_POST, false otherwise.
+     * @throws epaphroditeException if key is empty
      */
-    public static function isGet($key): bool
+    public static function isGet($key, $type = 'string'): bool
     {
-
         if (empty($key)) {
             throw new epaphroditeException('Invalid key');
         }
-
+    
         $value = filter_input(INPUT_GET, $key, FILTER_DEFAULT);
-
+    
         if ($value === null || $value === false) {
             return false;
         }
-
+    
+        if ($type !== null) {
+            $isValid = match ($type) {
+                'int' => filter_var($value, FILTER_VALIDATE_INT) !== false,
+                'float' => filter_var($value, FILTER_VALIDATE_FLOAT) !== false,
+                'bool' => filter_var($value, FILTER_VALIDATE_BOOLEAN) !== false,
+                'string' => is_string($value),
+                default => throw new epaphroditeException('Invalid type specified'),
+            };
+    
+            if (!$isValid) {
+                return false;
+            }
+        }
+    
         return !empty(static::noSpace($value)) ? true : false;
-    }
+    }  
 
     /**
      * Get the value from $_GET array for a given key with a default value.

@@ -59,7 +59,7 @@ final class setting extends MainSwitchers
     public final function assignUserAccessRights(string $html): void
     {
 
-        $userGroup = static::isGet('_see') ? static::getGet('_see') : 0;
+        $userGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
 
         if (static::isValidMethod(true) && $userGroup !== 0) {
 
@@ -98,7 +98,7 @@ final class setting extends MainSwitchers
     public final function listOfUserRightsManagement(string $html): void
     {
 
-        $userGroup = static::isGet('_see') ? static::getGet('_see') : 0;
+        $userGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
 
         if (static::isValidMethod(true)&&static::arrayNoEmpty(['group'])) {
 
@@ -220,12 +220,12 @@ final class setting extends MainSwitchers
         $total = 0;
         $list = [];
         $numLine = 100;
-        $page = static::isGet('_p') ? static::getGet('_p') : 1;
+        $page = static::isGet('_p', 'int') ? static::getGet('_p') : 1;
         $position = static::notEmpty(['filtre'] , 'GET') ? static::getGet('filtre') : NULL;
 
         if (static::isGet('submitsearch') && static::notEmpty(['datasearch'] , 'GET')) {
 
-            $list = $this->getId->getUsersRecentsActions($_GET['datasearch']);
+            $list = $this->getId->getUsersRecentsActions(static::getGet('datasearch'));
             $total = count($list ?? []);
         } else {
 
