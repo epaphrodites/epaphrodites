@@ -49,22 +49,22 @@ trait loadUsersAnswers
     /**
      * @param string $login
      * @param string $jsonFiles
-     * @return array|null
+     * @return array|NULL
     */
-    public function lastUsersQuestion(string $login , string $jsonFiles = "BotSession"):array|null {
+    public function lastUsersQuestion(string $login , string $jsonFiles = "BotSession"):array|NULL {
        
-        $lastMessage = null;
+        $lastMessage = NULL;
         $result = $this->loadJsonFile($jsonFiles);
 
         foreach (array_reverse($result) as $message) {
             if ($message['login'] === $login) {
-                if ($message['previous'] === true) {
-                    $lastMessage = $message;
-                    break;
-                }
+                $lastMessage = $message;
+                break;
             }
         }
-    
-        return $lastMessage;
+
+        $result = is_array($lastMessage)&&$lastMessage["previous"]===true ? $lastMessage : NULL;
+
+        return $result;
     }
 }

@@ -21,39 +21,39 @@ trait currentSubmit
      * @return bool True if the key exists in $_POST, false otherwise.
      * @throws epaphroditeException if key is empty
      */
-    public static function isPost($key, $type = 'string'): bool
-    {
-        if (empty($key)) {
-            throw new epaphroditeException('Invalid key');
-        }
-    
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            return false;
-        }
-    
-        $value = filter_input(INPUT_POST, $key, FILTER_DEFAULT);
-    
-        if ($value === null || $value === false) {
-            return false;
-        }
-    
-        if ($type !== null) {
-            $isValid = match ($type) {
-                'int' => filter_var($value, FILTER_VALIDATE_INT) !== false,
-                'float' => filter_var($value, FILTER_VALIDATE_FLOAT) !== false,
-                'bool' => filter_var($value, FILTER_VALIDATE_BOOLEAN) !== false,
-                'string' => is_string($value),
-                default => throw new epaphroditeException('Invalid type specified'),
-            };
-    
-            if (!$isValid) {
-                return false;
-            }
-        }
-    
-       return !empty(static::noSpace($value)) ? true : false;
-    }
-
+     public static function isPost($key, $type = 'string'): bool
+     {
+         if (empty($key)) {
+             throw new epaphroditeException('Invalid key');
+         }
+     
+         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+             return false;
+         }
+     
+         $value = filter_input(INPUT_POST, $key, FILTER_DEFAULT);
+     
+         if ($value === null || $value === false) {
+             return false;
+         }
+     
+         if ($type !== null) {
+             $isValid = match ($type) {
+                 'int' => filter_var($value, FILTER_VALIDATE_INT) !== false,
+                 'float' => filter_var($value, FILTER_VALIDATE_FLOAT) !== false,
+                 'bool' => filter_var($value, FILTER_VALIDATE_BOOLEAN) !== false,
+                 'string' => is_string($value),
+                 default => throw new epaphroditeException('Invalid type specified'),
+             };
+     
+             if (!$isValid) {
+                 return false;
+             }
+         }
+     
+        return !empty(static::noSpace($value)) ? true : false;
+     }
+     
     /**
      * @param string $accepted
      * @return bool
@@ -112,29 +112,33 @@ trait currentSubmit
      * @param string $key The key to get.
      * @return mixed The value for the key in $_POST or an empty string if not set.
      */
-    public static function isAjax($key)
+    public static function isAjax($key): ?string
     {
 
-        if (!isset($key) || empty($key)) {
-            throw new \InvalidArgumentException('Invalid key: Key is required and cannot be empty.');
+        if (empty($key) || !is_string($key)) {
+            throw new \InvalidArgumentException('Invalid key: Key is required and must be a non-empty string.');
         }
     
         try {
-            $postData = $_SERVER['REQUEST_METHOD'] === 'POST' ? static::isPostJSON() : static::isGetJSON();
-
+            $method = $_SERVER['REQUEST_METHOD'];
+            $postData = match($method) {
+                'POST' => static::isPostJSON(),
+                default => static::isGetJSON(),
+            };
+    
             if ($postData !== null) {
-                $data = json_decode($postData, true);
-                if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-                    throw new \JsonException('JSON decoding error: ' . json_last_error_msg());
-                }
-                return static::noSpace($data[$key]) ?? null;
+                $data = json_decode($postData, true, 512, JSON_THROW_ON_ERROR);
+    
+                return isset($data[$key]) ? static::noSpace($data[$key]) : null;
             }
         } catch (\JsonException $e) {
-            throw $e;
+
+            throw new \JsonException('JSON decoding error: ' . $e->getMessage(), 0, $e);
         }
     
         return null;
-    }    
+    }
+       
 
     /**
      * @return null|string
@@ -211,7 +215,7 @@ trait currentSubmit
         }
     
         return !empty(static::noSpace($value)) ? true : false;
-    }  
+    }    
 
     /**
      * Get the value from $_GET array for a given key with a default value.
@@ -412,14 +416,17 @@ trait currentSubmit
     private static function noSpace($datas)
     {
 
-        // Convert to string if it's not already a string
-        $datas = is_string($datas) ? $datas : strval($datas);
+        $string = is_string($datas) ? $datas : (string) $datas;
 
-        // Trim leading and trailing spaces
-        $datas = is_string($datas) ? trim($datas) : '';
+        if (!extension_loaded('intl')) {
+            throw new \Exception('The intl extension is required to use Normalizer.');
+        }
 
-        // Normalize internal spaces (replace multiple spaces with a single space)
-        $string = preg_replace('/\s+/', ' ', $datas);
+        $string = \Normalizer::normalize($string, \Normalizer::FORM_D);
+
+        $string = html_entity_decode($string, ENT_QUOTES | ENT_HTML5);
+
+        $string = trim(preg_replace('/\s+/', ' ', $string));
 
         return $string;
     }

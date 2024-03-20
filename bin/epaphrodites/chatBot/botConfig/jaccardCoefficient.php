@@ -159,15 +159,11 @@ trait jaccardCoefficient
     */    
     private function normalizeWords(string $sentence): array
     {
-   
-        $sentence = strtolower(preg_replace('/[^\p{L}\s]+/u', '', $sentence));
+
+        $sentence = strtolower(preg_replace('/[^\p{L}\s]+/u', '', $this->wordNormalizer($sentence)));
        
-        $sentence = preg_replace('/\b(\w+)s\b/', '$1', $sentence);
-    
-        $sentence = Normalizer::normalize($sentence, Normalizer::FORM_D);
-    
         $sentence = preg_replace('/\p{M}/u', '', $sentence);
-    
+
         return explode(' ', $sentence);
     }
 }

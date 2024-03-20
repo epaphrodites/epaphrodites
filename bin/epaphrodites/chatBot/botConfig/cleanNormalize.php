@@ -15,8 +15,9 @@ trait cleanNormalize
      */
     private function cleanAndNormalize(string $text): array
     {
-        $cleanText = $this->cleanText($text);
-        return $this->splitTextIntoWords($this->wordNormalizer($cleanText));
+        $cleanText = $this->cleanText($this->wordNormalizer($text));
+
+        return $this->splitTextIntoWords($cleanText);
     }
 
     /**
@@ -36,13 +37,12 @@ trait cleanNormalize
      * @return string
      */
     private function wordNormalizer(string $word):string {
+
+        $normalize = Normalizer::normalize($word, Normalizer::FORM_D);
     
-        foreach ($this->letterTranslate() as $caractere => $equivalent) 
-        {
-            $word = str_replace($caractere, $equivalent, $word);
-        }
-    
-        return $word;
+        $normalize = preg_replace('/\p{Mn}/u', '', $normalize);
+
+        return json_encode($normalize, JSON_UNESCAPED_UNICODE);
     }
     
     /**
@@ -104,133 +104,4 @@ trait cleanNormalize
             'someone', 'something', 'anybody', 'anyone', 'anything', 'nobody', 'none', 'no one', 'nothing', 'everybody', 'everyone', 'everything'
         ];
     } 
-
-    /**
-     * @return array
-     */
-    private function letterTranslate():array {
-        return [
-            "î" => "i",
-            "ï" => "i",
-            "é" => "e",
-            "à" => "a",
-            "è" => "e",
-            "ô" => "o",
-            "û" => "u",
-            "ç" => "c",
-            "ö" => "o",
-            "ë" => "e",
-            "â" => "a",
-            "ê" => "e",
-            "ù" => "u",
-            "ü" => "u",
-            "ä" => "a",
-            "ß" => "ss",
-            "ñ" => "n",
-            "ø" => "o",
-            "æ" => "ae",
-            "œ" => "oe",
-            "ł" => "l",
-            "đ" => "d",
-            "þ" => "th",
-            "ð" => "th",
-            "į" => "i",
-            "ė" => "e",
-            "ų" => "u",
-            "ą" => "a",
-            "ę" => "e",
-            "ņ" => "n",
-            "ķ" => "k",
-            "ļ" => "l",
-            "ž" => "z",
-            "š" => "s",
-            "ģ" => "g",
-            "č" => "c",
-            "ā" => "a",
-            "ē" => "e",
-            "ī" => "i",
-            "ū" => "u",
-            "ż" => "z",
-            "ć" => "c",
-            "ń" => "n",
-            "ó" => "o",
-            "ś" => "s",
-            "ź" => "z",
-            "ş" => "s",
-            "ğ" => "g",
-            "ı" => "i",
-            "ő" => "o",
-            "ű" => "u",
-            "ŕ" => "r",
-            "ĺ" => "l",
-            "ť" => "t",
-            "ý" => "y",
-            "č" => "c",
-            "ø" => "o",
-            "å" => "a",
-            "æ" => "ae",
-            "œ" => "oe",
-            "Î" => "I",
-            "Ï" => "I",
-            "É" => "E",
-            "À" => "A",
-            "È" => "E",
-            "Ô" => "O",
-            "Û" => "U",
-            "Ç" => "C",
-            "Ö" => "O",
-            "Ë" => "E",
-            "Â" => "A",
-            "Ê" => "E",
-            "Ù" => "U",
-            "Ü" => "U",
-            "Ä" => "A",
-            "ẞ" => "SS",
-            "Ñ" => "N",
-            "Ø" => "O",
-            "Æ" => "AE",
-            "Œ" => "OE",
-            "Ł" => "L",
-            "Đ" => "D",
-            "Þ" => "TH",
-            "Ð" => "TH",
-            "Į" => "I",
-            "Ė" => "E",
-            "Ų" => "U",
-            "Ą" => "A",
-            "Ę" => "E",
-            "Ņ" => "N",
-            "Ķ" => "K",
-            "Ļ" => "L",
-            "Ž" => "Z",
-            "Š" => "S",
-            "Ģ" => "G",
-            "Č" => "C",
-            "Ā" => "A",
-            "Ē" => "E",
-            "Ī" => "I",
-            "Ū" => "U",
-            "Ż" => "Z",
-            "Ć" => "C",
-            "Ń" => "N",
-            "Ó" => "O",
-            "Ś" => "S",
-            "Ź" => "Z",
-            "Ş" => "S",
-            "Ğ" => "G",
-            "İ" => "I",
-            "Ő" => "O",
-            "Ű" => "U",
-            "Ŕ" => "R",
-            "Ĺ" => "L",
-            "Ť" => "T",
-            "Ý" => "Y",
-            "Č" => "C",
-            "Ø" => "O",
-            "Å" => "A",
-            "Æ" => "AE",
-            "Œ" => "OE"        
-        ];
-    }
-    
 }

@@ -11,7 +11,7 @@ trait mainBot
 
     /**
      * Finds the best response based on the user's input by calculating Jaccard coefficients.
-     *
+     * a quand date ta dernière mise à jour
      * @param string $userMessage The message input by the user.
      * @return array The best-matching response.
      */
@@ -22,13 +22,13 @@ trait mainBot
 
         // Get last answers previous is true
         $previousQuestion = $this->lastUsersQuestion($login);
-
         // Get last question previous is true
         $previousQuestion = !is_null($previousQuestion) ? $previousQuestion['question'] : "";
-
+        
         // Clean and normalize the user's message
         $this->userWords = $this->cleanAndNormalize("{$previousQuestion} {$userMessage}");
-       
+        
+        //var_dump($previousQuestion);die;
         // Detect user language
         $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login);
 

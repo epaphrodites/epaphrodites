@@ -37,9 +37,9 @@ trait languageDetection
 
         $detectLastLanguage = $this->detectLastLang($login , $jsonFiles);
         
-        (int) $englishWord = $this->calculateSimilarWords($this->englishLangWord(), $userMessages, 0.87);
+        (int) $englishWord = $this->calculateSimilarWords($this->englishLangWord(), $userMessages, 0.80);
         
-        (int) $frenchhWord = $this->calculateSimilarWords($this->frenchLangWord(), $userMessages, 0.87);
+        (int) $frenchhWord = $this->calculateSimilarWords($this->frenchLangWord(), $userMessages, 0.80);
 
         $languageDetected = match (true) {
             empty($englishWord) && empty($frenchhWord) => $detectLastLanguage,
