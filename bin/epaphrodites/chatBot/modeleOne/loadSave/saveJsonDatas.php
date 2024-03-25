@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\loadSave;
+namespace Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 

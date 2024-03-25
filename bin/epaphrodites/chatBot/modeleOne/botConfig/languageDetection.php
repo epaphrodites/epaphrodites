@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\botConfig;
+namespace Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig;
 
 trait languageDetection
 {

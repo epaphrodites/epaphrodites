@@ -1,10 +1,10 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\bots;
+namespace Epaphrodites\epaphrodites\chatBot\modeleOne\bots;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
-use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
-use Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainHerediaDefaultMessages;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\makeActions\botActions;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainHerediaDefaultMessages;
 
 trait herediaBot
 {
@@ -47,7 +47,7 @@ trait herediaBot
             $this->mainCoefficient = $bestCoefficient;
             $response = $bestAnswers;
             $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $jsonFiles);
-            
+
         } elseif ($bestCoefficient > 0.1) {
 
             $this->previous = true;
@@ -78,7 +78,7 @@ trait herediaBot
     }
 
     /** 
-     * @return \Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainHerediaDefaultMessages
+     * @return \Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainHerediaDefaultMessages
     */
     private function getClass():object
     {

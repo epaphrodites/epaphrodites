@@ -1,10 +1,10 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\bots;
+namespace Epaphrodites\epaphrodites\chatBot\modeleOne\bots;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
-use Epaphrodites\epaphrodites\chatBot\makeActions\botActions;
-use Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainEpaphroditesDefaultMessages;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\makeActions\botActions;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainEpaphroditesDefaultMessages;
 
 trait mainBot
 {
@@ -45,7 +45,7 @@ trait mainBot
 
             $this->mainCoefficient = $bestCoefficient;
             $response = $bestAnswers;
-            $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction , $login);
+           $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction , $login);
             
         } elseif ($bestCoefficient > 0.1) {
 
@@ -77,7 +77,7 @@ trait mainBot
     }
 
     /**
-     * @return \Epaphrodites\epaphrodites\chatBot\defaultAnswers\mainEpaphroditesDefaultMessages
+     * @return \Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainEpaphroditesDefaultMessages
      */
     private function getMainClass():object
     {

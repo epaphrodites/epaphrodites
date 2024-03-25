@@ -42,7 +42,7 @@
               "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique.",
               "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
               "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
-              "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+              "Salut, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
               "Enchanté de vous revoir. Comment puis-je vous assister ?"
           ],
           "key" : "salut bonjour bonsoir {hello}",

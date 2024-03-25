@@ -2,19 +2,19 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
-use Epaphrodites\epaphrodites\chatBot\bots\mainBot;
-use Epaphrodites\epaphrodites\chatBot\bots\herediaBot;
-use Epaphrodites\epaphrodites\chatBot\loadSave\loadJson;
-use Epaphrodites\epaphrodites\chatBot\botConfig\analyzeWord;
-use Epaphrodites\epaphrodites\chatBot\botConfig\botAssembly;
-use Epaphrodites\epaphrodites\chatBot\botConfig\randomArray;
-use Epaphrodites\epaphrodites\chatBot\botConfig\languageWords;
-use Epaphrodites\epaphrodites\chatBot\botConfig\initVariables;
-use Epaphrodites\epaphrodites\chatBot\botConfig\cleanNormalize;
-use Epaphrodites\epaphrodites\chatBot\botConfig\dafaultAnswers;
-use Epaphrodites\epaphrodites\chatBot\treatment\answersChecking;
-use Epaphrodites\epaphrodites\chatBot\botConfig\languageDetection;
-use Epaphrodites\epaphrodites\chatBot\botConfig\jaccardCoefficient;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\bots\mainBot;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\bots\herediaBot;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave\loadJson;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\analyzeWord;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\botAssembly;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\randomArray;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\languageWords;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\initVariables;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\cleanNormalize;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\dafaultAnswers;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\treatment\answersChecking;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\languageDetection;
+use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\jaccardCoefficient;
 
 class chatBot {
 
