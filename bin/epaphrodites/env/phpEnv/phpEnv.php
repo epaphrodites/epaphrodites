@@ -103,33 +103,80 @@ trait phpEnv{
     }
 
     /**
-     * @param array|[] $target
-     * @param array|[] $files
-     * @return bool
+     * Uploads files based on the provided array of paths and file keys.
+     * 
+     * @param array $pathsAndFiles Associative array mapping destination paths to $_FILES keys.
+     * @return bool Returns true if all files are successfully uploaded, false otherwise.
      */
-    public function UplaodFiles(?array $target = [], ?array $files = []): bool
+    public function uploadFiles(array $pathsAndFiles = []): bool
     {
-        foreach ($files as $key => $value) {
-
-            move_uploaded_file($this->GetFiles($key), $target[$key] . '/' . $value);
+        if (empty($pathsAndFiles)) {
+            return false;
         }
+    
+        $allUploaded = true;
+    
+        foreach ($pathsAndFiles as $destinationPath => $fileKey) {
 
-        return true;
+            if (!isset($_FILES[$fileKey]) || !is_uploaded_file($_FILES[$fileKey]['tmp_name'])) {
+                $allUploaded = false;
+                continue;
+            }
+    
+            $safeFilename = $this->generateSafeFilename($_FILES[$fileKey]['name']);
+            if (!$safeFilename) {
+                $allUploaded = false;
+                continue;
+            }
+    
+            $fullDestinationPath = rtrim($destinationPath, '/') . '/' . $safeFilename;
+    
+            if (!move_uploaded_file($_FILES[$fileKey]['tmp_name'], $fullDestinationPath)) {
+                $allUploaded = false;
+            }
+        }
+    
+        return $allUploaded;
     }
+    
+    protected function generateSafeFilename(string $originalFilename): string|false
+    {
+        $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
+        $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '', pathinfo($originalFilename, PATHINFO_FILENAME));
+        $safeFilename = $safeName . (($extension) ? '.' . $extension : '');
+        return $safeFilename ?: false;
+    }    
 
     /**
      * Clean directory
      *
-     * @param string $Directory
+     * @param string $directory
      * @param string $Extension
      * @return bool
      */
-    public function DeleteDirectoryFiles(string $Directory, string $Extension)
+    public function deleteDirFiles(string $directory, string $extension): bool
     {
+        if (is_dir($directory)) {
+           
+            $normalizedDirectory = rtrim($directory, '/') . '/';
+            
+            $safeExtension = preg_replace('/[^a-zA-Z0-9_\-\.]/', '', $extension);
+    
+            $pattern = $normalizedDirectory . '*' . $safeExtension;
+    
+            $files = glob($pattern);
+    
+            if ($files === false) {
+                return false;
+            }
+    
+            foreach ($files as $file) {
 
-        if (is_dir($Directory) === true) {
-
-            array_map('unlink', glob($Directory . '*' . $Extension));
+                if (is_file($file) && !unlink($file)) {
+                    return false;
+                }
+            }
+    
             return true;
         } else {
             return false;
@@ -143,14 +190,22 @@ trait phpEnv{
      * @param string $FileName
      * @return bool
      */
-    public function DeleteFiles(string $Directory, string $FileName)
+    public function deleteFiles(string $directory, string $fileName): bool
     {
+        $normalizedDirectory = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        
+        $filePath = $normalizedDirectory . $fileName;
+    
+        if (is_file($filePath)) {
 
-        if (file_exists($Directory . $FileName) === true) {
+            if (unlink($filePath)) {
+                return true;
+            } else {
 
-            unlink($Directory . $FileName);
-            return true;
+                return false;
+            }
         } else {
+
             return false;
         }
     }
@@ -158,18 +213,17 @@ trait phpEnv{
     /**
      * Cleans up spaces in a string by trimming leading and trailing spaces,
      * and normalizing internal spaces by replacing multiple spaces with a single space.
-     *
      * @param string $datas The input string to be cleaned.
      * @return string The cleaned string.
      */
-    public function no_space($datas)
+    public function no_space($data): string
     {
-        // Trim leading and trailing spaces
-        $string = trim($datas);
+        $string = is_numeric($data) ? (string) $data : $data;
 
-        // Normalize internal spaces (replace multiple spaces with a single space)
+        $string = trim($string);
+        
         $string = preg_replace('/\s+/', ' ', $string);
-
+    
         return $string;
     }
 
@@ -287,5 +341,4 @@ trait phpEnv{
     {
         return str_pad($number, $pad_length, $pad_string, STR_PAD_LEFT);
     }
-
 }

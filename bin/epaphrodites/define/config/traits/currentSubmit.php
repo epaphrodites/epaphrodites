@@ -138,8 +138,30 @@ trait currentSubmit
     
         return null;
     }
-       
 
+    /**
+     * @param string $key The key in the $_FILES array to check.
+     * @return bool True if the file exists and there's no error; otherwise, false.
+     */
+    public static function isFileName(string $key): bool {
+        return isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK;
+    } 
+    
+    /**
+     * @param string $key
+     * @return string|null
+     */
+    public static function getFileName($key):string|null {
+        
+        if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
+          
+            return $_FILES[$key]['name'];
+        } else {
+           
+            return null;
+        }
+    }
+    
     /**
      * @return null|string
      */
@@ -160,9 +182,9 @@ trait currentSubmit
         return null;
     }
 
-   /**
+    /**
      * @return null|string
-     */
+    */
     private static function isGetJSON(): ?string
     {
         $parametres = array(); // Initializing an empty array to store GET parameters

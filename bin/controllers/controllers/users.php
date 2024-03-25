@@ -128,9 +128,9 @@ final class users extends MainSwitchers
     public final function importUsers(string $html): void
     {
 
-        if (static::isValidMethod(true)) {
+        if (static::isValidMethod(true)&&static::isFileName('file')) {
 
-            $SheetData = $this->importFiles->importExcelFiles($_FILES['file']['name']);
+            $SheetData = $this->importFiles->importExcelFiles(static::getFileName('file'));
 
             if (!empty($SheetData)) {
                 
