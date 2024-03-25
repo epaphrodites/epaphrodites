@@ -9,8 +9,12 @@ trait redisdb
 
     /**
      * Connexion Redis
+     * @param integer $db
+     * @return array|object
      */
-    private function setRedisDBConnexion(int $db)
+    private function setRedisDBConnexion(
+        int $db
+    ):array|object
     {
         $dbPrefix = static::DB_DATABASE($db);
         $password = static::DB_PASSWORD($db);
@@ -39,7 +43,13 @@ trait redisdb
         }
     }
 
-    public function RedisDB(int $db = 1)
+    /**
+     * @param integer $db
+     * @return array|object
+     */
+    public function RedisDB(
+        int $db = 1
+    ):array|object
     {
 
         return $this->setRedisDBConnexion($db);

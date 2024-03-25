@@ -10,8 +10,12 @@ trait SqLite
 
     /**
      * Connexion PostgreSQL
+     * @param integer $db
+     * @return object
      */
-    private function getSqLite(int $db)
+    private function getSqLite(
+        int $db
+    ):object
     {
 
         // Try to connect to database to etablish connexion
@@ -32,11 +36,19 @@ trait SqLite
 
     /**
      * Connexion SqLite
+     * @param string $dbName
+     * @param int $db
+     * @param bool $actionType
+     * @return bool
      */
-    private function setSqLiteConnexionWithoutDatabase(string $dbName, int $db, bool $requestAction)
+    private function setSqLiteConnexionWithoutDatabase(
+        string $dbName, 
+        int $db, 
+        bool $actionType
+    ):bool
     {
 
-        if($requestAction==true) {
+        if($actionType==true) {
 
             // Try to connect to database to etablish connexion
             try {
@@ -65,9 +77,11 @@ trait SqLite
 
     /**
      * @param int $db
-     * @return \PDO
+     * @return object
      */
-    public function sqLite(int $db = 1)
+    public function sqLite(
+        int $db = 1
+    ):object
     {
 
         return $this->getSqLite($db);
@@ -76,9 +90,14 @@ trait SqLite
     /**
      * @param string $dbName
      * @param int $db
+     * @param bool $actionType
      * @return bool
      */
-    public function etablishsqLite(string $dbName, int $db, bool $requestAction): bool
+    public function etablishsqLite(
+        string $dbName, 
+        int $db, 
+        bool $requestAction
+    ): bool
     {
 
         return $this->setSqLiteConnexionWithoutDatabase($dbName, $db, $requestAction);

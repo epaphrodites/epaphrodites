@@ -8,8 +8,12 @@ trait mongodb
 
     /**
      * Connexion MongoDB
+     * @param integer $db
+     * @return object
      */
-    private function setMongoDBConnexion(int $db)
+    private function setMongoDBConnexion(
+        int $db
+    ):object
     {
 
         $param = [
@@ -33,12 +37,16 @@ trait mongodb
 
     /**
      * Connexion MongoDB
+     * @param string $dbName
+     * @param int $db
+     * @param bool $actionType
+     * @return bool
      */
     private function setMongoDBConnexionWithoutDatabase(
         string $dbName, 
         int $db, 
         bool $requestAction
-    )
+    ):bool
     {
 
         if($requestAction==true) {
@@ -80,15 +88,31 @@ trait mongodb
         }
     }       
 
-    public function MongoDB(int $db = 1)
+    /**
+     * @param integer $db
+     * @return object
+    */    
+    public function MongoDB(
+        int $db = 1
+    ):object
     {
 
         return $this->setMongoDBConnexion($db);
     }
 
-    public function etablishMongoDB(string $dbName, int $db, bool $requestAction)
+    /**
+     * @param string $dbName
+     * @param int $db
+     * @param bool $actionType
+     * @return bool
+     */
+    public function etablishMongoDB(
+        string $dbName, 
+        int $db, 
+        bool $actionType
+    ):bool
     {
 
-        return $this->setMongoDBConnexionWithoutDatabase($dbName, $db, $requestAction);
+        return $this->setMongoDBConnexionWithoutDatabase($dbName, $db, $actionType);
     }
 }

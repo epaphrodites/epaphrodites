@@ -9,8 +9,12 @@ trait postgreSQL{
 
     /**
      * Connexion PostgreSQL
+     * @param integer $db
+     * @return object
     */
-    private function setPostgreSQLConnexion(int $db)
+    private function setPostgreSQLConnexion(
+        int $db
+    ):object
     {
         // Try to connect to database to etablish connexion
         try {
@@ -29,10 +33,20 @@ trait postgreSQL{
         }
     }
 
-    private function setPostgreSQLConnexionWithoutDatabase(string $dbName , int $db , bool $actiomType)
+    /**
+     * @param string $dbName
+     * @param int $db
+     * @param bool $actionType  
+     * @return bool    
+    */ 
+    private function setPostgreSQLConnexionWithoutDatabase(
+        string $dbName, 
+        int $db, 
+        bool $actionType
+    ):bool
     {
 
-       $requestAction = $actiomType ? "CREATE" : "DROP";
+       $requestAction = $actionType ? "CREATE" : "DROP";
 
         // Try to connect to database to etablish connexion
         try {
@@ -55,13 +69,28 @@ trait postgreSQL{
         }
     }    
     
+    /**
+     * @param integer $db
+     * @return object
+    */   
     public function PostgreSQL(int $db = 1){
 
         return $this->setPostgreSQLConnexion($db);
     }  
     
-    public function etablishPostgreSQL(string $dbName , int $db , $actiomType ){
+    /**
+     * @param string $dbName
+     * @param int $db
+     * @param bool $actionType
+     * @return bool
+    */   
+    public function etablishPostgreSQL(
+        string $dbName, 
+        int $db, 
+        bool $actionType
+    ):bool
+    {
 
-        return $this->setPostgreSQLConnexionWithoutDatabase($dbName , $db , $actiomType);
+        return $this->setPostgreSQLConnexionWithoutDatabase($dbName , $db , $actionType);
     }    
 }

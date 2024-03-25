@@ -38,7 +38,10 @@ class rooter extends TwigRender implements rootInterface
      * @param bool|false $switch
      * @return self
      */
-    public function content( ?array $InitContent = [] , ?bool $switch = false  ):self
+    public function content( 
+        ?array $InitContent = [], 
+        ?bool $switch = false
+    ):self
     {
 
         $GetLayoutsContent = $this->GetLayouts($switch, $InitContent);
@@ -77,7 +80,10 @@ class rooter extends TwigRender implements rootInterface
      * @param bool $Switch
      * @return array
      */
-    public function GetLayouts( bool $Switch , array $content = []):array
+    public function GetLayouts(
+        bool $Switch, 
+        array $content = []
+    ):array
     {
 
         if($Switch===false && $this->CheckLayout($content)!==true){ $content = $this->setting->MainLayout(); }

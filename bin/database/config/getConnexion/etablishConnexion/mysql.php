@@ -9,9 +9,12 @@ trait mysql{
 
     /**
      * Connexion Mysql
-     * @param int $db
+     * @param integer $db
+     * @return object
     */
-    private function setMysqlConnexion(int $db)
+    private function setMysqlConnexion(
+        int $db
+    ):object
     {
 
         // Try to connect to database to etablish connexion
@@ -32,13 +35,20 @@ trait mysql{
     }
 
     /**
-     * Connexion Mysql
+     * Connexion to Mysql
+     * @param string $dbName
      * @param int $db
+     * @param bool $actionType
+     * @return bool
     */
-    private function setMysqlConnexionWithoutDatabase(string $dbName , int $db, bool $actiomType)
+    private function setMysqlConnexionWithoutDatabase(
+        string $dbName , 
+        int $db, 
+        bool $actionType
+    ):bool
     {
 
-        $requestAction = $actiomType ? "CREATE" : "DROP";
+        $requestAction = $actionType ? "CREATE" : "DROP";
 
         // Try to connect to database to etablish connexion
         try {
@@ -63,19 +73,30 @@ trait mysql{
 
     /**
      * Mysql database connexion
-     * @param int $db
+     * @param integer $db
+     * @return object
      */
-    public function Mysql(int $db = 1){
+    public function Mysql(
+        int $db = 1
+    ):object
+    {
 
         return $this->setMysqlConnexion($db);
     }
 
     /**
-     * Mysql database connexion
+     * Connexion to Mysql
+     * @param string $dbName
      * @param int $db
-     */
-    public function etablishMysql(string $dbName , int $db, bool $type){
+     * @param bool $actionType
+     * @return bool
+    */
+    public function etablishMysql(
+        string $dbName, 
+        int $db, 
+        bool $actionType
+    ):bool{
 
-        return $this->setMysqlConnexionWithoutDatabase($dbName  , $db, $type);
+        return $this->setMysqlConnexionWithoutDatabase($dbName, $db, $actionType);
     }    
 }
