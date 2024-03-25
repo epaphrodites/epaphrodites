@@ -9,42 +9,42 @@ final class select extends SelectSelect
 
   /**
    * Request to get users list
-   * @param int $page
+   * @param int $currentPage
    * @param int $numLine
    * @return array
    */
   public function listeOfAllUsers(
-    int $page, 
+    int $currentPage, 
     int $numLine
   ):array{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlListeOfAllUsers($page, $numLine),
-      'redis' => $this->noSqlRedisListeOfAllUsers($page, $numLine),
-      'sqlserver' => $this->sqlServerListeOfAllUsers( $page, $numLine),
+      'mongo' => $this->noSqlListeOfAllUsers($currentPage, $numLine),
+      'redis' => $this->noSqlRedisListeOfAllUsers($currentPage, $numLine),
+      'sqlserver' => $this->sqlServerListeOfAllUsers( $currentPage, $numLine),
 
-      default => $this->defaultSqlListeOfAllUsers($page, $numLine),
+      default => $this->defaultSqlListeOfAllUsers($currentPage, $numLine),
     };       
   }  
   
   /**
    * Request to get list of users recents actions
-   * @param int $page
+   * @param int $currentPage
    * @param int $numLine
    * @return array
    */
   public function listOfRecentActions(
-    int $page, 
+    int $currentPage, 
     int $numLine
   ):array{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlListOfRecentActions($page, $numLine),
-      'redis' => $this->noSqlRedisListOfRecentActions($page, $numLine),
+      'mongo' => $this->noSqlListOfRecentActions($currentPage, $numLine),
+      'redis' => $this->noSqlRedisListOfRecentActions($currentPage, $numLine),
 
-      default => $this->sqlListOfRecentActions($page, $numLine),
+      default => $this->sqlListOfRecentActions($currentPage, $numLine),
     };           
   }   
 }

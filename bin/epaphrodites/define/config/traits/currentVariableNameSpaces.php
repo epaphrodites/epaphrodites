@@ -45,6 +45,7 @@ trait currentVariableNameSpaces
         'ajax' => \Epaphrodites\epaphrodites\shares\ajaxMakeStubs::class,
         'crsf' => \Epaphrodites\epaphrodites\CsrfToken\token_csrf::class,
         'session' => \Epaphrodites\epaphrodites\auth\session_auth::class,
+        'deepl' => \Epaphrodites\epaphrodites\api\translate\deepLp::class,
         'msg' => \Epaphrodites\epaphrodites\define\SetTextMessages::class,
         'secure' => \Epaphrodites\epaphrodites\CsrfToken\csrf_secure::class,
         'cookies' => \Epaphrodites\epaphrodites\auth\SetUsersCookies::class,

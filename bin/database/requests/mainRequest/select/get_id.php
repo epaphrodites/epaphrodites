@@ -43,23 +43,23 @@ final class get_id extends GetId
   /**
    * Request to check users per group
    *
-   * @param int $page
+   * @param int $currentPage
    * @param int $numLine
    * @param int $UsersGroup
    * @return array
    */
   public function GetUsersByGroup(
-    int $page, 
+    int $currentPage, 
     int $numLine, 
     int $UsersGroup
   ):array{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlGetUsersByGroup($page , $numLine , $UsersGroup),
-      'redis' => $this->noSqlGetUsersByGroup($page , $numLine , $UsersGroup),
+      'mongo' => $this->noSqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
+      'redis' => $this->noSqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
 
-      default => $this->sqlGetUsersByGroup($page , $numLine , $UsersGroup),
+      default => $this->sqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
     };        
   }
 

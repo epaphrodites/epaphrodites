@@ -11,7 +11,10 @@ trait pyEnv{
      * @param null|string $type
      * @return mixed
      */
-    public function pyEncryptDecrypt(?string $value, ?string $type)
+    public function pyEncryptDecrypt(
+        ?string $value, 
+        ?string $type
+    ):mixed
     {
 
         return static::initConfig()['python']->executePython($type, ['value' => $value]);
@@ -50,5 +53,4 @@ trait pyEnv{
 
         return static::initConfig()['python']->executePython('convert_pdf_to_text', ["pdf" => $pdfPath]);
     }    
-
 }

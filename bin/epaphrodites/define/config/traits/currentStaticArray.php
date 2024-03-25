@@ -40,5 +40,4 @@ trait currentStaticArray {
         'text/plain',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ];
-
 }

@@ -10,18 +10,18 @@ class select extends SelectSelect
     /**
      * Request to get users list
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function defaultSqlListeOfAllUsers(
-        int $page, 
+        int $currentPage, 
         int $numLines
     ):array{
 
         $result = $this->table('useraccount')
             ->orderBy('usersgroup', 'ASC')
-            ->limit((($page - 1) * $numLines), $numLines)
+            ->limit((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
         return $result;
@@ -30,18 +30,18 @@ class select extends SelectSelect
     /**
      * Request to get users list
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function sqlServerListeOfAllUsers(
-        int $page,
+        int $currentPage,
         int $numLines
     ):array{
 
         $result = $this->table('useraccount')
             ->orderBy('usersgroup', 'ASC')
-            ->offset((($page - 1) * $numLines), $numLines)
+            ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
         return $result;
@@ -50,38 +50,38 @@ class select extends SelectSelect
     /**
      * Request to get users list
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function sqlListOfRecentActions(
-        int $page, 
+        int $currentPage, 
         int $numLines
     ):array{
 
         return match (_FIRST_DRIVER_) {
 
-        'sqlserver' => $this->sqlServerListOfRecentActions( $page, $numLines),
+        'sqlserver' => $this->sqlServerListOfRecentActions( $currentPage, $numLines),
 
-        default => $this->defaultSqlListOfRecentActions( $page, $numLines)
+        default => $this->defaultSqlListOfRecentActions( $currentPage, $numLines)
         };
     } 
 
     /**
      * Request to get list of users recents actions
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function defaultSqlListOfRecentActions(
-        int $page,
+        int $currentPage,
         int $numLines
     ):array{
 
         $result = $this->table('recentactions')
             ->orderBy('dateactions', 'ASC')
-            ->limit((($page - 1) * $numLines), $numLines)
+            ->limit((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
         return $result;
@@ -90,18 +90,18 @@ class select extends SelectSelect
     /**
      * Request to get list of users recents actions
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function sqlServerListOfRecentActions( 
-        int $page,
+        int $currentPage,
         int $numLines
     ):array{
 
         $result = $this->table('recentactions')
             ->orderBy('dateactions', 'ASC')
-            ->offset((($page - 1) * $numLines), $numLines)
+            ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
         return $result;

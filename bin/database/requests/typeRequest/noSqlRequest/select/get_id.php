@@ -10,13 +10,13 @@ class get_id extends Builders
     /**
      * Get users list
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @param integer $usersGroup
      * @return array
      */
     public function noSqlGetUsersByGroup(
-        int $page, 
+        int $currentPage, 
         int $numLines, 
         int $usersGroup
     ):array
@@ -27,7 +27,7 @@ class get_id extends Builders
         $result = $this->db(1)
             ->selectCollection('useraccount')
             ->find(['usersgroup' => $usersGroup], [
-                'limit' => $numLines, 'skip' => ($page-1),
+                'limit' => $numLines, 'skip' => ($currentPage-1),
             ]);
 
         foreach ($result as $document) {

@@ -15,7 +15,12 @@ trait phpEnv{
      * @param string $tail The tail to append after the separator.
      * @return string The truncated and formatted string.
      */
-    public function truncate(?string $string = null, int $limit = 100, string $separator = '...', string $tail = '')
+    public function truncate(
+        ?string $string = null, 
+        int $limit = 100, 
+        string $separator = '...', 
+        string $tail = ''
+    ):string
     {
         if (strlen($string) > $limit) {
             // Truncate the string to the specified limit
@@ -60,7 +65,9 @@ trait phpEnv{
      * 
      * @return mixed
      */
-    public function chaine(?string $chaine = null)
+    public function chaine(
+        ?string $chaine = null
+    )
     {
         if (empty($chaine)) {
             return null;
@@ -94,7 +101,9 @@ trait phpEnv{
      * @param string $chaine
      * @return string
      */
-    public function translate_fr(string $chaine)
+    public function translate_fr(
+        string $chaine
+    )
     {
 
         $this->chaineTranslate = iconv('Windows-1252', 'UTF-8//TRANSLIT', $chaine);
@@ -108,7 +117,9 @@ trait phpEnv{
      * @param array $pathsAndFiles Associative array mapping destination paths to $_FILES keys.
      * @return bool Returns true if all files are successfully uploaded, false otherwise.
      */
-    public function uploadFiles(array $pathsAndFiles = []): bool
+    public function uploadFiles(
+        array $pathsAndFiles = []
+    ): bool
     {
         if (empty($pathsAndFiles)) {
             return false;
@@ -139,7 +150,13 @@ trait phpEnv{
         return $allUploaded;
     }
     
-    protected function generateSafeFilename(string $originalFilename): string|false
+    /**
+     * @param string $originalFilename
+     * @return string|false
+    */    
+    protected function generateSafeFilename(
+        string $originalFilename
+    ): string|false
     {
         $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
         $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '', pathinfo($originalFilename, PATHINFO_FILENAME));
@@ -149,12 +166,14 @@ trait phpEnv{
 
     /**
      * Clean directory
-     *
      * @param string $directory
      * @param string $Extension
      * @return bool
      */
-    public function deleteDirFiles(string $directory, string $extension): bool
+    public function deleteDirFiles(
+        string $directory, 
+        string $extension
+    ): bool
     {
         if (is_dir($directory)) {
            
@@ -190,7 +209,10 @@ trait phpEnv{
      * @param string $FileName
      * @return bool
      */
-    public function deleteFiles(string $directory, string $fileName): bool
+    public function deleteFiles(
+        string $directory, 
+        string $fileName
+    ): bool
     {
         $normalizedDirectory = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         

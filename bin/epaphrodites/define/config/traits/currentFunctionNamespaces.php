@@ -22,6 +22,7 @@ trait currentFunctionNamespaces
             'ajax' => new \Epaphrodites\epaphrodites\shares\ajaxMakeStubs,
             'crsf' => new \Epaphrodites\epaphrodites\CsrfToken\token_csrf,
             'session' => new \Epaphrodites\epaphrodites\auth\session_auth,
+            'deepl' => new \Epaphrodites\epaphrodites\api\translate\deepLp,
             'msg' => new \Epaphrodites\epaphrodites\define\SetTextMessages,
             'secure' => new \Epaphrodites\epaphrodites\CsrfToken\csrf_secure,
             'cookies' => new \Epaphrodites\epaphrodites\auth\SetUsersCookies,

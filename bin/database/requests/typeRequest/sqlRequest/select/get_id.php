@@ -10,13 +10,13 @@ class get_id extends SelectGet_id
     /**
      * Request to get users by group
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @param integer $usersGroup
      * @return array
      */
     public function sqlGetUsersByGroup(
-        int $page, 
+        int $currentPage, 
         int $numLines, 
         int $usersGroup
     ):array
@@ -24,22 +24,22 @@ class get_id extends SelectGet_id
 
         return match (_FIRST_DRIVER_) {
 
-        'sqlserver' => $this->sqlServerGetUsersByGroup( $page, $numLines, $usersGroup),
+        'sqlserver' => $this->sqlServerGetUsersByGroup( $currentPage, $numLines, $usersGroup),
 
-        default => $this->defaultSqlGetUsersByGroup( $page, $numLines, $usersGroup)
+        default => $this->defaultSqlGetUsersByGroup( $currentPage, $numLines, $usersGroup)
         };
     }     
 
     /**
      * Request to get users by group
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @param integer $usersGroup
      * @return array
      */
     public function defaultSqlGetUsersByGroup(
-        int $page, 
+        int $currentPage, 
         int $numLines, 
         int $usersGroup
     ):array
@@ -47,7 +47,7 @@ class get_id extends SelectGet_id
 
         $result = $this->table('useraccount')
             ->where('usersgroup')
-            ->limit((($page - 1) * $numLines), $numLines)
+            ->limit((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('loginusers', 'ASC')
             ->param([$usersGroup])
             ->SQuery();
@@ -58,13 +58,13 @@ class get_id extends SelectGet_id
     /**
      * Request to get users by group
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @param integer $usersGroup
      * @return array
      */
     public function sqlServerGetUsersByGroup(
-        int $page, 
+        int $currentPage, 
         int $numLines, 
         int $usersGroup
     ):array
@@ -72,7 +72,7 @@ class get_id extends SelectGet_id
 
         $result = $this->table('useraccount')
             ->where('usersgroup')
-            ->offset((($page - 1) * $numLines), $numLines)
+            ->offset((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('loginusers', 'ASC')
             ->param([$usersGroup])
             ->SQuery();

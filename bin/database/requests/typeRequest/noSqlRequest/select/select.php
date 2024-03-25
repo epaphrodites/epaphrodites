@@ -10,12 +10,12 @@ class select extends Builders
     /**
      * Request to select users list
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function noSqlListeOfAllUsers( 
-        int $page, 
+        int $currentPage, 
         int $numLines
     ):array
     {
@@ -24,7 +24,7 @@ class select extends Builders
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->find([] , ['limit' => $numLines , 'skip' => ($page -1)] );
+            ->find([] , ['limit' => $numLines , 'skip' => ($currentPage -1)] );
 
         foreach ($result as $document) {
             $documents []= $document;
@@ -36,12 +36,12 @@ class select extends Builders
    /**
      * Request to select users list
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function noSqlRedisListeOfAllUsers( 
-        int $page, 
+        int $currentPage, 
         int $numLines
     ):array
     {
@@ -55,12 +55,12 @@ class select extends Builders
     /**
      * Request to get list of users recents actions
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function noSqlListOfRecentActions( 
-        int $page, 
+        int $currentPage, 
         int $numLines
     ):array
     {
@@ -69,7 +69,7 @@ class select extends Builders
 
         $result = $this->db(1)
             ->selectCollection('recentactions')
-            ->find([] , ['limit' => $numLines , 'skip' => ($page -1)] );
+            ->find([] , ['limit' => $numLines , 'skip' => ($currentPage -1)] );
 
         foreach ($result as $document) {
             $documents []= $document;
@@ -81,19 +81,19 @@ class select extends Builders
     /**
      * Request to get list of users recents actions
      *
-     * @param integer $page
+     * @param integer $currentPage
      * @param integer $numLines
      * @return array
      */
     public function noSqlRedisListOfRecentActions( 
-        int $page, 
+        int $currentPage, 
         int $numLines
     ):array
     {
 
         $result = [];
 
-        $result = $this->key('recentactions')->all()->rlimit($page , $numLines)->redisGet();
+        $result = $this->key('recentactions')->all()->rlimit($currentPage , $numLines)->redisGet();
         
         return $result;         
     }    
