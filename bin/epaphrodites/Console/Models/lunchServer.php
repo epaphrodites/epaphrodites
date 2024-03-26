@@ -53,18 +53,18 @@ class lunchServer extends AddServerConfig
             $this->validatePort($port);
 
             if ($this->isPortInUse($port)) {
-                throw new \RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
+                throw new \RuntimeException(sprintf(static::ERROR_PORT_IN_USE, $port));
             }
 
             $this->startServer($port);
-            return self::SUCCESS;
+            return static::SUCCESS;
 
         } catch (\InvalidArgumentException $e) {
             $output->writeln("<error>Invalid argument: " . $e->getMessage() . "</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         } catch (\RuntimeException $e) {
             $output->writeln("<error>Runtime error: " . $e->getMessage() . "</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 

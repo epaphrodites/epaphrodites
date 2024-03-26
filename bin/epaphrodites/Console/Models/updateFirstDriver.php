@@ -23,7 +23,7 @@ class updateFirstDriver extends AddFirstDriver{
     ){
         # Get console arguments
         $driver = _FIRST_DRIVER_;
-        $checkDriver = in_array($driver , self::$allowedMethods);
+        $checkDriver = in_array($driver , static::$allowedMethods);
 
         $crsfSecure = OutputDirectory::Files('crsfsecure') . '/csrf_secure.php';
         $validateToken = OutputDirectory::Files('crsfsecure') . '/validate_token.php';
@@ -33,11 +33,11 @@ class updateFirstDriver extends AddFirstDriver{
 
             (new stubsUpdateFirstDrivers)->generateRequest($crsfSecure, $startSession , $validateToken , $driver);
             $output->writeln("<info>{$driver} driver has created successfully!!!✅</info>");
-            return self::SUCCESS;            
+            return static::SUCCESS;            
 
         }else{
             $output->writeln("<error>Sorry this {$driver} driver don't exist❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

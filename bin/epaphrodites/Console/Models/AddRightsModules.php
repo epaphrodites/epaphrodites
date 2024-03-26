@@ -36,11 +36,11 @@ class AddRightsModules extends AddModulesConfig
             AddRightsModulesStub::generate($GetFilesNames, $key , strtoupper($libelle));
             $output->writeln("<info>The Module has been successfully created!!!✅</info>");
 
-            return self::SUCCESS;
+            return static::SUCCESS;
         }else{
 
             $output->writeln("<error>Sorry, the module Key '{$key}' of '{$libelle}' already exists❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

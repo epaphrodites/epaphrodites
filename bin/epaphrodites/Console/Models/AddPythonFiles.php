@@ -36,11 +36,11 @@ class AddPythonFiles extends AddPythonFilesCommand{
 
             pythonStubs::generate($FileName , $functionName , $fileInit);
             $output->writeln("<info>Your python file {$fileName} has been generated successfully!!!✅</info>");
-            return self::SUCCESS;            
+            return static::SUCCESS;            
 
         }else{
             $output->writeln("<error>Sorry this file '{$fileName}' exist already</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

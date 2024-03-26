@@ -27,11 +27,11 @@ class modeldropDatabase extends settingdropDatabase{
         if( $result == true ){
 
             $output->writeln("<info>Your database {$database} has been deleted successfully in configuration {$order}!!!✅</info>");
-            return self::SUCCESS;            
+            return static::SUCCESS;            
 
         }else{
             $output->writeln("<error>Please check your configuration or the existence of this database {$database} in configuration {$order} ❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

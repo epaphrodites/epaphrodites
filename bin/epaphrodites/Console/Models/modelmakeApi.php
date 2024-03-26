@@ -27,11 +27,11 @@ class modelmakeApi extends settingmakeApi{
 
             StubsControllerFunction::generate($controllerName, $apiName, true);
             $output->writeln("<info>Your API {$apiName} has been generated successfully!!!✅</info>");
-            return self::SUCCESS;            
+            return static::SUCCESS;            
 
          }else{
             $output->writeln("<error>Sorry this controller '{$controllerName}' don't exist❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

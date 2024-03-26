@@ -32,14 +32,14 @@ class CreateRequestFiles extends RequestFileConfig
                 RequestFilesStub::generate($FileName, $requestFileName , $requestFileDirectory);
                 $output->writeln("<info>The request file '{$requestFileName}' has been successfully created!!!</info>");
         
-                return self::SUCCESS;
+                return static::SUCCESS;
             }else{
                 $output->writeln("<error>Sorry this request file '{$requestFileName}' already exists.</error>");
-                return self::FAILURE;
+                return static::FAILURE;
             }
         }else{
             $output->writeln("<error>Sorry this request directory '{$requestFileDirectory}' don't already.</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 

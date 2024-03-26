@@ -29,10 +29,10 @@ class modelgearshift extends settinggearshift
         if($results === true ){
 
             $output->writeln("<info>All '{$action}' migration has been successfully created!!!✅</info>");
-            return self::SUCCESS;
+            return static::SUCCESS;
         }else{
             $output->writeln("<error>Sorry, check your request before starting the migration ❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }        
     }
 

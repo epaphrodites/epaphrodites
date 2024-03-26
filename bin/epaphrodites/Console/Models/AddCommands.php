@@ -31,11 +31,11 @@ class AddCommands extends AddNewCommand{
 
             newCommandSubs::generate($commadFile , $modelFile , $settingFile ,$command , $fileName);
             $output->writeln("<info>Your command {$command} has been generated successfully!!!✅</info>");
-            return self::SUCCESS;            
+            return static::SUCCESS;            
 
         }else{
             $output->writeln("<error>Sorry this command '{$command}' exist already❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

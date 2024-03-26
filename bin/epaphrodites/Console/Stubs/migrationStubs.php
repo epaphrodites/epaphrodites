@@ -17,7 +17,7 @@ class migrationStubs{
 
 $stub = "    /**
     * Create table $table
-    * Create $dateTime
+    * create $dateTime
     */
     public function {$schemaName}()
     {
@@ -46,7 +46,7 @@ $stub = "    /**
 
 $stub = "    /**
     * Drop $table
-    * Drop $dateTime
+    * drop $dateTime
     */
     public function {$schemaName}()
     {
@@ -75,7 +75,7 @@ $stub = "    /**
 
 $stub = "    /**
     * Add Column $columnName
-    * Create $dateTime
+    * create $dateTime
     */
     public function {$schemaName}()
     {

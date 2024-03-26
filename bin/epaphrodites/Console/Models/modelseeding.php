@@ -24,7 +24,7 @@ class modelseeding extends settingseeding{
 
         $databaseType = strtolower($input->getArgument('type'));
 
-        if (in_array($databaseType, self::$Autorise)) {
+        if (in_array($databaseType, static::$Autorise)) {
             
             if ($databaseType == "nosql") {
                 $seeding->noSqlRun();
@@ -32,14 +32,14 @@ class modelseeding extends settingseeding{
                 $seeding->sqlRun();
             } else {
                 $output->writeln("<error>Invalid database type</error>");
-                return self::FAILURE;
+                return static::FAILURE;
             }
 
             $output->writeln("<info>Your {$databaseType} seeder has been created successfully!!!✅</info>");
-            return self::SUCCESS;
+            return static::SUCCESS;
         } else {
             $output->writeln("<error>Invalid database type</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

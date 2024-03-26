@@ -33,14 +33,14 @@ class CreatedViews extends CreateViewsConfig
 
                 AllViewsStub::generate($fileName, $fileName , $directory);
                 $output->writeln("<info>The view file {$initFileNames} has been successfully created!!!✅</info>");
-                return self::SUCCESS;
+                return static::SUCCESS;
             }else{
                 $output->writeln("<error>Sorry, this view file {$initFileNames} does not exist.❌</error>");
-                return self::FAILURE;
+                return static::FAILURE;
             }
         }else{
             $output->writeln("<error>Sorry, this view directory {$directory} does not exist.❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

@@ -32,14 +32,14 @@ class AddNoSqlRequest extends AddNoSqlConfig
             if(file_exists($FileName)===true){
                 AddNoSqlRequestStub::generate($FileName, $name , $type);
                 $output->writeln("<info>Your request {$file} has been created successfully!!!✅</info>");
-                return self::SUCCESS;
+                return static::SUCCESS;
             }else{
                 $output->writeln("<error>Sorry this file {$file} don't exist in {$directory} directory❌</error>");
-                return self::FAILURE;  
+                return static::FAILURE;  
             }
         }else{
             $output->writeln("<error>Sorry {$directory} directory don't exist❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

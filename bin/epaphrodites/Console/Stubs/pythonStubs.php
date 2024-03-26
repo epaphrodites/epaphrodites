@@ -35,7 +35,7 @@ class {$functionName}:
 
 if __name__ == '__main__':  
     print_instance = {$functionName}()
-    print_instance.func_{$functionName}  
+    print_instance.func_{$functionName}()
         ";  
         
         return $stub;

@@ -26,10 +26,10 @@ class modelMigration extends settingMigration{
         if($results === true ){
 
             $output->writeln("<info>The schema has been successfully created!!!✅</info>");
-            return self::SUCCESS;
+            return static::SUCCESS;
         }else{
             $output->writeln("<error>Sorry, check your request before starting the migration ❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
     

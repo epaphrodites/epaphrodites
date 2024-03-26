@@ -25,7 +25,7 @@ class CreateControllers extends ControllersConfig
         ControllerStub::GenerateControlleurs($fileName, $name , $controllerMaps);
         $output->writeln("<info>The controller {$name} has been successfully created!!!✅</info>");
 
-        return self::SUCCESS;
+        return static::SUCCESS;
     }
 
 }

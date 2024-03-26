@@ -28,11 +28,11 @@ class AddControllerViewPages extends AddControllerPage{
 
             StubsControllerFunction::generate($FileName, $name);
             $output->writeln("<info>Your function path {$name} has been generated successfully!!!✅</info>");
-            return self::SUCCESS;            
+            return static::SUCCESS;            
 
         }else{
             $output->writeln("<error>Sorry this controller '{$controller}' don't exist❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

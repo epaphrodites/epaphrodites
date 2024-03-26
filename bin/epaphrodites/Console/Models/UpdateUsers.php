@@ -25,10 +25,10 @@ class UpdateUsers extends UsersConfig
 
         if($result===true){
             $output->writeln("<info>Changes to the user {$username} have been successfully made!!!✅</info>");
-            return self::SUCCESS;
+            return static::SUCCESS;
         }else{
             $output->writeln("<error>Error during processing. Please verify that the user {$username} already exists❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }

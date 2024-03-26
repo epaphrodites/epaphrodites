@@ -44,18 +44,18 @@ class AddUsersRights extends AddRightsConfig
                     AddUserRightsStub::generate($FileName, $libelle , $path , $module);
                     $output->writeln("<info>The right has been successfully created!!!✅</info>");
             
-                    return self::SUCCESS;
+                    return static::SUCCESS;
                 }else{
                     $output->writeln("<error>Sorry, this link '{$path}' already exists.❌</error>");
-                    return self::FAILURE;
+                    return static::FAILURE;
                 }
             }else{
                 $output->writeln("<error>Sorry, this module '{$module}' already exists.❌</error>");
-                return self::FAILURE;
+                return static::FAILURE;
             }
         }else{
             $output->writeln("<error>Sorry, the rights management file does not exist.❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 

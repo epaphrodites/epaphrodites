@@ -25,10 +25,10 @@ class CreateUsers extends UsersConfig
 
         if($result===true){
             $output->writeln("<info>The {$username} has been successfully created!!!✅</info>");
-            return self::SUCCESS;
+            return static::SUCCESS;
         }else{
             $output->writeln("<error>The {$username} user already exists.❌</error>");
-            return self::FAILURE;
+            return static::FAILURE;
         }
     }
 }
