@@ -22,5 +22,9 @@
     "hello_world": {
         "script": "hello_world.py",
         "function": "hello_world"
+    },
+    "lunchBotModelTwo": {
+        "script": "others\/lunchBotModelTwo.py",
+        "function": "func_lunchBotModelTwo"
     }
 }

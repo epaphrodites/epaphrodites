@@ -62,7 +62,7 @@ trait languageWords
             'hello', 'morning' , 'hi', 'generate', 'create', 'build','generated', 'project', 'building', 'tell', 'update', 'evening', 'want', 'children', 'commit', 'layout',
             'database', 'open', 'tool', 'developer', 'developers', 'feature', 'same', 'function', 'recent', 'thank', 'download', 'readme', 'instal', 'strong', 'developers',
             'available', 'workflows', 'start', 'started', 'though', 'insert', 'delete', 'power', 'custom' ,'awesome', 'work', 'do', 'give', 'query', 'controller',
-            'janvier', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'day', 'night', 'help', 'english'
+            'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'day', 'night', 'help', 'english'
         ];
     }
 }

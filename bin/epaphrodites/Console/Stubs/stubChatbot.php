@@ -50,7 +50,7 @@
 
             \$send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
     
-            \$result = \$this->initNamespace()['bot']->herediaBot(\$send , \$chatBotName);
+            \$result = \$this->initNamespace()['bot']->herediaBotModeleOne(\$send , \$chatBotName);
     
             echo \$this->initNamespace()['ajax']->chatMessageContent(\$result , \$send , \$chatBotName);
 

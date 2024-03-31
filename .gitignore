@@ -14,3 +14,4 @@ mysql.session.sql
 /.vscode
 /vendor
 /node_modules
+**/__pycache__/

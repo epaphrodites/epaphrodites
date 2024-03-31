@@ -3,9 +3,12 @@
 namespace Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
+use Epaphrodites\epaphrodites\define\config\traits\currentFunctionNamespaces;
 
 trait botProcessConfig
 {
+
+    use currentFunctionNamespaces;
 
   /**
      * @param string $userMessage
@@ -77,4 +80,31 @@ trait botProcessConfig
         // Return the updated data including the new response
         return $result;
     }
+
+   /**
+     * @param string $userMessage
+     * @return array
+     */
+    private function herediaChatBotProcessConfig(string $userMessage , bool $learn):array
+    {
+        $result =[];
+        
+        $login = (new session_auth)->login();
+
+        if (!empty($userMessage)) {
+
+           static::initConfig()['python']->executePython('lunchBotModelTwo',[ 'login' => $login  , 'userMessages'=>$userMessage , 'learn'=>$learn ]);
+        }
+
+        // Load existing JSON data, if any
+        $existingData = $this->loadOthersJsonFile('hippocampusModelTwo');
+
+        foreach ($existingData as $key => $value) {
+            if ($value['login'] === $login) {
+                $result[] = $existingData[$key];
+            }
+        }
+
+        return $result;
+    }    
 }

@@ -1,4 +1,4 @@
-{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import send_ajax_request , get_ajax_request %}{% from forms import input_field , loader , submit %}{% from tools import recognition %} {% block content %}{{ alert_msg( reponse , alert ) }}{{ breadcrumb_field('EPAPHRODITES CHATBOT MODEL ONE' )}}
+{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from ajax import send_ajax_request , get_ajax_request %}{% from forms import input_field , loader , submit %}{% from tools import recognition %} {% block content %}{{ alert_msg( reponse , alert ) }}{{ breadcrumb_field('EPAPHRODITES CHATBOT MODEL TWO' )}}
 <section>
   <div class="container">
     <div class="wrapper">
@@ -29,7 +29,7 @@
 </section>
 {{ send_ajax_request({
   method : "POST",
-  url : "chats@start_epaphrodites_chatbots",
+  url : "chats@start_heredia_bot",
   value : ['__send__'],
   submit : '#BtnValidate',
   msg : '.box'
@@ -37,7 +37,7 @@
 
 {{ get_ajax_request({
   method : "POST",
-  url : "chats@start_epaphrodites_chatbots",
+  url : "chats@start_heredia_bot",
   msg : '.box',
   type : 'html'
 }) }}

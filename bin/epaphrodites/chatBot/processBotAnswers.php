@@ -14,20 +14,37 @@ class processBotAnswers extends chatBot
     /**
      * @param string $userMessage
      * @return array
-     */
-    public final function chatProcess(string $userMessage): array
+    */
+    public final function chatBotModeleOneProcess(
+        string $userMessage
+    ): array
     {
         return $this->chatProcessConfig($userMessage);
     }
 
     /**
      * @param string $userMessage
+     * @param bool $learn
+     * @return array
+    */
+    public final function chatBotModeleTwoProcess(
+        string $userMessage, 
+        bool $learn = true
+    ): array
+    {
+        return $this->herediaChatBotProcessConfig($userMessage , $learn);
+    }    
+
+    /**
+     * @param string $userMessage
      * @param string $botName
      * @return array
-     */
-    public final function herediaBot(string $userMessage , string $botName): array
+    */
+    public final function herediaBotModeleOne(
+        string $userMessage, 
+        string $botName
+    ): array
     {
-        
         return $this->herediaBotConfig($userMessage , $botName);
     }    
 }
