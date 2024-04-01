@@ -56,7 +56,9 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function assignUserAccessRights(string $html): void
+    public final function assignUserAccessRights(
+        string $html
+    ): void
     {
 
         $userGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
@@ -95,7 +97,9 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function listOfUserRightsManagement(string $html): void
+    public final function listOfUserRightsManagement(
+        string $html
+    ): void
     {
 
         $userGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
@@ -177,7 +181,9 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function managementOfUserAccessRights(string $html): void
+    public final function managementOfUserAccessRights(
+        string $html
+    ): void
     {
 
         if (static::isValidMethod(true)) {
@@ -214,7 +220,9 @@ final class setting extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function listOfRecentActions(string $html): void
+    public final function listOfRecentActions(
+        string $html
+    ): void
     {
 
         $total = 0;

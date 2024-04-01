@@ -14,7 +14,9 @@ trait botProcessConfig
      * @param string $userMessage
      * @return array
      */
-    private function chatProcessConfig(string $userMessage): array
+    private function chatProcessConfig(
+        string $userMessage
+    ): array
     {
         $result =[];
         
@@ -47,9 +49,13 @@ trait botProcessConfig
 
     /**
      * @param string $userMessage
+     * @param string $botName
      * @return array
      */
-    private function herediaBotConfig(string $userMessage , string $botName): array
+    private function herediaBotConfig(
+        string $userMessage, 
+        string $botName
+    ): array
     {
 
         $result =[];
@@ -83,9 +89,13 @@ trait botProcessConfig
 
    /**
      * @param string $userMessage
+     * @param bool $learn
      * @return array
      */
-    private function herediaChatBotProcessConfig(string $userMessage , bool $learn):array
+    private function herediaChatBotProcessConfig(
+        string $userMessage, 
+        bool $learn
+        ):array
     {
         $result =[];
         
@@ -93,7 +103,7 @@ trait botProcessConfig
 
         if (!empty($userMessage)) {
 
-           static::initConfig()['python']->executePython('lunchBotModelTwo',[ 'login' => $login  , 'userMessages'=>$userMessage , 'learn'=>$learn ]);
+            static::initConfig()['python']->executePython('lunchBotModelTwo',[ 'login' => $login  , 'userMessages'=>$userMessage , 'learn'=>$learn ]);
         }
 
         // Load existing JSON data, if any

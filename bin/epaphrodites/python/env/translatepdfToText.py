@@ -1,7 +1,8 @@
 import sys
 import json
 import PyPDF2
-
+sys.path.append('bin/epaphrodites/python/config/')
+from initJsonLoader import InitJsonLoader
 
 class TranslateDocumentToText:
     def __init__(self, document_path, password=None):
@@ -42,7 +43,7 @@ if __name__ == "__main__":
 
     json_values = sys.argv[1]
     
-    document_data = TranslateDocumentToText.load_json_values(json_values)
+    document_data = InitJsonLoader.loadJsonValues(json_values)
 
     if 'function' not in document_data or 'pdf' not in document_data:
         print("The JSON file must contain 'function' and 'pdf'.")

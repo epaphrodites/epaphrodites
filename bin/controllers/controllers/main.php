@@ -14,7 +14,9 @@ final class main extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function index(string $html):void
+    public final function index(
+        string $html
+    ):void
     {
          $this->views($html);
     }
@@ -25,7 +27,9 @@ final class main extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function login(string $html): void
+    public final function login(
+        string $html
+    ): void
     {
 
         if (static::isValidMethod()) {

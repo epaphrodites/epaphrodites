@@ -12,7 +12,10 @@ class GeneralConfig extends ApiStaticKeygen
      * @param mixed $divid
      * @return string
      */
-    public function EndFiles($Files, $divid)
+    public function EndFiles(
+        $Files, 
+        $divid
+    )
     {
 
         $Files = explode($divid, $Files);
@@ -33,7 +36,10 @@ class GeneralConfig extends ApiStaticKeygen
      * @param string|null $values
      * @return void
      */
-    public function SetSession(?string $key = null, ?string $values = null)
+    public function SetSession(
+        ?string $key = null, 
+        ?string $values = null
+    )
     {
 
         return $_SESSION[$key] = $values;
@@ -43,7 +49,9 @@ class GeneralConfig extends ApiStaticKeygen
      * @param string|null $key
      * @return void
      */
-    public function GetSessions(?string $key = null)
+    public function GetSessions(
+        ?string $key = null
+    )
     {
 
         return isset($_SESSION[$key]) ? $_SESSION[$key] : NULL;
@@ -70,7 +78,10 @@ class GeneralConfig extends ApiStaticKeygen
      * @param array $data - Input data for the script.
      * @return string - Output of the Python script or an error message.
      */
-    public function pythonSystemCode(?string $scriptPath = null, array $data = [] ): string
+    public function pythonSystemCode(
+        ?string $scriptPath = null, 
+        array $data = [] 
+    ): string
     {
 
         if ($scriptPath === null || !file_exists($scriptPath)) {
@@ -96,5 +107,5 @@ class GeneralConfig extends ApiStaticKeygen
         }
 
         return $output;
-    }
+    } 
 }

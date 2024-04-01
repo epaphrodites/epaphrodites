@@ -2,6 +2,8 @@ import sys
 import json
 import requests
 from bs4 import BeautifulSoup
+sys.path.append('bin/epaphrodites/python/config/')
+from initJsonLoader import InitJsonLoader
 
 class UrlTableContent:
     
@@ -35,12 +37,6 @@ class UrlTableContent:
                 
             self.table_data.append(row_data)
 
-    def load_json_values(self, json_values):
-        
-        values = json.loads(json_values)
-        
-        return values
-
     def scrape_and_return_data(self):
         
         self.get_webpage_content()
@@ -55,7 +51,7 @@ if __name__ == "__main__":
     
     url_table_content = UrlTableContent('')
     
-    values = url_table_content.load_json_values(json_values)
+    values = InitJsonLoader.loadJsonValues(json_values)
     
     url = values.get('url')
     

@@ -37,9 +37,10 @@ final class dashboard extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function superAdmin(string $html):void
+    public final function superAdmin(
+        string $html
+    ):void
     {
-
         $this->views( $html, 
             [
                 'select' => $this->select,
@@ -55,9 +56,10 @@ final class dashboard extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function administrator(string $html): void
+    public final function administrator(
+        string $html
+    ): void
     {
-
         $this->views( $html, 
             [
                 'select' => $this->select,
@@ -73,9 +75,10 @@ final class dashboard extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function users(string $html): void
+    public final function users(
+        string $html
+    ): void
     {
-
         $this->views( $html, 
             [
                 'select' => $this->select,

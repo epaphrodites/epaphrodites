@@ -143,7 +143,7 @@ trait phpEnv{
             $fullDestinationPath = rtrim($destinationPath, '/') . '/' . $safeFilename;
     
             if (!move_uploaded_file($_FILES[$fileKey]['tmp_name'], $fullDestinationPath)) {
-                $allUploaded = false;
+                $allUploaded = false; 
             }
         }
     

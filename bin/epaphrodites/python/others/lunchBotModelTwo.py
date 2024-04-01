@@ -1,7 +1,8 @@
 import sys
-import json
 sys.path.append('bin/epaphrodites/chatBot/modeleTwo/bots/')
+sys.path.append('bin/epaphrodites/python/config/')
 from herediaBot import HerediaBot
+from initJsonLoader import InitJsonLoader
 
 class LunchBotModelTwo:
 
@@ -11,17 +12,11 @@ class LunchBotModelTwo:
        result = HerediaBot.getUsersMessages(login, message, learn)
        return result
 
-    @staticmethod
-    def loadJsonValues(json_values):
-
-        values = json.loads(json_values)
-        return values
-
 if __name__ == '__main__':  
     
     json_values = sys.argv[1]
     
-    json_datas = LunchBotModelTwo.loadJsonValues(json_values)
+    json_datas = InitJsonLoader.loadJsonValues(json_values)
     
     if 'login' not in json_datas or 'userMessages' not in json_datas:
         print("The JSON file must contain 'login' and 'userMessages'.")

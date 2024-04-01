@@ -2,6 +2,8 @@ import sys
 import json
 import pytesseract
 from PIL import Image
+sys.path.append('bin/epaphrodites/python/config/')
+from initJsonLoader import InitJsonLoader
 
 class TranslateImgToText:
 
@@ -21,13 +23,6 @@ class TranslateImgToText:
 
             return "Error when extracting text from the image : " + str(e)
 
-    @staticmethod
-    def loadJsonValues(json_values):
-
-        values = json.loads(json_values)
-
-        return values
-
 if __name__ == '__main__':
 
     if len(sys.argv) != 2:
@@ -38,7 +33,7 @@ if __name__ == '__main__':
 
     json_values = sys.argv[1]
 
-    json_datas = TranslateImgToText.loadJsonValues(json_values)
+    json_datas = InitJsonLoader.loadJsonValues(json_values)
 
     if 'function' not in json_datas or 'img' not in json_datas:
         print("The JSON file must contain 'function' and 'img'.")

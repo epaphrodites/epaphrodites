@@ -39,7 +39,9 @@ final class chats extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function listOfMessages(string $html): void
+    public final function listOfMessages(
+        string $html
+    ): void
     {
 
         $this->views( $html, [], true );
@@ -51,7 +53,9 @@ final class chats extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function startEpaphroditesChatBots(string $html): void
+    public final function startEpaphroditesChatBots(
+        string $html
+    ): void
     {
 
         if (static::isValidMethod(true)) {
@@ -74,7 +78,9 @@ final class chats extends MainSwitchers
      * @param string $html
      * @return void
      */
-    public final function startHerediaBot(string $html): void
+    public final function startHerediaBot(
+        string $html
+    ): void
     {
 
         if (static::isValidMethod(true)) {

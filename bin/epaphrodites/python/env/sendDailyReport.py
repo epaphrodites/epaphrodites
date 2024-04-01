@@ -5,6 +5,8 @@ import datetime
 import os
 import json
 import sys
+sys.path.append('bin/epaphrodites/python/config/')
+from initJsonLoader import InitJsonLoader
 
 # Function to load SMTP configuration from JSON file
 def load_json_config(file_path='smtp.json'):
@@ -65,7 +67,7 @@ if __name__ == "__main__":
     json_values = sys.argv[1]  # Retrieve JSON values provided as an argument
     
     try:
-        data_sent = json.loads(json_values)  # Load the JSON data
+        data_sent = InitJsonLoader.loadJsonValues(json_values)  # Load the JSON data
     except json.JSONDecodeError as e:
         print(f"Error in JSON format: {e}")
         sys.exit(1)
