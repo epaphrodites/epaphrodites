@@ -34,6 +34,9 @@ class InitJsonLoader:
     @staticmethod
     def loadJsonValues(json_values):
 
-        json_values = InitJsonLoader.add_quotes(json_values)
+        data = json.loads('{' + json_values.strip('{}') + '}')
+        return json.dumps(data)
+
+        #json_values = InitJsonLoader.add_quotes(json_values)
        # values = json.loads(json_values)
-        return json_values
+       # return json_values
