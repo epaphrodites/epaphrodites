@@ -91,7 +91,7 @@ class GeneralConfig extends ApiStaticKeygen
 
         foreach ($data as $key => $value) {
             if (is_string($value)) {
-                $data[$key] = str_replace(',', '!u77b!', $value);
+                $data[$key] = str_replace(',', 'u7q7b;', $value);
             }
         }
 
