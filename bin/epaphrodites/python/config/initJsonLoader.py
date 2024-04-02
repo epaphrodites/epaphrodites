@@ -9,13 +9,16 @@ class InitJsonLoader:
         elements = re.findall(r'([^:]+):(".*?"|[^,]+)', string.strip('{}'))
         for i, element in enumerate(elements):
             key, value = element
+            key = re.sub(r'(^")|("$)', '', key)  # Supprimer les guillemets doubles de début et de fin
+            value = re.sub(r'(^")|("$)', '', value)  # Supprimer les guillemets doubles de début et de fin
+
             if not key.startswith('"') and not key.endswith('"'):
                 key = '"' + key.strip() + '"'
 
-            if value.startswith('"') and value.endswith('"'):
-                pass  # La valeur est déjà entourée de guillemets doubles
-            elif value in ['true', 'false', 'null']:
+            if value in ['true', 'false', 'null']:
                 pass  # La valeur est une constante JSON, ne pas l'entourer de guillemets
+            elif value.startswith('"') and value.endswith('"'):
+                pass  # La valeur est déjà entourée de guillemets doubles
             else:
                 value = '"' + value.strip() + '"'
 
@@ -34,9 +37,6 @@ class InitJsonLoader:
     @staticmethod
     def loadJsonValues(json_values):
 
-        data = json.loads('{' + json_values.strip('{}') + '}')
-        return json.dumps(data)
-
-        #json_values = InitJsonLoader.add_quotes(json_values)
+        json_values = InitJsonLoader.add_quotes(json_values)
        # values = json.loads(json_values)
-       # return json_values
+        return json_values
