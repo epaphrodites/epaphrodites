@@ -103,7 +103,7 @@ trait botProcessConfig
 
         if (!empty($userMessage)) {
 
-            static::initConfig()['python']->executePython('lunchBotModelTwo',[ 'login' => $login  , 'userMessages'=>$userMessage , 'learn'=>$learn ]);
+            static::initConfig()['python']->executePython('lunchBotModelTwo',[ 'login' => $login, 'learn'=>$learn, 'userMessages'=>$userMessage ]);
         }
 
         // Load existing JSON data, if any
