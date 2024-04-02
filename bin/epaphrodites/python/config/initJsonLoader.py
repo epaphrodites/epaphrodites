@@ -68,7 +68,7 @@ class InitJsonLoader:
        json_values = json.loads(json_values)
        for key, value in json_values.items():
             if isinstance(value, str):
-                json_values[key] = value.replace('\\u214b', ',')
+                json_values[key] = value.replace('!u77b!','¸')
 
        return json_values
  
