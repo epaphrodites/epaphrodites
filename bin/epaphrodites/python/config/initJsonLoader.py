@@ -24,8 +24,8 @@ class InitJsonLoader:
             else:
                 previous_value_quoted = result[-1].endswith('"')
                 current_value_quoted = value.startswith('"') and value.endswith('"')
-                if previous_value_quoted and current_value_quoted:
-                    result.append('' + key + ':' + value)
+                if previous_value_quoted or current_value_quoted:
+                    result.append(',' + key + ':' + value)
                 else:
                     result.append(key + ':' + value)
 
