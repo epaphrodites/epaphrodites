@@ -7,18 +7,28 @@ class InitJsonLoader:
     def add_quotes(string):
         result = []
         elements = re.findall(r'([^:]+):(".*?"|[^,]+)', string.strip('{}'))
-        for element in elements:
+        for i, element in enumerate(elements):
             key, value = element
             if not key.startswith('"') and not key.endswith('"'):
                 key = '"' + key.strip() + '"'
 
             if value.startswith('"') and value.endswith('"'):
-                pass  
+                pass  # La valeur est déjà entourée de guillemets doubles
             elif value in ['true', 'false', 'null']:
-                pass
+                pass  # La valeur est une constante JSON, ne pas l'entourer de guillemets
             else:
                 value = '"' + value.strip() + '"'
-            result.append(key + ':' + value)
+
+            if i == 0:
+                result.append(key + ':' + value)
+            else:
+                previous_value_quoted = result[-1].endswith('"')
+                current_value_quoted = value.startswith('"') and value.endswith('"')
+                if previous_value_quoted and current_value_quoted:
+                    result.append('' + key + ':' + value)
+                else:
+                    result.append(key + ':' + value)
+
         return '{' + ''.join(result) + '}'
 
     @staticmethod
