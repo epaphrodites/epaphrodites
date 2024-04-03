@@ -21,7 +21,7 @@ What you should know before starting the installation. To create a new applicati
 - XML PHP Extension
 - ZIP PHP Extension
 - JSON PHP Extension
-- Python installation (If you prefer to include elements of code written in Python)
+- Python3 installation (If you prefer to include elements of code written in Python)
 
 ## 🚀 Installation
 
