@@ -1,16 +1,20 @@
-import sys
 import json
 
 class LoadAndSave:
     
     @staticmethod
     def load_knowledge_base(file_path: str) -> dict:
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-            return data
+        try:
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+                if not data:
+                    return []
+                return data
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
         
     @staticmethod
-    def get_last_learn_datas(conversations , login) -> dict | None:
+    def get_last_learn_datas(conversations: dict , login: str) -> dict | None:
         for conversation in reversed(conversations):
             if conversation.get('login') == login:
                 return conversation

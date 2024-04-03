@@ -7,10 +7,13 @@
 // Config language
 define('_LANG_', 'eng');
 
+// Python version in use
+define('__PYTHON__', 'python3');
+
 // Config front files
 define('_FRONT_', '.html');
 
-// Config API token Key name for POST or GET
+// Config API token Key name
 define('_KEYGEN_', 'CRSF');
 
 // Main directory folder
