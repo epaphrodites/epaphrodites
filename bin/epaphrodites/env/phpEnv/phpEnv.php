@@ -127,23 +127,23 @@ trait phpEnv{
     
         $allUploaded = true;
     
-        foreach ($pathsAndFiles as $destinationPath => $fileKey) {
+        foreach ($pathsAndFiles as $targetPath => $fileKey) {
 
             if (!isset($_FILES[$fileKey]) || !is_uploaded_file($_FILES[$fileKey]['tmp_name'])) {
                 $allUploaded = false;
                 continue;
             }
     
-            $safeFilename = $this->generateSafeFilename($_FILES[$fileKey]['name']);
-            if (!$safeFilename) {
+            $safeFileName = $this->generateSafeFileName($_FILES[$fileKey]['name']);
+            if (!$safeFileName) {
                 $allUploaded = false;
                 continue;
             }
     
-            $fullDestinationPath = rtrim($destinationPath, '/') . '/' . $safeFilename;
+            $fulltargetPath = rtrim($targetPath, '/') . '/' . $safeFileName;
     
-            if (!move_uploaded_file($_FILES[$fileKey]['tmp_name'], $fullDestinationPath)) {
-                $allUploaded = false; 
+            if (!move_uploaded_file($_FILES[$fileKey]['tmp_name'], $fulltargetPath)) {
+                $allUploaded = false;
             }
         }
     
@@ -151,17 +151,18 @@ trait phpEnv{
     }
     
     /**
-     * @param string $originalFilename
+     * @param string $intFileName
      * @return string|false
     */    
-    protected function generateSafeFilename(
-        string $originalFilename
+    protected function generateSafeFileName(
+        string $intFileName
     ): string|false
     {
-        $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
-        $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '', pathinfo($originalFilename, PATHINFO_FILENAME));
-        $safeFilename = $safeName . (($extension) ? '.' . $extension : '');
-        return $safeFilename ?: false;
+        $extension = pathinfo($intFileName, PATHINFO_EXTENSION);
+        $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '', pathinfo($intFileName, PATHINFO_FILENAME));
+        $safeFileName = $safeName . (($extension) ? '.' . $extension : '');
+    
+        return $safeFileName ?: false;
     }    
 
     /**
