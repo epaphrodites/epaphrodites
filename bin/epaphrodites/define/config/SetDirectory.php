@@ -8,7 +8,7 @@
 define('_LANG_', 'eng');
 
 // Python version in use
-define('__PYTHON__', 'python3');
+define('__PYTHON__', 'python');
 
 // Config front files
 define('_FRONT_', '.html');
