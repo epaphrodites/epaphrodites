@@ -27,7 +27,7 @@ What you should know before starting the installation. To create a new applicati
 ## 🚀 Installation
 
 ```bash
-composer create-project --prefer-dist epaphrodites/epaphrodites your-project-name
+composer create-project epaphrodites/epaphrodites your-project-name
 ```
 
 ⚠️ Recommendation : If you have already installed `MongoDB` on your machine and wish to incorporate its usage into your project, please execute the following command:
