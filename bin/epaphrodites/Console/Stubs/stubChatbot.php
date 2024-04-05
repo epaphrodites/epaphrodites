@@ -4,7 +4,19 @@
 
  class stubChatbot{
     
-    public static function Generate(string $jsonPath , string $userJsonPath, string $chatBotName , string $controller = "main" )
+    /**
+     * @param string $jsonPath
+     * @param string $userJsonPath
+     * @param string $chatBotName
+     * @param string $controller
+     * @return void
+     */
+    public static function Generate(
+        string $jsonPath, 
+        string $userJsonPath, 
+        string $chatBotName, 
+        string $controller = "chats"
+    ):void
     {
        
         $stubs = static::stubs($chatBotName);
@@ -27,7 +39,6 @@
             file_put_contents($userJsonPath, json_encode([],JSON_PRETTY_PRINT));
         }
     } 
-    
     
     private static function stubs($chatBotName){
 
@@ -67,7 +78,9 @@
      * @param string $chatBotName
      * @return array
      */
-    private static function JsonContentModel(string $chatBotName):array
+    private static function JsonContentModel(
+        string $chatBotName
+    ):array
     {
 
         return [
@@ -199,7 +212,9 @@
      *  @param string $initPage
      * @return string
      */
-    private static function transformToFunction(string $initPage): string
+    private static function transformToFunction(
+        string $initPage
+    ): string
     {
 
         $parts = explode('_', $initPage);
