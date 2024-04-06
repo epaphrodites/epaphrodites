@@ -95,7 +95,7 @@ class GeneralConfig extends ApiStaticKeygen
             }
         }
 
-        $escapedData = escapeshellarg(json_encode($data));
+        $escapedData = escapeshellarg(json_encode( $data, JSON_UNESCAPED_UNICODE));
 
         $scriptPath = escapeshellcmd($scriptPath);
 

@@ -18,8 +18,8 @@ if __name__ == '__main__':
     
     json_datas = InitJsonLoader.loadJsonValues(json_values)
     
-    if 'login' not in json_datas or 'userMessages' not in json_datas:
-        print("The JSON file must contain 'login' and 'userMessages'.")
+    if 'login' not in json_datas or 'userMessages' not in json_datas or 'learn' not in json_datas:
+        print("The JSON file must contain 'login', 'userMessages' and 'learn'.")
         sys.exit(1)    
     
     result = LunchBotModelTwo.func_lunchBotModelTwo(json_datas['login'], json_datas['userMessages'], json_datas['learn'])

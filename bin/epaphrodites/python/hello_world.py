@@ -1,4 +1,6 @@
 import sys
+sys.path.append('bin/epaphrodites/python/config/')
+from initJsonLoader import InitJsonLoader
 
 class hello_world:
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\botConfig;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
 use Epaphrodites\epaphrodites\define\config\traits\currentFunctionNamespaces;
@@ -116,5 +116,37 @@ trait botProcessConfig
         }
 
         return $result;
-    }    
+    } 
+    
+    /**
+     * @param string $userMessage
+     * @param bool $learn
+     * @return array
+     */
+    private function noellaChatBotProcessConfig(
+        string $userMessage, 
+        ):array
+    {
+        $result =[];
+        
+        $login = (new session_auth)->login();
+
+        if (!empty($userMessage)) {
+
+            $result = static::initConfig()['python']->executePython('lunchBotModelThree',[ 'login' => $login, 'userMessages'=>$userMessage ]);
+        }
+
+        var_dump($result);die;
+
+        // Load existing JSON data, if any
+        $existingData = $this->loadOthersJsonFile('hippocampusModelThree');
+
+        foreach ($existingData as $key => $value) {
+            if ($value['login'] === $login) {
+                $result[] = $existingData[$key];
+            }
+        }
+
+        return $result;
+    }      
 }

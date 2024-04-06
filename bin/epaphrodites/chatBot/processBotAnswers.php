@@ -12,6 +12,7 @@ class processBotAnswers extends chatBot
     use saveJsonDatas, loadUsersAnswers, botProcessConfig;
 
     /**
+     * Chat bot model one init
      * @param string $userMessage
      * @return array
     */
@@ -23,19 +24,7 @@ class processBotAnswers extends chatBot
     }
 
     /**
-     * @param string $userMessage
-     * @param bool $learn
-     * @return array
-    */
-    public final function chatBotModeleTwoProcess(
-        string $userMessage, 
-        bool $learn = true
-    ): array
-    {
-        return $this->herediaChatBotProcessConfig($userMessage , $learn);
-    }    
-
-    /**
+     * Chatbot model one customizable
      * @param string $userMessage
      * @param string $botName
      * @return array
@@ -46,5 +35,31 @@ class processBotAnswers extends chatBot
     ): array
     {
         return $this->herediaBotConfig($userMessage , $botName);
-    }    
+    }      
+
+    /**
+     * Chatbot model two customizable
+     * @param string $userMessage
+     * @param bool $learn
+     * @return array
+    */
+    public final function chatBotModeleTwoProcess(
+        string $userMessage, 
+        bool $learn = true
+    ): array
+    {
+        return $this->herediaChatBotProcessConfig($userMessage , $learn);
+    }  
+    
+    /**
+     * Chatbot model three
+     * @param string $userMessage
+     * @return array
+    */
+    public final function chatBotModeleThreeProcess(
+        string $userMessage
+    ): array
+    {
+        return $this->noellaChatBotProcessConfig($userMessage);
+    }      
 }

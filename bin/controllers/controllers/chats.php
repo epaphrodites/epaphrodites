@@ -43,17 +43,17 @@ final class chats extends MainSwitchers
         string $html
     ): void
     {
-
         $this->views( $html, [], true );
     }
 
     /**
-     * Start Epaphrodites Chatbot
+     * This chatbot requires that php be installed
+     * Start Epaphrodites Chatbot one
      *
      * @param string $html
      * @return void
      */
-    public final function startEpaphroditesChatBots(
+    public final function startChatbotModelOne(
         string $html
     ): void
     {
@@ -74,11 +74,11 @@ final class chats extends MainSwitchers
     
     /**
      * This chatbot requires that Python be installed
-     * Start Heredia Chatbot
+     * Start Epaphrodites Chatbot two
      * @param string $html
      * @return void
      */
-    public final function startHerediaBot(
+    public final function startChatbotModelTwo(
         string $html
     ): void
     {
@@ -88,6 +88,31 @@ final class chats extends MainSwitchers
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
             $this->result = $this->chatBot->chatBotModeleTwoProcess($send);
+
+            echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
+           
+            return;
+        }
+     
+        $this->views( $html, [], true );
+    } 
+    
+    /**
+     * This chatbot requires that Python be installed
+     * Start Epaphrodites Chatbot model three
+     * @param string $html
+     * @return void
+     */
+    public final function startChatbotModelThree(
+        string $html
+    ): void
+    {
+
+        if (static::isValidMethod(true)) {
+            
+            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
+
+            $this->result = $this->chatBot->chatBotModeleThreeProcess($send);
 
             echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
            

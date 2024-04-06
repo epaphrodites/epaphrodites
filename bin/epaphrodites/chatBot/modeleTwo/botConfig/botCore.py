@@ -38,12 +38,12 @@ class BotCore:
             {'date':botDate,'language': lang,'question': messages,'answers': defaultResponseMessages , 'login': login, 'state': True}  
         
 
-    def botLearnAndDiscutionTreatment(login, messages):
+    def botLearnAndDiscutionTreatment(login, initMessages):
         
         now = datetime.now()
         botDate = now.strftime('%d-%m-%Y %H:%M:%S')
         
-        messages = NormalizedWords.normalizeUsersMessages(messages)
+        messages = NormalizedWords.normalizeUsersMessages(initMessages)
         
         lang = DetectLanguages.detect_language_with_dictionary(messages.split(),login)
         
@@ -67,7 +67,7 @@ class BotCore:
             if isinstance(lastConversation, dict):
                 if messages != 'stop':
                     if lastConversation['state'] == True :
-                        knowledge_base.append({'language': lang,"question": lastConversation['question'], "answers": messages.split("|")})
+                        knowledge_base.append({'language': lang,"question": lastConversation['question'], "answers": initMessages.split("|")})
                         LoadAndSave.save_knowledge_base(_LOAD_JSON_FILE_, knowledge_base)
                         return {'date':botDate,'language': lang,'question': messages, 'answers': defaultThankResponseMessages, 'login': login, 'state': False}        
                 else:

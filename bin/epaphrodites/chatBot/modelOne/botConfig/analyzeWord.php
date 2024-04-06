@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\botConfig;
 
 trait analyzeWord
 {

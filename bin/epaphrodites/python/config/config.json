@@ -26,5 +26,9 @@
     "lunchBotModelTwo": {
         "script": "others\/lunchBotModelTwo.py",
         "function": "func_lunchBotModelTwo"
+    },
+    "lunchBotModelThree": {
+        "script": "others\/lunchBotModelThree.py",
+        "function": "func_lunchModelThree"
     }
 }
