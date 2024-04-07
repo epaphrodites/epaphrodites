@@ -1,9 +1,9 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\makeActions;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\makeActions;
 
-use Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave\dropJson;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave\loadJson;
+use Epaphrodites\epaphrodites\chatBot\modelOne\loadSave\dropJson;
+use Epaphrodites\epaphrodites\chatBot\modelOne\loadSave\loadJson;
 
 class botActions{
 

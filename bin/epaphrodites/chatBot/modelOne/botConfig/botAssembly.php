@@ -2,19 +2,28 @@
 
 namespace Epaphrodites\epaphrodites\chatBot\modelOne\botConfig;
 
-
 trait botAssembly
 {
 
     /**
-     * @param array $userQuestions,
-     * @param string $context,
-     * @param array $assembly,
-     * @param string $key
+     * @param array $userQuestions
+     * @param array $assembly
      * @param array $name
+     * @param string $key
+     * @param string $context
+     * @param array $botAnswers
+     * @param array $alias
      * @return array
      */
-    private function assemblyWords( array $userQuestions, array $assembly , array $name , string $key , string $context , array $botAnswers, array $alias):string{
+    private function assemblyWords( 
+        array $userQuestions, 
+        array $assembly, 
+        array $name, 
+        string $key, 
+        string $context, 
+        array $botAnswers, 
+        array $alias
+    ):string{
 
         $wordToRemove = $this->aliasAndKey($key , $alias);
 
@@ -35,7 +44,10 @@ trait botAssembly
      * @param array $alias
      * @return array
      */
-    private function aliasAndKey(string $key , array $alias):array{
+    private function aliasAndKey(
+        string $key, 
+        array $alias
+    ):array{
 
         $key = preg_replace('/[\[\]\{\}\(\)]/', '', $key);
         $key = str_replace(',', ' ', $key);
@@ -45,11 +57,15 @@ trait botAssembly
 
     /**
      * @param array $userQuestions
-     * @param array $wordToRemove
+     * @param array $wordsToRemove
      * @param float $threshold
      * @return array
      */
-    private function removeSimilarWords(array $userQuestions, array $wordsToRemove, float $threshold = 0.8):array {
+    private function removeSimilarWords(
+        array $userQuestions, 
+        array $wordsToRemove, 
+        float $threshold = 0.8
+    ):array {
 
         foreach ($userQuestions as $key => $word) {
 

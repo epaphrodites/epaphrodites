@@ -1,10 +1,10 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\bots;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\bots;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\makeActions\botActions;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainEpaphroditesDefaultMessages;
+use Epaphrodites\epaphrodites\chatBot\modelOne\makeActions\botActions;
+use Epaphrodites\epaphrodites\chatBot\modelOne\defaultAnswers\mainEpaphroditesDefaultMessages;
 
 trait mainBot
 {
@@ -77,7 +77,7 @@ trait mainBot
     }
 
     /**
-     * @return \Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainEpaphroditesDefaultMessages
+     * @return \Epaphrodites\epaphrodites\chatBot\modelOne\defaultAnswers\mainEpaphroditesDefaultMessages
      */
     private function getMainClass():object
     {

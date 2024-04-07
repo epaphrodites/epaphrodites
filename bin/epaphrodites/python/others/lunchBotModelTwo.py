@@ -1,5 +1,5 @@
 import sys
-sys.path.append('bin/epaphrodites/chatBot/modeleTwo/bots/')
+sys.path.append('bin/epaphrodites/chatBot/modelTwo/bots/')
 sys.path.append('bin/epaphrodites/python/config/')
 from herediaBot import HerediaBot
 from initJsonLoader import InitJsonLoader

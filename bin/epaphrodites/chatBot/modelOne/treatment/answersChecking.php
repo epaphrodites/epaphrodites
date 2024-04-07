@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\treatment;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\treatment;
 
 trait answersChecking{
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\loadSave;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
@@ -16,7 +16,7 @@ trait saveJsonDatas
     private function saveJson(array $datas = [], string $jsonFiles = 'HippocampusModelOne'): bool
     {
         // Chemin du fichier JSON
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/user{$jsonFiles}.json";
 
         if (file_exists($jsonFilePath)) {
 

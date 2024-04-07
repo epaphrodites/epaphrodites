@@ -35,6 +35,9 @@ define('_SESSION_', 'session');
 define('_CRSF_TOKEN_', 'crsf_token');
 
 // Views directories
+define('_PUBLIC_', 'views');
+
+// Views directories
 define('_DIR_VIEWS_', 'bin/views');
 
 // Media files

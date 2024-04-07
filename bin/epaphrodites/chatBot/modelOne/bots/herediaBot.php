@@ -1,10 +1,10 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\bots;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\bots;
 
 use Epaphrodites\epaphrodites\auth\session_auth;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\makeActions\botActions;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainHerediaDefaultMessages;
+use Epaphrodites\epaphrodites\chatBot\modelOne\makeActions\botActions;
+use Epaphrodites\epaphrodites\chatBot\modelOne\defaultAnswers\mainHerediaDefaultMessages;
 
 trait herediaBot
 {
@@ -78,7 +78,7 @@ trait herediaBot
     }
 
     /** 
-     * @return \Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers\mainHerediaDefaultMessages
+     * @return \Epaphrodites\epaphrodites\chatBot\modelOne\defaultAnswers\mainHerediaDefaultMessages
     */
     private function getClass():object
     {

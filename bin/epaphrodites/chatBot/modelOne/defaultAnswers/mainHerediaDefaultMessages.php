@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\defaultAnswers;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\defaultAnswers;
 
 class mainHerediaDefaultMessages
 {

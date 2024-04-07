@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\botConfig;
 
 trait dafaultAnswers
 {
@@ -13,8 +13,9 @@ trait dafaultAnswers
      * @param object $class
      * @return array
     */
-    public function epaphroditesDefaultMessageWhereNoResult(string $lang, object $class):array
-    {
+    public function epaphroditesDefaultMessageWhereNoResult(
+        string $lang, object $class
+    ):array{
 
        return match ($lang) {
 
@@ -29,8 +30,9 @@ trait dafaultAnswers
      * @param object $class
      * @return array
     */    
-    public function epaphroditesDefaultMessageToGetMorePrecision(string $lang, object $class):array
-    {
+    public function epaphroditesDefaultMessageToGetMorePrecision(
+        string $lang, object $class
+    ):array{
 
         return match ($lang) {
 
@@ -48,8 +50,10 @@ trait dafaultAnswers
      * @param object $class
      * @return array
     */    
-    public function herediaDefaultMessageWhereNoResult(string $lang, object $class):array
-    {
+    public function herediaDefaultMessageWhereNoResult(
+        string $lang, 
+        object $class
+    ):array{
 
         return match ($lang) {
 
@@ -64,8 +68,10 @@ trait dafaultAnswers
      * @param object $class
      * @return array
     */    
-    public function herediaDefaultMessageToGetMorePrecision(string $lang, object $class):array
-    {
+    public function herediaDefaultMessageToGetMorePrecision(
+        string $lang, 
+        object $class
+    ):array{
 
         return match ($lang) {
 

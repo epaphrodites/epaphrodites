@@ -28,5 +28,5 @@ class epaphroditeClass extends currentNameSpace{
      * @return string
      * @return string
      */
-    public static function JsonDatas():string{ return _DIR_JSON_DATAS_ . '/JsonDatas.json'; }
+    public static function JsonDatas():string{ return _DIR_JSON_DATAS_ . '/usersRights/JsonDatas.json'; }
 }

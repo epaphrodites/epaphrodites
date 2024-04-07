@@ -1,0 +1,18 @@
+{
+    "0": {
+        "date": "06-24-2024 09:00:46",
+        "login": "admin",
+        "question": "bonjour",
+        "answers": "Enchanté de vous revoir. Comment puis-je vous assister ?",
+        "language": "fr",
+        "previous": false
+    },
+    "1": {
+        "date": "06-24-2024 01:39:02",
+        "login": "admin",
+        "question": "bonjour",
+        "answers": "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
+        "language": "fr",
+        "previous": false
+    }
+}

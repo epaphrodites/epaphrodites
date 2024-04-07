@@ -107,7 +107,7 @@ trait botProcessConfig
         }
 
         // Load existing JSON data, if any
-        $existingData = $this->loadOthersJsonFile('hippocampusModelTwo');
+        $existingData = $this->loadOthersJsonFile('modelTwo/hippocampusModelTwo');
 
         foreach ($existingData as $key => $value) {
             if ($value['login'] === $login) {
@@ -139,7 +139,7 @@ trait botProcessConfig
         var_dump($result);die;
 
         // Load existing JSON data, if any
-        $existingData = $this->loadOthersJsonFile('hippocampusModelThree');
+        $existingData = $this->loadOthersJsonFile('modelThree/hippocampusModelThree');
 
         foreach ($existingData as $key => $value) {
             if ($value['login'] === $login) {

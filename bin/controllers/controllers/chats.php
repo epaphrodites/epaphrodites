@@ -62,7 +62,7 @@ final class chats extends MainSwitchers
 
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
-            $this->result = $this->chatBot->chatBotModeleOneProcess($send);
+            $this->result = $this->chatBot->chatBotmodelOneProcess($send);
 
             echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
            
@@ -87,7 +87,7 @@ final class chats extends MainSwitchers
             
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
-            $this->result = $this->chatBot->chatBotModeleTwoProcess($send);
+            $this->result = $this->chatBot->chatBotModelTwoProcess($send);
 
             echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
            
@@ -112,7 +112,7 @@ final class chats extends MainSwitchers
             
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
-            $this->result = $this->chatBot->chatBotModeleThreeProcess($send);
+            $this->result = $this->chatBot->chatBotModelThreeProcess($send);
 
             echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
            

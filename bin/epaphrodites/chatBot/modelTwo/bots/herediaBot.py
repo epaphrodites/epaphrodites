@@ -1,6 +1,6 @@
 import sys
-sys.path.append('bin/epaphrodites/chatBot/modeleTwo/toJson/')
-sys.path.append('bin/epaphrodites/chatBot/modeleTwo/botConfig/')
+sys.path.append('bin/epaphrodites/chatBot/modelTwo/toJson/')
+sys.path.append('bin/epaphrodites/chatBot/modelTwo/botConfig/')
 from botCore import BotCore
 from loadAndSave import LoadAndSave
 from constants import _SAVE_TO_JSON_FILE_

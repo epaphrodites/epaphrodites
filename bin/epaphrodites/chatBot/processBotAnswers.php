@@ -2,9 +2,9 @@
 
 namespace Epaphrodites\epaphrodites\chatBot;
 
-use Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave\saveJsonDatas;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave\loadUsersAnswers;
-use Epaphrodites\epaphrodites\chatBot\modeleOne\botConfig\botProcessConfig;
+use Epaphrodites\epaphrodites\chatBot\modelOne\loadSave\saveJsonDatas;
+use Epaphrodites\epaphrodites\chatBot\modelOne\loadSave\loadUsersAnswers;
+use Epaphrodites\epaphrodites\chatBot\modelOne\botConfig\botProcessConfig;
 
 class processBotAnswers extends chatBot
 {
@@ -16,7 +16,7 @@ class processBotAnswers extends chatBot
      * @param string $userMessage
      * @return array
     */
-    public final function chatBotModeleOneProcess(
+    public final function chatBotmodelOneProcess(
         string $userMessage
     ): array
     {
@@ -29,7 +29,7 @@ class processBotAnswers extends chatBot
      * @param string $botName
      * @return array
     */
-    public final function herediaBotModeleOne(
+    public final function herediaBotmodelOne(
         string $userMessage, 
         string $botName
     ): array
@@ -43,7 +43,7 @@ class processBotAnswers extends chatBot
      * @param bool $learn
      * @return array
     */
-    public final function chatBotModeleTwoProcess(
+    public final function chatBotmodelTwoProcess(
         string $userMessage, 
         bool $learn = true
     ): array
@@ -56,7 +56,7 @@ class processBotAnswers extends chatBot
      * @param string $userMessage
      * @return array
     */
-    public final function chatBotModeleThreeProcess(
+    public final function chatBotModelThreeProcess(
         string $userMessage
     ): array
     {

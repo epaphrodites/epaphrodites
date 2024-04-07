@@ -20,7 +20,7 @@ class TwigConfig extends ResponseSequence{
     private function getTwigEnvironement(): Environment
     {
 
-        $twigEnvironment = new Environment ( (new FilesystemLoader ( _DIR_VIEWS_ ) ) , [ 'cache' =>false ]);
+        $twigEnvironment = new Environment ( (new FilesystemLoader ( _PUBLIC_ ) ) , [ 'cache' =>false ]);
         
         $twigEnvironment->addExtension(static::initConfig()['extension']);
 

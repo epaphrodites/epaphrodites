@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\loadSave;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
@@ -17,7 +17,7 @@ trait loadUsersAnswers
     {
         
         // Path to the JSON file
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/user{$jsonFiles}.json";
         
         // Check if the file exists
         if (file_exists($jsonFilePath)) {

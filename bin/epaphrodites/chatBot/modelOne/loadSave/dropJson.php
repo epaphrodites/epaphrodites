@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\loadSave;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
@@ -16,7 +16,7 @@ trait dropJson
     private function cleanJsonFile($login, string $jsonFiles = 'HippocampusModelOne'): bool|null
     {
         // JSON file path
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/user{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/user{$jsonFiles}.json";
 
         // Load the content of the JSON file
         $jsonDatas = !empty(file_get_contents($jsonFilePath)) ? file_get_contents($jsonFilePath) : "[]";

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\makeActions;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\makeActions;
 
 trait defaultActions{
 

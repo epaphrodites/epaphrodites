@@ -1,12 +1,15 @@
 import sys
 sys.path.append('bin/epaphrodites/chatBot/modelThree/botConfig/')
 from normalizedWords import NormalizedWords
+from botCore import BotCore
 
 class NoellaBot:
     
     @staticmethod
-    def getUsersMessages(login, userMessage):
+    def getUsersMessages(login, initMessage):
         
-        message = NormalizedWords.normalizeUsersMessages(userMessage)
+        normalizedMessage = NormalizedWords.normalizeUsersMessages(initMessage)
         
-        return message
+        result = BotCore.listenUsersMessage(login, initMessage, normalizedMessage)
+        
+        return result

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epaphrodites\epaphrodites\chatBot\modeleOne\loadSave;
+namespace Epaphrodites\epaphrodites\chatBot\modelOne\loadSave;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
@@ -16,7 +16,7 @@ trait loadJson
     private function loadJsonFile(string $jsonFiles = 'chatbotModelOneKnowledge'): ?array
     {
         // Path to the JSON file
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/{$jsonFiles}.json";
         
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
