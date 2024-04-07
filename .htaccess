@@ -34,7 +34,7 @@
     ErrorDocument 504 /error/504.php
     ErrorDocument 502 /error/502.php
 
-    <FilesMatch "^(heredia|bin/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt)">
+    <FilesMatch "^(heredia|bin/|layouts/|views/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt)">
         Order Allow,Deny
         Deny from all
     </FilesMatch>

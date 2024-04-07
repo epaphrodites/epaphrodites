@@ -31,7 +31,7 @@ class SetEnglishTextMessages
             'error_text' => 'txt error epaphrodites',
             'denie' => "Processing not possible!!!",
             'noformat' => "The file format is incorrect!",
-            'version' => 'EPAPHRODITES V0.01 (PHP 8.2.11)',
+            'version' => 'EPAPHRODITES V0.01 (PHP 8.3 & PYTHON 3)',
             'login-wrong' => "Login or password incorrect",
             'connexion' => "Please reconnect again, please!",
             'false-mail' => 'Sorry, this email is incorrect.',

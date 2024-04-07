@@ -20,7 +20,7 @@ class HttpClient extends HttpRequest
     private function ParseMethod(): mixed
     {
         $httpRequest = $this->HttpRequest();
-    
+        
         return (!empty($httpRequest) && $httpRequest !== "/" && strlen($httpRequest) > 1 && $httpRequest[-1] === "/")
             ? substr($httpRequest, 1)
             : _DASHBOARD_;

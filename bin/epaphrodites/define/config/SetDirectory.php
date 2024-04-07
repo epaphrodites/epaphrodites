@@ -35,10 +35,7 @@ define('_SESSION_', 'session');
 define('_CRSF_TOKEN_', 'crsf_token');
 
 // Views directories
-define('_PUBLIC_', 'views');
-
-// Views directories
-define('_DIR_VIEWS_', 'bin/views');
+define('_DIR_VIEWS_', 'public');
 
 // Media files
 define('_DIR_MEDIA_', 'static/docs/');
@@ -53,10 +50,10 @@ define('_DIR_IMG_', 'static/img/');
 define('_DIR_PDF_', 'static/docs/');
 
 // Main directory for all users
-define('_DIR_MAIN_TEMP_', '/main/');
+define('_DIR_MAIN_TEMP_', '/views/main/');
 
 // Main directory for admin pages
-define('_DIR_ADMIN_TEMP_', '/admin/');
+define('_DIR_ADMIN_TEMP_', '/views/admin/');
 
 // Database directory
 define('_DIR_database_', 'bin/database');
