@@ -28,7 +28,7 @@ class PythonCodesTranslate extends GeneralConfig
 
             $mergedDatas = array_merge(['function' => $scriptInfo["function"]], $datas);
 
-            return $this->pythonSystemCode(_PYTHON_ . $scriptInfo["script"], $mergedDatas);
+            return $this->pythonSystemCode(_PYTHON_FILE_FOLDERS_ . $scriptInfo["script"], $mergedDatas);
         } else {
             return false;
         }
@@ -40,7 +40,7 @@ class PythonCodesTranslate extends GeneralConfig
      */
     private function loadJsonConfig(): array
     {
-        $getFiles = _PYTHON_ . 'config/config.json';
+        $getFiles = _PYTHON_FILE_FOLDERS_ . 'config/config.json';
 
         return json_decode(file_get_contents($getFiles), true);
     }

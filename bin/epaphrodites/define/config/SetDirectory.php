@@ -8,7 +8,7 @@
 define('_LANG_', 'eng');
 
 // Python version in use
-define('__PYTHON__', 'python');
+define('_PYTHON_', 'python');
 
 // Config front files
 define('_FRONT_', '.html');
@@ -89,25 +89,19 @@ define('_DOMAINE_', "");
 define('_FAKE_', 'views/');
 
 // Main home page
-define('_HOME_', 'views/index/');
+define('_HOME_', _FAKE_ . 'index/');
+
+// Login home page
+define('_LOGIN_', _FAKE_ . 'login/');
 
 // Logout
 define('_LOGOUT_', 'logout/');
 
 // python directory
-define('_PYTHON_', 'bin/epaphrodites/python/');
+define('_PYTHON_FILE_FOLDERS_', 'bin/epaphrodites/python/');
 
 // Dashboard home page
 define('_DASHBOARD_', 'dashboard/');
-
-// Login home page
-define('_LOGIN_', 'views/login/');
-
-// Session auth login
-define('_AUTH_LOGIN_', 'login');
-
-// Session auth contact
-define('_AUTH_CONTACT_', 'contact');
 
 // Session auth id
 define('_AUTH_ID_', 'id');
@@ -117,6 +111,12 @@ define('_AUTH_TYPE_', 'type');
 
 // Session auth nom et prenoms
 define('_AUTH_NAME_', 'usersname');
+
+// Session auth login
+define('_AUTH_LOGIN_', 'login');
+
+// Session auth contact
+define('_AUTH_CONTACT_', 'contact');
 
 // Session auth email
 define('_AUTH_EMAIL_', 'email');
