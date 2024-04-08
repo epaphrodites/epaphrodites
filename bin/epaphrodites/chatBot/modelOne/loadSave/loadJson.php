@@ -13,11 +13,12 @@ trait loadJson
      * @return array|null Returns the decoded JSON data as an array or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    private function loadJsonFile(string $jsonFiles = 'chatbotModelOneKnowledge'): ?array
+    private function loadJsonFile(string $jsonFiles = 'main/chatbotModelOneKnowledge'): ?array
     {
+
         // Path to the JSON file
         $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/{$jsonFiles}.json";
-        
+
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
             // Read the file content
@@ -52,7 +53,7 @@ trait loadJson
      * @param string $jsonFiles
      * @return array 
     */    
-    private function getContenAccordingLanguage(string $language = "eng" , string $jsonFiles = 'chatbotModelOneKnowledge'){
+    private function getContenAccordingLanguage(string $language = "eng" , string $jsonFiles = 'main/chatbotModelOneKnowledge'){
 
         $result = [];
         $jsonFilesResult = $this->loadJsonFile($jsonFiles);

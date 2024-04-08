@@ -22,10 +22,14 @@ class AddNewChatbot extends AddChatbotCommands{
         $chatBotName = $input->getArgument('name');
         $controller = $input->getArgument('controller');
 
+        $initJsonPath = OutputDirectory::Files('json');
+        
+        is_dir("{$initJsonPath}/modelOne/customize")?:mkdir("{$initJsonPath}/modelOne/customize");
+
         (string) $controller = empty($controller) ? 'chats' : $controller;
 
-        $jsonPath = OutputDirectory::Files('json') . "/{$chatBotName}.json";
-        $userJsonPath= OutputDirectory::Files('json') . "/user{$chatBotName}.json";
+        $jsonPath = "{$initJsonPath}/modelOne/customize/{$chatBotName}.json";
+        $userJsonPath= "{$initJsonPath}/modelOne/customize/user{$chatBotName}.json";
         $controller = OutputDirectory::Files('controlleur') . "/{$controller}.php";
 
         if(file_exists($jsonPath)===false&&file_exists($userJsonPath)===false){

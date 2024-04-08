@@ -13,10 +13,10 @@ trait saveJsonDatas
      * @return bool|null Returns the decoded JSON data as an bool or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    private function saveJson(array $datas = [], string $jsonFiles = 'HippocampusModelOne'): bool
+    private function saveJson(array $datas = [], string $jsonFiles = 'main/userHippocampusModelOne'): bool
     {
         // Chemin du fichier JSON
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/user{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/{$jsonFiles}.json";
 
         if (file_exists($jsonFilePath)) {
 

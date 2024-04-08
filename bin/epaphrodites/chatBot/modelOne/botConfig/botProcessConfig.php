@@ -57,7 +57,7 @@ trait botProcessConfig
         string $botName
     ): array
     {
-
+        $hyppoCampusDatas = "customize/user{$botName}";
         $result =[];
         
         if (!empty($userMessage)) {
@@ -69,13 +69,13 @@ trait botProcessConfig
             $existingData[] = $response;
 
             // Save the updated data to the JSON file
-            $this->saveJson($existingData , $botName);
+            $this->saveJson($existingData , $hyppoCampusDatas);
         }
 
         $login = (new session_auth)->login();
 
         // Load existing JSON data, if any
-        $existingData = $this->loadJsonFile($botName);
+        $existingData = $this->loadJsonFile($hyppoCampusDatas);
         
         foreach ($existingData as $key => $value) {
             if ($value['login'] === $login) {

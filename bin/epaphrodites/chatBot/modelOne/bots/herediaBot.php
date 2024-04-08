@@ -18,11 +18,14 @@ trait herediaBot
     private function getHerediaResponse(string $userMessage , string $jsonFiles): array
     {
 
+        $knowledgeDatas = "customize/{$jsonFiles}";
+        $hyppoCampusDatas = "customize/user{$jsonFiles}";
+
         // Get user login
         $login = (new session_auth)->login();
 
         // Get last answers previous is true
-        $previousQuestion = $this->lastUsersQuestion($login , $jsonFiles);
+        $previousQuestion = $this->lastUsersQuestion($login , $hyppoCampusDatas);
 
         // Get last question previous is true
         $previousQuestion = !is_null($previousQuestion) ? $previousQuestion['question'] : "";
@@ -31,11 +34,11 @@ trait herediaBot
         $this->userWords = $this->cleanAndNormalize("{$previousQuestion} {$userMessage}");
 
         // Detect user language
-        $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login , $jsonFiles);
-
+        $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login , $hyppoCampusDatas);
+       
         // Load questions and answers from a JSON file
-        $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage , $jsonFiles);
-
+        $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage , $knowledgeDatas);
+        
         // Iterate through each question and its associated answer
         $commentsToConsider = $this->iterateQuestionAnswersAssociated($questionsAnswers , $this->userWords);
         
@@ -46,7 +49,7 @@ trait herediaBot
 
             $this->mainCoefficient = $bestCoefficient;
             $response = $bestAnswers;
-            $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $jsonFiles);
+            $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $hyppoCampusDatas);
 
         } elseif ($bestCoefficient > 0.1) {
 

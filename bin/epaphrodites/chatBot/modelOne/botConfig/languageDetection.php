@@ -10,9 +10,9 @@ trait languageDetection
      * @param string $jsonFiles
      * @return string
      */
-    private function detectLastLang(string $login , string $jsonFiles = 'HippocampusModelOne'):string
+    private function detectLastLang(string $login , string $jsonFiles = 'main/userHippocampusModelOne'):string
     {
-        $jsonDatas = $this->loadJsonFile('user'.$jsonFiles);
+        $jsonDatas = $this->loadJsonFile($jsonFiles);
 
         for ($i = count($jsonDatas) - 1; $i >= 0; $i--) {
             $value = $jsonDatas[$i];
@@ -29,7 +29,7 @@ trait languageDetection
      * @param string $login
      * @return string 
     */    
-    private function detectMainLanguage(string $userMessages , string $login, string $jsonFiles = 'HippocampusModelOne'):string
+    private function detectMainLanguage(string $userMessages , string $login, string $jsonFiles = 'main/userHippocampusModelOne'):string
     {
         $languageDetected = "";
 

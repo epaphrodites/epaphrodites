@@ -13,10 +13,10 @@ trait dropJson
      * @return bool|null Returns the decoded JSON data as an bool or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    private function cleanJsonFile($login, string $jsonFiles = 'HippocampusModelOne'): bool|null
+    private function cleanJsonFile($login, string $jsonFiles = 'main/userHippocampusModelOne'): bool|null
     {
         // JSON file path
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/user{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/{$jsonFiles}.json";
 
         // Load the content of the JSON file
         $jsonDatas = !empty(file_get_contents($jsonFilePath)) ? file_get_contents($jsonFilePath) : "[]";

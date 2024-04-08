@@ -14,7 +14,7 @@ class OutputDirectory
         $result = false;
 
         $list = [
-            'views' => 'bin/views',
+            'views' => 'public/views',
             'main' => 'bin/views/main',
             'admin' => 'bin/views/admin',
             'json' => 'bin/database/datas/json',

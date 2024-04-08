@@ -13,14 +13,15 @@ trait loadUsersAnswers
      * @return array|null Returns the decoded JSON data as an array or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    private function loadJsonFile(string $jsonFiles = "HippocampusModelOne"): ?array
+    private function loadJsonFile(string $jsonFiles = "main/userHippocampusModelOne"): ?array
     {
-        
+
         // Path to the JSON file
-        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/user{$jsonFiles}.json";
+        $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/{$jsonFiles}.json";
         
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
+           
             // Read the file content
             $jsonData = !empty(file_get_contents($jsonFilePath)) ? file_get_contents($jsonFilePath) : "[]";
             
@@ -90,7 +91,7 @@ trait loadUsersAnswers
      * @param string $jsonFiles
      * @return array|NULL
     */
-    public function lastUsersQuestion(string $login , string $jsonFiles = "HippocampusModelOne"):array|NULL {
+    public function lastUsersQuestion(string $login , string $jsonFiles = "main/userHippocampusModelOne"):array|NULL {
        
         $lastMessage = NULL;
         $result = $this->loadJsonFile($jsonFiles);

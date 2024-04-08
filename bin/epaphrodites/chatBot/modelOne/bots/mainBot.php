@@ -27,8 +27,7 @@ trait mainBot
         
         // Clean and normalize the user's message
         $this->userWords = $this->cleanAndNormalize("{$previousQuestion} {$userMessage}");
-        
-        //var_dump($previousQuestion);die;
+
         // Detect user language
         $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login);
 
@@ -71,7 +70,7 @@ trait mainBot
         }
         
         $result = $this->predictAnswers($login, $userMessage, $defaultLanguage , $response);
-
+    
         // Return the response with the highest similarity coefficient
         return $result;
     }
