@@ -1,0 +1,58 @@
+[
+  {
+    "date": "08-04-2024 12:50:23",
+    "language": "fr",
+    "question": "bonjour",
+    "answers": "Je suis d\u00e9sol\u00e9, mais je ne connais pas la r\u00e9ponse. Pourriez-vous m'instruire ? Si oui, veuillez saisir uniquement les r\u00e9ponses, en les s\u00e9parant par un '|'. Sinon, \u00e9crivez 'stop' pour continuer.",
+    "login": "admin",
+    "state": true
+  },
+  {
+    "date": "08-04-2024 12:52:41",
+    "language": "fr",
+    "question": "bonjour comment vas tu|salut on quoi|hello broth",
+    "answers": "Merci ! J'ai appris de nouvelles r\u00e9ponses !",
+    "login": "admin",
+    "state": false
+  },
+  {
+    "date": "08-04-2024 12:52:46",
+    "language": "fr",
+    "question": "bonjour",
+    "answers": "Bonjour comment vas-tu",
+    "login": "admin",
+    "state": false
+  },
+  {
+    "date": "08-04-2024 12:52:52",
+    "language": "fr",
+    "question": "bonsoir",
+    "answers": "Je suis d\u00e9sol\u00e9, mais je ne connais pas la r\u00e9ponse. Pourriez-vous m'instruire ? Si oui, veuillez saisir uniquement les r\u00e9ponses, en les s\u00e9parant par un '|'. Sinon, \u00e9crivez 'stop' pour continuer.",
+    "login": "admin",
+    "state": true
+  },
+  {
+    "date": "08-04-2024 12:53:17",
+    "language": "fr",
+    "question": "bonsoir chef on dit quoi|bonsoir",
+    "answers": "Merci ! J'ai appris de nouvelles r\u00e9ponses !",
+    "login": "admin",
+    "state": false
+  },
+  {
+    "date": "08-04-2024 12:53:22",
+    "language": "fr",
+    "question": "bonjour",
+    "answers": "hello broth",
+    "login": "admin",
+    "state": false
+  },
+  {
+    "date": "08-04-2024 12:53:31",
+    "language": "fr",
+    "question": "bonsoir",
+    "answers": "bonsoir",
+    "login": "admin",
+    "state": false
+  }
+]

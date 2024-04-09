@@ -3,6 +3,7 @@
 namespace Epaphrodites\controllers\controllers;
 
 use Epaphrodites\controllers\switchers\MainSwitchers;
+use Epaphrodites\epaphrodites\env\toml\Toml;
 
 final class main extends MainSwitchers
 {
@@ -18,7 +19,7 @@ final class main extends MainSwitchers
         string $html
     ):void
     {
-         $this->views($html);
+        $this->views($html, []);
     }
     
     /**

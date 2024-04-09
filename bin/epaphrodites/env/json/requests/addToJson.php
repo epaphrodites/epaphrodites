@@ -5,26 +5,40 @@ namespace Epaphrodites\epaphrodites\env\json\requests;
 trait addToJson
 {
 
+    private $file;
+
     /**
-     * @param string $jsonFile
-     * @param array $datas
+     * @param string $file
+     * @return self
+     */
+    public function path(
+        string $file
+    ):self{
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * @param array $data
      * @return bool
      */
-    private function saveUsersRights(
-        string $jsonFile,
-        array $datas = []
+    public function datas(
+        array $data = []
     ):bool{
-
-        $JsonDatas = !empty(file_get_contents(static::JsonDatas())) ? file_get_contents($jsonFile) : "[]";
+        
+        $JsonDatas = !empty(file_get_contents($this->file)) ? file_get_contents($this->file) : "[]";
 
         if ($JsonDatas !== false) {
-            $JsonDatas = json_decode($JsonDatas, true);            
+            $JsonDatas = json_decode($JsonDatas, true);
+        } else {
+            $JsonDatas = [];
         }
 
-        $JsonDatas[] = $datas;            
+        $JsonDatas[] = $data;
 
-        static::saveJson($JsonDatas);       
-        
-        return true;
+        $result = $this->saveJson( $this->file, $JsonDatas );
+
+        return $result ? true : false;
     }
 }

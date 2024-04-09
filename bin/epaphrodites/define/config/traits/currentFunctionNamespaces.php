@@ -14,6 +14,7 @@ trait currentFunctionNamespaces
         return [
             'env' => new \Epaphrodites\epaphrodites\env\env,
             'paths' => new \Epaphrodites\epaphrodites\path\paths,
+            'json' => new \Epaphrodites\epaphrodites\env\json\Json,
             'errors' => new \Epaphrodites\controllers\render\errors,
             'datas' => new \Epaphrodites\database\datas\arrays\datas,
             'pdf' => new \Epaphrodites\epaphrodites\shares\pdfMakeStubs,

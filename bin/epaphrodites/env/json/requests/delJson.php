@@ -6,31 +6,37 @@ trait delJson
 {
 
     /**
-     * @param array $JsonDatas
-     * @param string|int $searchType
-     * @param string $arrayKey
      * @return bool
-    */
-    private function deletedSelectRights(
-        array $JsonDatas,
-        string|int $searchType,
-        string $arrayKey
-    ):bool{
+     */
+    public function delete(): bool
+    {
+        $jsonFileDatas = static::loadJsonFile($this->file);
 
-        $hasChanges = false;
+        $isDeleted = false;
 
-        foreach ($JsonDatas as $key => $value) {
+        foreach ($jsonFileDatas as $key => $item) {
+            $isMatch = true;
 
-            if (is_array($value) && $value[$arrayKey] == $searchType) {
-                unset($JsonDatas[$key]);
-                $hasChanges = true;
+            foreach ($this->whereConditions as $conditionKey => $conditionValue) {
+                if (!array_key_exists($conditionKey, $item) || $item[$conditionKey] !== $conditionValue) {
+                    $isMatch = false;
+                    break;
+                }
+            }
+
+            if ($isMatch) {
+                unset($jsonFileDatas[$key]);
+                $isDeleted = true;
             }
         }
-    
-        if ($hasChanges) {
-            static::saveJson($JsonDatas);
+
+        $this->whereConditions = [];
+
+        if ($isDeleted) {
+            static::saveJson($this->file, $jsonFileDatas);
+            return true;
         }
 
-        return $hasChanges;
+        return false;
     }
 }

@@ -14,12 +14,10 @@ trait saveJsonDatas
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
     private static function saveJson(
+        string $jsonFilePath,
         array $datas = []
     ): bool|null{
   
-        // Path to the JSON file
-        $jsonFilePath = static::JsonDatas();
-        
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
 

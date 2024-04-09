@@ -5,32 +5,59 @@ namespace Epaphrodites\epaphrodites\env\json\requests;
 trait updJson
 {
 
+    private array $whereConditions;
+
     /**
-     * @param array $JsonDatas
-     * @param string $usersGroup
-     * @param int $state
+     * @param array $conditions
+     * @return self
+     */
+    public function where(
+        array $conditions
+    ):self{
+        $this->whereConditions = $conditions;
+        return $this;
+    }
+    
+    /**
+     * @param array $datas
      * @return bool
      */
-    private function updateUsersRightsDatas(
-        array $JsonDatas,
-        string $usersGroup, 
-        int $state
-    ):bool{
+    public function update(
+        array $datas
+    ): bool{
 
-        $hasChanges = false;
+        if (empty($datas)) {
+            return false;
+        }
+    
+        $jsonFileDatas = static::loadJsonFile($this->file);
+    
+        $isUpdated = false;
+    
+        foreach ($jsonFileDatas as &$item) {
 
-        foreach ($JsonDatas as $key => $value) {
-
-            if (is_array($value) && $value['indexRight'] == $usersGroup) {
-                $JsonDatas[$key]['Autorisations'] = $state;
-                $hasChanges = true;
+            $isMatch = true;
+    
+            foreach ($this->whereConditions as $key => $value) {
+                if (!array_key_exists($key, $item) || $item[$key] !== $value) {
+                    $isMatch = false;
+                    break;
+                }
+            }
+    
+            if ($isMatch) {
+                $item = array_merge($item, $datas);
+                $isUpdated = true;
             }
         }
-
-        if ($hasChanges) {
-            static::saveJson($JsonDatas);
+    
+        $this->whereConditions = [];
+    
+        if ($isUpdated) {
+            static::saveJson($this->file, $jsonFileDatas);
+            return true;
         }
-
-        return $hasChanges;
-    }  
+    
+        return false;
+    } 
 }

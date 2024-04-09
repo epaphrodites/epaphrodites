@@ -37,6 +37,7 @@ trait currentVariableNameSpaces
     [
         'env' => \Epaphrodites\epaphrodites\env\env::class,
         'paths' => \Epaphrodites\epaphrodites\path\paths::class,
+        'json' =>  \Epaphrodites\epaphrodites\env\json\Json::class,
         'errors' => \Epaphrodites\controllers\render\errors::class,
         'datas' => \Epaphrodites\database\datas\arrays\datas::class,
         'pdf' => \Epaphrodites\epaphrodites\shares\pdfMakeStubs::class,

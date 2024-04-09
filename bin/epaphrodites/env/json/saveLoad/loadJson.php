@@ -13,10 +13,10 @@ trait loadJson
      * @return array|null Returns the decoded JSON data as an array or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    protected static function loadJsonFile(): ?array
+    protected static function loadJsonFile(
+        string $jsonFilePath
+    ): ?array
     {
-        // Path to the JSON file
-        $jsonFilePath = static::JsonDatas();
         
         // Check if the file exists
         if (file_exists($jsonFilePath)) {
