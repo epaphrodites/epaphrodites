@@ -6,6 +6,8 @@ trait iterrateDatas
 {
 
     /**
+     * Translate to string
+     * 
      * @param array $array
      * @param int $indent
      * @return string
@@ -29,6 +31,8 @@ trait iterrateDatas
     }
     
     /**
+     * Translate to array
+     * 
      * @param string $content
      * @return array
      */
@@ -59,6 +63,13 @@ trait iterrateDatas
         return $config_data;
     }  
     
+    /**
+     * Filter datas
+     * 
+     * @param array $initDatas
+     * @param array $search
+     * @return array
+    */
     private function filterArrayDatas(
         array $initDatas, 
         array $search 
@@ -71,7 +82,46 @@ trait iterrateDatas
                     return false;
                 }
             }
+            
             return true;
         });
     }
+
+   /**
+     * Update TOML data without specifying section.
+     *
+     * @param array $datasFound
+     * @return void
+     */
+    private function updateWithoutSection(array &$datasFound): void
+    {
+        foreach ($datasFound as $item => &$value) {
+
+            foreach ($value as $newItem => &$newValue) {
+                foreach ($this->set as $set => $setValue) {
+                    if ($newItem == $set) {
+                        $datasFound[$item][$newItem] = $setValue;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Update TOML data with specified section.
+     *
+     * @param array $sectionData
+     * @return void
+     */
+    private function updateWithSection(array &$sectionData): void
+    {
+        foreach ($sectionData as $item => &$value) {
+
+            foreach ($this->set as $set => $setValue) {
+                if ($item == $set) {
+                    $sectionData[$item] = $setValue;
+                }
+            }
+        }
+    }    
 }

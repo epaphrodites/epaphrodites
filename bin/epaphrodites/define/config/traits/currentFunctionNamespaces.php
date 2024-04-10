@@ -15,6 +15,7 @@ trait currentFunctionNamespaces
             'env' => new \Epaphrodites\epaphrodites\env\env,
             'paths' => new \Epaphrodites\epaphrodites\path\paths,
             'json' => new \Epaphrodites\epaphrodites\env\json\Json,
+            'toml' => new \Epaphrodites\epaphrodites\env\toml\Toml,
             'errors' => new \Epaphrodites\controllers\render\errors,
             'datas' => new \Epaphrodites\database\datas\arrays\datas,
             'pdf' => new \Epaphrodites\epaphrodites\shares\pdfMakeStubs,

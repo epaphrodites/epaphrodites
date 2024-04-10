@@ -37,37 +37,39 @@ trait addToToml
      * @param array $datas
      * @return bool
      */
-    public function add( array $datas = []): bool
+    public function add(array $datas = []): bool
     {
-
-        $content = $this->parsToml($this->path);
-
+        
         $tomlDatas = $this->loadTomlFile($this->path);
+    
+        $currentDatas = !empty($tomlDatas[$this->section]);
+    
+        if (!$currentDatas) {
 
-        $currentDatas = !empty($tomlDatas[$this->section]) ? true : false;
-
-        if ($currentDatas == false) {
-
-            $this->mergeDatas .= "[$this->section]\n";
-
+            $content = '';
+            $content .= "[$this->section]\n";
+    
             foreach ($datas as $key => $value) {
-
-                if (is_string($value)) {
-                    $this->mergeDatas .= "$key = \"$value\"\n";
+                if (is_array($value)) {
+                    $formattedValues = implode(',', array_map(function ($item) {
+                        return '"' . addslashes($item) . '"';
+                    }, $value));
+                    $content .= "$key = [$formattedValues]\n";
                 } else {
-                    $this->mergeDatas .= "$key = $value\n";
+                    $content .= "$key = \"" . addslashes($value) . "\"\n";
                 }
             }
-            
-            $content .= !empty($content) ? "\n$this->mergeDatas" : "$this->mergeDatas";
-
-            $tomlDatas .= "$content\n";
     
-            $this->saveToml($this->path, $content);    
-            
+            $content .= !empty($tomlDatas) ? "\n" . $this->mergeDatas : $this->mergeDatas;
+    
+            $tomlDatas .= "\n$content";
+
+            $this->saveToml($this->path, $tomlDatas);
+    
             return true;
         }
-
+    
         return false;
     }
+    
 }

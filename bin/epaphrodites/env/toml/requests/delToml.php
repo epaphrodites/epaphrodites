@@ -13,6 +13,10 @@ trait delToml
         array $datas = []
     ): bool
     {
+        if (!isset($this->path)) {
+            return false;
+        }  
+        
         $tomlFileDatas = $this->loadTomlFile($this->path);
         
         $tomlFileDatas = $this->translateToArray($tomlFileDatas);

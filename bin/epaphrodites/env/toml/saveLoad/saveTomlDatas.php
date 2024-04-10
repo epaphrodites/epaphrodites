@@ -12,7 +12,7 @@ trait saveTomlDatas
      * @param string $content Content to write to the file
      * @return bool
      */
-    public function saveToml(
+    private function saveToml(
         string $path, 
         string $content
     ): bool{
