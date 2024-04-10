@@ -17,7 +17,7 @@ class RunKernelTest extends TestCase
 
         $actualValue = $runKernel->getHome();
 
-        $expectedValue = 'views/index/';
+        $expectedValue = _FAKE_ . 'index/';
 
         $this->assertEquals($expectedValue, $actualValue);
     }
