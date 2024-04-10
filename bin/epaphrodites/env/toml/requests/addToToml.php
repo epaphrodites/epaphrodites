@@ -42,9 +42,9 @@ trait addToToml
 
         $content = $this->parsToml($this->path);
 
-        $VerifyContent = $this->loadTomlFile($this->path);
+        $tomlDatas = $this->loadTomlFile($this->path);
 
-        $currentDatas = !empty($VerifyContent[$this->section]) ? true : false;
+        $currentDatas = !empty($tomlDatas[$this->section]) ? true : false;
 
         if ($currentDatas == false) {
 
@@ -60,7 +60,9 @@ trait addToToml
             }
             
             $content .= !empty($content) ? "\n$this->mergeDatas" : "$this->mergeDatas";
-            
+
+            $tomlDatas .= "$content\n";
+    
             $this->saveToml($this->path, $content);    
             
             return true;

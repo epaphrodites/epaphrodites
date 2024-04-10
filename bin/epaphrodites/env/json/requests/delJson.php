@@ -15,6 +15,7 @@ trait delJson
         $isDeleted = false;
 
         foreach ($jsonFileDatas as $key => $item) {
+            
             $isMatch = true;
 
             foreach ($this->whereConditions as $conditionKey => $conditionValue) {

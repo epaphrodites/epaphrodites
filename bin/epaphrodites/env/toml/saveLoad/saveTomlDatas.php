@@ -2,8 +2,6 @@
 
 namespace Epaphrodites\epaphrodites\env\toml\saveLoad;
 
-use ErrorException;
-
 trait saveTomlDatas
 {
 
@@ -19,11 +17,7 @@ trait saveTomlDatas
         string $content
     ): bool{
 
-        $tomlDatas = $this->loadTomlFile($path);
-
-        $tomlDatas .= "$content\n";
-
-        file_exists($path) ? file_put_contents($path, $tomlDatas) : NULL;
+        file_exists($path) ? file_put_contents($path, $content) : NULL;
         
         return true;
     }  

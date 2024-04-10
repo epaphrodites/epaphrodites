@@ -19,6 +19,7 @@ final class main extends MainSwitchers
         string $html
     ):void
     {
+
         $this->views($html, []);
     }
     
