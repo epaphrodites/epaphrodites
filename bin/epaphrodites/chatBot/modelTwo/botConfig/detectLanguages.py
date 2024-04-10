@@ -1,4 +1,5 @@
 import sys
+sys.path.append('bin/epaphrodites/chatBot/mainConfig/')
 sys.path.append('bin/epaphrodites/chatBot/modelTwo/toJson/')
 from constants import _SAVE_TO_JSON_FILE_
 from loadAndSave import LoadAndSave

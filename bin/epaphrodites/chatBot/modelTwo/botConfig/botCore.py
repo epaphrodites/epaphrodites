@@ -1,7 +1,9 @@
+import sys
+sys.path.append('bin/epaphrodites/chatBot/mainConfig/')
 import random
 from datetime import datetime
-from difflib import get_close_matches
 from loadAndSave import LoadAndSave
+from difflib import get_close_matches
 from normalizedWords import NormalizedWords
 from detectLanguages import DetectLanguages
 from defaultMessages import DefaultMessages
@@ -37,7 +39,6 @@ class BotCore:
         else:
             {'date':botDate,'language': lang,'question': messages,'answers': defaultResponseMessages , 'login': login, 'state': True}  
         
-
     def botLearnAndDiscutionTreatment(login, initMessages):
         
         now = datetime.now()
