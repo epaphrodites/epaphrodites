@@ -33,16 +33,17 @@ class LunchServer extends AddServerConfig
      * @return int
      */
     protected function execute(
-        InputInterface $input, 
+        InputInterface $input,
         OutputInterface $output
     ){
         $port = $input->getOption('port');
+        $address = "127.0.0.1";
         try {
             $this->validatePort($port);
-            if ($this->isPortInUse($port)) {
+            if ($this->isPortInUse($port, $address)) {
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
-            $this->startServer($port, $output);
+            $this->startServer($port, $address, $output);
             return self::SUCCESS;
         } catch (InvalidArgumentException $e) {
             $output->writeln("<error>Invalid argument: " . $e->getMessage() . "</error>");
@@ -58,47 +59,56 @@ class LunchServer extends AddServerConfig
      * @param int $port The port number.
      */
     private function startServer(
-        $port, 
+        $port,
+        $host,
         OutputInterface $output
     ){
         $output->writeln("<info>🚀 Starting Epaphrodites development server...</info>");
-        $output->writeln(sprintf("Target: <fg=gray>http://127.0.0.1:%d</fg=gray>", $port));
+        $output->writeln(sprintf("Target: <fg=gray>http://$host:%d</fg=gray>", $port));
         $output->writeln("");
         $output->writeln("<bg=blue>[OK] Epaphrodites Server is running</bg=blue>");
         $output->writeln("");
-        $output->writeln(sprintf("Development server is running at <fg=gray>http://127.0.0.1:%d</fg=gray>", $port));
+        $output->writeln(sprintf("Development server is running at <fg=gray>http://$host:%d</fg=gray>", $port));
         $output->writeln("<comment>Quit the server with CONTROL-C.</comment>");
     
-        $command = "php -S 127.0.0.1:$port";
+        $logFile = _SERVER_LOG_;
+        $command = "php -S $host:$port > $logFile 2>&1";
         $process = proc_open($command, [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']], $pipes);
     
-        if (is_resource($process)) {
-
-            while ($line = fgets($pipes[1])) {
-                $output->write($line);
-            }
-    
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-    
-            $exitCode = proc_close($process);
-    
-            $output->writeln("");
-            $output->writeln(sprintf("<info>Server stopped with exit code %d</info>", $exitCode));
-        } else {
-            $output->writeln("<error>Failed to start the server.</error>");
+        if (!is_resource($process)) {
+            throw new RuntimeException("Failed to start the server.");
         }
+    
+        while (proc_get_status($process)['running']) {
+            usleep(100000); // Wait for 100ms
+        }
+    
+        $exitCode = proc_close($process);
+        if ($exitCode !== 0) {
+            throw new RuntimeException(sprintf("Server exited with code %d", $exitCode));
+        }
+    
+        $output->writeln("");
+        $output->writeln(sprintf("<info>Server stopped with exit code %d</info>", $exitCode));
     }
 
     /**
      * Checks if the port is in use by executing a command based on the operating system.
      * @param int $port The port number.
-     * @return string|null Output of the command execution.
+     * @return bool True if the port is in use, false otherwise.
+     * @throws RuntimeException If the command execution fails.
      */
-    private function isPortInUse($port)
+    private function isPortInUse($port , $host)
     {
-        $command = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? "netstat -an | findstr $port" : "lsof -i :$port";
-        return shell_exec($command);
+        $timeout = 1;
+    
+        $socket = @fsockopen($host, $port, $errorCode, $errorMessage, $timeout);
+    
+        if ($socket === false) {
+            return false;
+        }
+    
+        fclose($socket);
+        return true;
     }
 }

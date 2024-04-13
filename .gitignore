@@ -1,4 +1,5 @@
 composer.lock
+server.log
 sqLite.session.sql
 postgres.session.sql
 cassandra.session.sql
