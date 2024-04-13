@@ -31,6 +31,7 @@ class ConsoleKernel
             new \Epaphrodites\epaphrodites\Console\commands\CommandRequestFiles,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddSqlRequest,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddNoSqlRequest,
+            new \Epaphrodites\epaphrodites\Console\commands\commandpythonComponents,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddChatbotFunction,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddControllerFunction,
         ];
