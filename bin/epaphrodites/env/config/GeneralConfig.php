@@ -112,6 +112,6 @@ class GeneralConfig extends ApiStaticKeygen
             throw new \RuntimeException("Error while executing the Python script. Return code : $returnCode");
         }
 
-        return $output;
+        return rtrim($output);
     } 
 }

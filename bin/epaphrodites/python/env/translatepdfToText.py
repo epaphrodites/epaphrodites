@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     json_values = sys.argv[1]
     
-    document_data = InitJsonLoader.loadJsonValues(json_values)
+    document_data = InitJsonLoader.loadJsonValues(json_values, ',')
 
     if 'function' not in document_data or 'pdf' not in document_data:
         print("The JSON file must contain 'function' and 'pdf'.")

@@ -5,8 +5,10 @@ namespace Epaphrodites\epaphrodites\Console\Models;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Epaphrodites\epaphrodites\Console\Setting\AddServerConfig;
+use InvalidArgumentException;
+use RuntimeException;
 
-class lunchServer extends AddServerConfig
+class LunchServer extends AddServerConfig
 {
     private const ERROR_PORT_IN_USE = 'The port %d is currently in use.❌';
 
@@ -14,69 +16,80 @@ class lunchServer extends AddServerConfig
      * Validates if the port number is within the valid range.
      * @param int $port The port number to validate.
      * @return bool True if the port is valid.
-     * @throws \InvalidArgumentException If the port is invalid.
+     * @throws InvalidArgumentException If the port is invalid.
      */
     private function validatePort($port)
     {
         if (!is_numeric($port) || $port < 1 || $port > 65535) {
-            throw new \InvalidArgumentException('Invalid port number.');
+            throw new InvalidArgumentException('Invalid port number.');
         }
         return true;
-    }   
-    
-    /**
-     * Validates if the provided host is a valid IP address.
-     * @param string $host The host IP address to validate.
-     * @return bool True if the host is valid.
-     * @throws \InvalidArgumentException If the host IP address is invalid.
-     */ 
-    private function validateHost($host)
-    {
-        if (!filter_var($host, FILTER_VALIDATE_IP)) {
-            throw new \InvalidArgumentException('Invalid host IP address.');
-        }
-        return true;
-    }    
+    }
 
     /**
      * Executes the command to start the server.
-     * @param string $host The host IP address.
-     * @param int $port The port number.
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
      */
-    protected function execute( 
+    protected function execute(
         InputInterface $input, 
         OutputInterface $output
     ){
         $port = $input->getOption('port');
-
         try {
             $this->validatePort($port);
-
             if ($this->isPortInUse($port)) {
-                throw new \RuntimeException(sprintf(static::ERROR_PORT_IN_USE, $port));
+                throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
-
-            $this->startServer($port);
-            return static::SUCCESS;
-
-        } catch (\InvalidArgumentException $e) {
+            $this->startServer($port, $output);
+            return self::SUCCESS;
+        } catch (InvalidArgumentException $e) {
             $output->writeln("<error>Invalid argument: " . $e->getMessage() . "</error>");
-            return static::FAILURE;
-        } catch (\RuntimeException $e) {
+            return self::FAILURE;
+        } catch (RuntimeException $e) {
             $output->writeln("<error>Runtime error: " . $e->getMessage() . "</error>");
-            return static::FAILURE;
+            return self::FAILURE;
         }
     }
 
     /**
      * Start server by executing PHP built-in server command.
-     * @param string $host The host IP address.
      * @param int $port The port number.
      */
-    private function startServer($port)
-    {
-        echo "Starting the server on port $port, host 127.0.0.1...\n";
-        shell_exec("php -S 127.0.0.1:$port");
+    private function startServer(
+        $port, 
+        OutputInterface $output
+    ){
+        $output->writeln("<info>🚀 Starting Epaphrodites development server...</info>");
+        $output->writeln(sprintf("Target: <fg=gray>http://127.0.0.1:%d</fg=gray>", $port));
+        $output->writeln("");
+        $output->writeln("<bg=blue>[OK] Epaphrodites Server is running</bg=blue>");
+        $output->writeln("");
+        $output->writeln(sprintf("Development server is running at <fg=gray>http://127.0.0.1:%d</fg=gray>", $port));
+        $output->writeln("<comment>Quit the server with CONTROL-C.</comment>");
+        $output->writeln("");
+    
+        $command = "php -S 127.0.0.1:$port";
+        $process = proc_open($command, [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']], $pipes);
+    
+        if (is_resource($process)) {
+
+            while ($line = fgets($pipes[1])) {
+                $output->write($line);
+            }
+    
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+    
+            $exitCode = proc_close($process);
+    
+            $output->writeln("");
+            $output->writeln(sprintf("<info>Server stopped with exit code %d</info>", $exitCode));
+        } else {
+            $output->writeln("<error>Failed to start the server.</error>");
+        }
     }
 
     /**
@@ -90,4 +103,3 @@ class lunchServer extends AddServerConfig
         return shell_exec($command);
     }
 }
-

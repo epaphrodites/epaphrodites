@@ -70,7 +70,7 @@ if __name__ == '__main__':
      */
     private static function loadJsonConfig():string
     {
-        $getFiles = _PYTHON_ . 'config/config.json';
+        $getFiles = _PYTHON_FILE_FOLDERS_ . 'config/config.json';
 
         return $getFiles;
     }    

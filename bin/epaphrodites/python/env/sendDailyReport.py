@@ -67,7 +67,7 @@ if __name__ == "__main__":
     json_values = sys.argv[1]  # Retrieve JSON values provided as an argument
     
     try:
-        data_sent = InitJsonLoader.loadJsonValues(json_values)  # Load the JSON data
+        data_sent = InitJsonLoader.loadJsonValues(json_values, ',')  # Load the JSON data
     except json.JSONDecodeError as e:
         print(f"Error in JSON format: {e}")
         sys.exit(1)

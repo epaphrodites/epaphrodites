@@ -60,14 +60,14 @@ class InitJsonLoader:
        return json.dumps(json_data, ensure_ascii=False)
 
    @staticmethod
-   def loadJsonValues(json_values):
+   def loadJsonValues(json_values, replace = "¸"):
        
        json_values = InitJsonLoader.parse_custom_string_correctly(json_values)
        
        json_values = json.loads(json_values)
        for key, value in json_values.items():
             if isinstance(value, str):
-                json_values[key] = value.replace('u7q7b;','¸')
+                json_values[key] = value.replace('u7q7b;', replace)
 
        return json_values
  

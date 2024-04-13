@@ -52,5 +52,24 @@ trait pyEnv{
         }
 
         return static::initConfig()['python']->executePython('convert_pdf_to_text', ["pdf" => $pdfPath]);
-    }    
+    } 
+    
+    /**
+     * To use this function, you must install python 3
+     * and run this commande "pip install googletrans==4.0.0-rc1"
+     * @param mixed $text
+     * @param string $lang
+     * @return mixed
+     */
+    public function languageTranslator(
+        $text, 
+        $lang
+    ){
+
+        if (empty($text)&&empty($lang)) {
+            throw new \Exception("verify your content text ans abrevation language");
+        }
+
+        return static::initConfig()['python']->executePython('translatWords', ["text" => $text , "lang"=>$lang ]);
+    }      
 }

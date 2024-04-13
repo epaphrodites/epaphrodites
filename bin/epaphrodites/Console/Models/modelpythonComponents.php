@@ -83,6 +83,14 @@ class modelpythonComponents extends settingpythonComponents
                 'success' => 'PyPDF2 installation completed',
                 'already_installed' => 'PyPDF2 is already installed'
             ],
+            'pip install googletrans==3.1.0a0' => [
+                'success' => 'googletrans installation completed',
+                'already_installed' => 'googletrans is already installed'
+            ],    
+            'pip install googletrans==4.0.0-rc1' => [
+                'success' => 'googletrans installation completed',
+                'already_installed' => 'googletrans is already installed'
+            ]  
         ];
     }
 }

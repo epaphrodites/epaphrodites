@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     json_values = sys.argv[1]
 
-    json_datas = InitJsonLoader.loadJsonValues(json_values)
+    json_datas = InitJsonLoader.loadJsonValues(json_values, ',')
 
     if 'function' not in json_datas or 'img' not in json_datas:
         print("The JSON file must contain 'function' and 'img'.")
