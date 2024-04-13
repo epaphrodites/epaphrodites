@@ -70,6 +70,7 @@ class AdditionalAnswers:
                     "quelle est heure moment",
                     "quelle est heure maintenant",
                     "quelle heure est",
+                    "donne moi heure",
                     "peux tu me dire heure",
                     "quel est le temps actuel",
                     "tu connais heure",

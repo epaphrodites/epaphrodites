@@ -32,21 +32,6 @@ final class chats extends MainSwitchers
     }  
 
     /**
-     * List of users messages.
-     * Send users messages
-     * Receive users messages
-     *
-     * @param string $html
-     * @return void
-     */
-    public final function listOfMessages(
-        string $html
-    ): void
-    {
-        $this->views( $html, [], true );
-    }
-
-    /**
      * This chatbot requires that php be installed
      * Start Epaphrodites Chatbot one
      *
@@ -88,31 +73,6 @@ final class chats extends MainSwitchers
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
             $this->result = $this->chatBot->chatBotModelTwoProcess($send);
-
-            echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
-           
-            return;
-        }
-     
-        $this->views( $html, [], true );
-    } 
-    
-    /**
-     * This chatbot requires that Python be installed
-     * Start Epaphrodites Chatbot model three
-     * @param string $html
-     * @return void
-     */
-    public final function startChatbotModelThree(
-        string $html
-    ): void
-    {
-
-        if (static::isValidMethod(true)) {
-            
-            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
-
-            $this->result = $this->chatBot->chatBotModelThreeProcess($send);
 
             echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
            

@@ -2165,6 +2165,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #frame .content .message-input .wrap #inputlarge:focus {
   outline: none;
 }
+
 #frame .content .message-input .wrap button {
   border: none;
   width: 10%;
@@ -2258,37 +2259,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-weight: bold;
   font-size: 12px;
   text-align: center;
-}
-
-.chatcard {
-  width: 90%;
-}
-
-#chat3 .form-control {
-  border-color: transparent;
-}
-
-#chat3 .form-control:focus {
-  border-color: transparent;
-  box-shadow: inset 0px 0px 0px 1px transparent;
-}
-
-.badge-dot {
-  border-radius: 50%;
-  height: 10px;
-  width: 10px;
-  margin-left: 2.9rem;
-  margin-top: -0.75rem;
-}
-
-.text-muted.d-flex.justify-content-start.align-items-center.pe-3.pt-3.mt-2 {
-  position: absolute;
-  bottom: 5px;
-  width: calc(64% - 20px);
-  background-color: #fff;
-  border: 0.5px solid #6d6d6f;
-  padding: 10px;
-  border-radius: 15px;
 }
 
 .wrapper {

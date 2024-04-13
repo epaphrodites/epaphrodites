@@ -72,8 +72,8 @@ class BotCore:
             if isinstance(lastConversation, dict):
                 if messages != 'stop':
                     if lastConversation['state'] == True :
-                        knowledge_base.append({'language': lang,"question": lastConversation['question'].split("|"), "answers": initMessages.split("|")})
-                        LoadAndSave.save_knowledge_base(_LOAD_JSON_FILE_, knowledge_base)
+                        init_knowledge_base.append({'language': lang,"question": lastConversation['question'].split("|"), "answers": initMessages.split("|")})
+                        LoadAndSave.save_knowledge_base(_LOAD_JSON_FILE_, init_knowledge_base)
                         return {'date':botDate,'language': lang,'question': messages, 'answers': defaultThankResponseMessages, 'login': login, 'state': False}        
                 else:
                     return {'date':botDate,'language': lang,'question': messages,'answers': defaultInitResponseMessages , 'login': login, 'state': False} 
