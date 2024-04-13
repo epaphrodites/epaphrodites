@@ -8,26 +8,6 @@ class count extends SelectCount
 {
 
   /**
-   * request to count users messages
-   *
-   * @param integer session logon
-   * @return int
-   */
-  public function sqlChatMessages(): int
-  {
-
-    $login = static::initNamespace()['session']->login();
-
-    $result = $this->table('chatsmessages')
-                  ->like('destinataire')
-                  ->and(['etatmessages'])
-                  ->param([$login, 1])
-                  ->SQuery('COUNT(*) AS nbre');
-
-    return $result[0]['nbre'];
-  }
-
-  /**
    * Get total users number
    * @return int
    */

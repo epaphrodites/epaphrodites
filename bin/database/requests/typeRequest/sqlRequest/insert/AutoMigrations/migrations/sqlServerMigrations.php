@@ -44,30 +44,6 @@ trait sqlServerMigrations
     }
 
     /**
-     * Create messages if not exist
-     * @return void
-     */
-    private function CreateSqlServerChatMessagesIfNotExist(): void
-    {
-
-        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'chatsmessages')
-                        BEGIN
-                            CREATE TABLE chatsmessages (
-                                idchatsmessages INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                emetteur VARCHAR(20) NOT NULL,
-                                destinataire VARCHAR(20) NOT NULL,
-                                typemessages INT NOT NULL,
-                                contentmessages VARCHAR(500) NOT NULL,
-                                datemessages DATETIME,
-                                etatmessages INT NOT NULL
-                            );
-
-                            CREATE INDEX idx_emetteur ON chatsmessages(emetteur);
-                            CREATE INDEX idx_destinataire ON chatsmessages(destinataire);
-                        END")->setQuery();
-    }
-
-    /**
      * Create user if not exist
      * @return void
      */

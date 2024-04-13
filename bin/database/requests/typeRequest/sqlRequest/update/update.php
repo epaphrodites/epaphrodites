@@ -8,26 +8,6 @@ class update extends UpdateUpdate
 {
 
     /**
-     * Request to update chat messages
-     * 
-     * @param string $users
-     * @return bool
-     */
-    public function chat_messages(
-        string $users
-    ): bool
-    {
-        $this->table('chatsmessages')
-            ->set(['etatmessages'])
-            ->where('emetteur')
-            ->and(['destinataire', 'etatmessages'])
-            ->param([0, $users, static::initNamespace()['session']->login(), 1])
-            ->UQuery();
-
-        return true;
-    }
-
-    /**
      * Request to update users password
      *
      * @param string $OldPassword

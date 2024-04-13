@@ -92,13 +92,6 @@ trait adminUsersOptions{
             */
                 'breadcrumb' => $this->layouts->breadcrumbs(),
 
-            /*
-            |--------------------------------------------------------------------------
-            | Count users messages from super admin
-            |--------------------------------------------------------------------------
-            */
-                'notification' => $this->count->chat_messages(),
-
             ];
     }
 

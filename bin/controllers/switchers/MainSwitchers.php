@@ -5,11 +5,12 @@ namespace Epaphrodites\controllers\switchers;
 use Epaphrodites\epaphrodites\heredia\SettingHeredia;
 use Epaphrodites\epaphrodites\heredia\SwitchersHeredia;
 use Epaphrodites\epaphrodites\define\config\traits\currentSubmit;
+use Epaphrodites\epaphrodites\define\config\traits\currentResponses;
 
 class MainSwitchers extends SwitchersHeredia
 {
 
-    use currentSubmit;
+    use currentSubmit, currentResponses;
 
     /**
      * Rooter constructor

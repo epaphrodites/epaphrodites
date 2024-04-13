@@ -39,10 +39,7 @@ final class main extends MainSwitchers
                static::getPost('__password__')
             );
 
-            if ($result === false) {
-                $this->ans = static::initNamespace()['msg']->answers('login-wrong');
-                $this->htmlClass = "error";
-            }
+            [$this->ans, $this->htmlClass] = static::Responses($result, [ false => ['error', 'login-wrong'] ]);
         }
 
         $this->views( $html,

@@ -39,37 +39,6 @@ class insert extends InsertInsert
     }
 
     /**
-     * Add chats
-     * 
-     * @param string|null $emitter
-     * @param string|null $recipient
-     * @param int|null $type
-     * @param string|null $content
-     * @return bool
-     */
-    public function addUserChats(
-        ?string $emitter = null, 
-        ?string $recipient = null, 
-        ?int $type = null, 
-        ?string $content = null
-    ):bool
-    {
-
-        if (!empty($content) && !empty($recipient)) {
-
-            $this->table('chatsmessages')
-                ->insert(' emetteur , destinataire , typemessages , datemessages , contentmessages ')
-                ->values(' ? , ? , ? , ? , ? ')
-                ->param([static::initNamespace()['env']->no_space($emitter), static::initNamespace()['env']->no_space($recipient), $type, date("Y-m-d H:i:s"), $content])
-                ->IQuery();
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Add users to the system
      *
      * @param string|null $login

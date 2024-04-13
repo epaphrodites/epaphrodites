@@ -8,22 +8,6 @@ final class count extends CountCount
 {
 
   /**
-   * Request to count all users messages
-   * @return array
-   */
-  public function chat_messages(): int
-  {
-
-    return match (_FIRST_DRIVER_) {
-
-      'mongo' => $this->noSqlChatMessages(),
-      'redis' => $this->noSqlRedisChatMessages(),
-
-      default => $this->sqlChatMessages(),
-    };
-  }
-
-  /**
    * Request to count all users
    * @return array
    */

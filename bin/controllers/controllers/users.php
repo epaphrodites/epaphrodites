@@ -62,15 +62,11 @@ final class users extends MainSwitchers
 
             $this->result = $this->update->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'));
             
-            if ($this->result === true) {
-                $this->ans = $this->msg->answers('succes');
-                $this->alert = 'alert-success';
-            }
-            
-            if ($this->result === false) {
-                $this->ans = $this->msg->answers('error');
-                $this->alert = 'alert-danger';
-            }
+            [$this->ans, $this->alert] = static::Responses(
+                $this->result, [  
+                    true => ['succes', 'alert-success'], 
+                    false => ['error', 'alert-danger'] 
+                ]);
         }
 
         $this->views( $html, 
@@ -98,20 +94,12 @@ final class users extends MainSwitchers
 
             $this->result = $this->update->changeUsersPassword(static::getPost('__oldpassword__'), static::getPost('__newpassword__'), static::getPost('__confirm__'));
 
-            if ($this->result === 1) {
-                $this->ans = $this->msg->answers('no-identic');
-                $this->alert = 'alert-danger';
-            }
-
-            if ($this->result === 2) {
-                $this->ans = $this->msg->answers('no-identic');
-                $this->alert = 'alert-danger';
-            }
-
-            if ($this->result === 3) {
-                $this->ans = $this->msg->answers('mdpnotsame');
-                $this->alert = 'alert-danger';
-            }
+            [$this->ans, $this->alert] = static::Responses(
+                $this->result, [  
+                    1 => ['no-identic', 'alert-danger'], 
+                    2 => ['no-identic', 'alert-danger'],
+                    3 => ['mdpnotsame', 'alert-danger']
+                ]);
         }
 
         $this->views( $html, 
@@ -146,14 +134,11 @@ final class users extends MainSwitchers
 
                     $this->result = $this->insert->addUsers($usersLogin, static::getPost('__group__'));
 
-                    if ($this->result === true) {
-                        $this->ans = $this->msg->answers('succes');
-                        $this->alert = 'alert-success';
-                    }
-                    if ($this->result === false) {
-                        $this->ans = $this->msg->answers('error');
-                        $this->alert = 'alert-danger';
-                    }
+                    [$this->ans, $this->alert] = static::Responses(
+                        $this->result, [  
+                            true => ['succes', 'alert-success'], 
+                            false => ['rightexist', 'alert-danger'] 
+                        ]);
                 }
             } else {
                 $this->ans = $this->msg->answers('fileempty');
@@ -201,14 +186,11 @@ final class users extends MainSwitchers
                                         : $this->update->initUsersPassword($login);
                 }
 
-                if ($this->result === true) {
-                    $this->ans = $this->msg->answers('succes');
-                    $this->alert = 'alert-success';
-                }
-                if ($this->result === false) {
-                    $this->ans = $this->msg->answers('error');
-                    $this->alert = 'alert-danger';
-                }
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['rightexist', 'alert-danger'] 
+                    ]);
             }
         }
 

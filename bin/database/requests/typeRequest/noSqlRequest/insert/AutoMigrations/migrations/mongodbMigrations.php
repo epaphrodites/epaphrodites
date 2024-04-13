@@ -29,15 +29,5 @@ trait mongodbMigrations{
   {
 
     $this->db(1)->createCollection('authsecure');
-  }
-
-  /**
-   * Create messages if not exist
-   */
-  private function CreateChatMessagesMongoIfNotExist()
-  {
-
-    $this->db(1)->createCollection('chatsmessages');
-  }    
-
+  }  
 }

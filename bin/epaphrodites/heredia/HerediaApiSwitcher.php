@@ -18,8 +18,12 @@ class HerediaApiSwitcher extends GeneralConfig
      * @param mixed $FromUrl
      * @return bool
     */    
-    protected static function GetApiRoot( $Methods , $inipaths , $FromUrl , $autorisation )
-    {
+    protected static function GetApiRoot( 
+        $Methods, 
+        $inipaths, 
+        $FromUrl, 
+        $autorisation 
+    ){
    
         return static::GetMethodsAutorisation( $Methods , $autorisation , $inipaths , $FromUrl ) === true ? true : NULL;
     }
@@ -31,8 +35,12 @@ class HerediaApiSwitcher extends GeneralConfig
      * @param mixed $FromUrl
      * @return bool
     */
-    private static function GetMethodsAutorisation( $Methods , $autorisation , $inipaths , $FromUrl )
-    {
+    private static function GetMethodsAutorisation( 
+        $Methods, 
+        $autorisation, 
+        $inipaths, 
+        $FromUrl 
+    ){
        return $Methods === static::methods()&&$autorisation===true&&$inipaths._MAIN_EXTENSION_ === $FromUrl ? true : false;
         
     }
@@ -46,5 +54,4 @@ class HerediaApiSwitcher extends GeneralConfig
 
        return isset($MethodValues[_KEYGEN_]) && in_array( $MethodValues[_KEYGEN_] , static::$StaticKeygenList) ? true : false;
     }
-
 }

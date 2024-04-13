@@ -67,15 +67,11 @@ final class setting extends MainSwitchers
 
             $this->result = $this->insert->AddUsersRights($userGroup, static::getPost('__rights__'), static::getPost('__actions__'));
 
-            if ($this->result === true) {
-                $this->alert = 'alert-success';
-                $this->ans = $this->msg->answers('succes');
-            }
-
-            if ($this->result === false) {
-                $this->alert = 'alert-danger';
-                $this->ans = $this->msg->answers('rightexist');
-            }
+            [$this->ans, $this->alert] = static::Responses(
+                $this->result, [  
+                    true => ['succes', 'alert-success'], 
+                    false => ['rightexist', 'alert-danger'] 
+                ]);
         }
 
         $this->views( $html, 
@@ -114,15 +110,11 @@ final class setting extends MainSwitchers
                     $this->result = $this->update->updateUserRights($UsersGroup, 1);
                 }
 
-                if ($this->result === true) {
-                    $this->alert = 'alert-success';
-                    $this->ans = $this->msg->answers('succes');
-                }
-
-                if ($this->result === false) {
-                    $this->alert = 'alert-danger';
-                    $this->ans = $this->msg->answers('error');
-                }
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);
             }
 
             // Refuse user right
@@ -133,15 +125,11 @@ final class setting extends MainSwitchers
                     $this->result = $this->update->updateUserRights($usersGroupSelected, 0);
                 }
 
-                if ($this->result === true) {
-                    $this->alert = 'alert-success';
-                    $this->ans = $this->msg->answers('succes');
-                }
-
-                if ($this->result === false) {
-                    $this->alert = 'alert-danger';
-                    $this->ans = $this->msg->answers('error');
-                }
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);                
             }
 
             // Deleted user right
@@ -152,15 +140,11 @@ final class setting extends MainSwitchers
                     $this->result = $this->delete->DeletedUsersRights($usersGroupSelected);
                 }
 
-                if ($this->result === true) {
-                    $this->alert = 'alert-success';
-                    $this->ans = $this->msg->answers('succes');
-                }
-
-                if ($this->result === false) {
-                    $this->alert = 'alert-danger';
-                    $this->ans = $this->msg->answers('error');
-                }
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);                
             }
         }
 
@@ -192,15 +176,11 @@ final class setting extends MainSwitchers
 
                 $this->result = $this->delete->EmptyAllUsersRights(static::getPost('__deleted__'));
 
-                if ($this->result === true) {
-                    $this->alert = 'alert-success';
-                    $this->ans = $this->msg->answers('succes');
-                }
-                
-                if ($this->result === false) {
-                    $this->alert = 'alert-danger';
-                    $this->ans = $this->msg->answers('error');
-                }
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);
             }
         }
 

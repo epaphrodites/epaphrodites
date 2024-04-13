@@ -32,8 +32,6 @@ class InitNoSeederGenerated extends Builders
 
     $this->CreateAuthSecureMongoIfNotExist();
 
-    $this->CreateChatMessagesMongoIfNotExist();
-
     $this->createRecentlyActionsMongoIfNotExist();
   }
 

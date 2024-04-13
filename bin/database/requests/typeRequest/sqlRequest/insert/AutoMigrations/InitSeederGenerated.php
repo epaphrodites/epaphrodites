@@ -31,8 +31,6 @@ class InitSeederGenerated extends Builders
 
     $this->CreateAuthSecureIfNotExist();
 
-    $this->CreateChatMessagesIfNotExist();
-
     $this->createRecentlyActionsIfNotExist();
 
     $this->CreateFirstUserIfNotExist();
@@ -47,8 +45,6 @@ class InitSeederGenerated extends Builders
     $this->CreatePostgeSQLUserIfNotExist();
 
     $this->CreateAuthSecurePostgeSQLIfNotExist();
-
-    $this->CreateChatMessagesPostgeSQLIfNotExist();
 
     $this->createRecentlyActionsPostgeSQLIfNotExist();
 
@@ -65,8 +61,6 @@ class InitSeederGenerated extends Builders
 
     $this->CreateAuthSecureSqLiteIfNotExist();
 
-    $this->CreateChatMessagesSqLiteIfNotExist();
-
     $this->createRecentlyActionsSqLiteIfNotExist();
 
     $this->CreateFirstUserIfNotExist();
@@ -81,8 +75,6 @@ class InitSeederGenerated extends Builders
     $this->CreateSqlServerUserIfNotExist();
 
     $this->CreateSqlServerAuthSecureIfNotExist();
-
-    $this->CreateSqlServerChatMessagesIfNotExist();
 
     $this->createSqlServerRecentlyActionsIfNotExist();
 

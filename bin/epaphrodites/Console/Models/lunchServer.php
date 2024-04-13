@@ -68,7 +68,6 @@ class LunchServer extends AddServerConfig
         $output->writeln("");
         $output->writeln(sprintf("Development server is running at <fg=gray>http://127.0.0.1:%d</fg=gray>", $port));
         $output->writeln("<comment>Quit the server with CONTROL-C.</comment>");
-        $output->writeln("");
     
         $command = "php -S 127.0.0.1:$port";
         $process = proc_open($command, [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']], $pipes);

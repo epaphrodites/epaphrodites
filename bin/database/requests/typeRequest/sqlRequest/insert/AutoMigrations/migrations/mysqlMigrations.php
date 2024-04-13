@@ -38,25 +38,6 @@ trait mysqlMigrations
     }
 
     /**
-     * Create messages if not exist
-     * @return void
-     */
-    private function CreateChatMessagesIfNotExist():void
-    {
-
-        $this->chaine("CREATE TABLE IF NOT EXISTS 
-                chatsmessages (idchatsmessages int(11) NOT NULL auto_increment , 
-                emetteur varchar(20)NOT NULL , 
-                destinataire varchar(20) NOT NULL , 
-                typemessages int(1) NOT NULL , 
-                contentmessages varchar(500) NOT NULL , 
-                datemessages datetime , 
-                etatmessages int(1) NOT NULL , 
-                PRIMARY KEY(idchatsMessages) , 
-                INDEX (emetteur) , INDEX (destinataire) )")->setQuery();
-    }
-
-    /**
      * Create user if not exist
      * @return void
      */

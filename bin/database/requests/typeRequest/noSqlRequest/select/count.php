@@ -7,36 +7,6 @@ use Epaphrodites\database\query\Builders;
 class count extends Builders
 {
 
-   /**
-    * Request to create 
-    * @return int
-    */ 
-    public function noSqlChatMessages():int
-    {
-
-        $login = static::initNamespace()['session']->login();
-
-        $result = $this->db(1)
-            ->selectCollection('chatsmessages')
-            ->countDocuments(['destinataire' => $login, 'etatmessages' => 1]);
-
-        return $result;
-    }
-
-   /**
-    * Request to create 
-    * @return int
-    */ 
-    public function noSqlRedisChatMessages():int
-    {
-
-        $login = static::initNamespace()['session']->login();
-
-        $result = $this->key('chatsmessages')->search(['destinataire' , 'etatmessages'])->param([ $login , 1])->count()->redisGet();
-
-        return $result;
-    }
-
     /**
      * Get total number of users db
      * @return int
