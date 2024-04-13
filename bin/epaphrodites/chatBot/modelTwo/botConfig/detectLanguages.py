@@ -1,4 +1,5 @@
 import sys
+import re
 sys.path.append('bin/epaphrodites/chatBot/mainConfig/')
 sys.path.append('bin/epaphrodites/chatBot/modelTwo/toJson/')
 from constants import _SAVE_TO_JSON_FILE_
@@ -10,6 +11,9 @@ class DetectLanguages:
     
     @staticmethod
     def detect_language_with_dictionary(usersMessages, login):
+        
+        usersMessages = DetectLanguages.replaceOthersCharacteres(usersMessages)
+        
         if not isinstance(usersMessages, list):
             usersMessages = [usersMessages]
          
@@ -32,3 +36,16 @@ class DetectLanguages:
         elif last_language:
             return last_language['language']
         return "eng"
+    
+    @staticmethod
+    def replaceOthersCharacteres(usersMessages):
+
+        string = usersMessages
+        charactersToReplace = [ '#', '@', "|", "."]
+        
+        for caractere in charactersToReplace:
+            string = string.replace(caractere, " ")
+        
+        string = re.sub(r'\s+', ' ', string)   
+         
+        return string.split()

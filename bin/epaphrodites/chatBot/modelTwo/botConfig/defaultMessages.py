@@ -73,3 +73,25 @@ class DefaultMessages:
             ]
 
         return random.choice(messages)
+    
+    @staticmethod
+    def monthDate(bot_date):
+        month_translations = {
+            'January': 'Janvier',
+            'February': 'Février',
+            'March': 'Mars',
+            'April': 'Avril',
+            'May': 'Mai',
+            'June': 'Juin',
+            'July': 'Juillet',
+            'August': 'Août',
+            'September': 'Septembre',
+            'October': 'Octobre',
+            'November': 'Novembre',
+            'December': 'Décembre'
+        }
+            
+        for english_month, french_month in month_translations.items():
+                bot_date = bot_date.replace(english_month, french_month)
+                
+        return bot_date

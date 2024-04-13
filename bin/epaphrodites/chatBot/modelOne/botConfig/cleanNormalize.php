@@ -13,8 +13,9 @@ trait cleanNormalize
      * @param string $text The input text to be cleaned and normalized.
      * @return array An array containing the cleaned and normalized words.
      */
-    private function cleanAndNormalize(string $text): array
-    {
+    private function cleanAndNormalize(
+        string $text
+    ): array{
         $cleanText = $this->cleanText($this->wordNormalizer($text));
 
         return $this->splitTextIntoWords($cleanText);
@@ -26,8 +27,9 @@ trait cleanNormalize
      * @param string $text The text to clean.
      * @return string The cleaned text.
      */
-    private function cleanText(string $text): string
-    {
+    private function cleanText(
+        string $text
+    ): string{
         $cleanedText = preg_replace("/(?<=\s|^)'(\w+)/", '$1', $text);
         return strtolower(preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $cleanedText));
     }
@@ -36,7 +38,9 @@ trait cleanNormalize
      * @param string $word
      * @return string
      */
-    private function wordNormalizer(string $word):string {
+    private function wordNormalizer(
+        string $word
+    ):string {
 
         $normalize = Normalizer::normalize($word, Normalizer::FORM_D);
     
@@ -51,8 +55,9 @@ trait cleanNormalize
      * @param string $cleanText The cleaned text.
      * @return array An array containing the words.
      */
-    private function splitTextIntoWords(string $cleanText): array
-    {
+    private function splitTextIntoWords(
+        string $cleanText
+    ): array{
         $arrayDatas = explode(" ", $cleanText);
 
         return $this->filterWords($arrayDatas);
@@ -64,8 +69,9 @@ trait cleanNormalize
      * @param array $words The array of words to filter.
      * @return array The filtered array of words.
      */
-    private function filterWords(array $words): array
-    {
+    private function filterWords(
+        array $words
+    ): array{
         $wordsToRemove = $this->getWordsToRemove();
         return array_diff($words, $wordsToRemove);
     }

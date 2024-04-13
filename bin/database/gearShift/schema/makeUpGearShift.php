@@ -18,5 +18,5 @@ trait makeUpGearShift{
                 $table->addIndex('usersemail');
                 $table->db(2);
         });
-    }       
+    }          
 }

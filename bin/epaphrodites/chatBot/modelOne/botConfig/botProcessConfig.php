@@ -133,10 +133,8 @@ trait botProcessConfig
 
         if (!empty($userMessage)) {
 
-            $result = static::initConfig()['python']->executePython('lunchBotModelThree',[ 'login' => $login, 'userMessages'=>$userMessage ]);
+            static::initConfig()['python']->executePython('lunchBotModelThree',[ 'login' => $login, 'userMessages'=>$userMessage ]);
         }
-
-        var_dump($result);die;
 
         // Load existing JSON data, if any
         $existingData = $this->loadOthersJsonFile('modelThree/hippocampusModelThree');

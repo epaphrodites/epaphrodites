@@ -12,16 +12,22 @@ class NormalizedWords:
         
         wordNormalize = NormalizedWords.replaceCharacteres(wordNormalize)
         
-        return wordNormalize
+        cleanSpace = wordNormalize.split()
+        
+        cleanSpace = " ".join(cleanSpace)
+        
+        return cleanSpace
     
     @staticmethod
     def replaceCharacteres(usersMessages):
 
         string = usersMessages
-        charactersToReplace = ['-', '_', '+', '=', '.', '/', ',', '!', '?', '(', ')', '"','{', '}', '[', ']', '&', '*', '%']
+        
+        charactersToReplace = ['-', '_', '+', '=', '.', "'", '/', '\\', ',', '!', '?', '(', ')', '"','{', '}', '[', ']', '&', '*', '%', "¸"]
         
         for caractere in charactersToReplace:
             string = string.replace(caractere, " ")
         
-        string = re.sub(r'\s+', ' ', string)    
+        string = re.sub(r'\s+', ' ', string)   
+         
         return string
