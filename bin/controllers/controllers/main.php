@@ -7,7 +7,7 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 final class main extends MainSwitchers
 {
     private string $ans = '';
-    private string $htmlClass = '';
+    private string $alert = '';
 
     /**
      * Index page
@@ -39,12 +39,12 @@ final class main extends MainSwitchers
                static::getPost('__password__')
             );
 
-            [$this->ans, $this->htmlClass] = static::Responses($result, [ false => ['error', 'login-wrong'] ]);
+            [$this->ans, $this->alert] = static::Responses($result, [ false => ['error', 'login-wrong'] ]);
         }
 
         $this->views( $html,
             [
-                'class' => $this->htmlClass,
+                'class' => $this->alert,
                 'reponse' => $this->ans
             ]
         );
