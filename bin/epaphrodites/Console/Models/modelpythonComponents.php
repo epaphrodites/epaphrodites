@@ -34,24 +34,38 @@ class modelpythonComponents extends settingpythonComponents
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @return int
      */
-    private function executeCommands(
-        array $commands, 
-        OutputInterface $output
-    ): int{
+    private function executeCommands(array $commands, OutputInterface $output): int
+    {
         foreach ($commands as $command => $messages) {
-
             $output->writeln("Executing command: $command");
+            
+            // Afficher un message de patience avant l'exécution de la commande
+            $output->writeln("<comment>Please wait while the command is being executed...</comment>");
+            
+            // Afficher un slash tournant pendant l'exécution de la commande
+            $spinner = ['/', '-', '\\', '|'];
+            $spinnerIndex = 0;
+            
+            for ($i = 0; $i < 50; $i++) {
+                $output->write("\r" . $spinner[$spinnerIndex]);
+                $spinnerIndex = ($spinnerIndex + 1) % count($spinner);
+                usleep(100000); // Pause de 100 millisecondes pour l'animation
+            }
+            
+            $output->writeln("\n");
+            
             $result = shell_exec($command);
             $output->writeln($result);
-
+            
             if (strpos($result, 'already satisfied') !== false) {
                 $output->writeln("<error>{$messages['already_installed']}</error>");
             } else {
                 $output->writeln("<info>{$messages['success']}</info>");
             }
+            
             $output->writeln('');
         }
-
+        
         return 0;
     }
 
@@ -75,7 +89,7 @@ class modelpythonComponents extends settingpythonComponents
                 'success' => 'pycryptodome installation completed',
                 'already_installed' => 'pycryptodome is already installed'
             ],
-            'pip install pytesseract' => [
+            'pip3 install pytesseract' => [
                 'success' => 'pytesseract installation completed',
                 'already_installed' => 'pytesseract is already installed'
             ],

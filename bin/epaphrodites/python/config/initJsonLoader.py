@@ -67,7 +67,7 @@ class InitJsonLoader:
        json_values = json.loads(json_values)
        for key, value in json_values.items():
             if isinstance(value, str):
-                json_values[key] = value.replace('u7q7b;', replace)
-
+                json_values[key] = value.replace(';u7q7b;', replace).replace(';v7K7bT;', '/')
+                
        return json_values
  

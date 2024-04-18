@@ -1,5 +1,5 @@
 {
-    "convert_img_to_text": {
+    "convertImgToText": {
         "script": "env\/translateImgToText.py",
         "function": "getImgContent"
     },

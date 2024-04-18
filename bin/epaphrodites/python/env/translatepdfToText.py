@@ -1,5 +1,4 @@
 import sys
-import json
 import PyPDF2
 sys.path.append('bin/epaphrodites/python/config/')
 from initJsonLoader import InitJsonLoader
@@ -28,11 +27,6 @@ class TranslateDocumentToText:
 
     def is_pdf(self):
         return self.document_path.lower().endswith('.pdf')
-
-    @staticmethod
-    def load_json_values(json_values):
-        values = json.loads(json_values)
-        return values
 
 
 if __name__ == "__main__":

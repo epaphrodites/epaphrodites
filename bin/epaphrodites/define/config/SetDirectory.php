@@ -86,7 +86,7 @@ define('_DIR_CONFIG_INI_', 'bin/database/config/ini/');
 define('_DOMAINE_', "");
 
 // Fake folders link
-define('_FAKE_', 'views/');
+define('_FAKE_', 'view/');
 
 // Main home page
 define('_HOME_', _FAKE_ . 'index/');

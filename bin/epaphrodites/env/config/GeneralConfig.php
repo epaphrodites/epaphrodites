@@ -89,11 +89,10 @@ class GeneralConfig extends ApiStaticKeygen
             throw new \InvalidArgumentException("This file $scriptPath do not exist.");
         }
 
-        foreach ($data as $key => $value) {
-            if (is_string($value)) {
-                $data[$key] = str_replace(',', 'u7q7b;', $value);
-            }
-        }
+        array_walk_recursive($data, fn(&$value) => $value = is_string($value) ? strtr($value, [
+            ',' => ';u7q7b;',
+            '/' => ';v7K7bT;'
+        ]) : $value);
 
         $escapedData = escapeshellarg(json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_HEX_QUOT));
 

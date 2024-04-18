@@ -33,8 +33,8 @@ trait pyEnv{
         if (!file_exists($imgPath)) {
             throw new \Exception("Image paths are not valid.");
         }
-
-        return static::initConfig()['python']->executePython('convert_img_to_text', ["img" => $imgPath]);
+        
+        return static::initConfig()['python']->executePython('convertImgToText', ["img" => $imgPath]);
     }
 
     /**

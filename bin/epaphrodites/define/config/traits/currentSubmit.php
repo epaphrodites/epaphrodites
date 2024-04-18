@@ -58,8 +58,10 @@ trait currentSubmit
      * @param string $accepted
      * @return bool
      */
-    public static function isValidMethod(bool $crsf = false, string $accepted = 'POST'): bool
-    {
+    public static function isValidMethod(
+        bool $crsf = false, 
+        string $accepted = 'POST'
+    ): bool{
 
         $crsf === false ? :static::forcingTokenVerification();
 
@@ -149,13 +151,16 @@ trait currentSubmit
     
     /**
      * @param string $key
-     * @return string|null
+     * @return string|'name'
      */
-    public static function getFileName($key):string|null {
+    public static function getFileName(
+        string $key, 
+        string $value = 'name'
+    ):string|null {
         
         if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
           
-            return $_FILES[$key]['name'];
+            return $_FILES[$key][$value];
         } else {
            
             return null;
@@ -295,8 +300,11 @@ trait currentSubmit
      *
      * @return bool Returns true if the value associated with the key matches the given index, otherwise false.
      */
-    public static function isSelected(string $key, string|int|null $index, string $method = 'POST'): bool
-    {
+    public static function isSelected(
+        string $key, 
+        string|int|null $index, 
+        string $method = 'POST'
+    ): bool{
 
         if (empty($key) || empty($index)) {
             throw new epaphroditeException('Invalid key');
@@ -382,7 +390,10 @@ trait currentSubmit
      * @return array The filtered data from the request.
      * @throws epaphroditeException If the method is not supported for superglobal access.
      */
-    private function filterMethod(array $keys, string $method): array {
+    private function filterMethod(
+        array $keys, 
+        string $method
+    ): array {
         $data = []; // Initialize $data to avoid issues if the switch does not match
         switch (strtoupper($method)) {
             case 'GET':
