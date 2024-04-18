@@ -103,6 +103,13 @@ php heredia create:db epaphroditesdb
 php heredia update:driver
 ```
 
+### 💾 install python component
+- Note: This command is intended for users who have previously installed Python on their machine. It simplifies the installation of specific Python libraries essential for the optimal functioning of the Epaphrodites framework. Furthermore, you have the freedom, at your level, to integrate other libraries according to the requirements of your projects :
+
+```bash  
+php heredia pip:component
+```
+
 ### 🔥 Run your App
 - Note: For SQL databases, you must create your database before running your application. In the case of MongoDB, the system will generate your database based on your configuration.
 
