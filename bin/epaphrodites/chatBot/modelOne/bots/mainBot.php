@@ -15,8 +15,9 @@ trait mainBot
      * @param string $userMessage The message input by the user.
      * @return array The best-matching response.
      */
-    private function getResponse(string $userMessage): array
-    {
+    private function getResponse(
+        string $userMessage
+    ): array{
         // Get user login
         $login = (new session_auth)->login();
 
@@ -24,12 +25,15 @@ trait mainBot
         $previousQuestion = $this->lastUsersQuestion($login);
         // Get last question previous is true
         $previousQuestion = !is_null($previousQuestion) ? $previousQuestion['question'] : "";
-        
+
         // Clean and normalize the user's message
         $this->userWords = $this->cleanAndNormalize("{$previousQuestion} {$userMessage}");
 
         // Detect user language
         $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login);
+
+        // Users sentiment analysis
+        $sentimentAnalyzer = $this->analyzeSentiment($userMessage, $mainLanguage);
 
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage);
@@ -43,8 +47,10 @@ trait mainBot
         if ($bestCoefficient >= $this->mainCoefficient&&$similarySentence>0) {
 
             $this->mainCoefficient = $bestCoefficient;
-            $response = $bestAnswers;
-           $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction , $login);
+            
+            $actionResponses = $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->defaultActions($makeAction, $login, $mainLanguage);
+            
+            $response = "{$bestAnswers} {$actionResponses}";
             
         } elseif ($bestCoefficient > 0.1) {
 
@@ -52,7 +58,9 @@ trait mainBot
             $getContent = $this->epaphroditesDefaultMessageToGetMorePrecision($mainLanguage , $this->getMainClass() );
             
             $getAnswers = $getContent[$this->answersKey];
+
             $defaultLanguage = $getContent[$this->languageKey];
+
             $response = $this->answersChanging($getAnswers);
         }
         
@@ -64,11 +72,11 @@ trait mainBot
             $getAnswers = $getContent[$this->answersKey];
             $defaultLanguage = $getContent[$this->languageKey];
             $defaultMessage = $this->answersChanging($getAnswers);
-            $response = [ $this->answersKey => $defaultMessage ];
+            $response = [ $this->answersKey => "{$sentimentAnalyzer}{$defaultMessage}" ];
         }else{
-            $response = [ $this->answersKey => $response ];
+            $response = [ $this->answersKey => "{$sentimentAnalyzer}{$response}" ];
         }
-        
+        ;
         $result = $this->predictAnswers($login, $userMessage, $defaultLanguage , $response);
     
         // Return the response with the highest similarity coefficient

@@ -9,12 +9,13 @@ trait loadJson
 
     /**
      * Loads and retrieves data from a JSON file.
-     * 
+     * @param string $jsonFiles
      * @return array|null Returns the decoded JSON data as an array or NULL if there's an issue.
      * @throws epaphroditeException If there's an error in file reading, JSON decoding, or the file is not found.
      */
-    private function loadJsonFile(string $jsonFiles = 'main/chatbotModelOneKnowledge'): ?array
-    {
+    private function loadJsonFile(
+        string $jsonFiles = 'main/chatbotModelOneKnowledge'
+    ): ?array{
 
         // Path to the JSON file
         $jsonFilePath = _DIR_JSON_DATAS_ . "/modelOne/{$jsonFiles}.json";
@@ -53,7 +54,10 @@ trait loadJson
      * @param string $jsonFiles
      * @return array 
     */    
-    private function getContenAccordingLanguage(string $language = "eng" , string $jsonFiles = 'main/chatbotModelOneKnowledge'){
+    private function getContenAccordingLanguage(
+        string $language = "eng", 
+        string $jsonFiles = 'main/chatbotModelOneKnowledge'
+    ):array{
 
         $result = [];
         $jsonFilesResult = $this->loadJsonFile($jsonFiles);

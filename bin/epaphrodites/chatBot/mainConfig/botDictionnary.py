@@ -22,8 +22,8 @@ class BotDictionnary:
                     'illegalem', 'immediatem', 'imparfaitem', 'infinim', 'ingenum', 'involontairem', 'jamais', 'longtemps', 'lourdem', 'malheureusem', 'malicieusem',
                     'mediocrem', 'meme', 'mensuellem', 'miserablem', 'modestem', 'naturellem', 'neanmoins', 'necessairem', 'sommes', 'importe', 'import', 'notamm', 'nouvellem', 
                     'nulle', 'obstinem', 'occasionnellem','etre', 'somme', 'precieusem', 'preferablem', 'parfois', 'partout', 'peniblem', 'peut', 'pleinem', 'plutot', 'polim', 
-                    'precedemm', 'probablem', 'promptem', 'proportionnellem', 'provisoirem', 'publiquem', 'quelquef', 'rarem', 'nom', 'nomme', 'appel', 'développeurs',
-                    'recemm', 'rapidem', 'regulierem', 'relativem', 'rigidem', 'sainem', 'serieusem', 'souvent', 'soigneusem', 'strictem', 'suffisamm', 'superficielle', 
+                    'precedemm', 'probablem', 'promptem', 'proportionnellem', 'provisoirem', 'publiquem', 'quelquef', 'rarem', 'nom', 'nomme', 'appel', 'developpeu',
+                    'recemm', 'rapidem', 'regulierem', 'relativem', 'rigidem', 'sainem', 'serieusem', 'souvent', 'soigneusem', 'strictem', 'suffisamm', 'superficielle', 'satisfai',
                     'surtout', 'tantot', 'tard', 'tardivem', 'tellem', 'tendrem', 'tout', 'coup', 'suite', 'droit' , 'gauche', 'toutefo', 'tristem', 'vaguem', 'vite', 'vivem', 'init' , 'controleur',
                     'volontairem', 'vraisemblablem', 'presque', 'propos', 'sais' , 'information' , 'parl' , 'salutat' , 'bonjour', 'bonsoir', 'janvier', 'fevrier', 'mars' , 'avril' , 'mai' , 'juin' , 'juillet' , 'aout',
                     'septembre', 'octobre' , 'novembre', 'decembre','journ','recent','aider','remonte','entrainem', 'install', 'installation','francais'
@@ -46,7 +46,7 @@ class BotDictionnary:
                     'whoever', 'whatever', 'whenever', 'wherever', 'however', 'whyever', 'whichever', 'whosever', 'please', 'clear', 'clean', 'mother', 'father', 'builder', 'new',
                     'hello', 'morning' , 'hi', 'generate', 'create', 'build','generated', 'project', 'building', 'tell', 'update', 'evening', 'want', 'children', 'commit', 'layout',
                     'database', 'open', 'tool', 'developer', 'developers', 'feature', 'same', 'function', 'recent', 'thank', 'download', 'readme', 'instal', 'strong', 'developers',
-                    'available', 'workflows', 'start', 'started', 'though', 'insert', 'delete', 'power', 'custom' ,'awesome', 'work', 'do', 'give', 'query', 'controller',
+                    'available', 'workflows', 'start', 'started', 'though', 'insert', 'delete', 'power', 'custom' ,'awesome', 'work', 'do', 'give', 'query', 'controller', 'satisfy'
                     'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'day', 'night', 'help', 'english'
                 },
         }

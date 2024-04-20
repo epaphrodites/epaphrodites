@@ -10,7 +10,10 @@ trait analyzeWord
      * @param string $name
      * @return string
     */    
-    private function getUsersRequest( string $userQuestion , string $name): ?string {
+    private function getUsersRequest( 
+        string $userQuestion, 
+        string $name
+    ): ?string {
 
         $userQuestion = explode(" ", $userQuestion);
         
@@ -32,15 +35,17 @@ trait analyzeWord
      * @param array $name
      * @return string
     */
-    private function getMainResultName( array $userQUestions = [] , array $name = []):string
-    {
+    private function getMainResultName( 
+        array $userQUestions = [], 
+        array $name = []
+    ):string{
 
         $getMain = "";
 
         (string) $userQUestions = implode( ' ' , $userQUestions);
 
-        foreach ($name as $name) {
-            $getMain = $this->getUsersRequest($userQUestions, $name);
+        foreach ($name as $names) {
+            $getMain = $this->getUsersRequest($userQUestions, $names);
 
             if (!empty($getMain)) { return $getMain; }
         }

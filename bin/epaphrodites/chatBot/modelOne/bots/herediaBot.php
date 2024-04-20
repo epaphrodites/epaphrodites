@@ -15,8 +15,10 @@ trait herediaBot
      * @param string $jsonFiles json file path name.
      * @return array The best-matching response.
      */
-    private function getHerediaResponse(string $userMessage , string $jsonFiles): array
-    {
+    private function getHerediaResponse(
+        string $userMessage, 
+        string $jsonFiles
+    ): array{
 
         $knowledgeDatas = "customize/{$jsonFiles}";
         $hyppoCampusDatas = "customize/user{$jsonFiles}";
@@ -35,7 +37,10 @@ trait herediaBot
 
         // Detect user language
         $mainLanguage = $this->detectMainLanguage("{$previousQuestion} {$userMessage}" , $login , $hyppoCampusDatas);
-       
+    
+        // Users sentiment analysis
+        $sentimentAnalyzer = $this->analyzeSentiment($userMessage, $mainLanguage);        
+
         // Load questions and answers from a JSON file
         $questionsAnswers = $this->getContenAccordingLanguage($mainLanguage , $knowledgeDatas);
         
@@ -48,12 +53,15 @@ trait herediaBot
         if ($bestCoefficient >= $this->mainCoefficient&&$similarySentence>0) {
 
             $this->mainCoefficient = $bestCoefficient;
-            $response = $bestAnswers;
-            $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $hyppoCampusDatas);
+
+            $actionResponses = $makeAction == "none"&&$bestCoefficient>=0.5 ? : (new botActions)->actions($makeAction , $login , $hyppoCampusDatas, $mainLanguage);
+
+            $response = "{$bestAnswers} {$actionResponses}";
 
         } elseif ($bestCoefficient > 0.1) {
 
             $this->previous = true;
+
             $getContent = $this->herediaDefaultMessageToGetMorePrecision($mainLanguage , $this->getClass() );
             
             $getAnswers = $getContent[$this->answersKey];
@@ -69,9 +77,9 @@ trait herediaBot
             $getAnswers = $getContent[$this->answersKey];
             $defaultLanguage = $getContent[$this->languageKey];
             $defaultMessage = $this->answersChanging($getAnswers);
-            $response = [ $this->answersKey => $defaultMessage ];
+            $response = [ $this->answersKey => "{$sentimentAnalyzer}{$defaultMessage}" ];
         }else{
-            $response = [ $this->answersKey => $response ];
+            $response = [ $this->answersKey => "{$sentimentAnalyzer}{$response}" ];
         }
         
         $result = $this->predictAnswers($login, $userMessage, $defaultLanguage , $response);

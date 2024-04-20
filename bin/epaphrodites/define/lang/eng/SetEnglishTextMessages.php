@@ -51,6 +51,6 @@ class SetEnglishTextMessages
             'keywords' => "Epaphrodites framework, Creation; website; digital; community manager; logo; visual identity; marketing; communication;",
         ];
 
-        return $this->AllMessages[0][$MessageCode];
+        return isset($this->AllMessages[0][$MessageCode]) ? $this->AllMessages[0][$MessageCode] : "";
     }
 }

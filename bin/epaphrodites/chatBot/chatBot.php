@@ -15,10 +15,11 @@ use Epaphrodites\epaphrodites\chatBot\modelOne\botConfig\dafaultAnswers;
 use Epaphrodites\epaphrodites\chatBot\modelOne\treatment\answersChecking;
 use Epaphrodites\epaphrodites\chatBot\modelOne\botConfig\languageDetection;
 use Epaphrodites\epaphrodites\chatBot\modelOne\botConfig\jaccardCoefficient;
+use Epaphrodites\epaphrodites\chatBot\modelOne\botConfig\sentimentAnalyzer;
 
 class chatBot {
 
-use initVariables, loadJson, cleanNormalize, jaccardCoefficient, mainBot, herediaBot, dafaultAnswers, randomArray, languageDetection, botAssembly, analyzeWord, languageWords, answersChecking;
+use initVariables, loadJson, cleanNormalize, jaccardCoefficient, mainBot, herediaBot, dafaultAnswers, randomArray, languageDetection, botAssembly, analyzeWord, languageWords, answersChecking, sentimentAnalyzer;
 
     /**
      * @param string $userMessage

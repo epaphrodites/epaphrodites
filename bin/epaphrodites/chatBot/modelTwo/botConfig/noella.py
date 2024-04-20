@@ -1,3 +1,5 @@
+import sys
+sys.path.append('bin/epaphrodites/chatBot/mainConfig/')
 from datetime import datetime
 from defaultMessages import DefaultMessages
 

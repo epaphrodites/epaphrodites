@@ -14,7 +14,8 @@ trait dafaultAnswers
      * @return array
     */
     public function epaphroditesDefaultMessageWhereNoResult(
-        string $lang, object $class
+        string $lang, 
+        object $class
     ):array{
 
        return match ($lang) {
@@ -31,7 +32,8 @@ trait dafaultAnswers
      * @return array
     */    
     public function epaphroditesDefaultMessageToGetMorePrecision(
-        string $lang, object $class
+        string $lang, 
+        object $class
     ):array{
 
         return match ($lang) {

@@ -9,7 +9,10 @@ trait answersChecking{
      * @param array $userWords
      * @return array
      */
-    protected function iterateQuestionAnswersAssociated(array $questionsAnswers , array $userWords):array{
+    protected function iterateQuestionAnswersAssociated(
+        array $questionsAnswers, 
+        array $userWords
+    ):array{
 
         $temporaryResponses = [];
 
@@ -75,7 +78,12 @@ trait answersChecking{
      * @param array $response
      * @return array
     */
-    protected function predictAnswers(string $login, string $userMessage, string $defaultLanguage , array $response):array{
+    protected function predictAnswers(
+        string $login, 
+        string $userMessage, 
+        string $defaultLanguage, 
+        array $response
+    ):array{
 
         // Build user history
         $defaultUsers = [ $this->loginKey => $login ];

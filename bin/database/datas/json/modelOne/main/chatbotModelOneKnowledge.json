@@ -1,15 +1,13 @@
 [
     {
         "answers": [
-            "I am Epaphrodites, your AI technical assistant. How can I help you today?",
-            "Epaphrodites here, ready to assist you as an AI technical support. What can I do for you?",
-            "Epaphrodites at your service, your AI technical support. How can I assist you now?",
+            "I am Epaphrodites, your AI assistant. How can I help you today?",
+            "Epaphrodites here, ready to assist you as an AI support. What can I do for you?",
+            "Epaphrodites at your service, your AI support. How can I assist you now?",
             "Hi, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?",
-            "Greetings! I'm Epaphrodites, your AI technical support. How can I make your day better?",
+            "Greetings! I'm Epaphrodites, your AI. How can I make your day better?",
             "Hello, this is Epaphrodites, here to provide you with AI technical assistance at your service.",
-            "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
-            "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
-            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
+            "Hello, I am Epaphrodites, your AI assistant. What can I do for you?",
             "Delighted to see you. How may I assist you?"
         ],
         "key": "hello morning hi {evening}",
@@ -25,9 +23,9 @@
         ],
         "assembly": [
             "Delighted to see you {name}. How may I assist you?",
-            "Hello {name}, I am Epaphrodites, your AI technical assistant. How can I help you today?",
-            "Greetings {name}, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
-            "Hello {name}, this is Epaphrodites, your AI technical support. How can I help you today?",
+            "Hello {name}, I am Epaphrodites, your AI assistant. How can I help you today?",
+            "Greetings {name}, I'm Epaphrodites, your AI assistant. How may I assist you?",
+            "Hello {name}, this is Epaphrodites, your AI support. How can I help you today?",
             "Hi {name}, I'm Epaphrodites, your personal assistant in AI technology. How can I be of service to you?"
         ],
         "type": "txt",
@@ -37,14 +35,12 @@
     {
         "answers": [
             "Je suis Épaphrodites, votre assistant technique IA. Comment puis-je vous aider aujourd'hui ?",
-            "Épaphrodites ici, prêt à vous aider en tant que support technique IA. Que puis-je faire pour vous ?",
-            "Épaphrodites à votre service, votre support technique en IA. En quoi puis-je vous assister maintenant ?",
-            "Salut, je suis Épaphrodites, votre assistant personnel en technologie AI. Comment puis-je vous être utile ?",
-            "Salutations ! Je suis Épaphrodites, votre support technique en IA. Comment puis-je rendre votre journée meilleure ?",
-            "Hello, c'est Épaphrodites, ici pour vous fournir une assistance technique.",
-            "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
-            "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
-            "Salut, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+            "Épaphrodites ici, prêt à vous aider en tant que support IA. Que puis-je faire pour vous ?",
+            "Épaphrodites à votre service. En quoi puis-je vous assister maintenant ?",
+            "Salut, je suis Épaphrodites, votre assistant personnel AI. Comment puis-je vous être utile ?",
+            "Salutations ! Je suis Épaphrodites, comment puis-je rendre votre journée meilleure ?",
+            "Hello, c'est Épaphrodites, ici pour vous fournir une assistance.",
+            "Bonjour, je suis Épaphrodites, votre assistant technique IA. Que puis-je faire pour vous ?",
             "Enchanté de vous revoir. Comment puis-je vous assister ?"
         ],
         "key": "salut bonjour bonsoir {hello}",
@@ -63,10 +59,10 @@
         "context": "salutation",
         "assembly": [
             "Enchanté de vous voir {name}. Comment puis-je vous aider ?",
-            "Bonjour {name}, je suis Epaphrodites, votre assistant technique en intelligence artificielle. Comment puis-je vous aider aujourd'hui ?",
-            "Salutations {name}, je suis Epaphrodites, votre assistant technique en intelligence artificielle. Comment puis-je vous aider ?",
-            "Bonjour {name}, c'est Epaphrodites, votre support technique en intelligence artificielle. Comment puis-je vous aider aujourd'hui ?",
-            "Salut {name}, je suis Epaphrodites, votre assistant personnel en technologie d'intelligence artificielle. Comment puis-je vous être utile ?"
+            "Bonjour {name}, je suis Epaphrodites, comment puis-je vous aider aujourd'hui ?",
+            "Salutations {name}, je suis Epaphrodites, comment puis-je vous aider ?",
+            "Bonjour {name}, c'est Epaphrodites, comment puis-je vous aider aujourd'hui ?",
+            "Salut {name}, je suis Epaphrodites, comment puis-je vous être utile ?"
         ],
         "type": "txt",
         "language": "fr",
@@ -74,9 +70,9 @@
     },
     {
         "answers": [
-            "Hello, I am Epaphrodites, your technical AI assistant. What can I do for you?",
-            "Greetings, I'm Epaphrodites, your AI technical assistant. How may I assist you?",
-            "Hello, this is Epaphrodites, your AI technical support. How can I help you today?",
+            "Hello, I am Epaphrodites, your AI assistant. What can I do for you?",
+            "Greetings, I'm Epaphrodites, your AI assistant. How may I assist you?",
+            "Hello, this is Epaphrodites, your AI support. How can I help you today?",
             "Delighted to see you again. How may I assist you?"
         ],
         "key": "clear",
@@ -92,9 +88,9 @@
     },
     {
         "answers": [
-            "Bonjour, je suis Épaphrodites, votre assistant technique en IA. Que puis-je faire pour vous ?",
-            "Salutations, je suis Épaphrodites, votre assistant technique en IA. Comment puis-je vous aider ?",
-            "Bonjour, c'est Épaphrodites, votre support technique en IA. En quoi puis-je vous aider aujourd'hui ?",
+            "Bonjour, je suis Épaphrodites, votre assistant IA. Que puis-je faire pour vous ?",
+            "Salutations, je suis Épaphrodites, votre assistant IA. Comment puis-je vous aider ?",
+            "Bonjour, c'est Épaphrodites, votre support IA. En quoi puis-je vous aider aujourd'hui ?",
             "Enchanté de vous revoir. Comment puis-je vous assister ?"
         ],
         "key": "init",
@@ -152,5 +148,74 @@
         "type": "txt",
         "language": "eng",
         "actions": "none"
+    },
+    {
+        "answers": [
+            "Il est",
+            "Il est actuellement",
+            "L'heure actuelle est"
+        ],
+        "key": "donne quell dire dis connaitre connais [heure,temps]",
+        "similarly": [
+            "heur",
+            "temps"
+        ],
+        "name": [],
+        "context": "time",
+        "assembly": [],
+        "type": "txt",
+        "language": "fr",
+        "actions": "knowTime"
+    },
+    {
+        "answers": [
+            "Aujourd'hui est le",
+            "Nous sommes aujourd'hui"
+        ],
+        "key": "donne quell dire dis connaitre connais [jour,date]",
+        "similarly": [
+            "jour",
+            "date"
+        ],
+        "name": [],
+        "context": "time",
+        "assembly": [],
+        "type": "txt",
+        "language": "fr",
+        "actions": "knowDate"
+    },{
+        "answers": [
+            "It is",
+            "It is currently",
+            "The current time is"
+        ],
+        "key": "give what say know tell [hour,time]",
+        "similarly": [
+            "hour",
+            "time"
+        ],
+        "name": [],
+        "context": "time",
+        "assembly": [],
+        "type": "txt",
+        "language": "eng",
+        "actions": "knowTime"
+    },
+    {
+        "answers": [
+            "Today is the",
+            "We are today"
+        ],
+        "key": "give what say tell know knows [day,date]",
+        "similarly": [
+            "day",
+            "date"
+        ],
+        "name": [],
+        "context": "date",
+        "assembly": [],
+        "type": "txt",
+        "language": "eng",
+        "actions": "knowDate"
     }
 ]

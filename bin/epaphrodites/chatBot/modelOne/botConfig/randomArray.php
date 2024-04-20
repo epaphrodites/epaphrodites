@@ -8,7 +8,9 @@ trait randomArray
      * @param null|array &$array
      * @return string
     */
-    private function answersChanging(?array &$array = null): string {
+    private function answersChanging(
+        ?array &$array = null
+    ): string {
         // Check if $array is null or empty
         if ($array === null || empty($array)) {
             // Return null if $array is null or empty

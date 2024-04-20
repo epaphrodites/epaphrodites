@@ -51,6 +51,6 @@ class SetSpanichTextMessages
             'keywords' => "Epaphrodites framework, Creación; sitio web; digital; community manager; logo; identidad visual; marketing; comunicación;",
         ];
 
-        return $this->AllMessages[0][$MessageCode];
+        return isset($this->AllMessages[0][$MessageCode]) ? $this->AllMessages[0][$MessageCode] : "";
     }
 }

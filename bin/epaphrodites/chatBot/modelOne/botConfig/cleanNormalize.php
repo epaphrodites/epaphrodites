@@ -94,8 +94,8 @@ trait cleanNormalize
         return 
         [
             'le', 'la', 'les', 'des', 'une', 'un', 'l\'', 'a', 'ce', 'cette', 'ces', 'celui', 'celle', 'ceux', 'celles', 'un', 'sur', 'es' , 'est' , 'sont' , 'sommes',
-            'une', 'des', 'du', 'de la', 'de l\'', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'lui', 'eux', 'elle', 'elles', 'on', 'moi' ,'je' , 'toi', 'tu', 
-            'soi', 'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'qui', 'que', 'quoi', 'dont', 'où', 'quand', 'comment', 'combien',
+            'une', 'des', 'du', 'de', 'la', 'le', 'les', 'leur', 'leurs', 'eux', 'elle', 'elles', 'on', 'moi' ,'je' , 'toi', 'tu', 
+            'nous', 'vous', 'se', 'me', 'te', 'lui', 'leur', 'y', 'en', 'où',
         ];
     }
 
@@ -105,9 +105,8 @@ trait cleanNormalize
     private function englishWord():array
     {   
         return [
-            'the', 'a', 'an', 'this', 'that', 'these', 'those', 'some', 'any', 'each', 'every', 'my', 'your', 'his', 'her', 'its', 'is', 'are',
-            'our', 'their', 'whose', 'which', 'whichever', 'whatever', 'who', 'whom', 'whosever', 'whomever', 'whatever', 'somebody', 
-            'someone', 'something', 'anybody', 'anyone', 'anything', 'nobody', 'none', 'no one', 'nothing', 'everybody', 'everyone', 'everything'
+            'the', 'of', 'a', 'to', 'this', 'these', 'that', 'those', 'on', 'are', 'is', 'some','their', 'him', 'them', 'her', 'them', 'one', 'me', 'i', 'you', 
+            'oneself', 'we', 'them', 'there', 'where', 'it'
         ];
     } 
 }

@@ -51,6 +51,6 @@ class SetFrenchTextMessages
                 'keywords' => "framework epaphrodites , Création; site web; digitale; community manager; logo; identité visuelle; marketing; communication;",
             ];
 
-        return $this->AllMessages[0][$MessageCode];
+        return isset($this->AllMessages[0][$MessageCode]) ? $this->AllMessages[0][$MessageCode] : "";
     }
 }

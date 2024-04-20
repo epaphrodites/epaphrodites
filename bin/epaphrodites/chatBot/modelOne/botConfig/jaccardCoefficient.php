@@ -14,8 +14,10 @@ trait jaccardCoefficient
      * @param array $AnswersArray The second array.
      * @return float The Jaccard coefficient value.
      */
-    private function calculateJaccardCoefficient(array $initQuestionArray, array $AnswersArray): float
-    {
+    private function calculateJaccardCoefficient(
+        array $initQuestionArray, 
+        array $AnswersArray
+    ): float{
 
         // Convert arrays to sets to remove duplicates
         $AnswersArray = array_unique($AnswersArray);
@@ -58,8 +60,10 @@ trait jaccardCoefficient
      * @param mixed $initQuestionArray
      * @return int
     */
-    private function getMainKeyCoefficient( $mainKeyword , $initQuestionArray ):int
-    {
+    private function getMainKeyCoefficient( 
+        mixed $mainKeyword, 
+        mixed $initQuestionArray 
+    ):int{
         $intersection = $this->calculateSimilarWords( $initQuestionArray , $mainKeyword , 0.90);
 
         $intersection = $intersection > 0 ? 1 : 0;
@@ -73,8 +77,11 @@ trait jaccardCoefficient
      * @param float $threshold
      * @return int
      */
-    private function calculateSimilarWords(array $userQuestions, array $wordsToRemove, float $threshold = 0.8): int {
-       
+    private function calculateSimilarWords(
+        array $userQuestions, 
+        array $wordsToRemove, 
+        float $threshold = 0.8
+    ): int {
         $countRemovedWords = 0;
     
         foreach ($userQuestions as $question) {
@@ -94,7 +101,9 @@ trait jaccardCoefficient
      * @param array $botAnswers
      * @return array
     */
-    private function extractBracketValues(array $botAnswers):array{
+    private function extractBracketValues(
+        array $botAnswers
+    ):array{
 
         $extractedValues = [];
         $pattern = '/\[(.*?)\]/';
@@ -120,7 +129,9 @@ trait jaccardCoefficient
      * @param array $botAnswers
      * @return array
     */
-    private function extractBracesValues(array $botAnswers):array{
+    private function extractBracesValues(
+        array $botAnswers
+    ):array{
 
         $extractedValues = [];
         $pattern = '/\{(.*?)\}/';
@@ -147,8 +158,10 @@ trait jaccardCoefficient
      * @param array $arrayToRemove
      * @return array
     */
-    private function filterUsersQuestion(array $initQuestionArray , array $arrayToRemove): array
-    {
+    private function filterUsersQuestion(
+        array $initQuestionArray, 
+        array $arrayToRemove
+    ): array{
         
         return array_diff($initQuestionArray, $arrayToRemove);
     }
@@ -157,8 +170,9 @@ trait jaccardCoefficient
      * @param string $sentence
      * @return array
     */    
-    private function normalizeWords(string $sentence): array
-    {
+    private function normalizeWords(
+        string $sentence
+    ): array{
 
         $sentence = strtolower(preg_replace('/[^\p{L}\s]+/u', '', $this->wordNormalizer($sentence)));
        

@@ -20,6 +20,12 @@ trait initVariables
   public string $languageKey = 'language';
   public string $similarlyKey = 'similarly';
   public string $coefficientKey = 'coefficient';
+  public string $auxiliary_verbs = 'auxiliary_verbs';
+  public string $neutral_words = 'neutral_words';
+  public string $negative_words = 'negative_words';
+  public string $negations = 'negations';
+  public string $attenuators = 'attenuators';
+  public string $intensifiers = 'intensifiers';
 
   public array $userWords = [];
   public array $response = [];

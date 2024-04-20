@@ -2,8 +2,12 @@
 
 namespace Epaphrodites\epaphrodites\chatBot\modelOne\defaultAnswers;
 
+use Epaphrodites\epaphrodites\chatBot\modelOne\botConfig\randomArray;
+
 class mainEpaphroditesDefaultMessages
 {
+
+    use randomArray;
 
     /**
      * @return array
@@ -15,9 +19,6 @@ class mainEpaphroditesDefaultMessages
             'answers' => [
                 "I am a professional assistance AI. I do not handle this type of information.",
                 "I am a language model and I cannot assist you with this question.",
-                "I am designed to assist with technical tasks, but not this type of information.",
-                "I am a language model specialized in technical assistance; however, I do not deal with this kind of information.",
-                "I am a language model designed to assist with technical tasks, but I cannot help you with this type of information."
             ], 
             "similarly" => [],
             "name" => [],
@@ -37,11 +38,8 @@ class mainEpaphroditesDefaultMessages
         // Get bot default messages
         return [ 
             'answers' => [
-                "Je suis une IA d'assistance professionnelle. Je ne gère pas ce type d'informations.",
-                "Je suis un modèle de langage et je ne peux pas vous aider avec cette question.",
-                "Je suis conçu pour aider avec des tâches techniques, mais pas pour ce type d'information.",
-                "Je suis un modèle de langage spécialisé dans l'assistance technique, cependant, je ne traite pas ce genre d'information.",
-                "Je suis un modèle de langage conçu pour aider avec des tâches techniques, mais je ne peux pas vous aider avec ce type d'informations."
+                "Je suis une IA d'assistance. Je ne gère pas ce type d'informations.",
+                "Je suis un modèle de langage et je ne peux pas vous aider avec cette question."
             ], 
             "similarly" => [],
             "name" => [],
@@ -99,5 +97,63 @@ class mainEpaphroditesDefaultMessages
             "language" => "fr",
             "actions" => "none"
         ];
-    }       
+    }  
+    
+    /**
+     * @param string $language
+     * @return array
+    */
+    public function getVocabulary(
+        string $language
+    ): array {
+
+        $vocabulary = [
+            'fr' => [
+                'negations' => ['ne', 'ni', 'non', 'ne pas', 'pas'],
+                'attenuators' => ['peu', 'legerement', 'assez', 'relativement', 'moderement', 'plutot'],
+                'endNegations' => ['pas', 'jamais', 'rien', 'aucun', 'aucune', 'nullement', 'guere', 'nul', 'nulle', 'personne'],
+                'intensifiers' => ['tres', 'extremement', 'particulierement', 'completement', 'totalement', 'terriblement', 'absolument', 'vraiment', 'fortement', 'profondement', 'grandement', 'enormement'],
+                'neutralWords' => ['satisfait', 'content', 'heureux', 'ravi', 'adore', 'apprecie', 'recommande', 'correcte', 'felicite', 'prefere', 'admire', 'aime', 'approuve', 'plaît', 'satisfaisant'],
+                'negativeWords' => ['mecontent', 'decu', 'frustre', 'frustrant', 'insatisfait', 'probleme', 'pire', 'critique', 'bonne', 'incorrecte', 'deprime', 'triste', 'decourage', 'decourageant', 'atroce', 'insupportable', 'effroyable', 'abominable', 'desesperant', 'affreux', 'epouvantable', 'horrible', 'desastreux', 'desolant', 'lamentable', 'mauvais', 'mediocre', 'nul', 'terrible'],
+                'auxiliaryVerbs' => ['suis', 'es', 'est', 'sommes', 'etes', 'sont', 'ai', 'as', 'a', 'avons', 'avez', 'ont', 'serai', 'seras', 'sera', 'serons', 'serez', 'seront', 'serais', 'serait', 'serions', 'seriez', 'seraient']
+            ],
+            'eng' => [
+                'negations' => ['not', 'no', 'never', 'neither', 'nor', 'none', 'nowhere', 'nothing', 'hardly', 'scarcely', 'barely', 'doesn\'t', 'isn\'t', 'wasn\'t', 'shouldn\'t', 'wouldn\'t', 'couldn\'t', 'won\'t', 'can\'t', 'don\'t'],
+                'attenuators' => ['slightly', 'somewhat', 'relatively', 'moderately', 'quite', 'rather', 'fairly', 'pretty'],
+                'endNegations' => ['not', 'never', 'nothing', 'no', 'none', 'neither', 'nor', 'nobody', 'nowhere', 'hardly', 'scarcely', 'barely'],
+                'intensifiers' => ['very', 'extremely', 'particularly', 'completely', 'totally', 'terribly', 'absolutely', 'really', 'strongly', 'deeply', 'greatly', 'enormously', 'exceptionally', 'incredibly', 'immensely'],
+                'neutralWords' => ['satisfied', 'pleased', 'happy', 'delighted', 'love', 'appreciate', 'recommend', 'correct', 'congratulate', 'prefer', 'admire', 'like', 'approve', 'enjoy', 'satisfying'],
+                'negativeWords' => ['dissatisfied', 'disappointed', 'frustrated', 'frustrating', 'unsatisfied', 'problem', 'worst', 'critical', 'incorrect', 'depressed', 'sad', 'discouraged', 'discouraging', 'atrocious', 'unbearable', 'dreadful', 'abominable', 'hopeless', 'awful', 'terrible', 'horrible', 'disastrous', 'deplorable', 'lamentable', 'bad', 'poor', 'worthless', 'lousy'],
+                'auxiliaryVerbs' => ['am', 'is', 'are', 'was', 'were', 'been', 'being', 'have', 'has', 'had', 'having', 'will', 'would', 'shall', 'should', 'may', 'might', 'must', 'can', 'could', 'do', 'does', 'did', 'done', 'doing']
+            ]
+        ];
+       
+        return $vocabulary[$language] ?? [];
+    }    
+
+    /**
+     * @param string $lang
+     * @return string
+     */
+    public function apologizeSentences(
+        string $lang
+    ):string{
+        
+        $msg = [
+            'fr' =>[
+                "Je comprends, et je m'excuse si mes réponses ne répondent pas à vos attentes.\n",
+                "Je comprends votre point de vue et je m'excuse si mes réponses ne sont pas tout à fait ce que vous attendiez.\n",
+                "Je prends note de votre perspective et je m'excuse si mes réponses n'ont pas été à la hauteur de ce que vous espériez.\n",
+                "Je comprends votre position et je m'excuse si mes réponses n'ont pas pleinement répondu à vos attentes.\n"
+            ],
+            'eng' =>[
+                "I understand, and I apologize if my responses do not meet your expectations.\n",
+                "I understand your point of view, and I apologize if my responses are not quite what you expected.\n",
+                "I take note of your perspective, and I apologize if my responses have not lived up to what you hoped for.\n",
+                "I understand your position, and I apologize if my responses have not fully met your expectations.\n"
+            ]            
+        ];
+
+        return $this->answersChanging($msg[$lang]) ?? [];
+    }    
 }

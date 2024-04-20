@@ -16,8 +16,7 @@ trait botProcessConfig
      */
     private function chatProcessConfig(
         string $userMessage
-    ): array
-    {
+    ): array{
         $result =[];
         
         if (!empty($userMessage)) {
@@ -55,8 +54,7 @@ trait botProcessConfig
     private function herediaBotConfig(
         string $userMessage, 
         string $botName
-    ): array
-    {
+    ): array{
         $hyppoCampusDatas = "customize/user{$botName}";
         $result =[];
         
@@ -95,8 +93,7 @@ trait botProcessConfig
     private function herediaChatBotProcessConfig(
         string $userMessage, 
         bool $learn
-        ):array
-    {
+    ):array{
         $result =[];
         
         $login = (new session_auth)->login();
@@ -125,8 +122,7 @@ trait botProcessConfig
      */
     private function noellaChatBotProcessConfig(
         string $userMessage, 
-        ):array
-    {
+    ):array{
         $result =[];
         
         $login = (new session_auth)->login();
