@@ -30,11 +30,11 @@ trait controllerMap
     private function controllerMap(): array
     {
         return [
-            "api" => [ new api, 'SwitchApiControllers', false ],
-            "chats" => [ new chats, 'SwitchControllers', true, _DIR_ADMIN_TEMP_ ],
-            "users" => [ new users, 'SwitchControllers', true, _DIR_ADMIN_TEMP_ ],
-            "setting" => [ new setting, 'SwitchControllers', true, _DIR_ADMIN_TEMP_ ],
-            "dashboard" => [ new dashboard, 'SwitchControllers' , true, _DIR_ADMIN_TEMP_ ],
+            "api" => [ new api, 'SwitchApiControllers', false, 'api' ],
+            "users" => [ new users, 'SwitchControllers', true, 'users', _DIR_ADMIN_TEMP_ ],
+            "chats" => [ new chats, 'SwitchControllers', true, 'chats', _DIR_ADMIN_TEMP_ ],
+            "setting" => [ new setting, 'SwitchControllers', true, 'setting', _DIR_ADMIN_TEMP_ ],
+            "dashboard" => [ new dashboard, 'SwitchControllers', true, 'dashboard', _DIR_ADMIN_TEMP_ ],
         ];
     }
 }

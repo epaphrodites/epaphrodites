@@ -18,7 +18,7 @@ class GetControllers extends ControllersSwitchers
      * @return void
      */
     private function getSwitchMainControllers(
-        ?array $provider = [], 
+        array $provider = [],
         ?string $paths = null
     ): void
     {
@@ -29,20 +29,18 @@ class GetControllers extends ControllersSwitchers
                 continue;
             }
     
-            $switcher = $method[2] ?? false;
-            $views = $method[3] ?? null;
+            [$controller, $methodName, $switcher, $fileFolders, $views] = $method + [null, null, false, null, null];
     
-            if (static::getController($controllerName, $provider, $switcher)) {
+            if (static::getController($fileFolders, $provider, $switcher)) {
                 $controllerInstance = $this;
-                $methodName = $method[1];
-                $arguments = [$method[0], $paths ?? null, $switcher, $views];
+                $arguments = [$controller, $paths ?? null, $switcher, $views];
     
-                call_user_func_array([$controllerInstance, $methodName], $arguments);
+                $controllerInstance?->$methodName(...$arguments);
                 return;
             }
         }
     
-        $this->SwitchControllers($this->mainController(), $paths, false , _DIR_MAIN_TEMP_);
+        $this->SwitchControllers($this->mainController(), $paths, false, _DIR_MAIN_TEMP_);
     }
     
     /**

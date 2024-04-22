@@ -2,12 +2,11 @@
 
 namespace Epaphrodites\epaphrodites\Console\Models;
 
-use Epaphrodites\epaphrodites\Console\Stubs\ControllerStub;
 use Symfony\Component\Console\Input\InputInterface;
-use Epaphrodites\epaphrodites\Console\Setting\OutputDirectory;
 use Symfony\Component\Console\Output\OutputInterface;
+use Epaphrodites\epaphrodites\Console\Stubs\ControllerStub;
+use Epaphrodites\epaphrodites\Console\Setting\OutputDirectory;
 use Epaphrodites\epaphrodites\Console\Setting\ControllersConfig;
-
 
 class CreateControllers extends ControllersConfig
 {
@@ -27,5 +26,4 @@ class CreateControllers extends ControllersConfig
 
         return static::SUCCESS;
     }
-
 }
