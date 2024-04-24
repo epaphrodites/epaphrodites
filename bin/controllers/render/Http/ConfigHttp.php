@@ -5,7 +5,6 @@ namespace Epaphrodites\controllers\render\Http;
 class ConfigHttp extends HttpClient
 {
 
-
     /**
      * Get the provider URL
      *

@@ -15,7 +15,7 @@ class HttpClient extends HttpRequest
 
         $cleanUrl = preg_replace('#/+#', '/', $getUrl);
 
-        return $cleanUrl;
+        return rtrim($cleanUrl, '/') . '/';
     }
 
     /**
