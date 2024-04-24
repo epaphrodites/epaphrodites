@@ -46,7 +46,7 @@ final class $name extends MainSwitchers
 }";
         
     file_put_contents($FilesNames, $stub);
-    static::addToControllerMaps($controllerMaps, "\t\t\t'{$name}' => [ new {$name}, 'SwitchControllers', true, '{$name}', _DIR_ADMIN_TEMP_ ],");
+    static::addToControllerMaps($controllerMaps, "\t\t\t'{$name}' => [ new {$name}, 'SwitchControllers', true, '{$name}Folder', _DIR_ADMIN_TEMP_ ],");
     static::addToControllerNamespace($controllerMaps, "use Epaphrodites\\controllers\\controllers\\{$name};");
 
     }

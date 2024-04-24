@@ -18,23 +18,23 @@ class GetControllers extends ControllersSwitchers
      * @return void
      */
     private function getSwitchMainControllers(
-        array $provider = [],
+        array $provider = [], 
         ?string $paths = null
-    ): void
-    {
+    ): void{
         $controllerMap = (array) $this->controllerMap();
-    
+
         foreach ($controllerMap as $controllerName => $method) {
             if (!is_array($method)) {
                 continue;
             }
     
-            [$controller, $methodName, $switcher, $fileFolders, $views] = $method + [null, null, false, null, null];
+            [$controller, $methodName, $switcher, $findPath, $views] = $method + [null, null, false, null, null];
     
-            if (static::getController($fileFolders, $provider, $switcher)) {
+            if (static::getController($controllerName, $provider, $switcher)) {
+                $paths = $this->getPath($paths, $findPath);
                 $controllerInstance = $this;
                 $arguments = [$controller, $paths ?? null, $switcher, $views];
-    
+
                 $controllerInstance?->$methodName(...$arguments);
                 return;
             }
@@ -42,7 +42,30 @@ class GetControllers extends ControllersSwitchers
     
         $this->SwitchControllers($this->mainController(), $paths, false, _DIR_MAIN_TEMP_);
     }
+
+    /**
+     * @param string $provider
+     * @param string|null $findPath
+     * @return string
+     */
+    private function getPath(
+        string $provider, 
+        string $findPath = null
+    ):string {
+
+        $segments = explode('/', $provider);
+
+        $segments = array_filter($segments, function($segment) {
+            return !empty($segment);
+        });
+
+        array_shift($segments);
     
+        $path = "$findPath/".implode('/', $segments);
+    
+        return $path;
+    }
+
     /**
      * @param array $provider
      * @param string $paths
@@ -54,5 +77,5 @@ class GetControllers extends ControllersSwitchers
     ): void
     {
         $this->getSwitchMainControllers($provider, $paths);
-    }
+    }    
 }

@@ -17,7 +17,7 @@ class ControllersSwitchers extends MergeControllers
         ?bool $switch = false
     ):bool
     {
-
+     
         static::class('crsf')->tocsrf() === false ? static::class('errors')->error_403() : NULL;
 
         if ($switch === false) {

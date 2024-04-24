@@ -11,7 +11,11 @@ class HttpClient extends HttpRequest
     public function HttpResponses():mixed
     {
 
-        return  static::class('paths')->href_slug($this->ParseMethod());
+        $getUrl = static::class('paths')->href_slug($this->ParseMethod());
+
+        $cleanUrl = preg_replace('#/+#', '/', $getUrl);
+
+        return $cleanUrl;
     }
 
     /**
