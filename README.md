@@ -16,6 +16,7 @@ What you should know before starting the installation. To create a new applicati
 - pgsql Extension (if you use PostgreSQL)
 - MongoDB Extension (if you use MongoDB)
 - Redis Extension (if you use Redis)
+- sqlite3 Extension
 - gd Extension
 - Mbstring PHP Extension
 - intl PHP Extension
