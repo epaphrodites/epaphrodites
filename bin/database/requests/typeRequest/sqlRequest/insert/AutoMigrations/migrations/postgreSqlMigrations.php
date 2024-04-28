@@ -16,11 +16,11 @@ trait postgreSqlMigrations
             [
                 "CREATE TABLE IF NOT EXISTS 
                 useraccount (idusers SERIAL PRIMARY KEY, 
-                loginusers varchar(20) NOT NULL , 
-                userspwd varchar(100) NOT NULL , 
-                usersname varchar(150) DEFAULT NULL , 
-                contactusers varchar(10) DEFAULT NULL , 
-                emailusers varchar(50) DEFAULT NULL , 
+                loginusers VARCHAR(20) NOT NULL , 
+                userspwd VARCHAR(100) NOT NULL , 
+                usersname VARCHAR(150) DEFAULT NULL , 
+                contactusers VARCHAR(10) DEFAULT NULL , 
+                emailusers VARCHAR(50) DEFAULT NULL , 
                 usersgroup INT NOT NULL DEFAULT 1 , 
                 usersstat INT NOT NULL DEFAULT 1)", 
                 "CREATE INDEX 
@@ -40,9 +40,9 @@ trait postgreSqlMigrations
             [
                 "CREATE TABLE IF NOT EXISTS 
                 recentactions (idrecentactions SERIAL PRIMARY KEY , 
-                usersactions varchar(20)NOT NULL , 
+                usersactions VARCHAR(20)NOT NULL , 
                 dateactions TIMESTAMP , 
-                libactions varchar(300)NOT NULL )",
+                libactions VARCHAR(300)NOT NULL )",
                 "CREATE INDEX 
                     usersactions ON recentactions (usersactions)"
 
@@ -61,8 +61,8 @@ trait postgreSqlMigrations
             [
                 "CREATE TABLE IF NOT EXISTS 
                 authsecure (idtokensecure SERIAL PRIMARY KEY , 
-                crsfauth varchar(300)NOT NULL , 
-                authkey varchar(200) NOT NULL , 
+                crsfauth VARCHAR(300)NOT NULL , 
+                authkey VARCHAR(200) NOT NULL , 
                 createat TIMESTAMP )",
                 "CREATE INDEX 
                     crsfauth ON authsecure (crsfauth)"

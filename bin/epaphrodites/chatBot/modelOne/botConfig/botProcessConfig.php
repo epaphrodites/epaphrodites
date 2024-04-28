@@ -31,7 +31,7 @@ trait botProcessConfig
             $this->saveJson($existingData);
         }
 
-        $login = (new session_auth)->login();
+        $login = $this->getBotUsersConnected();
 
         // Load existing JSON data, if any
         $existingData = $this->loadJsonFile();
@@ -70,7 +70,7 @@ trait botProcessConfig
             $this->saveJson($existingData , $hyppoCampusDatas);
         }
 
-        $login = (new session_auth)->login();
+        $login = $this->getBotUsersConnected();
 
         // Load existing JSON data, if any
         $existingData = $this->loadJsonFile($hyppoCampusDatas);
@@ -96,7 +96,7 @@ trait botProcessConfig
     ):array{
         $result =[];
         
-        $login = (new session_auth)->login();
+        $login = $this->getBotUsersConnected();
 
         if (!empty($userMessage)) {
 
@@ -125,7 +125,7 @@ trait botProcessConfig
     ):array{
         $result =[];
         
-        $login = (new session_auth)->login();
+        $login = $this->getBotUsersConnected();
 
         if (!empty($userMessage)) {
 
@@ -142,5 +142,17 @@ trait botProcessConfig
         }
 
         return $result;
-    }      
+    }  
+    
+    /**
+     * @return string
+     */
+    protected function getBotUsersConnected(): string
+    {
+        $sessionAuth = new session_auth();
+    
+        $login = $sessionAuth->login();
+    
+        return $login ?? session_id();
+    }
 }

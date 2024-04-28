@@ -24,7 +24,7 @@ trait herediaBot
         $hyppoCampusDatas = "customize/user{$jsonFiles}";
 
         // Get user login
-        $login = (new session_auth)->login();
+        $login = $this->getBotUsersConnected();
 
         // Get last answers previous is true
         $previousQuestion = $this->lastUsersQuestion($login , $hyppoCampusDatas);

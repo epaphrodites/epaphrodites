@@ -15,10 +15,10 @@ trait sqlServerMigrations
         $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'recentactions')
                          BEGIN
                             CREATE TABLE recentactions (
-                                idrecentactions int IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                usersactions varchar(20) NOT NULL,
-                                dateactions datetime,
-                                libactions varchar(300) NOT NULL);
+                                idrecentactions INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                                usersactions VARCHAR(20) NOT NULL,
+                                dateactions DATETIME,
+                                libactions VARCHAR(300) NOT NULL);
                             CREATE INDEX idx_usersactions ON recentactions(usersactions);
                         END")->setQuery();
     }

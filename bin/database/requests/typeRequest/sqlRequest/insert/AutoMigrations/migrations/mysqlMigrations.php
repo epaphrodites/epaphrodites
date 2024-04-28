@@ -13,10 +13,10 @@ trait mysqlMigrations
     {
 
         $this->chaine("CREATE TABLE IF NOT EXISTS 
-                recentactions (idrecentactions int(11) NOT NULL auto_increment , 
-                usersactions varchar(20)NOT NULL , 
-                dateactions datetime , 
-                libactions varchar(300)NOT NULL , 
+                recentactions (idrecentactions int(11) NOT NULL AUTO_INCREMENT , 
+                usersactions VARCHAR(20)NOT NULL , 
+                dateactions DATETIME , 
+                libactions VARCHAR(300)NOT NULL , 
                 PRIMARY KEY(idrecentactions) , 
                 INDEX (usersactions) )")->setQuery();
     }
@@ -29,10 +29,10 @@ trait mysqlMigrations
     {
 
         $this->chaine("CREATE TABLE IF NOT EXISTS authsecure 
-              (idtokensecure int(11) NOT NULL auto_increment , 
-              crsfauth varchar(300)NOT NULL , 
-              authkey varchar(200) NOT NULL , 
-              createat datetime , 
+              (idtokensecure int(11) NOT NULL AUTO_INCREMENT , 
+              crsfauth VARCHAR(300)NOT NULL , 
+              authkey VARCHAR(200) NOT NULL , 
+              createat DATETIME , 
               PRIMARY KEY(idtokensecure) , 
               INDEX (crsfauth) )")->setQuery();
     }
@@ -45,12 +45,12 @@ trait mysqlMigrations
     {
 
         $this->chaine("CREATE TABLE IF NOT EXISTS 
-                useraccount (idusers int(11) NOT NULL auto_increment , 
-                loginusers varchar(20)NOT NULL , 
-                userspwd varchar(100) NOT NULL , 
-                usersname varchar(150) DEFAULT NULL , 
-                contactusers varchar(10) DEFAULT NULL , 
-                emailusers varchar(50) DEFAULT NULL , 
+                useraccount (idusers int(11) NOT NULL AUTO_INCREMENT , 
+                loginusers VARCHAR(20)NOT NULL , 
+                userspwd VARCHAR(100) NOT NULL , 
+                usersname VARCHAR(150) DEFAULT NULL , 
+                contactusers VARCHAR(10) DEFAULT NULL , 
+                emailusers VARCHAR(50) DEFAULT NULL , 
                 usersgroup int(1) NOT NULL DEFAULT '1' , 
                 usersstat int(1) NOT NULL DEFAULT '1' , 
                 PRIMARY KEY(idUsers) , 
