@@ -215,7 +215,10 @@ trait gearQueryChains
     
         $sql = "ALTER TABLE {$this->tableName}";
     
+        $syntax = $this->driver($db)=="sqlserver" ? 'ADD' : 'ADD COLUMN';
+
         $columnsSql = [];
+
         $indexColumns = [];
     
         foreach ($this->columns as $column) {
@@ -224,7 +227,7 @@ trait gearQueryChains
                 $columnName = $column['columnName'];
                 $type = $column['type'];
                 $options = isset($column['options']) ? implode(' ', $column['options']) : '';
-                $columnsSql[] = "{$sql} ADD COLUMN {$columnName} {$type} {$options}";
+                $columnsSql[] = "{$sql} {$syntax} {$columnName} {$type} {$options}";
             }
             
             if (isset($column['indexName'], $column['columns'])) {
