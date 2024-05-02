@@ -54,7 +54,6 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         return $result;
     }
 
-
     /**
      * SQL request execution
      * 

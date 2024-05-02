@@ -14,5 +14,5 @@ use Database\Epaphrodites\config\getConnexion\etablishConnexion\redisdb;
 class getConnexion extends dnsConfig implements DriversConnexion
 {
 
-    use mysql, postgreSQL, mongodb, SqLite , SqlServer , redisdb;
+    use mysql, postgreSQL, mongodb, SqLite, SqlServer, redisdb;
 }
