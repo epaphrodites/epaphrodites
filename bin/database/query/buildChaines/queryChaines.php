@@ -597,8 +597,6 @@ trait queryChaines
         return $this;
     }
     
-   
-
     /**
      * Sets parameters for the query
      *

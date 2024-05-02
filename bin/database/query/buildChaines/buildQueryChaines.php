@@ -144,6 +144,8 @@ trait buildQueryChaines
         if ($this->offset) {
             $query .= " {$this->offset}";
         }
+
+        $this->initQueryChaine();
         
         return $this->selectBuildRequest($query);
     }
@@ -298,6 +300,8 @@ trait buildQueryChaines
             $query .= " {$this->offset}";
         }        
 
+        $this->initQueryChaine();
+
         return $this->executeBuildRequest($query);
     }
 
@@ -383,6 +387,8 @@ trait buildQueryChaines
             $query .= " {$this->offset}";
         }        
 
+        $this->initQueryChaine();
+        
         return $this->executeBuildRequest($query);
     }
 
