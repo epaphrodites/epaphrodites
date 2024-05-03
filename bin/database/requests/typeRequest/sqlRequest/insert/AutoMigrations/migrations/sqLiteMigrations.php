@@ -15,7 +15,7 @@ trait sqLiteMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS useraccount (
-                idusers INTEGER PRIMARY KEY,
+                idusers INTEGER PRIMARY KEY AUTOINCREMENT,
                 loginusers TEXT NOT NULL,
                 userspwd TEXT NOT NULL,
                 usersname TEXT DEFAULT NULL,
@@ -39,10 +39,10 @@ trait sqLiteMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                recentactions (idrecentactions INTEGER PRIMARY KEY, 
-                usersactions VARCHAR(20) NOT NULL, 
+                recentactions (idrecentactions INTEGER PRIMARY KEY AUTOINCREMENT, 
+                usersactions TEXT NOT NULL, 
                 dateactions TIMESTAMP, 
-                libactions VARCHAR(300) NOT NULL)",
+                libactions TEXT NOT NULL)",
                 "CREATE INDEX IF NOT EXISTS 
                     usersactions_index ON recentactions (usersactions)"
 
@@ -59,9 +59,9 @@ trait sqLiteMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                authsecure (idtokensecure INTEGER PRIMARY KEY, 
-                crsfauth VARCHAR(300) NOT NULL, 
-                authkey VARCHAR(200) NOT NULL, 
+                authsecure (idtokensecure INTEGER PRIMARY KEY AUTOINCREMENT, 
+                crsfauth TEXT NOT NULL, 
+                authkey TEXT NOT NULL, 
                 createat TIMESTAMP)",
                 "CREATE INDEX IF NOT EXISTS 
                     crsfauth_index ON authsecure (crsfauth)"
