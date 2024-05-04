@@ -9,6 +9,26 @@ trait initQueryChaine{
      */
     protected function initQueryChaine():void{
        
+        $this->table = NULL;
+
+        $this->param = [];
+
+        $this->chaine = NULL;
+
+        $this->like = NULL;
+
+        $this->where = NULL;
+
+        $this->group = NULL;
+
+        $this->insert = NULL;
+
+        $this->values = NULL;
+
+        $this->multiChaine = [];
+
+        $this->rset = NULL;
+
         $this->set = NULL;
 
         $this->set_i = NULL;
@@ -28,5 +48,9 @@ trait initQueryChaine{
         $this->having = NULL;
 
         $this->order = NULL;
+
+        $this->db = NULL;
+
+        $this->rdb = NULL;
     }
 }
