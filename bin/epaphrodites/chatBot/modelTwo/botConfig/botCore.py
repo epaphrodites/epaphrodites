@@ -49,7 +49,7 @@ class BotCore:
             
             return {'date':botDate,'language': lang,'question': messages,'answers': BotCore.getAnswerForQuestions(best_match, knowledge_base) , 'login': login, 'state': False}
         else:
-            {'date':botDate,'language': lang,'question': messages,'answers': ResponseToUsersSentiment + defaultResponseMessages , 'login': login, 'state': True}  
+            return {'date':botDate,'language': lang,'question': messages,'answers': ResponseToUsersSentiment + defaultResponseMessages , 'login': login, 'state': True}  
         
         
     def botLearnAndDiscutionTreatment(login, initMessages):
