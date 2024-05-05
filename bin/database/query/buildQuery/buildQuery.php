@@ -72,7 +72,8 @@ trait buildQuery
         $setParam = !is_null($this->param);
         $close = isset($this->close) && $this->close === true ? true : false;
         $db = isset($this->db)&&$db===1 ? $this->db : $db;
-    
+        $this->db = NULL;
+        
         // Execute the SELECT query and return the result
         return static::initConfig()['process']->select($query, $param, $setParam, $close, $db);
     }
@@ -88,11 +89,11 @@ trait buildQuery
         int $db = 1
     ): mixed
     {
-   
         $param = $this->param ?? null;
         $setParam = !is_null($this->param);
         $close = isset($this->close) && $this->close === true ? true : false;
         $db = isset($this->db)&&$db===1 ? $this->db : $db;
+        $this->db = NULL;
 
         // Execute the INSERT query and return the result
         return static::initConfig()['process']->runRequest($query, $param, $setParam, $close, $db);

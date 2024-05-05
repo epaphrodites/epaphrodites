@@ -11,8 +11,6 @@ trait initQueryChaine{
        
         $this->table = NULL;
 
-        $this->param = [];
-
         $this->chaine = NULL;
 
         $this->like = NULL;
@@ -24,8 +22,6 @@ trait initQueryChaine{
         $this->insert = NULL;
 
         $this->values = NULL;
-
-        $this->multiChaine = [];
 
         $this->rset = NULL;
 
@@ -46,11 +42,5 @@ trait initQueryChaine{
         $this->sumCase = NULL;
 
         $this->having = NULL;
-
-        $this->order = NULL;
-
-        $this->db = NULL;
-
-        $this->rdb = NULL;
     }
 }

@@ -145,6 +145,7 @@ trait buildQueryChaines
             $query .= " {$this->offset}";
         }
 
+        // Init variables
         $this->initQueryChaine();
         
         return $this->selectBuildRequest($query);
@@ -300,6 +301,7 @@ trait buildQueryChaines
             $query .= " {$this->offset}";
         }        
 
+        // Init variables
         $this->initQueryChaine();
 
         return $this->executeBuildRequest($query);
@@ -387,6 +389,7 @@ trait buildQueryChaines
             $query .= " {$this->offset}";
         }        
 
+        // Init variables
         $this->initQueryChaine();
         
         return $this->executeBuildRequest($query);
