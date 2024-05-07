@@ -31,6 +31,12 @@ What you should know before starting the installation. To create a new applicati
 composer create-project epaphrodites/epaphrodites your-project-name
 ```
 
+If, after executing the previous command, the installation does not proceed as expected or if you encounter any issues, try running the following command:
+
+```bash
+php epaphrodites install component
+```
+
 ⚠️ Recommendation : If you have already installed `MongoDB` on your machine and wish to incorporate its usage into your project, please execute the following command:
 
 ```bash
