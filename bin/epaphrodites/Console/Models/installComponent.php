@@ -8,6 +8,7 @@ class InstallComponent
      */
     private array $extensions = [
         'sqlite3',
+        'pdo_sqlite',
         'gd',
         'intl',
         'zip'
@@ -167,18 +168,43 @@ class InstallComponent
      * @return void
      */
     private function installExtensionsOnWindows(): void
-    {
-        echo "Installing extensions on Windows..." . PHP_EOL;
+{
+    echo "Installing extensions on Windows..." . PHP_EOL;
 
-        foreach ($this->extensions as $extension) {
-            if (!extension_loaded($extension)) {
-                echo "Enabling $extension extension..." . PHP_EOL;
-                echo "\033[32m............................done\033[0m" . PHP_EOL;
+    $phpIniPath = php_ini_loaded_file();
+    if ($phpIniPath === false) {
+        echo "Unable to locate the php.ini file." . PHP_EOL;
+        return;
+    }
+
+    $phpIniContent = file_get_contents($phpIniPath);
+    if ($phpIniContent === false) {
+        echo "Unable to read the php.ini file." . PHP_EOL;
+        return;
+    }
+
+    foreach ($this->extensions as $extension) {
+        $extensionLine = "extension=$extension";
+        if (strpos($phpIniContent, $extensionLine) !== 0) {
+            if (strpos($phpIniContent, ";$extensionLine") !== false) {
+                
+                $phpIniContent = str_replace(";$extensionLine", $extensionLine, $phpIniContent);
+                echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
+            } else {
+                
+                $phpIniContent .= "\n$extensionLine";
+                echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
             }
         }
-
-        echo "Extensions installed successfully on Windows." . PHP_EOL;
     }
+
+    if (file_put_contents($phpIniPath, $phpIniContent) === false) {
+        echo "Unable to write to the php.ini file." . PHP_EOL;
+        return;
+    }
+
+    echo "\033[32mExtensions installed successfully on Windows.\033[0m" . PHP_EOL;
+}
 
     /**
      * Install extensions on macOS
