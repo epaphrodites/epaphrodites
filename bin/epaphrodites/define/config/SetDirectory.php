@@ -64,6 +64,9 @@ define('_DIR_MIGRATION_', 'bin/database/gearShift');
 // Epaphrodites main directory
 define('_EPAPHRODITE_', 'bin/epaphrodites');
 
+// Console main directory
+define('_CONSOLE_', 'bin/epaphrodites/Console/Models');
+
 // Main static datas (static storage)
 define('_DIR_CONFIG_', 'bin/database/datas/arrays/');
 

@@ -1,0 +1,24 @@
+<?php
+
+require 'bin/epaphrodites/define/config/SetDirectory.php';
+
+array_shift($argv);
+
+if (count($argv) > 0) {
+    $command = implode(' ', $argv);
+    
+    $result = match ($command) {
+        "install component" => requireComponent(),
+        default => "Unrecognized command." . PHP_EOL
+    };
+    
+    echo $result;
+} else {
+    echo "No command specified." . PHP_EOL;
+}
+
+function requireComponent() {
+    require _CONSOLE_ . '/installComponent.php';
+    $component = new InstallComponent();
+    $component->executeCommands();
+}
