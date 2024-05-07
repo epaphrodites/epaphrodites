@@ -34,6 +34,7 @@ composer create-project epaphrodites/epaphrodites your-project-name
 If, after executing the previous command, the installation does not proceed as expected or if you encounter any issues, try running the following command:
 
 ```bash
+cd your-project-name
 php epaphrodites install component
 ```
 
