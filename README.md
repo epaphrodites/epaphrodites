@@ -138,7 +138,6 @@ Password : admin
 ### 📗 Documentation
 
 - [Documentation](https://epaphrodite.org/)
-- [EpaphroditesBot](https://epaphrodite.org/views/chat-epaphrodites/)
 
 ### Authors
 
