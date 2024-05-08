@@ -239,6 +239,10 @@ class InstallComponent
 
         $tasks = [
             'guzzle' => 'composer require guzzlehttp/guzzle -n',
+            'phpunit' => 'composer require phpunit/phpunit -n',
+            'php-qrcode' => 'composer require php-qrcode -n',
+            'math' => 'composer require brick/math -n',
+            'console' => 'composer require symfony/console -n',
             'mpdf' => 'composer require mpdf/mpdf -n',
             'phpspreadsheet' => 'composer require phpoffice/phpspreadsheet -n',
             'phpmailer' => 'composer require phpmailer/phpmailer -n',
@@ -254,3 +258,17 @@ class InstallComponent
         echo "\033[32mDependency update and autoload dump completed successfully.\033[0m ✅" . PHP_EOL;
     }
 }
+
+// "require": {
+//     "chillerlan/php-qrcode": "^4.3",
+//     "brick/math": "^0.11.0",
+//     "symfony/console": "^6.2",
+//     "guzzlehttp/guzzle": "^7.8",
+//     "mpdf/mpdf": "^8.2",
+//     "phpoffice/phpspreadsheet": "^2.0"
+//   },
+//   "require-dev": {
+//     "php": ">=8.1",
+//     "twig/twig": "^3.5",
+//     "phpunit/phpunit": "^10.4"
+//   }
