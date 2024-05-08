@@ -23,7 +23,6 @@
     "psr-4": {
       "Epaphrodites\\": "bin/",
       "Database\\Epaphrodites\\": "bin/database/"
-
     }
   },
   "authors": [
