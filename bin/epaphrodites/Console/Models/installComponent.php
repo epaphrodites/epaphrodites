@@ -32,7 +32,7 @@ class InstallComponent
             default => $this->handleUnsupportedOS($os),
         };
 
-        $this->updateComposer();
+        //$this->updateComposer();
     }
     
     /**
@@ -230,24 +230,24 @@ class InstallComponent
         echo "\033[32mExtensions installed successfully on macOS.\033[0m ✅" . PHP_EOL;
     }
 
-    /**
-     * Update project dependencies and dump autoload
-     * @return void
-     */
-    private function updateComposer(): void
-    {
-        echo "\nInstall, Updating project dependencies and dumping autoload..." . PHP_EOL;
+    // /**
+    //  * Update project dependencies and dump autoload
+    //  * @return void
+    //  */
+    // private function updateComposer(): void
+    // {
+    //     echo "\nInstall, Updating project dependencies and dumping autoload..." . PHP_EOL;
 
-        $tasks = [
-            'update' => 'composer update',
-            'dump-autoload' => 'composer dump-autoload',
-        ];
+    //     $tasks = [
+    //         'update' => 'composer update',
+    //         'dump-autoload' => 'composer dump-autoload',
+    //     ];
 
-        foreach ($tasks as $task => $command) {
-            $this->executeCommand($command);
-            echo "\033[32m$task............................done\033[0m" . PHP_EOL;
-        }
+    //     foreach ($tasks as $task => $command) {
+    //         $this->executeCommand($command);
+    //         echo "\033[32m$task............................done\033[0m" . PHP_EOL;
+    //     }
 
-        echo "\033[32mDependency update and autoload dump completed successfully.\033[0m ✅" . PHP_EOL;
-    }
+    //     echo "\033[32mDependency update and autoload dump completed successfully.\033[0m ✅" . PHP_EOL;
+    // }
 }

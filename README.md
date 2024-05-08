@@ -31,7 +31,7 @@ What you should know before starting the installation. To create a new applicati
 composer create-project epaphrodites/epaphrodites your-project-name
 ```
 
-After executing the previous command, navigate to your project directory using the command cd your_project, then run the following command to install dependencies, update them, and rebuild the autoload.php file based on the new configurations, ensuring the proper functioning of your application :
+⚠️ Caution : If, after executing the previous command, the installation does not proceed as expected or if you encounter any issues, try running the following command :
 
 ```bash
 cd your-project-name
@@ -42,6 +42,18 @@ php epaphrodites install component
 
 ```bash
 composer require mongodb/mongodb
+```
+
+### Continue the installation :
+Execute the following command to update all dependencies :
+
+```bash
+composer update
+```
+
+To execute "dump-autoload," run the command :
+```bash
+composer dump-autoload
 ```
 
 ## ⚙️ First configuration
