@@ -1013,7 +1013,7 @@ hr.separateur_menu {
   padding: 10px;
 }
 
-.tableaffichage tbody td {
+.displayTable tbody td {
   background: #fff;
   padding: 5px 3px;
   font-size: 9.2px;
@@ -1023,7 +1023,7 @@ hr.separateur_menu {
   line-height: 14px;
 }
 
-.tableaffichage thead {
+.displayTable thead {
   vertical-align: middle;
   background: var(--dashboard-main);
   text-align: center;
@@ -1032,11 +1032,11 @@ hr.separateur_menu {
   border-top-right-radius: 10px;
 }
 
-.tableaffichage .activ {
+.displayTable .activ {
   color: #098543;
 }
 
-.tableaffichage .desact {
+.displayTable .desact {
   color: #dc143c;
 }
 
