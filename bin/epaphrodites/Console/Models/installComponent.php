@@ -235,9 +235,12 @@ class InstallComponent
      */
     private function updateComposer(): void
     {
-        echo "Updating project dependencies and dumping autoload..." . PHP_EOL;
+        echo "\nInstall, Updating project dependencies and dumping autoload..." . PHP_EOL;
 
         $tasks = [
+            'mpdf' => 'composer require mpdf/mpdf',
+            'phpspreadsheet' => 'composer require phpoffice/phpspreadsheet',
+            'phpmailer' => 'composer require phpmailer/phpmailer',
             'update' => 'composer update',
             'dump-autoload' => 'composer dump-autoload',
         ];
