@@ -24,12 +24,12 @@ class InstallComponent
         $os = php_uname('s');
 
         // Use a match structure to call the appropriate installation method based on the OS
-        match (true) {
-            str_contains($os, 'Windows') => $this->installExtensionsOnWindows(),
-            str_contains($os, 'Linux') => $this->installExtensionsOnLinux(),
-            str_contains($os, 'Darwin') => $this->installExtensionsOnMacOS(),
-            default => $this->handleUnsupportedOS($os),
-        };
+        // match (true) {
+        //     str_contains($os, 'Windows') => $this->installExtensionsOnWindows(),
+        //     str_contains($os, 'Linux') => $this->installExtensionsOnLinux(),
+        //     str_contains($os, 'Darwin') => $this->installExtensionsOnMacOS(),
+        //     default => $this->handleUnsupportedOS($os),
+        // };
 
         $this->updateComposer();
     }
@@ -238,9 +238,10 @@ class InstallComponent
         echo "\nInstall, Updating project dependencies and dumping autoload..." . PHP_EOL;
 
         $tasks = [
-            'mpdf' => 'composer require mpdf/mpdf',
-            'phpspreadsheet' => 'composer require phpoffice/phpspreadsheet',
-            'phpmailer' => 'composer require phpmailer/phpmailer',
+            'guzzle' => 'composer require guzzlehttp/guzzle -n',
+            'mpdf' => 'composer require mpdf/mpdf -n',
+            'phpspreadsheet' => 'composer require phpoffice/phpspreadsheet -n',
+            'phpmailer' => 'composer require phpmailer/phpmailer -n',
             'update' => 'composer update',
             'dump-autoload' => 'composer dump-autoload',
         ];
