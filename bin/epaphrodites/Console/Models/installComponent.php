@@ -11,6 +11,7 @@ class InstallComponent
         'pdo_sqlite',
         'gd',
         'intl',
+        'fileinfo',
         'zip'
     ];
 
