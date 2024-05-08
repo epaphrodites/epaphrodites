@@ -160,7 +160,7 @@ class InstallComponent
             echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
         }
 
-        echo "Extensions installed successfully on Linux." . PHP_EOL;
+        echo "\033[32mExtensions installed successfully on Linux.\033[0m ✅" . PHP_EOL;
     }
 
     /**
@@ -203,7 +203,7 @@ class InstallComponent
         return;
     }
 
-    echo "\033[32mExtensions installed successfully on Windows.\033[0m" . PHP_EOL;
+    echo "\033[32mExtensions installed successfully on Windows.\033[0m ✅" . PHP_EOL;
 }
 
     /**
@@ -226,7 +226,7 @@ class InstallComponent
             echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
         }
     
-        echo "\033[32mExtensions installed successfully on macOS.\033[0m" . PHP_EOL;
+        echo "\033[32mExtensions installed successfully on macOS.\033[0m ✅" . PHP_EOL;
     }
 
     /**
@@ -247,6 +247,6 @@ class InstallComponent
             echo "\033[32m$task............................done\033[0m" . PHP_EOL;
         }
 
-        echo "\033[32mDependency update and autoload dump completed successfully.\033[0m" . PHP_EOL;
+        echo "\033[32mDependency update and autoload dump completed successfully.\033[0m ✅" . PHP_EOL;
     }
 }

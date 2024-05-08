@@ -39,17 +39,15 @@ class modelpythonComponents extends settingpythonComponents
         foreach ($commands as $command => $messages) {
             $output->writeln("Executing command: $command");
             
-            // Afficher un message de patience avant l'exécution de la commande
             $output->writeln("<comment>Please wait while the command is being executed...</comment>");
             
-            // Afficher un slash tournant pendant l'exécution de la commande
             $spinner = ['/', '-', '\\', '|'];
             $spinnerIndex = 0;
             
             for ($i = 0; $i < 50; $i++) {
                 $output->write("\r" . $spinner[$spinnerIndex]);
                 $spinnerIndex = ($spinnerIndex + 1) % count($spinner);
-                usleep(100000); // Pause de 100 millisecondes pour l'animation
+                usleep(100000);
             }
             
             $output->writeln("\n");
