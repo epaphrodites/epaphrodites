@@ -239,9 +239,6 @@ class InstallComponent
         echo "\nInstall, Updating project dependencies and dumping autoload..." . PHP_EOL;
 
         $tasks = [
-            'mpdf' => 'composer require mpdf/mpdf -n',
-            'phpspreadsheet' => 'composer require phpoffice/phpspreadsheet -n',
-            'phpmailer' => 'composer require phpmailer/phpmailer -n',
             'update' => 'composer update',
             'dump-autoload' => 'composer dump-autoload',
         ];
