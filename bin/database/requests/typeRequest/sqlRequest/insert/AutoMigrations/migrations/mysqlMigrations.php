@@ -51,7 +51,7 @@ trait mysqlMigrations
                 namesurname VARCHAR(150) DEFAULT NULL , 
                 contact VARCHAR(10) DEFAULT NULL , 
                 email VARCHAR(50) DEFAULT NULL , 
-                group INTEGER(1) NOT NULL DEFAULT '1' , 
+                usersgroup INTEGER(1) NOT NULL DEFAULT '1' , 
                 state INTEGER(1) NOT NULL DEFAULT '1' , 
                 PRIMARY KEY(idusers) , 
                 INDEX (login) )")->setQuery();

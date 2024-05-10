@@ -59,7 +59,7 @@ trait sqlServerMigrations
                 namesurname VARCHAR(150) NULL,
                 contact VARCHAR(10) NULL,
                 email VARCHAR(50) NULL,
-                group INTEGER NOT NULL DEFAULT '1',
+                usersgroup INTEGER NOT NULL DEFAULT '1',
                 state INTEGER NOT NULL DEFAULT '1'
             );
 

@@ -10,7 +10,7 @@ trait makeUpGearShift{
      */
     public function createUsersAccountTable()
     {
-        return $this->createTable('useraccount', function ($table) {
+        return $this->createTable('usersaccount', function ($table) {
                 $table->addColumn('idusers', 'INTEGER', ['PRIMARY KEY', 'AUTOINCREMENT']);
                 $table->addColumn('login', 'TEXT' , ['NOT NULL']);
                 $table->addColumn('password', 'TEXT' , ['NOT NULL']);
@@ -18,7 +18,7 @@ trait makeUpGearShift{
                 $table->addColumn('contact', 'TEXT' , ['DEFAULT NULL']);
                 $table->addColumn('email', 'TEXT' , ['DEFAULT NULL']);
                 $table->addColumn('ip', 'TEXT' , ['DEFAULT NULL']);
-                $table->addColumn('group', 'INTEGER' , ['NOT NULL', 'DEFAULT 1']);
+                $table->addColumn('usersgroup', 'INTEGER' , ['NOT NULL', 'DEFAULT 1']);
                 $table->addColumn('state', 'INTEGER' , ['NOT NULL', 'DEFAULT 1']);
                 $table->addIndex('login');
                 $table->db(1);

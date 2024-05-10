@@ -30,7 +30,7 @@ class insert extends Builders
                 'namesurname' => NULL,
                 'contact' => NULL,
                 'email' => NULL,
-                'group' => $userGroup,
+                'usersgroup' => $userGroup,
                 'state' => 1,
             ];
 
@@ -71,7 +71,7 @@ class insert extends Builders
                 'namesurname' => NULL,
                 'contact' => NULL,
                 'email' => NULL,
-                'group' => $userGroup,
+                'usersgroup' => $userGroup,
                 'state' => 1
             ];
             

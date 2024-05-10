@@ -21,10 +21,10 @@ trait sqLiteMigrations
                 namesurname TEXT DEFAULT NULL,
                 contact TEXT DEFAULT NULL,
                 email TEXT DEFAULT NULL,
-                group INTEGER NOT NULL DEFAULT 1,
+                usersgroup INTEGER NOT NULL DEFAULT 1,
                 state INTEGER NOT NULL DEFAULT 1)",
                 "CREATE INDEX IF NOT EXISTS 
-                    loginusers ON useraccount (loginusers)"
+                    login_index ON useraccount (login)"
 
             ])->setMultiQuery();
     }

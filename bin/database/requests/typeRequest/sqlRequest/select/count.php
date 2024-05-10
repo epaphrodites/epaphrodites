@@ -28,7 +28,7 @@ class count extends SelectCount
   ): int
   {
     $result = $this->table('useraccount')
-                  ->where('group')
+                  ->where('usersgroup')
                   ->param([$Group])
                   ->SQuery("COUNT(*) AS nbre");
 

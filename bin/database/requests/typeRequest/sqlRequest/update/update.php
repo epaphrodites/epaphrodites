@@ -30,7 +30,7 @@ class update extends UpdateUpdate
 
                 if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["password"], $OldPassword) === true) {
 
-                    $this->table('useraccount')
+                    $this->table('usersaccount')
                         ->set(['password'])
                         ->where('idusers')
                         ->param([static::initConfig()['guard']->CryptPassword($NewPassword), static::initNamespace()['session']->id()])
@@ -74,10 +74,10 @@ class update extends UpdateUpdate
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['group'];
+            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
 
-            $this->table('useraccount')
-                ->set(['password', 'group'])
+            $this->table('usersaccount')
+                ->set(['password', 'usersgroup'])
                 ->where('login')
                 ->param([static::initConfig()['guard']->CryptPassword($password), $UserGroup, "$login"])
                 ->UQuery();
@@ -99,7 +99,7 @@ class update extends UpdateUpdate
     ): bool
     {
 
-        $this->table('useraccount')
+        $this->table('usersaccount')
             ->set(['password'])
             ->where('login')
             ->param([static::initConfig()['guard']->CryptPassword($UsersLogin), $UsersLogin])
@@ -134,7 +134,7 @@ class update extends UpdateUpdate
                 $etatExact = "Open";
             }
 
-            $this->table('useraccount')
+            $this->table('usersaccount')
                 ->set(['state'])
                 ->like('login')
                 ->param([$state, $GetUsersDatas[0]['login']])
@@ -166,7 +166,7 @@ class update extends UpdateUpdate
         
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
-            $this->table('useraccount')
+            $this->table('usersaccount')
                 ->set(['contact', 'email', 'namesurname', 'state'])
                 ->where('idusers')
                 ->param([$number, $email, $usersname, 1, static::initNamespace()['session']->id()])

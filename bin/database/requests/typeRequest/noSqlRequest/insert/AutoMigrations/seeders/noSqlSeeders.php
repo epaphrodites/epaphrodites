@@ -19,7 +19,7 @@ trait noSqlSeeders{
       'namesurname' => NULL,
       'contact' => NULL,
       'email' => NULL,
-      'group' => 1,
+      'usersgroup' => 1,
       'state' => 1,
     ];
 
@@ -38,7 +38,7 @@ trait noSqlSeeders{
       'namesurname' => NULL,
       'contact' => NULL,
       'email' => NULL,
-      'group' => 1,
+      'usersgroup' => 1,
       'state' => 1,
     ];
 

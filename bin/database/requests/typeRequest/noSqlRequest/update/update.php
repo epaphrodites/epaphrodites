@@ -239,12 +239,12 @@ class update extends Builders
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['group'];
+            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
 
             $filter = [ 'login' => $login ];
     
             $update = [
-                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'group' => $UserGroup ]
+                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $UserGroup ]
             ];   
     
             $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
