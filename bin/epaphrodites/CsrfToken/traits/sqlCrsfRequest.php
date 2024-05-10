@@ -16,9 +16,9 @@ trait sqlCrsfRequest
     private function UpdateUserCrsfToken(?string $cookies = null): void
     {
 
-        $this->table('authsecure')
-            ->set(['authkey', 'createat'])
-            ->where('crsfauth')
+        $this->table('secure')
+            ->set(['key', 'createat'])
+            ->where('auth')
             ->param([$cookies,  date("Y-m-d H:i:s"), md5(static::initNamespace()['session']->login())])
             ->UQuery();
     }
@@ -32,8 +32,8 @@ trait sqlCrsfRequest
     private function CreateUserCrsfToken(?string $cookies = null): bool
     {
 
-        $this->table('authsecure')
-            ->insert('crsfauth , authkey , createat')
+        $this->table('secure')
+            ->insert('auth , key , createat')
             ->values(' ? , ? , ?')
             ->param([md5(static::initNamespace()['session']->login()), $cookies, date("Y-m-d H:i:s")])
             ->IQuery();
@@ -59,13 +59,13 @@ trait sqlCrsfRequest
 
         $endOfDay = $currentDate->format('Y-m-d') . " 23:59:59";
 
-        $result = $this->table('authsecure')
+        $result = $this->table('secure')
             ->between('createat')
-            ->and(['crsfauth'])
+            ->and(['auth'])
             ->param([$startOfDay, $endOfDay, md5(static::initNamespace()['session']->login())])
-            ->SQuery('authkey');
+            ->SQuery('key');
 
-        return !empty($result) ? $result[0]['authkey'] : 0;
+        return !empty($result) ? $result[0]['key'] : 0;
     }
 
     /**
@@ -79,11 +79,11 @@ trait sqlCrsfRequest
         
         $login = $login !== null ? md5($login) : NULL;
 
-        $result = $this->table('authsecure')
-            ->where('crsfauth')
+        $result = $this->table('secure')
+            ->where('auth')
             ->param([$login])
             ->SQuery();
 
-        return !empty($result) ? $result[0]['authkey'] : 0;
+        return !empty($result) ? $result[0]['key'] : 0;
     }
 }

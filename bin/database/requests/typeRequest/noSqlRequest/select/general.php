@@ -6,8 +6,7 @@ use Epaphrodites\database\query\Builders;
 
 class general extends Builders
 {
-
-
+    
     /**
      * Request to select all recent users actions of database
      * @return array
@@ -20,10 +19,10 @@ class general extends Builders
 
         $result = $this->db(1)
             ->selectCollection('history')
-            ->find(['usersactions' => $UserConnected], [
+            ->find(['history' => $UserConnected], [
                 'limit' => 6, 
                 'sort' => [
-                    'dateactions' => (date('Y-m-d') == 'DESC') ? 1 : -1
+                    'date' => (date('Y-m-d') == 'DESC') ? 1 : -1
                 ]
             ]);
 

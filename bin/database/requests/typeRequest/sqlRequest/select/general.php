@@ -31,9 +31,9 @@ class general extends SelectGeneral
        
         $UserConnected = static::initNamespace()['session']->login();
 
-        $result = $this->table('recentactions')
-            ->like('usersactions')
-            ->orderBy('idrecentactions', 'DESC')
+        $result = $this->table('history')
+            ->like('actions')
+            ->orderBy('idhistory', 'DESC')
             ->offset(0,6)
             ->param([$UserConnected])
             ->SQuery();
@@ -50,9 +50,9 @@ class general extends SelectGeneral
        
         $UserConnected = static::initNamespace()['session']->login();
 
-        $result = $this->table('recentactions')
-            ->like('usersactions')
-            ->orderBy('idrecentactions', 'DESC')
+        $result = $this->table('history')
+            ->like('actions')
+            ->orderBy('idhistory', 'DESC')
             ->limit(0,6)
             ->param([$UserConnected])
             ->SQuery();

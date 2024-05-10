@@ -48,7 +48,7 @@ class get_id extends SelectGet_id
         $result = $this->table('useraccount')
             ->where('group')
             ->limit((($currentPage - 1) * $numLines), $numLines)
-            ->orderBy('loginusers', 'ASC')
+            ->orderBy('login', 'ASC')
             ->param([$usersGroup])
             ->SQuery();
 
@@ -73,7 +73,7 @@ class get_id extends SelectGet_id
         $result = $this->table('useraccount')
             ->where('group')
             ->offset((($currentPage - 1) * $numLines), $numLines)
-            ->orderBy('loginusers', 'ASC')
+            ->orderBy('login', 'ASC')
             ->param([$usersGroup])
             ->SQuery();
 
@@ -94,7 +94,7 @@ class get_id extends SelectGet_id
         $login = static::initNamespace()['env']->no_space($login);
 
         $result = $this->table('useraccount')
-            ->like('loginusers')
+            ->like('login')
             ->param([$login])
             ->SQuery();
 
@@ -113,8 +113,8 @@ class get_id extends SelectGet_id
 
         $login = static::initNamespace()['env']->no_space($login);
 
-        $result = $this->table('recentactions')
-            ->like('usersactions')
+        $result = $this->table('history')
+            ->like('actions')
             ->param([$login])
             ->SQuery();
 

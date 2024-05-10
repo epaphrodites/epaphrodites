@@ -2,7 +2,6 @@
 
 namespace Epaphrodites\database\seeders;
 
-use MongoDB\BSON\ObjectId;
 use Epaphrodites\database\query\Builders;
 
 class databaseSeeding extends Builders{
@@ -12,17 +11,18 @@ class databaseSeeding extends Builders{
      */    
     public function noSqlRun(): void
     {
-          $document =[
-             'login'=>'admin',
-             'userspwd'=>static::initConfig()['guard']->CryptPassword('admin'),
-              'usersname'=> NULL,
-              'contactusers'=> NULL,
-              'emailusers'=> NULL,
-              'usersstate'=> 1,
-             'usersgroup'=> 1,
-            ];
+         $document =
+          [
+            'login' => 'admin',
+            'password' => static::initConfig()['guard']->CryptPassword('admin'),
+            'namesurname' => NULL,
+            'contact' => NULL,
+            'email' => NULL,
+            'state'=> 1,
+            'group'=> 1,
+          ];
       
-          $this->db(1)->selectCollection('users_account')
+          $this->db(1)->selectCollection('useraccount')
                         ->insertOne($document);        
      }
 
@@ -31,10 +31,10 @@ class databaseSeeding extends Builders{
      */    
      public function sqlRun(): void
      {
-        $this->table('users_account')
-             ->insert('idusers_account , name , surname')
-            ->values( ' ? , ? , ?' )
-            ->param([1, "name" , "dialla" ])
+        $this->table('useraccount')
+            ->insert('login , namesurname , contact' , 'email')
+            ->values( ' ? , ? , ? , ? ' )
+            ->param([ 'epaphrodites' , 'EPAPHRODITES FRAMEWORK' , '0000000000', 'infos@epaphrodite.org' ])
             ->sdb(1)
             ->IQuery(); 
      }    

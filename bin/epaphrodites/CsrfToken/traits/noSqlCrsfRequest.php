@@ -21,14 +21,14 @@ trait noSqlCrsfRequest
         $documents = [];
 
         $result = $this->db(1)
-            ->selectCollection('authsecure')
-            ->find(['crsfauth' => $login]);
+            ->selectCollection('secure')
+            ->find(['auth' => $login]);
 
         foreach ($result as $document) {
             $documents[] = $document;
         }
 
-        return !empty($documents) ? $documents[0]['authkey'] : 0;
+        return !empty($documents) ? $documents[0]['key'] : 0;
     }
 
     /**
@@ -38,11 +38,11 @@ trait noSqlCrsfRequest
     public function noSqlRedisSecure(): string|int
     {
 
-        $result = $this->key('authsecure')
+        $result = $this->key('secure')
             ->index(md5(static::initNamespace()['session']->login()))
             ->redisGet();
 
-        return !empty($result) ? $result[0]['authkey'] : 0;
+        return !empty($result) ? $result[0]['key'] : 0;
     }
 
     /**
@@ -55,12 +55,12 @@ trait noSqlCrsfRequest
     {
 
         $document = [
-            'crsfauth' => md5(static::initNamespace()['session']->login()),
-            'authkey' => $cookies,
+            'auth' => md5(static::initNamespace()['session']->login()),
+            'key' => $cookies,
             'createat' => date("Y-m-d H:i:s"),
         ];
 
-        $this->db(1)->selectCollection('authsecure')->insertOne($document);
+        $this->db(1)->selectCollection('secure')->insertOne($document);
 
         return false;
     }
@@ -75,12 +75,12 @@ trait noSqlCrsfRequest
     {
 
         $datas = [
-            'crsfauth' => md5(static::initNamespace()['session']->login()),
-            'authkey' => $cookies,
+            'auth' => md5(static::initNamespace()['session']->login()),
+            'key' => $cookies,
             'createat' => date("Y-m-d H:i:s"),
         ];
 
-        $this->key('authsecure')->id('idtokensecure')->index(md5(static::initNamespace()['session']->login()))->param($datas)->addToRedis();
+        $this->key('secure')->id('idtokensecure')->index(md5(static::initNamespace()['session']->login()))->param($datas)->addToRedis();
 
         return false;
     }
@@ -94,16 +94,16 @@ trait noSqlCrsfRequest
     private function noSqlUpdateUserCrsfToken(?string $cookies = null): void
     {
 
-        $filter = ['crsfauth' => md5(static::initNamespace()['session']->login())];
+        $filter = ['auth' => md5(static::initNamespace()['session']->login())];
 
         $update = [
             '$set' => [
-                'authkey' => $cookies,
+                'key' => $cookies,
                 'createat' => date("Y-m-d H:i:s"),
             ],
         ];
 
-        $this->db(1)->selectCollection('authsecure')->updateOne($filter, $update);
+        $this->db(1)->selectCollection('secure')->updateOne($filter, $update);
     }
 
     /**
@@ -119,11 +119,11 @@ trait noSqlCrsfRequest
 
         $datas =
             [
-                'authkey' => $cookies,
+                'key' => $cookies,
                 'createat' => date("Y-m-d H:i:s"),
             ];
 
-        $this->key('authsecure')->index($index)->rset($datas)->updRedis();
+        $this->key('secure')->index($index)->rset($datas)->updRedis();
     }
 
     /**
@@ -149,16 +149,16 @@ trait noSqlCrsfRequest
                 '$gte' => $startOfDay,
                 '$lte' => $endOfDay,
             ],
-            'crsfauth' => md5(static::initNamespace()['session']->login()),
+            'auth' => md5(static::initNamespace()['session']->login()),
         ];
 
-        $result = $this->db(1)->selectCollection('authsecure')->find($filter);
+        $result = $this->db(1)->selectCollection('secure')->find($filter);
 
         foreach ($result as $document) {
             $documents[] = $document;
         }
 
-        return !empty($documents) ? $documents[0]['authkey'] : 0;
+        return !empty($documents) ? $documents[0]['key'] : 0;
     }
 
     /**
@@ -180,12 +180,12 @@ trait noSqlCrsfRequest
 
         $endOfDay = $currentDate->format('Y-m-d') . " 23:59:59";
 
-        $result = $this->key('authsecure')
+        $result = $this->key('secure')
             ->index(md5(static::initNamespace()['session']->login()))
             ->redisGet();
 
         if (!empty($result)) {
-            $mainDay = $result[0]['authkey'];
+            $mainDay = $result[0]['key'];
 
             $verifyResult = match (true) {
                 ($mainDay >= $startOfDay && $mainDay <= $endOfDay) => $mainDay,

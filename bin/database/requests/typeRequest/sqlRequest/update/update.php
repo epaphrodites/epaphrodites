@@ -28,10 +28,10 @@ class update extends UpdateUpdate
 
             if (!empty($result)) {
 
-                if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["userspwd"], $OldPassword) === true) {
+                if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["password"], $OldPassword) === true) {
 
                     $this->table('useraccount')
-                        ->set(['userspwd'])
+                        ->set(['password'])
                         ->where('idusers')
                         ->param([static::initConfig()['guard']->CryptPassword($NewPassword), static::initNamespace()['session']->id()])
                         ->UQuery();
@@ -74,11 +74,11 @@ class update extends UpdateUpdate
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
+            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['group'];
 
             $this->table('useraccount')
-                ->set(['userspwd', 'usersgroup'])
-                ->where('loginusers')
+                ->set(['password', 'group'])
+                ->where('login')
                 ->param([static::initConfig()['guard']->CryptPassword($password), $UserGroup, "$login"])
                 ->UQuery();
 
@@ -100,8 +100,8 @@ class update extends UpdateUpdate
     {
 
         $this->table('useraccount')
-            ->set(['userspwd'])
-            ->where('loginusers')
+            ->set(['password'])
+            ->where('login')
             ->param([static::initConfig()['guard']->CryptPassword($UsersLogin), $UsersLogin])
             ->UQuery();
 
@@ -126,7 +126,7 @@ class update extends UpdateUpdate
 
         if (!empty($GetUsersDatas)) {
 
-            $state = !empty($GetUsersDatas[0]['usersstat']) ? 0 : 1;
+            $state = !empty($GetUsersDatas[0]['state']) ? 0 : 1;
 
             $etatExact = "Close";
 
@@ -135,12 +135,12 @@ class update extends UpdateUpdate
             }
 
             $this->table('useraccount')
-                ->set(['usersstat'])
-                ->like('loginusers')
-                ->param([$state, $GetUsersDatas[0]['loginusers']])
+                ->set(['state'])
+                ->like('login')
+                ->param([$state, $GetUsersDatas[0]['login']])
                 ->UQuery();
               
-            $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['loginusers'];
+            $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['login'];
             static::initQuery()['setting']->ActionsRecente($actions);
            
             return true;
@@ -167,7 +167,7 @@ class update extends UpdateUpdate
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
             $this->table('useraccount')
-                ->set(['contactusers', 'emailusers', 'usersname', 'usersstat'])
+                ->set(['contact', 'email', 'namesurname', 'state'])
                 ->where('idusers')
                 ->param([$number, $email, $usersname, 1, static::initNamespace()['session']->id()])
                 ->UQuery();

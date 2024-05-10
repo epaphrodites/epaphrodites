@@ -79,7 +79,7 @@ class select extends SelectSelect
         int $numLines
     ):array{
 
-        $result = $this->table('recentactions')
+        $result = $this->table('history')
             ->orderBy('date', 'ASC')
             ->limit((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
@@ -99,7 +99,7 @@ class select extends SelectSelect
         int $numLines
     ):array{
 
-        $result = $this->table('recentactions')
+        $result = $this->table('history')
             ->orderBy('date', 'ASC')
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();

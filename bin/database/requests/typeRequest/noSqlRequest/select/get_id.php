@@ -93,7 +93,7 @@ class get_id extends Builders
 
         $result = $this->db(1)
             ->selectCollection('history')
-            ->find(['usersactions' => $login ]);
+            ->find(['actions' => $login ]);
 
         foreach ($result as $document) {
             $documents[] = $document;

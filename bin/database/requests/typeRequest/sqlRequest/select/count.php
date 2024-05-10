@@ -42,7 +42,7 @@ class count extends SelectCount
    */
   public function sqlCountUsersRecentActions(): int
   {
-    $result = $this->table('recentactions')
+    $result = $this->table('history')
       ->SQuery("COUNT(*) AS nbre");
 
     return $result[0]['nbre'];

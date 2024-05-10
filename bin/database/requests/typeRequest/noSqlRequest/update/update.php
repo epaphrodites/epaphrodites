@@ -32,7 +32,7 @@ class update extends Builders
             [
                 'contact' => $number,
                 'email' => $email,
-                'usersname' => $usersname,
+                'namesurname' => $usersname,
                 'state' => 1,
             ],
         ];   
@@ -77,10 +77,10 @@ class update extends Builders
         $login = static::initNamespace()['session']->login();
 
         $datas = [
-                'contactusers' => $number,
+                'contact' => $number,
                 'emailusers' => $email,
-                'usersname' => $usersname,
-                'usersstat' => 1,
+                'namesurname' => $usersname,
+                'state' => 1,
         ];   
 
         $this->key('useraccount')->index($login)->rset($datas)->updRedis();
@@ -119,7 +119,7 @@ class update extends Builders
 
         if (!empty($GetUsersDatas)) {
 
-            $state = !empty($GetUsersDatas[0]['usersstat']) ? 0 : 1;
+            $state = !empty($GetUsersDatas[0]['state']) ? 0 : 1;
 
             $etatExact = "Close";
 
@@ -127,15 +127,15 @@ class update extends Builders
                 $etatExact = "Open";
             }
 
-            $filter = [ 'loginusers' => $GetUsersDatas[0]['loginusers'] ];
+            $filter = [ 'login' => $GetUsersDatas[0]['login'] ];
     
             $update = [
-                '$set' => [ 'usersstat' => $state ]
+                '$set' => [ 'state' => $state ]
             ];   
     
             $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
 
-            $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['loginusers'];
+            $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['login'];
             static::initQuery()['setting']->noSqlActionsRecente($actions);
 
             return true;
@@ -155,10 +155,10 @@ class update extends Builders
     ): bool
     {
 
-        $filter = [ 'loginusers' => $UsersLogin ];
+        $filter = [ 'login' => $UsersLogin ];
     
         $update = [
-            '$set' => [ 'userspwd' => static::initConfig()['guard']->CryptPassword($UsersLogin . '@') ]
+            '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($UsersLogin . '@') ]
         ];   
 
         $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
@@ -190,17 +190,18 @@ class update extends Builders
 
             if (!empty($result)) {
 
-                if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["userspwd"], $OldPassword) === true) {
+                if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["password"], $OldPassword) === true) {
 
-                    $filter = [ 'loginusers' => static::initNamespace()['session']->login() ];
+                    $filter = [ 'login' => static::initNamespace()['session']->login() ];
     
                     $update = [
-                        '$set' => [ 'userspwd' => static::initConfig()['guard']->CryptPassword($NewPassword) ]
+                        '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($NewPassword) ]
                     ];   
             
                     $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
             
                     $actions = "Change password : " . static::initNamespace()['session']->login() ;
+
                     static::initQuery()['setting']->noSqlActionsRecente($actions);
 
                     $this->desconnect = static::initNamespace()['paths']->logout();
@@ -238,17 +239,18 @@ class update extends Builders
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
+            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['group'];
 
-            $filter = [ 'loginusers' => $login ];
+            $filter = [ 'login' => $login ];
     
             $update = [
-                '$set' => [ 'userspwd' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $UserGroup ]
+                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'group' => $UserGroup ]
             ];   
     
             $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
     
             $actions = "Edit Personal Information : " . $login ;
+            
             static::initQuery()['setting']->noSqlActionsRecente($actions);
 
             return true;

@@ -44,9 +44,9 @@
                     <tr data-order-column="1">
                         <td class='tblcenter' style="width: 1%;">{{ checkbox_field( { name : 'actions[]' , class : 'checkitem' , value : selected.idrecentactions|e } ) }}</td>
                         <td class='nodre' style="width: 3%"></td>
-                        <td style="width: 10%">{{ selected.usersactions|e }}</td>
-                        <td style="width: 10%">{{ selected.dateactions|e|date("d/m/Y H:i:s") }}</td>
-                        <td style="width: 40%">{{ selected.libactions|e }}</td>
+                        <td style="width: 10%">{{ selected.actions|e }}</td>
+                        <td style="width: 10%">{{ selected.date|e|date("d/m/Y H:i:s") }}</td>
+                        <td style="width: 40%">{{ selected.label|e }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
