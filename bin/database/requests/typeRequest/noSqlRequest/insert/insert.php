@@ -34,7 +34,7 @@ class insert extends Builders
                 'state' => 1,
             ];
 
-            $this->db(1)->selectCollection('useraccount')->insertOne($document);
+            $this->db(1)->selectCollection('usersaccount')->insertOne($document);
 
             $actions = "Add a user : " . $login;
             static::initQuery()['setting']->noSqlActionsRecente($actions);
@@ -75,7 +75,7 @@ class insert extends Builders
                 'state' => 1
             ];
             
-            $this->db(1)->selectCollection('useraccount')->insertOne($document);
+            $this->db(1)->selectCollection('usersaccount')->insertOne($document);
 
             $actions = "Add a user : " . $login;
             static::initQuery()['setting']->noSqlActionsRecente($actions);

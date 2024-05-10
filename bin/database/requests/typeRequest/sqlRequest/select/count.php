@@ -13,7 +13,7 @@ class count extends SelectCount
    */
   public function sqlCountAllUsers(): int
   {
-    $result = $this->table('useraccount')->SQuery("COUNT(*) AS nbre");
+    $result = $this->table('usersaccount')->SQuery("COUNT(*) AS nbre");
 
     return $result[0]['nbre'];
   }
@@ -27,7 +27,7 @@ class count extends SelectCount
     int $Group
   ): int
   {
-    $result = $this->table('useraccount')
+    $result = $this->table('usersaccount')
                   ->where('usersgroup')
                   ->param([$Group])
                   ->SQuery("COUNT(*) AS nbre");

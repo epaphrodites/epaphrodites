@@ -23,7 +23,7 @@ trait noSqlSeeders{
       'state' => 1,
     ];
 
-    $this->db(1)->selectCollection('useraccount')->insertOne($document);
+    $this->db(1)->selectCollection('usersaccount')->insertOne($document);
   }
 
   /**
@@ -42,6 +42,6 @@ trait noSqlSeeders{
       'state' => 1,
     ];
 
-    $this->key('useraccount')->id('idusers')->index('admin')->param($document)->addToRedis();
+    $this->key('usersaccount')->id('idusers')->index('admin')->param($document)->addToRedis();
   }  
 }

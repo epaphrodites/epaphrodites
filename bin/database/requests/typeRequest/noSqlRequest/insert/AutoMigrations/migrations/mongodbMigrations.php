@@ -10,7 +10,7 @@ trait mongodbMigrations{
   private function CreateMongoUserIfNotExist()
   {
 
-    $this->db(1)->createCollection("useraccount");
+    $this->db(1)->createCollection("usersaccount");
   }
 
   /**

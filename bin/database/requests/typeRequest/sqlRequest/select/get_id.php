@@ -45,7 +45,7 @@ class get_id extends SelectGet_id
     ):array
     {
 
-        $result = $this->table('useraccount')
+        $result = $this->table('usersaccount')
             ->where('usersgroup')
             ->limit((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('login', 'ASC')
@@ -70,7 +70,7 @@ class get_id extends SelectGet_id
     ):array
     {
 
-        $result = $this->table('useraccount')
+        $result = $this->table('usersaccount')
             ->where('usersgroup')
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('login', 'ASC')
@@ -93,7 +93,7 @@ class get_id extends SelectGet_id
 
         $login = static::initNamespace()['env']->no_space($login);
 
-        $result = $this->table('useraccount')
+        $result = $this->table('usersaccount')
             ->like('login')
             ->param([$login])
             ->SQuery();

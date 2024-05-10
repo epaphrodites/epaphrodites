@@ -37,7 +37,7 @@ class update extends Builders
             ],
         ];   
 
-        $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
+        $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
 
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
@@ -83,7 +83,7 @@ class update extends Builders
                 'state' => 1,
         ];   
 
-        $this->key('useraccount')->index($login)->rset($datas)->updRedis();
+        $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
 
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
@@ -133,7 +133,7 @@ class update extends Builders
                 '$set' => [ 'state' => $state ]
             ];   
     
-            $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
+            $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
 
             $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['login'];
             static::initQuery()['setting']->noSqlActionsRecente($actions);
@@ -161,7 +161,7 @@ class update extends Builders
             '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($UsersLogin . '@') ]
         ];   
 
-        $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
+        $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
 
         $actions = "Reset user password : " . $UsersLogin;
         static::initQuery()['setting']->noSqlActionsRecente($actions);
@@ -198,7 +198,7 @@ class update extends Builders
                         '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($NewPassword) ]
                     ];   
             
-                    $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
+                    $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
             
                     $actions = "Change password : " . static::initNamespace()['session']->login() ;
 
@@ -247,7 +247,7 @@ class update extends Builders
                 '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $UserGroup ]
             ];   
     
-            $this->db(1)->selectCollection('useraccount')->updateMany($filter, $update);
+            $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
     
             $actions = "Edit Personal Information : " . $login ;
             

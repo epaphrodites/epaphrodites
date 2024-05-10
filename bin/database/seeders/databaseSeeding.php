@@ -22,7 +22,7 @@ class databaseSeeding extends Builders{
             'group'=> 1,
           ];
       
-          $this->db(1)->selectCollection('useraccount')
+          $this->db(1)->selectCollection('usersaccount')
                         ->insertOne($document);        
      }
 
@@ -31,7 +31,7 @@ class databaseSeeding extends Builders{
      */    
      public function sqlRun(): void
      {
-        $this->table('useraccount')
+        $this->table('usersaccount')
             ->insert('login , namesurname , contact' , 'email')
             ->values( ' ? , ? , ? , ? ' )
             ->param([ 'epaphrodites' , 'EPAPHRODITES FRAMEWORK' , '0000000000', 'infos@epaphrodite.org' ])

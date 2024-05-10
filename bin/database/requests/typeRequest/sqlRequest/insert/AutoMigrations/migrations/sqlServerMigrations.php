@@ -50,9 +50,9 @@ trait sqlServerMigrations
     private function CreateSqlServerUserIfNotExist(): void
     {
 
-        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'useraccount')
+        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'usersaccount')
         BEGIN
-            CREATE TABLE useraccount (
+            CREATE TABLE usersaccount (
                 idusers INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
                 login VARCHAR(20) NOT NULL,
                 password VARCHAR(100) NOT NULL,
@@ -63,7 +63,7 @@ trait sqlServerMigrations
                 state INTEGER NOT NULL DEFAULT '1'
             );
 
-            CREATE INDEX idx_login ON useraccount(login);
+            CREATE INDEX idx_login ON usersaccount(login);
         END")->setQuery();
     }
 }

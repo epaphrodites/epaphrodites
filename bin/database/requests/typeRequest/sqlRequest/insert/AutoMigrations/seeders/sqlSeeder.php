@@ -11,7 +11,7 @@ trait sqlSeeder{
   private function CreateFirstUserIfNotExist():void
   {
 
-    $this->table('useraccount')
+    $this->table('usersaccount')
       ->insert('login , password')
       ->values( ' ? , ? ' )
       ->param(['admin', $this->Guard->CryptPassword('admin')])

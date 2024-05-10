@@ -8,7 +8,7 @@ class auth extends Builders
 {
 
   /**
-   * Verify if useraccount table exist in database (For mongodb)
+   * Verify if usersaccount table exist in database (For mongodb)
    * @return bool
    */
   private function ifCollectionExist():bool
@@ -19,7 +19,7 @@ class auth extends Builders
     $result = false;
 
     foreach ($collections as $collectionInfo) {
-      if ($collectionInfo->getName() === "useraccount") {
+      if ($collectionInfo->getName() === "usersaccount") {
         $result = true;
         break;
       }
@@ -29,13 +29,13 @@ class auth extends Builders
   }
 
   /**
-   * Verify if useraccount table exist in database (For mongodb)
+   * Verify if usersaccount table exist in database (For mongodb)
    * @return bool
    */
   private function ifKeyExist():bool
   {
 
-    $result = $this->key('useraccount')->index('*')->isExist();
+    $result = $this->key('usersaccount')->index('*')->isExist();
 
     return $result;
   }  
@@ -56,7 +56,7 @@ class auth extends Builders
       $documents = [];
 
       $result = $this->db(1)
-        ->selectCollection('useraccount')
+        ->selectCollection('usersaccount')
         ->find(['login' => $login]);
 
       foreach ($result as $document) {
@@ -85,7 +85,7 @@ class auth extends Builders
 
     if ($this->ifKeyExist() === true) {
 
-      return $this->key('useraccount')->search(['state'])->param([1])->index($login)->redisGet();
+      return $this->key('usersaccount')->search(['state'])->param([1])->index($login)->redisGet();
 
     } else {
 

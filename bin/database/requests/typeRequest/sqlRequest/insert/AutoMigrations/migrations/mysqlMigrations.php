@@ -44,7 +44,7 @@ trait mysqlMigrations
     private function CreateUserIfNotExist():void
     {
 
-        $this->chaine("CREATE TABLE IF NOT EXISTS useraccount (
+        $this->chaine("CREATE TABLE IF NOT EXISTS usersaccount (
                 idusers INTEGER(11) NOT NULL AUTO_INCREMENT , 
                 login VARCHAR(20)NOT NULL , 
                 password VARCHAR(100) NOT NULL , 

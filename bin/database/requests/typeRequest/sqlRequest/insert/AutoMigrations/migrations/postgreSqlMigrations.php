@@ -15,7 +15,7 @@ trait postgreSqlMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                useraccount (idusers SERIAL PRIMARY KEY, 
+                usersaccount (idusers SERIAL PRIMARY KEY, 
                 login VARCHAR(20) NOT NULL , 
                 password VARCHAR(100) NOT NULL , 
                 namesurname VARCHAR(150) DEFAULT NULL , 
@@ -24,7 +24,7 @@ trait postgreSqlMigrations
                 usersgroup INT NOT NULL DEFAULT 1 , 
                 state INT NOT NULL DEFAULT 1)", 
                 "CREATE INDEX 
-                    login ON useraccount (login)"
+                    login ON usersaccount (login)"
 
             ])->setMultiQuery();
     }

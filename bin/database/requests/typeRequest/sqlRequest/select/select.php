@@ -19,7 +19,7 @@ class select extends SelectSelect
         int $numLines
     ):array{
 
-        $result = $this->table('useraccount')
+        $result = $this->table('usersaccount')
             ->orderBy('usersgroup', 'ASC')
             ->limit((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
@@ -39,7 +39,7 @@ class select extends SelectSelect
         int $numLines
     ):array{
 
-        $result = $this->table('useraccount')
+        $result = $this->table('usersaccount')
             ->orderBy('usersgroup', 'ASC')
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();

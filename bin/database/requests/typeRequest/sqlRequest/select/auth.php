@@ -8,7 +8,7 @@ class auth extends SelectAuth
 {
 
   /**
-   * Verify if useraccount table exist in database (For mysql/postgresql)
+   * Verify if usersaccount table exist in database (For mysql/postgresql)
    * @return bool
    */
   protected function if_table_exist(): bool
@@ -16,7 +16,7 @@ class auth extends SelectAuth
 
     try {
 
-      $this->table('useraccount')->SQuery();
+      $this->table('usersaccount')->SQuery();
 
       return true;
     } catch (\Exception $e) {
@@ -37,7 +37,7 @@ class auth extends SelectAuth
 
     if ($this->if_table_exist() === true) {
 
-      $result = $this->table('useraccount')
+      $result = $this->table('usersaccount')
           ->like('login')
           ->param([$login])
           ->SQuery();

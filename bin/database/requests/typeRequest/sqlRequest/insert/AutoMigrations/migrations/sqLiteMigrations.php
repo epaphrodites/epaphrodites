@@ -14,7 +14,7 @@ trait sqLiteMigrations
 
         $this->multiChaine(
             [
-                "CREATE TABLE IF NOT EXISTS useraccount (
+                "CREATE TABLE IF NOT EXISTS usersaccount (
                 idusers INTEGER PRIMARY KEY AUTOINCREMENT,
                 login TEXT NOT NULL,
                 password TEXT NOT NULL,
@@ -24,7 +24,7 @@ trait sqLiteMigrations
                 usersgroup INTEGER NOT NULL DEFAULT 1,
                 state INTEGER NOT NULL DEFAULT 1)",
                 "CREATE INDEX IF NOT EXISTS 
-                    login_index ON useraccount (login)"
+                    login_index ON usersaccount (login)"
 
             ])->setMultiQuery();
     }
