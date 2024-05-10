@@ -30,7 +30,7 @@ class validate_token extends GeneratedValues
         
         return match (_FIRST_DRIVER_) {
 
-            'mongo' => $this->secure->noSqlSecure(),
+            'mongodb' => $this->secure->noSqlSecure(),
             'redis' => $this->secure->noSqlRedisSecure(),
   
             default => $this->secure->secure(),

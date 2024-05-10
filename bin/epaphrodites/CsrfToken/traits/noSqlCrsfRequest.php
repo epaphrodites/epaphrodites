@@ -28,7 +28,7 @@ trait noSqlCrsfRequest
             $documents[] = $document;
         }
 
-        return !empty($documents) ? $documents[0]['key'] : 0;
+        return !empty($documents) ? $documents[0]['token'] : 0;
     }
 
     /**
@@ -42,7 +42,7 @@ trait noSqlCrsfRequest
             ->index(md5(static::initNamespace()['session']->login()))
             ->redisGet();
 
-        return !empty($result) ? $result[0]['key'] : 0;
+        return !empty($result) ? $result[0]['token'] : 0;
     }
 
     /**
@@ -56,7 +56,7 @@ trait noSqlCrsfRequest
 
         $document = [
             'auth' => md5(static::initNamespace()['session']->login()),
-            'key' => $cookies,
+            'token' => $cookies,
             'createat' => date("Y-m-d H:i:s"),
         ];
 
@@ -76,7 +76,7 @@ trait noSqlCrsfRequest
 
         $datas = [
             'auth' => md5(static::initNamespace()['session']->login()),
-            'key' => $cookies,
+            'token' => $cookies,
             'createat' => date("Y-m-d H:i:s"),
         ];
 
@@ -98,7 +98,7 @@ trait noSqlCrsfRequest
 
         $update = [
             '$set' => [
-                'key' => $cookies,
+                'token' => $cookies,
                 'createat' => date("Y-m-d H:i:s"),
             ],
         ];
@@ -119,7 +119,7 @@ trait noSqlCrsfRequest
 
         $datas =
             [
-                'key' => $cookies,
+                'token' => $cookies,
                 'createat' => date("Y-m-d H:i:s"),
             ];
 
@@ -158,7 +158,7 @@ trait noSqlCrsfRequest
             $documents[] = $document;
         }
 
-        return !empty($documents) ? $documents[0]['key'] : 0;
+        return !empty($documents) ? $documents[0]['token'] : 0;
     }
 
     /**
@@ -185,7 +185,7 @@ trait noSqlCrsfRequest
             ->redisGet();
 
         if (!empty($result)) {
-            $mainDay = $result[0]['key'];
+            $mainDay = $result[0]['token'];
 
             $verifyResult = match (true) {
                 ($mainDay >= $startOfDay && $mainDay <= $endOfDay) => $mainDay,

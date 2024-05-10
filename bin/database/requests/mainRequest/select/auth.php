@@ -18,7 +18,7 @@ final class auth extends SelectAuth
 
     return match (_FIRST_DRIVER_) {
 
-          'mongo' => $this->findNosqlUsers($login),
+          'mongodb' => $this->findNosqlUsers($login),
           'redis' => $this->findNosqlRedisUsers($login),
 
           default => $this->findSqlUsers($login),

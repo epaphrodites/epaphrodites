@@ -16,7 +16,7 @@ final class count extends CountCount
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlCountAllUsers(),
+      'mongodb' => $this->noSqlCountAllUsers(),
       'redis' => $this->noSqlRedisCountAllUsers(),
 
       default => $this->sqlCountAllUsers(),
@@ -35,7 +35,7 @@ final class count extends CountCount
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlCountUsersByGroup($usersGroup),
+      'mongodb' => $this->noSqlCountUsersByGroup($usersGroup),
       'redis' => $this->noSqlRedisCountUsersByGroup($usersGroup),
 
       default => $this->sqlCountUsersByGroup($usersGroup),
@@ -51,7 +51,7 @@ final class count extends CountCount
 
     return match (_FIRST_DRIVER_) {
 
-      'mongo' => $this->noSqlCountUsersRecentActions(),
+      'mongodb' => $this->noSqlCountUsersRecentActions(),
       'redis' => $this->noSqlRedisCountUsersRecentActions(),
 
       default => $this->sqlCountUsersRecentActions(),

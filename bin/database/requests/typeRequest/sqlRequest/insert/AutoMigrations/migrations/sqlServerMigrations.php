@@ -35,7 +35,7 @@ trait sqlServerMigrations
                             CREATE TABLE secure (
                                 idsecure INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
                                 auth VARCHAR(300) NOT NULL,
-                                key VARCHAR(200) NOT NULL,
+                                token VARCHAR(200) NOT NULL,
                                 createat DATETIME
                             );
 

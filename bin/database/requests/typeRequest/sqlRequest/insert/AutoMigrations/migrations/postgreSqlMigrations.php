@@ -24,8 +24,7 @@ trait postgreSqlMigrations
                 usersgroup INT NOT NULL DEFAULT 1 , 
                 state INT NOT NULL DEFAULT 1)", 
                 "CREATE INDEX 
-                    login ON usersaccount (login)"
-
+                    login_index ON usersaccount (login)"
             ])->setMultiQuery();
     }
 
@@ -44,10 +43,8 @@ trait postgreSqlMigrations
                 date TIMESTAMP , 
                 label VARCHAR(300)NOT NULL )",
                 "CREATE INDEX 
-                    actions ON history (actions)"
-
+                    actions_index ON history (actions)"
             ])->setMultiQuery();
-
     }
 
     /**
@@ -62,11 +59,10 @@ trait postgreSqlMigrations
                 "CREATE TABLE IF NOT EXISTS 
                 secure (idsecure SERIAL PRIMARY KEY , 
                 auth VARCHAR(300)NOT NULL , 
-                key VARCHAR(200) NOT NULL , 
+                token VARCHAR(200) NOT NULL , 
                 createat TIMESTAMP )",
                 "CREATE INDEX 
-                    auth ON secure (auth)"
-
+                    auth_index ON secure (auth)"
             ])->setMultiQuery();
     }
 }

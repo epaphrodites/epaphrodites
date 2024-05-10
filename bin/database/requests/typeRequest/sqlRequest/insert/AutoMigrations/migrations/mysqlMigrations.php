@@ -30,11 +30,11 @@ trait mysqlMigrations
 
         $this->chaine("CREATE TABLE IF NOT EXISTS secure 
               (idsecure INTEGER(11) NOT NULL AUTO_INCREMENT , 
-              auth VARCHAR(300)NOT NULL , 
-              key VARCHAR(200) NOT NULL , 
+              auth VARCHAR(300) NOT NULL , 
+              token VARCHAR(200) NOT NULL , 
               createat DATETIME , 
               PRIMARY KEY(idsecure) , 
-              INDEX (auth) )")->setQuery();
+              INDEX(auth) )")->setQuery();
     }
 
     /**

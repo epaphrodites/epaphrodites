@@ -17,7 +17,7 @@ trait sqlCrsfRequest
     {
 
         $this->table('secure')
-            ->set(['key', 'createat'])
+            ->set(['token', 'createat'])
             ->where('auth')
             ->param([$cookies,  date("Y-m-d H:i:s"), md5(static::initNamespace()['session']->login())])
             ->UQuery();
@@ -33,7 +33,7 @@ trait sqlCrsfRequest
     {
 
         $this->table('secure')
-            ->insert('auth , key , createat')
+            ->insert('auth , token , createat')
             ->values(' ? , ? , ?')
             ->param([md5(static::initNamespace()['session']->login()), $cookies, date("Y-m-d H:i:s")])
             ->IQuery();
@@ -63,9 +63,9 @@ trait sqlCrsfRequest
             ->between('createat')
             ->and(['auth'])
             ->param([$startOfDay, $endOfDay, md5(static::initNamespace()['session']->login())])
-            ->SQuery('key');
+            ->SQuery('token');
 
-        return !empty($result) ? $result[0]['key'] : 0;
+        return !empty($result) ? $result[0]['token'] : 0;
     }
 
     /**
@@ -84,6 +84,6 @@ trait sqlCrsfRequest
             ->param([$login])
             ->SQuery();
 
-        return !empty($result) ? $result[0]['key'] : 0;
+        return !empty($result) ? $result[0]['token'] : 0;
     }
 }
