@@ -28,7 +28,7 @@ class count extends SelectCount
   ): int
   {
     $result = $this->table('useraccount')
-                  ->where('usersgroup')
+                  ->where('group')
                   ->param([$Group])
                   ->SQuery("COUNT(*) AS nbre");
 
@@ -46,19 +46,5 @@ class count extends SelectCount
       ->SQuery("COUNT(*) AS nbre");
 
     return $result[0]['nbre'];
-  }  
-
-  /**
-   * Get total users number
-   * @return int
-   */
-  public function sqlCountTransactionPerOperotor(): array
-  {
-    $result = $this->table('transactions')
-                   ->sdb(2)
-                   ->groupBy('operator')
-                   ->SQuery("COUNT(operator) AS nbre, operator");
-
-    return $result;
-  }    
+  }     
 }

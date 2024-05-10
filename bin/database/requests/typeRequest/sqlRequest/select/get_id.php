@@ -46,7 +46,7 @@ class get_id extends SelectGet_id
     {
 
         $result = $this->table('useraccount')
-            ->where('usersgroup')
+            ->where('group')
             ->limit((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('loginusers', 'ASC')
             ->param([$usersGroup])
@@ -71,7 +71,7 @@ class get_id extends SelectGet_id
     {
 
         $result = $this->table('useraccount')
-            ->where('usersgroup')
+            ->where('group')
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('loginusers', 'ASC')
             ->param([$usersGroup])

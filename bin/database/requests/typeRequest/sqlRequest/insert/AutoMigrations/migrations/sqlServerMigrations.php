@@ -9,17 +9,17 @@ trait sqlServerMigrations
      * Create recently users actions if not exist
      * @return void
      */
-    private function createSqlServerRecentlyActionsIfNotExist(): void
+    private function createSqlServerHistoryIfNotExist(): void
     {
 
-        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'recentactions')
+        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'history')
                          BEGIN
-                            CREATE TABLE recentactions (
-                                idrecentactions INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                usersactions VARCHAR(20) NOT NULL,
-                                dateactions DATETIME,
-                                libactions VARCHAR(300) NOT NULL);
-                            CREATE INDEX idx_usersactions ON recentactions(usersactions);
+                            CREATE TABLE history (
+                                idhistory INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                                actions VARCHAR(20) NOT NULL,
+                                date DATETIME,
+                                label VARCHAR(300) NOT NULL);
+                            CREATE INDEX idx_actions ON history(actions);
                         END")->setQuery();
     }
 
@@ -30,16 +30,16 @@ trait sqlServerMigrations
     private function CreateSqlServerAuthSecureIfNotExist(): void
     {
 
-        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'authsecure')
+        $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'secure')
                         BEGIN
-                            CREATE TABLE authsecure (
-                                idtokensecure INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                crsfauth VARCHAR(300) NOT NULL,
-                                authkey VARCHAR(200) NOT NULL,
+                            CREATE TABLE secure (
+                                idsecure INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                                auth VARCHAR(300) NOT NULL,
+                                key VARCHAR(200) NOT NULL,
                                 createat DATETIME
                             );
 
-                            CREATE INDEX idx_crsfauth ON authsecure(crsfauth);
+                            CREATE INDEX idx_auth ON secure(auth);
                         END")->setQuery();
     }
 
@@ -53,17 +53,17 @@ trait sqlServerMigrations
         $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'useraccount')
         BEGIN
             CREATE TABLE useraccount (
-                idusers INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                loginusers VARCHAR(20) NOT NULL,
-                userspwd VARCHAR(100) NOT NULL,
-                usersname VARCHAR(150) NULL,
-                contactusers VARCHAR(10) NULL,
-                emailusers VARCHAR(50) NULL,
-                usersgroup INT NOT NULL DEFAULT '1',
-                usersstat INT NOT NULL DEFAULT '1'
+                idusers INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                login VARCHAR(20) NOT NULL,
+                password VARCHAR(100) NOT NULL,
+                namesurname VARCHAR(150) NULL,
+                contact VARCHAR(10) NULL,
+                email VARCHAR(50) NULL,
+                group INTEGER NOT NULL DEFAULT '1',
+                state INTEGER NOT NULL DEFAULT '1'
             );
 
-            CREATE INDEX idx_loginusers ON useraccount(loginusers);
+            CREATE INDEX idx_login ON useraccount(login);
         END")->setQuery();
     }
 }

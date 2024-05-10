@@ -31,7 +31,7 @@ class InitSeederGenerated extends Builders
 
     $this->CreateAuthSecureIfNotExist();
 
-    $this->createRecentlyActionsIfNotExist();
+    $this->createHistoryIfNotExist();
 
     $this->CreateFirstUserIfNotExist();
   }
@@ -46,7 +46,7 @@ class InitSeederGenerated extends Builders
 
     $this->CreateAuthSecurePostgeSQLIfNotExist();
 
-    $this->createRecentlyActionsPostgeSQLIfNotExist();
+    $this->createHistoryPostgeSQLIfNotExist();
 
     $this->CreateFirstUserIfNotExist();
   }
@@ -61,7 +61,7 @@ class InitSeederGenerated extends Builders
 
     $this->CreateAuthSecureSqLiteIfNotExist();
 
-    $this->createRecentlyActionsSqLiteIfNotExist();
+    $this->createHistorySqLiteIfNotExist();
 
     $this->CreateFirstUserIfNotExist();
   } 
@@ -76,7 +76,7 @@ class InitSeederGenerated extends Builders
 
     $this->CreateSqlServerAuthSecureIfNotExist();
 
-    $this->createSqlServerRecentlyActionsIfNotExist();
+    $this->createSqlServerHistoryIfNotExist();
 
     $this->CreateFirstUserIfNotExist();
   }    

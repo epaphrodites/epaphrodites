@@ -16,13 +16,13 @@ trait sqLiteMigrations
             [
                 "CREATE TABLE IF NOT EXISTS useraccount (
                 idusers INTEGER PRIMARY KEY AUTOINCREMENT,
-                loginusers TEXT NOT NULL,
-                userspwd TEXT NOT NULL,
-                usersname TEXT DEFAULT NULL,
-                contactusers TEXT DEFAULT NULL,
-                emailusers TEXT DEFAULT NULL,
-                usersgroup INTEGER NOT NULL DEFAULT 1,
-                usersstat INTEGER NOT NULL DEFAULT 1)",
+                login TEXT NOT NULL,
+                password TEXT NOT NULL,
+                namesurname TEXT DEFAULT NULL,
+                contact TEXT DEFAULT NULL,
+                email TEXT DEFAULT NULL,
+                group INTEGER NOT NULL DEFAULT 1,
+                state INTEGER NOT NULL DEFAULT 1)",
                 "CREATE INDEX IF NOT EXISTS 
                     loginusers ON useraccount (loginusers)"
 
@@ -33,18 +33,18 @@ trait sqLiteMigrations
      * Create recently users actions if not exist
      * @return void
      */
-    private function createRecentlyActionsSqLiteIfNotExist():void
+    private function createHistorySqLiteIfNotExist():void
     {
 
         $this->multiChaine(
             [
-                "CREATE TABLE IF NOT EXISTS 
-                recentactions (idrecentactions INTEGER PRIMARY KEY AUTOINCREMENT, 
-                usersactions TEXT NOT NULL, 
-                dateactions TIMESTAMP, 
-                libactions TEXT NOT NULL)",
+                "CREATE TABLE IF NOT EXISTS history (
+                idhistory INTEGER PRIMARY KEY AUTOINCREMENT, 
+                actions TEXT NOT NULL, 
+                date TIMESTAMP, 
+                label TEXT NOT NULL)",
                 "CREATE INDEX IF NOT EXISTS 
-                    usersactions_index ON recentactions (usersactions)"
+                    actions_index ON history (actions)"
 
             ])->setMultiQuery();
     }
@@ -58,13 +58,13 @@ trait sqLiteMigrations
 
         $this->multiChaine(
             [
-                "CREATE TABLE IF NOT EXISTS 
-                authsecure (idtokensecure INTEGER PRIMARY KEY AUTOINCREMENT, 
-                crsfauth TEXT NOT NULL, 
-                authkey TEXT NOT NULL, 
+                "CREATE TABLE IF NOT EXISTS secure (
+                idsecure INTEGER PRIMARY KEY AUTOINCREMENT, 
+                auth TEXT NOT NULL, 
+                key TEXT NOT NULL, 
                 createat TIMESTAMP)",
                 "CREATE INDEX IF NOT EXISTS 
-                    crsfauth_index ON authsecure (crsfauth)"
+                    auth_index ON secure (auth)"
 
             ])->setMultiQuery();
     }

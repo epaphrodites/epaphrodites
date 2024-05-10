@@ -24,16 +24,16 @@ class update extends Builders
     {
 
         $filter = [
-            'loginusers' => static::initNamespace()['session']->login(),
+            'login' => static::initNamespace()['session']->login(),
         ];
 
         $update = [
             '$set' => 
             [
-                'contactusers' => $number,
-                'emailusers' => $email,
+                'contact' => $number,
+                'email' => $email,
                 'usersname' => $usersname,
-                'usersstat' => 1,
+                'state' => 1,
             ],
         ];   
 

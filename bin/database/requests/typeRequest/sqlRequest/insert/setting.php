@@ -18,8 +18,8 @@ class setting extends Builders
     ): bool
     {
 
-        $this->table('recentactions ')
-            ->insert('usersactions , dateactions , libactions')
+        $this->table('history ')
+            ->insert('actions , date , label')
             ->values(' ? , ? , ? ')
             ->param([static::initNamespace()['session']->login(), date("Y-m-d H:i:s"), $action])
             ->IQuery();
@@ -40,12 +40,12 @@ class setting extends Builders
 
         $document =
             [
-                'usersactions' => static::initNamespace()['session']->login(),
-                'dateactions' => date("Y-m-d H:i:s"),
-                'libactions' => $action,
+                'actions' => static::initNamespace()['session']->login(),
+                'date' => date("Y-m-d H:i:s"),
+                'label' => $action,
             ];
 
-        $this->db(1)->selectCollection('recentactions')->insertOne($document);
+        $this->db(1)->selectCollection('history')->insertOne($document);
 
         return true;
     }
@@ -65,12 +65,12 @@ class setting extends Builders
 
         $document =
             [
-                'usersactions' => $login,
-                'dateactions' => date("Y-m-d H:i:s"),
-                'libactions' => $action,
+                'actions' => $login,
+                'date' => date("Y-m-d H:i:s"),
+                'label' => $action,
             ];
 
-        $this->key('recentactions')->id('idrecentactions')->index($login)->param($document)->lastIndex()->addToRedis();
+        $this->key('history')->id('idhistory')->index($login)->param($document)->lastIndex()->addToRedis();
 
         return true;
     }

@@ -13,14 +13,14 @@ trait noSqlSeeders{
   {
     
     $document =[
-      'idusers'=> new ObjectId,
-      'loginusers'=>'admin',
-      'userspwd'=>$this->Guard->CryptPassword('admin'),
-      'usersname'=> NULL,
-      'contactusers'=> NULL,
-      'emailusers'=> NULL,
-      'usersstat'=> 1,
-      'usersgroup'=> 1,
+      'idusers' => new ObjectId,
+      'login' => 'admin',
+      'password' => $this->Guard->CryptPassword('admin'),
+      'namesurname' => NULL,
+      'contact' => NULL,
+      'email' => NULL,
+      'group' => 1,
+      'state' => 1,
     ];
 
     $this->db(1)->selectCollection('useraccount')->insertOne($document);
@@ -33,13 +33,13 @@ trait noSqlSeeders{
   {
     
     $document =[
-      'loginusers'=>'admin',
-      'userspwd'=>$this->Guard->CryptPassword('admin'),
-      'usersname'=> NULL,
-      'contactusers'=> NULL,
-      'emailusers'=> NULL,
-      'usersstat'=> 1,
-      'usersgroup'=> 1,
+      'login' => 'admin',
+      'password' => $this->Guard->CryptPassword('admin'),
+      'namesurname' => NULL,
+      'contact' => NULL,
+      'email' => NULL,
+      'group' => 1,
+      'state' => 1,
     ];
 
     $this->key('useraccount')->id('idusers')->index('admin')->param($document)->addToRedis();

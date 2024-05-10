@@ -19,7 +19,7 @@ class general extends Builders
         $UserConnected = static::initNamespace()['session']->login();
 
         $result = $this->db(1)
-            ->selectCollection('recentactions')
+            ->selectCollection('history')
             ->find(['usersactions' => $UserConnected], [
                 'limit' => 6, 
                 'sort' => [
@@ -43,7 +43,7 @@ class general extends Builders
 
         $UserConnected = static::initNamespace()['session']->login();
 
-        $result = $this->key('recentactions')->index($UserConnected)->all()->rlimit(0,6)->redisGet();
+        $result = $this->key('history')->index($UserConnected)->all()->rlimit(0,6)->redisGet();
 
         return $result;
     }    

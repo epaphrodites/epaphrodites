@@ -5,18 +5,23 @@ namespace Epaphrodites\database\gearShift\schema;
 trait makeUpGearShift{
 
     /**
-     * Create table users_account
+     * Create table useraccount
      * create 25/01/2024 23:07:14
      */
     public function createUsersAccountTable()
     {
-        return $this->createTable('users_account', function ($table) {
-                $table->addColumn('idusers_account', 'SERIAL', ['PRIMARY KEY']);
-                $table->addColumn('username', 'VARCHAR' , ['NOT NULL']);
-                $table->addColumn('password', 'VARCHAR' , ['NOT NULL']);
-                $table->addColumn('usersemail', 'VARCHAR' , ['NOT NULL']);
-                $table->addIndex('usersemail');
-                $table->db(2);
+        return $this->createTable('useraccount', function ($table) {
+                $table->addColumn('idusers', 'INTEGER', ['PRIMARY KEY', 'AUTOINCREMENT']);
+                $table->addColumn('login', 'TEXT' , ['NOT NULL']);
+                $table->addColumn('password', 'TEXT' , ['NOT NULL']);
+                $table->addColumn('namesurname', 'TEXT' , ['DEFAULT NULL']);
+                $table->addColumn('contact', 'TEXT' , ['DEFAULT NULL']);
+                $table->addColumn('email', 'TEXT' , ['DEFAULT NULL']);
+                $table->addColumn('ip', 'TEXT' , ['DEFAULT NULL']);
+                $table->addColumn('group', 'INTEGER' , ['NOT NULL', 'DEFAULT 1']);
+                $table->addColumn('state', 'INTEGER' , ['NOT NULL', 'DEFAULT 1']);
+                $table->addIndex('login');
+                $table->db(1);
         });
-    }          
+    }            
 }

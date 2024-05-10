@@ -80,5 +80,5 @@ final class chats extends MainSwitchers
         }
      
         $this->views( $html, [], true );
-    }     
+    }   
 }

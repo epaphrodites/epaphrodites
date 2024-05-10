@@ -43,7 +43,7 @@ class count extends Builders
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->countDocuments(['usersgroup' => $Group]);
+            ->countDocuments(['group' => $Group]);
 
         return $result;
     }
@@ -57,7 +57,7 @@ class count extends Builders
     ):int
     {
 
-        $result = $this->key('useraccount')->search(['usersgroup'])->param([$Group])->all()->count()->redisGet();
+        $result = $this->key('useraccount')->search(['group'])->param([$Group])->all()->count()->redisGet();
 
         return $result;
     }    
@@ -69,7 +69,7 @@ class count extends Builders
     public function noSqlCountUsersRecentActions():int
     {
         $result = $this->db(1)
-            ->selectCollection('recentactions')
+            ->selectCollection('history')
             ->countDocuments([]);
 
         return $result;
@@ -82,7 +82,7 @@ class count extends Builders
     public function noSqlRedisCountUsersRecentActions():int
     {
 
-        $result = $this->key('recentactions')->all()->count()->redisGet();
+        $result = $this->key('history')->all()->count()->redisGet();
 
         return $result;
     }      

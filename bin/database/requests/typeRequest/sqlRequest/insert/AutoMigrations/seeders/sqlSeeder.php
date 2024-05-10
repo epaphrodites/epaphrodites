@@ -12,7 +12,7 @@ trait sqlSeeder{
   {
 
     $this->table('useraccount')
-      ->insert('loginusers , userspwd')
+      ->insert('login , password')
       ->values( ' ? , ? ' )
       ->param(['admin', $this->Guard->CryptPassword('admin')])
       ->IQuery();

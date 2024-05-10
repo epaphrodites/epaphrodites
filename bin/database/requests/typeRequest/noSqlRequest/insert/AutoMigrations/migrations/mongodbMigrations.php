@@ -16,10 +16,10 @@ trait mongodbMigrations{
   /**
    * Create recently users actions if not exist
    */
-  private function createRecentlyActionsMongoIfNotExist()
+  private function createHistoryMongoIfNotExist()
   {
 
-    $this->db(1)->createCollection('recentactions');
+    $this->db(1)->createCollection('history');
   }
 
   /**
@@ -28,6 +28,6 @@ trait mongodbMigrations{
   private function CreateAuthSecureMongoIfNotExist()
   {
 
-    $this->db(1)->createCollection('authsecure');
+    $this->db(1)->createCollection('secure');
   }  
 }

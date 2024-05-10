@@ -26,7 +26,7 @@ class get_id extends Builders
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->find(['usersgroup' => $usersGroup], [
+            ->find(['group' => $usersGroup], [
                 'limit' => $numLines, 'skip' => ($currentPage-1),
             ]);
 
@@ -51,7 +51,7 @@ class get_id extends Builders
 
         $result = $this->db(1)
             ->selectCollection('useraccount')
-            ->find(['loginusers' => $login]);
+            ->find(['login' => $login]);
 
         foreach ($result as $document) {
             $documents[] = $document;
@@ -92,7 +92,7 @@ class get_id extends Builders
         $documents = [];
 
         $result = $this->db(1)
-            ->selectCollection('recentactions')
+            ->selectCollection('history')
             ->find(['usersactions' => $login ]);
 
         foreach ($result as $document) {

@@ -57,7 +57,7 @@ class auth extends Builders
 
       $result = $this->db(1)
         ->selectCollection('useraccount')
-        ->find(['loginusers' => $login]);
+        ->find(['login' => $login]);
 
       foreach ($result as $document) {
         $documents[] = $document;
@@ -85,7 +85,7 @@ class auth extends Builders
 
     if ($this->ifKeyExist() === true) {
 
-      return $this->key('useraccount')->search(['usersstat'])->param([1])->index($login)->redisGet();
+      return $this->key('useraccount')->search(['state'])->param([1])->index($login)->redisGet();
 
     } else {
 

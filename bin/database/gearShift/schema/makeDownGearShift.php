@@ -5,14 +5,14 @@ namespace Epaphrodites\database\gearShift\schema;
 trait makeDownGearShift{
 
     /**
-     * Drop Column
+     * Drop Column ip
      * create 25/01/2024 23:07:14
      */
     public function dropUsersAccountColumn()
     {
-        return $this->dropTable('users_account', function ($table) {
-            $table->dropColumn('username');
-            $table->db(2);
+        return $this->dropTable('useraccount', function ($table) {
+            $table->dropColumn('ip');
+            $table->db(1);
         });
     }                     
 }

@@ -25,13 +25,13 @@ class insert extends Builders
 
             $document = [
                 'idusers' => new ObjectId(),
-                'loginusers' => $login,
-                'userspwd' => static::initConfig()['guard']->CryptPassword($login),
-                'usersname' => NULL,
-                'contactusers' => NULL,
-                'emailusers' => NULL,
-                'usersstat' => 1,
-                'usersgroup' => $userGroup,
+                'login' => $login,
+                'password' => static::initConfig()['guard']->CryptPassword($login),
+                'namesurname' => NULL,
+                'contact' => NULL,
+                'email' => NULL,
+                'group' => $userGroup,
+                'state' => 1,
             ];
 
             $this->db(1)->selectCollection('useraccount')->insertOne($document);
@@ -66,13 +66,13 @@ class insert extends Builders
 
             $document = [
                 'idusers' => new ObjectId(),
-                'loginusers' => $login,
-                'userspwd' => static::initConfig()['guard']->CryptPassword($password),
-                'usersname' => NULL,
-                'contactusers' => NULL,
-                'emailusers' => NULL,
-                'usersstat' => 1,
-                'usersgroup' => $userGroup,
+                'login' => $login,
+                'password' => static::initConfig()['guard']->CryptPassword($password),
+                'namesurname' => NULL,
+                'contact' => NULL,
+                'email' => NULL,
+                'group' => $userGroup,
+                'state' => 1
             ];
             
             $this->db(1)->selectCollection('useraccount')->insertOne($document);

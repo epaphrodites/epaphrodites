@@ -38,7 +38,7 @@ class auth extends SelectAuth
     if ($this->if_table_exist() === true) {
 
       $result = $this->table('useraccount')
-          ->like('loginusers')
+          ->like('login')
           ->param([$login])
           ->SQuery();
 

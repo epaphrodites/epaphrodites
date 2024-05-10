@@ -32,7 +32,7 @@ class InitNoSeederGenerated extends Builders
 
     $this->CreateAuthSecureMongoIfNotExist();
 
-    $this->createRecentlyActionsMongoIfNotExist();
+    $this->createHistoryMongoIfNotExist();
   }
 
   /** 

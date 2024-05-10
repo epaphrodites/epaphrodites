@@ -16,15 +16,15 @@ trait postgreSqlMigrations
             [
                 "CREATE TABLE IF NOT EXISTS 
                 useraccount (idusers SERIAL PRIMARY KEY, 
-                loginusers VARCHAR(20) NOT NULL , 
-                userspwd VARCHAR(100) NOT NULL , 
-                usersname VARCHAR(150) DEFAULT NULL , 
-                contactusers VARCHAR(10) DEFAULT NULL , 
-                emailusers VARCHAR(50) DEFAULT NULL , 
-                usersgroup INT NOT NULL DEFAULT 1 , 
-                usersstat INT NOT NULL DEFAULT 1)", 
+                login VARCHAR(20) NOT NULL , 
+                password VARCHAR(100) NOT NULL , 
+                namesurname VARCHAR(150) DEFAULT NULL , 
+                contact VARCHAR(10) DEFAULT NULL , 
+                email VARCHAR(50) DEFAULT NULL , 
+                group INT NOT NULL DEFAULT 1 , 
+                state INT NOT NULL DEFAULT 1)", 
                 "CREATE INDEX 
-                    loginusers ON useraccount (loginusers)"
+                    login ON useraccount (login)"
 
             ])->setMultiQuery();
     }
@@ -33,18 +33,18 @@ trait postgreSqlMigrations
      * Create recently users actions if not exist
      * @return void
      */
-    private function createRecentlyActionsPostgeSQLIfNotExist():void
+    private function createHistoryPostgeSQLIfNotExist():void
     {
 
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                recentactions (idrecentactions SERIAL PRIMARY KEY , 
-                usersactions VARCHAR(20)NOT NULL , 
-                dateactions TIMESTAMP , 
-                libactions VARCHAR(300)NOT NULL )",
+                history (idhistory SERIAL PRIMARY KEY , 
+                actions VARCHAR(20)NOT NULL , 
+                date TIMESTAMP , 
+                label VARCHAR(300)NOT NULL )",
                 "CREATE INDEX 
-                    usersactions ON recentactions (usersactions)"
+                    actions ON history (actions)"
 
             ])->setMultiQuery();
 
@@ -60,12 +60,12 @@ trait postgreSqlMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                authsecure (idtokensecure SERIAL PRIMARY KEY , 
-                crsfauth VARCHAR(300)NOT NULL , 
-                authkey VARCHAR(200) NOT NULL , 
+                secure (idsecure SERIAL PRIMARY KEY , 
+                auth VARCHAR(300)NOT NULL , 
+                key VARCHAR(200) NOT NULL , 
                 createat TIMESTAMP )",
                 "CREATE INDEX 
-                    crsfauth ON authsecure (crsfauth)"
+                    auth ON secure (auth)"
 
             ])->setMultiQuery();
     }
