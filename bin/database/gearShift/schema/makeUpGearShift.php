@@ -11,7 +11,7 @@ trait makeUpGearShift{
     public function createUsersAccountTable()
     {
         return $this->createTable('usersaccount', function ($table) {
-                $table->addColumn('idusers', 'INTEGER', ['PRIMARY KEY', 'AUTOINCREMENT']);
+                $table->addColumn('_id', 'INTEGER', ['PRIMARY KEY', 'AUTOINCREMENT']);
                 $table->addColumn('login', 'TEXT' , ['NOT NULL']);
                 $table->addColumn('password', 'TEXT' , ['NOT NULL']);
                 $table->addColumn('namesurname', 'TEXT' , ['DEFAULT NULL']);
