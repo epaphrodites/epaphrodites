@@ -17,7 +17,7 @@ trait mysqlMigrations
                 actions VARCHAR(20)NOT NULL , 
                 date DATETIME , 
                 label VARCHAR(300)NOT NULL , 
-                PRIMARY KEY(idhistory) , 
+                PRIMARY KEY(_id) , 
                 INDEX (actions) )")->setQuery();
     }
 
