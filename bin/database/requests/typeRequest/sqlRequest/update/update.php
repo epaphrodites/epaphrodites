@@ -32,7 +32,7 @@ class update extends UpdateUpdate
 
                     $this->table('usersaccount')
                         ->set(['password'])
-                        ->where('idusers')
+                        ->where('_id')
                         ->param([static::initConfig()['guard']->CryptPassword($NewPassword), static::initNamespace()['session']->id()])
                         ->UQuery();
 
@@ -168,7 +168,7 @@ class update extends UpdateUpdate
 
             $this->table('usersaccount')
                 ->set(['contact', 'email', 'namesurname', 'state'])
-                ->where('idusers')
+                ->where('_id')
                 ->param([$number, $email, $usersname, 1, static::initNamespace()['session']->id()])
                 ->UQuery();
 

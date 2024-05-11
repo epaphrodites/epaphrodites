@@ -33,7 +33,7 @@ class general extends SelectGeneral
 
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('idhistory', 'DESC')
+            ->orderBy('_id', 'DESC')
             ->offset(0,6)
             ->param([$UserConnected])
             ->SQuery();
@@ -52,7 +52,7 @@ class general extends SelectGeneral
 
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('idhistory', 'DESC')
+            ->orderBy('_id', 'DESC')
             ->limit(0,6)
             ->param([$UserConnected])
             ->SQuery();

@@ -27,7 +27,7 @@ trait noSqlCrsfRequest
         foreach ($result as $document) {
             $documents[] = $document;
         }
-
+        
         return !empty($documents) ? $documents[0]['token'] : 0;
     }
 
@@ -80,7 +80,7 @@ trait noSqlCrsfRequest
             'createat' => date("Y-m-d H:i:s"),
         ];
 
-        $this->key('secure')->id('idtokensecure')->index(md5(static::initNamespace()['session']->login()))->param($datas)->addToRedis();
+        $this->key('secure')->id('_id')->index(md5(static::initNamespace()['session']->login()))->param($datas)->addToRedis();
 
         return false;
     }
@@ -95,7 +95,7 @@ trait noSqlCrsfRequest
     {
 
         $filter = ['auth' => md5(static::initNamespace()['session']->login())];
-
+        
         $update = [
             '$set' => [
                 'token' => $cookies,

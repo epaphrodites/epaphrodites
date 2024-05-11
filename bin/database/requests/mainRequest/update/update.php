@@ -58,7 +58,7 @@ final class update extends UpdateUpdate
     return match (_FIRST_DRIVER_) {
 
       'mongodb' => $this->noSqlUpdateEtatsUsers($login),
-      'redis' => $this->noSqlUpdateEtatsUsers($login),
+      'redis' => $this->noSqlRedisUpdateEtatsUsers($login),
 
       default => $this->sqlUpdateEtatsUsers($login),
     };
@@ -77,7 +77,7 @@ final class update extends UpdateUpdate
     return match (_FIRST_DRIVER_) {
 
       'mongodb' => $this->noSqlInitUsersPassword($login),
-      'redis' => $this->noSqlInitUsersPassword($login),
+      'redis' => $this->noSqlRedisInitUsersPassword($login),
 
       default => $this->sqlInitUsersPassword($login),
     };
@@ -100,7 +100,7 @@ final class update extends UpdateUpdate
     return match (_FIRST_DRIVER_) {
 
       'mongodb' => $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
-      'redis' => $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
+      'redis' => $this->noSqlRedisChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
 
       default => $this->sqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp)
     };

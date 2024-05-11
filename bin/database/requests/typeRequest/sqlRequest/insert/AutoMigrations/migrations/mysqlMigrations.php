@@ -13,7 +13,7 @@ trait mysqlMigrations
     {
 
         $this->chaine("CREATE TABLE IF NOT EXISTS history (
-                idhistory INTEGER(11) NOT NULL AUTO_INCREMENT , 
+                _id INTEGER(11) NOT NULL AUTO_INCREMENT , 
                 actions VARCHAR(20)NOT NULL , 
                 date DATETIME , 
                 label VARCHAR(300)NOT NULL , 
@@ -29,11 +29,11 @@ trait mysqlMigrations
     {
 
         $this->chaine("CREATE TABLE IF NOT EXISTS secure 
-              (idsecure INTEGER(11) NOT NULL AUTO_INCREMENT , 
+              (_id INTEGER(11) NOT NULL AUTO_INCREMENT , 
               auth VARCHAR(300) NOT NULL , 
               token VARCHAR(200) NOT NULL , 
               createat DATETIME , 
-              PRIMARY KEY(idsecure) , 
+              PRIMARY KEY(_id) , 
               INDEX(auth) )")->setQuery();
     }
 
@@ -45,7 +45,7 @@ trait mysqlMigrations
     {
 
         $this->chaine("CREATE TABLE IF NOT EXISTS usersaccount (
-                idusers INTEGER(11) NOT NULL AUTO_INCREMENT , 
+                _id INTEGER(11) NOT NULL AUTO_INCREMENT , 
                 login VARCHAR(20)NOT NULL , 
                 password VARCHAR(100) NOT NULL , 
                 namesurname VARCHAR(150) DEFAULT NULL , 
@@ -53,7 +53,7 @@ trait mysqlMigrations
                 email VARCHAR(50) DEFAULT NULL , 
                 usersgroup INTEGER(1) NOT NULL DEFAULT '1' , 
                 state INTEGER(1) NOT NULL DEFAULT '1' , 
-                PRIMARY KEY(idusers) , 
+                PRIMARY KEY(_id) , 
                 INDEX (login) )")->setQuery();
     }
 }

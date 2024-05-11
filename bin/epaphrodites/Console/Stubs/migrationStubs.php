@@ -23,7 +23,7 @@ $stub = "    /**
     {
         return \$this->createTable('$table', function (\$table) {
 
-               \$table->addColumn('id{$table}', 'INTEGER', ['PRIMARY KEY']);
+               \$table->addColumn('_id', 'INTEGER', ['PRIMARY KEY']);
                \$table->addColumn('name', 'VARCHAR(100)');
                \$table->db(1);
         });

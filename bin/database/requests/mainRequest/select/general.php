@@ -13,7 +13,6 @@ final class general extends GeneralGeneral
    */
   public function RecentlyActions(): array
   {
-
     return match (_FIRST_DRIVER_) {
 
       'mongodb' => $this->noSqlRecentlyActions(),

@@ -19,7 +19,7 @@ class general extends Builders
 
         $result = $this->db(1)
             ->selectCollection('history')
-            ->find(['history' => $UserConnected], [
+            ->find(['actions' => $UserConnected], [
                 'limit' => 6, 
                 'sort' => [
                     'date' => (date('Y-m-d') == 'DESC') ? 1 : -1

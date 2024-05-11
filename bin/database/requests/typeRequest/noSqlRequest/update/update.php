@@ -49,9 +49,11 @@ class update extends Builders
             $_SESSION["email"] = $email;
             
             $actions = "Edit Personal Information : " . static::initNamespace()['session']->login();
+
             static::initQuery()['setting']->noSqlActionsRecente($actions);            
 
             $this->desconnect = static::initNamespace()['paths']->dashboard();
+
             header("Location: $this->desconnect ");
             exit;
         } else {
@@ -77,10 +79,10 @@ class update extends Builders
         $login = static::initNamespace()['session']->login();
 
         $datas = [
-                'contact' => $number,
-                'emailusers' => $email,
-                'namesurname' => $usersname,
-                'state' => 1,
+            'contact' => $number,
+            'email' => $email,
+            'namesurname' => $usersname,
+            'state' => 1,
         ];   
 
         $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
@@ -94,9 +96,11 @@ class update extends Builders
             $_SESSION["email"] = $email;
             
             $actions = "Edit Personal Information : " . static::initNamespace()['session']->login();
+
             static::initQuery()['setting']->noSqlRedisActionsRecente($actions);            
 
             $this->desconnect = static::initNamespace()['paths']->dashboard();
+
             header("Location: $this->desconnect ");
             exit;
         } else {
@@ -136,6 +140,7 @@ class update extends Builders
             $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
 
             $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['login'];
+
             static::initQuery()['setting']->noSqlActionsRecente($actions);
 
             return true;
@@ -143,6 +148,47 @@ class update extends Builders
             return false;
         }
     }   
+
+   /**
+     * Update users state
+     *
+     * @param string $usersname
+     * @param string $email
+     * @param string $number
+     * @return bool
+     */
+    public function noSqlRedisUpdateEtatsUsers(
+        string $login
+    ): bool
+    {
+
+        $GetUsersDatas = static::initQuery()['getid']->noSqlRedisGetUsersDatas($login); 
+
+        if (!empty($GetUsersDatas)) {
+
+            $state = !empty($GetUsersDatas[0]['state']) ? 0 : 1;
+
+            $etatExact = "Close";
+
+            if ($state == 1) {
+                $etatExact = "Open";
+            }
+
+            $datas = [
+                'state' => $state,
+            ];  
+    
+            $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
+
+            $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['login'];
+
+            static::initQuery()['setting']->noSqlRedisActionsRecente($actions);
+
+            return true;
+        } else {
+            return false;
+        }
+    }  
 
     /**
      * Reinitialize user password
@@ -164,10 +210,36 @@ class update extends Builders
         $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
 
         $actions = "Reset user password : " . $UsersLogin;
+
         static::initQuery()['setting']->noSqlActionsRecente($actions);
 
         return true;
-    }  
+    } 
+    
+    /**
+     * Reinitialize user password
+     *
+     * @param string $UsersLogin
+     * @return bool
+     */
+    public function noSqlRedisInitUsersPassword(
+        string $login
+    ): bool
+    {
+
+        $datas = 
+        [
+            'password' => static::initConfig()['guard']->CryptPassword($login) ,
+        ];  
+    
+        $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
+
+        $actions = "Reset user password : " . $login;
+
+        static::initQuery()['setting']->noSqlRedisActionsRecente($actions);
+
+        return true;
+    }      
     
     /**
      * Update user password
@@ -219,6 +291,58 @@ class update extends Builders
             return 1;
         }
     }    
+
+ /**
+     * Update user password
+     *
+     * @param string $OldPassword
+     * @param string $NewPassword
+     * @param string $confirmdp
+     * @return bool
+     */
+    public function noSqlRedisChangeUsersPassword( 
+        string $OldPassword, 
+        string $NewPassword, 
+        string $confirmdp
+    ): bool
+    {
+        if (static::initConfig()['guard']->GostCrypt($NewPassword) === static::initConfig()['guard']->GostCrypt($confirmdp)) {
+
+            $login = static::initNamespace()['session']->login();
+
+            $result = static::initQuery()['auth']->findNosqlRedisUsers( $login );
+
+            if (!empty($result)) {
+
+                if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["password"], $OldPassword) === true) {
+
+                    $datas = 
+                    [
+                        'password' => static::initConfig()['guard']->CryptPassword($NewPassword) ,
+                    ];  
+                
+                    $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
+            
+                    $actions = "Change password : " . $login;
+            
+                    static::initQuery()['setting']->noSqlRedisActionsRecente($actions);
+
+                    $this->desconnect = static::initNamespace()['paths']->logout();
+
+                    header("Location: $this->desconnect ");
+
+                    exit;
+
+                } else {
+                    return 3;
+                }
+            } else {
+                return 2;
+            }
+        } else {
+            return 1;
+        }
+    } 
 
    /**
      * Update user password and user group

@@ -21,6 +21,7 @@ trait sqlCrsfRequest
             ->where('auth')
             ->param([$cookies,  date("Y-m-d H:i:s"), md5(static::initNamespace()['session']->login())])
             ->UQuery();
+            
     }
 
     /**

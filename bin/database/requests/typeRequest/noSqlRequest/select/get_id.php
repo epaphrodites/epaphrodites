@@ -50,8 +50,8 @@ class get_id extends Builders
         $documents = [];
 
         $result = $this->db(1)
-            ->selectCollection('usersaccount')
-            ->find(['login' => $login]);
+                    ->selectCollection('usersaccount')
+                    ->find(['login' => $login]);
 
         foreach ($result as $document) {
             $documents[] = $document;
@@ -70,7 +70,6 @@ class get_id extends Builders
         ?string $login = null
     ):array
     {
-
         $result = [];
 
         $result = $this->key('usersaccount')->index($login)->redisGet();

@@ -24,7 +24,7 @@ class select extends Builders
 
         $result = $this->db(1)
             ->selectCollection('usersaccount')
-            ->find([] , ['limit' => $numLines , 'skip' => ($currentPage -1)] );
+            ->find([] , ['limit' => $numLines , 'skip' => ($currentPage - 1)] );
 
         foreach ($result as $document) {
             $documents []= $document;
@@ -47,7 +47,7 @@ class select extends Builders
     {
         $result = [];
 
-        $result = $this->key('usersaccount')->all()->lastIndex()->redisGet();
+        $result = $this->key('usersaccount')->all()->rlimit(($currentPage - 1) , $numLines)->redisGet();
 
         return $result;        
     } 
@@ -93,7 +93,7 @@ class select extends Builders
 
         $result = [];
 
-        $result = $this->key('history')->all()->rlimit($currentPage , $numLines)->redisGet();
+        $result = $this->key('history')->all()->rlimit(($currentPage - 1) , $numLines)->redisGet();
         
         return $result;         
     }    

@@ -2,8 +2,6 @@
 
 namespace Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\seeders;
 
-use MongoDB\BSON\ObjectId;
-
 trait noSqlSeeders{
 
   /**
@@ -13,7 +11,6 @@ trait noSqlSeeders{
   {
     
     $document =[
-      'idusers' => new ObjectId,
       'login' => 'admin',
       'password' => $this->Guard->CryptPassword('admin'),
       'namesurname' => NULL,
@@ -42,6 +39,6 @@ trait noSqlSeeders{
       'state' => 1,
     ];
 
-    $this->key('usersaccount')->id('idusers')->index('admin')->param($document)->addToRedis();
+    $this->key('usersaccount')->id('_id')->index('admin')->param($document)->addToRedis();
   }  
 }

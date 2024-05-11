@@ -45,7 +45,7 @@ final class insert extends InsertInsert
     return match (_FIRST_DRIVER_) {
 
       'mongodb' => $this->noSqladdUsers($login , $userGroup),
-      'redis' => $this->noSqladdUsers($login , $userGroup),
+      'redis' => $this->noSqlRedisAddUsers($login , $userGroup),
 
       default => $this->sqlAddUsers($login , $userGroup),
     };    
@@ -67,7 +67,7 @@ final class insert extends InsertInsert
     return match (_FIRST_DRIVER_) {
 
       'mongodb' => $this->noSqlConsoleAddUsers($login , $password, $UserGroup),
-      'redis' => $this->noSqlConsoleAddUsers($login , $password, $UserGroup),
+      'redis' => $this->noSqlRedisConsoleAddUsers($login , $password, $UserGroup),
 
       default => $this->sqlConsoleAddUsers($login , $password, $UserGroup),
     };     
