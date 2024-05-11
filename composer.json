@@ -41,8 +41,7 @@
   "require": {
     "chillerlan/php-qrcode": "^4.3",
     "brick/math": "^0.11.0",
-    "symfony/console": "^6.2",
-    "mongodb/mongodb": "^1.18"
+    "symfony/console": "^6.2"
   },
   "require-dev": {
     "php": ">=8.1",
