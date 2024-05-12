@@ -72,16 +72,16 @@
 {# --- End Other Input Field for filters -- #}
 
 {# --- Textarea input field -- #}
-{% macro textarea_field( inputOptions ) %}
-	<div class="form-group">
-		{% if inputOptions.label is defined %}
-			<label class="form-label">{{ inputOptions.label }}</label>
-		{% endif %}
-		<textarea class="form-control textarea {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'value', 'rows' , 'maxlength' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} onkeyup="mixed(this);" id="textarea_input" {{ inputOptions.require is defined and inputOptions.require ? 'required' }}></textarea>
-		{% if inputOptions.feedback is defined %}
+{% macro textarea_field(inputOptions) %}
+    <div class="form-group">
+        {% if inputOptions.label is defined %}
+            <label class="form-label">{{ inputOptions.label }}</label>
+        {% endif %}
+        <textarea class="form-control textarea {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'rows', 'maxlength'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} onkeyup="mixed(this);" id="textarea_input" {{ inputOptions.require is defined and inputOptions.require ? 'required' }}>{% if inputOptions.value is defined %}{{ inputOptions.value|e }}{% endif %}</textarea>
+        {% if inputOptions.feedback is defined %}
 			<div class="invalid-feedback">{{ inputOptions.feedback }}</div>
 		{% endif %}
-	</div>
+    </div>
 {% endmacro %}
 {# --- End Textarea input field -- #}
 
