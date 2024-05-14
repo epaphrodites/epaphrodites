@@ -12,7 +12,7 @@ class InstallComponent
         'gd',
         'intl',
         'fileinfo',
-        'zip'
+        'pdo_mysql'
     ];
 
     /**
