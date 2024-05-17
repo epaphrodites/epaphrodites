@@ -123,7 +123,7 @@ class validate_token extends GeneratedValues
         $hashedSecure = static::gostHash($request);
         
         $hashHeaderKey = static::gostHash($this->getHeaderTokenKey());
-   
+        
         if (static::verifyInputHashes($hashedSecure , $hashHeaderKey)&&!is_null($hashedSecure)) {
             return true;
         } else {

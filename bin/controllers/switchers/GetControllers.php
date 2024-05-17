@@ -29,7 +29,7 @@ class GetControllers extends ControllersSwitchers
             }
     
             [$controller, $methodName, $switcher, $findPath, $views] = $method + [null, null, false, null, null];
-    
+            
             if (static::getController($controllerName, $provider, $switcher)) {
                 $paths = $this->getPath($paths, $findPath);
                 $controllerInstance = $this;

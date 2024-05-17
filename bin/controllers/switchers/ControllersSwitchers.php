@@ -18,13 +18,17 @@ class ControllersSwitchers extends MergeControllers
     ):bool
     {
      
-        static::class('crsf')->tocsrf() === false ? static::class('errors')->error_403() : NULL;
+        static::class('crsf')->tocsrf() === false
+                     ? static::class('errors')->error_403() 
+                     : NULL;
 
         if ($switch === false) {
             return $controller === $provider[0] ? true : false;
         } else {
 
-            return $controller === $provider[0] && static::class('session')->id() !== NULL  ? true : false;
+            return $controller === $provider[0] && static::class('session')->id() !== NULL  
+                        ? true 
+                        : false;
         }
     }
 }

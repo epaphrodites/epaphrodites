@@ -1,10 +1,10 @@
 {% extends layouts %} {% block content %}
-<div class="container-fluid maindashboard">
+<div class="container-fluid mainDashboard">
     <div class="row">
         <div class="col-lg-8 mb-8">
             <div class="row">
                 <div class="col-lg-6 mb-6">
-                    <div class="card menuuser">
+                    <div class="card">
                         <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS GROUP</h4>
                         <div class="card-body">
                             <p class="card-text" id="pourcentage"><strong>0{{ data.userGroup()|length }}</strong></p>
@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 mb-3">
-                    <div class="card menuuser">
+                    <div class="card">
                         <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS</h4>
                         <div class="card-body">
                             <p class="card-text" id="pourcentage"><strong>{{ '01' }}</strong></p>

@@ -16,9 +16,19 @@
         <title>{{ __msg('site-title') }}</title>
   </head>
   <body>
+
       {{ include('layouts/display/__header.html.html') }}
+
+      <!-- ======= Main content ======= --> 
         {% block content %}{% endblock %}
+      <!-- ======= End Main content ======= --> 
+      
       {{ include('layouts/display/__footer.html.html') }}
-      <script src="{{ __js('jquery/jquery') }}"></script><script src="{{ __js('bootstrap/4.1/bootstrap.bundle.min') }}"></script><script src="{{ __js('bootstrap/4.1/bootstrap.min') }}"></script>
+
+      <!-- Js Link codes --> 
+      <script src="{{ __js('jquery/jquery') }}">
+      </script><script src="{{ __js('bootstrap/4.0/bootstrap.bundle.min') }}"></script>
+      <script src="{{ __js('bootstrap/4.0/bootstrap.min') }}"></script>
+      <!-- Js Link codes --> 
   </body>
 </html>

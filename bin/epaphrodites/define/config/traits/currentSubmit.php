@@ -64,7 +64,7 @@ trait currentSubmit
     ): bool{
 
         $crsf === false ? :static::forcingTokenVerification();
-
+        
         // Retrieve and sanitize the request method
         $method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : null;
         
@@ -468,7 +468,7 @@ trait currentSubmit
      * @return void
      */
     private static function forcingTokenVerification():void {
-
+        
         static::initNamespace()['crsf']->toForceCrsf() === false ? static::class('errors')->error_403() : NULL;
     }
     

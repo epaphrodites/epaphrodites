@@ -16,7 +16,7 @@
 {# --- submit buttom -- #}
 {% macro submit( submitOptions ) %}
 	<div class="form-group">
-		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="submit" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px">
+		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="submit" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px;width: 100%;">
 			{% if submitOptions.icon is defined %}
 				<i class="{{ submitOptions.icon }} "></i>
 			{% endif %}
@@ -85,20 +85,23 @@
 {% endmacro %}
 {# --- End Textarea input field -- #}
 
+
 {# --- Import input field -- #}
 {% macro import_field( selectOptions ) %}
-	{% if selectOptions.label is defined %}
-		<label class="form-label">{{ selectOptions.label }}</label>
-	{% endif %}
+	<div class="form-group">
+		<br>
+		{% if selectOptions.label is defined %}
+			<label class="form-label">{{ selectOptions.label }}</label> <br>
+		{% endif %}
 
-	<br><input type="file" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'accept', 'value', 'id' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {% if selectOptions.size is defined %} data-max-size="{{ selectOptions.size }}" {% endif %} {{ selectOptions.require is defined and selectOptions.require ? "required" }}>
+		<input type="file" class="form-control" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'accept', 'value', 'id', 'placeholder' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {% if selectOptions.size is defined %} data-max-size="{{ selectOptions.size }}" {% endif %} {{ selectOptions.require is defined and selectOptions.require ? "required" }}>
 
-	{% if selectOptions.feedback is defined %}
-		<div class="invalid-feedback">{{ selectOptions.feedback }}</div>
-	{% endif %}
+		{% if selectOptions.feedback is defined %}
+			<div class="invalid-feedback">{{ selectOptions.feedback }}</div>
+		{% endif %}
 
-	<p id="errorMessage"></p>
-	<hr>
+		<p id="errorMessage"></p>
+	</div>
 {% endmacro %}
 {# --- End Import input field -- #}
 
@@ -130,24 +133,16 @@
 {% macro checkbox_field( inputOptions ) %}
 	{% if inputOptions.label is defined %}
 		<div class="form-check">
-		{% endif %}
+	{% endif %}
 		<input type="checkbox" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'class', 'value', 'id' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %}>
 		{{ inputOptions.require is defined and inputOptions.require ? 'required' }}
 		{{ inputOptions.disabled is defined and inputOptions.disabled ? 'disabled' }}
-		{% if inputOptions.label is defined %}
-			<label class="form-check-label" for="flexCheckChecked">{{ inputOptions.label }}</label>
+	{% if inputOptions.label is defined %}
+		<label class="form-check-label" for="flexCheckChecked">{{ inputOptions.label }}</label>
 		</div>
 	{% endif %}
 {% endmacro %}
 {# --- End Check box Field -- #}
-
-{# --- loader Field -- #}
-{% macro loader() %}
-	<div class="loaderpage">
-		<span class="pagetools_loader"></span>
-	</div>
-{% endmacro %}
-{# --- End loader Field -- #}
 
 {# --- Export buttom Field -- #}
 {% macro ExportFiles( libelle , add , xlsx , copie , csv ) %}

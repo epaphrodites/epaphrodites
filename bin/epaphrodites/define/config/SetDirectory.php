@@ -32,7 +32,7 @@ define('_MAIN_EXTENSION_', '_ep');
 define('_SESSION_', 'session');
 
 // Users Token CRSF name
-define('_CRSF_TOKEN_', 'crsf_token');
+define('_CRSF_TOKEN_', 'crsfToken');
 
 // Views directories
 define('_DIR_VIEWS_', 'public');

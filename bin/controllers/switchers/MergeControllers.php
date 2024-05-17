@@ -25,10 +25,10 @@ class MergeControllers extends epaphroditeClass implements contractController
     {
         $targetFunction = $this->transformToFunction($pages);
         $switch === false ?: $this->checkAutorisation($pages, $switch);
-    
+        
         $checkMethods = method_exists($class, $targetFunction);
         $checkDirectory = static::directory($pages, $switch , $views);
-
+        
         return $checkMethods === true && $checkDirectory === true
             ? $class->$targetFunction($views.$pages)
             : static::class('errors')->error_404();
@@ -83,7 +83,9 @@ class MergeControllers extends epaphroditeClass implements contractController
     }
 
     /**
-     *  @param string $initPage
+     * CamelCase treatment process...
+     * 
+     * @param string $initPage
      * @return string
      */
     private function transformToFunction( 

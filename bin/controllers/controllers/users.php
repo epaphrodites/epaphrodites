@@ -165,7 +165,7 @@ final class users extends MainSwitchers
         string $html
     ): void
     {
-
+        
         $total = 0;
         $list = [];
         $numLine = 100;
@@ -209,7 +209,7 @@ final class users extends MainSwitchers
                             ? $this->getId->GetUsersByGroup($currentPage, $numLine, static::getGet('filtre')) 
                             : $this->select->listeOfAllUsers($currentPage, $numLine);
         }
-
+        
         $this->views( $html, 
             [
                 'total' => $total,

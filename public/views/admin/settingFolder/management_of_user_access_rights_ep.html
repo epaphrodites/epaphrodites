@@ -1,5 +1,9 @@
-{% extends layouts %}{% from breadcrumb import breadcrumb_field %} {% from message import alert_msg %}{% from forms
-import loader %}{% from message import alert_msg %} {% block content %}{{ breadcrumb_field('ASSIGNING RIGHTS TO USERS' )}}
+{% extends layouts %}
+{% from breadcrumb import breadcrumb_field %} 
+{% from message import alert_msg %}
+{% from message import alert_msg %} 
+{% block content %}
+{{ breadcrumb_field('ASSIGNING RIGHTS TO USERS' )}}
 <div class="container">
     {{ alert_msg( reponse , alert ) }}
     <div class="row" style="margin-top: 20px;">
@@ -7,7 +11,7 @@ import loader %}{% from message import alert_msg %} {% block content %}{{ breadc
             <div class="outer-form">
                 <form method="post" name="ifSendDatas">
                     <table id="TableFromDatas" class="table-striped table table-bordered displayTable">
-                        {{ loader() }}{{ __csrf() }}
+                        {{ __csrf() }}
                         <thead>
                             <tr>
                                 <th class="head">Nº</th>
