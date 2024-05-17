@@ -5,29 +5,31 @@
 {% block content %} 
 {{ alert_msg( reponse, alert ) }}
 {{ breadcrumb_field( 'USERS IMPORT' )}} 
-    <form class="laodForm" method="POST" novalidate name="frmExcelImport" enctype="multipart/form-data">
+    <div class="container">
+        <form class="laodForm" method="POST" novalidate name="frmExcelImport" enctype="multipart/form-data">
         
-        {{ __csrf() }}
-
-        {{ select_field({
-            label:"USERS GROUP",
-            name : "__group__",
-            datas : data.userGroup(),
-            require : true })
-        }}
-
-        {{ import_field({
-            name : 'file', 
-            id : 'file' , 
-            accept : '.xls,.xlsx,.csv,.ods',
-            require : true,
-            feedback : "This field is required!!!" }) 
-        }}
-
-        {{ submit({
-            label : 'Import users',
-            icon : 'bi bi-upload'
-        }) }} 
-
-    </form>
+            {{ __csrf() }}
+    
+            {{ select_field({
+                label:"USERS GROUP",
+                name : "__group__",
+                datas : data.userGroup(),
+                require : true })
+            }}
+    
+            {{ import_field({
+                name : 'file', 
+                id : 'file' , 
+                accept : '.xls,.xlsx,.csv,.ods',
+                require : true,
+                feedback : "This field is required!!!" }) 
+            }}
+    
+            {{ submit({
+                label : 'Import users',
+                icon : 'bi bi-upload'
+            }) }} 
+    
+        </form>
+    </div>
 {% endblock %}

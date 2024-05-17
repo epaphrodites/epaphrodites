@@ -1,30 +1,33 @@
-{% extends layouts %} {% block content %}
-<div class="container-fluid mainDashboard">
+{% extends layouts %}{% from charts import chart %}{% block content %}
+<div class="container-fluid dashboard">
     <div class="row">
         <div class="col-lg-8 mb-8">
             <div class="row">
                 <div class="col-lg-6 mb-6">
-                    <div class="card">
+                    <div class="card menuUsers">
                         <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS GROUP</h4>
                         <div class="card-body">
-                            <p class="card-text" id="pourcentage"><strong>0{{ data.userGroup()|length }}</strong></p>
+                            <p class="card-text" id="count"><strong>0{{ data.userGroup()|length }}</strong></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-3">
-                    <div class="card">
+                    <div class="card menuUsers">
                         <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS</h4>
                         <div class="card-body">
-                            <p class="card-text" id="pourcentage"><strong>{{ '01' }}</strong></p>
+                            <p class="card-text" id="count"><strong>{{ '01' }}</strong></p>
                         </div>
                     </div>
-                </div>                
+                </div> 
+                <div class="col-lg-12 mb-12">
+                    <canvas id="epaphroditeChart" style="width:100%;max-width:100%" align="center"></canvas>
+                </div>                                           
             </div>
         </div>
         <div class="col-lg-4 mb-4">
             <div class="row">
                 <div class="col-lg-12 mb-12">
-                    <div class="card onathermenu">
+                    <div class="card hystory">
                         <div class="card-body">
                             <h5 class="card-title">Recents actions</h5>
                             {% for select in select.RecentlyActions() %}
@@ -42,9 +45,9 @@
                     </div>
                 </div>
                 <div class="col-lg-12 mb-12 mt-20">
-                    <div class="card menuuserinfos">
-                        <h4 class="card-header text-light" id="card-informations"> <i class="icofont-comment"></i> INFORMATIONS</h4>
-                        <div class="card-body usersinfos">
+                    <div class="card infos">
+                        <h4 class="card-header text-light"> <i class="icofont-comment"></i> INFORMATIONS</h4>
+                        <div class="card-body">
                             <div class="news">
                                 <div class="post-item">
                                     <i class="bi bi-exclamation-triangle-fill text-success"></i>
@@ -55,12 +58,36 @@
                     </div>
                 </div>               
                 <div class="col-lg-12 mb-12">
-                    <div class="logodsps aos-init pt-20" align="center" data-aos-offset="300">
-                        <img src="{{ __img('/logo.png') }}" class="img-fluid logoimg">
+                    <div class="aos-init pt-20" align="center" data-aos-offset="300">
+                        <img src="{{ __img('logo.png') }}" class="img-fluid logoimg">
                         {{ __QRCodes('https://epaphrodite.org') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {{ chart(
+        {
+            id: 'epaphroditeChart',
+            label: 'Epaphrodite Example Chart',
+            datasets: [
+                {
+                    chartType : 'line',
+                    label: 'Dataset 1',
+                    values : "value",
+                    keys : 'title',
+                    data: [
+                        { "value": 12969, "title": "BLUE" },
+                        { "value": 1530, "title": "YELLOW" },
+                        { "value": 24593, "title": "GREEN" },
+                        { "value": 6465, "title": "PINK" }
+                    ],
+                    border: 0,
+                    radius : 0.4,
+                    borderColor: '#d32b01',
+                    color: ['#056daa', '#ca9802', '#00738c' , '#6c048e']
+                }            
+            ]
+        } 
+    ) }} 
 {% endblock %}

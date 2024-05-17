@@ -642,6 +642,7 @@ tr {
   cursor: pointer;
   transition: all 0.25s ease-in-out;
 }
+
 .selected {
   font-weight: bold;
   color: #000;
@@ -717,29 +718,6 @@ input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
-}
-
-#print_card .laodForm {
-  background-color: #ffffff;
-}
-
-.informationtheme img {
-  margin-top: -170px;
-  width: 90%;
-}
-
-#pic {
-  display: none;
-}
-
-.newbtn {
-  cursor: pointer;
-}
-
-#blah {
-  width: 150px;
-  height: 150px;
-  border: 1px solid #000;
 }
 
 @keyframes spin {
