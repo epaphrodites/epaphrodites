@@ -21,7 +21,6 @@
     --sidebar-color: #444343 ;
     --sidebar-background: #dfdac4;
     --history-color-green: #126b4c;
-
   
     /* box-shadow */
     --box-shadow-one : 0 5px 30px 0 rgba(82, 63, 105, 0.2);
@@ -173,7 +172,7 @@ TOOLS
   }
 
 /*--------------------------------------------------------------
-Dataset Fixe bouton action
+DATASET FIXE BUTTON ACTIONS
 ---------------------------------------------------------------*/
 
 .buttons-copy,
@@ -432,7 +431,7 @@ div.table-responsive
 }
 
 /*--------------------------------------------------------------
-  # breadcrumb style
+  # BREADCUMB STYLE
 ---------------------------------------------------------------*/
 
 .custom-breadcrumb {

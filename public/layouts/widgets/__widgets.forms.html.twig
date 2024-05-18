@@ -144,6 +144,17 @@
 {% endmacro %}
 {# --- End Check box Field -- #}
 
+{# --- Radio button Field -- #}
+{% macro radio_field( inputOptions ) %}
+	<div class="custom-control custom-radio {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}">
+		<input type="radio" class="custom-control-input" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'id' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ inputOptions.checked is defined and inputOptions.checked ? 'checked' }} {{ inputOptions.require is defined and inputOptions.require ? 'required' }}>
+		{% if inputOptions.label is defined %}
+		<label class="custom-control-label">{{ inputOptions.label }}</label>
+		{% endif %}
+	</div>
+{% endmacro %}
+{# --- End Radio button Field -- #}
+
 {# --- Export buttom Field -- #}
 {% macro ExportFiles( libelle , add , xlsx , copie , csv ) %}
 	<div class="btn-group" id="backbouton" align="right">
