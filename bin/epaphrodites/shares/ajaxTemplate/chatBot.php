@@ -47,7 +47,7 @@ trait chatBot{
             function displayText(element, text) {
                 let index = 0;
                 const display = () => {
-                    element.innerHTML = text.slice(0, index); // Utilisation de innerHTML pour inclure le HTML
+                    element.innerHTML = text.slice(0, index);
                     index++;
                     if (index <= text.length) {
                         setTimeout(display, delay);

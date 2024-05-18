@@ -15,7 +15,6 @@
     <script src="{{ __js('jquery/axios.min') }}"></script>
     <script src="{{ __js('select2.min') }}"></script>
     <script src="{{ __js('chart/default.chart.min') }}"></script>
-    <script src="{{ __js('chart/default.echarts.min') }}"></script>
     <link rel="icon" href="{{ __img('logo_o.png') }}">
     <title>{{ __msg('site-title') }}</title>
 </head>
@@ -26,7 +25,7 @@
 
         <!-- Logo -->
         <div class="d-flex align-items-center justify-content-between">
-            <a href="{{ __host() }}" class="logo d-flex align-items-center">
+            <a href="{{ __host() }}" class="version d-flex align-items-center">
                 <span class="d-none d-lg-block">{{ __msg('version') }}</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -133,7 +132,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>             
+            </li>           
             <li class="nav-item">
                 <a class="nav-link " target="_blank" href="https://epaphrodite.slack.com/">
                     <i class="bi bi-slack"></i>
@@ -157,7 +156,7 @@
     <!-- ======= End Main content ======= --> 
 
     <div class="loader"><div class="tools_loader" id="loader-1"></div></div>
-    
+
     <!-- Js Link codes --> 
     <script src="{{ __js('jquery/jquery.default.main') }}"></script>
     <script src="{{ __js('jquery/jquery') }}"></script>

@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------
-  # Main epaphrodites css
+  # MAIN EPAPHRODITES
 --------------------------------------------------------------*/
 
 :root {
@@ -7,7 +7,8 @@
     --main-text: #333;
     --color-code: #ddd;
     --color-red : #dc143c;
-    --color-green: #07984d;
+    --color-green: #016D6D;
+    --input-border: #8b8989;
     --breadcrumb-bg: #f5f5f5;
     --breadcrumb-text: #fff;
     --breadcrumb-active: #6c757d;
@@ -25,6 +26,7 @@
     /* box-shadow */
     --box-shadow-one : 0 5px 30px 0 rgba(82, 63, 105, 0.2);
     --box-shadow-two : 0 5px 10px 0 rgba(82, 0, 0, 0.1);
+    --box-shadow-three : 0 0px 10px 0 rgba(90, 0, 0, 0.2);
 
     --main-font-family : "Nunito", sans-serif ;
 
@@ -163,28 +165,7 @@ a {
   }
 
 /*--------------------------------------------------------------
-Forms
----------------------------------------------------------------*/  
-
-  #textarea_input{
-    resize: none;
-  }
-
-  #searchbar {
-    padding: 0px 0px 0px 15px;
-    border-radius: 20px;
-    border: 0.5px solid #444444;
-  }
-  
-  .classsearch {
-    width: 27%;
-    float: left;
-    padding: 1.5px;
-  }
-  
-
-/*--------------------------------------------------------------
-Tools
+TOOLS
 ---------------------------------------------------------------*/  
 
   .qrcodes {
@@ -525,7 +506,7 @@ div.table-responsive
 }
 
 /*--------------------------------------------------------------
-  # breadcrumb style
+  # MESSAGES
 ---------------------------------------------------------------*/
 
 #msgvalidation {
@@ -541,4 +522,56 @@ div.table-responsive
   font-size: 10px;
   padding: 10px 10px 10px 10px;
 }
-  
+
+.reponses {
+  text-align: center;
+  color: #ff4500;
+  font-style: italic;
+}  
+
+/*--------------------------------------------------------------
+  # FORMS
+---------------------------------------------------------------*/
+
+.card_filter_search {
+  background: var(--dashboard-main);
+  padding: 10px 0px 10px 10px;
+  border-radius: 10px;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+textarea{
+  resize: none;
+}
+
+#searchGroup {
+  padding: 0px 0px 0px 15px;
+  border-radius: 20px;
+  border: 0.5px solid #444444;
+}
+
+.searchCard {
+  width: 25%;
+  float: left;
+  padding: 1.5px;
+}
+
+#LargeFilters::placeholder {
+  font-style: italic;
+  font-weight: 100;
+}
+
+.button_design button{
+  border-radius: 20px;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}

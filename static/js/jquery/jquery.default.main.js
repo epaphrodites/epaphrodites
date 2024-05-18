@@ -14,27 +14,21 @@ $(document).ready(function () {
         extend: "csv",
         text: "CSV",
         filename: function () {
-          return (
-            $("#custom-csv").data("filename") + "_" + new Date().toISOString()
-          );
+          return ($("#custom-csv").data("filename") + "_" + new Date().toISOString());
         },
       },
       {
         extend: "excel",
         text: "Excel",
         filename: function () {
-          return (
-            $("#custom-excel").data("filename") + "_" + new Date().toISOString()
-          );
+          return ($("#custom-excel").data("filename") + "_" + new Date().toISOString());
         },
       },
       {
         extend: "pdf",
         text: "PDF",
         filename: function () {
-          return (
-            $("#custom-pdf").data("filename") + "_" + new Date().toISOString()
-          );
+          return ($("#custom-pdf").data("filename") + "_" + new Date().toISOString());
         },
       },
     ],
@@ -66,41 +60,25 @@ $(document).ready(function () {
       var paginationNumbers = "";
       if (totalPages <= 7) {
         for (var i = 1; i <= totalPages; i++) {
-          paginationNumbers +=
-            '<span class="pagination-number" data-page="' +
-            i +
-            '">' +
-            i +
-            "</span>";
+          paginationNumbers += '<span class="pagination-number" data-page="' + i + '">' + i + "</span>";
         }
       } else {
         var startPage = Math.max(currentPage - 3, 1);
         var endPage = Math.min(startPage + 6, totalPages);
         if (startPage > 1) {
-          paginationNumbers +=
-            '<span class="pagination-number" data-page="1">1</span>';
+          paginationNumbers += '<span class="pagination-number" data-page="1">1</span>';
           if (startPage > 2) {
             paginationNumbers += '<span class="pagination-number">...</span>';
           }
         }
         for (var i = startPage; i <= endPage; i++) {
-          paginationNumbers +=
-            '<span class="pagination-number" data-page="' +
-            i +
-            '">' +
-            i +
-            "</span>";
+          paginationNumbers += '<span class="pagination-number" data-page="' + i + '">' + i + "</span>";
         }
         if (endPage < totalPages) {
           if (endPage < totalPages - 1) {
             paginationNumbers += '<span class="pagination-number">...</span>';
           }
-          paginationNumbers +=
-            '<span class="pagination-number" data-page="' +
-            totalPages +
-            '">' +
-            totalPages +
-            "</span>";
+          paginationNumbers += '<span class="pagination-number" data-page="' + totalPages + '">' + totalPages + "</span>";
         }
       }
       $("#pagination-numbers").html(paginationNumbers);
@@ -136,16 +114,16 @@ $(document).ready(function () {
 
   $("#export-options").on("change", function () {
     var selectedOption = $(this).val();
-    var filename = "test";
+    var filename = "my_file_";
 
     if (selectedOption === "csv") {
-      filename = "mon_fichier_csv_" + new Date().toISOString() + ".csv";
+      filename = "my_file_name_csv_" + new Date().toISOString() + ".csv";
       table.button(".buttons-csv").trigger({ filename: filename });
     } else if (selectedOption === "excel") {
-      filename = "mon_fichier_excel_" + new Date().toISOString() + ".xlsx";
+      filename = "my_file_name_excel_" + new Date().toISOString() + ".xlsx";
       table.button(".buttons-excel").trigger({ filename: filename });
     } else if (selectedOption === "pdf") {
-      filename = "mon_fichier_pdf_" + new Date().toISOString() + ".pdf";
+      filename = "my_file_name_pdf_" + new Date().toISOString() + ".pdf";
       table.button(".buttons-pdf").trigger({ filename: filename });
     }
   });
@@ -195,7 +173,6 @@ $(document).ready(function () {
       select("body").classList.toggle("toggle-sidebar");
     });
   }
-  
 })();
 
 function CountTableLigne() {
@@ -261,7 +238,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-
 checkboxes.forEach((checkbox, index) => {
   if (index > 0) {
     checkbox.addEventListener("change", function () {
@@ -324,6 +300,9 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
 
 if (window.history.replaceState) {
   window.history.replaceState(null, null, window.location.href);
@@ -358,5 +337,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
-
-

@@ -6,6 +6,7 @@
 {% block content %}
 {{ alert_msg( reponse , alert ) }}
 {{ breadcrumb_field( 'LISTE OF RECENT ACTIONS' )}}
+
     <div class="container">
         <div class="card_filter_search">
             {{ filter_search('datasearch' , 'submitsearch' , 'Search...' , 'classsearch') }}
@@ -15,7 +16,7 @@
                     Filters <i class="bi bi-chevron-down"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <form name="filter" id ="filter" method="get">
+                        <form name="filter" id ="filter" method="GET">
                             <li>
                                 {{ select_field( 
                                     {
@@ -63,4 +64,5 @@
             }}     
         </form>
     </div>
+
 {% endblock %}

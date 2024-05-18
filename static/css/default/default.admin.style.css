@@ -1,11 +1,11 @@
 /*--------------------------------------------------------------
-# Import css
+# IMPORT CSS
 --------------------------------------------------------------*/
 @import url('default.epaphrodites.style.css');
 
 
 /*--------------------------------------------------------------
-  # Main
+  # MAIN
 --------------------------------------------------------------*/
 
 #main {
@@ -21,7 +21,7 @@
 }
 
 /*--------------------------------------------------------------
-  # Header
+  # HEADER
 --------------------------------------------------------------*/
 
 .header {
@@ -208,7 +208,7 @@
 }
 
 /*--------------------------------------------------------------
-  # Sidebar
+  # SIDEBAR
 --------------------------------------------------------------*/
 
 .sidebar {
@@ -352,7 +352,7 @@
 }
 
 /*--------------------------------------------------------------
-  # Dashboard content
+  # DASHBOARD
 --------------------------------------------------------------*/
 
 .menuUsers {
@@ -470,17 +470,15 @@
 }
 
 /*--------------------------------------------------------------
-  # Table content
+  # TABLE FORM
 --------------------------------------------------------------*/
 
-.displayTable tbody td {
-  background: #fff;
-  padding: 5px 3px;
-  font-size: 9.2px;
-  text-align: left;
-  border: 2px solid rgb(232, 226, 226);
-  vertical-align: middle;
-  line-height: 14px;
+.laodForm {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 5px 10px 0 rgba(82, 63, 105, 0.2);
 }
 
 .displayTable thead {
@@ -492,64 +490,15 @@
   border-top-right-radius: 10px;
 }
 
-.displayTable .activ {
-  color: #098543;
-}
 
-.displayTable .desact {
-  color: var(--color-red);
-}
-
-#tabledata .nodre {
-  text-align: center;
-}
-
-#tabledata a {
-  text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
-  padding-left: 4px;
-  font-size: 9px;
-}
-
-#tabledata .editer {
-  padding-left: 10px;
-  color: #098543;
-}
-
-#tabledata .editer a {
-  color: #098543;
-}
-
-#tabledata button {
-  background: none;
-  border: 0;
-  padding: 0;
-  color: #098543;
-}
-
-#tabledata .suppression {
-  padding-left: 15px;
-  color: var(--color-red);
-}
-
-#tabledata .suppression a {
-  color: var(--color-red);
-}
-
-#tabledata .invalider {
-  color: var(--color-red);
-}
-
-.contenu h3 {
-  text-align: center;
-}
-
-.laodForm {
-  width: 80%;
-  margin: auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 5px 10px 0 rgba(82, 63, 105, 0.2);
+.displayTable tbody td {
+  background: #fff;
+  padding: 5px 3px;
+  font-size: 9.2px;
+  text-align: left;
+  border: 2px solid rgb(232, 226, 226);
+  vertical-align: middle;
+  line-height: 14px;
 }
 
 .seachValidation {
@@ -557,59 +506,19 @@
   margin: auto;
 }
 
-.OtherSearchPosition .classsearch {
-  float: right;
-  background-color: #00745d;
-}
-
 #errorMessage {
   color: #f72525;
   font-size: 11px;
 }
 
-.vertical tbody {
-  text-align: left;
-}
-
-.vertical thead {
-  background: #2f7e2f;
-  color: #ffffff;
-}
-
-#ajouter {
-  border-radius: 20px;
-  float: right;
-  margin: 10px;
-  line-height: 20px;
-}
-
-#ajouter a {
-  text-decoration: none;
-  color: #fff;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 100;
-}
-
-.activ {
+.activate {
   color: #08ca70;
   font-size: 17px;
 }
 
-.desact {
+.disable {
   color: #980303;
   font-size: 17px;
-}
-
-.selected_empty {
-  border: none;
-  background: #f1f1f1;
-  font-size: 11px;
-}
-
-#LargeFilters::placeholder {
-  font-style: italic;
-  font-weight: 100;
 }
 
 #TableFromDatas {
@@ -670,13 +579,8 @@ tr {
   color: #098543;
 }
 
-#validate_btn {
-  width: 250px;
-  float: right;
-}
-
 .filtercard .dropdown {
-  width: 260px;
+  width: 230px;
   border: none;
   margin-right: 40px;
 }
@@ -706,18 +610,6 @@ tr {
   border: 1.5px solid var(--color-green);
   border-radius: 10px;
   font-size: 12px;
-}
-
-.card_filter_search {
-  background: var(--dashboard-main);
-  padding: 10px 0px 10px 10px;
-  border-radius: 10px;
-}
-
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
 }
 
 @keyframes spin {
@@ -755,14 +647,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 12px;
 }
 
-.selectintotable {
-  border: none;
-  font-size: 10px;
-  background: #f1f1f1;
-  width: auto;
-  border-radius: 0px;
-}
-
 .tbleselect .selecteur {
   border: none;
   font-size: 12px;
@@ -771,120 +655,100 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 0px;
 }
 
-#tableimport label {
-  display: inline-block;
-  background: #009879;
-  border: 1px solid #00745d;
-  color: white;
-  padding: 0.3rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-}
+/*--------------------------------------------------------------
+  # CHATBOT
+--------------------------------------------------------------*/
 
-.erreur-message {
-  color: red;
-  font-weight: bold;
-  font-size: 12px;
-  text-align: center;
-}
-
-.wrapper {
+.chat-bot-content .bot-content {
   width: 100%;
+  margin: auto;
 }
 
-.wrapper .box {
+.chat-bot-content .conversation {
   border: 1px solid #efefef;
   padding: 10px 15px;
   min-height: 600px;
   max-height: 600px;
   overflow-y: scroll;
+  border-radius: 17px 17px 0px 0px;
+  border-bottom: 0px;
 }
 
-.wrapper .box .item {
-  display: flex;
-  float: left;
-  margin: 10px 0;
+.chat-bot-content .conversation::-webkit-scrollbar {
+  width: 0px;
 }
 
-.wrapper .typing-area {
-  width: 78%;
-  height: 50px;
+.chat-bot-content .input-group{
+  margin: -50px auto;
+  width: 90%;
+}
+
+.chat-bot-content .input-group {
   display: flex;
-  padding: 10px;
   align-items: center;
   justify-content: center;
-  position: fixed;
-  bottom: 0;
-}
-
-.wrapper .typing-area .input-field {
-  width: 100%;
   position: relative;
-  bottom: 40px;
-  border-radius: 10px;
 }
 
-.wrapper .typing-area .input-field input {
-  width: 100%;
-  padding: 10px 10px 10px 50px;
-  outline: none;
-  border-radius: 20px;
-  transition: 0.3s all ease;
-  border: 1px solid var(--color-red);
-  font-family: "Poppins", sans-serif;
+.chat-bot-content .input-group .form-group {
+  flex-grow: 1;
+  margin: 0 10px;
+  position: relative;
 }
 
-.wrapper .typing-area .input-field #startButton{
-  width: 5%;
-  top: 40%;
-  left: 0px;
-  cursor: pointer;
+.chat-bot-content .input-group .button_design {
   position: absolute;
-  transform: translateY(-50%);
-  border: none;  
+  top: 55%;
+  transform: translateY(-60%);
+  z-index: 1;
 }
 
-.wrapper .typing-area .input-field #BtnValidate {
-  width: 5%;
-  top: 40%;
-  right: 7px;
-  cursor: pointer;
-  position: absolute;
-  transform: translateY(-50%);
+.chat-bot-content .input-group .button_design:first-child {
+  left: 8px;
+}
+
+.chat-bot-content .input-group .button_design:last-child {
+  right: 8px;
+}
+
+.chat-bot-content .input-group .btn {
   border: none;
+  cursor: pointer;
 }
 
-.wrapper .typing-area .input-field #BtnValidate i{
+.chat-bot-content .input-group .form-control {
+  z-index: 0;
+  margin: auto;
+  padding: 10px 50px;
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--color-red);
+}
+
+.chat-bot-content #startButtonVoice i{
+  color: var(--color-red);
+  font-size: 22px;
+}
+
+.chat-bot-content #sendMessages i{
+  color: var(--color-red);
   font-size: 30px;
-  color: var(--color-red);
 }
 
-.wrapper .typing-area .input-field #startButton i{
-  font-size: 25px;
-  color: var(--color-red);
+/*--------------------------------------------------------------
+  # LOADER
+--------------------------------------------------------------*/
+
+.loader {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  border-radius: 100%;
 }
-
-
-@media screen and (max-width: 735px) {
-  #frame .content .message-input .wrap #inputlarge {
-    padding: 15px 32px 16px 8px;
-  }
-
-  .wrapper {
-    width: 100%;
-    margin: auto;
-  }  
-
-  .wrapper .typing-area {
-    width: 80%;
-  }  
-
-  .wrapper .typing-area .input-field #BtnValidate {
-    right: 30px;
-  }
-}
-
-/* LOADER 1 */
 
 #loader-1:before,
 #loader-1:after {
@@ -906,15 +770,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 #loader-1:after {
   border: 7px solid rgb(165, 117, 5);
-}
-
-.loader {
-  width: 70px;
-  height: 70px;
-  position: relative;
-  margin: 0 auto;
-  top: 50%;
-  left: 50%;
-  position: fixed;
-  border-radius: 100%;
 }

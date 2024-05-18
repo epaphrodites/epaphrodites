@@ -1,58 +1,70 @@
 {% extends layouts %}
 {% from ajax import send_ajax_request, get_ajax_request %}
-{% from forms import input_field, loader, submit %}
+{% from forms import input_field, textarea_field, submit %}
 {% from breadcrumb import breadcrumb_field %} 
 {% from tools import recognition %} 
 {% block content %}
 {{ breadcrumb_field('EPAPHRODITES CHATBOT MODEL TWO' )}}
 
   <div class="container">
-    <div class="wrapper">
-      <div class="box"></div>
-      <div class="typing-area">
-        <div class="input-field">
-          {{ submit({
-            icon : 'bi bi-mic',
-            color : "transparent",
-            id : "startButton"
-          }) }}
-          {{ input_field(
+    <div class="chat-bot-content">
+      <div class="conversation"></div>
+        <div class="input-group">
+
+          {{ submit(
             {
-              require : true ,
-              name : '__send__' ,
-              id : '__send__' ,
-              placeholder : "Message to Epaphrodites Bot..."
+              icon : 'bi bi-mic',
+              color : 'transparent',
+              id : 'startButtonVoice',
+              mainClass : 'input-group-prepend'
             }
           )}}
-          {{ submit({
-            icon : 'bi bi-arrow-up-circle-fill',
-            color : "transparent"
-          }) }}
+
+          {{ textarea_field(
+            {
+             require : true ,
+             name : '__send__' ,
+             id : '__send__' ,
+             maxlength : 200,
+             rows : 2,
+             placeholder : 'Message to Epaphrodites Bot...'
+            }
+        )}}
+
+          {{ submit(
+            {
+              icon : 'bi bi-arrow-up-circle-fill',
+              color : 'transparent',
+              id : 'sendMessages',
+              mainClass : 'input-group-prepend'
+            }
+          )}}
+
         </div>
       </div>
-    </div>
   </div>
 
   {{ send_ajax_request({
     method : "POST",
     url : "chats@start_chatbot_model_two",
     value : ['__send__'],
-    submit : '#BtnValidate',
-    msg : '.box'
+    submit : '#sendMessages',
+    msg : '.conversation'
   }) }}
 
   {{ get_ajax_request({
     method : "POST",
     url : "chats@start_chatbot_model_two",
-    msg : '.box',
+    msg : '.conversation',
     type : 'html'
   }) }}
 
   {{
     recognition({
-      button : "startButton",
+      button : "startButtonVoice",
       field : "__send__"
     })
   }}
 
 {% endblock %}
+

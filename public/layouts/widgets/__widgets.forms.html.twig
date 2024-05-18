@@ -1,6 +1,6 @@
 {# --- Input Field -- #}
 {% macro input_field( inputOptions ) %}
-	<div class="form-group">
+	<div class="form-group input_design">
 		{% if inputOptions.label is defined %}
 			<label class="form-label">{{ inputOptions.label }}</label>
 		{% endif %}
@@ -15,7 +15,7 @@
 
 {# --- submit buttom -- #}
 {% macro submit( submitOptions ) %}
-	<div class="form-group">
+	<div class="{{ submitOptions.mainClass | default('form-group') }} button_design">
 		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="submit" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px;width: 100%;">
 			{% if submitOptions.icon is defined %}
 				<i class="{{ submitOptions.icon }} "></i>
@@ -41,8 +41,8 @@
 
 {# --- Other Input Field for filters -- #}
 {% macro input_filter() %}
-	<div class="bg-light rounded rounded-pill classsearch">
-		<div class="input-group" id="searchbar">
+	<div class="bg-light rounded rounded-pill searchCard">
+		<div class="input-group" id="searchGroup">
 			<input type="search" placeholder="All columns..." class="form-control border-0 bg-light" id="LargeFilters">
 			<div class="input-group-append">
 				<button id="button-addon1" type="submit" class="btn btn-link text-dark">
@@ -55,13 +55,13 @@
 {# --- End Other Input Field for filters -- #}
 
 {# --- Other Input Field for filters -- #}
-{% macro filter_search(name_searchbar , name_submit , placeholder , id ) %}
-	<form {% if id == false %} class="{{ id }}" novalidate {% endif %} method="GET">
-		<div class="bg-light rounded rounded-pill classsearch">
-			<div class="input-group" id="searchbar">
-				<input type="search" name="{{ name_searchbar }}" placeholder="{{ placeholder }}" class="form-control border-0 bg-light" id="LargeFilters">
+{% macro filter_search( inputOptions ) %}
+	<form method="GET">
+		<div class="bg-light rounded rounded-pill searchCard {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}">
+			<div class="input-group" id="searchGroup">
+				<input type="search" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'placeholder'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} class="form-control border-0 bg-light" id="LargeFilters">
 				<div class="input-group-append">
-					<button id="button-addon1" name="{{ name_submit }}" type="submit" class="btn btn-link text-dark">
+					<button id="button-addon1" {% if inputOptions.submit is defined %} name="{{ inputOptions.submit }}" {% endif %} type="submit" class="btn btn-link text-dark">
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
@@ -77,7 +77,7 @@
         {% if inputOptions.label is defined %}
             <label class="form-label">{{ inputOptions.label }}</label>
         {% endif %}
-        <textarea class="form-control textarea {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'rows', 'maxlength'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} onkeyup="mixed(this);" id="textarea_input" {{ inputOptions.require is defined and inputOptions.require ? 'required' }}>{% if inputOptions.value is defined %}{{ inputOptions.value|e }}{% endif %}</textarea>
+        <textarea class="form-control textarea {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'rows', 'maxlength', 'id', 'placeholder'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {% set eventCode = characterActions[inputOptions.character] ?? '' %} {% if eventCode %} onkeyup="{{ eventCode|e }}" {% endif %} {{ inputOptions.require is defined and inputOptions.require ? 'required' }}>{% if inputOptions.value is defined %}{{ inputOptions.value|e }}{% endif %}</textarea>
         {% if inputOptions.feedback is defined %}
 			<div class="invalid-feedback">{{ inputOptions.feedback }}</div>
 		{% endif %}

@@ -35,7 +35,7 @@ class DetectLanguages:
             return max(lang_counts, key=lang_counts.get)
         elif last_language:
             return last_language['language']
-        return "eng"
+        return "en"
     
     @staticmethod
     def replaceOthersCharacteres(usersMessages):

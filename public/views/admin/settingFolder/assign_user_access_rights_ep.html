@@ -5,6 +5,7 @@
 {% block content %} 
 {{ alert_msg( reponse , alert ) }}
 {{ breadcrumb_field( "USER RIGHTS MANAGEMENT", "setting@management_of_user_access_rights" ,"ASSIGNING RIGHTS TO USERS" )}}
+
     <div class="container">
         <form class="laodForm" method="POST" novalidate>
             {{ __csrf() }}
@@ -53,4 +54,5 @@
             </div>
         </form>            
     </div>
+    
 {% endblock %}

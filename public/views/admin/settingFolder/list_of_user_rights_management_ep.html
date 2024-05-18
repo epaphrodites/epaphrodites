@@ -5,11 +5,12 @@
 {% block content %}
 {{ alert_msg( reponse , alert ) }}
 {{ breadcrumb_field( "USERS RIGHT MANAGEMENT", "setting@management_of_user_access_rights" ,"USERS AUTHORIZATIONS" )}}
+
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="outer-form">
-                    <form method="post" name="ifSendDatas">
+                    <form method="POST" name="ifSendDatas">
                         <table id="TableFromDatas" class="table-striped table table-bordered displayTable">
                             {{ __csrf() }}
                             <thead>
@@ -27,9 +28,9 @@
                                     <td style="width: 20%">{{ data.userGroup( select.usersRightsGroup|e ) }}</td>
                                     <td style="width: 35%">{{ list.SearchModules('path' , select.indexRight ) }}</td>
                                     {% if select.Autorisations|e == 1 %}
-                                        <td style="width:5%;text-align:center;" align="center"><i class="icofont-check-circled activ"></i></td>
+                                        <td style="width:5%;text-align:center;" align="center"><i class="icofont-check-circled activate"></i></td>
                                     {% else %}
-                                        <td style="width:5%;text-align:center;" align="center"><i class="icofont-close desact"></i></td>
+                                        <td style="width:5%;text-align:center;" align="center"><i class="icofont-close disable"></i></td>
                                     {% endif %}
                                 </tr>
                             </tbody>
@@ -46,4 +47,5 @@
             </div>
         </div>
     </div> 
+    
 {% endblock %}

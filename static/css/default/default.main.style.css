@@ -1,10 +1,16 @@
+/*--------------------------------------------------------------
+# IMPORT CSS
+--------------------------------------------------------------*/
 @import url('default.epaphrodites.style.css');
+
+/*--------------------------------------------------------------
+  # MAIN
+--------------------------------------------------------------*/
 
 html,
 body {
     background: #ddd;
 }
-
 
 .logo img {
     margin-top: 80px;
@@ -45,7 +51,36 @@ body {
     color: #ffffff;
 }
 
-.form-control {
+.secure img{
+    width: 40%;
+    margin-top: -100px;
+}
+
+.texthead {
+    font-size: 20px;
+    text-align: center;
+}
+
+.informationtheme img{
+    margin-top: -170px;
+    width: 70%;
+}
+
+/*--------------------------------------------------------------
+  # LOGIN
+--------------------------------------------------------------*/
+
+.login {
+    margin: 170px auto 40px;
+    width: 30%;
+    box-shadow: var(--box-shadow-three);
+    padding: 17px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #ffffff;
+}
+
+#authentification .form-control {
     color: #646464;
     border: 1px solid #e6e6e6;
     border-radius: 3px;
@@ -55,14 +90,14 @@ body {
     transition: all 0.15s ease-out;
 }
 
-.form-control:focus {
+#authentification .form-control:focus {
     border-color: #ccc;
     background-color: #fcfcfc;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
 
-.form-control {
+#authentification .form-control {
     padding-left: 0;
     padding-right: 0;
     border: 0;
@@ -70,92 +105,23 @@ body {
     background-color: transparent;
     -webkit-box-shadow: 0 1px 0 #e6e6e6;
     box-shadow: 0 1px 0 #e6e6e6;
+    margin-bottom: 14px;
 }
 
-.form-control:focus {
+#authentification .form-control:focus {
     background-color: transparent;
     -webkit-box-shadow: 0 2px 0 #646464;
     box-shadow: 0 2px 0 #646464;
 }
 
-.loginImg img{
-    width: 40%;
-    margin-top: -100px;
-}
-
-.qrcodes {
-    height: 100px;
-}
-
-.texthead {
-    font-size: 20px;
-    text-align: center;
-}
-
-.reponses {
-    text-align: center;
-    color: #ff4500;
-    font-style: italic;
-}
-
-.informationtheme img{
-    margin-top: -170px;
-    width: 70%;
-}
-
-.cardform {
-    margin: 170px auto 40px;
-    width: 30%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: 17px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background: #ffffff;
-}
-
 @media(max-width:767px) {
-    .cardform {
+    .login {
         margin: 100px auto;
         width: 90%;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow: var(--box-shadow-three);
         padding: 17px;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
         background: #ffffff;
     }
 }
-
-  .pagination-button{
-    cursor: pointer;
-    padding: 5px 10px;
-    background: #b59102;
-    border-radius: 7px;
-    color: #fff;
-    font-size: 12px;
-  }
-  
-  .pagination-number {
-    cursor: pointer;
-    border-radius: 7px;
-    padding: 5px 10px;
-    background: var(--dashboard-main);;
-    margin: 2px;
-    text-decoration: none;
-    color: #fff;
-    font-size: 12px;  
-  }
-  
-  .pagination a {
-    border-radius: 0px;
-    padding: 5px 5px;
-    background: var(--dashboard-main);;
-    margin: 2px;
-    text-decoration: none;
-    color: #fff;
-    font-size: 12px;
-  }
-  
-  .pagination .active {
-    background-color: rgb(178, 4, 4);
-    color: #fff;
-  }  
