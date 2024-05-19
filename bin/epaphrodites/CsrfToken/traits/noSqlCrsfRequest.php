@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Epaphrodites\epaphrodites\CsrfToken\traits;
 
+use DateTime;
+use DateInterval;
+
 trait noSqlCrsfRequest
 {
 
@@ -134,15 +137,15 @@ trait noSqlCrsfRequest
     {
 
         $addDay = 1;
-        $currentDate = date('Y-m-d');
+        $currentDate = new DateTime(date('Y-m-d'));
 
-        $startOfDay = $currentDate . " 23:59:59";
-        $endOfDay = $currentDate . " 23:59:59";
+        $endOfDay = clone $currentDate;
+        $endOfDay->add(new DateInterval("P{$addDay}D"));
+        $endOfDay = $endOfDay->format('Y-m-d H:i:s');
 
-        $currentDate = new \DateTime(date('Y-m-d'));
-        $currentDate->add(new \DateInterval("P{$addDay}D"));
-
-        $endOfDay = $currentDate->format('Y-m-d') . " 23:59:59";
+        $startOfDay = clone $currentDate;
+        $startOfDay->sub(new DateInterval("P{$addDay}D"));
+        $startOfDay = $startOfDay->format('Y-m-d H:i:s');
 
         $filter = [
             'createat' => [
@@ -170,15 +173,15 @@ trait noSqlCrsfRequest
 
         $addDay = 1;
         $verifyResult = 0;
-        $currentDate = date('Y-m-d');
+        $currentDate = new DateTime(date('Y-m-d'));
 
-        $startOfDay = $currentDate . " 23:59:59";
-        $endOfDay = $currentDate . " 23:59:59";
+        $endOfDay = clone $currentDate;
+        $endOfDay->add(new DateInterval("P{$addDay}D"));
+        $endOfDay = $endOfDay->format('Y-m-d H:i:s');
 
-        $currentDate = new \DateTime(date('Y-m-d'));
-        $currentDate->add(new \DateInterval("P{$addDay}D"));
-
-        $endOfDay = $currentDate->format('Y-m-d') . " 23:59:59";
+        $startOfDay = clone $currentDate;
+        $startOfDay->sub(new DateInterval("P{$addDay}D"));
+        $startOfDay = $startOfDay->format('Y-m-d H:i:s');
 
         $result = $this->key('secure')
             ->index(md5(static::initNamespace()['session']->login()))

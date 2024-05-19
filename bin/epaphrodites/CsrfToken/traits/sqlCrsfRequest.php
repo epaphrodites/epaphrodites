@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Epaphrodites\epaphrodites\CsrfToken\traits;
 
+use DateTime;
+use DateInterval;
+
 trait sqlCrsfRequest
 {
 
@@ -15,13 +18,11 @@ trait sqlCrsfRequest
      */
     private function UpdateUserCrsfToken(?string $cookies = null): void
     {
-
         $this->table('secure')
             ->set(['token', 'createat'])
             ->where('auth')
             ->param([$cookies,  date("Y-m-d H:i:s"), md5(static::initNamespace()['session']->login())])
             ->UQuery();
-            
     }
 
     /**
@@ -50,21 +51,25 @@ trait sqlCrsfRequest
     {
 
         $addDay = 1;
-        $currentDate = date('Y-m-d');
+        
+        $currentDate = new DateTime(date('Y-m-d'));
+        
+        $endOfDay = clone $currentDate;
+        $endOfDay->add(new DateInterval("P{$addDay}D"));
+        $endOfDay = $endOfDay->format('Y-m-d H:i:s');
+        
+        $startOfDay = clone $currentDate;
+        $startOfDay->sub(new DateInterval("P{$addDay}D"));
+        $startOfDay = $startOfDay->format('Y-m-d H:i:s');
 
-        $startOfDay = $currentDate . " 23:59:59";
-        $endOfDay = $currentDate . " 23:59:59";
-
-        $currentDate = new \DateTime(date('Y-m-d'));
-        $currentDate->add(new \DateInterval("P{$addDay}D"));
-
-        $endOfDay = $currentDate->format('Y-m-d') . " 23:59:59";
+        $crsfLogin = md5(static::initNamespace()['session']->login());
 
         $result = $this->table('secure')
             ->between('createat')
             ->and(['auth'])
-            ->param([$startOfDay, $endOfDay, md5(static::initNamespace()['session']->login())])
+            ->param([$startOfDay, $endOfDay, $crsfLogin])
             ->SQuery('token');
+
 
         return !empty($result) ? $result[0]['token'] : 0;
     }
