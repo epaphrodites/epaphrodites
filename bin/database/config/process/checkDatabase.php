@@ -37,7 +37,7 @@ class checkDatabase extends getConnexion
                 // If the driver is SqlServer, connect to SqlServer using the MongoDB method
             case 'sqlserver':
                 return $this->SqlServer($db);
-                break;
+                break;              
 
                 // If the driver is MongoDB, connect to MongoDB using the MongoDB method
             case 'mongodb':
@@ -78,7 +78,7 @@ class checkDatabase extends getConnexion
                 // If the driver is sqlserver, connect to sqlserver using the sqlserver method
             case 'sqlserver':
                 return $this->etablishSqlServer($dbName, $db , $requestAction);
-                break;
+                break;         
 
                 // If the driver is MongoDB, connect to MongoDB using the MongoDB method
             case 'mongodb':
