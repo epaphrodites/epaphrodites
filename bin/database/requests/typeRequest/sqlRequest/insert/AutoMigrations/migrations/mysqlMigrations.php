@@ -6,7 +6,7 @@ trait mysqlMigrations
 {
 
     /**
-     * Create recently users actions if not exist
+     * Create history if not exist
      * @return void
      */
     private function createHistoryIfNotExist():void
@@ -15,14 +15,14 @@ trait mysqlMigrations
         $this->chaine("CREATE TABLE IF NOT EXISTS history (
                 _id INTEGER(11) NOT NULL AUTO_INCREMENT , 
                 actions VARCHAR(20)NOT NULL , 
-                date DATETIME , 
+                dates DATETIME , 
                 label VARCHAR(300)NOT NULL , 
                 PRIMARY KEY(_id) , 
                 INDEX (actions) )")->setQuery();
     }
 
     /**
-     * Create authsecure if not exist
+     * Create secure if not exist
      * @return void
      */
     private function CreateAuthSecureIfNotExist():void

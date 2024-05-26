@@ -42,5 +42,7 @@ trait initQueryChaine{
         $this->sumCase = NULL;
 
         $this->having = NULL;
+
+        $this->between_date = NULL;
     }
 }

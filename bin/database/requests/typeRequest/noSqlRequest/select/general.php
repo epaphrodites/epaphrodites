@@ -22,7 +22,7 @@ class general extends Builders
             ->find(['actions' => $UserConnected], [
                 'limit' => 6, 
                 'sort' => [
-                    'date' => (date('Y-m-d') == 'DESC') ? 1 : -1
+                    'dates' => (date('Y-m-d') == 'DESC') ? 1 : -1
                 ]
             ]);
 

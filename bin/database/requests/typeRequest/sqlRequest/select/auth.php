@@ -43,8 +43,9 @@ class auth extends SelectAuth
           ->SQuery();
 
       return $result;
+      
     } else {
-
+      
       static::firstSeederGeneration();
 
       return false;

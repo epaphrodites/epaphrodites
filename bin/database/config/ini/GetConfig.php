@@ -21,8 +21,6 @@ class GetConfig extends errors
         ];
     }
 
-    
-
     /**
      * @var array
      */
@@ -35,6 +33,18 @@ class GetConfig extends errors
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES  => false,
             PDO::ATTR_PERSISTENT => true
+        ];
+    }
+
+    /**
+     * @var array
+     */    
+    protected static function oracleOptions():array{
+        return[
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
     }
 
@@ -84,7 +94,31 @@ class GetConfig extends errors
         $Port = static::ConfigIniContent()["{$db}DB_PORT"];
 
         return empty($Port) ? ";" : ",{$Port};";
-    }    
+    }  
+    
+    /**
+     * @var string
+     * @return string
+     */
+    protected static function ORACLE_PORT($db):string
+    {
+
+        $Port = static::ConfigIniContent()["{$db}DB_PORT"];
+
+        return empty($Port) ? '' : "(PORT = $Port)";
+    }  
+    
+    /**
+     * @var string
+     * @return string
+     */
+    protected static function ORACLE_CONNEXION(int $db):string
+    {
+
+        $dbName = static::ConfigIniContent()["{$db}DB_DATABASE"];
+
+        return "(CONNECT_DATA = (SERVICE_NAME = $dbName) )";
+    }     
 
     /**
      * @var string
@@ -190,7 +224,17 @@ class GetConfig extends errors
     {
 
         return static::DB_SOCKET($db) == false ? 'server=' . static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
-    }    
+    } 
+    
+    /**
+     * @var string
+     * @return string
+     */
+    protected static function ORACLE_HOST($db)
+    {
+
+       return static::DB_SOCKET($db) == false ? "(HOST = ".static::ConfigIniContent()["{$db}DB_HOST"].")":static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
+    }      
 
     /**
      * @var string

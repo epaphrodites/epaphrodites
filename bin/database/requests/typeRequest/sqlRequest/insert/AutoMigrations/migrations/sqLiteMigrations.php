@@ -29,7 +29,7 @@ trait sqLiteMigrations
     }
 
     /**
-     * Create recently users actions if not exist
+     * Create history if not exist
      * @return void
      */
     private function createHistorySqLiteIfNotExist():void
@@ -40,7 +40,7 @@ trait sqLiteMigrations
                 "CREATE TABLE IF NOT EXISTS history (
                 _id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 actions TEXT NOT NULL, 
-                date TIMESTAMP, 
+                dates TIMESTAMP, 
                 label TEXT NOT NULL)",
                 "CREATE INDEX IF NOT EXISTS 
                     actions_index ON history (actions)"
@@ -48,7 +48,7 @@ trait sqLiteMigrations
     }
 
     /**
-     * Create auth_secure if not exist
+     * Create secure if not exist
      * @return void
      */
     private function CreateAuthSecureSqLiteIfNotExist():void

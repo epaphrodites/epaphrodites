@@ -6,6 +6,7 @@ use Epaphrodites\database\query\Builders;
 use Epaphrodites\epaphrodites\danho\GuardPassword;
 use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\seeders\sqlSeeder;
 use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\mysqlMigrations;
+use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\oracleMigrations;
 use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\sqLiteMigrations;
 use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\postgreSqlMigrations;
 use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\migrations\sqlServerMigrations;
@@ -13,7 +14,7 @@ use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\
 class InitSeederGenerated extends Builders
 {
 
-  use mysqlMigrations, postgreSqlMigrations, sqLiteMigrations, sqlServerMigrations, sqlSeeder;
+  use mysqlMigrations, oracleMigrations, postgreSqlMigrations, sqLiteMigrations, sqlServerMigrations, sqlSeeder;
   protected $Guard;
 
   public function __construct()
@@ -50,6 +51,20 @@ class InitSeederGenerated extends Builders
 
     $this->CreateFirstUserIfNotExist();
   }
+
+  /** 
+   * generate to Oracle tables if not exist
+   */
+  public function createTableOracle()
+  {
+    $this->CreateOracleLUserIfNotExist();
+  
+    $this->CreateAuthSecureOracleLIfNotExist();
+
+    $this->createHistoryOracleLIfNotExist();
+
+    $this->CreateFirstUserIfNotExist();
+  }  
 
   /** 
    * generate to SqLite tables if not exist

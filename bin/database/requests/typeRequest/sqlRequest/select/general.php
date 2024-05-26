@@ -17,6 +17,7 @@ class general extends SelectGeneral
         return match (_FIRST_DRIVER_) {
 
         'sqlserver' => $this->sqlServerRecentActions(),
+        'oracle' => $this->sqlServerRecentActions(),
 
         default => $this->defaultSqlServerRecentActions(),
         };

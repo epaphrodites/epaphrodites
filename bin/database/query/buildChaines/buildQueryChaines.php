@@ -90,6 +90,13 @@ trait buildQueryChaines
         }
 
         /** 
+         * Add BETWEEN DATE TIME if exist
+         */
+        if ($this->between_date) {
+            $query .= " WHERE {$this->between_date} BETWEEN TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') ";
+        }        
+
+        /** 
          * Add AND if exist
          */
         if ($this->and) {
@@ -175,7 +182,7 @@ trait buildQueryChaines
          * Add VALUES if exist
          */
         if ($this->values) {
-            $Iquery .= " VALUES ( {$this->values} )";
+            $Iquery .= " VALUES( {$this->values} )";
         }
 
         return $this->executeBuildRequest($Iquery);
@@ -251,6 +258,13 @@ trait buildQueryChaines
         if ($this->between) {
             $query .= " WHERE {$this->between} BETWEEN ? AND ? ";
         }
+
+        /** 
+         * Add BETWEEN DATE TIME if exist
+         */
+        if ($this->between_date) {
+            $query .= " WHERE {$this->between_date} BETWEEN TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') ";
+        }        
 
         /** 
          * Add LIKE if exist
@@ -353,6 +367,13 @@ trait buildQueryChaines
         if ($this->between) {
             $query .= " WHERE {$this->between} BETWEEN ? AND ? ";
         }
+
+        /** 
+         * Add BETWEEN DATE TIME if exist
+         */
+        if ($this->between_date) {
+            $query .= " WHERE {$this->between_date} BETWEEN TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') ";
+        }                
 
         /** 
          * Add AND if exist

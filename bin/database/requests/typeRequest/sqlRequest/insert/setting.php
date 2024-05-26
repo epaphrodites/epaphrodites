@@ -19,7 +19,7 @@ class setting extends Builders
     {
 
         $this->table('history ')
-            ->insert('actions , date , label')
+            ->insert('actions , dates , label')
             ->values(' ? , ? , ? ')
             ->param([static::initNamespace()['session']->login(), date("Y-m-d H:i:s"), $action])
             ->IQuery();
@@ -41,7 +41,7 @@ class setting extends Builders
         $document =
             [
                 'actions' => static::initNamespace()['session']->login(),
-                'date' => date("Y-m-d H:i:s"),
+                'dates' => date("Y-m-d H:i:s"),
                 'label' => $action,
             ];
 
@@ -66,7 +66,7 @@ class setting extends Builders
         $document =
             [
                 'actions' => $login,
-                'date' => date("Y-m-d H:i:s"),
+                'dates' => date("Y-m-d H:i:s"),
                 'label' => $action,
             ];
 

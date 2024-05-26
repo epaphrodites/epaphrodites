@@ -27,7 +27,7 @@ class insert extends InsertInsert
         if (!empty($login) && count(static::initQuery()['getid']->sqlGetUsersDatas($login)) < 1) {
 
             $this->table('usersaccount')
-                ->insert(' login , password , group ')
+                ->insert(' login , password , usersgroup ')
                 ->values(' ? , ? , ? ')
                 ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($password), $UserGroup])
                 ->IQuery();

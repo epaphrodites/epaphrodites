@@ -10,6 +10,7 @@ use DateInterval;
 trait sqlCrsfRequest
 {
 
+
     /**
      * Update token into database
      *
@@ -36,7 +37,7 @@ trait sqlCrsfRequest
 
         $this->table('secure')
             ->insert('auth , token , createat')
-            ->values(' ? , ? , ?')
+            ->values("?, ?, ?")
             ->param([md5(static::initNamespace()['session']->login()), $cookies, date("Y-m-d H:i:s")])
             ->IQuery();
 
@@ -44,12 +45,30 @@ trait sqlCrsfRequest
     }
 
     /**
+     * Insert token into database
+     *
+     * @param string $cookies
+     * @return bool
+     */
+    private function CreateOracleUserCrsfToken(?string $cookies = null): bool
+    {
+
+        $this->table('secure')
+            ->insert('auth , token , createat')
+            ->values("?, ?, TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS')")
+            ->param([md5(static::initNamespace()['session']->login()), $cookies, date("Y-m-d H:i:s")])
+            ->IQuery();
+
+        return false;
+    }    
+
+    /**
      *  Check token date
      * @return string|int
      */
     public function CheckUserCrsfToken(): string|int
     {
-
+       
         $addDay = 1;
         
         $currentDate = new DateTime(date('Y-m-d'));
@@ -64,12 +83,9 @@ trait sqlCrsfRequest
 
         $crsfLogin = md5(static::initNamespace()['session']->login());
 
-        $result = $this->table('secure')
-            ->between('createat')
-            ->and(['auth'])
-            ->param([$startOfDay, $endOfDay, $crsfLogin])
-            ->SQuery('token');
-
+        _FIRST_DRIVER_ == "oracle" 
+            ? $this->getOracleTokenLife($startOfDay, $endOfDay, $crsfLogin)
+            : $this->getSqlTokenLife($startOfDay, $endOfDay, $crsfLogin);
 
         return !empty($result) ? $result[0]['token'] : 0;
     }
@@ -81,6 +97,7 @@ trait sqlCrsfRequest
      */
     public function secure(): string|int
     {
+       
         $login = static::initNamespace()['session']->login();
         
         $login = $login !== null ? md5($login) : NULL;
@@ -90,6 +107,31 @@ trait sqlCrsfRequest
             ->param([$login])
             ->SQuery();
 
+        $result = static::initNamespace()['env']->dictKeyToLowers($result);
+
         return !empty($result) ? $result[0]['token'] : 0;
     }
+
+    private function getOracleTokenLife($startOfDay, $endOfDay, $crsfLogin){
+
+        $result = $this->table('secure')
+                    ->betweenDate('createat')
+                    ->and(['auth'])
+                    ->param([$startOfDay, $endOfDay, $crsfLogin])
+                    ->SQuery('token');
+
+        return !empty($result) ? $result = static::initNamespace()['env']->dictKeyToLowers($result): $result;
+    }
+
+
+    private function getSqlTokenLife($startOfDay, $endOfDay, $crsfLogin){
+
+        $result = $this->table('secure')
+                    ->between('createat')
+                    ->and(['auth'])
+                    ->param([$startOfDay, $endOfDay, $crsfLogin])
+                    ->SQuery('token');
+
+        return $result;
+    }    
 }

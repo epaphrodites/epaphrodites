@@ -36,7 +36,7 @@
                                 {% for select in select.RecentlyActions() %}
                                 <div class="activity">
                                     <div class="activity-item d-flex">
-                                        <div class="activite-label">{{ select.date|e|date('d/m/Y H:i:s') }}</div>
+                                        <div class="activite-label">{{ select.dates|e|date('d/m/Y H:i:s') }}</div>
                                         <i class='bi bi-clock activity-badge text-white align-self-start'></i>
                                         <div class="activity-content">
                                             {{ select.label|e }}

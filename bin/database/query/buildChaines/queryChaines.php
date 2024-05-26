@@ -19,6 +19,7 @@ trait queryChaines
     private $like;
     private $match;
     private $between;
+    private $between_date;
     private $and;
     private $order;
     private $join;
@@ -310,7 +311,8 @@ trait queryChaines
 
         return $this;
     }
-    /**
+
+    /**between_date
      * Sets the BETWEEN condition for the query
      *
      * @param string $between The BETWEEN condition
@@ -324,6 +326,21 @@ trait queryChaines
 
         return $this;
     }
+
+    /**
+     * Sets the BETWEEN condition for the query
+     *
+     * @param string $between The BETWEEN condition
+     * @return self
+     */
+    public function betweenDate(string $between_date): self
+    {
+        $this->between_date = NULL;
+
+        $this->between_date = "$between_date";
+
+        return $this;
+    }    
 
     /**
      * Sets the LIMIT and OFFSET for the query

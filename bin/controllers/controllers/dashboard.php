@@ -41,6 +41,7 @@ final class dashboard extends MainSwitchers
         string $html
     ):void
     {
+      
         $this->views( $html, 
             [
                 'select' => $this->select,

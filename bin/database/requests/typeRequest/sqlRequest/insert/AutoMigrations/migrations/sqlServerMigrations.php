@@ -6,7 +6,7 @@ trait sqlServerMigrations
 {
 
     /**
-     * Create recently users actions if not exist
+     * Create history if not exist
      * @return void
      */
     private function createSqlServerHistoryIfNotExist(): void
@@ -17,14 +17,14 @@ trait sqlServerMigrations
                             CREATE TABLE history (
                                 _id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
                                 actions VARCHAR(20) NOT NULL,
-                                date DATETIME,
+                                dates DATETIME,
                                 label VARCHAR(300) NOT NULL);
                             CREATE INDEX idx_actions ON history(actions);
                         END")->setQuery();
     }
 
     /**
-     * Create authsecure if not exist
+     * Create secure if not exist
      * @return void
      */
     private function CreateSqlServerAuthSecureIfNotExist(): void

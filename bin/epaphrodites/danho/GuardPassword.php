@@ -12,7 +12,7 @@ class GuardPassword extends DanohAshed
      */
     public function AuthenticatedPassword($InsidePassword , $FromInput):bool
     {
-
+        
         return password_verify($FromInput , $InsidePassword) ? true : false;
     }
 

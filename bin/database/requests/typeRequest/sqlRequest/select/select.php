@@ -80,7 +80,7 @@ class select extends SelectSelect
     ):array{
 
         $result = $this->table('history')
-            ->orderBy('date', 'ASC')
+            ->orderBy('dates', 'ASC')
             ->limit((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
@@ -100,7 +100,7 @@ class select extends SelectSelect
     ):array{
 
         $result = $this->table('history')
-            ->orderBy('date', 'ASC')
+            ->orderBy('dates', 'ASC')
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 

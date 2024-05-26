@@ -29,7 +29,7 @@ trait postgreSqlMigrations
     }
 
     /**
-     * Create recently users actions if not exist
+     * Create history if not exist
      * @return void
      */
     private function createHistoryPostgeSQLIfNotExist():void
@@ -40,7 +40,7 @@ trait postgreSqlMigrations
                 "CREATE TABLE IF NOT EXISTS 
                 history (_id SERIAL PRIMARY KEY , 
                 actions VARCHAR(20)NOT NULL , 
-                date TIMESTAMP , 
+                dates TIMESTAMP , 
                 label VARCHAR(300)NOT NULL )",
                 "CREATE INDEX 
                     actions_index ON history (actions)"
@@ -48,7 +48,7 @@ trait postgreSqlMigrations
     }
 
     /**
-     * Create auth_secure if not exist
+     * Create secure if not exist
      * @return void
      */
     private function CreateAuthSecurePostgeSQLIfNotExist():void

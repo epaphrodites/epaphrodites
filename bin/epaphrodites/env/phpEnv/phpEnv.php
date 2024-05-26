@@ -31,6 +31,29 @@ trait phpEnv{
         return $this->chaine($string);
     }
 
+    /**
+     * Converts the keys of a multidimensional array to lowercase.
+     *
+     * @param array $datas The input multidimensional array.
+     * @return array The multidimensional array with keys in lowercase.
+     */
+    public function dictKeyToLowers(array $datas): array
+    {
+        $resultDatas = [];
+
+        foreach ($datas as $outerArray) {
+            // If the current element is not an array, skip it
+            if (!is_array($outerArray)) {
+                continue;
+            }
+
+            // Convert the keys of the current array to lowercase and add it to the result
+            $resultDatas[] = array_change_key_case($outerArray, CASE_LOWER);
+        }
+
+        return $resultDatas;
+    }
+
     /** 
      * @param mixed $date
      **/

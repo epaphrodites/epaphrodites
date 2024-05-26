@@ -24,6 +24,11 @@ class checkDatabase extends getConnexion
                 return $this->Mysql($db);
                 break;
 
+                // If the driver is Oracle, connect to Oracle using the Oracle method
+            case 'oracle':
+                return $this->oracledb($db);
+                break;                
+
                 // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
             case 'pgsql':
                 return $this->PostgreSQL($db);
@@ -66,6 +71,11 @@ class checkDatabase extends getConnexion
                 break;
 
                 // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
+            case 'oracle':
+                return $this->etablishOracledb($dbName, $db, $requestAction);
+                break;
+
+                // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
             case 'pgsql':
                 return $this->etablishPostgreSQL($dbName, $db, $requestAction);
                 break;
@@ -99,6 +109,11 @@ class checkDatabase extends getConnexion
             case 'mysql':
                 return (new InitSeederGenerated)->createTableMysql();
                 break;
+
+                // If the driver is PostgreSQL, create the table using InitSeederGenerated
+            case 'oracle':
+                return (new InitSeederGenerated)->createTableOracle();
+                break;                
 
                 // If the driver is PostgreSQL, create the table using InitSeederGenerated
             case 'pgsql':
