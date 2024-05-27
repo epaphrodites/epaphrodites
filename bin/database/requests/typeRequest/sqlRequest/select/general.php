@@ -34,12 +34,12 @@ class general extends SelectGeneral
 
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('_id', 'DESC')
+            ->orderBy('id', 'DESC')
             ->offset(0,6)
             ->param([$UserConnected])
             ->SQuery();
        
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }
 
     /**
@@ -53,7 +53,7 @@ class general extends SelectGeneral
 
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('_id', 'DESC')
+            ->orderBy('id', 'DESC')
             ->limit(0,6)
             ->param([$UserConnected])
             ->SQuery();

@@ -44,7 +44,7 @@ class select extends SelectSelect
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }    
 
     /**
@@ -62,6 +62,7 @@ class select extends SelectSelect
         return match (_FIRST_DRIVER_) {
 
         'sqlserver' => $this->sqlServerListOfRecentActions( $currentPage, $numLines),
+        'oracle' => $this->sqlServerListOfRecentActions( $currentPage, $numLines),
 
         default => $this->defaultSqlListOfRecentActions( $currentPage, $numLines)
         };
@@ -104,6 +105,6 @@ class select extends SelectSelect
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }     
 }

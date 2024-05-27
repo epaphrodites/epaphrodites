@@ -23,6 +23,7 @@ final class select extends SelectSelect
       'mongodb' => $this->noSqlListeOfAllUsers($currentPage, $numLine),
       'redis' => $this->noSqlRedisListeOfAllUsers($currentPage, $numLine),
       'sqlserver' => $this->sqlServerListeOfAllUsers( $currentPage, $numLine),
+      'oracle' => $this->sqlServerListeOfAllUsers( $currentPage, $numLine),
 
       default => $this->defaultSqlListeOfAllUsers($currentPage, $numLine),
     };       

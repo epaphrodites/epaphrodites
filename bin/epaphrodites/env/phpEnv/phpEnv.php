@@ -2,6 +2,9 @@
 
 namespace Epaphrodites\epaphrodites\env\phpEnv;
 
+use DateTime;
+use IntlDateFormatter;
+
 trait phpEnv{
 
     private string $chaineTranslate;
@@ -41,14 +44,17 @@ trait phpEnv{
     {
         $resultDatas = [];
 
-        foreach ($datas as $outerArray) {
-            // If the current element is not an array, skip it
-            if (!is_array($outerArray)) {
-                continue;
-            }
+        if(!empty($datas)){
 
-            // Convert the keys of the current array to lowercase and add it to the result
-            $resultDatas[] = array_change_key_case($outerArray, CASE_LOWER);
+            foreach ($datas as $outerArray) {
+                // If the current element is not an array, skip it
+                if (!is_array($outerArray)) {
+                    continue;
+                }
+    
+                // Convert the keys of the current array to lowercase and add it to the result
+                $resultDatas[] = array_change_key_case($outerArray, CASE_LOWER);
+            }
         }
 
         return $resultDatas;
@@ -59,7 +65,7 @@ trait phpEnv{
      **/
     public function date_chaine($date)
     {
-        $formatter = new \IntlDateFormatter('fr_FR.utf8', \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
+        $formatter = new IntlDateFormatter('fr_FR.utf8', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
 
         $timestamp = strtotime($date);
 
@@ -73,14 +79,30 @@ trait phpEnv{
     public function LongDate($date)
     {
 
-        $dateTime = new \DateTime($date);
+        $dateTime = new DateTime($date);
 
-        $formatter = new \IntlDateFormatter('fr_FR', \IntlDateFormatter::LONG, \IntlDateFormatter::MEDIUM);
+        $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::MEDIUM);
 
         $dateLong = $formatter->format($dateTime);
 
         echo $dateLong;
     }
+
+    /**
+     * @param string $dateString
+     * @param string $format
+     * @return string
+    */
+    function convertDateToPHP(
+        string $dateString, 
+        string $format
+    ):string{
+
+        return match (_FIRST_DRIVER_) {
+            'oracle' => DateTime::createFromFormat('d-M-y h.i.s.u A', $dateString)->format($format),
+            default => DateTime::createFromFormat('Y-m-d H:i:s.u', $dateString)->format($format),
+        };
+    }    
 
     /**
      * Transform to ISO code

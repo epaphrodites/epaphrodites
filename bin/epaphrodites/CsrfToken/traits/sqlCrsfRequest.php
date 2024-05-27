@@ -54,7 +54,7 @@ trait sqlCrsfRequest
     {
 
         $this->table('secure')
-            ->insert('auth , token , createat')
+            ->insert('auth, token, createat')
             ->values("?, ?, TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS')")
             ->param([md5(static::initNamespace()['session']->login()), $cookies, date("Y-m-d H:i:s")])
             ->IQuery();

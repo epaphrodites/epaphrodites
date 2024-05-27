@@ -8,7 +8,8 @@ final class auth extends SelectAuth
 {
 
   /**
-   * Check users
+   * Check users using diver
+   * 
    * @param string $login
    * @return array|bool
   */
@@ -20,6 +21,7 @@ final class auth extends SelectAuth
 
           'mongodb' => $this->findNosqlUsers($login),
           'redis' => $this->findNosqlRedisUsers($login),
+          'oracle' => $this->findOracleUsers($login),
 
           default => $this->findSqlUsers($login),
     };

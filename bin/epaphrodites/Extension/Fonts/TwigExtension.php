@@ -47,6 +47,7 @@ class TwigExtension extends SetTwigFunctions
             new TwigFilter('strpad', [ $this , 'twig_strptad']),
             new TwigFilter('toiso', [ $this , 'isoPath_twig']),
             new TwigFilter('fullDate', [ $this , 'LongPath_twig']),
+            new TwigFilter('dates', [ $this , 'dates_twig']),
         ];
     }     
 

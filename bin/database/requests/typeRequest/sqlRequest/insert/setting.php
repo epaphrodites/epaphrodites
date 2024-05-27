@@ -14,17 +14,47 @@ class setting extends Builders
      * @return bool
      */
     public function ActionsRecente(
-        ?string $action = null
+        ?string $label = null
     ): bool
     {
 
-        $this->table('history ')
+        return  _FIRST_DRIVER_ === "oracle" 
+                        ?  $this->oracleHistory($label)
+                        :  $this->othersSqlHistory($label);
+    }
+
+    /**
+     * Add history for mysql/Postgres/sqlserver/sqlite
+     * @param string|null $label
+     * @return bool
+    */    
+    public function othersSqlHistory(string $label = null){
+
+        $this->table('history')
             ->insert('actions , dates , label')
             ->values(' ? , ? , ? ')
-            ->param([static::initNamespace()['session']->login(), date("Y-m-d H:i:s"), $action])
+            ->param([static::initNamespace()['session']->login(), date("Y-m-d H:i:s"), $label])
             ->IQuery();
 
-        return true;
+        return true;        
+    }    
+
+    /**
+     * Add history for oracle
+     * @param string|null $label
+     * @return bool
+    */
+    public function oracleHistory(
+        string $label = null
+    ):bool{
+
+        $this->table('history')
+            ->insert('actions, label, dates')
+            ->values("?, ?, TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS')")
+            ->param([static::initNamespace()['session']->login(), $label, date("Y-m-d H:i:s")])
+            ->IQuery();
+
+        return true;        
     }
 
     /**

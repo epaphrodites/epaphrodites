@@ -13,9 +13,9 @@ class count extends SelectCount
    */
   public function sqlCountAllUsers(): int
   {
-    $result = $this->table('usersaccount')->SQuery("COUNT(*) AS nbre");
+    $result = $this->table('usersaccount')->SQuery("COUNT(*) AS NBRE");
 
-    return $result[0]['nbre'];
+    return $result[0]['NBRE'];
   }
 
   /** 
@@ -30,9 +30,9 @@ class count extends SelectCount
     $result = $this->table('usersaccount')
                   ->where('usersgroup')
                   ->param([$Group])
-                  ->SQuery("COUNT(*) AS nbre");
+                  ->SQuery("COUNT(*) AS NBRE");
 
-    return $result[0]['nbre'];
+    return $result[0]['NBRE'];
   }
 
   /** 
@@ -43,8 +43,8 @@ class count extends SelectCount
   public function sqlCountUsersRecentActions(): int
   {
     $result = $this->table('history')
-      ->SQuery("COUNT(*) AS nbre");
+      ->SQuery("COUNT(*) AS NBRE");
 
-    return $result[0]['nbre'];
+    return $result[0]['NBRE'];
   }     
 }

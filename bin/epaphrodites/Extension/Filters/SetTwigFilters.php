@@ -46,4 +46,15 @@ class SetTwigFilters extends AbstractExtension
     {
         return static::initNamespace()['env']->LongDate($string);
     }
+
+    /**
+     * Twig filter: Transform string to date
+     *
+     * @param mixed $string
+     * @return mixed
+     */
+    public function dates_twig(string $string, string $format)
+    {
+        return static::initNamespace()['env']->convertDateToPHP($string, $format);
+    }    
 }

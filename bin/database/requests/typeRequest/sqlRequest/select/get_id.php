@@ -52,7 +52,7 @@ class get_id extends SelectGet_id
             ->param([$usersGroup])
             ->SQuery();
 
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }
 
     /**
@@ -77,7 +77,7 @@ class get_id extends SelectGet_id
             ->param([$usersGroup])
             ->SQuery();
 
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }    
 
     /** 
@@ -98,7 +98,7 @@ class get_id extends SelectGet_id
             ->param([$login])
             ->SQuery();
 
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }
 
    /** 
@@ -118,6 +118,6 @@ class get_id extends SelectGet_id
             ->param([$login])
             ->SQuery();
 
-        return $result;
+        return static::initNamespace()['env']->dictKeyToLowers($result);
     }    
 }

@@ -8,7 +8,7 @@ class auth extends SelectAuth
 {
 
   /**
-   * Verify if usersaccount table exist in database (For mysql/postgresql)
+   * Verify if usersaccount table exist in database (For mySql/postgresSql/sqLite/sqlServer/oracle)
    * @return bool
    */
   protected function if_table_exist(): bool
@@ -26,7 +26,7 @@ class auth extends SelectAuth
   }
 
   /**
-   * Request to select all users of database (For mysql/postgresql)
+   * Request to select all users of database (For mySql/postgresSql/sqLite/sqlServer)
    * 
    * @param string $login
    * @return array|bool
@@ -51,4 +51,30 @@ class auth extends SelectAuth
       return false;
     }
   }
+
+  /**
+   * Request to select all users of database (For oracle)
+   * 
+   * @param string $login
+   * @return array|bool
+   */
+  public function findOracleUsers(
+    string $login
+  ):array|bool{
+
+    if ($this->if_table_exist() === true) {
+
+      $result = $this->table('usersaccount')
+          ->like('login')
+          ->param([$login])
+          ->SQuery();
+
+      return static::initNamespace()['env']->dictKeyToLowers($result);
+    } else {
+      
+      static::firstSeederGeneration();
+
+      return false;
+    }
+  }  
 }
