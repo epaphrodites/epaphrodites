@@ -59,8 +59,9 @@ final class update extends UpdateUpdate
 
       'mongodb' => $this->noSqlUpdateEtatsUsers($login),
       'redis' => $this->noSqlRedisUpdateEtatsUsers($login),
+      'oracle' => $this->sqlUpdateOracleUsersState($login),
 
-      default => $this->sqlUpdateEtatsUsers($login),
+      default => $this->sqlUpdateUsersState($login),
     };
   }
 

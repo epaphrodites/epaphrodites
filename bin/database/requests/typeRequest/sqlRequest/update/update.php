@@ -28,6 +28,8 @@ class update extends UpdateUpdate
 
             if (!empty($result)) {
 
+                $result = static::initNamespace()['env']->dictKeyToLowers($result);
+
                 if (static::initConfig()['guard']->AuthenticatedPassword($result[0]["password"], $OldPassword) === true) {
 
                     $this->table('usersaccount')
@@ -112,12 +114,52 @@ class update extends UpdateUpdate
     }
 
     /**
-     * Request to switch user connexion state
+     * Request to switch user connexion state (For: Oracle)
      *
      * @param integer $login
      * @return bool
      */
-    public function sqlUpdateEtatsUsers(
+    public function sqlUpdateOracleUsersState(
+        string $login
+    ): bool
+    {
+        
+        $GetUsersDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
+
+        if (!empty($GetUsersDatas)) {
+
+            $GetUsersDatas = static::initNamespace()['env']->dictKeyToLowers($GetUsersDatas);
+
+            $state = !empty($GetUsersDatas[0]['state']) ? 0 : 1;
+
+            $etatExact = "Close";
+
+            if ($state == 1) {
+                $etatExact = "Open";
+            }
+
+            $this->table('usersaccount')
+                ->set(['state'])
+                ->like('login')
+                ->param([$state, $GetUsersDatas[0]['login']])
+                ->UQuery();
+              
+            $actions = $etatExact . " of the user's account : " . $GetUsersDatas[0]['login'];
+            static::initQuery()['setting']->ActionsRecente($actions);
+           
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Request to switch user connexion state (For: mysql/postgres/sqlServer/sqLite)
+     *
+     * @param integer $login
+     * @return bool
+     */
+    public function sqlUpdateUsersState(
         string $login
     ): bool
     {

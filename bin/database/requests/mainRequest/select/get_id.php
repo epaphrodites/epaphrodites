@@ -7,7 +7,6 @@ use Epaphrodites\database\requests\typeRequest\sqlRequest\select\get_id as GetId
 final class get_id extends GetId
 {
 
-
     /**
      * Request to select user right by user usersGroup
      * 
@@ -35,6 +34,7 @@ final class get_id extends GetId
 
       'mongodb' => $this->noSqlGetUsersDatas($login),
       'redis' => $this->noSqlRedisGetUsersDatas($login),
+      'oracle' => $this->sqlGetOracleUsersDatas($login),
 
       default => $this->sqlGetUsersDatas($login),
     };    
@@ -58,8 +58,10 @@ final class get_id extends GetId
 
       'mongodb' => $this->noSqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
       'redis' => $this->noSqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
+      'oracle' => $this->oracleGetUsersByGroup($currentPage , $numLine , $UsersGroup),
+      'sqlserver' => $this->sqlServerGetUsersByGroup($currentPage , $numLine , $UsersGroup),
 
-      default => $this->sqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
+      default => $this->defaultSqlGetUsersByGroup($currentPage , $numLine , $UsersGroup),
     };        
   }
 
@@ -77,6 +79,7 @@ final class get_id extends GetId
 
       'mongodb' => $this->noSqlGetUsersRecentsActions($login),
       'redis' => $this->noSqlGetUsersRecentsActions($login),
+      'oracle' => $this->sqlGetOracleRecentsActions($login),
 
       default => $this->sqlGetUsersRecentsActions($login),
     };      

@@ -23,7 +23,7 @@ final class select extends SelectSelect
       'mongodb' => $this->noSqlListeOfAllUsers($currentPage, $numLine),
       'redis' => $this->noSqlRedisListeOfAllUsers($currentPage, $numLine),
       'sqlserver' => $this->sqlServerListeOfAllUsers( $currentPage, $numLine),
-      'oracle' => $this->sqlServerListeOfAllUsers( $currentPage, $numLine),
+      'oracle' => $this->oracleListeOfAllUsers( $currentPage, $numLine),
 
       default => $this->defaultSqlListeOfAllUsers($currentPage, $numLine),
     };       
@@ -44,8 +44,10 @@ final class select extends SelectSelect
 
       'mongodb' => $this->noSqlListOfRecentActions($currentPage, $numLine),
       'redis' => $this->noSqlRedisListOfRecentActions($currentPage, $numLine),
+      'oracle' => $this->oracleListOfRecentActions($currentPage, $numLine),
+      'sqlserver' => $this->sqlServerListOfRecentActions($currentPage, $numLine),
 
-      default => $this->sqlListOfRecentActions($currentPage, $numLine),
+      default => $this->defaultSqlListOfRecentActions($currentPage, $numLine),
     };           
   }   
 }

@@ -16,6 +16,7 @@ trait queryChaines
     private $index;
     private $where;
     private $search;
+    private $set_date;
     private $like;
     private $match;
     private $between;
@@ -591,6 +592,28 @@ trait queryChaines
 
         return $this;
     }
+
+    /**
+     * Sets the SET oracle format date clause for the query
+     *
+     * @param array $getSet The array of properties to set
+     * @return self
+     */
+    public function setDate(array $getSet = [], bool $state = false): self
+    {
+
+        $this->set_date = NULL;
+
+        $addSet = $state==true ? 'SET':',';
+
+        foreach ($getSet as $val) {
+            $this->set_date .= " $addSet {$val} = TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS') ,";
+        }
+
+        $this->set_date = rtrim($this->set_date, " , ");
+
+        return $this;
+    }    
 
     /**
      * Sets up the SUM(CASE...) clause for the query

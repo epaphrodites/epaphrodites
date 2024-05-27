@@ -8,26 +8,11 @@ class general extends SelectGeneral
 {
 
     /**
-     * Request to get users recents actions
+     * Request select last users history actions (For: sqlServer)
+     * 
      * @return array
      */
-    public function sqlRecentlyActions():array
-    {
-
-        return match (_FIRST_DRIVER_) {
-
-        'sqlserver' => $this->sqlServerRecentActions(),
-        'oracle' => $this->sqlServerRecentActions(),
-
-        default => $this->defaultSqlServerRecentActions(),
-        };
-    }    
-
-    /**
-     * Request to get six last actions
-     * @return array
-     */
-    public function sqlServerRecentActions():array
+    public function sqlSeverHistoryRequest():array
     {
        
         $UserConnected = static::initNamespace()['session']->login();
@@ -39,14 +24,35 @@ class general extends SelectGeneral
             ->param([$UserConnected])
             ->SQuery();
        
-        return static::initNamespace()['env']->dictKeyToLowers($result);
+        return $result;
     }
 
     /**
-     * Request to get six last actions
+     * Request select last users history actions (For: oracle )
+     * 
      * @return array
      */
-    public function defaultSqlServerRecentActions():array
+    public function oracleHistoryRequest():array
+    {
+       
+        $UserConnected = static::initNamespace()['session']->login();
+
+        $result = $this->table('history')
+            ->like('actions')
+            ->orderBy('id', 'DESC')
+            ->offset(0,6)
+            ->param([$UserConnected])
+            ->SQuery('id as _id, actions, dates, label');
+       
+        return static::initNamespace()['env']->dictKeyToLowers($result);
+    }    
+
+    /**
+     * Request select last users history actions (For: Mysql, postgres, sqLite)
+     * 
+     * @return array
+     */
+    public function defaultSqlHistoryRequest():array
     {
        
         $UserConnected = static::initNamespace()['session']->login();

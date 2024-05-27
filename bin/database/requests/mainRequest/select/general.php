@@ -8,7 +8,7 @@ final class general extends GeneralGeneral
 {
 
   /**
-   * Get all recents actions
+   * Get all users history actions
    * @return array
    */
   public function RecentlyActions(): array
@@ -17,8 +17,10 @@ final class general extends GeneralGeneral
 
       'mongodb' => $this->noSqlRecentlyActions(),
       'redis' => $this->noSqlRedisRecentlyActions(),
+      'oracle' => $this->oracleHistoryRequest(),
+      'sqlserver' => $this->sqlSeverHistoryRequest(),
 
-      default => $this->sqlRecentlyActions(),
+      default => $this->defaultSqlHistoryRequest(),
     };
   }
 }

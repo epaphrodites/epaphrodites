@@ -14,13 +14,14 @@ final class count extends CountCount
   public function CountAllUsers(): int
   {
 
-    return match (_FIRST_DRIVER_) {
+      return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlCountAllUsers(),
-      'redis' => $this->noSqlRedisCountAllUsers(),
+        'mongodb' => $this->noSqlCountAllUsers(),
+        'redis' => $this->noSqlRedisCountAllUsers(),
 
-      default => $this->sqlCountAllUsers(),
-    };
+        default => $this->sqlCountAllUsers(),
+      };
+
   }
 
   /**
@@ -33,13 +34,13 @@ final class count extends CountCount
   ):int
   {
 
-    return match (_FIRST_DRIVER_) {
+      return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlCountUsersByGroup($usersGroup),
-      'redis' => $this->noSqlRedisCountUsersByGroup($usersGroup),
+        'mongodb' => $this->noSqlCountUsersByGroup($usersGroup),
+        'redis' => $this->noSqlRedisCountUsersByGroup($usersGroup),
 
-      default => $this->sqlCountUsersByGroup($usersGroup),
-    };
+        default => $this->sqlCountUsersByGroup($usersGroup),
+      };
   }
 
   /**
@@ -49,12 +50,12 @@ final class count extends CountCount
   public function countUsersRecentActions(): int
   {
 
-    return match (_FIRST_DRIVER_) {
+      return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlCountUsersRecentActions(),
-      'redis' => $this->noSqlRedisCountUsersRecentActions(),
+        'mongodb' => $this->noSqlCountUsersRecentActions(),
+        'redis' => $this->noSqlRedisCountUsersRecentActions(),
 
-      default => $this->sqlCountUsersRecentActions(),
-    };
+        default => $this->sqlCountUsersRecentActions(),
+      };
   }
 }

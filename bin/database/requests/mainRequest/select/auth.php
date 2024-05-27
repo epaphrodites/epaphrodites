@@ -8,7 +8,7 @@ final class auth extends SelectAuth
 {
 
   /**
-   * Check users using diver
+   * Selection of queries based on the type of driver
    * 
    * @param string $login
    * @return array|bool

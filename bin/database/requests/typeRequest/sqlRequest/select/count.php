@@ -8,7 +8,8 @@ class count extends SelectCount
 {
 
   /**
-   * Get total users number
+   * Count all database users
+   * 
    * @return int
    */
   public function sqlCountAllUsers(): int
@@ -19,7 +20,8 @@ class count extends SelectCount
   }
 
   /** 
-   * Get total number of user bd
+   * Count all database users by group
+   * 
    * @param int $Group
    * @return int
    */
@@ -36,7 +38,8 @@ class count extends SelectCount
   }
 
   /** 
-   * Get total number of user bd
+   * Count all database history
+   * 
    * @param int $Group
    * @return int
    */

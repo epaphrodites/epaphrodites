@@ -43,6 +43,8 @@ trait initQueryChaine{
 
         $this->having = NULL;
 
+        $this->set_date = NULL;
+
         $this->between_date = NULL;
     }
 }

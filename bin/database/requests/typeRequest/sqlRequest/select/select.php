@@ -8,7 +8,7 @@ class select extends SelectSelect
 {
 
     /**
-     * Request to get users list
+     * Request to get users list (For: mySql/sqlServer/Postgres/sqLite)
      *
      * @param integer $currentPage
      * @param integer $numLines
@@ -28,7 +28,27 @@ class select extends SelectSelect
     }
 
     /**
-     * Request to get users list
+     * Request to get users list (For: oracle)
+     *
+     * @param integer $currentPage
+     * @param integer $numLines
+     * @return array
+     */
+    public function oracleListeOfAllUsers(
+        int $currentPage,
+        int $numLines
+    ):array{
+
+        $result = $this->table('usersaccount')
+            ->orderBy('usersgroup', 'ASC')
+            ->offset((($currentPage - 1) * $numLines), $numLines)
+            ->SQuery('id as _id, login, password, namesurname, contact, email, usersgroup, state');
+
+        return static::initNamespace()['env']->dictKeyToLowers($result);
+    } 
+
+    /**
+     * Request to get users list (For: sqlServer)
      *
      * @param integer $currentPage
      * @param integer $numLines
@@ -44,32 +64,11 @@ class select extends SelectSelect
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
-        return static::initNamespace()['env']->dictKeyToLowers($result);
+        return $result;
     }    
 
     /**
-     * Request to get users list
-     *
-     * @param integer $currentPage
-     * @param integer $numLines
-     * @return array
-     */
-    public function sqlListOfRecentActions(
-        int $currentPage, 
-        int $numLines
-    ):array{
-
-        return match (_FIRST_DRIVER_) {
-
-        'sqlserver' => $this->sqlServerListOfRecentActions( $currentPage, $numLines),
-        'oracle' => $this->sqlServerListOfRecentActions( $currentPage, $numLines),
-
-        default => $this->defaultSqlListOfRecentActions( $currentPage, $numLines)
-        };
-    } 
-
-    /**
-     * Request to get list of users recents actions
+     * Request to get list of users recents actions (For: mySql/sqlServer/Postgres/sqLite)
      *
      * @param integer $currentPage
      * @param integer $numLines
@@ -89,7 +88,27 @@ class select extends SelectSelect
     }  
     
     /**
-     * Request to get list of users recents actions
+     * Request to get list of users recents actions (For: oracle)
+     *
+     * @param integer $currentPage
+     * @param integer $numLines
+     * @return array
+     */
+    public function oracleListOfRecentActions( 
+        int $currentPage,
+        int $numLines
+    ):array{
+
+        $result = $this->table('history')
+            ->orderBy('dates', 'ASC')
+            ->offset((($currentPage - 1) * $numLines), $numLines)
+            ->SQuery('id as _id, actions, dates, label');
+
+        return static::initNamespace()['env']->dictKeyToLowers($result);
+    }     
+
+    /**
+     * Request to get list of users recents actions (For: sqlServer)
      *
      * @param integer $currentPage
      * @param integer $numLines
@@ -105,6 +124,6 @@ class select extends SelectSelect
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->SQuery();
 
-        return static::initNamespace()['env']->dictKeyToLowers($result);
+        return $result;
     }     
 }

@@ -10,15 +10,15 @@ use DateInterval;
 trait sqlCrsfRequest
 {
 
-
     /**
-     * Update token into database
+     * Update crsfToken life into database (For: mysl/sqlServer/postgres/sqlite)
      *
      * @param string $cookies
      * @return void
      */
-    private function UpdateUserCrsfToken(?string $cookies = null): void
-    {
+    private function UpdateUserCrsfToken(
+        ?string $cookies = null
+    ): void{
         $this->table('secure')
             ->set(['token', 'createat'])
             ->where('auth')
@@ -27,13 +27,32 @@ trait sqlCrsfRequest
     }
 
     /**
-     * Insert token into database
+     * Update crsfToken life into database (For: oracle)
+     *
+     * @param string $cookies
+     * @return void
+     */
+    private function UpdateOracleUserCrsfToken(
+        ?string $cookies = null
+    ): void{
+        
+        $this->table('secure')
+            ->set(['token'])
+            ->setDate(['createat'])
+            ->where('auth')
+            ->param([$cookies, date("Y-m-d H:i:s"), md5(static::initNamespace()['session']->login())])
+            ->UQuery();
+    }    
+
+    /**
+     * Add crsfToken life into database (For: mysl/sqlServer/postgres/sqlite)
      *
      * @param string $cookies
      * @return bool
      */
-    private function CreateUserCrsfToken(?string $cookies = null): bool
-    {
+    private function CreateUserCrsfToken(
+        ?string $cookies = null
+    ): bool{
 
         $this->table('secure')
             ->insert('auth , token , createat')
@@ -45,7 +64,7 @@ trait sqlCrsfRequest
     }
 
     /**
-     * Insert token into database
+     * Add crsfToken life into database (For: oracle)
      *
      * @param string $cookies
      * @return bool
@@ -63,7 +82,7 @@ trait sqlCrsfRequest
     }    
 
     /**
-     *  Check token date
+     *  Check token date (For: mysl/sqlServer/postgres/sqlite/oracle)
      * @return string|int
      */
     public function CheckUserCrsfToken(): string|int
@@ -112,6 +131,11 @@ trait sqlCrsfRequest
         return !empty($result) ? $result[0]['token'] : 0;
     }
 
+    /**
+     * Request to get crsfToken life (For: oracle)
+     * 
+     * @return array
+     */    
     private function getOracleTokenLife($startOfDay, $endOfDay, $crsfLogin){
 
         $result = $this->table('secure')
@@ -123,7 +147,11 @@ trait sqlCrsfRequest
         return !empty($result) ? $result = static::initNamespace()['env']->dictKeyToLowers($result): $result;
     }
 
-
+    /**
+     * Request to get crsfToken life (For: mysl/sqlServer/postgres/sqlite)
+     * 
+     * @return array
+     */
     private function getSqlTokenLife($startOfDay, $endOfDay, $crsfLogin){
 
         $result = $this->table('secure')

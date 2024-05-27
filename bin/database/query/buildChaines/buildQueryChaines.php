@@ -218,6 +218,13 @@ trait buildQueryChaines
         }
 
         /** 
+         * Add SET DATE if exist
+         */
+        if ($this->set_date) {
+            $query .= " {$this->set_date} ";
+        }        
+
+        /** 
          * Add SET if exist
          */
         if ($this->set_i) {

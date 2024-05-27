@@ -39,6 +39,6 @@ trait noSqlSeeders{
       'state' => 1,
     ];
 
-    $this->key('usersaccount')->id('_id')->index('admin')->param($document)->addToRedis();
+    $this->key('usersaccount')->id('id')->index('admin')->param($document)->addToRedis();
   }  
 }

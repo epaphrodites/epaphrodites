@@ -15,7 +15,7 @@ trait sqlServerMigrations
         $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'history')
                          BEGIN
                             CREATE TABLE history (
-                                _id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                                id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
                                 actions VARCHAR(20) NOT NULL,
                                 dates DATETIME,
                                 label VARCHAR(300) NOT NULL);
@@ -33,7 +33,7 @@ trait sqlServerMigrations
         $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'secure')
                         BEGIN
                             CREATE TABLE secure (
-                                _id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                                id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
                                 auth VARCHAR(300) NOT NULL,
                                 token VARCHAR(200) NOT NULL,
                                 createat DATETIME
@@ -53,7 +53,7 @@ trait sqlServerMigrations
         $this->chaine("IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'usersaccount')
         BEGIN
             CREATE TABLE usersaccount (
-                _id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                id INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY,
                 login VARCHAR(20) NOT NULL,
                 password VARCHAR(100) NOT NULL,
                 namesurname VARCHAR(150) NULL,

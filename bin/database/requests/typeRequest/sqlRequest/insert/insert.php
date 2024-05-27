@@ -56,7 +56,7 @@ class insert extends InsertInsert
             $this->table('usersaccount')
                 ->insert(' login , password , usersgroup ')
                 ->values(' ? , ? , ? ')
-                ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($login . '@'), $usersgroup])
+                ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($login), $usersgroup])
                 ->IQuery();
 
             $actions = "Add a User : " . $login;
