@@ -15,7 +15,7 @@ trait postgreSqlMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                usersaccount (id SERIAL PRIMARY KEY, 
+                usersaccount (_id SERIAL PRIMARY KEY, 
                 login VARCHAR(20) NOT NULL , 
                 password VARCHAR(100) NOT NULL , 
                 namesurname VARCHAR(150) DEFAULT NULL , 
@@ -38,7 +38,7 @@ trait postgreSqlMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                history (id SERIAL PRIMARY KEY , 
+                history (_id SERIAL PRIMARY KEY , 
                 actions VARCHAR(20)NOT NULL , 
                 dates TIMESTAMP , 
                 label VARCHAR(300)NOT NULL )",
@@ -57,7 +57,7 @@ trait postgreSqlMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS 
-                secure (id SERIAL PRIMARY KEY , 
+                secure (_id SERIAL PRIMARY KEY , 
                 auth VARCHAR(300)NOT NULL , 
                 token VARCHAR(200) NOT NULL , 
                 createat TIMESTAMP )",

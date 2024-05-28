@@ -34,8 +34,8 @@ class update extends UpdateUpdate
 
                     $this->table('usersaccount')
                         ->set(['password'])
-                        ->where('_id')
-                        ->param([static::initConfig()['guard']->CryptPassword($NewPassword), static::initNamespace()['session']->id()])
+                        ->where('login')
+                        ->param([static::initConfig()['guard']->CryptPassword($NewPassword), static::initNamespace()['session']->login()])
                         ->UQuery();
 
                     $actions = "Change password : " . static::initNamespace()['session']->login();

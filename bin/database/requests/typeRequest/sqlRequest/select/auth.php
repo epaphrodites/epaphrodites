@@ -67,7 +67,7 @@ class auth extends SelectAuth
       $result = $this->table('usersaccount')
           ->like('login')
           ->param([$login])
-          ->SQuery('id as _id, login, password, namesurname, contact, email, usersgroup, state');
+          ->SQuery();
 
       return static::initNamespace()['env']->dictKeyToLowers($result);
     } else {

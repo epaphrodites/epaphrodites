@@ -42,7 +42,7 @@ class select extends SelectSelect
         $result = $this->table('usersaccount')
             ->orderBy('usersgroup', 'ASC')
             ->offset((($currentPage - 1) * $numLines), $numLines)
-            ->SQuery('id as _id, login, password, namesurname, contact, email, usersgroup, state');
+            ->SQuery();
 
         return static::initNamespace()['env']->dictKeyToLowers($result);
     } 
@@ -102,7 +102,7 @@ class select extends SelectSelect
         $result = $this->table('history')
             ->orderBy('dates', 'ASC')
             ->offset((($currentPage - 1) * $numLines), $numLines)
-            ->SQuery('id as _id, actions, dates, label');
+            ->SQuery();
 
         return static::initNamespace()['env']->dictKeyToLowers($result);
     }     

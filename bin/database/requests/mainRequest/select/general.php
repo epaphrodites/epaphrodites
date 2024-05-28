@@ -11,12 +11,12 @@ final class general extends GeneralGeneral
    * Get all users history actions
    * @return array
    */
-  public function RecentlyActions(): array
+  public function usersHistory(): array
   {
     return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlRecentlyActions(),
-      'redis' => $this->noSqlRedisRecentlyActions(),
+      'mongodb' => $this->mongodbUsersHistoryActions(),
+      'redis' => $this->redisUsersHistoryActions(),
       'oracle' => $this->oracleHistoryRequest(),
       'sqlserver' => $this->sqlSeverHistoryRequest(),
 

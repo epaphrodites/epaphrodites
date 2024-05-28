@@ -19,7 +19,7 @@ class general extends SelectGeneral
 
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('id', 'DESC')
+            ->orderBy('_id', 'DESC')
             ->offset(0,6)
             ->param([$UserConnected])
             ->SQuery();
@@ -36,14 +36,14 @@ class general extends SelectGeneral
     {
        
         $UserConnected = static::initNamespace()['session']->login();
-
+       
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('id', 'DESC')
+            ->orderBy('"_id"', 'DESC')
             ->offset(0,6)
             ->param([$UserConnected])
-            ->SQuery('id as _id, actions, dates, label');
-       
+            ->SQuery();
+            
         return static::initNamespace()['env']->dictKeyToLowers($result);
     }    
 
@@ -59,7 +59,7 @@ class general extends SelectGeneral
 
         $result = $this->table('history')
             ->like('actions')
-            ->orderBy('id', 'DESC')
+            ->orderBy('_id', 'DESC')
             ->limit(0,6)
             ->param([$UserConnected])
             ->SQuery();

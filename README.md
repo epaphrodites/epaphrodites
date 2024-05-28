@@ -10,19 +10,20 @@ What you should know before starting the installation. To create a new applicati
 
 - PHP >= 8.1
 - OpenSSL PHP Extension
-- PDO PHP Extension
-- PDO_ODBC Extension (if you use sqlServer)
-- pdo_sqlsrv Extension (if you use sqlServer)
-- pgsql Extension (if you use PostgreSQL)
-- MongoDB Extension (if you use MongoDB)
-- Redis Extension (if you use Redis)
-- sqlite3 Extension
-- gd Extension
-- Mbstring PHP Extension
-- intl PHP Extension
-- XML PHP Extension
 - ZIP PHP Extension
+- gd Extension
+- intl PHP Extension
+- PDO PHP Extension
 - JSON PHP Extension
+- XML PHP Extension
+- Mbstring PHP Extension
+- pdo_sqlite Extension for sqlite3
+- Redis Extension (if you use Redis)
+- PDO_OCI Extension (if you use oracle)
+- pdo_mysql Extension (if you use Mysql)
+- mongodb Extension (if you use MongoDB)
+- pdo_pgsql Extension (if you use PostgreSQL)
+- pdo_sqlsrv Extension (if you use sqlServer)
 - Python3 installation (If you prefer to include elements of code written in Python)
 
 ## 🚀 Installation
@@ -63,7 +64,7 @@ composer dump-autoload
     bin\epaphrodites\define\config\SetDirectory.php
 ```
 
-2. Set database accpeted : ('mysql/postgre/sqlserver/sqlite/mongo/redis')
+2. Set database accpeted : ('mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis')
 ```bash  
     define('_FIRST_DRIVER_', 'sqlite');
 ```

@@ -33,7 +33,7 @@
                         <div class="card hystory">
                             <div class="card-body">
                                 <h5 class="card-title">Recents actions</h5>
-                                {% for select in select.RecentlyActions() %}
+                                {% for select in select.usersHistory() %}
                                 <div class="activity">
                                     <div class="activity-item d-flex">
                                         <div class="activite-label">{{ select.dates|e|dates('d/m/Y H:i:s') }}</div>

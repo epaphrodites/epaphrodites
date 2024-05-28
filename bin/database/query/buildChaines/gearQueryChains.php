@@ -124,7 +124,7 @@ trait gearQueryChains
             $columns = [$columns];
         }
 
-        $indexName = $indexName ?: 'idx' . implode('_', $columns);
+        $indexName = $indexName ?: 'idx_' . implode('_', $columns);
 
         $this->columns[] = compact('indexName', 'columns');
 
@@ -139,16 +139,16 @@ trait gearQueryChains
      * @return $this
      */
     public function addForeign(
-        string $foreign, 
         string $reference, 
+        string $foreign,
         array $options = []
     ): self
     {
-        if (!is_array($foreign)) {
-            $columns = [$foreign];
+        if (!is_array($reference)) {
+            $columns = [$reference];
         }
 
-        $this->columns[] = compact('foreign', 'reference', 'options');
+        $this->columns[] = compact('reference', 'foreign', 'options');
 
         return $this;
     }    
@@ -163,9 +163,15 @@ trait gearQueryChains
         $requests = [];
         $db = empty($this->db) ? 1 : $this->db;
 
-        $sql = $this->driver($db) !== 'sqlserver' 
-            ? "CREATE TABLE IF NOT EXISTS {$this->tableName} (" 
-            : "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$this->tableName}') BEGIN CREATE TABLE {$this->tableName} (";
+        $driver = $this->driver($db);
+
+        $sql = match ($driver) {
+
+                'oracle' => "BEGIN EXECUTE IMMEDIATE 'CREATE TABLE {$this->tableName} (",
+                'sqlserver' => "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$this->tableName}') BEGIN CREATE TABLE {$this->tableName} (",
+            
+                default => "CREATE TABLE IF NOT EXISTS {$this->tableName} (",
+            };
 
         foreach ($this->columns as $column) {
             if (isset($column['columnName'])) {
@@ -178,10 +184,11 @@ trait gearQueryChains
 
         $sql = rtrim($sql, ', ');
 
-        $sql .= $this->driver($db) !== 'sqlserver' ?
-            ")" :
-            "); END";
-
+        $sql .= match ($driver) {
+            'oracle' => ")'; EXCEPTION WHEN OTHERS THEN IF SQLCODE = -955 THEN NULL; ELSE RAISE; END IF; END;",
+            'sqlserver' => "); END",
+            default => ")"
+        };
         $requests[] = $sql;
 
         foreach ($this->columns as $column) {
@@ -191,19 +198,20 @@ trait gearQueryChains
                 $requests[] = $this->generateIndexSQL($indexName, $columns, $db, "CREATE");
             }
         }
-        
+    
         foreach ($this->columns as $column) {
-            if (isset($column['foreign'], $column['reference'])) {
-                $foreignName = $column['foreign'];
+            if (isset($column['reference'], $column['foreign'])) {
+                $constraint = "fk_".$column['reference']."_".$this->tableName;
                 $reference = $column['reference'];
+                $foreignKey = $column['foreign'];
                 $options = implode(' ', $column['options'] ?? []);
-                $requests[] = "ALTER TABLE {$this->tableName} ADD FOREIGN KEY ($foreignName) REFERENCES {$reference} $options";
+
+                $requests[] = "ALTER TABLE {$this->tableName} ADD CONSTRAINT {$constraint} FOREIGN KEY ($foreignKey) REFERENCES {$reference}($foreignKey) $options";
             }
         }
-
+      
         return ['request' => $requests, 'db' => $db];
     }
-
 
     /**
      * Generate the SQL statement for adding columns and indexes to the table.
@@ -213,9 +221,16 @@ trait gearQueryChains
     {
         $db = empty($this->db) ? 1 : $this->db;
     
+        $driver = $this->driver($db);
+
         $sql = "ALTER TABLE {$this->tableName}";
     
-        $syntax = $this->driver($db)=="sqlserver" ? 'ADD' : 'ADD COLUMN';
+        // Get the best request syntax according driver
+        $syntax = match ($driver){
+                "sqlserver" => 'ADD',
+                "oracle" => 'ADD',
+                default => 'ADD COLUMN'
+            };
 
         $columnsSql = [];
 
@@ -236,10 +251,20 @@ trait gearQueryChains
                 $indexSql = $this->generateIndexSQL($indexName, $columns, $db, "CREATE");
                 $indexColumns[] = $indexSql;
             }
-
         }
     
         $request = array_merge($columnsSql, $indexColumns);
+
+        foreach ($this->columns as $column) {
+            if (isset($column['reference'], $column['foreign'])) {
+                $constraint = "fk_".$column['reference']."_".$this->tableName;
+                $reference = $column['reference'];
+                $foreignKey = $column['foreign'];
+                $options = implode(' ', $column['options'] ?? []);
+
+                $request[] = "ALTER TABLE {$this->tableName} ADD CONSTRAINT {$constraint} FOREIGN KEY ($foreignKey) REFERENCES {$reference}($foreignKey) $options";
+            }
+        }
         
         return ['request' => $request, 'db' => $db];
     }
@@ -253,12 +278,17 @@ trait gearQueryChains
 
         $db = empty($this->db) ? 1 : $this->db;
 
-        $comma = $this->driver($db) !== 'sqlite' ? ',' : '';
+        $driver = $this->driver($db);
+
+
+        $comma = $driver !== 'sqlite' ? ',' : '';
 
         if (empty($this->dropColumn)) {
 
-            $sql = "DROP TABLE IF EXISTS {$this->tableName}";
-           
+            $sql = $driver == "oracle" 
+                            ? "DROP TABLE {$this->tableName}" 
+                            : "DROP TABLE IF EXISTS {$this->tableName}";
+          
             return ['request' => [$sql], 'db' => $db];
         }
 
@@ -292,12 +322,13 @@ trait gearQueryChains
     {
         switch ($this->driver($db)) {
             case 'mysql':
-                return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
+                return "{$option} INDEX {$indexName} ON {$this->tableName}({$columns})";
+            case 'oracle':
             case 'pgsql':
-                return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
+                return "{$option} INDEX {$indexName} ON {$this->tableName}({$columns})";
             case 'sqlserver':
             case 'sqlite':
-                return "{$option} INDEX {$indexName} ON {$this->tableName} ({$columns})";
+                return "{$option} INDEX {$indexName} ON {$this->tableName}({$columns})";
             default:
                 throw new \InvalidArgumentException("Unsupported database type: {$db}");
         }

@@ -47,7 +47,7 @@
                 <tbody scope="row" id="searchtd">
                     {% for selected in liste_users %} {% set counter = (counter | default (0))+1 %}
                     <tr data-order-column="1">
-                        <td class='tblcenter' style="width: 1%;">{{ checkbox_field( { name : 'actions[]' , class : 'checkitem' , value : selected.idrecentactions|e } ) }}</td>
+                        <td class='tblcenter' style="width: 1%;">{{ checkbox_field( { name : 'actions[]' , class : 'checkitem' , value : selected._id|e } ) }}</td>
                         <td class='nodre' style="width: 3%"></td>
                         <td style="width: 10%">{{ selected.actions|e }}</td>
                         <td style="width: 10%">{{ selected.dates|e|dates("d/m/Y H:i:s") }}</td>

@@ -52,7 +52,7 @@ class get_id extends SelectGet_id
             ->offset((($currentPage - 1) * $numLines), $numLines)
             ->orderBy('login', 'ASC')
             ->param([$usersGroup])
-            ->SQuery('id as _id, login, password, namesurname, contact, email, usersgroup, state');
+            ->SQuery();
 
         return static::initNamespace()['env']->dictKeyToLowers($result);
     }        
@@ -98,7 +98,7 @@ class get_id extends SelectGet_id
         $result = $this->table('usersaccount')
                         ->like('login')
                         ->param([$login])
-                        ->SQuery('id as _id, login, password, namesurname, contact, email, usersgroup, state');
+                        ->SQuery();
 
         return static::initNamespace()['env']->dictKeyToLowers($result);
     }
@@ -140,7 +140,7 @@ class get_id extends SelectGet_id
         $result = $this->table('history')
             ->like('actions')
             ->param([$login])
-            ->SQuery('id as _id, actions, dates, label');
+            ->SQuery();
 
         return static::initNamespace()['env']->dictKeyToLowers($result);
     }    

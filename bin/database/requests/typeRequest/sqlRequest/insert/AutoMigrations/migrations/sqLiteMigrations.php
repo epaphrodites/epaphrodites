@@ -15,7 +15,7 @@ trait sqLiteMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS usersaccount (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                _id INTEGER PRIMARY KEY AUTOINCREMENT,
                 login TEXT NOT NULL,
                 password TEXT NOT NULL,
                 namesurname TEXT DEFAULT NULL,
@@ -38,7 +38,7 @@ trait sqLiteMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                _id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 actions TEXT NOT NULL, 
                 dates TIMESTAMP, 
                 label TEXT NOT NULL)",
@@ -57,7 +57,7 @@ trait sqLiteMigrations
         $this->multiChaine(
             [
                 "CREATE TABLE IF NOT EXISTS secure (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                _id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 auth TEXT NOT NULL, 
                 token TEXT NOT NULL, 
                 createat TIMESTAMP)",

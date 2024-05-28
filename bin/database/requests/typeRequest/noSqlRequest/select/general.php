@@ -8,10 +8,10 @@ class general extends Builders
 {
     
     /**
-     * Request to select all recent users actions of database
+     * Request to select all recent users actions of database (For: mongodb)
      * @return array
      */
-    public function noSqlRecentlyActions():array
+    public function mongodbUsersHistoryActions():array
     {
 
         $documents = [];
@@ -34,10 +34,10 @@ class general extends Builders
     }
 
     /**
-     * Request to select all recent users actions of database
+     * Request to select all recent users actions of database (For: redis)
      * @return array
      */
-    public function noSqlRedisRecentlyActions():array
+    public function redisUsersHistoryActions():array
     {
 
         $UserConnected = static::initNamespace()['session']->login();

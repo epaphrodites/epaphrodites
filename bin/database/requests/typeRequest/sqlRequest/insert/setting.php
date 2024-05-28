@@ -100,7 +100,7 @@ class setting extends Builders
                 'label' => $action,
             ];
 
-        $this->key('history')->id('idhistory')->index($login)->param($document)->lastIndex()->addToRedis();
+        $this->key('history')->id('_id')->index($login)->param($document)->lastIndex()->addToRedis();
 
         return true;
     }
