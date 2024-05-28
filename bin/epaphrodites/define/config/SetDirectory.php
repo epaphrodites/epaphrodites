@@ -20,7 +20,7 @@ define('_KEYGEN_', 'CRSF');
 define('_DIR_MAIN_', 'bin');
 
 // Set database accpeted 'mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis'
-define('_FIRST_DRIVER_', 'oracle');
+define('_FIRST_DRIVER_', 'sqlite');
 
 // vendor directory
 define('_DIR_VENDOR_', 'vendor');
