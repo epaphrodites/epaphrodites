@@ -63,7 +63,7 @@ class insert extends Builders
                 'state' => 1,
             ];
 
-            $this->key('usersaccount')->id('id')->index($login)->param($document)->addToRedis();
+            $this->key('usersaccount')->id('_id')->index($login)->param($document)->addToRedis();
 
             $actions = "Add a user : " . $login;
             static::initQuery()['setting']->noSqlRedisActionsRecente($actions);
@@ -137,7 +137,7 @@ class insert extends Builders
                 'state' => 1,
             ];
 
-            $this->key('usersaccount')->id('id')->index($login)->param($document)->addToRedis();
+            $this->key('usersaccount')->id('_id')->index($login)->param($document)->addToRedis();
 
             $actions = "Add a user : " . $login;
             static::initQuery()['setting']->noSqlRedisActionsRecente($actions);

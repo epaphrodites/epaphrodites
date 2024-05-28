@@ -100,7 +100,8 @@ trait phpEnv{
 
         return match (_FIRST_DRIVER_) {
             'oracle' => DateTime::createFromFormat('d-M-y h.i.s.u A', $dateString)->format($format),
-            default => DateTime::createFromFormat('Y-m-d H:i:s.u', $dateString)->format($format),
+            'sqlserver' => DateTime::createFromFormat('Y-m-d H:i:s.u', $dateString)->format($format),
+            default => DateTime::createFromFormat('Y-m-d H:i:s', $dateString)->format($format),
         };
     }    
 

@@ -14,9 +14,13 @@ class count extends SelectCount
    */
   public function sqlCountAllUsers(): int
   {
-    $result = $this->table('usersaccount')->SQuery("COUNT(*) AS NBRE");
 
-    return $result[0]['NBRE'];
+    $result = $this->table('usersaccount')
+                  ->SQuery("COUNT(*) AS nbre");
+
+    $result = static::initNamespace()['env']->dictKeyToLowers($result);
+
+    return $result[0]['nbre'];
   }
 
   /** 
@@ -29,12 +33,15 @@ class count extends SelectCount
     int $Group
   ): int
   {
+
     $result = $this->table('usersaccount')
                   ->where('usersgroup')
                   ->param([$Group])
-                  ->SQuery("COUNT(*) AS NBRE");
+                  ->SQuery("COUNT(*) AS nbre");
 
-    return $result[0]['NBRE'];
+    $result = static::initNamespace()['env']->dictKeyToLowers($result);
+
+    return $result[0]['nbre'];
   }
 
   /** 
@@ -45,9 +52,12 @@ class count extends SelectCount
    */
   public function sqlCountUsersRecentActions(): int
   {
+    
     $result = $this->table('history')
-      ->SQuery("COUNT(*) AS NBRE");
+                  ->SQuery("COUNT(*) AS nbre");
 
-    return $result[0]['NBRE'];
+    $result = static::initNamespace()['env']->dictKeyToLowers($result);  
+
+    return $result[0]['nbre'];
   }     
 }
