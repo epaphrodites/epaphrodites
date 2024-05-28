@@ -19,7 +19,7 @@ What you should know before starting the installation. To create a new applicati
 - Mbstring PHP Extension
 - pdo_sqlite Extension for sqlite3
 - Redis Extension (if you use Redis)
-- PDO_OCI Extension (if you use oracle)
+- pdo_oci Extension (if you use oracle)
 - pdo_mysql Extension (if you use Mysql)
 - mongodb Extension (if you use MongoDB)
 - pdo_pgsql Extension (if you use PostgreSQL)
