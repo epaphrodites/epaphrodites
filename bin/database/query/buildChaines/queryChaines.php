@@ -53,8 +53,9 @@ trait queryChaines
      * @param null|int $db
      * @return mixed
      */
-    public function sdb(int $db = 1): mixed
-    {
+    public function sdb(
+        int $db = 1
+    ): mixed{
         $this->db = $db;
         return $this;
     }  
@@ -65,8 +66,9 @@ trait queryChaines
      * @param null|int $close
      * @return bool
      */
-    public function close($close = false): mixed
-    {
+    public function close(
+        $close = false
+    ): mixed{
         $this->close = $close;
 
         return $this;
@@ -78,8 +80,9 @@ trait queryChaines
      * @param array|null $param
      * @return self
      */
-    public function param(array $param = []): self
-    {
+    public function param(
+        array $param = []
+    ): self{
         $this->param = NULL;
 
         $this->param = $param;
@@ -135,8 +138,9 @@ trait queryChaines
      * @param array|null $index
      * @return self
      */
-    public function index(string $index): self
-    {
+    public function index(
+        string $index
+    ): self{
         $this->index = NULL;
 
         $this->index = $index;
@@ -150,8 +154,9 @@ trait queryChaines
      * @param array|null $search
      * @return self
      */
-    public function search(array $search = []): self
-    {
+    public function search(
+        array $search = []
+    ): self{
         $this->search = NULL;
 
         $this->search = $search;
@@ -162,11 +167,12 @@ trait queryChaines
     /**
      * Sets the query string or string
      *
-     * @param string $string The query string or chain
+     * @param string $id The query string or chain
      * @return self
      */
-    public function id(string $id): self
-    {
+    public function id(
+        string $id
+    ): self{
         $this->id = NULL;
 
         $this->id = "$id";
@@ -180,8 +186,9 @@ trait queryChaines
      * @param string $string The query string or chain
      * @return self
      */
-    public function chaine(string $string): self
-    {
+    public function chaine(
+        string $string
+    ): self{
         $this->chaine = NULL;
 
         $this->chaine = "$string";
@@ -195,8 +202,9 @@ trait queryChaines
      * @param array|null $multiChaine
      * @return self
      */
-    public function multiChaine(array $multiChaine = []): self
-    {
+    public function multiChaine(
+        array $multiChaine = []
+    ): self{
         $this->multiChaine = NULL;
 
         $this->multiChaine = $multiChaine;
@@ -207,11 +215,12 @@ trait queryChaines
     /**
      * Sets the query string or string
      *
-     * @param string $string The query string or chain
+     * @param string $key The query string or chain
      * @return self
      */
-    public function key(string $key): self
-    {
+    public function key(
+        string $key
+    ): self{
         $this->key = NULL;
 
         $this->key = "$key";
@@ -225,8 +234,9 @@ trait queryChaines
      * @param string $table The table name
      * @return self
      */
-    public function table(string $table): self
-    {
+    public function table(
+        string $table
+    ): self{
         $this->table = NULL;
 
         $this->table = "$table";
@@ -240,8 +250,9 @@ trait queryChaines
      * @param string $insert The insert statement
      * @return self
      */
-    public function insert(string $insert): self
-    {
+    public function insert(
+        string $insert
+    ): self{
         $this->insert = NULL;
 
         $this->insert = "$insert";
@@ -255,8 +266,9 @@ trait queryChaines
      * @param string $values The values to be inserted
      * @return self
      */
-    public function values(string $values): self
-    {
+    public function values(
+        string $values
+    ): self{
         $this->values = NULL;
 
         $this->values = "$values";
@@ -268,18 +280,22 @@ trait queryChaines
      *
      * @param string $where The WHERE condition
      * @param string|null $type The type of comparison (e.g., '=', '>', '<', etc.)
+     * @param string|null $format is for oracle date format 
      * @return self
      */
-    public function where(string $where, ?string $type = null): self
-    {
+    public function where(
+        string $where, 
+        ?string $type = null, 
+        ?string $format = null
+    ): self{
         $this->where = NULL;
 
-        if ($type === null) {
-            $this->where = "$where = ?";
-        } else {
-            $this->where = "$where $type ?";
-        }
-
+        $this->where = $type !== null 
+                    ? ($format !== null 
+                        ? "$where $type TO_DATE( ?, $format )" 
+                        : "$where $type ?") 
+                    : "$where = ?";
+    
         return $this;
     }
 
@@ -289,8 +305,9 @@ trait queryChaines
      * @param string $like The LIKE condition
      * @return self
      */
-    public function like(string $like): self
-    {
+    public function like(
+        string $like
+    ): self{
         $this->like = NULL;
 
         $this->like = "$like";
@@ -304,8 +321,9 @@ trait queryChaines
      * @param string $match The MATCH condition
      * @return self
      */
-    public function match(string $match): self
-    {
+    public function match(
+        string $match
+    ): self{
         $this->match = NULL;
 
         $this->match = "$match";
@@ -319,8 +337,9 @@ trait queryChaines
      * @param string $between The BETWEEN condition
      * @return self
      */
-    public function between(string $between): self
-    {
+    public function between(
+        string $between
+    ): self{
         $this->between = NULL;
 
         $this->between = "$between";
@@ -334,8 +353,9 @@ trait queryChaines
      * @param string $between The BETWEEN condition
      * @return self
      */
-    public function betweenDate(string $between_date): self
-    {
+    public function betweenDate(
+        string $between_date
+    ): self{
         $this->between_date = NULL;
 
         $this->between_date = "$between_date";
@@ -350,8 +370,10 @@ trait queryChaines
      * @param int $end The end limit
      * @return self
      */
-    public function limit(int $begin, int $end): self
-    {
+    public function limit(
+        int $begin, 
+        int $end
+    ): self{
         $this->limit = NULL;
 
         $this->limit = "LIMIT $end OFFSET $begin";
@@ -366,8 +388,10 @@ trait queryChaines
      * @param int $end The end limit
      * @return self
      */
-    public function offset(int $begin, int $end): self
-    {
+    public function offset(
+        int $begin, 
+        int $end
+    ): self{
         $this->offset = NULL;
 
         $this->offset = "OFFSET $begin ROWS FETCH NEXT $end ROWS ONLY";
@@ -380,8 +404,10 @@ trait queryChaines
      * @param int $end The end limit
      * @return self
      */
-    public function rlimit(int $begin, int $end): self
-    {
+    public function rlimit(
+        int $begin, 
+        int $end
+    ): self{
 
         $this->rlimit = NULL;
 
@@ -397,8 +423,10 @@ trait queryChaines
      * @param string $property The property to check
      * @return self
      */
-    public function is(string $type, string $property): self
-    {
+    public function is(
+        string $type, 
+        string $property
+    ): self{
         $this->is = NULL;
 
         $this->is = " AND $property IS $type";
@@ -413,8 +441,10 @@ trait queryChaines
      * @param string $sign The sign for comparison (e.g., '>', '=', '<', etc.)
      * @return self
      */
-    public function having(string $count, string $sign): self
-    {
+    public function having(
+        string $count, 
+        string $sign
+    ): self{
         $this->having = NULL;
 
         $this->having = "HAVING COUNT($count) $sign ?";
@@ -428,8 +458,9 @@ trait queryChaines
      * @param int $limit The LIMIT value
      * @return self
      */
-    public function limit_i(int $limit): self
-    {
+    public function limit_i(
+        int $limit
+    ): self{
         $this->limit_i = NULL;
 
         $this->limit_i = "LIMIT $limit";
@@ -444,8 +475,10 @@ trait queryChaines
      * @param string $direction The direction of ordering ('ASC' or 'DESC')
      * @return self
      */
-    public function orderBy(string $key, string $direction): self
-    {
+    public function orderBy(
+        string $key, 
+        string $direction
+    ): self{
         $this->order = NULL;
 
         $this->order = "ORDER BY $key $direction";
@@ -458,8 +491,9 @@ trait queryChaines
      * @param string $group The field to group by
      * @return self
      */
-    public function groupBy(string $group): self
-    {
+    public function groupBy(
+        string $group
+    ): self{
 
         $this->group = NULL;
 
@@ -474,8 +508,9 @@ trait queryChaines
      * @param array $getand The array of conditions to be connected with AND
      * @return self
      */
-    public function and(array $getand = []): self
-    {
+    public function and(
+        array $getand = []
+    ): self{
         $this->and = NULL;
 
         foreach ($getand as $val) {
@@ -491,8 +526,9 @@ trait queryChaines
      * @param array $getOr The array of conditions to be connected with OR
      * @return self
      */
-    public function or(array $getOr = []): self
-    {
+    public function or(
+        array $getOr = []
+    ): self{
         $this->or = NULL;
 
         foreach ($getOr as $val) {
@@ -508,8 +544,9 @@ trait queryChaines
      * @param array $getJoin The array of JOIN clauses
      * @return self
      */
-    public function join(array $getJoin = []): self
-    {
+    public function join(
+        array $getJoin = []
+    ): self{
 
         $this->join = NULL;
 
@@ -526,8 +563,9 @@ trait queryChaines
      * @param array $getJoin The array of JOIN clauses
      * @return self
      */
-    public function joinLeft(array $getJoin = []): self
-    {
+    public function joinLeft(
+        array $getJoin = []
+    ): self{
         $this->joinLeft = NULL;
 
         foreach ($getJoin as $val) {
@@ -543,8 +581,9 @@ trait queryChaines
      * @param array $getJoin The array of JOIN clauses
      * @return self
      */
-    public function joinRight(array $getJoin = []): self
-    {
+    public function joinRight(
+        array $getJoin = []
+    ): self{
 
         $this->joinRight = NULL;
 
@@ -561,8 +600,9 @@ trait queryChaines
      * @param array $getJoin The array of JOIN clauses
      * @return self
      */
-    public function joinFull(array $getJoin = []): self
-    {
+    public function joinFull(
+        array $getJoin = []
+    ): self{
 
         $this->joinFull = NULL;
 
@@ -579,8 +619,9 @@ trait queryChaines
      * @param array $getSet The array of properties to set
      * @return self
      */
-    public function set(array $getSet = []): self
-    {
+    public function set(
+        array $getSet = []
+    ): self{
 
         $this->set = NULL;
 
@@ -597,10 +638,13 @@ trait queryChaines
      * Sets the SET oracle format date clause for the query
      *
      * @param array $getSet The array of properties to set
+     * @param bool $state
      * @return self
      */
-    public function setDate(array $getSet = [], bool $state = false): self
-    {
+    public function setDate(
+        array $getSet = [], 
+        bool $state = false
+    ): self{
 
         $this->set_date = NULL;
 
@@ -620,8 +664,9 @@ trait queryChaines
      * @param array $sumCase
      * @return self
      */
-    public function sumCase(array $sumCase = []): self
-    {
+    public function sumCase(
+        array $sumCase = []
+    ): self{
         $this->sumCase = NULL;
     
         foreach ($sumCase as $val) {
@@ -643,8 +688,9 @@ trait queryChaines
      * @param array|null $rset
      * @return self
      */
-    public function rset(array $rset = []): self
-    {
+    public function rset(
+        array $rset = []
+    ): self{
         $this->rset = NULL;
 
         $this->rset = $rset;
@@ -659,8 +705,10 @@ trait queryChaines
      * @param string|null $sign The arithmetic sign for the properties
      * @return self
      */
-    public function set_i(array $getSet = [], ?string $sign = "+"): self
-    {
+    public function set_i(
+        array $getSet = [], 
+        ?string $sign = "+"
+    ): self{
         $this->set_i = NULL;
 
         foreach ($getSet as $val) {
@@ -678,8 +726,9 @@ trait queryChaines
      * @param array $properties The array of properties for REPLACE function
      * @return self
      */
-    public function replace(array $properties = []): self
-    {
+    public function replace(
+        array $properties = []
+    ): self{
 
         $this->replace = NULL;
 

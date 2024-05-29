@@ -10,8 +10,9 @@ trait buildQueryChaines
      * @param array|null $propriety
      * @return array
      */
-    public function SQuery($propriety = NULL): array
-    {
+    public function SQuery(
+        $propriety = NULL
+    ): array{
 
         if ($propriety === NULL&&!isset($this->sumCase)) {
             $propriety = '*';
@@ -427,8 +428,9 @@ trait buildQueryChaines
      * @param int $db
      * @return bool
      */
-    public function addToRedis(int $db = 1): bool
-    {
+    public function addToRedis(
+        int $db = 1
+    ): bool{
 
         $getConnexion = $this->rdb($db);
 
@@ -455,8 +457,9 @@ trait buildQueryChaines
      * @param int $db
      * @return bool
      */
-    public function isExist(int $db = 1): bool
-    {
+    public function isExist(
+        int $db = 1
+    ): bool{
         $cursor = '0';
 
         $getConnexion = $this->rdb($db);
@@ -474,8 +477,9 @@ trait buildQueryChaines
      * @param int $db
      * @return bool
      */
-    public function delRedis(int $db = 1): bool
-    {
+    public function delRedis(
+        int $db = 1
+    ): bool{
 
         $getConnexion = $this->rdb($db);
 
@@ -492,8 +496,9 @@ trait buildQueryChaines
      * @param int $db
      * @return bool
      */
-    public function updRedis(int $db = 1): bool
-    {
+    public function updRedis(
+        int $db = 1
+    ): bool{
 
         $getConnexion = $this->rdb($db);
 
@@ -524,8 +529,9 @@ trait buildQueryChaines
      * @param int $db
      * @return int|array
      */
-    public function redisGet(int $db = 1): int|array
-    {
+    public function redisGet(
+        int $db = 1
+    ): int|array{
         $begin = 0;
         $end = 1;
 
@@ -569,8 +575,11 @@ trait buildQueryChaines
      * @param array $params
      * @return bool
      */
-    private function verifyDatas(array $data, array $keysToSearch, array $params): bool
-    {
+    private function verifyDatas(
+        array $data, 
+        array $keysToSearch,
+        array $params
+    ): bool{
         foreach ($keysToSearch as $key) {
             if (!array_key_exists($key, $data) || !in_array($data[$key], $params, true)) {
                 return false;
