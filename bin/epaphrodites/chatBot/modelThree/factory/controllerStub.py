@@ -4,17 +4,14 @@ from constants import _CONTROLLER_PATH_
 
 class controllerStub:
     
-    def __init__(self, file_name, class_name):
-        self.file_name = file_name
-        self.class_name = class_name
-
-    def generate_stub(self):
+    @staticmethod
+    def generate_stub(file_name, class_name):
         stub = f"""<?php
 namespace Epaphrodites\\controllers\\controllers;
         
 use Epaphrodites\\controllers\\switchers\\MainSwitchers;
         
-final class {self.class_name} extends MainSwitchers
+final class {class_name} extends MainSwitchers
 {{
     private object $msg;
 
@@ -48,7 +45,5 @@ final class {self.class_name} extends MainSwitchers
         
 }}"""
 
-        with open( _CONTROLLER_PATH_ + self.file_name, "w") as file:
+        with open( _CONTROLLER_PATH_ + file_name, "w") as file:
             file.write(stub)
-            
-            #PhpStubGenerator(file_name, class_name).generate_stub()

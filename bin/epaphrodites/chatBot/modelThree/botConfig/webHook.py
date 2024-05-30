@@ -3,7 +3,7 @@
 class WebHook:
     
     @staticmethod
-    def listen( actionName, check ):
+    def listen( question, actionName, checkInSentences ):
         
         actions = {
             'generate_controller': ''
@@ -12,4 +12,3 @@ class WebHook:
         action = actions.get(actionName)
         if action:
             action()
-                

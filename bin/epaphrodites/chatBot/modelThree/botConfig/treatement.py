@@ -48,7 +48,7 @@ class Treatement:
             response = random.choice(interaction['response'])
             
             if interaction['action'] is None:
-                WebHook.listen(interaction['action'], interaction['check'])
+                WebHook.listen(question, interaction['action'], interaction['check_in'])
             
             return response
         else:

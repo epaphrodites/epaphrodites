@@ -6,8 +6,8 @@
     ],
     "lang": "en",
     "action": "generate_controller",
-    "context": "generate a controller",
-    "check" : [ "controller" ],
+    "context": "generate controller",
+    "check_in" : [ "controller" ],
     "essential": [
       [ "generate", "controller" ],
       [ "edit", "controller" ],
