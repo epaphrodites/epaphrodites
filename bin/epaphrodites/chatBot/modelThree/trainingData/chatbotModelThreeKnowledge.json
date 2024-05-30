@@ -1,0 +1,17 @@
+[
+  {
+    "key": [ "generate", "controller", "edit", "create" ],
+    "response": [
+      "successful test"
+    ],
+    "lang": "en",
+    "action": "generate_controller",
+    "context": "generate a controller",
+    "check" : [ "controller" ],
+    "essential": [
+      [ "generate", "controller" ],
+      [ "edit", "controller" ],
+      [ "create", "controller" ]
+    ]
+  }
+]

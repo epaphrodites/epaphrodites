@@ -2,8 +2,11 @@ import sys
 import random
 from datetime import datetime
 from difflib import get_close_matches
+from treatement import Treatement
 sys.path.append('bin/epaphrodites/chatBot/mainConfig/')
-from constants import _LOAD_JSON_FILE_, _SAVE_TO_JSON_FILE_
+sys.path.append('bin/epaphrodites/chatBot/modelTwo/toJson/')
+from loadAndSave import LoadAndSave
+from constants import _SAVE_TO_JSON_FILE_
 
 class NoellaBotCore:
     
@@ -19,5 +22,18 @@ class NoellaBotCore:
                 return random.choice(q["answers"])       
     
     @staticmethod
-    def listenUsersMessage(login, initMessage, normalizedMessage):
-        pass
+    def listenUsersMessage(login, initMessage, normalizedMessage, lang):
+        
+        now = datetime.now()
+        
+        botDate = now.strftime('%d-%m-%Y %H:%M:%S')
+        
+        response =  Treatement.respond(normalizedMessage, lang)
+        
+        init_knowledge_base = LoadAndSave.load_knowledge_base(_SAVE_TO_JSON_FILE_)
+        
+        init_knowledge_base.append({'date':botDate, 'language': lang,"question": initMessage, "answers": response, 'login': login})
+        
+        LoadAndSave.save_knowledge_base(_SAVE_TO_JSON_FILE_, init_knowledge_base)
+        
+        return response

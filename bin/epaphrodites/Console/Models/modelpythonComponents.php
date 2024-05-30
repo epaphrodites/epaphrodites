@@ -102,7 +102,11 @@ class modelpythonComponents extends settingpythonComponents
             'pip install googletrans==4.0.0-rc1' => [
                 'success' => 'googletrans installation completed',
                 'already_installed' => 'googletrans is already installed'
-            ]  
+            ],
+            'pip install fuzzywuzzy python-Levenshtein'=> [
+                'success' => 'Levenshtein installation completed',
+                'already_installed' => 'Levenshtein is already installed'
+            ]
         ];
     }
 }
