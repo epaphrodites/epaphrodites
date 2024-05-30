@@ -1,14 +1,16 @@
 
-
 class WebHook:
     
     @staticmethod
     def listen( question, actionName, checkInSentences ):
         
         actions = {
-            'generate_controller': ''
+            'generate_controller': '',
+            'clean_data': '',
+            'get_date': '',
+            'get_hour': ''
         }
         
-        action = actions.get(actionName)
-        if action:
-            action()
+        lunchFunction = actions.get(actionName)
+        if lunchFunction:
+            lunchFunction()

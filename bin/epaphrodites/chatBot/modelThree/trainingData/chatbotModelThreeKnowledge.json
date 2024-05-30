@@ -2,8 +2,17 @@
   {
     "key": [ "generate", "controller", "edit", "create" ],
     "response": [
-      "successful test"
-    ],
+      "The controller has been generated successfully.",
+      "The controller generation was successful.",
+      "The controller generation proceeded without any issues.",
+      "The controller has been built successfully.",
+      "The controller was created without errors.",
+      "The creation of the controller was successfully completed.",
+      "The controller was formed successfully.",
+      "The controller generation was a complete success.",
+      "The controller was assembled successfully."
+      ]
+  ,
     "lang": "en",
     "action": "generate_controller",
     "context": "generate controller",
@@ -13,5 +22,28 @@
       [ "edit", "controller" ],
       [ "create", "controller" ]
     ]
-  }
+  },
+  {
+    "key": [ "delete", "clean", "conversation" ],
+    "response": [
+      "Operation completed successfully!",
+      "Process completed successfully!",
+      "Processing successful!",
+      "Task completed successfully!",
+      "Execution successful!",
+      "Procedure finalized successfully!",
+      "Treatment completed successfully!",
+      "Action completed successfully!",
+      "Mission accomplished successfully!",
+      "Process finished successfully!"
+    ],
+    "lang": "en",
+    "action": "clean_data",
+    "context": "clean",
+    "check_in" : [],
+    "essential": [
+      [ "delete", "conversation" ],
+      [ "clean", "conversation" ]
+    ]
+  }  
 ]
