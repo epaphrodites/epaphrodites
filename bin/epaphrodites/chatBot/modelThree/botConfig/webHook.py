@@ -1,4 +1,6 @@
 
+from dateTimes import DateTimes
+
 class WebHook:
     
     @staticmethod
@@ -7,10 +9,11 @@ class WebHook:
         actions = {
             'generate_controller': '',
             'clean_data': '',
-            'get_date': '',
-            'get_hour': ''
+            'get_date': DateTimes.getdate(),
+            'get_hour': DateTimes.getHour()
         }
         
         lunchFunction = actions.get(actionName)
+        
         if lunchFunction:
-            lunchFunction()
+            return lunchFunction

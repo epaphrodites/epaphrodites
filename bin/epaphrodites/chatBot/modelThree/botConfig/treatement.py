@@ -46,11 +46,12 @@ class Treatement:
         interaction = Treatement.find_interaction(jsonContent, question)
         if interaction:
             response = random.choice(interaction['response'])
+            action_result = ""
+            if interaction['action'] is not None:
+                
+                action_result = WebHook.listen(question, interaction['action'], interaction['check_in'])
             
-            if interaction['action'] is None:
-                WebHook.listen(question, interaction['action'], interaction['check_in'])
-            
-            return response
+            return response + action_result
         else:
             anwsers = DefaultAnswers.defaultAdditionalAnswers(lang)
             return anwsers

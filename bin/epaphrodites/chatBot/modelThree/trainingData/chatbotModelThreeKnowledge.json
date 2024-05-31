@@ -45,5 +45,20 @@
       [ "delete", "conversation" ],
       [ "clean", "conversation" ]
     ]
-  }  
+  },
+  {
+    "key": [ "date", "day", "know" ],
+    "response": [
+      "Today is ",
+      "The current date is "
+    ],
+    "lang": "en",
+    "action": "get_date",
+    "context": "date",
+    "check_in" : [],
+    "essential": [
+      [ "date", "today" ],
+      [ "know", "date" ]
+    ]
+  }   
 ]
