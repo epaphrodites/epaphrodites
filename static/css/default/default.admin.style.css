@@ -735,6 +735,32 @@ tr {
   font-size: 30px;
 }
 
+#robot-writing{
+  margin-top: 20px;
+}
+
+#robot-writing .input-group{
+  margin: 0px auto;
+  width: 90%;
+}
+
+#robot-writing #copyText i{
+  color: var(--color-red);
+  font-size: 20px;
+}
+
+#robot-writing .input-group .button_design {
+  position: absolute;
+  top: 5%;
+  transform: translateY(-60%);
+  z-index: 1;
+}
+#robot-writing #warning{
+  text-align: left;
+  width: 90%;
+  margin: 7px auto 14px;
+}
+
 /*--------------------------------------------------------------
   # LOADER
 --------------------------------------------------------------*/

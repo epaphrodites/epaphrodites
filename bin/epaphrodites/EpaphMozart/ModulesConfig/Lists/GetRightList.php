@@ -38,7 +38,12 @@ class GetRightList extends epaphroditeClass
             'apps' => 'chatbot',
             'libelle' => 'Start chatbot model three',
             'path' => 'chats/start_chatbot_model_three',
-         ],                                              
+         ], 
+         [
+            'apps' => 'chatbot',
+            'libelle' => 'Start bot writing',
+            'path' => 'chats/start_bot_writing',
+         ],                                                       
          [
             'apps' => 'users',
             'libelle' => 'Import system users',

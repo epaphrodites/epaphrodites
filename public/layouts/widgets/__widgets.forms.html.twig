@@ -16,7 +16,7 @@
 {# --- submit buttom -- #}
 {% macro submit( submitOptions ) %}
 	<div class="{{ submitOptions.mainClass | default('form-group') }} button_design">
-		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="submit" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px;width: 100%;">
+		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="submit" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px;width: 100%;" {% if submitOptions.onclick is defined %} onclick = "{{ submitOptions.onclick ~ '()' }}" {% endif %}>
 			{% if submitOptions.icon is defined %}
 				<i class="{{ submitOptions.icon }} "></i>
 			{% endif %}

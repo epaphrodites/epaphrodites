@@ -28,7 +28,7 @@ class NoellaBotCore:
         
         botDate = now.strftime('%d-%m-%Y %H:%M:%S')
         
-        response =  Treatement.respond(normalizedMessage, lang)
+        response =  Treatement.response(normalizedMessage, lang, login)
         
         init_knowledge_base = LoadAndSave.load_knowledge_base(_SAVE_TO_JSON_FILE_)
         

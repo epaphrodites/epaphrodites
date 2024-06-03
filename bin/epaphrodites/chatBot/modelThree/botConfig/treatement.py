@@ -40,16 +40,16 @@ class Treatement:
         return False
 
     @staticmethod
-    def respond( question, lang ):
+    def response( question, lang, login ):
         
         jsonContent = Treatement.load_interactions()
         interaction = Treatement.find_interaction(jsonContent, question)
+        
         if interaction:
             response = random.choice(interaction['response'])
             action_result = ""
             if interaction['action'] is not None:
-                
-                action_result = WebHook.listen(question, interaction['action'], interaction['check_in'])
+                action_result = WebHook.listen(question, interaction['action'], interaction['check_in'], login)
             
             return response + action_result
         else:

@@ -97,7 +97,7 @@ composer dump-autoload
     // First DB host
     1DB_HOST = "127.0.0.1" 
 
-    // First DB DRIVER (accepted : mysql/pgsql/sqlserver/sqlite/mongodb/redis)
+    // First DB DRIVER - accepted : mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis
     1DB_DIVER = "sqlite"
 
 ```

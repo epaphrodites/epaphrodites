@@ -6,11 +6,7 @@
       "The controller generation was successful.",
       "The controller generation proceeded without any issues.",
       "The controller has been built successfully.",
-      "The controller was created without errors.",
-      "The creation of the controller was successfully completed.",
-      "The controller was formed successfully.",
-      "The controller generation was a complete success.",
-      "The controller was assembled successfully."
+      "The controller was created without errors."
       ]
   ,
     "lang": "en",
@@ -21,29 +17,6 @@
       [ "generate", "controller" ],
       [ "edit", "controller" ],
       [ "create", "controller" ]
-    ]
-  },
-  {
-    "key": [ "delete", "clean", "conversation" ],
-    "response": [
-      "Operation completed successfully!",
-      "Process completed successfully!",
-      "Processing successful!",
-      "Task completed successfully!",
-      "Execution successful!",
-      "Procedure finalized successfully!",
-      "Treatment completed successfully!",
-      "Action completed successfully!",
-      "Mission accomplished successfully!",
-      "Process finished successfully!"
-    ],
-    "lang": "en",
-    "action": "clean_data",
-    "context": "clean",
-    "check_in" : [],
-    "essential": [
-      [ "delete", "conversation" ],
-      [ "clean", "conversation" ]
     ]
   },
   {
@@ -59,6 +32,21 @@
     "essential": [
       [ "date", "today" ],
       [ "know", "date" ]
+    ]
+  },
+  {
+    "key": [ "give", "hour", "time" ],
+    "response": [
+      "Le time is ",
+      "The current time is "
+    ],
+    "lang": "en",
+    "action": "get_hour",
+    "context": "hour",
+    "check_in" : [],
+    "essential": [
+      [ "give", "hour" ],
+      [ "give", "time" ]
     ]
   }   
 ]

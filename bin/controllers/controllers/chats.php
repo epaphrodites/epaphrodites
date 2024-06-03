@@ -83,26 +83,14 @@ final class chats extends MainSwitchers
     }   
 
     /**
-    * This chatbot requires that Python be installed
-    * Start Epaphrodites Chatbot three
+    * Start Epaphrodites recognition
     * @param string $html
     * @return void
     */
-     public final function startChatbotModelThree(
+    public final function startBotWriting(
         string $html
-    ): void{
-    
-        if (static::isValidMethod(true)) {
-            
-            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
-
-            $this->result = $this->chatBot->chatBotModelThreeProcess($send);
-
-            echo $this->ajaxTemplate->chatMessageContent($this->result , $send);
-           
-            return;
-        }        
+    ): void{      
 
         $this->views( $html, [], true );
-    }
+    }    
 }

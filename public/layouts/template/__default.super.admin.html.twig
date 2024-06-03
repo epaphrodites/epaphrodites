@@ -144,7 +144,19 @@
                         </a>
                     </li>
                 </ul>
-            </li>           
+            </li>   
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#writing-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-laptop-fill"></i><span>Bot writing</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="writing-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ __path("chats@start_bot_writing") }}">
+                            <i class="bi bi-circle"></i><span>Start bot writing</span>
+                        </a> 
+                    </li>
+                </ul>
+            </li>                      
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#robot-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-robot"></i><span>ChatBot</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -156,9 +168,6 @@
                         </a> 
                         <a href="{{ __path("chats@start_chatbot_model_two") }}">
                             <i class="bi bi-circle"></i><span>Start modele model two</span>
-                        </a>
-                        <a href="{{ __path("chats@start_chatbot_model_three") }}">
-                            <i class="bi bi-circle"></i><span>Start modele model three</span>
                         </a>
                     </li>
                 </ul>
