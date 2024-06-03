@@ -1,5 +1,6 @@
 composer.lock
 server.log
+test.py
 sqLite.session.sql
 postgres.session.sql
 cassandra.session.sql
