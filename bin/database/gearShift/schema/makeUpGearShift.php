@@ -23,5 +23,5 @@ trait makeUpGearShift{
                 $table->addIndex('login');
                 $table->db(1);
         });
-    }                  
+    }    
 }

@@ -4,8 +4,6 @@ namespace Epaphrodites\database\query\buildChaines;
 
 use Epaphrodites\database\config\ini\GetConfig;
 
-use InvalidArgumentException;
-
 trait gearQueryChains
 {
     private ?string $tableName = null;
@@ -134,43 +132,27 @@ trait gearQueryChains
     }
 
     /**
-     * Adds a foreign key constraint to the specified column(s) of the table.
-     *
+     * Add a foreign key constraint to the specified column(s) of the table.
      * @param string|array $columns The name(s) of the column(s) to which the foreign key constraint is added.
      * @param string $reference The reference table and column(s) for the foreign key in the format 'table(column)'.
-     * @param string|null $constraint Optional. The name of the constraint.
      * @param array $options Optional. Additional options for the foreign key constraint such as 'onDelete' and 'onUpdate'.
      * @return $this
      */
     public function addForeign(
-        $columns, 
         string $reference, 
-        ?string $constraint = null, 
+        string $foreign,
+        string $constraint = null,
         array $options = []
-    ): self 
+    ): self
     {
-        if (!is_array($columns)) {
-            $columns = [$columns];
+        if (!is_array($reference)) {
+            $columns = [$reference];
         }
 
-        // Parse the reference string
-        if (preg_match('/^(\w+)\((\w+)\)$/', $reference, $matches)) {
-            $referenceTable = $matches[1];
-            $referenceColumn = $matches[2];
-        } else {
-            throw new InvalidArgumentException("Invalid reference format. Use 'table(column)'.");
-        }
-
-        $this->columns[] = [
-            'columns' => $columns,
-            'referenceTable' => $referenceTable,
-            'referenceColumn' => $referenceColumn,
-            'constraint' => $constraint,
-            'options' => $options
-        ];
+        $this->columns[] = compact('reference', 'foreign', 'constraint', 'options');
 
         return $this;
-    }
+    }    
 
     /**
      * Generate the SQL statement for creating the table.
@@ -219,22 +201,17 @@ trait gearQueryChains
         }
     
         foreach ($this->columns as $column) {
-            if (isset($column['columns'], $column['referenceTable'], $column['referenceColumn'])) {
-        
+            if (isset($column['reference'], $column['foreign'])) {
                 $constraint = isset($column['constraint']) 
                                 ? $column['constraint'] 
-                                : "fk_" . implode("_", $column['columns']) . "_" . $this->tableName;
-                
-                $columns = implode(", ", $column['columns']);
-                $referenceTable = $column['referenceTable'];
-                $referenceColumn = $column['referenceColumn'];
-                $options = !empty($column['options']) 
-                            ? implode(' ', array_map(fn($key, $value) => strtoupper($key) . " " . strtoupper($value), array_keys($column['options']), $column['options']))
-                            : '';
-        
-                $requests[] = "ALTER TABLE {$this->tableName} ADD CONSTRAINT {$constraint} FOREIGN KEY ({$columns}) REFERENCES {$referenceTable}({$referenceColumn}) {$options}";
+                                : "fk_".$column['reference']."_".$this->tableName;
+                $reference = $column['reference'];
+                $foreignKey = $column['foreign'];
+                $options = implode(' ', $column['options'] ?? []);
+
+                $requests[] = "ALTER TABLE {$this->tableName} ADD CONSTRAINT {$constraint} FOREIGN KEY ($foreignKey) REFERENCES {$reference}($foreignKey) $options";
             }
-        }        
+        }
       
         return ['request' => $requests, 'db' => $db];
     }
@@ -283,7 +260,9 @@ trait gearQueryChains
 
         foreach ($this->columns as $column) {
             if (isset($column['reference'], $column['foreign'])) {
-                $constraint = "fk_".$column['reference']."_".$this->tableName;
+                $constraint = isset($column['constraint']) 
+                                ? $column['constraint'] 
+                                : "fk_".$column['reference']."_".$this->tableName;
                 $reference = $column['reference'];
                 $foreignKey = $column['foreign'];
                 $options = implode(' ', $column['options'] ?? []);
@@ -356,7 +335,7 @@ trait gearQueryChains
             case 'sqlite':
                 return "{$option} INDEX {$indexName} ON {$this->tableName}({$columns})";
             default:
-                throw new InvalidArgumentException("Unsupported database type: {$db}");
+                throw new \InvalidArgumentException("Unsupported database type: {$db}");
         }
     }
 
