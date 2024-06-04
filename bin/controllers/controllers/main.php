@@ -35,7 +35,7 @@ final class main extends MainSwitchers
         if (static::isValidMethod()) {
 
             $result = static::initConfig()['auth']->usersAuthManagers(
-               static::getPost('__codeuser__'),
+               static::getPost('__login__'),
                static::getPost('__password__')
             );
 

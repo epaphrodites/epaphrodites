@@ -36,7 +36,7 @@ class LayoutsConfig
         $urls =
             [
                 1 => "layouts/template/__default.super.admin.html.twig",
-                2 => "layouts/template/__default.all.centraladmin.html.twig",
+                2 => "layouts/template/__default.all.central.admin.html.twig",
                 3 => "layouts/template/__default.all.users.html.twig",
             ];
 
