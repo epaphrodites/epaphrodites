@@ -9,17 +9,17 @@ class ImportFiles extends FilesExtension
      * @param mixed $ExcelFiles
      * @return array|bool
     */
-    public function importExcelFiles( $ExcelFiles ):array|bool
+    public function importExcelFiles( $ExcelFiles , $key = 'file' ):array|bool
     {
 
-        if(isset($ExcelFiles) && in_array($_FILES['file']['type'], static::$FilesMimes)) 
+        if(isset($ExcelFiles) && in_array($_FILES[$key]['type'], static::$FilesMimes)) 
         {
             
             $GetReader = $this->ExtenstionFiles($ExcelFiles);
 
             if($GetReader!==false){
 
-                $SpreadSheet = $GetReader->load($_FILES['file']['tmp_name']);
+                $SpreadSheet = $GetReader->load($_FILES[$key]['tmp_name']);
 
                 return $SpreadSheet->getActiveSheet()->toArray();
 
