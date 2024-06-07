@@ -137,7 +137,7 @@ final class users extends MainSwitchers
                     [$this->ans, $this->alert] = static::Responses(
                         $this->result, [  
                             true => ['succes', 'alert-success'], 
-                            false => ['rightexist', 'alert-danger'] 
+                            false => ['erreur', 'alert-danger'] 
                         ]);
                 }
             } else {
@@ -189,7 +189,7 @@ final class users extends MainSwitchers
                 [$this->ans, $this->alert] = static::Responses(
                     $this->result, [  
                         true => ['succes', 'alert-success'], 
-                        false => ['rightexist', 'alert-danger'] 
+                        false => ['erreur', 'alert-danger'] 
                     ]);
             }
         }

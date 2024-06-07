@@ -7,7 +7,8 @@ use Epaphrodites\epaphrodites\constant\epaphroditeClass;
 class GetRightList extends epaphroditeClass
 {
 
-   /**
+   /** users right list
+    * 
     * @return array
     */
    public static function RightList():array
@@ -17,50 +18,49 @@ class GetRightList extends epaphroditeClass
          [
             'apps' => 'profil',
             'libelle' => "Change password",
-            'path' => 'users/change_password'
+            'path' => 'usersFolder/change_password'
          ],
          [
             'apps' => 'profil',
             'libelle' => "Change my informations",
-            'path' => 'users/edit_users_infos'
+            'path' => 'usersFolder/edit_users_infos'
          ],
          [
             'apps' => 'chatbot',
             'libelle' => 'Start chatbot model one',
-            'path' => 'chats/start_chatbot_model_one',
+            'path' => 'chatsFolder/start_chatbot_model_one',
          ],   
          [
             'apps' => 'chatbot',
             'libelle' => 'Start chatbot model two',
-            'path' => 'chats/start_chatbot_model_two',
+            'path' => 'chatsFolder/start_chatbot_model_two',
          ], 
          [
             'apps' => 'chatbot',
             'libelle' => 'Start chatbot model three',
-            'path' => 'chats/start_chatbot_model_three',
+            'path' => 'chatsFolder/start_chatbot_model_three',
          ], 
          [
             'apps' => 'chatbot',
             'libelle' => 'Start bot writing',
-            'path' => 'chats/start_bot_writing',
+            'path' => 'chatsFolder/start_bot_writing',
          ],                                                       
          [
             'apps' => 'users',
             'libelle' => 'Import system users',
-            'path' => 'users/import_users',
+            'path' => 'usersFolder/import_users',
          ], 
          [
             'apps' => 'users',
             'libelle' => 'List of system all Users',
-            'path' => 'users/all_users_list',
+            'path' => 'usersFolder/all_users_list',
          ], 
          [
             'apps' => 'actions',
             'libelle' => 'List of recent actions',
-            'path' => 'setting/list_of_recent_actions',
+            'path' => 'settingFolder/list_of_recent_actions',
          ],           
 
         ];
-        
     }
  }
