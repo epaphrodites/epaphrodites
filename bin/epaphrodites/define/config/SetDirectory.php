@@ -106,6 +106,9 @@ define('_PYTHON_FILE_FOLDERS_', 'bin/epaphrodites/python/');
 // Dashboard home page
 define('_DASHBOARD_', 'dashboard/');
 
+// Dashboard home folders
+define('_DASHBOARD_FOLDERS_', 'dashboardFolder/');
+
 // Session auth id
 define('_AUTH_ID_', 'id');
 

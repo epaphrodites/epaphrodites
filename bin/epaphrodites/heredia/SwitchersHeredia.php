@@ -53,7 +53,7 @@ class SwitchersHeredia extends Authorize{
         $Run=NULL 
     ){
 
-        $isDashboard = strpos($target, _DASHBOARD_ ) !== false;
+        $isDashboard = strpos($target, _DASHBOARD_FOLDERS_ ) !== false;
 
         $Run = $autorize === true && $isDashboard === false ? static::Authorize($target) : true;
 
