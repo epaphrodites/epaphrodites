@@ -9,7 +9,13 @@
 
     <div class="container">
         <div class="card_filter_search">
-            {{ filter_search('datasearch' , 'submitsearch' , 'Search...' , 'classsearch') }}
+            
+            {{ filter_search({
+                name: 'datasearch', 
+                submit: 'submitsearch', 
+                placeholder:'Search...'
+            }) }}
+
             <div class="filtercard" align="right">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
