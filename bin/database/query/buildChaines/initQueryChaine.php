@@ -17,6 +17,8 @@ trait initQueryChaine{
 
         $this->where = NULL;
 
+        $this->and = NULL;
+
         $this->group = NULL;
 
         $this->insert = NULL;
