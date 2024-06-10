@@ -11,6 +11,14 @@ trait initQueryChaine{
        
         $this->table = NULL;
 
+        $this->join = NULL;
+
+        $this->joinFull = NULL;
+
+        $this->joinLeft = NULL;
+
+        $this->joinRight = NULL;
+
         $this->chaine = NULL;
 
         $this->like = NULL;
@@ -21,6 +29,8 @@ trait initQueryChaine{
 
         $this->group = NULL;
 
+        $this->order = NULL;
+
         $this->insert = NULL;
 
         $this->values = NULL;
@@ -28,6 +38,10 @@ trait initQueryChaine{
         $this->rset = NULL;
 
         $this->set = NULL;
+
+        $this->replace = NULL;
+
+        $this->having = NULL;
 
         $this->set_i = NULL;
 
@@ -43,7 +57,7 @@ trait initQueryChaine{
 
         $this->sumCase = NULL;
 
-        $this->having = NULL;
+        $this->or = NULL;
 
         $this->set_date = NULL;
 
