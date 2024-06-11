@@ -189,7 +189,7 @@
 			<label class="form-label">{{ selectOptions.label|e }}</label>
 		{% endif %}
 
-		<select class="form-select custom-select selecteur {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }}" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'id' , 'onchange' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ selectOptions.require is defined and selectOptions.require ? 'required' }}>
+		<select class="form-select custom-select selecteur {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }} {{ selectOptions.select2 is defined and selectOptions.select2 ? selectOptions.select2 }}" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'id' , 'onchange' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ selectOptions.require is defined and selectOptions.require ? 'required' }}>
 			{% if selectOptions.init is defined %}
 				<option value="">------ {{ selectOptions.init }} ------</option> 
 			{% endif %}
