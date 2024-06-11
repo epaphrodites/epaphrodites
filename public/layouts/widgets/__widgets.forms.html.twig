@@ -89,9 +89,9 @@
 {# --- Import input field -- #}
 {% macro import_field( selectOptions ) %}
 	<div class="form-group">
-		<br>
+	{% if selectOptions.label is not defined %}<br>{% endif %}
 		{% if selectOptions.label is defined %}
-			<label class="form-label">{{ selectOptions.label }}</label> <br>
+			<label class="form-label">{{ selectOptions.label }}</label><br>
 		{% endif %}
 
 		<input type="file" class="form-control" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'accept', 'value', 'id', 'placeholder' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {% if selectOptions.size is defined %} data-max-size="{{ selectOptions.size }}" {% endif %} {{ selectOptions.require is defined and selectOptions.require ? "required" }}>
