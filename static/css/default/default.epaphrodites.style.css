@@ -574,3 +574,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
 }
+
+.select2-container .select2-selection--single {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid #d2cfcf;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 38px;
+  padding-left: 10px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 38px;
+}
+
+.select2-dropdown {
+  border-radius: 4px;
+  border: 1px solid #d2cfcf;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #f1f1f1;
+  color: #333;
+}
