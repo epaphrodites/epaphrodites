@@ -4,7 +4,7 @@
 		{% if inputOptions.label is defined %}
 			<label class="form-label">{{ inputOptions.label }}</label>
 		{% endif %}
-		<input class="form-control {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" type="{{ inputOptions.type | default('text') }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'placeholder', 'value', 'id', 'maxlength'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ inputOptions.require is defined and inputOptions.require ? 'required' }} {{ inputOptions.readOnly is defined ? 'readonly="readonly"' }} {% if inputOptions.character is defined %} {% set characterActions = { 'mixed': "mixed(this); this.value=this.value.toUpperCase();", 'string': "onlyChaines(this); this.value=this.value.toUpperCase();", 'numeric': "onlyNumeric(this);" } %} {% set eventCode = characterActions[inputOptions.character] ?? '' %} {% if eventCode %} onkeyup="{{ eventCode|e }}" {% endif %} {% endif %}>
+		<input class="form-control {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}" type="{{ inputOptions.type | default('text') }}" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'placeholder', 'value', 'id', 'maxlength'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ inputOptions.require is defined and inputOptions.require ? 'required' }}{{ inputOptions.readOnly is defined ? 'readonly="readonly"' }} {% if inputOptions.character is defined %} {% set characterActions = { 'mixed': "mixed(this); this.value=this.value.toUpperCase();", 'string': "onlyChaines(this); this.value=this.value.toUpperCase();", 'numeric': "onlyNumeric(this);" } %} {% set eventCode = characterActions[inputOptions.character] ?? '' %} {% if eventCode %} onkeyup="{{ eventCode|e }}" {% endif %} {% endif %} {{ inputOptions.disabled is defined and inputOptions.disabled ? 'disabled' }}>
 		{% if inputOptions.feedback is defined %}
 			<div class="invalid-feedback">{{ inputOptions.feedback }}</div>
 		{% endif %}
@@ -16,7 +16,7 @@
 {# --- submit buttom -- #}
 {% macro submit( submitOptions ) %}
 	<div class="{{ submitOptions.mainClass | default('form-group') }} button_design">
-		<button name="submit" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="submit" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px;width: 100%;" {% if submitOptions.onclick is defined %} onclick = "{{ submitOptions.onclick ~ '()' }}" {% endif %}>
+		<button name="{{ submitOptions.name | default('submit') }}" class="btn btn-block {{ submitOptions.class is defined and submitOptions.class ? submitOptions.class }}" id="{{ submitOptions.id | default('BtnValidate') }}" type="{{ submitOptions.type | default('submit') }}" style="padding-right: 10px; background-color:{{ submitOptions.color is defined and submitOptions.color ? submitOptions.color : "#00738c" }}; color: #fff;margin-top:7px;width: 100%;" {% if submitOptions.onclick is defined %} onclick = "{{ submitOptions.onclick ~ '()' }}" {% endif %}>
 			{% if submitOptions.icon is defined %}
 				<i class="{{ submitOptions.icon }} "></i>
 			{% endif %}
@@ -89,7 +89,7 @@
 {# --- Import input field -- #}
 {% macro import_field( selectOptions ) %}
 	<div class="form-group">
-	{% if selectOptions.label is not defined %}<br>{% endif %}
+		{% if selectOptions.label is not defined %}<br>{% endif %}
 		{% if selectOptions.label is defined %}
 			<label class="form-label">{{ selectOptions.label }}</label><br>
 		{% endif %}
@@ -189,7 +189,7 @@
 			<label class="form-label">{{ selectOptions.label|e }}</label>
 		{% endif %}
 
-		<select class="form-select custom-select selecteur {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }} {{ selectOptions.select2 is defined and selectOptions.select2 ? selectOptions.select2 }}" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'id' , 'onchange' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ selectOptions.require is defined and selectOptions.require ? 'required' }}>
+		<select class="form-select custom-select selecteur {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }} {{ selectOptions.select2 is defined and selectOptions.select2 ? 'select2' }}" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'id' , 'onchange' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ selectOptions.require is defined and selectOptions.require ? 'required' }}>
 			{% if selectOptions.init is defined %}
 				<option value="">------ {{ selectOptions.init }} ------</option> 
 			{% endif %}

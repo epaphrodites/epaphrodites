@@ -318,6 +318,10 @@ function submitActions() {
   document.ifSendDatas.submit();
 }
 
+function submitForm() {
+  document.getElementById("submitForm").submit();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   const btnValidate = document.getElementById("BtnValidate");
   if (btnValidate) {

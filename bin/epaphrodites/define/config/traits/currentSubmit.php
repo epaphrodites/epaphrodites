@@ -14,6 +14,39 @@ trait currentSubmit
     private static array $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
 
     /**
+     * @param mixed $key
+     * @param string $method
+     * @param array $customMethods
+     * @return bool
+    */
+    public static function isSubmit(
+        string $key, 
+        string $method = 'POST', 
+        array $customMethods = []
+    ):bool{
+        $defaultMethods = [
+            'POST' => $_POST,
+            'GET' => $_GET,
+            'PUT' => array_key_exists('php://input', $customMethods) ? stream_get_contents($customMethods['php://input']) : null,
+            'DELETE' => array_key_exists('php://input', $customMethods) ? stream_get_contents($customMethods['php://input']) : null,
+        ];
+    
+        $methods = array_merge($defaultMethods, $customMethods);
+    
+        $superglobal = match (strtoupper($method)) {
+            'POST', 'GET' => $methods[$method],
+            'PUT', 'DELETE' => $methods[$method] ?? null,
+            default => null,
+        };
+    
+        if ($superglobal === null) {
+            return false;
+        }
+    
+        return array_key_exists($key, is_array($superglobal) ? $superglobal : []);
+    }
+
+    /**
      * Check if a variable exists in the $_POST array.
      *
      * @param string $key The key to check.
@@ -145,8 +178,11 @@ trait currentSubmit
      * @param string $key The key in the $_FILES array to check.
      * @return bool True if the file exists and there's no error; otherwise, false.
      */
-    public static function isFileName(string $key): bool {
-        return isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK;
+    public static function isFileName(string $key, bool $num = false): bool {
+
+        return $num == false 
+                    ? isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK
+                    : isset($_FILES[$key]) && $_FILES[$key]['error'][0] === UPLOAD_ERR_OK;
     } 
     
     /**
@@ -154,17 +190,24 @@ trait currentSubmit
      * @return string|'name'
      */
     public static function getFileName(
-        string $key, 
-        string $value = 'name'
-    ):string|null {
-        
-        if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
-          
-            return $_FILES[$key][$value];
-        } else {
-           
-            return null;
+        string $key,
+        string $value = 'name',
+        bool $num = false
+    ): string|null
+    {
+        if (static::isFileName($key)) {
+            $fileName = $_FILES[$key][$value];
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $baseName = preg_replace('/[^\w\.]/', '_', pathinfo($fileName, PATHINFO_FILENAME));
+            return $baseName . ($extension ? '.' . $extension : '');
+        } elseif (static::isFileName($key, $num)) {
+            $fileName = $_FILES[$key][$value][0];
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $baseName = preg_replace('/[^\w\.]/', '_', pathinfo($fileName, PATHINFO_FILENAME));
+            return $baseName . ($extension ? '.' . $extension : '');
         }
+    
+        return null;
     }
     
     /**

@@ -158,58 +158,63 @@ trait phpEnv{
     }
 
     /**
-     * Uploads files based on the provided array of paths and file keys.
-     * 
-     * @param array $pathsAndFiles Associative array mapping destination paths to $_FILES keys.
-     * @return bool Returns true if all files are successfully uploaded, false otherwise.
-     */
-    public function uploadFiles(
-        array $pathsAndFiles = []
-    ): bool
-    {
-        if (empty($pathsAndFiles)) {
-            return false;
-        }
-    
-        $allUploaded = true;
-    
-        foreach ($pathsAndFiles as $targetPath => $fileKey) {
-
-            if (!isset($_FILES[$fileKey]) || !is_uploaded_file($_FILES[$fileKey]['tmp_name'])) {
-                $allUploaded = false;
-                continue;
-            }
-    
-            $safeFileName = $this->generateSafeFileName($_FILES[$fileKey]['name']);
-            if (!$safeFileName) {
-                $allUploaded = false;
-                continue;
-            }
-    
-            $fulltargetPath = rtrim($targetPath, '/') . '/' . $safeFileName;
-    
-            if (!move_uploaded_file($_FILES[$fileKey]['tmp_name'], $fulltargetPath)) {
-                $allUploaded = false;
-            }
-        }
-    
-        return $allUploaded;
+     * @param string $chaine
+     * @return bool
+    */
+    public function startsWithLetter(string $chaine):bool {
+       
+        return preg_match('/^[a-zA-Z]/', $chaine) === 1;
     }
-    
-    /**
-     * @param string $intFileName
-     * @return string|false
-    */    
-    protected function generateSafeFileName(
-        string $intFileName
-    ): string|false
-    {
-        $extension = pathinfo($intFileName, PATHINFO_EXTENSION);
-        $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '', pathinfo($intFileName, PATHINFO_FILENAME));
-        $safeFileName = $safeName . (($extension) ? '.' . $extension : '');
-    
-        return $safeFileName ?: false;
-    }    
+
+ /**
+ * Uploads files based on the provided array of paths and file keys.
+ *
+ * @param array $pathsAndFiles Associative array mapping destination paths to $_FILES keys.
+ * @param bool $useNumericKey Whether to use a numeric key to access uploaded files.
+ * @return bool Returns true if all files are successfully uploaded, false otherwise.
+ */
+public function uploadFiles(array $pathsAndFiles = [], bool $useNumericKey = false): bool
+{
+    if (empty($pathsAndFiles)) {
+        return false;
+    }
+
+    $allUploaded = true;
+    foreach ($pathsAndFiles as $targetPath => $fileKey) {
+        $fileInfo = $_FILES[$fileKey];
+        if (!isset($fileInfo) || !is_uploaded_file($useNumericKey ? $fileInfo['tmp_name'][0] : $fileInfo['tmp_name'])) {
+            $allUploaded = false;
+            continue;
+        }
+
+        $fileName = $useNumericKey ? $fileInfo['name'][0] : $fileInfo['name'];
+        $safeFileName = $this->generateSafeFileName($fileName);
+        if (!$safeFileName) {
+            $allUploaded = false;
+            continue;
+        }
+
+        $fullTargetPath = rtrim($targetPath, '/') . '/' . $safeFileName;
+        $tmpName = $useNumericKey ? $fileInfo['tmp_name'][0] : $fileInfo['tmp_name'];
+        if (!move_uploaded_file($tmpName, $fullTargetPath)) {
+            $allUploaded = false;
+        }
+    }
+
+    return $allUploaded;
+}
+
+/**
+ * @param string $intFileName
+ * @return string|false
+ */
+protected function generateSafeFileName(string $intFileName): string|false
+{
+    $extension = pathinfo($intFileName, PATHINFO_EXTENSION);
+    $baseName = preg_replace('/[^\w\.]/', '_', pathinfo($intFileName, PATHINFO_FILENAME));
+    $safeFileName = $baseName . ($extension ? '.' . $extension : '');
+    return $safeFileName ?: false;
+}  
 
     /**
      * Clean directory
