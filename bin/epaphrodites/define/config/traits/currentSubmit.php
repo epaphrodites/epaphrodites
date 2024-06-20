@@ -4,8 +4,6 @@ namespace Epaphrodites\epaphrodites\define\config\traits;
 
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 
-
-
 trait currentSubmit
 {
 

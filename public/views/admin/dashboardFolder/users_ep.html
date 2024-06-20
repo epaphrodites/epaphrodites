@@ -1,5 +1,5 @@
 {% extends layouts %}
-{% from charts import chart %}
+{% from charts import chartTwo %}
 {% block content %}
 
     <div class="container-fluid dashboard">
@@ -69,7 +69,7 @@
                 </div>
         </div>
     </div>
-    {{ chart(
+    {{ chartTwo(
         {
             id: 'epaphroditeChart',
             label: 'Epaphrodite Example Chart',
