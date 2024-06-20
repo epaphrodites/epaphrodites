@@ -9,12 +9,12 @@ class ImportFiles extends FilesExtension
      * @param mixed $ExcelFiles
      * @return array|bool
     */
-    public function importExcelFiles( $ExcelFiles , $key = 'file' ):array|bool
+    public function importExcelFiles( $ExcelFiles, $key = '__file__' ):array|bool
     {
 
         if(isset($ExcelFiles) && in_array($_FILES[$key]['type'], static::$FilesMimes)) 
         {
-            
+
             $GetReader = $this->ExtenstionFiles($ExcelFiles);
 
             if($GetReader!==false){

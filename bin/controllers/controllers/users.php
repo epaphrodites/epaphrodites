@@ -122,9 +122,9 @@ final class users extends MainSwitchers
     ): void
     {
 
-        if (static::isValidMethod(true)&&static::isFileName('file')) {
+        if (static::isValidMethod(true)&&static::isFileName('__file__')) {
 
-            $SheetData = $this->importFiles->importExcelFiles(static::getFileName('file'));
+            $SheetData = $this->importFiles->importExcelFiles(static::getFileName('__file__'));
 
             if (!empty($SheetData)) {
                 
@@ -137,7 +137,7 @@ final class users extends MainSwitchers
                     [$this->ans, $this->alert] = static::Responses(
                         $this->result, [  
                             true => ['succes', 'alert-success'], 
-                            false => ['erreur', 'alert-danger'] 
+                            false => ['error', 'alert-danger'] 
                         ]);
                 }
             } else {
@@ -189,7 +189,7 @@ final class users extends MainSwitchers
                 [$this->ans, $this->alert] = static::Responses(
                     $this->result, [  
                         true => ['succes', 'alert-success'], 
-                        false => ['erreur', 'alert-danger'] 
+                        false => ['error', 'alert-danger'] 
                     ]);
             }
         }
