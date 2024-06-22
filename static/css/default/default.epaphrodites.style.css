@@ -599,3 +599,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #f1f1f1;
   color: #333;
 }
+
+select[disabled] {
+  background-color: #e9ecef;
+  color: #000;
+  cursor: not-allowed;
+}
