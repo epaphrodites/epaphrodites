@@ -123,9 +123,10 @@ trait currentSubmit
      * Get the value from $_POST array for a given key with a default value.
      *
      * @param string $key The key to get.
+     * @param bool $clean
      * @return mixed The value for the key in $_POST or an empty string if not set.
      */
-    public static function getPost($key)
+    public static function getPost($key, bool $clean = false)
     {
 
         if (!isset($key) || $key === '') {
@@ -136,7 +137,7 @@ trait currentSubmit
             throw new epaphroditeException('Invalid key');
         }
 
-        return static::noSpace($_POST[$key]) ?? '';
+        return $clean ? $_POST[$key] : (static::noSpace($_POST[$key]) ?? '') ;
     }
 
    /**
