@@ -55,6 +55,7 @@ trait currentVariableNameSpaces
         'qrcode' => \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode::class,
         'verify' => \Epaphrodites\epaphrodites\env\VerifyInputCharacteres::class,
         'response' => \Epaphrodites\epaphrodites\env\config\ResponseSequence::class,
+        'visit' => \Epaphrodites\epaphrodites\EpaphMozart\Visitors\visitorCount::class,
         'import' => \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles::class,
         'export' => \Epaphrodites\epaphrodites\ExcelFiles\ExportFiles\ExportFiles::class,
         'mozart' => \Epaphrodites\epaphrodites\EpaphMozart\ModulesConfig\SwitchersList::class,

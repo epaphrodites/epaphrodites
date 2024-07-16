@@ -48,6 +48,7 @@ class TwigExtension extends SetTwigFunctions
             new TwigFilter('toiso', [ $this , 'isoPath_twig']),
             new TwigFilter('fullDate', [ $this , 'LongPath_twig']),
             new TwigFilter('dates', [ $this , 'dates_twig']),
+            new TwigFilter('truncate', [ $this , 'truncatePath_twig'])
         ];
     }     
 

@@ -1,7 +1,7 @@
 composer.lock
 server.log
-test.py
-test.php
+counter.json
+test/
 sqLite.session.sql
 postgres.session.sql
 cassandra.session.sql

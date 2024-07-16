@@ -32,6 +32,7 @@ trait currentFunctionNamespaces
             'bot' => new \Epaphrodites\epaphrodites\chatBot\processBotAnswers,
             'verify' => new \Epaphrodites\epaphrodites\env\VerifyInputCharacteres,
             'response' => new \Epaphrodites\epaphrodites\env\config\ResponseSequence,
+            'visit' => new \Epaphrodites\epaphrodites\EpaphMozart\Visitors\visitorCount,
             'import' => new \Epaphrodites\epaphrodites\ExcelFiles\ImportFiles\ImportFiles,
             'export' => new \Epaphrodites\epaphrodites\ExcelFiles\ExportFiles\ExportFiles,
             'eng' => new \Epaphrodites\epaphrodites\define\lang\eng\SetEnglishTextMessages,

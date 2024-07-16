@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>500 error</title>
+    <title>504 ERROR</title>
 </head>
 <style>
     .error {
@@ -35,8 +35,8 @@
 
 <body>
     <div class="error">
-        <h1>500 ERROR</h1>
-        <p>Internal server error...</p>
+        <h1>ERROR 504</h1>
+        <p>HTTP 504 (Gateway Timeout)</p>
         <a href="<?=$host; ?>">Go Back</a>
     </div>
 </body>
