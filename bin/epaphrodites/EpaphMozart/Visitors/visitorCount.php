@@ -28,6 +28,7 @@ class visitorCount{
      * but only for new users or users who haven't visited in the last 24 hours.
      */
     public function recordVisit(): void {
+        
         // Check if the user has already been counted in the last 24 hours
         if ($this->isRecentUser()) {
             return;

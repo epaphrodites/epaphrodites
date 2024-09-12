@@ -30,7 +30,7 @@ trait chatBot{
                 <div class="msg">
                     <strong>'.$chatBotName.' :</strong>
                     <div class="bot-msg-'.$additionalClass.'">
-                        <p>' . $datas[$key]["answers"] . '</p>
+                        <p>' . nl2br($datas[$key]["answers"]) . '</p>
                     </div>
                 </div>
             </div>';

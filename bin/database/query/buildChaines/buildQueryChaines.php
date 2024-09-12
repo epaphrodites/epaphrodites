@@ -119,17 +119,17 @@ trait buildQueryChaines
         }
 
         /** 
-         * Add ORDER BY if exist
-         */
-        if ($this->order) {
-            $query .= " {$this->order}";
-        }
-
-        /** 
          * Add GROUP BY if exist
          */
         if ($this->group) {
             $query .= " {$this->group}";
+        }
+
+        /** 
+         * Add ORDER BY if exist
+         */
+        if ($this->order) {
+            $query .= " {$this->order}";
         }
 
         /** 

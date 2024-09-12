@@ -39,7 +39,7 @@ final class main extends MainSwitchers
                static::getPost('__password__')
             );
 
-            [$this->ans, $this->alert] = static::Responses($result, [ false => ['error', 'login-wrong'] ]);
+            [$this->ans, $this->alert] = static::Responses($result, [ false => ['login-wrong', 'error'] ]);
         }
 
         $this->views( $html,

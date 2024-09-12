@@ -27,14 +27,12 @@ class SetSessionSetting extends SetUsersCookies
     private function getSessionIfNotExist():void
     {
 
-        $name = static::class('msg')->answers('session_name');
-
         if (!static::hasStarted()) {
 
             static::$IS_SSL = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on';
 
-            if (!empty($name)) {
-                session_name($name);
+            if (!empty(_SESSION_)) {
+                session_name(_SESSION_);
             } elseif (static::$IS_SSL) {
                 session_name('__Secure-PHPSESSID');
             }
@@ -42,7 +40,9 @@ class SetSessionSetting extends SetUsersCookies
             $this->setting->session_params()['domain'] = $_SERVER['SERVER_NAME']??'';
             $this->setting->session_params()['secure'] = static::$IS_SSL;
 
-            session_set_cookie_params(array_merge( $this->setting->session_params(), $this->setting->others_options()));
+            $param = array_merge( $this->setting->session_params(), $this->setting->others_options());
+            
+            session_set_cookie_params($param);
             session_start();
 
             if (static::class('session')->login() === NULL && empty(static::class('session')->token_csrf())) {
