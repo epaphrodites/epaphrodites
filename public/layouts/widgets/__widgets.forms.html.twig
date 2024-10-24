@@ -188,7 +188,6 @@
         {% if selectOptions.label is defined %}
             <label class="form-label">{{ selectOptions.label|e }}</label>
         {% endif %}
-
         <select class="form-select custom-select selecteur {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }} {{ selectOptions.select2 is defined and selectOptions.select2 ? 'select2' }}" {% for attribute, value in selectOptions %} {% if attribute in ['name', 'id', 'onchange'] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ selectOptions.require is defined and selectOptions.require ? 'required' }} {{ selectOptions.disabled is defined and selectOptions.disabled ? 'disabled' }}>
             {% if selectOptions.init is defined %}
                 <option value="">------ {{ selectOptions.init }} ------</option> 
@@ -196,9 +195,17 @@
             {% if selectOptions.datas is defined %}
                 {% set selected_option_found = false %}
                 {% for datas in selectOptions.datas %}
-                    {% set counter = (counter | default(0)) + 1 %}
-                    {% set is_selected = selectOptions.position is defined and ((selectOptions.value and datas[selectOptions.value]|e == selectOptions.position|e) or selectOptions.position == counter|e) %}
-                    <option {% if is_selected and not selected_option_found %} selected="selected" {% set selected_option_found = true %} {% endif %} value="{{ selectOptions.value is defined and selectOptions.value ? datas[selectOptions.value]|e : counter|e }}">
+                    {% set is_selected = false %}
+                    {% if selectOptions.position is defined %}
+                        {% if selectOptions.value is defined and datas[selectOptions.value]|e == selectOptions.position|e %}
+                            {% set is_selected = true %}
+                        {% elseif selectOptions.selected is defined and datas[selectOptions.selected]|e == selectOptions.position|e %}
+                            {% set is_selected = true %}
+                        {% elseif selectOptions.value is not defined and selectOptions.selected is not defined and loop.index == selectOptions.position %}
+                            {% set is_selected = true %}
+                        {% endif %}
+                    {% endif %}
+                    <option {% if is_selected and not selected_option_found %} selected="selected" {% set selected_option_found = true %} {% endif %} value="{{ selectOptions.value is defined and selectOptions.value ? datas[selectOptions.value]|e : loop.index }}">
                         {{ selectOptions.selected is defined and selectOptions.selected ? datas[selectOptions.selected]|e : datas|e }}
                     </option>
                 {% endfor %}
@@ -206,5 +213,35 @@
         </select>
     </div>
 {% endmacro %}
-
 {# --- End select Field -- #}
+
+{# --- multi select Field -- #}
+{% macro multiSelect_field(selectOptions) %}
+    <div class="form-group">
+        {% if selectOptions.label is defined %}
+            <label class="form-label">{{ selectOptions.label|e }}</label>
+        {% endif %}
+        <div class="dropdown">
+			<button class="btn w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+				{{ selectOptions.button_label is defined ? selectOptions.button_label : 'Select Options' }}
+				<i class="bi-chevron-down"></i> 
+			</button>
+            <div class="dropdown-menu dropdownEpaphroditesSelector w-100" aria-labelledby="dropdownMenuButton">
+                <fieldset>
+                    {% if selectOptions.datas is defined %}
+                        {% for datas in selectOptions.datas %}
+                            {% set is_selected = selectOptions.position is defined and (selectOptions.value is defined and selectOptions.value in datas and datas[selectOptions.value]|e in selectOptions.position or loop.index in selectOptions.position) %}
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input {{ selectOptions.class is defined and selectOptions.class ? selectOptions.class }}" id="option_{{ loop.index }}" name="{{ selectOptions.name is defined ? selectOptions.name ~ '[]' : 'options[]' }}" value="{{ selectOptions.value is defined ? datas[selectOptions.value]|e : loop.index }}" {% if is_selected %} checked="checked" {% endif %} onchange="{{ selectOptions.onchange is defined ? selectOptions.onchange : '' }}" tabindex="0">
+                                <label class="form-check-label" for="option_{{ loop.index }}">
+                                    {{ selectOptions.selected is defined and selectOptions.selected ? datas[selectOptions.selected]|e : datas|e }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </fieldset>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+{# --- End multi select Field -- #}

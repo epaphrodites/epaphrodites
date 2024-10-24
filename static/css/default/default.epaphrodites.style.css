@@ -604,3 +604,28 @@ select[disabled] {
   background-color: #e9ecef;
   color: #000;
 }
+
+#dropdownMenuButton{
+  background-color: #fff;
+ }
+ 
+ .dropdownEpaphroditesSelector fieldset{
+   padding-left: 20px;
+   width: 100%;
+ }
+ 
+ .epaphroditesSelector{
+   width: 100%;
+   border: 1px solid #000;
+ }
+ 
+ .epaphroditesSelector .dropdown-menu{
+   width: 100%;
+   border: 1px solid #000;
+ }
+ 
+ #dropdownMenuButton i{
+   font-size: 14px;
+   font-weight: bold;
+   float: right;
+ }

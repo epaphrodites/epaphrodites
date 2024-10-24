@@ -79,38 +79,70 @@ class GeneralConfig extends ApiStaticKeygen
      * @return string - Output of the Python script or an error message.
      */
     public function pythonSystemCode(
-        ?string $scriptPath = null, 
-        array $data = [] 
-    ): string
-    {
-
+        ?string $scriptPath = null,
+        array $data = []
+    ): string {
         if ($scriptPath === null || !file_exists($scriptPath)) {
-
-            throw new \InvalidArgumentException("This file $scriptPath do not exist.");
+            throw new \InvalidArgumentException("This file $scriptPath does not exist.");
         }
 
-        array_walk_recursive($data, fn(&$value) => $value = is_string($value) ? strtr($value, [
-            ',' => ';u7q7b;',
-            '/' => ';v7K7bT;'
-        ]) : $value);
+        array_walk_recursive($data, function(&$value) {
+            if (is_string($value)) {
 
-        $escapedData = escapeshellarg(json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_HEX_QUOT));
+                if ($this->isBinary($value)) {
+                    $value = [
+                        '_type' => 'binary',
+                        'data' => base64_encode($value)
+                    ];
+                }
+            }
+        });
 
-        $scriptPath = escapeshellcmd($scriptPath);
+        $encodedData = base64_encode(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $scriptPath = escapeshellarg($scriptPath);
 
-        $command = _PYTHON_ . " $scriptPath $escapedData";
-        
-        ob_start();
+        $command = _PYTHON_ . " " . $scriptPath . " " . escapeshellarg($encodedData) . " 2>&1";
 
-        passthru($command, $returnCode);
+        $descriptorSpec = [
+            0 => ["pipe", "r"],
+            1 => ["pipe", "w"],
+            2 => ["pipe", "w"]
+        ];
 
-        $output = ob_get_clean();
+        $process = proc_open($command, $descriptorSpec, $pipes);
+
+        if (!is_resource($process)) {
+            throw new \RuntimeException("Failed to start Python process");
+        }
+
+        fclose($pipes[0]);
+
+        $output = stream_get_contents($pipes[1]);
+        $errors = stream_get_contents($pipes[2]);
+
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+
+        $returnCode = proc_close($process);
 
         if ($returnCode !== 0) {
-
-            throw new \RuntimeException("Error while executing the Python script. Return code : $returnCode");
+            throw new \RuntimeException(
+                "Error executing Python script. Return code: $returnCode\nErrors: $errors"
+            );
         }
 
-        return rtrim($output);
-    } 
+        if ($this->isBase64($output)) {
+            $output = base64_decode($output);
+        }
+
+        return trim($output);
+    }
+
+    private function isBinary(string $str): bool {
+        return preg_match('~[^\x20-\x7E\t\r\n]~', $str) > 0;
+    }
+
+    private function isBase64(string $str): bool {
+        return base64_encode(base64_decode($str, true)) === $str;
+    }
 }

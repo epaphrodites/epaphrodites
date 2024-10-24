@@ -112,7 +112,7 @@ final class users extends MainSwitchers
     }
 
     /**
-     * Upload users datas
+     * Import users data
      * 
      * @param string $html
      * @return void

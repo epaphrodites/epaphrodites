@@ -501,6 +501,8 @@ trait currentSubmit
 
         $string = html_entity_decode($string, ENT_QUOTES | ENT_HTML5);
 
+        $string = preg_replace('/[^\x20-\x7E]/u', '', $string);
+
         $string = trim(preg_replace('/\s+/', ' ', $string));
 
         return $string;

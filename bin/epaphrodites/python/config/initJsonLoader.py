@@ -1,4 +1,5 @@
 import json
+import base64
 
 class InitJsonLoader:
 
@@ -61,6 +62,8 @@ class InitJsonLoader:
 
    @staticmethod
    def loadJsonValues(json_values, replace = "¸"):
+       
+       json_values = base64.b64decode(json_values).decode('utf-8')
        
        json_values = InitJsonLoader.parse_custom_string_correctly(json_values)
        

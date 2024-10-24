@@ -1,60 +1,83 @@
 import sys
+import logging
+from pathlib import Path
 import PyPDF2
+from typing import Optional, Dict
 sys.path.append('bin/epaphrodites/python/config/')
 from initJsonLoader import InitJsonLoader
 
+class PDFConversionError(Exception):
+    """Custom exception for PDF conversion errors"""
+    pass
+
 class TranslateDocumentToText:
-    def __init__(self, document_path, password=None):
-        self.document_path = document_path
-        self.password = password
+    
+    @staticmethod
+    def pdf_to_text(file_path: str, password: Optional[str] = None) -> str:
 
-    def extract_text(self):
-        if self.is_pdf():
-            return self.extract_text_from_pdf()
+        try:
+            file_path = Path(file_path)
+            if not file_path.exists():
+                raise PDFConversionError(f"The file '{file_path}' does not exist.")
+                
+            with open(file_path, 'rb') as file:
+                reader = PyPDF2.PdfReader(file)
+                
+                if reader.is_encrypted and password:
+                    reader.decrypt(password)
+                    
+                text = []
+                for page_num, page in enumerate(reader.pages, 1):
+                    try:
+                        text.append(page.extract_text())
+                    except Exception as e:
+                        logging.warning(f"Error extracting page {page_num}: {str(e)}")
+                        
+                return '\n'.join(text)
+                
+        except Exception as e:
+            raise PDFConversionError(f"Error during PDF conversion: {str(e)}")
+
+def validate_json_data(data: Dict) -> bool:
+
+    required_fields = ['function', 'pdf']
+    return all(field in data for field in required_fields)
+
+def main():
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+    
+    try:
+        
+        if len(sys.argv) != 2:
+            raise ValueError("Usage: python translateDocumentToText.py <document_json_path>")
+            
+        json_values = sys.argv[1]
+        document_data = InitJsonLoader.loadJsonValues(json_values, ',')
+        
+        if not validate_json_data(document_data):
+            raise ValueError("The JSON file must contain 'function' and 'pdf'.")
+            
+        json_function = document_data['function']
+        document_path = document_data['pdf']
+        password = document_data.get('password')
+        
+        if json_function == "pdf_converter":
+            converter = TranslateDocumentToText()
+            extracted_text = converter.pdf_to_text(document_path, password)
+            print(extracted_text)
         else:
-            return "Unsupported document type."
-
-    def extract_text_from_pdf(self):
-        with open(self.document_path, 'rb') as pdf_file:
-            pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-            if pdf_reader.isEncrypted:
-                pdf_reader.decrypt(self.password)
-            text = ""
-            for page_num in range(pdf_reader.numPages):
-                page = pdf_reader.getPage(page_num)
-                text += page.extractText()
-            return text
-
-    def is_pdf(self):
-        return self.document_path.lower().endswith('.pdf')
-
+            raise ValueError(f"The function '{json_function}' is not recognized.")
+            
+    except (ValueError, PDFConversionError) as e:
+        logging.error(str(e))
+        sys.exit(1)
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {str(e)}")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    
-    if len(sys.argv) != 2:
-        print("Usage: python translateDocumentToText.py <document_json_path>")
-        sys.exit(1)
-
-    json_values = sys.argv[1]
-    
-    document_data = InitJsonLoader.loadJsonValues(json_values, ',')
-
-    if 'function' not in document_data or 'pdf' not in document_data:
-        print("The JSON file must contain 'function' and 'pdf'.")
-        sys.exit(1)
-
-    json_function = document_data['function']
-
-    document_path = document_data['pdf']
-
-    password = None
-
-    if json_function == "pdf_converter":
-        document_converter = TranslateDocumentToText(document_path, password)
-        extracted_text = document_converter.extract_text()
-        print(extracted_text)
-    
-    else:
-        print(f"The function '{json_function}' is not recognized.")
-        sys.exit(1)
-
+    main()

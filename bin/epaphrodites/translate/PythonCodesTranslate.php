@@ -8,7 +8,7 @@ use Epaphrodites\epaphrodites\env\config\GeneralConfig;
 
 class PythonCodesTranslate extends GeneralConfig
 {
-
+    
     /**
      * Execute Python script.
      *

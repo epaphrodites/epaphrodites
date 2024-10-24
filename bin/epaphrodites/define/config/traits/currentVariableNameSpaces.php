@@ -119,7 +119,16 @@ trait currentVariableNameSpaces
         'insert' => \Epaphrodites\database\requests\mainRequest\insert\insert::class,
         'select' => \Epaphrodites\database\requests\mainRequest\select\select::class,
         'general' => \Epaphrodites\database\requests\mainRequest\select\general::class,
-    ];     
+    ];  
+    
+    /**
+     * @var string[] $initConfig
+     * @return array
+    */     
+    public static array $initConfig =
+    [
+        'python' => \Epaphrodites\epaphrodites\translate\PythonCodesTranslate::class,
+    ];    
     
     /**
      * @var string[] $initAuthConfig
