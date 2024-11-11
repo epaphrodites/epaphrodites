@@ -27,6 +27,8 @@ trait initQueryChaine{
 
         $this->and = NULL;
 
+        $this->andJSON = NULL;
+
         $this->group = NULL;
 
         $this->order = NULL;

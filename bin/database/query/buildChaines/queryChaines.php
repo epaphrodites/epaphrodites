@@ -22,6 +22,7 @@ trait queryChaines
     private $between;
     private $between_date;
     private $and;
+    private $andJSON;
     private $order;
     private $join;
     private $sumCase;
@@ -275,6 +276,7 @@ trait queryChaines
 
         return $this;
     }
+
     /**
      * Sets the WHERE condition for the query
      *
@@ -519,6 +521,25 @@ trait queryChaines
 
         return $this;
     }
+
+    /**
+     * Sets the JSON AND conditions for the query
+     *
+     * @param array $getand The array of conditions to be connected with AND
+     * @return self
+     */
+    public function andJSON(
+        string $jsonB = 'data',
+        array $getand = []
+    ): self{
+        $this->andJSON = NULL;
+
+        foreach ($getand as $val) {
+            $this->andJSON .= " AND " . "$jsonB::jsonb ->> '$val'" . " = ? ";
+        }
+
+        return $this;
+    }    
 
     /**
      * Sets the OR conditions for the query

@@ -9,11 +9,11 @@ trait buildQuery
     /**
      * Get the built SELECT query
      *
-     * @return string
+     * @return mixed
      */
     public function getQuery(
         int $db = 1
-    ): string
+    ): mixed
     {
         $query = "$this->chaine"; // Get initial query chain
 

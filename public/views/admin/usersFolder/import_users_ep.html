@@ -10,7 +10,7 @@
         <form class="laodForm" method="POST" novalidate name="frmExcelImport" enctype="multipart/form-data">
         
             {{ __csrf() }}
-    
+            <p>Colunm header ( <strong>users</strong> )</p>
             {{ select_field({
                 label:"USERS GROUP",
                 name : "__group__",

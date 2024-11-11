@@ -105,6 +105,13 @@ trait buildQueryChaines
         }
 
         /** 
+         * Add JSON AND if exist
+         */
+        if ($this->andJSON) {
+            $query .= "{$this->andJSON}";
+        }
+
+        /** 
          * Add IS NOT NULL OR IS NULL if exist
          */
         if ($this->is) {
@@ -289,6 +296,13 @@ trait buildQueryChaines
         }
 
         /** 
+         * Add JSON AND if exist
+         */
+        if ($this->andJSON) {
+            $query .= "{$this->andJSON}";
+        }        
+
+        /** 
          * Add OR if exist
          */
         if ($this->or) {
@@ -388,6 +402,13 @@ trait buildQueryChaines
          */
         if ($this->and) {
             $query .= " {$this->and}";
+        }
+
+        /** 
+         * Add JSON AND if exist
+         */
+        if ($this->andJSON) {
+            $query .= "{$this->andJSON}";
         }
 
         /** 
