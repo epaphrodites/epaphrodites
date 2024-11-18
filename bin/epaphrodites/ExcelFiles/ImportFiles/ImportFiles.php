@@ -2,14 +2,18 @@
 
 namespace Epaphrodites\epaphrodites\ExcelFiles\ImportFiles;
 
+use Epaphrodites\epaphrodites\env\config\GeneralConfig;
+
 class ImportFiles extends FilesExtension
 {
 
     /**
-     * @param mixed $ExcelFiles
-     * @return array|bool
-    */
-    public function importExcelFiles( $ExcelFiles, $key = '__file__' ):array|bool
+     * Summary of importExcelFiles
+     * @param string $ExcelFiles
+     * @param string $key
+     * @return array
+     */
+    public function importExcelFiles( string $ExcelFiles, string $key = '__file__' ):array
     {
 
         if(isset($ExcelFiles) && in_array($_FILES[$key]['type'], static::$FilesMimes)) 
@@ -23,8 +27,45 @@ class ImportFiles extends FilesExtension
 
                 return $SpreadSheet->getActiveSheet()->toArray();
 
-            }else{return false; }
+            }else{return []; }
             
-        }else{return false; }
+        }else{return []; }
+    }
+
+    /**
+     * Summary of importExcelFiles
+     * To use this function, you must install python 3
+     * and run this command "pip install odfpy"
+     * @param string $ExcelFiles
+     * @param string $key
+     * @return array|bool
+     */     
+    public function pyImportExcelFiles($ExcelFiles, $key = '__file__' ):array
+    {
+
+        if(isset($ExcelFiles) && in_array($_FILES[$key]['type'], static::$FilesMimes)) 
+        {        
+
+            $filePath = $_FILES[$key]['tmp_name'];
+            
+            if (!file_exists($filePath)) {
+
+                throw new \Exception("Excel paths are not valid.");
+            }
+            
+            $Extension = (new GeneralConfig)->EndFiles($ExcelFiles , '.');
+
+            $result = static::initConfig()['python']->executePython('importExcelFiles', ["excel" => $filePath, 'ext' => ".{$Extension}"]);
+
+            $result = json_decode($result, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+
+                throw new \Exception("Error decoding JSON result from Python: " . json_last_error_msg());
+            }
+
+            return $result;
+    
+        }else{return []; }
     }
 }

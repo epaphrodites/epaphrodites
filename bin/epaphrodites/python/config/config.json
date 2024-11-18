@@ -1,4 +1,8 @@
 {
+    "importExcelFiles": {
+        "script": "env\/importLargeFiles.py",
+        "function": "getExcelContent"
+    },
     "convertImgToText": {
         "script": "env\/translateImgToText.py",
         "function": "getImgContent"

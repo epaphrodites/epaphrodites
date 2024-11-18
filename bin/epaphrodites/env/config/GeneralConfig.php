@@ -81,7 +81,7 @@ class GeneralConfig extends ApiStaticKeygen
     public function pythonSystemCode(
         ?string $scriptPath = null,
         array $data = []
-    ): string {
+    ): mixed {
         if ($scriptPath === null || !file_exists($scriptPath)) {
             throw new \InvalidArgumentException("This file $scriptPath does not exist.");
         }

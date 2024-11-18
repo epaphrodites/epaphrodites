@@ -23,12 +23,12 @@ trait pyEnv{
     /**
      * To use this function, you must install python 3
      * and run this command "pip install pytesseract"
-     * E.g : $imgPath = $_FILES['file']['tmp_name']
-     * @param mixed|null $imgPath
+     * @param string $key
      * @return mixed
      */
-    public function pyConvertImgToText($imgPath)
+    public function pyConvertImgToText($key)
     {
+        $imgPath = $_FILES[$key]['tmp_name'];
 
         if (!file_exists($imgPath)) {
             throw new \Exception("Image paths are not valid.");
@@ -40,12 +40,13 @@ trait pyEnv{
     /**
      * To use this function, you must install python 3
      * and run this commande "pip install PyPDF2"
-     * E.g : $imgPath = $_FILES['file']['tmp_name']
-     * @param mixed|null $pdfPath
+     * @param string $key
      * @return mixed
      */
-    public function pyConvertPdfToText($pdfPath)
+    public function pyConvertPdfToText(string $key)
     {
+
+        $pdfPath = $_FILES[$key]['tmp_name'];
 
         if (!file_exists($pdfPath)) {
             throw new \Exception("Document paths are not valid.");
