@@ -3,10 +3,13 @@
 --------------------------------------------------------------*/
 @import url('default.epaphrodites.style.css');
 
-
 /*--------------------------------------------------------------
   # MAIN
 --------------------------------------------------------------*/
+
+body{
+  background-color: var(--fwhite-color);
+}
 
 #main {
   margin-top: 70px;
@@ -29,7 +32,7 @@
   z-index: 997;
   height: 60px;
   box-shadow: var(--box-shadow-two);
-  background-color: #fff;
+  background-color: var(--dark-color);
   padding-left: 25px;
 }
 
@@ -37,7 +40,7 @@
   font-size: 32px;
   padding-left: 10px;
   cursor: pointer;
-  color: var(--dashboard-main);
+  color: var(--white-color);
 }
 
 /* Version */
@@ -48,7 +51,7 @@
 .version span {
   font-size: 14px;
   font-weight: 700;
-  color: var(--sidebar-color);
+  color: var(--white-color);
   text-align: center;
   font-family: var(--main-font-family);
 }
@@ -151,11 +154,11 @@
 
 .header-nav .nav-icon {
   font-size: 20px;
-  color: var(--sidebar-color);
+  color: var(--white-color);
 }
 
 .header-nav .nav-profile {
-  color: var(--sidebar-color);
+  color: var(--white-color);
 }
 
 .header-nav .nav-profile img {
@@ -184,7 +187,7 @@
   font-size: 18px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #444444;
+  color: var(--dark-color);
 }
 
 .header-nav .profile .dropdown-header span {
@@ -219,9 +222,9 @@
   width: 240px;
   z-index: 996;
   transition: all 0.3s;
-  padding: 7px;
   overflow-y: auto;
-  background-color: var(--sidebar-background);
+  border-right: 0.2px solid var(--grey-color);
+  background-color: var(--white-color);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -276,9 +279,9 @@
   align-items: center;
   font-size: 12px;
   font-weight: 600;
-  color: var(--sidebar-color);
+  color: var(--dark-color);
   transition: 0.3;
-  background: #f6f9ff;
+  background: var(--white-color);
   padding: 10px 15px;
   border-top-right-radius: 7px;
   border-top-left-radius: 7px;
@@ -291,17 +294,17 @@
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: var(--sidebar-color);
-  background: #fff;
+  color: var(--dark-color);
+  background: var(--white-color);
 }
 
 .sidebar-nav .nav-link.collapsed i {
-  color: var(--sidebar-color);
+  color: var(--dark-color);
 }
 
 .sidebar-nav .nav-link:hover {
   color: var(--dashboard-main);
-  background: #f6f9ff;
+  background: var(--white-color);
 }
 
 .sidebar-nav .nav-link:hover i {
@@ -356,11 +359,12 @@
 --------------------------------------------------------------*/
 
 .menuUsers {
-  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.1);
-  height: 200px;
-  border: none;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  box-shadow: var(--box-shadow-one);
+  height: 170px;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  border-left: 10px solid var(--dark-color);
+  
 }
 
 .infos {
@@ -375,25 +379,13 @@
 
 .menuUsers a {
   text-decoration: none;
-  color: #2e2d2d;
+  color: var(--dark-color);
 }
 
 .card-header {
-  background-color: var(--dashboard-main);
-  font-size: 11px;
+  background-color: var(--white-color);
+  font-size: 14px;
   font-weight: 10;
-}
-
-.card-header i {
-  font-size: 17px;
-  line-height: 25px;
-  cursor: pointer;
-  padding: 15px 17px 15px 17px;
-  margin-top: -10px;
-  margin-left: -30px;
-  border-radius: 50px;
-  background-color: var(--dashboard-main);
-  border: 1px solid #ddd;
 }
 
 .infos .card-header {
@@ -405,16 +397,16 @@
 }
 
 .dashboard .activity {
-  font-size: 12px;
+  font-size: 11px;
   padding-top: 10px;
 }
 
 .dashboard .activity .activity-item .activite-label {
-  color: #888;
+  color: var(--dark-color);
   position: relative;
   flex-shrink: 0;
   flex-grow: 0;
-  width: 80px;
+  width: 65px;
 }
 
 .dashboard .activity .activity-item .activite-label::before {
@@ -435,13 +427,13 @@
   border-radius: 50%;
   flex-shrink: 0;
   border: 1px solid var(--history-color-green);
-  background: var(--history-color-green);
-  padding: 3px;
+  background: var(--dark-color);
+  padding: 2px;
   flex-grow: 0;
 }
 
 .dashboard .activity .activity-item .activity-content {
-  padding-left: 10px;
+  padding-left: 5px;
   padding-bottom: 20px;
 }
 
@@ -465,8 +457,15 @@
 }
 
 #count{
-  font-size: 50px;
+  font-size: 70px;
   text-align: center;
+  font-weight: 100;
+}
+
+.dashChart #epaphroditeChart{
+  padding: 17px;
+  box-shadow: var(--box-shadow-one);
+  background-color: var(--white-color);
 }
 
 /*--------------------------------------------------------------
@@ -481,22 +480,25 @@
   box-shadow: 0 5px 10px 0 rgba(82, 63, 105, 0.2);
 }
 
-.displayTable thead {
-  vertical-align: middle;
-  background: var(--dashboard-main);
-  text-align: center;
-  font-size: 8.5px;
-  color: #f1f1f1;
-  border-top-right-radius: 10px;
+.card_filter_search {
+  background: var(--dark-color);
+  padding: 10px 0px 10px 10px;
+  border-radius: 10px;
 }
 
+.displayTable thead {
+  vertical-align: middle;
+  background: var(--dark-color);
+  text-align: center;
+  font-size: 8.5px;
+  color: var(--white-color);
+}
 
 .displayTable tbody td {
-  background: #fff;
+  background: var(--white-color);;
   padding: 5px 3px;
   font-size: 9.2px;
   text-align: left;
-  border: 2px solid rgb(232, 226, 226);
   vertical-align: middle;
   line-height: 14px;
 }
@@ -533,15 +535,15 @@
 }
 
 #tablecontent button a {
-  color: #fff;
-  background-color: #098543;
+  color: var(--color-green);
+  border: 1px solid var(--color-green);
   padding: 4px 20px 4px 20px;
   border-radius: 5px;
 }
 
 #tablecontent .deleted {
-  color: #fff;
-  background-color: #bf090c;
+  color: var(--color-red);
+  border: 1px solid var(--color-red);
   padding: 4px 20px 4px 20px;
   border-radius: 5px;
   font-size: 14px;
@@ -635,7 +637,7 @@ tr {
   height: 55px;
   margin-bottom: 10px;
   border-radius: 10px;
-  border: 1px solid var(--dashboard-main);
+  border: 1px solid var(--color-orange);
   background-color: #e9e8e7;
 }
 

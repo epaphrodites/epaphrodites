@@ -4,30 +4,30 @@
 
     <div class="container-fluid dashboard">
         <div class="row">
-            <div class="col-lg-8 mb-8">
+            <div class="col-lg-9 mb-9">
                 <div class="row">
                     <div class="col-lg-6 mb-6">
                         <div class="card menuUsers">
-                            <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS GROUP</h4>
                             <div class="card-body">
                                 <p class="card-text" id="count"><strong>0{{ data.userGroup()|length }}</strong></p>
                             </div>
+                            <h4 class="card-header"><i class="bi bi-gear"></i> USERS GROUP</h4>
                         </div>
                     </div>
                     <div class="col-lg-6 mb-3">
                         <div class="card menuUsers">
-                            <h4 class="card-header text-light"> <i class="bi bi-slack"></i> USERS</h4>
                             <div class="card-body">
                                 <p class="card-text" id="count"><strong>{{ '01' }}</strong></p>
                             </div>
+                            <h4 class="card-header"><i class="bi bi-people"></i> USERS</h4>
                         </div>
                     </div> 
-                    <div class="col-lg-12 mb-12">
+                    <div class="col-lg-12 mb-12 dashChart">
                         <canvas id="epaphroditeChart" style="width:100%;max-width:100%" align="center"></canvas>
                     </div>                                           
                 </div>
             </div>
-            <div class="col-lg-4 mb-4">
+            <div class="col-lg-3 mb-3">
                 <div class="row">
                     <div class="col-lg-12 mb-12">
                         <div class="card hystory">
@@ -66,10 +66,10 @@
                             {{ __QRCodes('https://epaphrodite.org') }}
                         </div>
                     </div>
-                </div>
+            </div>
         </div>
     </div>
-
+    
     {{ chartTwo(
         {
             id: 'epaphroditeChart',
@@ -86,13 +86,29 @@
                         { "value2": 24593, "title2": "GREEN" },
                         { "value3": 6465, "title3": "PINK" }
                     ],
-                    border: 0,
+                    border: 4,
                     radius : 0.4,
                     borderColor: '#d32b01',
-                    color: ['#056daa', '#ca9802', '#00738c' , '#6c048e']
+                    color: ['#d32b01']
+                } ,
+                {
+                    chartType : 'line',
+                    label: 'Dataset 2',
+                    values : ["value","value1","value2","value3"],
+                    keys : ['title','title1','title2','title3'],
+                    data: [
+                        { "value": 1000, "title": "BLUE" },
+                        { "value1": 1030, "title1": "YELLOW" },
+                        { "value2": 20593, "title2": "GREEN" },
+                        { "value3": 7465, "title3": "PINK" }
+                    ],
+                    border: 4,
+                    radius : 0.3,
+                    borderColor: '#056daa',
+                    color: ['#056daa']
                 }            
             ]
         } 
     ) }} 
-
+    
 {% endblock %}

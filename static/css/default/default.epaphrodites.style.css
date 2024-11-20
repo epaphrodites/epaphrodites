@@ -5,9 +5,14 @@
 :root {
     /* main colors */
     --main-text: #333;
+    --dark-color: #000;
+    --grey-color: #adacac;
     --color-code: #ddd;
     --color-red : #dc143c;
+    --white-color: #fff;
+    --fwhite-color: #fcfbfb;
     --color-green: #016D6D;
+    --color-orange: #d9a30c;
     --input-border: #8b8989;
     --breadcrumb-bg: #f5f5f5;
     --breadcrumb-text: #fff;
@@ -23,9 +28,9 @@
     --history-color-green: #126b4c;
   
     /* box-shadow */
-    --box-shadow-one : 0 5px 30px 0 rgba(82, 63, 105, 0.2);
-    --box-shadow-two : 0 5px 10px 0 rgba(82, 0, 0, 0.1);
-    --box-shadow-three : 0 0px 10px 0 rgba(90, 0, 0, 0.2);
+    --box-shadow-one : 1px 3px 2px 0px rgba(82, 63, 105, 0.2);
+    --box-shadow-two : 0 5px 5px 0 rgba(82, 0, 0, 0.2);
+    --box-shadow-three : 0 0px 10px 0 rgba(90, 0, 0, 0.3);
 
     --main-font-family : "Nunito", sans-serif ;
 
@@ -188,8 +193,9 @@ DATASET FIXE BUTTON ACTIONS
 }
 
 #TableFromDatas {
-  border: 1.5px solid #afacac;
+  border: 0.5px solid var(--dark-color);
 }
+
 .custom-pagination,
 .dataTables_info {
   float: left;

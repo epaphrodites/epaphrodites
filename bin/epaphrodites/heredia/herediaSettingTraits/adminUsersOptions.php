@@ -92,6 +92,13 @@ trait adminUsersOptions{
             */
                 'breadcrumb' => $this->layouts->breadcrumbs(),
 
+            /*
+            |--------------------------------------------------------------------------
+            | Set dashbord model to front in default
+            |--------------------------------------------------------------------------
+            */
+                '_DASHMODEL_' => _DASHMODEL_,                
+
             ];
     }
 

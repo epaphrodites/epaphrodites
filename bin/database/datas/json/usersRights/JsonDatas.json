@@ -1,0 +1,16 @@
+{
+    "0": {
+        "usersRightsGroup": 2,
+        "Autorisations": "0",
+        "Modules": "profil",
+        "indexModule": "profil,2",
+        "indexRight": "69d429050daad076fc735869b993349d"
+    },
+    "1": {
+        "usersRightsGroup": 2,
+        "Autorisations": "0",
+        "Modules": "chatbot",
+        "indexModule": "chatbot,2",
+        "indexRight": "3eea77fef670442b7bab23557f07782b"
+    }
+}

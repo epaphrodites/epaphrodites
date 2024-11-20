@@ -7,7 +7,27 @@
 {# --- End chart model one Field -- #}
 
 {# --- chart model two Field -- #}
-{% macro chartTwo(chartOptions) %}
+{% macro charts(chartOptions) %}
     <script> document.addEventListener('DOMContentLoaded', function () { var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }}; var id = "{{ chartOptions.id|default('epaphroditeChart')|e('js') }}"; var chartLabel = "{{ chartOptions.label|default('Epaphrodite Example Chart')|e('js') }}"; var globalLabels = chartOptionsData[0].keys; var datasets = chartOptionsData.map(function(dataset) { var data = []; dataset.values.forEach(function(valueKey) { var total = dataset.data.reduce(function(sum, item) { return sum + (item[valueKey] !== undefined ? item[valueKey] : 0); }, 0); data.push(total); }); var backgroundColors = dataset.color || ['rgba(255, 99, 132, 0.2)']; var borderColors = dataset.borderColor || backgroundColors.map(color => color.replace(/0.2\)$/, "1)")); return { type: dataset.chartType || 'bar', label: dataset.label, data: data, backgroundColor: backgroundColors, borderColor: borderColors, borderWidth: dataset.border || 1, tension: dataset.radius || 0, }; }); createChart(id, globalLabels, datasets, chartLabel); }); function createChart(chartId, labels, datasets, chartLabel) { var ctx = document.getElementById(chartId).getContext('2d'); new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: datasets }, options: { scales: { y: { beginAtZero: true } }, plugins: { legend: { display: true, position: 'bottom', labels: { generateLabels: function(chart) { return chart.data.datasets.map((dataset, i) => { return { text: dataset.label, fillStyle: dataset.backgroundColor[0] || dataset.backgroundColor, strokeStyle: dataset.borderColor[0] || dataset.borderColor, hidden: !chart.isDatasetVisible(i), lineCap: 'butt', lineDash: [], lineDashOffset: 0, lineJoin: 'miter', lineWidth: 1, datasetIndex: i  }; }); } } }, title: { display: true, text: chartLabel } } } }); } </script>
 {% endmacro %}
 {# --- End chart model two Field -- #}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        
+    
+    
+    
+    

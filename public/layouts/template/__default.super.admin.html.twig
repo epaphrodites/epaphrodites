@@ -10,11 +10,12 @@
     <link href="{{ __cssfont('font-awesome-min') }}" rel="stylesheet" type="text/css">
     <link href="{{ __cssbsico('bootstrap-icons') }}" rel="stylesheet" type="text/css">
     <link href="{{ __cssiconfont('icofont.min') }}" rel="stylesheet" type="text/css">
-    <link href="{{ __css('default/default.admin.style') }}" rel="stylesheet" type="text/css">
+    <link href="{{ __css('default/default.' ~ _DASHMODEL_ ~ '.admin.style') }}" rel="stylesheet" type="text/css">
     <script src="{{ __js('jquery/jquery.min') }}"></script>
     <script src="{{ __js('jquery/axios.min') }}"></script>
     <script src="{{ __js('select2.min') }}"></script>
     <script src="{{ __js('chart/default.chart.min') }}"></script>
+    <script src="{{ __js('chart/default.echarts.min') }}"></script>
     <link rel="icon" href="{{ __img('logo_o.png') }}">
     <title>{{ __msg('site-title') }}</title>
 </head>
