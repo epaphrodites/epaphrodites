@@ -123,23 +123,31 @@ final class users extends MainSwitchers
     {
 
         if (static::isValidMethod(true)&&static::isFileName('__file__')) {
-
+            
             $SheetData = $this->importFiles->importExcelFiles(static::getFileName('__file__'));
 
             if (!empty($SheetData)) {
-                
-                for ($i = 1; $i < count($SheetData); $i++) {
 
-                    $usersLogin = $SheetData[$i][0];
+                if(static::checkKeys(['users'],$SheetData)){
 
-                    $this->result = $this->insert->addUsers($usersLogin, static::getPost('__group__'));
+                    for ($i = 1; $i < count($SheetData); $i++) {
 
-                    [$this->ans, $this->alert] = static::Responses(
-                        $this->result, [  
-                            true => ['succes', 'alert-success'], 
-                            false => ['error', 'alert-danger'] 
-                        ]);
+                        $usersLogin = $SheetData[$i][0];
+
+                        $this->result = $this->insert->addUsers($usersLogin, static::getPost('__group__'));
+
+                        [$this->ans, $this->alert] = static::Responses(
+                            $this->result, [  
+                                true => ['succes', 'alert-success'], 
+                                false => ['error', 'alert-danger'] 
+                            ]);
+                    }
+
+                }else{
+                    $this->ans = $this->msg->answers('file-header');
+                    $this->alert = 'alert-danger';
                 }
+
             } else {
                 $this->ans = $this->msg->answers('fileempty');
                 $this->alert = 'alert-danger';

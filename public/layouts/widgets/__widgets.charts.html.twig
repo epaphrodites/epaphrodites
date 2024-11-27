@@ -1,33 +1,475 @@
-{# --- chart model one Field -- #}
-{% macro chartOne(chartOptions) %}
-    <script> 
-        document.addEventListener('DOMContentLoaded', function () { var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }}; var id = "{{ chartOptions.id|default('epaphroditeChart')|e('js') }}"; var chartLabel = "{{ chartOptions.label|default('Epaphrodite Example Chart')|e('js') }}"; var globalLabelsSet = new Set(); var datasets = chartOptionsData.map(function(dataset) { dataset.data.forEach(function(item) { var label = item[dataset.keys]; if (label) { globalLabelsSet.add(label); } }); var data = dataset.data.map(function(item) { return item[dataset.values]; }); var backgroundColors = dataset.color || ['rgba(255, 99, 132, 0.2)']; var borderColors = dataset.borderColor || backgroundColors.map(color => color.replace(/0.2\)$/, "1)")); return { type: dataset.chartType || 'bar', label: dataset.label, data: data, backgroundColor: backgroundColors, borderColor: borderColors, borderWidth: dataset.border || 1, tension: dataset.radius || 0, }; }); var globalLabels = Array.from(globalLabelsSet); createChart(id, globalLabels, datasets, chartLabel); }); function createChart(chartId, labels, datasets, chartLabel) { var ctx = document.getElementById(chartId).getContext('2d'); new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: datasets }, options: { scales: { y: { beginAtZero: true } }, plugins: { legend: { display: true, position: 'bottom', labels: { generateLabels: function(chart) { var legendItems = []; chart.data.datasets.forEach((dataset, i) => { dataset.data.forEach((value, index) => { legendItems.push({ text: chart.data.labels[index] + ":" + value, fillStyle: dataset.backgroundColor[index] || dataset.backgroundColor }); }); }); return legendItems; } } }, title: { display: true, text: chartLabel } } } }); }
+{# --- Chart --- #}
+{% macro charts(chartOptions) %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var pourcentage = {{ chartOptions.pourcentage is defined ? chartOptions.pourcentage|lower : 'true' }};
+            var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
+            var id = "{{ chartOptions.id is defined ? chartOptions.id|e('js') : 'epaphroditeChart' }}";
+            var chartLabel = "{{ chartOptions.label is defined ? chartOptions.label|e('js') : chartOptions.datasets[0].keys|join(' vs ')|e('js') }}";
+            var orientation = "{{ chartOptions.orientation is defined ? chartOptions.orientation|e('js') : 'vertical' }}";
+            var position = "{{ chartOptions.position is defined ? chartOptions.position|e('js') : 'bottom' }}";
+            var indexAxis = orientation === 'horizontal' ? 'y' : 'x';
+
+            var keyLabel = chartOptionsData[0].keyLabel ?? true;
+            var globalLabels = chartOptionsData[0].keys.map(function(key) {
+                if (keyLabel) {
+                   
+                    return chartOptionsData[0].data.find(item => item[key] !== undefined)?.[key] || key;
+                }
+                return key;
+            });
+
+            var datasets = chartOptionsData.map(function(dataset) {
+                
+                var totalDataset = dataset.data.reduce(function(sum, item) {
+                    return sum + dataset.values.reduce(function(subSum, valueKey) {
+                        return subSum + (item[valueKey] !== undefined ? item[valueKey] : 0);
+                    }, 0);
+                }, 0);
+
+                var data = dataset.values.map(function(valueKey) {
+
+                    return dataset.data.reduce(function(sum, item) {
+                        const value = item[valueKey] !== undefined ? item[valueKey] : 0;
+                        return sum + (pourcentage && totalDataset > 0 ? (value / totalDataset * 100) : value);
+                    }, 0);
+                });
+
+                var backgroundColors = dataset.color;
+        
+                var borderColors = dataset.color 
+                    ? dataset.color.map(color => color.startsWith('#') ? color : color) 
+                    : backgroundColors.map(color => color.replace(/0.2\)$/, "1)"));
+
+                return {
+                    label: dataset.values,
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    type: dataset.chartType || 'bar',
+                    borderWidth: dataset.border || 1,
+                    keys: dataset.keys || []
+                };
+            });
+
+            generateChart(id, globalLabels, datasets, chartLabel, indexAxis, position, pourcentage);
+        });
+
+        function generateChart(chartId, labels, datasets, chartLabel, indexAxis, position, pourcentage) {
+            var ctx = document.getElementById(chartId).getContext('2d');
+            new Chart(ctx, {
+                type: datasets[0].type || 'bar',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    indexAxis: indexAxis,
+                    scales: ['pie', 'doughnut'].includes(datasets[0].type) ? {} : {
+                        x: { 
+                            beginAtZero: true 
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return pourcentage ? value + '%' : '';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: position,
+                            labels: {
+                                generateLabels: function (chart) {
+                                    const datasets = chart.data.datasets;
+                                    const globalLabels = chart.data.labels;
+
+                                    return datasets.flatMap((dataset, i) => {
+                                        return dataset.data.map((value, index) => {
+                                            const keyLabel = chart.config.data.keyLabel ?? true;
+                                            const labelKey = keyLabel ? globalLabels[index] : dataset.keys[index];
+                                            const formattedValue = pourcentage 
+                                                ? value.toFixed(0) + '%' 
+                                                : value.toLocaleString();
+
+                                            return {
+                                                text: `${labelKey} : ${formattedValue}`,
+                                                fillStyle: dataset.backgroundColor[index] || '#000000',
+                                                strokeStyle: dataset.borderColor[index] || '#000000',
+                                                hidden: false,
+                                                lineCap: 'butt',
+                                                lineDash: [],
+                                                lineDashOffset: 0,
+                                                lineJoin: 'miter',
+                                                lineWidth: 1,
+                                                datasetIndex: i
+                                            };
+                                        });
+                                    });
+                                }
+                            }
+                        },
+                    
+                        title: {
+                            display: true,
+                            text: chartLabel
+                        },
+                        datalabels: {
+                            display: true,
+                            align: 'center',
+                            color: '#000',
+                            font: {
+                                weight: 'bold',
+                                size: 14
+                            },
+                            formatter: function (value) {
+                                return pourcentage ? value.toFixed(0) + '%' : value;
+                            }
+                        }
+                    }
+
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
     </script>
 {% endmacro %}
-{# --- End chart model one Field -- #}
+{# --- End Chart --- #}
 
-{# --- chart model two Field -- #}
-{% macro charts(chartOptions) %}
-    <script> document.addEventListener('DOMContentLoaded', function () { var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }}; var id = "{{ chartOptions.id|default('epaphroditeChart')|e('js') }}"; var chartLabel = "{{ chartOptions.label|default('Epaphrodite Example Chart')|e('js') }}"; var globalLabels = chartOptionsData[0].keys; var datasets = chartOptionsData.map(function(dataset) { var data = []; dataset.values.forEach(function(valueKey) { var total = dataset.data.reduce(function(sum, item) { return sum + (item[valueKey] !== undefined ? item[valueKey] : 0); }, 0); data.push(total); }); var backgroundColors = dataset.color || ['rgba(255, 99, 132, 0.2)']; var borderColors = dataset.borderColor || backgroundColors.map(color => color.replace(/0.2\)$/, "1)")); return { type: dataset.chartType || 'bar', label: dataset.label, data: data, backgroundColor: backgroundColors, borderColor: borderColors, borderWidth: dataset.border || 1, tension: dataset.radius || 0, }; }); createChart(id, globalLabels, datasets, chartLabel); }); function createChart(chartId, labels, datasets, chartLabel) { var ctx = document.getElementById(chartId).getContext('2d'); new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: datasets }, options: { scales: { y: { beginAtZero: true } }, plugins: { legend: { display: true, position: 'bottom', labels: { generateLabels: function(chart) { return chart.data.datasets.map((dataset, i) => { return { text: dataset.label, fillStyle: dataset.backgroundColor[0] || dataset.backgroundColor, strokeStyle: dataset.borderColor[0] || dataset.borderColor, hidden: !chart.isDatasetVisible(i), lineCap: 'butt', lineDash: [], lineDashOffset: 0, lineJoin: 'miter', lineWidth: 1, datasetIndex: i  }; }); } } }, title: { display: true, text: chartLabel } } } }); } </script>
+
+{# --- Echart --- #}
+{% macro echarts(chartOptions) %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const id = "{{ chartOptions.id|default('epaphroditeEChart')|e('js') }}";
+            const chartLabel = "{{ chartOptions.label|default('EChart')|e('js') }}";
+            const pourcentage = {{ chartOptions.pourcentage|default(true)|json_encode|raw }};
+            const orientation = "{{ chartOptions.orientation|default('vertical')|e('js') }}";
+            const position = "{{ chartOptions.position|default('bottom')|e('js') }}";
+
+            const chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
+            if (!chartOptionsData || !chartOptionsData.length) {
+                console.error('No data provided for chart');
+                return;
+            }
+
+            const dataInfo = extractDataInfo(chartOptionsData[0].data);
+            const globalLabels = dataInfo.labels;
+            const dataValues = dataInfo.values;
+
+            const isPieChart = chartOptionsData.some(dataset =>
+                ['pie', 'doughnut'].includes(dataset.chartType || dataset.type || '')
+            );
+
+            const customColors = ['#04a642', '#b2f4a7', '#FCC447', '#dc143c'];
+            let allLegendData = [];
+
+            const series = chartOptionsData.map((dataset, datasetIndex) => {
+                const totalDataset = dataValues.reduce((sum, value) => sum + (Number(value) || 0), 0);
+
+                const data = dataValues.map((value, index) => ({
+                    value: pourcentage == 'true' && totalDataset > 0 ? (value / totalDataset * 100) : value,
+                    itemStyle: {
+                        color: customColors[index % customColors.length]
+                    }
+                }));
+
+                // Construire la légende pour les graphiques circulaires et non circulaires
+                if (isPieChart) {
+                    globalLabels.forEach((label, index) => {
+                        allLegendData.push({
+                            name: label,
+                            icon: 'circle',
+                            itemStyle: {
+                                color: customColors[index % customColors.length]
+                            }
+                        });
+                    });
+                } else {
+                    // Pour les graphiques non circulaires, créer une légende pour chaque barre
+                    globalLabels.forEach((label, index) => {
+                        allLegendData.push({
+                            name: label,
+                            icon: 'circle',
+                            itemStyle: {
+                                color: customColors[index % customColors.length]
+                            }
+                        });
+                    });
+                }
+
+                const chartType = dataset.chartType === 'doughnut' ? 'pie' :
+                    (dataset.chartType || 'bar');
+
+                return {
+                    name: dataset.label || `Série ${datasetIndex + 1}`,
+                    type: chartType,
+                    data: isPieChart ? 
+                        dataValues.map((value, index) => ({
+                            value: pourcentage == 'true' && totalDataset > 0 ? (value / totalDataset * 100) : value,
+                            name: globalLabels[index],
+                            itemStyle: {
+                                color: customColors[index % customColors.length]
+                            }
+                        })) : data,
+                    label: {
+                        show: true,
+                        position: dataset.chartType === 'doughnut' ? 'outside' : 'inside',
+                        formatter: params => pourcentage == 'true' ?
+                            `${Math.round(typeof params === 'object' ? params.value : params)}%` :
+                            (typeof params === 'object' ? params.value : params).toString()
+                    },
+                    ...(dataset.chartType === 'doughnut' ? {
+                        radius: ['45%', '70%'],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    } : {})
+                };
+            });
+
+            const chartDom = document.getElementById(id);
+            const myChart = echarts.init(chartDom);
+
+            const gridMargins = {
+                top: position === 'top' ? 100 : 60,
+                bottom: position === 'bottom' ? 100 : 60,
+                left: position === 'left' ? 100 : 20,
+                right: position === 'right' ? 100 : 20
+            };
+
+            const option = {
+                title: {
+                    text: chartLabel,
+                    left: 'left',
+                    top: position === 'top' ? 0 : 20
+                },
+                tooltip: {
+                    trigger: isPieChart ? 'item' : 'axis',
+                    formatter: params => {
+                        if (!Array.isArray(params)) params = [params];
+                        return params.map(param =>
+                            `${param.name}: ${pourcentage == 'true' ?
+                                Math.round(param.value) + '%' :
+                                param.value}`
+                        ).join('<br/>');
+                    }
+                },
+                legend: {
+                    show: true,
+                    data: allLegendData,
+                    [position]: 10,
+                    left: position === 'top' || position === 'bottom' ? 'center' : 10,
+                    orient: position === 'left' || position === 'right' ? 'vertical' : 'horizontal',
+                    textStyle: { color: '#000' },
+                    type: 'plain',
+                    padding: [5, 10],
+                },
+                grid: {
+                    containLabel: true,
+                    ...gridMargins
+                },
+                xAxis: isPieChart ? { show: false } : {
+                    type: orientation === 'horizontal' ? 'value' : 'category',
+                    data: orientation === 'horizontal' ? undefined : globalLabels
+                },
+                yAxis: isPieChart ? { show: false } : {
+                    type: orientation === 'horizontal' ? 'category' : 'value',
+                    data: orientation === 'horizontal' ? globalLabels : undefined
+                },
+                series: series
+            };
+
+            myChart.setOption(option);
+
+            window.addEventListener('resize', () => {
+                myChart.resize();
+            });
+
+            function extractDataInfo(data) {
+                const labels = [];
+                const values = [];
+
+                data.forEach(item => {
+                    let foundTitle = false;
+                    let foundValue = false;
+
+                    Object.entries(item).forEach(([key, value]) => {
+                        if (key.includes('title')) {
+                            labels.push(value);
+                            foundTitle = true;
+                        } else if (!key.includes('title')) {
+                            values.push(value);
+                            foundValue = true;
+                        }
+                    });
+
+                    if (!foundTitle && foundValue) {
+                        const valueKey = Object.keys(item).find(k => !k.includes('title'));
+                        labels.push(valueKey);
+                    }
+                });
+
+                return { labels, values };
+            }
+        });
+    </script>
 {% endmacro %}
-{# --- End chart model two Field -- #}
+{# --- End Echart --- #}
 
 
+{% macro scattedChart(scattedChartOptions) %}
+    <script>
+        const id = "{{ scattedChartOptions.id | default('epaphroditeEChart') | e('js') }}";
+        const datasets = {{ scattedChartOptions.datasets | json_encode | raw }};
+        const defaultColors = ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'];
+        const position = "{{ scattedChartOptions.position | default('bottom') }}";
+        const pourcentage = {{ scattedChartOptions.pourcentage | default(true) | json_encode | raw }};
+        const orientation = "{{ scattedChartOptions.orientation | default('vertical') | e('js') }}";
 
-
-
-
-
-
-
-
-
-
-
-
-    
+        const legendValues = datasets[0].values;
         
-    
-    
-    
+        const processDatasets = (datasets) => {
+            let allKeys = new Set();
+            let processedData = [];
+            
+            datasets.forEach(dataset => {
+                dataset.data.forEach(item => {
+                    allKeys.add(item[dataset.keys[0]]);
+                });
+            });
+            
+            allKeys = Array.from(allKeys);
+
+            datasets.forEach((dataset, datasetIndex) => {
+                const values = dataset.values;
+                const data = dataset.data;
+                const colors = dataset.color || defaultColors;
+
+                const dataMap = data.reduce((acc, item) => {
+                    acc[item[dataset.keys[0]]] = item;
+                    return acc;
+                }, {});
+
+                values.forEach((value, valueIndex) => {
+                    const seriesData = allKeys.map(key => {
+                        const dayData = dataMap[key] || {};
+                        let val = dayData[value] || 0;
+
+                        if (pourcentage == 'true') {
+                            const total = values.reduce((sum, v) => sum + (dayData[v] || 0), 0);
+                            val = total > 0 ? (val / total) * 100 : 0;
+                        }
+
+                        return val;
+                    });
+
+                    processedData.push({
+                        name: value,
+                        type: 'bar',
+                        stack: `Dataset ${datasetIndex + 1}`,
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            formatter: function(params) {
+                                let value = params.value;
+                                return pourcentage == 'true' ? `${Math.round(value)}%` : Math.round(value);
+                            },
+                            color: '#fff'
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        color: colors[valueIndex],
+                        data: seriesData
+                    });
+                });
+            });
+
+            return {
+                series: processedData,
+                categories: allKeys
+            };
+        };
+
+        const { series, categories } = processDatasets(datasets);
+
+        const option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+                formatter: function(params) {
+                    let result = params[0].name + '</br>';
+                    let processedNames = new Set();
+                    
+                    params.forEach(item => {
+                        if (!processedNames.has(item.seriesName)) {
+                            const value = pourcentage == 'true' 
+                                ? `${Math.round(item.value)}%` 
+                                : Math.round(item.value);
+                            result += `<span style="display:inline-block;width:10px;float:left;height:12px;top:50px;background-color:${item.color};margin-right:2px;"></span>${item.seriesName}: ${value}<br/>`;
+                            processedNames.add(item.seriesName);
+                        }
+                    });
+                    return result;
+                }
+            },
+            legend: {
+                [position]: 0,
+                orient: position === 'top' || position === 'bottom' ? 'horizontal' : 'vertical',
+                textStyle: { color: '#666' },
+                padding: position === 'bottom' || position === 'top' ? [10, 0, 20, 0] : [0, 10],
+                data: legendValues
+            },
+            xAxis: {
+                type: orientation === 'vertical' ? 'value' : 'category',
+                data: orientation === 'vertical' ? null : categories,
+                axisLine: {
+                    show: true,
+                    lineStyle: { color: '#ccc' }
+                },
+                axisLabel: { color: '#666' },
+                splitLine: {
+                    lineStyle: {
+                        color: '#f0f0f0'
+                    }
+                }
+            },
+            yAxis: {
+                type: orientation === 'vertical' ? 'category' : 'value',
+                data: orientation === 'vertical' ? categories : null,
+                axisLine: {
+                    lineStyle: { color: '#ccc' }
+                },
+                axisLabel: { color: '#666' }
+            },
+            series: series,
+            grid: {
+                right: position === 'right' ? 80 : 15,
+                left: position === 'left' ? 80 : 5,
+                bottom: position === 'bottom' ? 80 : 5,
+                top: position === 'top' ? 80 : '15%',
+                containLabel: true
+            }
+        };
+
+        const chart = echarts.init(document.getElementById(id));
+        chart.setOption(option);
+
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+{% endmacro %}
     

@@ -424,6 +424,59 @@ trait currentSubmit
         return true;
     }
 
+   /**
+     * Summary of checkKeys
+     * 
+     * @param array $keys
+     * @param array $arrayFrom
+     * @throws \InvalidArgumentException
+     * @return bool
+     */
+    public static function checkKeys(
+        array $keys, 
+        array $arrayFrom
+    ): bool{
+
+        $result = true;
+
+        foreach ($arrayFrom as $element) {
+            
+            if (is_array($element) && self::isAssociativeArray($element)) {
+               
+                foreach ($keys as $key) {
+                    if (!array_key_exists($key, $element)) {
+                        $result = false;
+                        break;
+                    }
+                }
+
+                return $result;
+            }
+            
+            elseif (is_array($element) && !self::isAssociativeArray($element)) {
+
+                if (count($element) < count($keys)) {
+                    $result = false;
+                }
+
+                foreach ($keys as $value) {
+                    if (!in_array($value, $element)) {
+                        $result = false;
+                        break;
+                    }
+                }
+
+                return $result;
+
+            } else {
+
+                throw new \InvalidArgumentException("All elements of the main array must be arrays.");
+            }
+        }
+
+        return $result;
+    }    
+
     /**
      * Filters request data based on the HTTP method.
      *
@@ -527,5 +580,19 @@ trait currentSubmit
         } else {
             return NULL;
         }
-    }    
+    }   
+       
+    /**
+     * Summary of isAssociativeArray
+     * @param array $array
+     * @return bool
+     */
+    private static function isAssociativeArray(
+        array $array
+    ): bool{
+        return array_keys($array) !== range(0, count($array) - 1);
+    }
+    
+
+
 }

@@ -3,13 +3,60 @@
 --------------------------------------------------------------*/
 @import url('default.epaphrodites.style.css');
 
+/*--------------------------------------------------------------
+  # MAIN EPAPHRODITES DASHBOARD COLOR CONFIG
+--------------------------------------------------------------*/
+
+:root {
+  /* Main dashboard */
+  --dashboard-text-card-color : #00738c;
+  --dashboard-sidebar-item-color: #00738c;
+  --dashboard-sidebar-item-color: #00738c;
+  
+  --dashboard-body-background: #00738c;
+  --dashboard-card-background: #00738c;
+  --dashboard-header-background: #00738c;
+  --dashboard-sidebar-background: #00738c;
+  --dashboard-sidebar-item-background: #00738c;
+
+  /* Main breadcrumb */
+  --breadcrumb-text: #fff;
+  --breadcrumb-bg: #f5f5f5;
+  --background-code: #141a2c;
+  --background-main: #b8b7b7;
+  --breadcrumb-active: #6c757d;
+  --breadcrumb-first: rgb(192, 6, 6);
+
+  /* Main box-shadow */
+  --box-shadow-one : 0px 0px 4px 0px rgba(82, 63, 105, 0.2);
+  --box-shadow-two : 0 5px 5px 0 rgba(82, 0, 0, 0.2);
+  --box-shadow-three : 0 0px 10px 0 rgba(90, 0, 0, 0.3);
+
+  /* Main input */
+  --input-border: #8b8989;
+  --input-background: #8b8989;
+  --input-text-color: #8b8989;
+
+  /* table color */
+  --table-border: #8b8989;
+  --table-tbody-color: #8b8989;
+  --table-theader-color: #8b8989;
+  --table-tbody-background: #8b8989;
+  --table-theader-background: #8b8989;
+
+  /* Main font-family */
+  --main-font-family : "Nunito", sans-serif ;
+
+  /* Main font-size */
+  --dashboard-main-size: 0.9rem;    
+}
 
 /*--------------------------------------------------------------
   # MAIN
 --------------------------------------------------------------*/
 
 body{
-  background-color: var(--fwhite-color);
+  background-color: var(--dashboard-body-background);
 }
 
 #main {
@@ -384,7 +431,7 @@ body{
 }
 
 .card-header {
-  background-color: var(--white-color);
+  background-color: var(--color-white);
   font-size: 14px;
   font-weight: 10;
 }
@@ -463,10 +510,11 @@ body{
   font-weight: 100;
 }
 
-.dashChart #epaphroditeChart{
+#dashChart #epaphroditeChart, 
+#epaphroditeEchartOne, #epaphroditeEchartTwo, #epaphroditeEchartThree, #epaphroditeEchartFour{
   padding: 17px;
   box-shadow: var(--box-shadow-one);
-  background-color: var(--white-color);
+  background-color: var(--color-white);
 }
 
 /*--------------------------------------------------------------
@@ -486,13 +534,13 @@ body{
   background: var(--dashboard-main);
   text-align: center;
   font-size: 8.5px;
-  color: var(--white-color);
+  color: var(--color-white);
   border-top-right-radius: 10px;
 }
 
 
 .displayTable tbody td {
-  background: var(--white-color);
+  background: var(--color-white);
   padding: 5px 3px;
   font-size: 9.2px;
   text-align: left;

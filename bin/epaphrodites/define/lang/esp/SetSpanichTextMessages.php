@@ -39,6 +39,7 @@ class SetSpanichTextMessages
             'no-identic' => "Lo siento, las contraseñas no coinciden",
             'login-wrong' => "Inicio de sesión o contraseña incorrectos",
             'vide' => "Por favor, complete todos los campos correctamente!!!",
+            'file-header' => 'Compruebe la cabecera de su archivo, por favor.',
             'send' => "¡Enhorabuena, tu mensaje ha sido enviado exitosamente!",
             'false-mail' => 'Lo siento, este correo electrónico es incorrecto.',
             'error' => "Lo siento, se produjo un error durante el procesamiento.",

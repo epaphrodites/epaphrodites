@@ -8,47 +8,51 @@
 --------------------------------------------------------------*/
 
 :root {
-  /* Main dashboard */
-  --dashboard-text-card-color : #00738c;
-  --dashboard-sidebar-item-color: #00738c;
-  --dashboard-sidebar-item-color: #00738c;
+    /* Main dashboard */
+    --dashboard-text-card-color : #00738c;
+    --dashboard-header-text-color : #cfd1d2;
+    --dashboard-sidebar-item-color: #cfd1d2;
+    
+    --dashboard-card-icon: #11172c;
+    --dashboard-body-background: #11172c;
+    --dashboard-card-background: #1b223a;
+    --dashboard-card-left-border: #00738c;
+    --dashboard-header-background: #11172c;
+    --dashboard-sidebar-background: #11172c;
+    --dashboard-sidebar-right-border: #cbcdcd;
+    --dashboard-sidebar-item-background: #11172c;
+
+    /* Main breadcrumb */
+    --breadcrumb-text: #fff;
+    --breadcrumb-bg: #f5f5f5;
+    --background-code: #141a2c;
+    --background-main: #b8b7b7;
+    --breadcrumb-active: #6c757d;
+    --breadcrumb-first: rgb(192, 6, 6);
   
-  --dashboard-body-background: #00738c;
-  --dashboard-card-background: #00738c;
-  --dashboard-header-background: #00738c;
-  --dashboard-sidebar-background: #00738c;
-  --dashboard-sidebar-item-background: #00738c;
+    /* Main box-shadow */
+    --box-shadow-one : 0px 0px 4px 0px rgba(82, 63, 105, 0.2);
+    --box-shadow-two : 0 5px 5px 0 rgba(82, 0, 0, 0.2);
+    --box-shadow-three : 0 0px 10px 0 rgba(90, 0, 0, 0.3);
 
-  /* Main breadcrumb */
-  --breadcrumb-text: #fff;
-  --breadcrumb-bg: #f5f5f5;
-  --background-code: #141a2c;
-  --background-main: #b8b7b7;
-  --breadcrumb-active: #6c757d;
-  --breadcrumb-first: rgb(192, 6, 6);
+    /* Main input */
+    --input-border: #8b8989;
+    --input-background: #8b8989;
+    --input-text-color: #8b8989;
+    --input-form-backround : #0000;
 
-  /* Main box-shadow */
-  --box-shadow-one : 0px 0px 4px 0px rgba(82, 63, 105, 0.2);
-  --box-shadow-two : 0 5px 5px 0 rgba(82, 0, 0, 0.2);
-  --box-shadow-three : 0 0px 10px 0 rgba(90, 0, 0, 0.3);
+    /* table color */
+    --table-border: #8b8989;
+    --table-tbody-color: #8b8989;
+    --table-theader-color: #8b8989;
+    --table-tbody-background: #8b8989;
+    --table-theader-background: #8b8989;
 
-  /* Main input */
-  --input-border: #8b8989;
-  --input-background: #8b8989;
-  --input-text-color: #8b8989;
+    /* Main font-family */
+    --main-font-family : "Nunito", sans-serif ;
 
-  /* table color */
-  --table-border: #8b8989;
-  --table-tbody-color: #8b8989;
-  --table-theader-color: #8b8989;
-  --table-tbody-background: #8b8989;
-  --table-theader-background: #8b8989;
-
-  /* Main font-family */
-  --main-font-family : "Nunito", sans-serif ;
-
-  /* Main font-size */
-  --dashboard-main-size: 0.9rem;    
+    /* Main font-size */
+    --dashboard-main-size: 0.9rem;    
 }
 
 /*--------------------------------------------------------------
@@ -77,19 +81,18 @@ body{
 --------------------------------------------------------------*/
 
 .header {
-  transition: all 0.5s;
   z-index: 997;
   height: 60px;
-  box-shadow: var(--box-shadow-two);
-  background-color: var(--dark-color);
   padding-left: 25px;
+  transition: all 0.5s;
+  background-color: var(--dashboard-header-background);
 }
 
 .header .toggle-sidebar-btn {
   font-size: 32px;
-  padding-left: 10px;
   cursor: pointer;
-  color: var(--color-white);
+  padding-left: 10px;
+  color: var(--dashboard-header-text-color);
 }
 
 /* Version */
@@ -100,9 +103,9 @@ body{
 .version span {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-white);
   text-align: center;
   font-family: var(--main-font-family);
+  color: var(--dashboard-header-text-color);
 }
 
 @media (min-width: 1200px) {
@@ -203,11 +206,11 @@ body{
 
 .header-nav .nav-icon {
   font-size: 20px;
-  color: var(--color-white);
+  color: var(--dashboard-header-text-color);
 }
 
 .header-nav .nav-profile {
-  color: var(--color-white);
+  color: var(--dashboard-header-text-color);
 }
 
 .header-nav .nav-profile img {
@@ -236,7 +239,7 @@ body{
   font-size: 18px;
   margin-bottom: 0;
   font-weight: 600;
-  color: var(--dark-color);
+  color: var(--color-grey);
 }
 
 .header-nav .profile .dropdown-header span {
@@ -272,8 +275,8 @@ body{
   z-index: 996;
   transition: all 0.3s;
   overflow-y: auto;
-  border-right: 0.2px solid var(--color-grey);
-  background-color: var(--color-white);
+  border-right: 0.2px solid var(--dashboard-sidebar-right-border);
+  background-color: var(--dashboard-sidebar-background);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -328,9 +331,9 @@ body{
   align-items: center;
   font-size: 12px;
   font-weight: 600;
-  color: var(--dark-color);
+  color: var(--dashboard-sidebar-item-color);
   transition: 0.3;
-  background: var(--color-white);
+  background: var(--dashboard-sidebar-item-background);
   padding: 10px 15px;
   border-top-right-radius: 7px;
   border-top-left-radius: 7px;
@@ -339,25 +342,26 @@ body{
 .sidebar-nav .nav-link i {
   font-size: 15px;
   margin-right: 10px;
-  color: var(--sidebar-color);
+  color: var(--dashboard-sidebar-item-color);
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: var(--dark-color);
-  background: var(--color-white);
+  color: var(--dashboard-sidebar-item-color);
+  background: var(--dashboard-sidebar-item-background);
 }
 
 .sidebar-nav .nav-link.collapsed i {
-  color: var(--dark-color);
+  color: var(--dashboard-sidebar-item-color);
 }
 
 .sidebar-nav .nav-link:hover {
   color: var(--dashboard-main);
-  background: var(--color-white);
+  border-radius: 0px;
+  background: var(--color-grey);
 }
 
 .sidebar-nav .nav-link:hover i {
-  color: var(--dashboard-main);
+  color: var(--color-blue);
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -404,26 +408,27 @@ body{
 }
 
 /*--------------------------------------------------------------
-  # DASHBOARD
+  # DASHBOARD CONTENT
 --------------------------------------------------------------*/
 
 .menuUsers {
-  box-shadow: var(--box-shadow-one);
   height: 170px;
   border-top-left-radius: 7px;
+  box-shadow: var(--box-shadow-one);
   border-bottom-left-radius: 7px;
-  border-left: 10px solid var(--dark-color);
-  
+  border-left: 10px solid var(--dashboard-card-left-border);
+  background-color: var(--dashboard-card-background);
 }
 
 .infos {
-  box-shadow: var(--box-shadow-one);
   border: none;
+  box-shadow: var(--box-shadow-one);
 }
 
 .hystory {
-  box-shadow: var(--box-shadow-one);
   border: none;
+  box-shadow: var(--box-shadow-one);
+  background-color: var(--dashboard-card-background);
 }
 
 .menuUsers a {
@@ -432,7 +437,7 @@ body{
 }
 
 .card-header {
-  background-color: var(--color-white);
+  background-color: var(--dashboard-card-background);
   font-size: 14px;
   font-weight: 10;
 }
@@ -442,7 +447,7 @@ body{
 }
 
 .infos .card-header i {
-  background-color: var(--color-red);
+  background-color: var(--dashboard-card-icon);
 }
 
 .dashboard .activity {
@@ -451,7 +456,7 @@ body{
 }
 
 .dashboard .activity .activity-item .activite-label {
-  color: var(--dark-color);
+  color: var(--color-grey);
   position: relative;
   flex-shrink: 0;
   flex-grow: 0;
@@ -465,7 +470,7 @@ body{
   width: 2px;
   top: 0;
   bottom: 0;
-  background-color: var(--history-color-green);
+  background-color: var(--color-grey);
 }
 
 .dashboard .activity .activity-item .activity-badge {
@@ -475,8 +480,8 @@ body{
   line-height: 0;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 1px solid var(--history-color-green);
-  background: var(--dark-color);
+  border: 1px solid var(--color-grey);
+  background: var(--color-grey);
   padding: 2px;
   flex-grow: 0;
 }
@@ -494,6 +499,10 @@ body{
   padding-bottom: 0;
 }
 
+.dashboard .card .news-card {
+  background-color: var(--dashboard-card-background);
+}
+
 .infos .card-body .news .post-item i {
   width: 9%;
   float: left;
@@ -509,13 +518,14 @@ body{
   font-size: 70px;
   text-align: center;
   font-weight: 100;
+  color: var(--color-grey);
 }
 
 #dashChart #epaphroditeChart, 
 #epaphroditeEchartOne, #epaphroditeEchartTwo, #epaphroditeEchartThree, #epaphroditeEchartFour{
   padding: 17px;
   box-shadow: var(--box-shadow-one);
-  background-color: var(--color-white);
+  background-color: var(--dashboard-card-background);
 }
 
 /*--------------------------------------------------------------
@@ -526,31 +536,34 @@ body{
   width: 80%;
   margin: auto;
   padding: 20px;
-  background-color: #fff;
+  border-radius: 17px;
+  border: 1px solid var(--color-grey);
+  background-color: var(--input-form-backround);
   box-shadow: 0 5px 10px 0 rgba(82, 63, 105, 0.2);
 }
 
 .card_filter_search {
-  background: var(--dark-color);
+  background: var(--color-blue-other);
   padding: 10px 0px 10px 10px;
   border-radius: 10px;
 }
 
 .displayTable thead {
-  vertical-align: middle;
-  background: var(--dark-color);
   text-align: center;
   font-size: 8.5px;
-  color: var(--color-white);
+  vertical-align: middle;
+  color: var(--table-theader-color);
+  background: var(--table-theader-background);
 }
 
 .displayTable tbody td {
-  background: var(--color-white);;
   padding: 5px 3px;
   font-size: 9.2px;
   text-align: left;
-  vertical-align: middle;
   line-height: 14px;
+  vertical-align: middle;
+  color: var(--table-tbody-color);
+  background: var(--table-tbody-background);
 }
 
 .seachValidation {

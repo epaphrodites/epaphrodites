@@ -9,12 +9,15 @@ class ImportFiles extends FilesExtension
 
     /**
      * Summary of importExcelFiles
+     * 
      * @param string $ExcelFiles
      * @param string $key
      * @return array
      */
-    public function importExcelFiles( string $ExcelFiles, string $key = '__file__' ):array
-    {
+    public function importExcelFiles( 
+        string $ExcelFiles, 
+        string $key = '__file__' 
+    ):array{
 
         if(isset($ExcelFiles) && in_array($_FILES[$key]['type'], static::$FilesMimes)) 
         {
@@ -33,15 +36,18 @@ class ImportFiles extends FilesExtension
     }
 
     /**
-     * Summary of importExcelFiles
+     * Summary of importLargeExcelFiles
      * To use this function, you must install python 3
      * and run this command "pip install odfpy"
+     * 
      * @param string $ExcelFiles
      * @param string $key
      * @return array|bool
      */     
-    public function pyImportExcelFiles($ExcelFiles, $key = '__file__' ):array
-    {
+    public function importLargeExcelFiles(
+        string $ExcelFiles, 
+        string $key = '__file__' 
+    ):array{
 
         if(isset($ExcelFiles) && in_array($_FILES[$key]['type'], static::$FilesMimes)) 
         {        

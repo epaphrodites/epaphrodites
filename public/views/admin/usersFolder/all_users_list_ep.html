@@ -1,7 +1,7 @@
 {% extends layouts %}
 {% from forms import filter_search, checkbox_field, actions_field, select_field %}
 {% from breadcrumb import breadcrumb_field %} 
-{% from pagination import pagination_field %} 
+{% from pagination import pagination_field, dataTable_pagination %} 
 {% from message import alert_msg %}
 {% block content %}
 {{ alert_msg( reponse , alert ) }}
@@ -79,7 +79,7 @@
                 {
                     datas : data.ActionsUsers() ,
                     export : "List_of_users"  , 
-                    pagination : pagination_field( current , nbrePage , total )
+                    pagination : dataTable_pagination(false, 2)
                 }) 
             }} 
         </form>        

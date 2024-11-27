@@ -134,4 +134,4 @@ define('CSRF_FIELD_NAME', 'token_csrf');
 define('_SERVER_LOG_', 'server.log');
 
 // Fake folders link accepted : main/noella/shlomo/yedidia/eklou
-define('_DASHMODEL_', 'noella');
+define('_DASHMODEL_', 'eklou');

@@ -44,6 +44,7 @@ class SetFrenchTextMessages
                 'erreur' => "Désolé un problème est survenu lors du traitement !!!",
                 'send' => 'Félicitation votre message a été envoyé avec succès !!!',
                 'no-data' => 'Désolé aucune information ne correspond à votre demande',
+                'file-header' => 'Vérifiez l\'en-tête de votre fichier, s\'il vous plaît',
                 'done' => 'Félicitation votre inscription a été effectué avec succès !!!',
                 'tailleauto' => "La taille du fichier dépasse la limite autorisée de 500 Ko",
                 'errorsending' => "Désolé un problème est survenu lors de l'envoi de votre message !!!",

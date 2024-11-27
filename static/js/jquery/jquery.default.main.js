@@ -32,7 +32,7 @@ $(document).ready(function () {
         },
       },
     ],
-    pageLength: 100,
+    pageLength: parseInt( document.querySelector(".totalLeng").getAttribute("data-page-length"), 10 ),
     lengthChange: false,
     footerCallback: function (row, data, start, end, display) {
       var api = this.api();
