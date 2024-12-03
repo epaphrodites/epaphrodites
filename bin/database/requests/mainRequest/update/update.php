@@ -15,7 +15,7 @@ final class update extends UpdateUpdate
    * @return bool
    */
   public function updateUserRights(
-    ?string $userGroup = null, 
+    ?int $userGroup = null, 
     ?int $state = null
   ): bool{
 
@@ -89,21 +89,21 @@ final class update extends UpdateUpdate
    *
    * @param string $oldPassword
    * @param string $newPassword
-   * @param string $confirMdp
-   * @return array
+   * @param string $confirmePassword
+   * @return bool
    */
   public function changeUsersPassword(
     string $oldPassword,
     string $newPassword,
-    string $confirMdp
+    string $confirmePassword
   ): bool{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
-      'redis' => $this->noSqlRedisChangeUsersPassword($oldPassword, $newPassword, $confirMdp),
+      'mongodb' => $this->noSqlChangeUsersPassword($oldPassword, $newPassword, $confirmePassword),
+      'redis' => $this->noSqlRedisChangeUsersPassword($oldPassword, $newPassword, $confirmePassword),
 
-      default => $this->sqlChangeUsersPassword($oldPassword, $newPassword, $confirMdp)
+      default => $this->sqlChangeUsersPassword($oldPassword, $newPassword, $confirmePassword)
     };
   }
 
@@ -112,7 +112,7 @@ final class update extends UpdateUpdate
    *
    * @param string $login
    * @param string $password
-   * @param string $UserGroup
+   * @param int $UserGroup
    * @return bool
    */
   public function ConsoleUpdateUsers(

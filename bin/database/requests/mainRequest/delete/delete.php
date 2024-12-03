@@ -9,20 +9,28 @@ final class delete extends DeleteDelete
 
     /**
      * Request to delete users right by @id
-     */
-    public function DeletedUsersRights($IdRights)
-    {
+     * 
+     * @param int $idRights
+     * @return bool
+    */
+    public function DeletedUsersRights(
+        int $idRights
+    ):bool{
 
-        return  static::initConfig()['delright']->DeletedUsersRights($IdRights)===true ? true : false;
+        return  static::initConfig()['delright']->DeletedUsersRights($idRights) === true ? true : false;
     }
 
     /**
      * Request to delete users right by @id
-     */
-    public function EmptyAllUsersRights($usersGroup)
-    {
+     * 
+     * @param int $usersGroup
+     * @return bool
+    */
+    public function EmptyAllUsersRights(
+        int $usersGroup
+    ):bool{
 
-        return  static::initConfig()['delright']->EmptyAllUsersRight($usersGroup)===true ? true : false;
+        return  static::initConfig()['delright']->EmptyAllUsersRight($usersGroup) === true ? true : false;
     }    
 
 }

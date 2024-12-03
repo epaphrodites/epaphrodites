@@ -3,6 +3,7 @@ server.log
 counter.json
 test/
 results/
+pdfs/
 sqLite.session.sql
 postgres.session.sql
 cassandra.session.sql

@@ -5,7 +5,7 @@
     | Run main directory containt which first Config
     |--------------------------------------------------------------------------
 */   
-    require 'bin/epaphrodites/define/config/SetDirectory.php';
+    require 'bin/config/SetDirectory.php';
 
 /*
     |--------------------------------------------------------------------------

@@ -1,137 +1,140 @@
 <?php
 
 /**************************************************************
- ****************| DEFINE ALL DIRECTORIES |********************** 
+ ****************| DEFINE EPAPHRODITES CONSTANT |********************** 
  ***************************************************************/
 
-// Config language
+# Config language
 define('_LANG_', 'eng');
 
-// Python version in use
+# Python version in use
 define('_PYTHON_', 'python');
 
-// Config front files
+# Config front files
 define('_FRONT_', '.html');
 
-// Config API token Key name
+# Config API token Key name
 define('_KEYGEN_', 'CRSF');
 
-// Main directory folder
+# Main directory folder
 define('_DIR_MAIN_', 'bin');
 
-// Set database accpeted 'mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis'
+# Set database accpeted 'mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis'
 define('_FIRST_DRIVER_', 'sqlite');
 
-// vendor directory
+# vendor directory
 define('_DIR_VENDOR_', 'vendor');
 
-// Front files extension in end
+# Front files extension in end
 define('_MAIN_EXTENSION_', '_ep');
 
-// Users session name
+# Users session name
 define('_SESSION_', 'session');
 
-// Users Token CRSF name
+# Users Token CRSF name
 define('_CRSF_TOKEN_', 'crsfToken');
 
-// Views directories
+# Views directories
 define('_DIR_VIEWS_', 'public');
 
-// Media files
+# Media files
 define('_DIR_MEDIA_', 'static/docs/');
 
-// Main directory
+# Main directory
 define('_ROOT_', dirname(__DIR__));
 
-// Images directory
+# Images directory
 define('_DIR_IMG_', 'static/img/');
 
-// Documentation directory
+# Documentation directory
 define('_DIR_PDF_', 'static/docs/');
 
-// Main directory for all users
+# Main directory for all users
 define('_DIR_MAIN_TEMP_', '/views/main/');
 
-// Main directory for admin pages
+# Main directory for admin pages
 define('_DIR_ADMIN_TEMP_', '/views/admin/');
 
-// Database directory
+# Database directory
 define('_DIR_database_', 'bin/database');
 
-// Migration directory
+# Migration directory
 define('_DIR_MIGRATION_', 'bin/database/gearShift');
 
-// Epaphrodites main directory
+# Epaphrodites main directory
 define('_EPAPHRODITE_', 'bin/epaphrodites');
 
-// Console main directory
+# Console main directory
 define('_CONSOLE_', 'bin/epaphrodites/Console/Models');
 
-// Main static datas (static storage)
+# Main static datas (static storage)
 define('_DIR_CONFIG_', 'bin/database/datas/arrays/');
 
-// Main email param file
-define('_DIR_MAIL_', 'bin/epaphrodites/define/config/ini/');
+# Main email param file
+define('_DIR_MAIL_', 'bin/config/');
 
-// Main Json datas directory
+# Main Json datas directory
 define('_DIR_JSON_DATAS_', 'bin/database/datas/json');
 
-// Main toml datas directory
+# Main toml datas directory
 define('_DIR_TOML_DATAS_', 'bin/database/datas/toml/');
 
-// Main sqLite datas directory
+# Main sqLite datas directory
 define('_DIR_SQLITE_DATAS_', 'bin/database/datas/SqlLite/');
 
-// Main config ini directory
-define('_DIR_CONFIG_INI_', 'bin/database/config/ini/');
+# Main config ini directory
+define('_DIR_CONFIG_INI_', 'bin/config/');
 
-// Set Application domaine when you are in local "epaphrodite-framework/"
+# Set Application domaine when you are in local "epaphrodite-framework/"
 define('_DOMAINE_', "");
 
-// Fake folders link
+# Fake folders link
 define('_FAKE_', 'view/');
 
-// Main home page
+# Main home page
 define('_HOME_', _FAKE_ . 'index/');
 
-// Login home page
+# Login home page
 define('_LOGIN_', _FAKE_ . 'login/');
 
-// Logout
+# Logout
 define('_LOGOUT_', 'logout/');
 
-// python directory
+# python directory
 define('_PYTHON_FILE_FOLDERS_', 'bin/epaphrodites/python/');
 
-// Dashboard home page
+# Dashboard home page
 define('_DASHBOARD_', 'dashboard/');
 
-// Dashboard home folders
+# Dashboard home folders
 define('_DASHBOARD_FOLDERS_', 'dashboardFolder/');
 
-// Session auth id
+# Session auth id
 define('_AUTH_ID_', 'id');
 
-// Session auth type
+# Session auth type
 define('_AUTH_TYPE_', 'type');
 
-// Session auth nom et prenoms
+# Session auth nom et prenoms
 define('_AUTH_NAME_', 'usersname');
 
-// Session auth login
+# Session auth login
 define('_AUTH_LOGIN_', 'login');
 
-// Session auth contact
+# Session auth contact
 define('_AUTH_CONTACT_', 'contact');
 
-// Session auth email
+# Session auth email
 define('_AUTH_EMAIL_', 'email');
 
-// Token field name
+# Token field name
 define('CSRF_FIELD_NAME', 'token_csrf');
 
-// Main developpement file
+# Main developpement file
 define('_SERVER_LOG_', 'server.log');
 
-// Fake folders link accepted : main/noella/shlomo/yedidia/eklou
+# Fake folders link accepted : main/noella/shlomo/yedidia/eklou
 define('_DASHMODEL_', 'eklou');
+
+# DeepLp API key
+define('_YOUR_DEEPL_API_KEY', 'INSERT_YOUR_API_KEY');

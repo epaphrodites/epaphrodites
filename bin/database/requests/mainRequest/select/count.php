@@ -9,7 +9,8 @@ final class count extends CountCount
 
   /**
    * Request to count all users
-   * @return array
+   * 
+   * @return int
    */
   public function CountAllUsers(): int
   {
@@ -26,8 +27,9 @@ final class count extends CountCount
 
   /**
    * Request to count all users per group
-   * @param string $usersGroup
-   * @return array
+   * 
+   * @param int $usersGroup
+   * @return int
    */
   public function CountUsersByGroup(
     int $usersGroup
@@ -45,7 +47,7 @@ final class count extends CountCount
 
   /**
    * Request to count all recent actions
-   * @return array
+   * @return int
    */
   public function countUsersRecentActions(): int
   {

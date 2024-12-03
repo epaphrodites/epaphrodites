@@ -60,23 +60,23 @@ class update extends UpdateUpdate
     /**
      * Update user password and user group
      *
-     * @param string|NULL $login
-     * @param string|NULL $password
-     * @param int|NULL $UserGroup
+     * @param string|null $login
+     * @param string|null $password
+     * @param int|null $UserGroup
      * @return bool
      */
     public function sqlConsoleUpdateUsers(
-        ?string $login = NULL, 
-        ?string $password = NULL, 
-        ?int $UserGroup = NULL
+        string $login = null, 
+        string $password = null, 
+        int $UserGroup = null
     ): bool
     {
         $GetDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
 
         if (!empty($GetDatas)) {
 
-            $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
+            $password = $password !== null ? $password : $login;
+            $UserGroup = $UserGroup !== null ? $UserGroup : $GetDatas[0]['usersgroup'];
 
             $this->table('usersaccount')
                 ->set(['password', 'usersgroup'])

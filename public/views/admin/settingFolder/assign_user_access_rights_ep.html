@@ -26,7 +26,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Pages list</label>
-                        <select class="form-select custom-select selecteur" name="__rights__" required>
+                        <select class="form-select custom-select select2 selecteur" name="__rights__" required>
                         {% for selected in select.YedidiahRightList() %}
                             {% set counter = (counter | default (0)+1) %}
                             <option value="{{ selected.apps ~ '@' ~ selected.path }}">{{ select.ModulesLists(selected.apps) ~ ' | ' ~ selected.libelle }}</option>
