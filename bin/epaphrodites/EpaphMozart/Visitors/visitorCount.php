@@ -69,6 +69,47 @@ class visitorCount{
     }
 
     /**
+     * Summary of getDayList
+     * 
+     * @param int $number
+     * @return array
+     */
+    private function getDayList(
+        int $number
+    ): array {
+        $currentDate = new DateTimeImmutable();
+        $lastDays = [];
+    
+        for ($i = 0; $i < $number; $i++) {
+            $lastDays[] = $currentDate->format('Y-m-d');
+            $currentDate = $currentDate->modify('-1 day');
+        }
+    
+        $result = [];
+        foreach ($lastDays as $day) {
+            $result[] = [
+                'key' => $day,
+                'value' => $this->counters['day'][$day] ?? 0,
+            ];
+        }
+    
+        return $result;
+    }
+    
+    /**
+     * Summary of showListVisitedPerDay
+     * 
+     * @param int $number
+     * @return array
+     */
+    public function showListVisitedPerDay(
+        int $number = 1
+    ): array {
+       
+        return $this->getDayList($number);
+    }
+    
+    /**
      * Checks if the current user has visited in the last 24 hours.
      *
      * @return bool True if the user has been counted in the last 24 hours, false otherwise.
@@ -89,9 +130,23 @@ class visitorCount{
      * Loads the counters from the JSON file or initializes them if the file doesn't exist.
      */
     private function loadCounters(): void {
-        $this->counters = file_exists(self::FILE) 
-            ? json_decode(file_get_contents(self::FILE), true, 512, JSON_THROW_ON_ERROR) 
-            : ['day' => [], 'month' => [], 'year' => []];
+        if (file_exists(self::FILE)) {
+            $fileContent = file_get_contents(self::FILE);
+            
+            if (empty($fileContent) || trim($fileContent) === '') {
+                $this->counters = ['day' => [], 'month' => [], 'year' => []];
+            } else {
+                try {
+                    $this->counters = json_decode($fileContent, true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+
+                    $this->counters = ['day' => [], 'month' => [], 'year' => []];
+                }
+            }
+        } else {
+
+            $this->counters = ['day' => [], 'month' => [], 'year' => []];
+        }
     }
 
     /**

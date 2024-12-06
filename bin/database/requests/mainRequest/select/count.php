@@ -32,7 +32,7 @@ final class count extends CountCount
    * @return int
    */
   public function CountUsersByGroup(
-    int $usersGroup
+    int|string $usersGroup
   ):int
   {
 

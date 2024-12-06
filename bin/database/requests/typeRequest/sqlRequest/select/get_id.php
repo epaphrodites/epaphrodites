@@ -18,7 +18,7 @@ class get_id extends SelectGet_id
     public function defaultSqlGetUsersByGroup(
         int $currentPage, 
         int $numLines, 
-        int $usersGroup
+        int|string $usersGroup
     ):array
     {
 

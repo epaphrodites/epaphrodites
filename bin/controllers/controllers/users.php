@@ -177,6 +177,7 @@ final class users extends MainSwitchers
         $total = 0;
         $list = [];
         $numLine = 100;
+        $authoriz = false;
         $currentPage = static::isGet('_p', 'int') ? static::getGet('_p') : 1;
         
         $position = static::notEmpty(['filtre'] , 'GET') 
@@ -202,9 +203,9 @@ final class users extends MainSwitchers
             }
         }
 
-        if (static::isGet('submitsearch') && static::notEmpty(['datasearch'] , 'GET')) {
+        if (static::isGet('search') && static::notEmpty(['search'] , 'GET')) {
 
-            $list = $this->getId->GetUsersDatas(static::getGet('datasearch'));
+            $list = $this->getId->GetUsersDatas(static::getGet('search'));
             $total = count($list ?? []);
             
         }else {
@@ -216,17 +217,20 @@ final class users extends MainSwitchers
             $list = static::notEmpty(['filtre'] , 'GET') 
                             ? $this->getId->GetUsersByGroup($currentPage, $numLine, static::getGet('filtre')) 
                             : $this->select->listeOfAllUsers($currentPage, $numLine);
+
+            $authoriz = static::notEmpty(['filtre'], 'GET') ?? true;
         }
         
         $this->views( $html, 
             [
                 'total' => $total,
-                'current' => $currentPage,
                 'liste_users' => $list,
+                'authoriz' => $authoriz,
                 'alert' => $this->alert,
                 'reponse' => $this->ans,
                 'position' => $position,
                 'select' => $this->getId,
+                'current' => $currentPage,
                 'nbrePage' => ceil(($total) / $numLine),
             ],
             true

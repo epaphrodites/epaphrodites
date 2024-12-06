@@ -1,8 +1,42 @@
 {# --- Chart --- #}
 {% macro charts(chartOptions) %}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        
+        function isLightColor(color) {
+            const rgb = hexToRgb(color);
+            if (!rgb) return true;
+            const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+            return luminance > 0.5;
+        }
 
+        function hexToRgb(hex) {
+            if (!hex) return null;
+            if (hex.startsWith('rgb')) {
+                const match = hex.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+                if (match) {
+                    return {
+                        r: parseInt(match[1]),
+                        g: parseInt(match[2]),
+                        b: parseInt(match[3])
+                    };
+                }
+            }
+            hex = hex.replace(/^#/, '');
+            if (hex.length === 3) {
+                hex = hex.split('').map(char => char + char).join('');
+            }
+            if (hex.length === 6) {
+                return {
+                    r: parseInt(hex.substr(0, 2), 16),
+                    g: parseInt(hex.substr(2, 2), 16),
+                    b: parseInt(hex.substr(4, 2), 16)
+                };
+            }
+            return null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            
             var pourcentage = {{ chartOptions.pourcentage is defined ? chartOptions.pourcentage|lower : 'true' }};
             var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
             var id = "{{ chartOptions.id is defined ? chartOptions.id|e('js') : 'epaphroditeChart' }}";
@@ -11,52 +45,66 @@
             var position = "{{ chartOptions.position is defined ? chartOptions.position|e('js') : 'bottom' }}";
             var indexAxis = orientation === 'horizontal' ? 'y' : 'x';
 
+            var chartElement = document.getElementById(id);
+            var computedStyle = getComputedStyle(chartElement);
+            var inheritedTextColor = computedStyle.color || 'inherit';
+            var inheritedBackgroundColor = computedStyle.backgroundColor || 'transparent';
+
             var keyLabel = chartOptionsData[0].keyLabel ?? true;
             var globalLabels = chartOptionsData[0].keys.map(function(key) {
                 if (keyLabel) {
-                   
                     return chartOptionsData[0].data.find(item => item[key] !== undefined)?.[key] || key;
                 }
                 return key;
             });
 
             var datasets = chartOptionsData.map(function(dataset) {
-                
                 var totalDataset = dataset.data.reduce(function(sum, item) {
                     return sum + dataset.values.reduce(function(subSum, valueKey) {
                         return subSum + (item[valueKey] !== undefined ? item[valueKey] : 0);
                     }, 0);
                 }, 0);
 
-                var data = dataset.values.map(function(valueKey) {
+                var originalValues = dataset.values.map(function(valueKey) {
+                    return dataset.data.reduce(function(sum, item) {
+                        const value = item[valueKey] !== undefined ? item[valueKey] : 0;
+                        return sum + value;
+                    }, 0);
+                });
 
+                var data = dataset.values.map(function(valueKey) {
                     return dataset.data.reduce(function(sum, item) {
                         const value = item[valueKey] !== undefined ? item[valueKey] : 0;
                         return sum + (pourcentage && totalDataset > 0 ? (value / totalDataset * 100) : value);
                     }, 0);
                 });
 
-                var backgroundColors = dataset.color;
-        
+                var backgroundColors = dataset.color || [];
                 var borderColors = dataset.color 
                     ? dataset.color.map(color => color.startsWith('#') ? color : color) 
                     : backgroundColors.map(color => color.replace(/0.2\)$/, "1)"));
 
+                var textColors = backgroundColors.map(color => 
+                    isLightColor(color) ? '#000000' : '#ffffff'
+                );
+
                 return {
                     label: dataset.values,
                     data: data,
-                    backgroundColor: backgroundColors,
-                    borderColor: borderColors,
+                    originalValues: originalValues,
+                    backgroundColor: backgroundColors.length ? backgroundColors : ['rgba(54, 162, 235, 0.2)'],
+                    borderColor: borderColors.length ? borderColors : ['rgba(54, 162, 235, 1)'],
+                    textColor: textColors,
                     type: dataset.chartType || 'bar',
                     borderWidth: dataset.border || 1,
                     keys: dataset.keys || []
                 };
             });
 
-            generateChart(id, globalLabels, datasets, chartLabel, indexAxis, position, pourcentage);
+            generateChart(id, globalLabels, datasets, chartLabel, indexAxis, position, pourcentage, inheritedTextColor, inheritedBackgroundColor);
         });
 
-        function generateChart(chartId, labels, datasets, chartLabel, indexAxis, position, pourcentage) {
+        function generateChart(chartId, labels, datasets, chartLabel, indexAxis, position, pourcentage, inheritedTextColor, inheritedBackgroundColor) {
             var ctx = document.getElementById(chartId).getContext('2d');
             new Chart(ctx, {
                 type: datasets[0].type || 'bar',
@@ -65,18 +113,31 @@
                     datasets: datasets
                 },
                 options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     indexAxis: indexAxis,
+                    color: inheritedTextColor,
                     scales: ['pie', 'doughnut'].includes(datasets[0].type) ? {} : {
                         x: { 
-                            beginAtZero: true 
+                            beginAtZero: true,
+                            grid: {
+                                display: false,
+                                color: 'transparent'
+                            },
+                            ticks: {
+                                color: inheritedTextColor
+                            }
                         },
                         y: {
                             beginAtZero: true,
                             ticks: {
+                                color: inheritedTextColor,
                                 callback: function(value) {
-                                    return pourcentage ? value + '%' : '';
+                                    return pourcentage ? value + '%' : value;
                                 }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
                             }
                         }
                     },
@@ -85,44 +146,46 @@
                             display: true,
                             position: position,
                             labels: {
-                                generateLabels: function (chart) {
-                                    const datasets = chart.data.datasets;
-                                    const globalLabels = chart.data.labels;
-
-                                    return datasets.flatMap((dataset, i) => {
-                                        return dataset.data.map((value, index) => {
-                                            const keyLabel = chart.config.data.keyLabel ?? true;
-                                            const labelKey = keyLabel ? globalLabels[index] : dataset.keys[index];
-                                            const formattedValue = pourcentage 
-                                                ? value.toFixed(0) + '%' 
-                                                : value.toLocaleString();
-
-                                            return {
-                                                text: `${labelKey} : ${formattedValue}`,
-                                                fillStyle: dataset.backgroundColor[index] || '#000000',
-                                                strokeStyle: dataset.borderColor[index] || '#000000',
-                                                hidden: false,
-                                                lineCap: 'butt',
-                                                lineDash: [],
-                                                lineDashOffset: 0,
-                                                lineJoin: 'miter',
-                                                lineWidth: 1,
-                                                datasetIndex: i
-                                            };
-                                        });
-                                    });
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                color: inheritedTextColor
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: inheritedBackgroundColor,
+                            titleColor: inheritedTextColor,
+                            bodyColor: inheritedTextColor,
+                            borderColor: inheritedTextColor,
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    const dataset = tooltipItem.dataset;
+                                    const index = tooltipItem.dataIndex;
+                                    const labelKey = tooltipItem.label;
+                                    
+                                    const originalValue = dataset.originalValues[index];
+                                    const formattedValue = originalValue.toLocaleString();
+                                    
+                                    return `${labelKey} : ${formattedValue}`;
                                 }
                             }
                         },
-                    
                         title: {
+                            color: inheritedTextColor,
                             display: true,
-                            text: chartLabel
+                            text: chartLabel,
+                            padding: 10,
+                            font: {
+                                weight: 'bold',
+                                size: 17
+                            }
                         },
                         datalabels: {
                             display: true,
                             align: 'center',
-                            color: '#000',
+                            color: function(context) {
+                                const backgroundColor = context.dataset.backgroundColor[context.dataIndex];
+                                return isLightColor(backgroundColor) ? '#000000' : '#ffffff';
+                            },
                             font: {
                                 weight: 'bold',
                                 size: 14
@@ -132,13 +195,13 @@
                             }
                         }
                     }
-
                 },
                 plugins: [ChartDataLabels]
             });
         }
     </script>
 {% endmacro %}
+  
 {# --- End Chart --- #}
 
 
@@ -146,77 +209,83 @@
 {% macro echarts(chartOptions) %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+    
+            function getContrastYIQ(hexcolor) {
+                hexcolor = hexcolor.replace('#', '');
+                
+                const r = parseInt(hexcolor.substr(0, 2), 16);
+                const g = parseInt(hexcolor.substr(2, 2), 16);
+                const b = parseInt(hexcolor.substr(4, 2), 16);
+                
+                const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+                
+                return (yiq >= 128) ? '#000000' : '#ffffff';
+            }
+    
             const id = "{{ chartOptions.id|default('epaphroditeEChart')|e('js') }}";
+            const chartDom = document.getElementById(id);
+            
+            const containerStyle = chartDom ? getComputedStyle(chartDom) : null;
+            const containerColor = containerStyle ? containerStyle.color : '#000';
+            const containerBackgroundColor = containerStyle ? containerStyle.backgroundColor : 'transparent';
+    
             const chartLabel = "{{ chartOptions.label|default('EChart')|e('js') }}";
+            const defaultColors = containerStyle ? [containerStyle.color, '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'] : ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'];
             const pourcentage = {{ chartOptions.pourcentage|default(true)|json_encode|raw }};
             const orientation = "{{ chartOptions.orientation|default('vertical')|e('js') }}";
             const position = "{{ chartOptions.position|default('bottom')|e('js') }}";
-
             const chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
+    
             if (!chartOptionsData || !chartOptionsData.length) {
                 console.error('No data provided for chart');
                 return;
             }
-
+    
             const dataInfo = extractDataInfo(chartOptionsData[0].data);
             const globalLabels = dataInfo.labels;
             const dataValues = dataInfo.values;
-
+    
             const isPieChart = chartOptionsData.some(dataset =>
                 ['pie', 'doughnut'].includes(dataset.chartType || dataset.type || '')
             );
-
-            const customColors = ['#04a642', '#b2f4a7', '#FCC447', '#dc143c'];
+    
             let allLegendData = [];
-
+    
             const series = chartOptionsData.map((dataset, datasetIndex) => {
+                const customColors = dataset.color || defaultColors; // Priorité aux couleurs du dataset
                 const totalDataset = dataValues.reduce((sum, value) => sum + (Number(value) || 0), 0);
-
-                const data = dataValues.map((value, index) => ({
-                    value: pourcentage == 'true' && totalDataset > 0 ? (value / totalDataset * 100) : value,
-                    itemStyle: {
-                        color: customColors[index % customColors.length]
-                    }
-                }));
-
-                // Construire la légende pour les graphiques circulaires et non circulaires
-                if (isPieChart) {
-                    globalLabels.forEach((label, index) => {
-                        allLegendData.push({
-                            name: label,
-                            icon: 'circle',
-                            itemStyle: {
-                                color: customColors[index % customColors.length]
-                            }
-                        });
+    
+                const data = dataValues.map((value, index) => {
+                    const seriesColor = customColors[index % customColors.length];
+                    return {
+                        value: pourcentage == 'true' && totalDataset > 0 ? (value / totalDataset * 100) : value,
+                        name: globalLabels[index],
+                        itemStyle: {
+                            color: seriesColor
+                        },
+                        label: {
+                            color: getContrastYIQ(seriesColor) // Détermine la couleur du texte en fonction du fond
+                        }
+                    };
+                });
+    
+                globalLabels.forEach((label, index) => {
+                    allLegendData.push({
+                        name: label,
+                        icon: 'circle',
+                        itemStyle: {
+                            color: customColors[index % customColors.length]
+                        }
                     });
-                } else {
-                    // Pour les graphiques non circulaires, créer une légende pour chaque barre
-                    globalLabels.forEach((label, index) => {
-                        allLegendData.push({
-                            name: label,
-                            icon: 'circle',
-                            itemStyle: {
-                                color: customColors[index % customColors.length]
-                            }
-                        });
-                    });
-                }
-
+                });
+    
                 const chartType = dataset.chartType === 'doughnut' ? 'pie' :
                     (dataset.chartType || 'bar');
-
+    
                 return {
                     name: dataset.label || `Série ${datasetIndex + 1}`,
                     type: chartType,
-                    data: isPieChart ? 
-                        dataValues.map((value, index) => ({
-                            value: pourcentage == 'true' && totalDataset > 0 ? (value / totalDataset * 100) : value,
-                            name: globalLabels[index],
-                            itemStyle: {
-                                color: customColors[index % customColors.length]
-                            }
-                        })) : data,
+                    data: data,
                     label: {
                         show: true,
                         position: dataset.chartType === 'doughnut' ? 'outside' : 'inside',
@@ -236,22 +305,25 @@
                     } : {})
                 };
             });
-
-            const chartDom = document.getElementById(id);
+    
             const myChart = echarts.init(chartDom);
-
+    
             const gridMargins = {
                 top: position === 'top' ? 100 : 60,
                 bottom: position === 'bottom' ? 100 : 60,
                 left: position === 'left' ? 100 : 20,
                 right: position === 'right' ? 100 : 20
             };
-
+    
             const option = {
+                backgroundColor: containerBackgroundColor,
                 title: {
                     text: chartLabel,
-                    left: 'left',
-                    top: position === 'top' ? 0 : 20
+                    left: 'center',
+                    top: position === 'top' ? 0 : 5,
+                    textStyle: {
+                        color: containerColor
+                    }
                 },
                 tooltip: {
                     trigger: isPieChart ? 'item' : 'axis',
@@ -270,7 +342,7 @@
                     [position]: 10,
                     left: position === 'top' || position === 'bottom' ? 'center' : 10,
                     orient: position === 'left' || position === 'right' ? 'vertical' : 'horizontal',
-                    textStyle: { color: '#000' },
+                    textStyle: { color: containerColor },
                     type: 'plain',
                     padding: [5, 10],
                 },
@@ -280,29 +352,35 @@
                 },
                 xAxis: isPieChart ? { show: false } : {
                     type: orientation === 'horizontal' ? 'value' : 'category',
-                    data: orientation === 'horizontal' ? undefined : globalLabels
+                    data: orientation === 'horizontal' ? undefined : globalLabels,
+                    axisLabel: {
+                        color: containerColor
+                    }
                 },
                 yAxis: isPieChart ? { show: false } : {
                     type: orientation === 'horizontal' ? 'category' : 'value',
-                    data: orientation === 'horizontal' ? globalLabels : undefined
+                    data: orientation === 'horizontal' ? globalLabels : undefined,
+                    axisLabel: {
+                        color: containerColor
+                    }
                 },
                 series: series
             };
-
+    
             myChart.setOption(option);
-
+    
             window.addEventListener('resize', () => {
                 myChart.resize();
             });
-
+    
             function extractDataInfo(data) {
                 const labels = [];
                 const values = [];
-
+    
                 data.forEach(item => {
                     let foundTitle = false;
                     let foundValue = false;
-
+    
                     Object.entries(item).forEach(([key, value]) => {
                         if (key.includes('title')) {
                             labels.push(value);
@@ -312,27 +390,49 @@
                             foundValue = true;
                         }
                     });
-
+    
                     if (!foundTitle && foundValue) {
                         const valueKey = Object.keys(item).find(k => !k.includes('title'));
                         labels.push(valueKey);
                     }
                 });
-
+    
                 return { labels, values };
             }
         });
     </script>
+    
 {% endmacro %}
+    
 {# --- End Echart --- #}
 
 
+{# --- scatted Chart --- #}
 {% macro scattedChart(scattedChartOptions) %}
     <script>
-        const id = "{{ scattedChartOptions.id | default('epaphroditeEChart') | e('js') }}";
+
+        function getContrastYIQ(hexcolor) {
+
+            hexcolor = hexcolor.replace('#', '');
+            
+            const r = parseInt(hexcolor.substr(0,2),16);
+            const g = parseInt(hexcolor.substr(2,2),16);
+            const b = parseInt(hexcolor.substr(4,2),16);
+            
+            const yiq = ((r*299)+(g*587)+(b*114))/1000;
+            return (yiq >= 128) ? '#000000' : '#ffffff';
+        }
+
         const datasets = {{ scattedChartOptions.datasets | json_encode | raw }};
-        const defaultColors = ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'];
         const position = "{{ scattedChartOptions.position | default('bottom') }}";
+        const chartLabel = "{{ scattedChartOptions.label|default('EChart')|e('js') }}";
+        
+        const containerElement = document.getElementById("{{ scattedChartOptions.id | default('epaphroditeEChart') | e('js') }}");
+        const defaultColors = containerElement ? 
+            ['getComputedStyle(containerElement).color', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'] : 
+            ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'];
+        
+        const id = "{{ scattedChartOptions.id | default('epaphroditeEChart') | e('js') }}";
         const pourcentage = {{ scattedChartOptions.pourcentage | default(true) | json_encode | raw }};
         const orientation = "{{ scattedChartOptions.orientation | default('vertical') | e('js') }}";
 
@@ -353,7 +453,12 @@
             datasets.forEach((dataset, datasetIndex) => {
                 const values = dataset.values;
                 const data = dataset.data;
-                const colors = dataset.color || defaultColors;
+                
+                const colors = dataset.color || defaultColors.map(color => 
+                    color === 'getComputedStyle(containerElement).color' 
+                    ? getComputedStyle(containerElement).color 
+                    : color
+                );
 
                 const dataMap = data.reduce((acc, item) => {
                     acc[item[dataset.keys[0]]] = item;
@@ -373,6 +478,8 @@
                         return val;
                     });
 
+                    const seriesColor = colors[valueIndex] || colors[0];
+
                     processedData.push({
                         name: value,
                         type: 'bar',
@@ -384,12 +491,13 @@
                                 let value = params.value;
                                 return pourcentage == 'true' ? `${Math.round(value)}%` : Math.round(value);
                             },
-                            color: '#fff'
+                            color: getContrastYIQ(seriesColor.replace('#', '')),
+                            fontWeight: 'bold'
                         },
                         emphasis: {
                             focus: 'series'
                         },
-                        color: colors[valueIndex],
+                        color: seriesColor,
                         data: seriesData
                     });
                 });
@@ -403,7 +511,20 @@
 
         const { series, categories } = processDatasets(datasets);
 
+        const containerBackgroundColor = containerElement 
+            ? getComputedStyle(containerElement).backgroundColor 
+            : 'transparent';
+
         const option = {
+            backgroundColor: containerBackgroundColor,
+            title: {
+                text: chartLabel,
+                left: 'center',
+                top: position === 'top' ? 0 : 5,
+                textStyle: {
+                    color: getComputedStyle(containerElement || document.body).color
+                }
+            },
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -428,7 +549,9 @@
             legend: {
                 [position]: 0,
                 orient: position === 'top' || position === 'bottom' ? 'horizontal' : 'vertical',
-                textStyle: { color: '#666' },
+                textStyle: { 
+                    color: getComputedStyle(containerElement || document.body).color 
+                },
                 padding: position === 'bottom' || position === 'top' ? [10, 0, 20, 0] : [0, 10],
                 data: legendValues
             },
@@ -439,7 +562,9 @@
                     show: true,
                     lineStyle: { color: '#ccc' }
                 },
-                axisLabel: { color: '#666' },
+                axisLabel: { 
+                    color: getComputedStyle(containerElement || document.body).color 
+                },
                 splitLine: {
                     lineStyle: {
                         color: '#f0f0f0'
@@ -452,7 +577,9 @@
                 axisLine: {
                     lineStyle: { color: '#ccc' }
                 },
-                axisLabel: { color: '#666' }
+                axisLabel: { 
+                    color: getComputedStyle(containerElement || document.body).color 
+                }
             },
             series: series,
             grid: {
@@ -472,4 +599,4 @@
         });
     </script>
 {% endmacro %}
-    
+{# --- End scatted Chart --- #}

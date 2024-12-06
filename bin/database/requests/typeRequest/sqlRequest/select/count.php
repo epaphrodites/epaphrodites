@@ -30,7 +30,7 @@ class count extends SelectCount
    * @return int
    */
   public function sqlCountUsersByGroup(
-    int $Group
+    int|string $Group
   ): int
   {
 

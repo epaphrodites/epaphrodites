@@ -14,7 +14,7 @@ final class get_id extends GetId
      * @return array
      */
     public function getUsersRights(
-      int $usersGroup
+      int|string $usersGroup
     ):array{
 
         return static::initConfig()['listright']->getUsersRights($usersGroup);
@@ -51,7 +51,7 @@ final class get_id extends GetId
   public function GetUsersByGroup(
     int $currentPage, 
     int $numLine, 
-    int $UsersGroup
+    int|string $UsersGroup
   ):array{
 
     return match (_FIRST_DRIVER_) {
@@ -72,7 +72,7 @@ final class get_id extends GetId
    * @return array
    */
   public function getUsersRecentsActions(
-    ?string $login = null
+    string $login = null
   ):array{
 
     return match (_FIRST_DRIVER_) {

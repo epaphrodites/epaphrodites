@@ -475,7 +475,84 @@ trait currentSubmit
         }
 
         return $result;
-    }    
+    }   
+    
+    /**
+     * Decodes a Base64-encoded signature retrieved via an HTTP method.
+     * 
+     * @param string $signature The encoded string to decode.
+     * @param string $method The HTTP method used to retrieve the data ('POST' or 'GET').
+     * @return string|null The decoded data on success, or `null` on failure.
+     * @throws \InvalidArgumentException If the HTTP method is invalid.
+     */
+    public static function decodedData(
+        string $signature = '', 
+        string $method = 'POST'
+    ): ?string {
+        // Retrieve data based on the HTTP method
+        $signature = match ($method) {
+            'POST' => static::getPost($signature),
+            'GET' => static::getGet($signature),
+            default => throw new \InvalidArgumentException("The HTTP method '$method' is not supported.")
+        };
+
+        // Check if the signature is not empty
+        if (!empty($signature)) {
+            // Split the string into two parts (before and after the comma)
+            $parts = explode(',', $signature, 2);
+            if (count($parts) === 2) {
+                [, $base64Data] = $parts;
+
+                // Validate the Base64 format before decoding
+                if (preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $base64Data)) {
+                    $decodedData = base64_decode($base64Data, true); // Use strict mode to avoid silent errors
+                    if ($decodedData !== false) {
+                        return $decodedData;
+                    }
+                }
+            }
+        }
+
+        // Return null on failure
+        return null;
+    }
+
+    /**
+     * Saves data to a uniquely named file within a specified directory.
+     * 
+     * @param string $directory The directory where the file will be created.
+     * @param string $data The data to be written to the file.
+     * @return bool Returns `true` on success or `false` on failure.
+     * @throws \InvalidArgumentException If the directory does not exist or is not writable.
+     */
+    public static function putContents(
+        string $directory, 
+        string $data
+    ): bool {
+        // Validate that the directory exists and is writable
+        if (!is_dir($directory)) {
+            throw new \InvalidArgumentException("The specified directory '$directory' does not exist.");
+        }
+
+        if (!is_writable($directory)) {
+            throw new \InvalidArgumentException("The specified directory '$directory' is not writable.");
+        }
+
+        // Ensure the data is not empty
+        if (empty($data)) {
+            return false; // Early exit if there's no data to write
+        }
+
+        // Generate a unique filename
+        $filename = md5('signature_' . uniqid('', true)) . '.png';
+        $filePath = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
+
+        // Write the data to the file
+        $writeResult = file_put_contents($filePath, $data);
+
+        // Return true if writing was successful, false otherwise
+        return $writeResult !== false;
+    }
 
     /**
      * Filters request data based on the HTTP method.
@@ -592,7 +669,4 @@ trait currentSubmit
     ): bool{
         return array_keys($array) !== range(0, count($array) - 1);
     }
-    
-
-
 }

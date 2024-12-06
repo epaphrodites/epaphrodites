@@ -1,5 +1,5 @@
 {% extends layouts %}
-{% from charts import chartTwo %}
+{% from charts import charts, echarts, scattedChart %}
 {% block content %}
 
     <div class="container-fluid dashboard">
@@ -22,9 +22,21 @@
                             <h4 class="card-header"><i class="bi bi-people"></i> USERS</h4>
                         </div>
                     </div> 
-                    <div class="col-lg-12 mb-12 dashChart">
-                        <canvas id="epaphroditeChart" style="width:100%;max-width:100%" align="center"></canvas>
-                    </div>                                           
+                    <div class="col-lg-12 mb-15" id="dashChart">
+                        <canvas id="epaphroditeChart" style="width:100%;max-width:100%;height:400px;" align="center"></canvas>
+                    </div> 
+                    <div class="col-lg-6 mb-15" id="dashChart">
+                        <div id="epaphroditeEchartOne" style="width:100%;max-width:100%;height:400px;" align="center"></div>
+                    </div> 
+                    <div class="col-lg-6 mb-15" id="dashChart">
+                        <div id="epaphroditeEchartTwo" style="width:100%;max-width:100%;height:400px;" align="center"></div>
+                    </div> 
+                    <div class="col-lg-6 mb-15" id="dashChart">
+                        <div id="epaphroditeEchartThree" style="width:100%;max-width:100%;height:400px;" align="center"></div>
+                    </div> 
+                    <div class="col-lg-6 mb-15" id="dashChart">
+                        <div id="epaphroditeEchartFour" style="width:100%;max-width:100%;height:400px;" align="center"></div>
+                    </div> 
                 </div>
             </div>
             <div class="col-lg-3 mb-3">
@@ -49,19 +61,19 @@
                     </div>
                     <div class="col-lg-12 mb-12 mt-20">
                         <div class="card infos">
-                            <h4 class="card-header text-light"> <i class="icofont-comment"></i> INFORMATIONS</h4>
-                            <div class="card-body">
+                            <h4 class="card-header"> <i class="icofont-comment"></i> INFORMATIONS</h4>
+                            <div class="card-body news-card">
                                 <div class="news">
                                     <div class="post-item">
-                                        <i class="bi bi-exclamation-triangle-fill text-success"></i>
-                                        <p class="text-success">Welcome to Epaphrodite</p>
+                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                        <p>Welcome to Epaphrodite</p>
                                     </div>                                                 
                                 </div>
                             </div>
                         </div>
                     </div>               
                     <div class="col-lg-12 mb-12">
-                        <div class="aos-init pt-20" align="center" data-aos-offset="300">
+                        <div class="aos-init dashbordLogo" align="center" data-aos-offset="300">
                             <img src="{{ __img('logo.png') }}" class="img-fluid">
                             {{ __QRCodes('https://epaphrodite.org') }}
                         </div>
@@ -69,46 +81,140 @@
             </div>
         </div>
     </div>
-    
-    {{ chartTwo(
+
+    {{ charts(
         {
             id: 'epaphroditeChart',
+            orientation : 'vertical',
+            position : 'bottom',
+            pourcentage: 'true',
             label: 'Epaphrodite Example Chart',
             datasets: [
                 {
-                    chartType : 'line',
-                    label: 'Dataset 1',
-                    values : ["value","value1","value2","value3"],
-                    keys : ['title','title1','title2','title3'],
+                    chartType : 'bar',
+                    keyLabel : 'true',
+                    keys : [ 'title', 'title1', 'title2', 'title3' ],
+                    values : [ 'value', 'value1', 'value2', 'value3' ],
                     data: [
-                        { "value": 12969, "title": "BLUE" },
-                        { "value1": 1530, "title1": "YELLOW" },
-                        { "value2": 24593, "title2": "GREEN" },
-                        { "value3": 6465, "title3": "PINK" }
+                        { "value" : 12969, "title" : "BLUE" },
+                        { "value1" : 3530, "title1" : "YELLOW" },
+                        { "value2" : 24593, "title2" : "GREEN" },
+                        { "value3" : 6465, "title3" : "PINK" }
                     ],
-                    border: 4,
-                    radius : 0.4,
+                    border: 0,
+                    radius : 0,
                     borderColor: '#d32b01',
-                    color: ['#d32b01']
-                } ,
-                {
-                    chartType : 'line',
-                    label: 'Dataset 2',
-                    values : ["value","value1","value2","value3"],
-                    keys : ['title','title1','title2','title3'],
-                    data: [
-                        { "value": 1000, "title": "BLUE" },
-                        { "value1": 1030, "title1": "YELLOW" },
-                        { "value2": 20593, "title2": "GREEN" },
-                        { "value3": 7465, "title3": "PINK" }
-                    ],
-                    border: 4,
-                    radius : 0.3,
-                    borderColor: '#056daa',
-                    color: ['#056daa']
-                }            
+                    color: ['#04a642', '#b2f4a7', '#FCC447', '#dc143c']
+                }, 
             ]
         } 
     ) }} 
+
+    {{ echarts(
+        {
+            id: "epaphroditeEchartOne",
+            label: "Sample EChart",
+            pourcentage: 'true',
+            orientation: "vertical",
+            position: "bottom",
+            datasets: [
+                {
+                    chartType : 'pie',
+                    keyLabel : 'true',
+                    keys : [ 'title', 'title1', 'title2', 'title3' ],
+                    values : [ 'value', 'value1', 'value2', 'value3' ],
+                    data: [
+                        { "value" : 12969, "title" : "BLUE" },
+                        { "value1" : 3530, "title1" : "YELLOW" },
+                        { "value2" : 24593, "title2" : "GREEN" },
+                        { "value3" : 6465, "title3" : "PINK" }
+                    ],
+                    color: ['#04a642', '#b2f4a7', '#FCC447', '#dc143c'],
+                }
+            ]
+        }
+    ) }}
+
+    {{ echarts(
+        {
+            id: "epaphroditeEchartTwo",
+            label: "Sample EChart",
+            pourcentage: 'true',
+            orientation: "vertical",
+            position: "bottom",
+            datasets: [
+                {
+                    chartType : 'doughnut',
+                    keyLabel : 'true',
+                    keys : [ 'title', 'title1', 'title2', 'title3' ],
+                    values : [ 'value', 'value1', 'value2', 'value3' ],
+                    data: [
+                        { "value" : 12969, "title" : "BLUE" },
+                        { "value1" : 3530, "title1" : "YELLOW" },
+                        { "value2" : 24593, "title2" : "GREEN" },
+                        { "value3" : 6465, "title3" : "PINK" }
+                    ],
+                    color: ['#04a642', '#b2f4a7', '#FCC447', '#dc143c'],
+                }
+            ]
+        }
+    ) }}
+
+    {{ echarts(
+        {
+            id: "epaphroditeEchartThree",
+            label: "Sample EChart",
+            pourcentage: 'false',
+            orientation: "horizontal",
+            position: "right",
+            datasets: [
+                {
+                    chartType : 'bar',
+                    keyLabel : 'true',
+                    radius: ['40%', '70%'],
+                    keys : [ 'title', 'title1', 'title2', 'title3' ],
+                    values : [ 'value', 'value1', 'value2', 'value3' ],
+                    data: [
+                        { "value" : 12969, "title" : "BLUE" },
+                        { "value1" : 3530, "title1" : "YELLOW" },
+                        { "value2" : 24593, "title2" : "GREEN" },
+                        { "value3" : 6465, "title3" : "PINK" }
+                    ],
+                    color: ['#04a642', '#b2f4a7', '#FCC447', '#dc143c'],
+                }
+            ]
+        }
+    ) }}
+    
+
+    {{ scattedChart({
+        id: "epaphroditeEchartFour",
+        position: 'bottom',
+        pourcentage: 'true',
+        orientation: 'vertical',
+        datasets: 
+            [
+                {
+                    keyLabel : 'false',
+                    keys : ['titre', 'titre2'],
+                    values : [ 'direct', 'mail', 'affiliate' ],
+                    data: [
+                        { 'direct': 320, 'mail': 220, 'affiliate': 220, 'Video': 150, 'search': 820 , 'titre': 'Monday' },
+                        { 'direct': 250, 'mail': 210, 'affiliate': 190, 'Video': 190, 'search': 710 , 'titre': 'Tuesday' },
+                    ],
+                    color: ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD']
+                },
+                {
+                    keyLabel : 'false',
+                    keys : ['titre', 'titre2'],
+                    values : [ 'direct', 'mail', 'affiliate' ],
+                    data: [
+                        { 'direct': 550, 'mail': 240, 'affiliate': 240, 'Video': 180, 'search': 940 , 'titre': 'Monday' },
+                        { 'direct': 401, 'mail': 220, 'affiliate': 230, 'Video': 210, 'search': 830 , 'titre': 'Tuesday' }
+                    ],
+                    color: ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD']
+                }
+            ]
+    }) }}
     
 {% endblock %}

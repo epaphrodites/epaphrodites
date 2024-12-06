@@ -8,6 +8,20 @@ final class main extends MainSwitchers
 {
     private string $ans = '';
     private string $alert = '';
+    private object $visit;
+
+    public function __construct()
+    {
+        $this->initializeObjects();
+    }
+
+        /**
+     * @return void
+     */
+    private function initializeObjects(): void
+    {
+        $this->visit = $this->getObject(static::$initNamespace, 'visit');
+    }
 
     /**
      * Index page
@@ -18,6 +32,7 @@ final class main extends MainSwitchers
         string $html
     ):void
     {
+
         $this->views($html, []);
     }
     

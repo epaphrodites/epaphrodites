@@ -1,12 +1,12 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-        # Follow symbolic links
-        Options -Indexes +FollowSymLinks
-    </IfModule>
 
+    # Follow symbolic links
+    Options -Indexes +FollowSymLinks
+    </IfModule>
     # Enable overwrite mode on Apache
     RewriteEngine On
-    
+
     # Redirect to https or http
     #RewriteCond %{HTTPS} off
     #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -34,8 +34,20 @@
     ErrorDocument 504 /error/504.php
     ErrorDocument 502 /error/502.php
 
+    # Completely block access to the bin directory
+    RewriteRule ^bin/ - [F,L]
+
+    # Prevent access to specific sensitive files and directories
     <FilesMatch "^(heredia|bin/|public/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt|counter.json)">
         Order Allow,Deny
         Deny from all
     </FilesMatch>
 </IfModule>
+
+# Additional protection
+<Directory "bin">
+    <FilesMatch "\.ini$">
+        Order Allow,Deny
+        Deny from all
+    </FilesMatch>
+</Directory>

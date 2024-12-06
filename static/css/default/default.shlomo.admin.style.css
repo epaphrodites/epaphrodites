@@ -10,30 +10,31 @@
 :root {
 
     /* Main admin content */
-    --admin-main-text-color : #000000;
-    --admin-body-background : #f1f1f1;
+    --admin-main-text-color : #ddd;
+    --admin-body-background : #121720;
 
     /* Main admin header */
-    --dashboard-header-background: #030a47;
+    --dashboard-header-background : #1C273C;
+    --dashboard-header-border-bottom: #cbcdcd;
     --dashboard-header-text-color : #cfd1d2;
     
     /* Main admin left sidebar */
-    --dashboard-sidebar-background: #ffffff;
-    --dashboard-sidebar-item-color: #11172c;
-    --dashboard-sidebar-list-item-color: #11172c;
+    --dashboard-sidebar-background: #1C273C;
+    --dashboard-sidebar-item-color: #ddd;
+    --dashboard-sidebar-list-item-color: #ddd;
     --dashboard-sidebar-right-border: #cbcdcd;
-    --dashboard-sidebar-item-background : #ffffff;
+    --dashboard-sidebar-item-background : #1C273C;
     --dashboard-sidebar-hover-item-color: #000000;
-    --dashboard-sidebar-list-item-color-hover: #e1a306;
-    --dashboard-sidebar-hover-item-background: #f8e2aa;
+    --dashboard-sidebar-list-item-color-hover : #f05d5d;
+    --dashboard-sidebar-hover-item-background : #bcc3d0;
     
     /* Main dashboard content */
     --dashboard-card-icon: #11172c;
-    --dashboard-card-background: #f5f5f5;
+    --dashboard-card-background: #253249;
     --dashboard-card-infos-color: #f5f5f5;
-    --dashboard-card-left-border: #e1a306;
+    --dashboard-card-left-border: #bcc3d0;
     --dashboard-text-card-color : #00738c;
-    --dashboard-card-infos-background: #b10606;
+    --dashboard-card-infos-background: #00738c;
     --dashboard-card-infos-icon-color : #ddd;
   
     /* Main box-shadow */
@@ -45,39 +46,53 @@
     --input-border: #8b8989;
     --input-background: #8b8989;
     --input-text-color: #8b8989;
-    --input-form-backround : #fff;
-    --input-form-border-color : #fff;
+    --input-form-backround : #253249;
+    --input-form-border-color : #31405b;
+    --select2-text-color : #333;
+    --select2-text-selector-background : #ddd;
+    --input-textarea-backround : #31405b;
+    --input-textarea-writing-border : #1C273C;
+    --input-textarea-writing-backround : #f1f1f1;
 
     /* Admin filters */
-    --filter-color: #030a47;
-    --filter-background : #030a47;
+    --filter-color: #000;
+    --filter-background : #31405b;
+    --table-filter-color : #31405b;
+    --table-filter-border : #ddd;
+    --table-filter-select-color : #31405b;
+    --table-filter-select-border : #31405b;
+    --table-filter-background : #fff;
+    --select2-text-selector-background : #ddd;
 
     /* Bottom Admin actions */
-    --bottom-action-background: #ddd;
-    --bottom-action-border-color: #030a47;
-    --bottom-action-select-input-background: #faf0cd;
+    --bottom-action-background: #31405b;
+    --bottom-action-border-color: #5676b1;
+    --bottom-action-select-input-background: #d9e1f1;
 
     /* Admin breadcrumb */
     --breadcrumb-color: #030a47;
-    --breadcrumb-background: #fff;
-    --breadcrumb-first-color: #000;
+    --breadcrumb-background: #ddd;
+    --breadcrumb-first-color: #fff;
     --breadcrumb-second-color : #fff;
     --breadcrumb-active-color : #a00276;
-    --breadcrumb-first-background: #e67402;
-    --breadcrumb-second-background : #030a47;
+    --breadcrumb-first-background: #31405b;
+    --breadcrumb-second-background : #616481;
 
     /* Admin Pagination */
     --pagination-color: #fff;
     --pagination-active-color: #fff;
-    --pagination-background: #030a47;
+    --pagination-background: #1C273C;
     --pagination-active-background: #a02a02;
 
     /* table color */
-    --table-border: #ddd;
+    --table-border: #31405b;
     --table-tbody-color: #000;
-    --table-theader-color: #fff;
-    --table-tbody-background: #fff;
-    --table-theader-background: #030a47;
+    --table-theader-color: #ddd;
+    --table-tbody-background: #ddd;
+    --table-theader-background: #31405b;
+
+    /* Chart color */
+    --chart-content-color : #ddd;
 
     /* Main font-family */
     --main-font-family : "Nunito", sans-serif ;
@@ -116,6 +131,7 @@ body{
   height: 60px;
   padding-left: 25px;
   transition: all 0.5s;
+  border-bottom: 1px solid var(--dashboard-header-border-bottom);
   background-color: var(--dashboard-header-background);
 }
 
@@ -366,8 +382,6 @@ body{
   transition: 0.3;
   background: var(--dashboard-sidebar-item-background);
   padding: 10px 15px;
-  border-top-right-radius: 7px;
-  border-top-left-radius: 7px;
 }
 
 .sidebar-nav .nav-link i {
@@ -556,8 +570,19 @@ body{
 #dashChart #epaphroditeChart, 
 #epaphroditeEchartOne, #epaphroditeEchartTwo, #epaphroditeEchartThree, #epaphroditeEchartFour{
   padding: 17px;
+  color: var(--chart-content-color);
   box-shadow: var(--box-shadow-one);
   background-color: var(--dashboard-card-background);
+}
+
+
+
+.dashbordLogo{
+  margin-top: 10px;
+}
+
+.dashbordLogo img{
+  padding: 5px;
 }
 
 /*--------------------------------------------------------------
@@ -598,13 +623,18 @@ body{
   background: var(--table-tbody-background);
 }
 
+.select2-dropdown {
+  color: var(--select2-text-color);
+  background-color: var(--select2-text-selector-background);
+}
+
 .seachValidation {
   width: 100%;
   margin: auto;
 }
 
 #errorMessage {
-  color: #f72525;
+  color: var(--color-red);
   font-size: 11px;
 }
 
@@ -680,13 +710,14 @@ tr {
   width: 230px;
   border: none;
   margin-right: 40px;
+  color: var(--table-filter-select-color);
 }
 
 .filtercard .btn {
   width: 265px;
-  background-color: #f1f1f1;
-  border: 1.5px solid #fff;
-  color: var(--sidebar-color);
+  background-color: var(--table-filter-background);
+  border: 1.5px solid var(--table-filter-border);
+  color: var(--table-filter-color);
   border-radius: 10px;
   text-align: left;
 }
@@ -704,7 +735,7 @@ tr {
   width: 240px;
   background: none;
   padding: 7px;
-  border: 1.5px solid var(--color-green);
+  border: 1.5px solid var(--table-filter-select-border);
   border-radius: 10px;
   font-size: 12px;
 }
@@ -758,9 +789,9 @@ tr {
 .pagination-button {
   cursor: pointer;
   padding: 5px 10px;
-  background: #b59102;
+  background: var(--pagination-background);
   border-radius: 7px;
-  color: #fff;
+  color: var(--pagination-color);
   font-size: 12px;
 }
 
@@ -768,10 +799,10 @@ tr {
   cursor: pointer;
   border-radius: 7px;
   padding: 5px 10px;
-  background: var(--pagination-background);
+  background: var(--pagination-active-background);
   margin: 2px;
   text-decoration: none;
-  color: var(--pagination-color);
+  color: var(--pagination-active-color);
   font-size: 12px;
 }
 
@@ -907,6 +938,14 @@ tr {
   position: relative;
 }
 
+.chat-bot-content textarea{
+  background-color: var(--input-textarea-writing-backround);
+}
+
+.chat-bot-content textarea:focus{
+  background-color: var(--input-textarea-writing-backround);
+}
+
 .chat-bot-content .input-group .button_design {
   position: absolute;
   top: 55%;
@@ -933,7 +972,7 @@ tr {
   padding: 10px 50px;
   position: relative;
   border-radius: 20px;
-  border: 1px solid var(--color-red);
+  border: 1px solid var(--input-textarea-writing-border);
 }
 
 .chat-bot-content #startButtonVoice i{
