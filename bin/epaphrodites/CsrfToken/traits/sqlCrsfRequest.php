@@ -102,9 +102,9 @@ trait sqlCrsfRequest
 
         $crsfLogin = md5(static::initNamespace()['session']->login());
 
-        _FIRST_DRIVER_ == "oracle" 
-            ? $this->getOracleTokenLife($startOfDay, $endOfDay, $crsfLogin)
-            : $this->getSqlTokenLife($startOfDay, $endOfDay, $crsfLogin);
+        $result = (_FIRST_DRIVER_ == "oracle") 
+                ? $this->getOracleTokenLife($startOfDay, $endOfDay, $crsfLogin) 
+                : $this->getSqlTokenLife($startOfDay, $endOfDay, $crsfLogin);
 
         return !empty($result) ? $result[0]['token'] : 0;
     }

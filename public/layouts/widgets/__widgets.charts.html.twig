@@ -1,3 +1,117 @@
+{# --- x chart Field -- #}
+{% macro xChart(chartOptions) %}
+    <script>
+   document.addEventListener('DOMContentLoaded', function () { 
+       var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }}; 
+       var id = "{{ chartOptions.id|default('epaphroditeChart')|e('js') }}"; 
+       var useLegende = {{ chartOptions.useLegende|default(true)|json_encode|raw }};
+       var chartLabel = "{{ chartOptions.label|default('Epaphrodite Example Chart')|e('js') }}"; 
+       var orientation = "{{ chartOptions.orientation is defined ? chartOptions.orientation|e('js') : 'vertical' }}";
+       var indexAxis = orientation === 'horizontal' ? 'y' : 'x';
+
+       var chartElement = document.getElementById(id);
+       var computedStyle = getComputedStyle(chartElement);
+       var inheritedTextColor = computedStyle.color || 'inherit';
+       var inheritedBackgroundColor = computedStyle.backgroundColor || 'transparent';
+
+       var globalLabelsSet = new Set(); 
+       var datasets = chartOptionsData.map(function(dataset) { 
+           dataset.data.forEach(function(item) { 
+               var label = item[dataset.keys]; 
+               if (label) { 
+                   globalLabelsSet.add(label); 
+               } 
+           }); 
+           var data = dataset.data.map(function(item) { 
+               return item[dataset.values]; 
+           }); 
+           var backgroundColors = dataset.color || ['rgba(255, 99, 132, 0.2)']; 
+           var borderColors = dataset.borderColor || backgroundColors.map(color => color.replace(/0.2\)$/, "1)")); 
+           return { 
+               type: dataset.chartType || 'bar', 
+               label: dataset.label, 
+               data: data, 
+               backgroundColor: backgroundColors, 
+               borderColor: borderColors, 
+               borderWidth: dataset.border || 1, 
+               tension: dataset.radius || 0, 
+           }; 
+       }); 
+       var globalLabels = Array.from(globalLabelsSet); 
+       createXChart(id, globalLabels, datasets, chartLabel, useLegende, indexAxis, inheritedTextColor); 
+   }); 
+   function createXChart(chartId, labels, datasets, chartLabel, useLegende, indexAxis, inheritedTextColor) { 
+       var ctx = document.getElementById(chartId).getContext('2d'); 
+       new Chart(ctx, { 
+           type: 'bar', 
+           data: { 
+               labels: labels, 
+               datasets: datasets 
+           }, 
+           options: { 
+               responsive: true,
+               maintainAspectRatio: false,
+               color: inheritedTextColor,
+               indexAxis: indexAxis,
+               scales : ['pie', 'doughnut'].includes(datasets[0].type) ? {} : { 
+                   x :{
+                    beginAtZero: true,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: inheritedTextColor,
+                        } 
+                   },
+                   y: { 
+                        beginAtZero: true,
+                        ticks: {
+                            color: inheritedTextColor
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    } 
+               }, 
+               plugins: { 
+                   legend: { 
+                       display: useLegende == 'true' ? true : false, 
+                       position: 'bottom', 
+                       labels: { 
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            generateLabels: function(chart) { 
+                               var legendItems = []; 
+                               chart.data.datasets.forEach((dataset, i) => { 
+                                   dataset.data.forEach((value, index) => { 
+                                       legendItems.push({ 
+                                           text: chart.data.labels[index] + " : " + value, 
+                                           fillStyle: dataset.backgroundColor[index] || dataset.backgroundColor 
+                                       }); 
+                                   }); 
+                               }); 
+                               return legendItems; 
+                           } 
+                       } 
+                   }, 
+                   title: { 
+                       display: true, 
+                       text: chartLabel,
+                       padding: 15,
+                       font: {
+                           weight: 'bold',
+                           size: 20
+                       },
+                       color: inheritedTextColor
+                   } 
+               } 
+           } 
+       }); 
+   }
+   </script>
+{% endmacro %}
+{# --- End x chart Field -- #}
+
 {# --- Chart --- #}
 {% macro charts(chartOptions) %}
     <script>
@@ -201,7 +315,6 @@
         }
     </script>
 {% endmacro %}
-  
 {# --- End Chart --- #}
 
 
@@ -252,7 +365,7 @@
             let allLegendData = [];
     
             const series = chartOptionsData.map((dataset, datasetIndex) => {
-                const customColors = dataset.color || defaultColors; // Priorité aux couleurs du dataset
+                const customColors = dataset.color || defaultColors;
                 const totalDataset = dataValues.reduce((sum, value) => sum + (Number(value) || 0), 0);
     
                 const data = dataValues.map((value, index) => {
@@ -264,7 +377,7 @@
                             color: seriesColor
                         },
                         label: {
-                            color: getContrastYIQ(seriesColor) // Détermine la couleur du texte en fonction du fond
+                            color: getContrastYIQ(seriesColor)
                         }
                     };
                 });
@@ -306,7 +419,7 @@
                 };
             });
     
-            const myChart = echarts.init(chartDom);
+            const setEChart = echarts.init(chartDom);
     
             const gridMargins = {
                 top: position === 'top' ? 100 : 60,
@@ -367,10 +480,10 @@
                 series: series
             };
     
-            myChart.setOption(option);
+            setEChart.setOption(option);
     
             window.addEventListener('resize', () => {
-                myChart.resize();
+                setEChart.resize();
             });
     
             function extractDataInfo(data) {

@@ -134,7 +134,7 @@ define('CSRF_FIELD_NAME', 'token_csrf');
 define('_SERVER_LOG_', 'server.log');
 
 # Fake folders link accepted : main/noella/shlomo/yedidia/eklou
-define('_DASHMODEL_', 'main');
+define('_DASHMODEL_', 'eklou');
 
 # DeepLp API key
 define('_YOUR_DEEPL_API_KEY', 'INSERT_YOUR_API_KEY');

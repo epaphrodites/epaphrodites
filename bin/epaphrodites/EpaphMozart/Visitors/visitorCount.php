@@ -106,7 +106,7 @@ class visitorCount{
         int $number = 1
     ): array {
        
-        return $this->getDayList($number);
+        return array_reverse($this->getDayList($number));
     }
     
     /**
@@ -155,5 +155,4 @@ class visitorCount{
     private function saveCounters(): void {
         file_put_contents(self::FILE, json_encode($this->counters, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
-
 }

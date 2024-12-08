@@ -1,5 +1,5 @@
 {% extends layouts %}
-{% from charts import charts, echarts, scattedChart %}
+{% from charts import charts, echarts, xChart, scattedChart %}
 {% block content %}
 
     <div class="container-fluid dashboard">
@@ -17,7 +17,7 @@
                     <div class="col-lg-6 mb-3">
                         <div class="card menuUsers">
                             <div class="card-body">
-                                <p class="card-text" id="count"><strong>{{ '01' }}</strong></p>
+                                <p class="card-text" id="count"><strong>{{ count.sqlCountAllUsers }}</strong></p>
                             </div>
                             <h4 class="card-header"><i class="bi bi-people"></i> USERS</h4>
                         </div>
@@ -32,7 +32,7 @@
                         <div id="epaphroditeEchartTwo" style="width:100%;max-width:100%;height:400px;" align="center"></div>
                     </div> 
                     <div class="col-lg-6 mb-15" id="dashChart">
-                        <div id="epaphroditeEchartThree" style="width:100%;max-width:100%;height:400px;" align="center"></div>
+                        <canvas id="epaphroditeEchartThree" style="width:100%;max-width:100%;height:400px;" align="center"></canvas>
                     </div> 
                     <div class="col-lg-6 mb-15" id="dashChart">
                         <div id="epaphroditeEchartFour" style="width:100%;max-width:100%;height:400px;" align="center"></div>
@@ -160,27 +160,28 @@
         }
     ) }}
 
-    {{ echarts(
+    {{ xChart(
         {
             id: "epaphroditeEchartThree",
-            label: "Sample EChart",
+            label: "Sample xChart",
             pourcentage: 'true',
-            orientation: "horizontal",
+            orientation: "vertical",
             position: "right",
+            useLegende : "false",
             datasets: [
                 {
                     chartType : 'bar',
-                    keyLabel : 'true',
-                    radius: ['40%', '70%'],
-                    keys : [ 'title', 'title1', 'title2', 'title3' ],
-                    values : [ 'value', 'value1', 'value2', 'value3' ],
+                    keys : [ 'title' ],
+                    values : [ 'value'],
                     data: [
                         { "value" : 12969, "title" : "BLUE" },
-                        { "value1" : 3530, "title1" : "YELLOW" },
-                        { "value2" : 24593, "title2" : "GREEN" },
-                        { "value3" : 6465, "title3" : "PINK" }
+                        { "value" : 3530, "title" : "YELLOW" },
+                        { "value" : 24593, "title" : "GREEN" },
+                        { "value" : 6465, "title" : "PINK" }
                     ],
-                    color: ['#04a642', '#b2f4a7', '#FCC447', '#dc143c'],
+                    color: ['#dc143c', '#b2f4a7', '#FCC447', '#dc143c'],
+                    borderColors : '#dc143c',
+                    raduis : 0.5
                 }
             ]
         }
