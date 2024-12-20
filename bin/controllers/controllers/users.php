@@ -184,23 +184,54 @@ final class users extends MainSwitchers
                         ? static::getGet('filtre') 
                         : NULL;
 
-        if (static::isValidMethod(true)) {
+        if (static::isValidMethod(true)&&static::arrayNoEmpty(['users'])) {
 
-            if (static::isPost('_sendselected_')) {
+            // Update users state
+            if (static::isSelected('_sendselected_', 1 )) {
 
                 foreach (static::isArray('users') as $login) {
 
-                    $this->result = static::isSelected('_sendselected_', 1 ) 
-                                        ? $this->update->updateEtatsUsers($login) 
-                                        : $this->update->initUsersPassword($login);
+                    $this->result = $this->update->updateEtatsUsers($login);
                 }
 
                 [$this->ans, $this->alert] = static::Responses(
                     $this->result, [  
                         true => ['succes', 'alert-success'], 
                         false => ['error', 'alert-danger'] 
-                    ]);
+                    ]);                
             }
+
+            // Init passwords
+            if (static::isSelected('_sendselected_', 2 )) {
+
+                foreach (static::isArray('users') as $login) {
+
+                    $this->result = $this->update->initUsersPassword($login);
+                }
+
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);                
+            }
+
+            // Update users group
+            if (static::isSelected('_sendselected_', 3 )) {
+
+                foreach (static::isArray('users') as $login) {
+
+                    $usersGroupSelected = static::getPost("{$login}__group__", true)[0];
+
+                    $this->result = $this->update->updateUsersGroup($login, $usersGroupSelected);
+                }
+
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);                
+            }            
         }
 
         if (static::isGet('search') && static::notEmpty(['search'] , 'GET')) {

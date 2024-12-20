@@ -9,26 +9,62 @@ final class insert extends InsertInsert
 
     /**
      * Add users rights
+     * 
      * @param int|null $userGroup
      * @param string|null $pages
      * @param string|null $actions
      * @return bool
      */
     public function AddUsersRights(
-      ?int $userGroup = null, 
-      ?string $pages = null, 
-      ?string  $actions = null
+      int $userGroup = null, 
+      string $pages = null, 
+      string  $actions = null
     ):bool{
 
-        if (static::initConfig()['addright']->AddUsersRights($userGroup, $pages, $actions) === true) {
-
+      if (static::initConfig()['addright']->AddUsersRights($userGroup, $pages, $actions) === true) {
+        
+            $config = static::initQuery()['setting'];
             $actions = "Assign a right to the user group : " . static::initNamespace()['datas']->userGroup($userGroup);
-            static::initQuery()['setting']->ActionsRecente($actions);
+
+            match (_FIRST_DRIVER_) {
+
+              'mongodb' => $config->noSqlActionsRecente($actions),
+              'redis' => $config->noSqlRedisActionsRecente($actions),
+        
+              default => $config->ActionsRecente($actions),
+            };
 
             return true;
         } else {
             return false;
         }
+    }  
+
+    /**
+     * Set user dashboard color
+     * 
+     * @param int $usersGroup
+     * @param string $color
+     * @return bool
+     */
+    public function setDashboardColors(int $usersGroup, string $color): bool
+    {
+        if (empty($usersGroup) || empty($color)) {
+            return false;
+        }
+
+        $json = static::initNamespace()['json'];
+        $path = $json->path(_DIR_COLORS_PATH_);
+
+        $existingEntry = $path->get(['usersGroup' => $usersGroup]);
+
+        if (!$existingEntry) {
+            $path->add(['usersGroup' => $usersGroup, 'color' => $color]);
+        } else {
+            $path->where(['usersGroup' => $usersGroup])->update(['color' => $color]);
+        }
+
+        return true;
     }  
 
   /**
@@ -59,9 +95,9 @@ final class insert extends InsertInsert
    * @return array
    */
   public function ConsoleAddUsers(
-    ?string $login,
-    ?string $password,
-    ?int $UserGroup
+    string $login,
+    string $password,
+    int $UserGroup
   ):bool{
 
     return match (_FIRST_DRIVER_) {
@@ -71,5 +107,6 @@ final class insert extends InsertInsert
 
       default => $this->sqlConsoleAddUsers($login , $password, $UserGroup),
     };     
-  }   
+  }  
+
  }

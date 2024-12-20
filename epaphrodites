@@ -1,6 +1,6 @@
 <?php
 
-require 'bin/epaphrodites/define/config/SetDirectory.php';
+require 'bin/config/SetDirectory.php';
 
 array_shift($argv);
 

@@ -321,223 +321,252 @@
 {# --- Echart --- #}
 {% macro echarts(chartOptions) %}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    
-            function getContrastYIQ(hexcolor) {
-                hexcolor = hexcolor.replace('#', '');
-                
-                const r = parseInt(hexcolor.substr(0, 2), 16);
-                const g = parseInt(hexcolor.substr(2, 2), 16);
-                const b = parseInt(hexcolor.substr(4, 2), 16);
-                
-                const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-                
-                return (yiq >= 128) ? '#000000' : '#ffffff';
-            }
-    
-            const id = "{{ chartOptions.id|default('epaphroditeEChart')|e('js') }}";
-            const chartDom = document.getElementById(id);
-            
-            const containerStyle = chartDom ? getComputedStyle(chartDom) : null;
-            const containerColor = containerStyle ? containerStyle.color : '#000';
-            const containerBackgroundColor = containerStyle ? containerStyle.backgroundColor : 'transparent';
-    
-            const chartLabel = "{{ chartOptions.label|default('EChart')|e('js') }}";
-            const defaultColors = containerStyle ? [containerStyle.color, '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'] : ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD'];
-            const pourcentage = {{ chartOptions.pourcentage|default(true)|json_encode|raw }};
-            const orientation = "{{ chartOptions.orientation|default('vertical')|e('js') }}";
-            const position = "{{ chartOptions.position|default('bottom')|e('js') }}";
-            const chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
-    
-            if (!chartOptionsData || !chartOptionsData.length) {
-                console.error('No data provided for chart');
-                return;
-            }
-    
-            const dataInfo = extractDataInfo(chartOptionsData[0].data);
-            const globalLabels = dataInfo.labels;
-            const dataValues = dataInfo.values;
-    
-            const isPieChart = chartOptionsData.some(dataset =>
-                ['pie', 'doughnut'].includes(dataset.chartType || dataset.type || '')
-            );
-    
-            let allLegendData = [];
-    
-            const series = chartOptionsData.map((dataset, datasetIndex) => {
-                const customColors = dataset.color || defaultColors;
-                const totalDataset = dataValues.reduce((sum, value) => sum + (Number(value) || 0), 0);
-    
-                const data = dataValues.map((value, index) => {
-                    const seriesColor = customColors[index % customColors.length];
+        function isLightColor(color) {
+            const rgb = hexToRgb(color);
+            if (!rgb) return true;
+            const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+            return luminance > 0.5;
+        }
+
+        function hexToRgb(hex) {
+            if (!hex) return null;
+            if (hex.startsWith('rgb')) {
+                const match = hex.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+                if (match) {
                     return {
-                        value: pourcentage == 'true' && totalDataset > 0 ? (value / totalDataset * 100) : value,
-                        name: globalLabels[index],
-                        itemStyle: {
-                            color: seriesColor
-                        },
-                        label: {
-                            color: getContrastYIQ(seriesColor)
-                        }
+                        r: parseInt(match[1]),
+                        g: parseInt(match[2]),
+                        b: parseInt(match[3])
+                    };
+                }
+            }
+            hex = hex.replace(/^#/, '');
+            if (hex.length === 3) {
+                hex = hex.split('').map(char => char + char).join('');
+            }
+            if (hex.length === 6) {
+                return {
+                    r: parseInt(hex.substr(0, 2), 16),
+                    g: parseInt(hex.substr(2, 2), 16),
+                    b: parseInt(hex.substr(4, 2), 16)
+                };
+            }
+            return null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var pourcentage = {{ chartOptions.pourcentage is defined ? chartOptions.pourcentage|lower : 'true' }};
+            var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
+            var id = "{{ chartOptions.id is defined ? chartOptions.id|e('js') : 'epaphroditeChart' }}";
+            var chartLabel = "{{ chartOptions.label is defined ? chartOptions.label|e('js') : chartOptions.datasets[0].keys|join(' vs ')|e('js') }}";
+            var orientation = "{{ chartOptions.orientation is defined ? chartOptions.orientation|e('js') : 'vertical' }}";
+            var position = "{{ chartOptions.position is defined ? chartOptions.position|e('js') : 'bottom' }}";
+
+            var chartElement = document.getElementById(id);
+            var computedStyle = getComputedStyle(chartElement);
+            var inheritedTextColor = computedStyle.color || 'inherit';
+            var inheritedBackgroundColor = computedStyle.backgroundColor || 'transparent';
+
+            var keyLabel = chartOptionsData[0].keyLabel === "true";
+            var keys = chartOptionsData[0].keys;
+            var datasetData = chartOptionsData[0].data;
+
+            var globalLabels = keys.map(function (key, index) {
+                if (keyLabel) {
+                    return key;
+                } else {
+                    return datasetData[index]?.[key] || key;
+                }
+            });
+
+            var seriesData = chartOptionsData.map(function (dataset) {
+                var totalDataset = dataset.data.reduce(function (sum, item) {
+                    return sum + dataset.values.reduce(function (subSum, valueKey) {
+                        return subSum + (item[valueKey] !== undefined ? item[valueKey] : 0);
+                    }, 0);
+                }, 0);
+
+                var originalValues = dataset.values.map(function (valueKey) {
+                    return dataset.data.reduce(function (sum, item) {
+                        const value = item[valueKey] !== undefined ? item[valueKey] : 0;
+                        return sum + value;
+                    }, 0);
+                });
+
+                var data = dataset.values.map(function (valueKey, index) {
+                    var value = dataset.data.reduce(function (sum, item) {
+                        const itemValue = item[valueKey] !== undefined ? item[valueKey] : 0;
+                        return sum + (pourcentage && totalDataset > 0 ? (itemValue / totalDataset * 100) : itemValue);
+                    }, 0);
+
+                    return {
+                        value: value,
+                        originalValue: originalValues[index],
+                        name: keyLabel ? valueKey : dataset.data[index]?.[keys[index]] || valueKey
                     };
                 });
-    
-                globalLabels.forEach((label, index) => {
-                    allLegendData.push({
-                        name: label,
-                        icon: 'circle',
-                        itemStyle: {
-                            color: customColors[index % customColors.length]
-                        }
-                    });
-                });
-    
-                const chartType = dataset.chartType === 'doughnut' ? 'pie' :
-                    (dataset.chartType || 'bar');
-    
+
+                var backgroundColors = dataset.color || [];
+                var textColors = backgroundColors.map(color =>
+                    isLightColor(color) ? '#000000' : '#ffffff'
+                );
+
                 return {
-                    name: dataset.label || `Série ${datasetIndex + 1}`,
-                    type: chartType,
+                    type: dataset.chartType || 'bar',
+                    name: dataset.label || dataset.values.join(' '),
                     data: data,
+                    backgroundColor: backgroundColors.length ? backgroundColors : ['rgba(54, 162, 235, 0.2)'],
+                    itemStyle: {
+                        color: function (params) {
+                            return backgroundColors[params.dataIndex] || 'rgba(54, 162, 235, 0.2)';
+                        }
+                    },
                     label: {
                         show: true,
-                        position: dataset.chartType === 'doughnut' ? 'outside' : 'inside',
-                        formatter: params => pourcentage == 'true' ?
-                            `${Math.round(typeof params === 'object' ? params.value : params)}%` :
-                            (typeof params === 'object' ? params.value : params).toString()
-                    },
-                    ...(dataset.chartType === 'doughnut' ? {
-                        radius: ['45%', '70%'],
-                        emphasis: {
-                            itemStyle: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
+                        formatter: function (params) {
+                            return pourcentage ? params.percent + '%' : params.value;
+                        },
+                        color: function (params) {
+                            const backgroundColor = backgroundColors[params.dataIndex];
+                            return isLightColor(backgroundColor) ? '#000000' : '#ffffff';
                         }
-                    } : {})
+                    }
                 };
             });
-    
-            const setEChart = echarts.init(chartDom);
-    
-            const gridMargins = {
-                top: position === 'top' ? 100 : 60,
-                bottom: position === 'bottom' ? 100 : 60,
-                left: position === 'left' ? 100 : 20,
-                right: position === 'right' ? 100 : 20
-            };
-    
-            const option = {
-                backgroundColor: containerBackgroundColor,
+
+            generateEChart(id, globalLabels, seriesData, chartLabel, orientation, position, pourcentage, inheritedTextColor, inheritedBackgroundColor);
+        });
+
+        function generateEChart(chartId, labels, series, chartLabel, orientation, position, pourcentage, inheritedTextColor, inheritedBackgroundColor) {
+            var chart = echarts.init(document.getElementById(chartId));
+            
+            var isHorizontal = orientation === 'horizontal';
+            
+            var option = {
                 title: {
                     text: chartLabel,
-                    left: 'center',
-                    top: position === 'top' ? 0 : 5,
                     textStyle: {
-                        color: containerColor
+                        color: inheritedTextColor,
+                        fontWeight: 'bold',
+                        fontSize: 17
                     }
                 },
                 tooltip: {
-                    trigger: isPieChart ? 'item' : 'axis',
-                    formatter: params => {
-                        if (!Array.isArray(params)) params = [params];
-                        return params.map(param =>
-                            `${param.name}: ${pourcentage == 'true' ?
-                                Math.round(param.value) + '%' :
-                                param.value}`
-                        ).join('<br/>');
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    backgroundColor: inheritedBackgroundColor,
+                    textStyle: {
+                        color: inheritedTextColor
+                    },
+                    formatter: function(params) {
+                        return params.map(param => {
+                            const originalValue = param.data.originalValue.toLocaleString();
+                            return `${param.name}: ${originalValue}`;
+                        }).join('<br>');
                     }
                 },
                 legend: {
-                    show: true,
-                    data: allLegendData,
-                    [position]: 10,
-                    left: position === 'top' || position === 'bottom' ? 'center' : 10,
-                    orient: position === 'left' || position === 'right' ? 'vertical' : 'horizontal',
-                    textStyle: { color: containerColor },
-                    type: 'plain',
-                    padding: [5, 10],
+                    data: series.map(s => s.name),
+                    textStyle: {
+                        color: inheritedTextColor
+                    },
+                    bottom: position
                 },
                 grid: {
-                    containLabel: true,
-                    ...gridMargins
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
                 },
-                xAxis: isPieChart ? { show: false } : {
-                    type: orientation === 'horizontal' ? 'value' : 'category',
-                    data: orientation === 'horizontal' ? undefined : globalLabels,
+                xAxis: {
+                    type: 'category',
+                    data: labels,
                     axisLabel: {
-                        color: containerColor
+                        color: inheritedTextColor
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: inheritedTextColor
+                        }
                     }
                 },
-                yAxis: isPieChart ? { show: false } : {
-                    type: orientation === 'horizontal' ? 'category' : 'value',
-                    data: orientation === 'horizontal' ? globalLabels : undefined,
+                yAxis: {
+                    type: 'value',
                     axisLabel: {
-                        color: containerColor
+                        color: inheritedTextColor,
+                        formatter: function(value) {
+                            return pourcentage ? value + '%' : value;
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: inheritedTextColor
+                        }
                     }
                 },
                 series: series
             };
-    
-            setEChart.setOption(option);
-    
-            window.addEventListener('resize', () => {
-                setEChart.resize();
-            });
-    
-            function extractDataInfo(data) {
-                const labels = [];
-                const values = [];
-    
-                data.forEach(item => {
-                    let foundTitle = false;
-                    let foundValue = false;
-    
-                    Object.entries(item).forEach(([key, value]) => {
-                        if (key.includes('title')) {
-                            labels.push(value);
-                            foundTitle = true;
-                        } else if (!key.includes('title')) {
-                            values.push(value);
-                            foundValue = true;
-                        }
-                    });
-    
-                    if (!foundTitle && foundValue) {
-                        const valueKey = Object.keys(item).find(k => !k.includes('title'));
-                        labels.push(valueKey);
-                    }
-                });
-    
-                return { labels, values };
-            }
-        });
-    </script>
-    
-{% endmacro %}
-    
-{# --- End Echart --- #}
 
+            if (isHorizontal) {
+                [option.xAxis, option.yAxis] = [option.yAxis, option.xAxis];
+            }
+
+            if (['pie', 'doughnut'].includes(series[0].type)) {
+                option = {
+                    title: {
+                        text: chartLabel,
+                        textStyle: {
+                            color: inheritedTextColor,
+                            fontWeight: 'bold',
+                            fontSize: 17
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function(params) {
+                            const originalValue = params.data.originalValue.toLocaleString();
+                            return `${params.name}: ${originalValue} (${params.percent}%)`;
+                        }
+                    },
+                    legend: {
+                        data: series[0].data.map(d => d.name),
+                        textStyle: {
+                            color: inheritedTextColor
+                        },
+                        bottom: position
+                    },
+                    series: [{
+                        type: 'pie',
+                        radius: series[0].type === 'doughnut' ? ['40%', '70%'] : '70%',
+                        avoidLabelOverlap: false,
+                        itemStyle: series[0].itemStyle,
+                        label: series[0].label,
+                        data: series[0].data
+                    }]
+                };
+            }
+
+            chart.setOption(option);
+        }
+    </script>
+{% endmacro %}
+{# --- End Echart --- #}
 
 {# --- scatted Chart --- #}
 {% macro scattedChart(scattedChartOptions) %}
     <script>
-
         function getContrastYIQ(hexcolor) {
-
             hexcolor = hexcolor.replace('#', '');
-            
             const r = parseInt(hexcolor.substr(0,2),16);
             const g = parseInt(hexcolor.substr(2,2),16);
             const b = parseInt(hexcolor.substr(4,2),16);
-            
             const yiq = ((r*299)+(g*587)+(b*114))/1000;
             return (yiq >= 128) ? '#000000' : '#ffffff';
         }
 
         const datasets = {{ scattedChartOptions.datasets | json_encode | raw }};
         const position = "{{ scattedChartOptions.position | default('bottom') }}";
+        const useKeyLabel = {{ scattedChartOptions.keyLabel | default('false') }};
         const chartLabel = "{{ scattedChartOptions.label|default('EChart')|e('js') }}";
         
         const containerElement = document.getElementById("{{ scattedChartOptions.id | default('epaphroditeEChart') | e('js') }}");
@@ -554,7 +583,23 @@
         const processDatasets = (datasets) => {
             let allKeys = new Set();
             let processedData = [];
+            let keyLabelMapping = {};
             
+            // Construction du mapping entre les clés et les valeurs
+            if (useKeyLabel === true) {
+                const firstDataset = datasets[0];
+                const uniqueDataValues = new Set(firstDataset.data.map(item => item[firstDataset.keys[0]]));
+                
+                // Création du mapping entre les labels (titre, titre2) et leurs valeurs (Monday, Tuesday)
+                firstDataset.keys.forEach((key, index) => {
+                    const values = Array.from(uniqueDataValues);
+                    if (values[index]) {
+                        keyLabelMapping[values[index]] = key;
+                    }
+                });
+            }
+            
+            // Collecter toutes les clés uniques
             datasets.forEach(dataset => {
                 dataset.data.forEach(item => {
                     allKeys.add(item[dataset.keys[0]]);
@@ -583,7 +628,7 @@
                         const dayData = dataMap[key] || {};
                         let val = dayData[value] || 0;
 
-                        if (pourcentage == 'true') {
+                        if (pourcentage === 'true') {
                             const total = values.reduce((sum, v) => sum + (dayData[v] || 0), 0);
                             val = total > 0 ? (val / total) * 100 : 0;
                         }
@@ -602,7 +647,7 @@
                             position: 'inside',
                             formatter: function(params) {
                                 let value = params.value;
-                                return pourcentage == 'true' ? `${Math.round(value)}%` : Math.round(value);
+                                return pourcentage === 'true' ? `${Math.round(value)}%` : Math.round(value);
                             },
                             color: getContrastYIQ(seriesColor.replace('#', '')),
                             fontWeight: 'bold'
@@ -616,9 +661,14 @@
                 });
             });
 
+            // Transformation des catégories selon useKeyLabel
+            const categories = useKeyLabel === true 
+                ? allKeys.map(key => keyLabelMapping[key] || key)
+                : allKeys;
+
             return {
                 series: processedData,
-                categories: allKeys
+                categories: categories
             };
         };
 
@@ -649,7 +699,7 @@
                     
                     params.forEach(item => {
                         if (!processedNames.has(item.seriesName)) {
-                            const value = pourcentage == 'true' 
+                            const value = pourcentage === 'true' 
                                 ? `${Math.round(item.value)}%` 
                                 : Math.round(item.value);
                             result += `<span style="display:inline-block;width:10px;float:left;height:12px;top:50px;background-color:${item.color};margin-right:2px;"></span>${item.seriesName}: ${value}<br/>`;

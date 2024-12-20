@@ -61,7 +61,7 @@ composer dump-autoload
 
 1. Open this file (SetDirectory.php)
 ```bash  
-    bin\epaphrodites\define\config\SetDirectory.php
+    bin\config\SetDirectory.php
 ```
 
 2. Set database accpeted : ('mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis')
@@ -71,7 +71,7 @@ composer dump-autoload
 
 3. Open this file (Config.ini)
 ```bash  
-    bin\database\config\ini\config.ini
+    bin\config\config.ini
 ```
 
 4. Choose your first configuration

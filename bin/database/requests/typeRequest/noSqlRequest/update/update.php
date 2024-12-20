@@ -204,7 +204,7 @@ class update extends Builders
         $filter = [ 'login' => $UsersLogin ];
     
         $update = [
-            '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($UsersLogin . '@') ]
+            '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($UsersLogin) ]
         ];   
 
         $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
@@ -215,11 +215,38 @@ class update extends Builders
 
         return true;
     } 
+
+    /**
+     * Update users group
+     *
+     * @param string $UsersLogin
+     * @param int $usersGroup
+     * @return bool
+     */
+    public function noSqlToUpdateUsersGroup(
+        string $UsersLogin,
+        int $usersGroup
+    ): bool
+    {
+
+        $filter = [ 'login' => $UsersLogin ];
+    
+        $update = [
+            '$set' => [ 'usersgroup' => $usersGroup ]
+        ];   
+
+        $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);
+
+        $actions = "Update user group : " . $UsersLogin;
+        static::initQuery()['setting']->noSqlActionsRecente($actions);
+
+        return true;
+    } 
     
     /**
      * Reinitialize user password
      *
-     * @param string $UsersLogin
+     * @param string $login
      * @return bool
      */
     public function noSqlRedisInitUsersPassword(
@@ -239,7 +266,34 @@ class update extends Builders
         static::initQuery()['setting']->noSqlRedisActionsRecente($actions);
 
         return true;
-    }      
+    }  
+    
+    /**
+     * Update users group
+     *
+     * @param string $login
+     * @param int $usersGroup
+     * @return bool
+     */
+    public function noSqlRedisToUpdateUsersGroup(
+        string $login,
+        int $usersGroup
+    ): bool
+    {
+
+        $datas = 
+        [
+            'usersgroup' => $usersGroup ,
+        ];  
+    
+        $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
+
+        $actions = "Update user group : " . $login;
+
+        static::initQuery()['setting']->noSqlRedisActionsRecente($actions);
+
+        return true;
+    }     
     
     /**
      * Update user password
@@ -292,7 +346,7 @@ class update extends Builders
         }
     }    
 
- /**
+    /**
      * Update user password
      *
      * @param string $OldPassword
@@ -347,15 +401,15 @@ class update extends Builders
    /**
      * Update user password and user group
      *
-     * @param string|NULL $login
-     * @param string|NULL $password
-     * @param int|NULL $UserGroup
+     * @param string $login
+     * @param string $password
+     * @param int $UserGroup
      * @return bool
      */
     public function noSqlConsoleUpdateUsers(
-        ?string $login = NULL, 
-        ?string $password = NULL, 
-        ?int $UserGroup = NULL
+        string $login , 
+        string $password , 
+        int $UserGroup 
     ): bool
     {
         $GetDatas = static::initQuery()['getid']->noSqlGetUsersDatas($login);

@@ -97,7 +97,7 @@ trait adminUsersOptions{
             | Set dashbord model to front in default
             |--------------------------------------------------------------------------
             */
-                '_DASHMODEL_' => _DASHMODEL_,                
+                '_DASHMODEL_' => $this->getUsersDashboardColor(),                
 
             ];
     }

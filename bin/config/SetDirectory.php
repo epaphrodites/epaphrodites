@@ -133,8 +133,8 @@ define('CSRF_FIELD_NAME', 'token_csrf');
 # Main developpement file
 define('_SERVER_LOG_', 'server.log');
 
-# Fake folders link accepted : main/noella/shlomo/yedidia/eklou
-define('_DASHMODEL_', 'eklou');
-
 # DeepLp API key
 define('_YOUR_DEEPL_API_KEY', 'INSERT_YOUR_API_KEY');
+
+# Users dashboard color config
+define('_DIR_COLORS_PATH_', 'bin/config/Config.json');

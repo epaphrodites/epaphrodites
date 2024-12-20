@@ -196,6 +196,46 @@ final class setting extends MainSwitchers
     }
 
     /**
+     * Manages user dashboard colors
+     *
+     * @param string $html
+     * @return void
+     */
+    public final function managementOfUserColors(
+        string $html
+    ): void
+    {
+
+        if (static::isValidMethod(true)&&static::arrayNoEmpty(['group'])) {
+
+            if (static::isSelected('_sendselected_', 1 )) {
+
+                foreach (static::isArray('group') as $UsersGroup) {
+
+                    $colors = static::getPost("{$UsersGroup}colors", true)[0];
+
+                    $this->result = $this->insert->setDashboardColors($UsersGroup, $colors);
+                }
+
+                [ $this->ans, $this->alert ] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['error', 'alert-danger'] 
+                    ]);
+            }
+        }
+
+        $this->views( $html, 
+            [
+                'selectColors' => $this->select->selectUsersColors(),
+                'reponse' => $this->ans,
+                'alert' => $this->alert
+            ],
+            true
+        );
+    }    
+
+    /**
      * List of recent actions
      * @param string $html
      * @return void
@@ -204,7 +244,6 @@ final class setting extends MainSwitchers
         string $html
     ): void
     {
-
         $total = 0;
         $list = [];
         $numLine = 100;

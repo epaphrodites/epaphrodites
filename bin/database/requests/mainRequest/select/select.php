@@ -7,6 +7,30 @@ use Epaphrodites\database\requests\typeRequest\sqlRequest\select\select as Selec
 final class select extends SelectSelect
 {
 
+  public function selectUsersColors(): array
+  {
+      $namespace = static::initNamespace();
+      $json = $namespace['json'];
+      $datas = $namespace['datas'];
+  
+      $groupColors = array_column(
+          $json->path(_DIR_COLORS_PATH_)->get(),
+          'color',
+          'usersGroup'
+      );
+  
+      return array_map(
+          fn(string $groupName, string|int $groupId): array => [
+              'usersGroup' => $groupId,
+              'color' => $groupColors[$groupId] ?? '',
+              'groupName' => $groupName
+          ],
+          $datas->userGroup(),
+          array_keys($datas->userGroup())
+      );
+  }
+
+
   /**
    * Request to get users list
    * @param int $currentPage

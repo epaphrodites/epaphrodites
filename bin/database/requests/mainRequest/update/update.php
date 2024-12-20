@@ -85,6 +85,27 @@ final class update extends UpdateUpdate
   }
 
   /**
+   * update users group
+   * 
+   * @param string $login
+   * @param int $usersGroupSelected
+   * @return bool
+   */
+  public function updateUsersGroup(
+    string $login,
+    int $usersGroupSelected
+  ): bool{
+
+    return match (_FIRST_DRIVER_) {
+
+      'mongodb' => $this->noSqlToUpdateUsersGroup($login, $usersGroupSelected),
+      'redis' => $this->noSqlRedisToUpdateUsersGroup($login, $usersGroupSelected),
+
+      default => $this->sqlToUpdateUsersGroup($login, $usersGroupSelected),
+    };
+  }  
+
+  /**
    * Change users password
    *
    * @param string $oldPassword

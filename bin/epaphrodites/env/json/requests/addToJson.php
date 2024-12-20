@@ -23,7 +23,7 @@ trait addToJson
      * @param array $data
      * @return bool
      */
-    public function datas(
+    public function add(
         array $data = []
     ):bool{
         

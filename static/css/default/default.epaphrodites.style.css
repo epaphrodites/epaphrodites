@@ -651,6 +651,12 @@ select[disabled] {
    float: right;
  }
 
+ #tdTableContent select{
+  font-size: 9px;
+  margin: 0px;
+  border-radius: 0px;
+}
+
  .signature-container {
   position: relative;
   border: 1px solid var(--color-grey);

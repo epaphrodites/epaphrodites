@@ -21,6 +21,7 @@ class SettingHeredia extends epaphroditeClass implements ContractsSettingHeredia
      * @return void
      */
     private object $msg;
+    private object $json;
     private object $datas;
     private object $paths;
     private object $count;
@@ -43,6 +44,7 @@ class SettingHeredia extends epaphroditeClass implements ContractsSettingHeredia
     private function initializeObjects(): void
     {
         $this->msg = $this->getObject(static::$initNamespace, 'msg');
+        $this->json = $this->getObject(static::$initNamespace, 'json');
         $this->datas = $this->getObject(static::$initNamespace, 'datas');
         $this->paths = $this->getObject(static::$initNamespace, 'paths');
         $this->count = $this->getObject(static::$initQueryConfig, 'count');

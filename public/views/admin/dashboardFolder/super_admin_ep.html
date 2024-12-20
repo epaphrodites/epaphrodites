@@ -113,14 +113,14 @@
     {{ echarts(
         {
             id: "epaphroditeEchartOne",
-            label: "Sample EChart",
+            label: "Sample EChart pie",
             pourcentage: 'true',
             orientation: "vertical",
             position: "bottom",
             datasets: [
                 {
                     chartType : 'pie',
-                    keyLabel : 'true',
+                    keyLabel : 'false',
                     keys : [ 'title', 'title1', 'title2', 'title3' ],
                     values : [ 'value', 'value1', 'value2', 'value3' ],
                     data: [
@@ -138,7 +138,7 @@
     {{ echarts(
         {
             id: "epaphroditeEchartTwo",
-            label: "Sample EChart",
+            label: "Sample EChart daughnut",
             pourcentage: 'true',
             orientation: "vertical",
             position: "bottom",
@@ -167,7 +167,7 @@
             pourcentage: 'true',
             orientation: "vertical",
             position: "right",
-            useLegende : "false",
+            useLegende : "true",
             datasets: [
                 {
                     chartType : 'bar',
@@ -179,7 +179,7 @@
                         { "value" : 24593, "title" : "GREEN" },
                         { "value" : 6465, "title" : "PINK" }
                     ],
-                    color: ['#dc143c', '#b2f4a7', '#FCC447', '#dc143c'],
+                    color: ['#dc143c', '#b2f4a7', '#FCC447', '#8e44ad'],
                     borderColors : '#dc143c',
                     raduis : 0.5
                 }
@@ -193,10 +193,10 @@
         pourcentage: 'true',
         label: "Sample scattedChart",
         orientation: 'vertical',
+        keyLabel : 'false',
         datasets: 
             [
                 {
-                    keyLabel : 'false',
                     keys : ['titre', 'titre2'],
                     values : [ 'direct', 'mail', 'affiliate' ],
                     data: [
@@ -206,7 +206,6 @@
                     color: ['#3398DB', '#FF6F61', '#F39C12', '#2ECC71', '#8E44AD']
                 },
                 {
-                    keyLabel : 'false',
                     keys : ['titre', 'titre2'],
                     values : [ 'direct', 'mail', 'affiliate' ],
                     data: [

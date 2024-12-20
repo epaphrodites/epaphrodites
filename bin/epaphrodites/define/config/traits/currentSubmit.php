@@ -397,7 +397,7 @@ trait currentSubmit
         return true;
     }
 
-        /**
+    /**
      * Checks if all specified keys in the array have non-empty values in the request data
      * for the given HTTP method.
      *

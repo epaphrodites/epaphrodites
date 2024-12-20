@@ -1,15 +1,15 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-
-    # Follow symbolic links
-    Options -Indexes +FollowSymLinks
+        # Follow symbolic links
+        Options -Indexes +FollowSymLinks
     </IfModule>
+
     # Enable overwrite mode on Apache
     RewriteEngine On
 
     # Redirect to https or http
-    #RewriteCond %{HTTPS} off
-    #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -37,17 +37,20 @@
     # Completely block access to the bin directory
     RewriteRule ^bin/ - [F,L]
 
-    # Prevent access to specific sensitive files and directories
-    <FilesMatch "^(heredia|bin/|public/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt|counter.json)">
-        Order Allow,Deny
-        Deny from all
+    # Prevent access to specific sensitive files
+    <FilesMatch "\.(env|ini|log|json|sqlite|toml|xml|config|lock)$">
+        Require all denied
+    </FilesMatch>
+
+    # Additional protection for certain directories
+    <Directory "bin">
+        <FilesMatch "\.(ini|json|sqlite|toml|xml)$">
+            Require all denied
+        </FilesMatch>
+    </Directory>
+
+    # Deny access to unnecessary files and directories
+    <FilesMatch "^(heredia|bin/|public/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt|counter.json)$">
+        Require all denied
     </FilesMatch>
 </IfModule>
-
-# Additional protection
-<Directory "bin">
-    <FilesMatch "\.ini$">
-        Order Allow,Deny
-        Deny from all
-    </FilesMatch>
-</Directory>

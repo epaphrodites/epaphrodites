@@ -93,7 +93,7 @@ class update extends UpdateUpdate
     /**
      * Request to initialize user password
      *
-     * @param integer $UsersLogin
+     * @param string $UsersLogin
      * @return bool
      */
     public function sqlInitUsersPassword(
@@ -112,6 +112,31 @@ class update extends UpdateUpdate
 
         return true;
     }
+
+    /**
+     * Request to update users group
+     *
+     * @param string $UsersLogin
+     * @param integer $UsersLogin
+     * @return bool
+     */
+    public function sqlToUpdateUsersGroup(
+        string $UsersLogin,
+        int $usersGroup
+    ): bool
+    {
+
+        $this->table('usersaccount')
+            ->set(['usersgroup'])
+            ->where('login')
+            ->param([$usersGroup, $UsersLogin])
+            ->UQuery();
+
+        $actions = "Update user group : " . $UsersLogin;
+        static::initQuery()['setting']->ActionsRecente($actions);
+
+        return true;
+    }    
 
     /**
      * Request to switch user connexion state (For: Oracle)
