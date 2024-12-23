@@ -3,7 +3,7 @@ server.log
 counter.json
 test/
 results/
-bin/epaphrodites/c++/PHP-CPP
+bin/epaphrodites/cbuild/PHP-CPP
 pdfs/
 sqLite.session.sql
 postgres.session.sql
