@@ -6,7 +6,7 @@ trait deeplTranslate{
 
     private function translateText(
         string $text, 
-        string $targetLanguage = 'EN'
+        ?string $targetLanguage = 'EN'
     ): string {
 
         if (empty($this->getApiKey())) {

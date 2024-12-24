@@ -12,7 +12,7 @@ class deepLp{
 
     public function getTranslate(
         string $text, 
-        string $targetLanguage = 'EN'
+        ?string $targetLanguage = 'EN'
     ){
 
         return $this->translateText($text, $targetLanguage);
