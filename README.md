@@ -8,7 +8,7 @@ Epaphrodites combines simplicity, compatibility with `Python`, support for `mult
 ## System needs
 What you should know before starting the installation. To create a new application, please first ensure that your computer meets the following requirements.
 
-- PHP >= 8.1
+- PHP >= 8.2
 - OpenSSL PHP Extension
 - ZIP PHP Extension
 - gd Extension
