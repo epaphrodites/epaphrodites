@@ -17,7 +17,7 @@ class YedidiaGetRights extends epaphroditeClass{
      * @return bool
      */
     public function modules(
-        string $module = null
+       ?string $module = null
     ): bool{
         $result = false;
         $index = $module . ',' . static::class('session')->type();

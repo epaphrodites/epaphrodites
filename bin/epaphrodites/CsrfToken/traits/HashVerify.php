@@ -14,8 +14,11 @@ trait HashVerify
      * @param string $secureToken The secure hash to compare.
      * @return bool True if the hashes are identical, otherwise false.
      */
-    public static function verifyHashes(?string $hashedValue = '', ?string $inputToken = '', ?string $secureToken = ''): bool
-    {
+    public static function verifyHashes(
+        ?string $hashedValue = '', 
+        ?string $inputToken = '', 
+        ?string $secureToken = ''
+    ): bool{
 
         return hash_equals($hashedValue, $inputToken) && hash_equals($hashedValue, $secureToken) && hash_equals($inputToken, $secureToken);
     }
@@ -35,12 +38,15 @@ trait HashVerify
     /**
      * Generic function to generate a hash using the GOST algorithm.
      *
-     * @param string $data The data to hash.
-     * @return string The generated hash.
+     * @param string|int|null $data The data to hash.
+     * @return string The generated hash or an empty string if data is invalid.
      */
-    public function gostHash(string|int $data = null):string
+    public function gostHash(string|int|null $data = null): string
     {
-        return !empty($data)&&$data!==0 ? hash('gost', $data) : '';
-    }    
+        return !empty($data) && $data !== 0 
+            ? hash('gost', (string)$data) 
+            : '';
+    }
+
 }
 

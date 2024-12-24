@@ -64,7 +64,7 @@ class config
     private static function configIni()
     {
         // Load email configuration from an ini file
-        $ini = _DIR_MAIL_ . "email.ini";
+        $ini = _DIR_CONFIG_INI_ . "email.ini";
 
         $content = parse_ini_file($ini, true);
 

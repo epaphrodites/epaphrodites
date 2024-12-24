@@ -12,7 +12,9 @@ use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigration
 class checkDatabase extends getConnexion
 {
 
-    protected function dbConnect(?int $db = 1)
+    protected function dbConnect(
+        ?int $db = 1
+    )
     {
 
         $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
@@ -59,7 +61,10 @@ class checkDatabase extends getConnexion
         }
     }
 
-    public function etablishConnect(string $dbName = NULL, int $db , bool $requestAction = true)
+    public function etablishConnect(
+        ?string $dbName = NULL, 
+        ?int $db = 1 , 
+        ?bool $requestAction = true)
     {
 
         // Switch based on the database driver type
@@ -95,7 +100,9 @@ class checkDatabase extends getConnexion
         }
     }
 
-    public function SeederGenerated(?int $db = 1)
+    public function SeederGenerated(
+        ?int $db = 1
+    )
     {
         // Switch based on the database driver type
         switch (static::DB_DRIVER($db)) {

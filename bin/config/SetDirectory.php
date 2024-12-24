@@ -70,9 +70,6 @@ define('_CONSOLE_', 'bin/epaphrodites/Console/Models');
 # Main static datas (static storage)
 define('_DIR_CONFIG_', 'bin/database/datas/arrays/');
 
-# Main email param file
-define('_DIR_MAIL_', 'bin/config/');
-
 # Main Json datas directory
 define('_DIR_JSON_DATAS_', 'bin/database/datas/json');
 

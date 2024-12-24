@@ -9,11 +9,11 @@ class datas
      * List of users group
      * 
      * @param int $key
-     * @return mixed
+     * @return array|null
      */
     public function userGroup(
-        int $key = null
-    ): mixed
+        ?int $key = null
+    ): array|null
     {
         $list = [
             1 => 'SUPER ADMINISTRATOR',
@@ -25,43 +25,43 @@ class datas
     }
 
     /**
-     * List of users dasboard colors
+     * Get the list of dashboard colors or a specific color by key.
      * 
-     * @param int $key
-     * @return mixed
+     * @param int|null $key The index of the color to retrieve (null to return the full list).
+     * @return array|int The list of colors or a specific color by key, or 0 if the key is invalid.
      */
-    public function colorsList(
-        int $key = null
-    ): mixed
+    public function colorsList(?int $key = null): array|int
     {
         $list = [
-            [ '_id' => 'main' , 'label' => 'MAIN COLORS'],
-            [ '_id' => 'noella' , 'label' => 'NOELLA COLORS'],
-            [ '_id' => 'shlomo' , 'label' => 'SHLOMO COLORS'],
-            [ '_id' => 'yedidia' , 'label' => 'YEDIDIAH COLORS'],
-            [ '_id' => 'eklou' , 'label' => 'EKLOU COLORS'],
+            [ '_id' => 'main', 'label' => 'MAIN COLORS' ],
+            [ '_id' => 'noella', 'label' => 'NOELLA COLORS' ],
+            [ '_id' => 'shlomo', 'label' => 'SHLOMO COLORS' ],
+            [ '_id' => 'yedidia', 'label' => 'YEDIDIAH COLORS' ],
+            [ '_id' => 'eklou', 'label' => 'EKLOU COLORS' ],
         ];
-    
+        
         return $key === null ? $list : ($list[$key] ?? 0);
-    }      
+    }
+      
     
     /**
      * Authorization actions
-     * 
-     * @param int $key
-     * @return mixed
+     *
+     * @param int|null $key Authorization key
+     * @return array|string|int
      */
     public function autorisation(
-        int $key = null
-    ): mixed
-    {
+        ?int $key = null
+    ): array|string|int {
+
         $list = [
             1 => 'DENY',
             2 => 'ALLOW',
         ];
-    
+
         return $key === null ? $list : ($list[$key] ?? 0);
     }
+
     
     /**
      * Validation actions for users

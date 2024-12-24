@@ -24,7 +24,7 @@ trait gearQueryChains
 
     /**
      * Create a new table with the specified name and callback.
-     * @param string   $tableName The name of the table to be created.
+     * @param string $tableName The name of the table to be created.
      * @param callable $callback  The callback function to define table columns and properties.
      * @return array The generated SQL for creating the table.
      */
@@ -64,7 +64,7 @@ trait gearQueryChains
      */
     public function dropTable(
         string $tableName, 
-        callable $callback = null
+        ?callable $callback = null
     ): array
     {
         $this->reset();
@@ -82,7 +82,7 @@ trait gearQueryChains
      */
     public function dropColumn(
         string $column, 
-        array $option = []
+        ?array $option = []
     ): self
     {
         $this->dropColumn[] = compact('column', 'option');
@@ -100,8 +100,8 @@ trait gearQueryChains
      */
     public function addColumn(
         string $columnName, 
-        string $type = '', 
-        array $options = []
+        ?string $type = '', 
+        ?array $options = []
     ): self
     {
         $this->columns[] = compact('columnName', 'type', 'options');
@@ -141,8 +141,8 @@ trait gearQueryChains
     public function addForeign(
         string $reference, 
         string $foreign,
-        string $constraint = null,
-        array $options = []
+        ?string $constraint = null,
+        ?array $options = []
     ): self
     {
         if (!is_array($reference)) {
