@@ -221,7 +221,7 @@ final class users extends MainSwitchers
 
                 foreach (static::isArray('users') as $login) {
 
-                    $usersGroupSelected = static::getPost("{$login}__group__", true)[0];
+                    $usersGroupSelected = static::getPost("{$login}__group__", true);
 
                     $this->result = $this->update->updateUsersGroup($login, $usersGroupSelected);
                 }
