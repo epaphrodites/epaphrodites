@@ -9,5 +9,5 @@ interface twigRender{
      * @param array|[] $array
      * @return mixed
     */     
-    public function render( ?string $view = null , ?array $array = [] );
+    public function render( string|null $view = null , array $array = [] );
 }

@@ -19,7 +19,7 @@ class GetControllers extends ControllersSwitchers
      */
     private function getSwitchMainControllers(
         array $provider = [], 
-        ?string $paths = null
+        string|null $paths = null
     ): void{
         $controllerMap = (array) $this->controllerMap();
 
@@ -50,7 +50,7 @@ class GetControllers extends ControllersSwitchers
      */
     private function getPath(
         string $provider, 
-        string $findPath = null
+        string|null $findPath = null
     ):string {
 
         $segments = explode('/', $provider);
@@ -72,8 +72,8 @@ class GetControllers extends ControllersSwitchers
      * @return void
      */
     public function SwitchMainControllers(
-        ?array $provider = [], 
-        ?string $paths = null
+        array $provider = [], 
+        string|null $paths = null
     ): void
     {
         $this->getSwitchMainControllers($provider, $paths);

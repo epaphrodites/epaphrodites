@@ -43,7 +43,7 @@ class get_id extends Builders
      * @return array
      */    
     public function noSqlGetUsersDatas(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
 
@@ -67,7 +67,7 @@ class get_id extends Builders
      * @return array
      */    
     public function noSqlRedisGetUsersDatas(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
         $result = [];
@@ -84,7 +84,7 @@ class get_id extends Builders
      * @return array
      */
     public function noSqlGetUsersRecentsActions(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
 

@@ -16,9 +16,9 @@ class insert extends InsertInsert
      * @return bool
      */
     public function sqlConsoleAddUsers(
-        ?string $login = null, 
-        ?string $password = null, 
-        ?int $UserGroup = null
+        string|null $login = null, 
+        string|null $password = null, 
+        int|null $UserGroup = null
     ):bool
     {
 
@@ -46,8 +46,8 @@ class insert extends InsertInsert
      * @return bool
      */
     public function sqlAddUsers(
-        ?string $login = null, 
-        ?int $usersgroup = null
+        string|null $login = null, 
+        int|null $usersgroup = null
     ):bool
     {
 

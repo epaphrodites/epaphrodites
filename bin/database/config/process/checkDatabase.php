@@ -13,7 +13,7 @@ class checkDatabase extends getConnexion
 {
 
     protected function dbConnect(
-        ?int $db = 1
+        int $db = 1
     )
     {
 
@@ -62,10 +62,10 @@ class checkDatabase extends getConnexion
     }
 
     public function etablishConnect(
-        ?string $dbName = NULL, 
-        ?int $db = 1 , 
-        ?bool $requestAction = true)
-    {
+        string|null $dbName = null, 
+        int $db = 1 , 
+        bool $requestAction = true
+    ){
 
         // Switch based on the database driver type
         switch (static::DB_DRIVER($db)) {
@@ -101,7 +101,7 @@ class checkDatabase extends getConnexion
     }
 
     public function SeederGenerated(
-        ?int $db = 1
+        int $db = 1
     )
     {
         // Switch based on the database driver type

@@ -24,7 +24,7 @@ interface contractController
     public function SwitchControllers(
         object $class, 
         string $pages, 
-        ?bool $switch = false , 
+        bool $switch = false , 
         string $views = ""
     ):mixed;
 }

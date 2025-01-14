@@ -19,7 +19,7 @@ interface rootInterface{
      * @param bool|false $switch
      * @return self
      */
-    public function content( ?array $InitContent = [] , ?bool $switch = false ):self;
+    public function content( array $InitContent = [] , bool $switch = false ):self;
     
     /**
      * run page

@@ -89,7 +89,7 @@ class get_id extends SelectGet_id
      * @return array
      */
     public function sqlGetOracleUsersDatas(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
 
@@ -110,7 +110,7 @@ class get_id extends SelectGet_id
      * @return array
      */
     public function sqlGetUsersDatas(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
 
@@ -131,7 +131,7 @@ class get_id extends SelectGet_id
      * @return array
      */
     public function sqlGetOracleRecentsActions(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
 
@@ -152,7 +152,7 @@ class get_id extends SelectGet_id
      * @return array
      */
     public function sqlGetUsersRecentsActions(
-        ?string $login = null
+        string|null $login = null
     ):array
     {
 

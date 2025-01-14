@@ -14,7 +14,7 @@ class setting extends Builders
      * @return bool
      */
     public function ActionsRecente(
-        ?string $label = null
+        string|null $label = null
     ): bool
     {
 
@@ -28,7 +28,9 @@ class setting extends Builders
      * @param string|null $label
      * @return bool
     */    
-    public function othersSqlHistory(string $label = null){
+    public function othersSqlHistory(
+        string|null $label = null
+    ):bool{
 
         $this->table('history')
             ->insert('actions , dates , label')
@@ -45,7 +47,7 @@ class setting extends Builders
      * @return bool
     */
     public function oracleHistory(
-        string $label = null
+        string|null $label = null
     ):bool{
 
         $this->table('history')
@@ -64,7 +66,7 @@ class setting extends Builders
      * @return bool
      */
     public function noSqlActionsRecente(
-        ?string $action = null
+        string|null $action = null
     ): bool
     {
 
@@ -87,7 +89,7 @@ class setting extends Builders
      * @return bool
      */
     public function noSqlRedisActionsRecente(
-        ?string $action = null
+        string|null $action = null
     ): bool
     {
 

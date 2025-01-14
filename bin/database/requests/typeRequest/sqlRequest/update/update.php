@@ -66,9 +66,9 @@ class update extends UpdateUpdate
      * @return bool
      */
     public function sqlConsoleUpdateUsers(
-        string $login = null, 
-        string $password = null, 
-        int $UserGroup = null
+        string|null $login = null, 
+        string|null $password = null, 
+        int|null $UserGroup = null
     ): bool
     {
         $GetDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
