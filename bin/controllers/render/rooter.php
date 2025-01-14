@@ -39,8 +39,8 @@ class rooter extends TwigRender implements rootInterface
      * @return self
      */
     public function content( 
-        ?array $InitContent = [], 
-        ?bool $switch = false
+        array $InitContent = [], 
+        bool $switch = false
     ):self
     {
 

@@ -15,8 +15,8 @@ class insert extends Builders
      * @return bool
      */
     public function noSqladdUsers(
-        ?string $login = null,
-        ?int $userGroup = null
+        string|null $login = null,
+        int|null $userGroup = null
     ):bool
     {
 
@@ -47,8 +47,8 @@ class insert extends Builders
      * Create user if not exist
      */
     public function noSqlRedisAddUsers(
-        ?string $login = null,
-        ?int $userGroup = null
+        string|null $login = null,
+        int|null $userGroup = null
     ):bool{
         
         if (!empty($login) && !empty($userGroup) && count(static::initQuery()['getid']->noSqlRedisGetUsersDatas($login)) < 1) {
@@ -83,9 +83,9 @@ class insert extends Builders
      * @return bool
      */
     public function noSqlConsoleAddUsers(
-        ?string $login = null, 
-        ?string $password = null, 
-        ?int $userGroup = null
+        string|null $login = null, 
+        string|null $password = null, 
+        int|null $userGroup = null
     ):bool
     {
 
@@ -118,9 +118,9 @@ class insert extends Builders
      * Create user if not exist
      */
     public function noSqlRedisConsoleAddUsers(
-        ?string $login = null, 
-        ?string $password = null, 
-        ?int $userGroup = null
+        string|null $login = null, 
+        string|null $password = null, 
+        int|null $userGroup = null
     ):bool{
         
         $userGroup = $userGroup !== NULL ? $userGroup : 1;

@@ -42,7 +42,7 @@ class config
             $this->mail->Port = $config['PORT'];
 
             // Set the sender's email and name
-            $this->mail->setFrom($config['HOST'], $config['TITLE']);
+            $this->mail->setFrom($config['USER'], $config['TITLE']);
 
             return true;
         } catch (Exception $e) {
