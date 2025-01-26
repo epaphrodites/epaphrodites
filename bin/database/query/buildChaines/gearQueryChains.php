@@ -6,6 +6,8 @@ use Epaphrodites\database\config\ini\GetConfig;
 
 trait gearQueryChains
 {
+    use copyQueryChaine;
+    
     private ?string $tableName = null;
     private array $columns = [];
     private ?array $dropColumn = null;

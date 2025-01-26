@@ -12,8 +12,8 @@ class datas
      * @return array|null
      */
     public function userGroup(
-        ?int $key = null
-    ): array|null
+        int|null $key = null
+    ): array|string|int|null
     {
         $list = [
             1 => 'SUPER ADMINISTRATOR',
@@ -30,8 +30,9 @@ class datas
      * @param int|null $key The index of the color to retrieve (null to return the full list).
      * @return array|int The list of colors or a specific color by key, or 0 if the key is invalid.
      */
-    public function colorsList(?int $key = null): array|int
-    {
+    public function colorsList(
+        int|null $key = null
+    ): array|string|int|null{
         $list = [
             [ '_id' => 'main', 'label' => 'MAIN COLORS' ],
             [ '_id' => 'noella', 'label' => 'NOELLA COLORS' ],
@@ -51,8 +52,8 @@ class datas
      * @return array|string|int
      */
     public function autorisation(
-        ?int $key = null
-    ): array|string|int {
+        int|null $key = null
+    ): array|string|int|null {
 
         $list = [
             1 => 'DENY',
