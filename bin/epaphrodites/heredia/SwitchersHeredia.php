@@ -14,10 +14,10 @@ class SwitchersHeredia extends Authorize{
      * @return bool|null
      */
     public static function SwitcherPages( 
-        string $target = null,
-        string $url = null, 
-        bool $autorize = null, 
-        $Run=NULL 
+        string|null $target = null,
+        string|null $url = null, 
+        bool|null $autorize = null, 
+        null $Run = null 
     ){
 
         if( static::target( $target , $url )===true ){
@@ -48,9 +48,9 @@ class SwitchersHeredia extends Authorize{
      * @return bool|null
      */
     public function swicthPagesAutorisation( 
-        ?string $target = null, 
-        ?bool $autorize = null, 
-        $Run=NULL 
+        string|null $target = null, 
+        bool|null $autorize = null, 
+        null $Run = null 
     ){
 
         $isDashboard = strpos($target, _DASHBOARD_FOLDERS_ ) !== false;
