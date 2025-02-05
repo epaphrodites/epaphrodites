@@ -72,7 +72,7 @@ final class get_id extends GetId
    * @return array
    */
   public function getUsersRecentsActions(
-    string $login = null
+    string|null $login = null
   ):array{
 
     return match (_FIRST_DRIVER_) {

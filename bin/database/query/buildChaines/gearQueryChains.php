@@ -66,7 +66,7 @@ trait gearQueryChains
      */
     public function dropTable(
         string $tableName, 
-        ?callable $callback = null
+        callable|null $callback = null
     ): array
     {
         $this->reset();
@@ -119,7 +119,7 @@ trait gearQueryChains
      */
     public function addIndex(
         string $columns, 
-        ?string $indexName = null
+        string|null $indexName = null
     ): self
     {
         if (!is_array($columns)) {
@@ -143,8 +143,8 @@ trait gearQueryChains
     public function addForeign(
         string $reference, 
         string $foreign,
-        ?string $constraint = null,
-        ?array $options = []
+        string|null $constraint = null,
+        array $options = []
     ): self
     {
         if (!is_array($reference)) {

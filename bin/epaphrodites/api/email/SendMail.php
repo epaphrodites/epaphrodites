@@ -16,10 +16,10 @@ class SendMail extends config
      * @return bool
      */
     public function sendEmail(
-        ?array $contacts = null, 
-        ?string $msgHeader = null, 
-        ?string $msgContent = null, 
-        ?string $file = null
+        array|null $contacts = null, 
+        string|null $msgHeader = null, 
+        string|null $msgContent = null, 
+        string|null $file = null
     ):bool
     {
         if ($this->settings() === true) {

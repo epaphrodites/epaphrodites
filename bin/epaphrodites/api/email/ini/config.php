@@ -50,8 +50,10 @@ class config
         }
     }
 
-    protected function content(string $msgHeader, string $msgContent)
-    {
+    protected function content(
+        string $msgHeader, 
+        string $msgContent
+    ){
         // Set email format to HTML
         $this->mail->isHTML(true);
 

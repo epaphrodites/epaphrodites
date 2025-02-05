@@ -74,10 +74,12 @@ class GetConfig extends errors
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_PORT($db):string
-    {
+    protected static function DB_PORT(
+        int $db
+    ):string{
 
         $Port = static::ConfigIniContent()["{$db}DB_PORT"];
 
@@ -86,10 +88,12 @@ class GetConfig extends errors
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function SQL_SERVER_DB_PORT($db):string
-    {
+    protected static function SQL_SERVER_DB_PORT(
+        int $db
+    ):string{
 
         $Port = static::ConfigIniContent()["{$db}DB_PORT"];
 
@@ -98,10 +102,12 @@ class GetConfig extends errors
     
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function ORACLE_PORT($db):string
-    {
+    protected static function ORACLE_PORT(
+        int $db
+    ):string{
 
         $Port = static::ConfigIniContent()["{$db}DB_PORT"];
 
@@ -110,10 +116,12 @@ class GetConfig extends errors
     
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function ORACLE_CONNEXION(int $db):string
-    {
+    protected static function ORACLE_CONNEXION(
+        int $db
+    ):string{
 
         $dbName = static::ConfigIniContent()["{$db}DB_DATABASE"];
 
@@ -122,10 +130,12 @@ class GetConfig extends errors
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function noDB_PORT($db): string
-    {
+    protected static function noDB_PORT(
+        int $db
+    ): string{
 
         $Port = static::ConfigIniContent()["{$db}DB_PORT"];
 
@@ -134,10 +144,12 @@ class GetConfig extends errors
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_MysqlPORT($db): string
-    {
+    protected static function DB_MysqlPORT(
+        int $db
+    ): string{
 
         $Port = static::ConfigIniContent()["{$db}DB_PORT"];
 
@@ -146,50 +158,61 @@ class GetConfig extends errors
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_PASSWORD($db): string
-    {
+    protected static function DB_PASSWORD(
+        int $db
+    ): string{
 
         return static::ConfigIniContent()["{$db}DB_PASSWORD"];
     }
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    public static function DB_DRIVER($db): string
-    {
+    public static function DB_DRIVER(
+        int $db
+    ): string{
 
         return static::ConfigIniContent()["{$db}DB_DIVER"];
     }
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_USER($db): string
-    {
+    protected static function DB_USER(
+        int $db
+    ): string{
 
         return static::ConfigIniContent()["{$db}DB_USER"];
     }
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_DATABASE($db): string
-    {
+    protected static function DB_DATABASE(
+        int $db
+    ): string{
 
         return static::ConfigIniContent()["{$db}DB_DATABASE"];
     }
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_SQLITE($db , $dbName = null): string
-    {
+    protected static function DB_SQLITE(
+        int $db, 
+        string|null $dbName = null
+    ): string{
         //If $dbName is not provided, get the default database name based on $db
         $dbName = $dbName ?? static::DB_DATABASE($db);
 
@@ -198,50 +221,60 @@ class GetConfig extends errors
 
     /**
      * @var string
+     * @param int $db
      * @return string
      */
-    protected static function DB_SOCKET($db): string
-    {
+    protected static function DB_SOCKET(
+        int $db
+    ): string{
 
         return static::ConfigIniContent()["{$db}DB_SOCKET"];
     }
 
     /**
      * @var string
-     * @return string
+     * @param int $db
+     * @return mixed
      */
-    protected static function DB_HOST($db)
-    {
+    protected static function DB_HOST(
+        int $db
+    ):mixed{
 
         return static::DB_SOCKET($db) == false ? 'host=' . static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
     }
 
     /**
      * @var string
-     * @return string
+     * @param int $db
+     * @return mixed
      */
-    protected static function SQL_SERVER_DB_HOST($db)
-    {
+    protected static function SQL_SERVER_DB_HOST(
+        int $db
+    ):mixed{
 
         return static::DB_SOCKET($db) == false ? 'server=' . static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
     } 
     
     /**
      * @var string
-     * @return string
+     * @param int $db
+     * @return mixed
      */
-    protected static function ORACLE_HOST($db)
-    {
+    protected static function ORACLE_HOST(
+        int $db
+    ):mixed{
 
        return static::DB_SOCKET($db) == false ? "(HOST = ".static::ConfigIniContent()["{$db}DB_HOST"].")":static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
     }      
 
     /**
      * @var string
-     * @return string
+     * @param int $db
+     * @return mixed
      */
-    protected static function noDB_HOST($db)
-    {
+    protected static function noDB_HOST(
+        int $db
+    ):mixed{
 
         return static::DB_SOCKET($db) == false ? static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
     }
@@ -251,8 +284,9 @@ class GetConfig extends errors
      * @param string|null $type
      * @return void
      */
-    protected function getError(?string $type = null):void
-    {
+    protected function getError(
+        string|null $type = null
+    ):void{
 
         $this->error_500($type);
     }

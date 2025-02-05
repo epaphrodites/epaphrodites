@@ -57,8 +57,8 @@ class MergeControllers extends epaphroditeClass implements contractController
      * @return bool
      */
     private static function directory(
-        ?string $html = null, 
-        ?bool $switch = false , 
+        string|null $html = null, 
+        bool $switch = false , 
         string $views = ""
     ): bool
     {
@@ -90,8 +90,7 @@ class MergeControllers extends epaphroditeClass implements contractController
      */
     private function transformToFunction( 
         string $initPage
-    ): string
-    {
+    ): string{
 
         $extension = _MAIN_EXTENSION_;
 

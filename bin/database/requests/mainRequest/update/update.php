@@ -15,8 +15,8 @@ final class update extends UpdateUpdate
    * @return bool
    */
   public function updateUserRights(
-    ?int $userGroup = null, 
-    ?int $state = null
+    string|int|null $userGroup = null, 
+    int|null $state = null
   ): bool{
 
     return static::initConfig()['updright']->UpdateUsersRights($userGroup, $state) === true ? true : false;

@@ -16,9 +16,9 @@ final class insert extends InsertInsert
      * @return bool
      */
     public function AddUsersRights(
-      int $userGroup = null, 
-      string $pages = null, 
-      string  $actions = null
+      int|null $userGroup = null, 
+      string|null $pages = null, 
+      string|null  $actions = null
     ):bool{
 
       if (static::initConfig()['addright']->AddUsersRights($userGroup, $pages, $actions) === true) {
@@ -47,8 +47,10 @@ final class insert extends InsertInsert
      * @param string $color
      * @return bool
      */
-    public function setDashboardColors(int $usersGroup, string $color): bool
-    {
+    public function setDashboardColors(
+      int $usersGroup, 
+      string $color
+    ): bool{
         if (empty($usersGroup) || empty($color)) {
             return false;
         }
@@ -74,8 +76,8 @@ final class insert extends InsertInsert
    * @return bool
    */
   public function addUsers(
-    ?string $login, 
-    ?int $userGroup
+    string $login, 
+    int $userGroup
   ):bool{
 
     return match (_FIRST_DRIVER_) {

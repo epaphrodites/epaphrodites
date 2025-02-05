@@ -14,7 +14,7 @@ class ControllersSwitchers extends MergeControllers
     public static function GetController(
         $controller, 
         $provider, 
-        ?bool $switch = false
+        bool $switch = false
     ):bool
     {
      

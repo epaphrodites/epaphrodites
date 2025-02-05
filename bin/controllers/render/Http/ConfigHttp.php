@@ -12,7 +12,7 @@ class ConfigHttp extends HttpClient
      * @return string
      */
     protected function provider(
-        ?array $url = null
+        array|null $url = null
     ): string
     {
         

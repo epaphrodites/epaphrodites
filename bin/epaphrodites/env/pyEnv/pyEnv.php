@@ -12,8 +12,8 @@ trait pyEnv{
      * @return mixed
      */
     public function pyEncryptDecrypt(
-        ?string $value, 
-        ?string $type
+        string $value, 
+        string $type
     ):mixed
     {
 
@@ -26,8 +26,9 @@ trait pyEnv{
      * @param string $key
      * @return mixed
      */
-    public function pyConvertImgToText($key)
-    {
+    public function pyConvertImgToText(
+        string $key
+    ){
         $imgPath = $_FILES[$key]['tmp_name'];
 
         if (!file_exists($imgPath)) {
@@ -43,8 +44,9 @@ trait pyEnv{
      * @param string $key
      * @return mixed
      */
-    public function pyConvertPdfToText(string $key)
-    {
+    public function pyConvertPdfToText(
+        string $key
+    ){
 
         $pdfPath = $_FILES[$key]['tmp_name'];
 
@@ -63,8 +65,8 @@ trait pyEnv{
      * @return mixed
      */
     public function languageTranslator(
-        $text, 
-        $lang
+        string $text, 
+        string $lang
     ){
 
         if (empty($text)&&empty($lang)) {

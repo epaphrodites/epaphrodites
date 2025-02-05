@@ -19,7 +19,7 @@ trait phpEnv{
      * @return string The truncated and formatted string.
      */
     public function truncate(
-        ?string $string = null, 
+        string|null $string = null, 
         int $limit = 100, 
         string $separator = '...', 
         string $tail = ''
@@ -40,9 +40,10 @@ trait phpEnv{
      * @param array $datas The input multidimensional array.
      * @return array The multidimensional array with keys in lowercase.
      */
-    public function dictKeyToLowers(array $datas): array
-    {
-        $resultDatas = [];
+    public function dictKeyToLowers(
+        array $datas = []
+    ): array{
+    $resultDatas = [];
 
         if(!empty($datas)){
 
@@ -63,8 +64,9 @@ trait phpEnv{
     /** 
      * @param mixed $date
      **/
-    public function date_chaine($date)
-    {
+    public function date_chaine(
+        mixed $date
+    ):bool|string{
         $formatter = new IntlDateFormatter('fr_FR.utf8', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
 
         $timestamp = strtotime($date);
@@ -112,7 +114,7 @@ trait phpEnv{
      * @return mixed
      */
     public function chaine(
-        ?string $chaine = null
+        string|null $chaine = null
     )
     {
         if (empty($chaine)) {
@@ -149,8 +151,7 @@ trait phpEnv{
      */
     public function translate_fr(
         string $chaine
-    )
-    {
+    ):string{
 
         $this->chaineTranslate = iconv('Windows-1252', 'UTF-8//TRANSLIT', $chaine);
 
@@ -161,60 +162,65 @@ trait phpEnv{
      * @param string $chaine
      * @return bool
     */
-    public function startsWithLetter(string $chaine):bool {
+    public function startsWithLetter(
+        string $chaine
+    ):bool {
        
         return preg_match('/^[a-zA-Z]/', $chaine) === 1;
     }
 
- /**
- * Uploads files based on the provided array of paths and file keys.
- *
- * @param array $pathsAndFiles Associative array mapping destination paths to $_FILES keys.
- * @param bool $useNumericKey Whether to use a numeric key to access uploaded files.
- * @return bool Returns true if all files are successfully uploaded, false otherwise.
- */
-public function uploadFiles(array $pathsAndFiles = [], bool $useNumericKey = false): bool
-{
-    if (empty($pathsAndFiles)) {
-        return false;
+    /**
+     * Uploads files based on the provided array of paths and file keys.
+     *
+     * @param array $pathsAndFiles Associative array mapping destination paths to $_FILES keys.
+     * @param bool $useNumericKey Whether to use a numeric key to access uploaded files.
+     * @return bool Returns true if all files are successfully uploaded, false otherwise.
+     */
+    public function uploadFiles(
+        array $pathsAndFiles = [], 
+        bool $useNumericKey = false
+    ): bool{
+        if (empty($pathsAndFiles)) {
+            return false;
+        }
+
+        $allUploaded = true;
+        foreach ($pathsAndFiles as $targetPath => $fileKey) {
+            $fileInfo = $_FILES[$fileKey];
+            if (!isset($fileInfo) || !is_uploaded_file($useNumericKey ? $fileInfo['tmp_name'][0] : $fileInfo['tmp_name'])) {
+                $allUploaded = false;
+                continue;
+            }
+
+            $fileName = $useNumericKey ? $fileInfo['name'][0] : $fileInfo['name'];
+            $safeFileName = $this->generateSafeFileName($fileName);
+            if (!$safeFileName) {
+                $allUploaded = false;
+                continue;
+            }
+
+            $fullTargetPath = rtrim($targetPath, '/') . '/' . $safeFileName;
+            $tmpName = $useNumericKey ? $fileInfo['tmp_name'][0] : $fileInfo['tmp_name'];
+            if (!move_uploaded_file($tmpName, $fullTargetPath)) {
+                $allUploaded = false;
+            }
+        }
+
+        return $allUploaded;
     }
 
-    $allUploaded = true;
-    foreach ($pathsAndFiles as $targetPath => $fileKey) {
-        $fileInfo = $_FILES[$fileKey];
-        if (!isset($fileInfo) || !is_uploaded_file($useNumericKey ? $fileInfo['tmp_name'][0] : $fileInfo['tmp_name'])) {
-            $allUploaded = false;
-            continue;
-        }
-
-        $fileName = $useNumericKey ? $fileInfo['name'][0] : $fileInfo['name'];
-        $safeFileName = $this->generateSafeFileName($fileName);
-        if (!$safeFileName) {
-            $allUploaded = false;
-            continue;
-        }
-
-        $fullTargetPath = rtrim($targetPath, '/') . '/' . $safeFileName;
-        $tmpName = $useNumericKey ? $fileInfo['tmp_name'][0] : $fileInfo['tmp_name'];
-        if (!move_uploaded_file($tmpName, $fullTargetPath)) {
-            $allUploaded = false;
-        }
-    }
-
-    return $allUploaded;
-}
-
-/**
- * @param string $intFileName
- * @return string|false
- */
-protected function generateSafeFileName(string $intFileName): string|false
-{
-    $extension = pathinfo($intFileName, PATHINFO_EXTENSION);
-    $baseName = preg_replace('/[^\w\.]/', '_', pathinfo($intFileName, PATHINFO_FILENAME));
-    $safeFileName = $baseName . ($extension ? '.' . $extension : '');
-    return $safeFileName ?: false;
-}  
+    /**
+     * @param string $intFileName
+     * @return string|false
+     */
+    protected function generateSafeFileName(
+        string $intFileName
+    ): string|false{
+        $extension = pathinfo($intFileName, PATHINFO_EXTENSION);
+        $baseName = preg_replace('/[^\w\.]/', '_', pathinfo($intFileName, PATHINFO_FILENAME));
+        $safeFileName = $baseName . ($extension ? '.' . $extension : '');
+        return $safeFileName ?: false;
+    }  
 
     /**
      * Clean directory
@@ -290,8 +296,9 @@ protected function generateSafeFileName(string $intFileName): string|false
      * @param string $datas The input string to be cleaned.
      * @return string The cleaned string.
      */
-    public function no_space($data): string
-    {
+    public function no_space(
+        string $data
+    ): string{
         $string = is_numeric($data) ? (string) $data : $data;
 
         $string = trim($string);
@@ -312,11 +319,12 @@ protected function generateSafeFileName(string $intFileName): string|false
 
     /**
      *
-     * @param string $inputString|null
+     * @param string|null $inputString
      * @return string
      */
-    public function reel(?string $inputString = null)
-    {
+    public function reel(
+        string|null $inputString = null
+    ):string{
 
         return str_replace([' ', ','], ['', '.'], $inputString);
     }
@@ -327,8 +335,9 @@ protected function generateSafeFileName(string $intFileName): string|false
      * @param array|null $datas
      * @return mixed
      */
-    public function e_json(?array $datas = [])
-    {
+    public function e_json(
+        array $datas = []
+    ):bool|string{
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Methods: OPTIONS, GET, POST");
@@ -344,32 +353,29 @@ protected function generateSafeFileName(string $intFileName): string|false
      * @param string $email The email address to validate.
      * @return bool Returns true if the email address is valid, otherwise false.
      */
-    public function validateEmail(string $email): bool {
-        // Check if the email address is empty or exceeds a reasonable length
+    public function validateEmail(
+        string $email
+    ): bool {
+
         if (empty($email) || strlen($email) > 254) {
             return false;
         }
 
-        // Check if the email address is in a valid format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
-        // Split the email address into local part and domain part
         [$localPart, $domainPart] = explode('@', $email, 2);
 
-        // Check if the domain has a valid structure and is not an IP address
         if (!checkdnsrr($domainPart, 'MX') || filter_var($domainPart, FILTER_VALIDATE_IP)) {
             return false;
         }
 
-        // Check if the domain can receive emails (has MX records)
         $mxRecords = [];
         if (!getmxrr($domainPart, $mxRecords)) {
             return false;
         }
 
-        // Check if the local part contains any suspicious characters
         if (preg_match('/[\x00-\x1F\x7F-\xFF]/', $localPart)) {
             return false;
         }
@@ -382,8 +388,11 @@ protected function generateSafeFileName(string $intFileName): string|false
      * @param string $chaines|null
      * @return string
      */
-    public function explodeDatas(?string $datas = null, ?string $separator = '', ?int $nbre = 0)
-    {
+    public function explodeDatas(
+        string|null $datas = null, 
+        string $separator = '', 
+        int $nbre = 0
+    ):string{
 
         $chaines = explode($separator, $datas);
 
@@ -393,8 +402,9 @@ protected function generateSafeFileName(string $intFileName): string|false
     /**
      * Date format
      */
-    public function DateFormat($stringDate)
-    {
+    public function DateFormat(
+        string $stringDate
+    ):string|null{
 
         // Check if the input date string is empty
         if (empty($stringDate)) {
