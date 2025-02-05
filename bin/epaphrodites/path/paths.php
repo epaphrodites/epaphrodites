@@ -87,8 +87,8 @@ class paths extends host
      * @return string The admin path with an ID
      */
     public function adminId(
-        ?string $targetFolder = null, 
-        ?array $queryParams = []
+        string|null $targetFolder = null, 
+        array $queryParams = []
     ): string{
 
         if (empty($targetFolder)) {
@@ -118,7 +118,7 @@ class paths extends host
      * @return string The image path
      */
     public function img(
-        ?string $img = null
+        string|null $img = null
     ): string{
         $this->path = $this->getHost() . 'static/img/' . $img;
 
@@ -198,7 +198,7 @@ class paths extends host
      * @return string The PDF path
      */
     public function pdf(
-        ?string $docs = null
+        string|null $docs = null
     ): string{
         $this->path = $this->getHost() . 'static/docs/' . $docs;
         return $this->path;
@@ -213,7 +213,7 @@ class paths extends host
      */
     private function slug(
         string $string, 
-        ?string $delimiter = '-'
+        string $delimiter = '-'
     ): string{
         // Validate input
         if (empty($string)) {
@@ -254,7 +254,7 @@ class paths extends host
      */
     public function href_slug(
         string $string,
-        ?string $delimiter = '_'
+        string $delimiter = '_'
     ): string{
 
         // Validate input

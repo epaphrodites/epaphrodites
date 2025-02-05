@@ -69,8 +69,9 @@ class rooter extends TwigRender implements rootInterface
      * @param array $content
      * @return bool
      */
-    public function CheckLayout(array $content = []):bool
-    {
+    public function CheckLayout(
+        array $content = []
+    ):bool{
 
         return array_key_exists( "layouts" , $content );
     }

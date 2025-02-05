@@ -19,8 +19,8 @@ class UpdateRights extends epaphroditeClass
      * @return bool
      */
     public function UpdateUsersRights( 
-        ?string $usersGroup = null, 
-        ?int $state = null 
+        string|null $usersGroup = null, 
+        int|null $state = null 
     ):bool{
 
        $JsonDatas = static::loadJsonFile();

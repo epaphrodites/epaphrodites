@@ -38,7 +38,9 @@ trait oracledb{
      * @param integer $db
      * @return object
     */   
-    public function oracledb(int $db = 1){
+    public function oracledb(
+        int $db = 1
+    ){
 
         return $this->setOracledbConnexion($db);
     }   

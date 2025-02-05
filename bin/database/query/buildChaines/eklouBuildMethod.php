@@ -134,7 +134,11 @@ trait eklouBuildMethod{
         }
     }
     
-    private function mysqlMethod(object $sourceConn, object $targetConn): void {
+    private function mysqlMethod(
+        object $sourceConn, 
+        object $targetConn
+    ): void {
+        
         try {
             // Démarrer une transaction sur la base cible
             $targetConn->beginTransaction();

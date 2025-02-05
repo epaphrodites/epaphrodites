@@ -14,7 +14,7 @@ final class delete extends DeleteDelete
      * @return bool
     */
     public function DeletedUsersRights(
-        int $idRights
+        string $idRights
     ):bool{
 
         return  static::initConfig()['delright']->DeletedUsersRights($idRights) === true ? true : false;

@@ -287,8 +287,8 @@ trait queryChaines
      */
     public function where(
         string $where, 
-        ?string $type = null, 
-        ?string $format = null
+        string|null $type = null, 
+        string|null $format = null
     ): self{
         $this->where = NULL;
 
@@ -728,7 +728,7 @@ trait queryChaines
      */
     public function set_i(
         array $getSet = [], 
-        ?string $sign = "+"
+        string $sign = "+"
     ): self{
         $this->set_i = NULL;
 

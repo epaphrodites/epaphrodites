@@ -21,9 +21,9 @@ class AddRights extends epaphroditeClass{
      * @return bool
      */
     public function AddUsersRights(
-        ?int $usersGroup = null, 
-        ?string $modulePage = null,  
-        ?string  $actions = null
+        int|null $usersGroup = null, 
+        string|null $modulePage = null,  
+        string|null  $actions = null
     ):bool{
 
         $JsonDatas = static::loadJsonFile();

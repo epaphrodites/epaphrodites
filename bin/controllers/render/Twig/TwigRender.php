@@ -14,8 +14,8 @@ class TwigRender extends TwigConfig implements ContractsTwigRender{
      * @return void
      */ 
     public function render( 
-      ?string $view = null, 
-      ?array $array = [] 
+      string|null $view = null, 
+      array $array = [] 
     ):void
     {
       echo $this->getTwigEnvironmentInstance()->render($view . _FRONT_ , $array );

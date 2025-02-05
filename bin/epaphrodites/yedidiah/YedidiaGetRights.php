@@ -17,7 +17,7 @@ class YedidiaGetRights extends epaphroditeClass{
      * @return bool
      */
     public function modules(
-       ?string $module = null
+       string|null $module = null
     ): bool{
         $result = false;
         $index = $module . ',' . static::class('session')->type();
@@ -41,7 +41,7 @@ class YedidiaGetRights extends epaphroditeClass{
      * @return array
      */
     public function liste_menu(
-        ?string $key = null
+        string|null $key = null
     ): array{
 
         $result = [];
