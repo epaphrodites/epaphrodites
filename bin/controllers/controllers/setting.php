@@ -65,18 +65,29 @@ final class setting extends MainSwitchers
 
         if (static::isValidMethod(true) && $userGroup !== 0) {
 
-            $this->result = $this->insert->AddUsersRights($userGroup, static::getPost('__rights__'), static::getPost('__actions__'));
+            if(static::isArray('__rights__')){
 
-            [$this->ans, $this->alert] = static::Responses(
-                $this->result, [  
-                    true => ['succes', 'alert-success'], 
-                    false => ['rightexist', 'alert-danger'] 
-                ]);
+                $allSelectedPages = static::isArray('__rights__');
+
+                foreach( $allSelectedPages as $pageSelected){
+
+                    $this->result = $this->insert->AddUsersRights($userGroup, $pageSelected, static::getPost('__actions__'));
+                }
+
+                [$this->ans, $this->alert] = static::Responses(
+                    $this->result, [  
+                        true => ['succes', 'alert-success'], 
+                        false => ['rightexist', 'alert-danger'] 
+                    ]);
+            }
         }
+
+        $usersSelected = $userGroup !== 0 ? $this->datas->userGroup($userGroup) : 'ERROR';
 
         $this->views( $html, 
             [
                 'type' => $userGroup,
+                'usersSelected' => $usersSelected,
                 'env' => $this->env,
                 'reponse' => $this->ans,
                 'alert' => $this->alert,

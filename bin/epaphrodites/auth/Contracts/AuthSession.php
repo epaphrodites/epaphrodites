@@ -36,6 +36,11 @@ interface AuthSession
     public function contact():string|null;
 
     /**
+     * @return string|null
+     */    
+    public function otp():string|null;
+
+    /**
      * @return mixed
      */    
     public function token_csrf():mixed;

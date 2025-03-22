@@ -1,6 +1,6 @@
 {% extends layouts %}
 {% from breadcrumb import breadcrumb_field %} 
-{% from forms import input_field, submit %} 
+{% from forms import input_field, radio_field, submit %} 
 {% from message import alert_msg %}
 {% block content %}
 {{ alert_msg( reponse, alert ) }}
@@ -14,46 +14,61 @@
 
                 {% for select in select %} 
 
-                    {{ input_field(
-                        {
-                            maxlength : 70 , 
-                            require : true , 
-                            character : "string" ,
-                            name : '__username__' , 
-                            label : 'Name and surname' , 
-                            value : select.namesurname|toiso , 
-                            feedback : 'Please enter your name and surname and continue.' ,
-                        })
-                    }} 
-
-                    {{ input_field(
-                        {
-                            maxlength: 100 , 
-                            require : true , 
-                            type : 'email' , 
-                            name : '__email__' ,       
-                            label : 'Your Email' , 
-                            value : select.email|e ,
-                            feedback : 'Please enter your Email and continue.' ,
-                        }) 
-                    }}     
-
-                    {{ input_field(
-                        { 
-                            maxlength : 10 , 
-                            require : true , 
-                            name : '__contact__' , 
-                            character : "numeric" ,
-                            label : 'Phone number' , 
-                            value : select.contact|e ,
-                            feedback : 'Please enter your phone number and continue' , 
-                        })  
-                    }} 
-
-                    {{ submit({
-                        label : 'Save your informations',
-                        icon : 'bi bi-pen'
-                    }) }}
+                    <div class="col-md-12">
+                        {{ input_field(
+                            {
+                                maxlength : 70 , 
+                                require : true , 
+                                character : "string" ,
+                                name : '__username__' , 
+                                label : 'Name and surname' , 
+                                value : select.namesurname|toiso , 
+                                feedback : 'Please enter your name and surname and continue.' ,
+                            })
+                        }} 
+                    </div>
+                    <div class="col-md-12">
+                        {{ input_field(
+                            {
+                                maxlength: 100 , 
+                                require : true , 
+                                type : 'email' , 
+                                name : '__email__' ,       
+                                label : 'Your Email' , 
+                                value : select.email|e ,
+                                feedback : 'Please enter your Email and continue.' ,
+                            }) 
+                        }}     
+                    </div>
+                    <div class="col-md-8">
+                        {{ input_field(
+                            { 
+                                maxlength : 10 , 
+                                require : true , 
+                                name : '__contact__' , 
+                                character : "numeric" ,
+                                label : 'Phone number' , 
+                                value : select.contact|e ,
+                                feedback : 'Please enter your phone number and continue' , 
+                            })  
+                        }}
+                    </div> 
+                    <div class="col-md-4">
+                        {{ radio_field({
+                            mainLabel : 'OTP Method',
+                            name: 'otp_status',
+                            label: ['Active', 'Disabled'],
+                            values: [true, false],
+                            checked: false
+                        }) }}
+                        
+                    </div>                    
+                    <div class="col-md-12">
+                        {{ submit({
+                            label : 'Save your informations',
+                            icon : 'bi bi-pen'
+                        }) }}
+                    </div>
 
                 {% endfor %}
             </div>

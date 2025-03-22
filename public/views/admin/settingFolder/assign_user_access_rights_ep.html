@@ -24,14 +24,26 @@
                     }}
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Pages list</label>
-                        <select class="form-select custom-select select2 selecteur" name="__rights__" required>
-                        {% for selected in select.YedidiahRightList() %}
-                            {% set counter = (counter | default (0)+1) %}
-                            <option value="{{ selected.apps ~ '@' ~ selected.path }}">{{ select.ModulesLists(selected.apps) ~ ' | ' ~ selected.libelle }}</option>
-                        {% endfor %}
-                    </select>
+                    <div class="form-group multiSelectForm">
+                        <div class="dropdown">
+                            <button class="btn w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                ------ Pages list ------
+                                <i class="bi-chevron-down"></i>
+                            </button>
+                            <div class="dropdown-menu dropdownEpaphroditesSelector w-100" aria-labelledby="dropdownMenuButton">
+                                <fieldset>
+                                    {% for selected in select.YedidiahRightList() %}
+                                        {% set counter = (counter | default(0) + 1) %}
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="option_{{ counter }}" name="__rights__[]" value="{{ selected.apps ~ '@' ~ selected.path }}" tabindex="0">
+                                            <label class="form-check-label" for="option_{{ counter }}">
+                                                {{ select.ModulesLists(selected.apps) ~ ' | ' ~ selected.libelle }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </fieldset>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12">

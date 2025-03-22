@@ -110,6 +110,19 @@ class session_auth implements AuthSession
 
     /**
      * 
+     * User session otp
+     * @return string
+     */
+    public function otp():string|null
+    {
+        
+        return !empty($this->config->GetSessions(_AUTH_OTP_))
+                                    ? $this->config->GetSessions(_AUTH_OTP_) 
+                                    : NULL;
+    }    
+
+    /**
+     * 
      * User cookies token_csrf data
      * @var mixed $token_csrf
      * @return mixed

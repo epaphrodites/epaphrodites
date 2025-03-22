@@ -1,0 +1,37 @@
+{
+    "0": {
+        "usersRightsGroup": 3,
+        "Autorisations": "1",
+        "Modules": "profil",
+        "indexModule": "profil,3",
+        "indexRight": "aad0c35bc3fa48f4780e7110387d914e"
+    },
+    "1": {
+        "usersRightsGroup": 3,
+        "Autorisations": "1",
+        "Modules": "chatbot",
+        "indexModule": "chatbot,3",
+        "indexRight": "5c21ce7a1282cf20ec8fa25930620b8c"
+    },
+    "2": {
+        "usersRightsGroup": 3,
+        "Autorisations": "1",
+        "Modules": "chatbot",
+        "indexModule": "chatbot,3",
+        "indexRight": "216ae6ef611429dc7051876282622e5c"
+    },
+    "3": {
+        "usersRightsGroup": 3,
+        "Autorisations": "1",
+        "Modules": "chatbot",
+        "indexModule": "chatbot,3",
+        "indexRight": "40f6262ed8f9e22bbaffd962b6dad4ea"
+    },
+    "4": {
+        "usersRightsGroup": 3,
+        "Autorisations": "1",
+        "Modules": "profil",
+        "indexModule": "profil,3",
+        "indexRight": "038dfa112534e8933afe8ac10f9837b4"
+    }
+}

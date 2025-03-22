@@ -145,14 +145,57 @@
 {# --- End Check box Field -- #}
 
 {# --- Radio button Field -- #}
-{% macro radio_field( inputOptions ) %}
-	<div class="custom-control custom-radio {{ inputOptions.class is defined and inputOptions.class ? inputOptions.class }}">
-		<input type="radio" class="custom-control-input" {% for attribute, value in inputOptions %} {% if attribute in ['name', 'id' ] %} {{ attribute }}="{{ value|e }}" {% endif %} {% endfor %} {{ inputOptions.checked is defined and inputOptions.checked ? 'checked' }} {{ inputOptions.require is defined and inputOptions.require ? 'required' }}>
-		{% if inputOptions.label is defined %}
-		<label class="custom-control-label">{{ inputOptions.label }}</label>
-		{% endif %}
-	</div>
+{% macro radio_field(inputOptions) %}
+    {# Validation checks using Twig's built-in functionality #}
+    {% if inputOptions.label is not defined %}
+        <div class="alert alert-danger">Error: 'label' option is required</div>
+    {% elseif inputOptions.name is not defined %}
+        <div class="alert alert-danger">Error: 'name' option is required</div>
+    {% else %}
+        <div class="radio-group">
+            {# Main label if provided #}
+            {% if inputOptions.mainLabel is defined %}
+                <label class="radio-main-label" id="{{ inputOptions.name }}_group">{{ inputOptions.mainLabel }}</label>
+            {% endif %}
+            
+            {# Role and aria attributes for accessibility #}
+            <div class="radio-options" 
+                 role="radiogroup" 
+                 {% if inputOptions.mainLabel is defined %}aria-labelledby="{{ inputOptions.name }}_group"{% endif %}>
+                
+                {% for index in range(0, inputOptions.label|length) %}
+                    {% set value = inputOptions.values[index] | default(loop.index) %}
+                    {% set is_checked = inputOptions.checked is defined and inputOptions.checked == value %}
+                    
+                    <div class="custom-control custom-radio {{ inputOptions.class|default('') }}">
+                        <input type="radio" 
+                               class="custom-control-input"
+                               name="{{ inputOptions.name }}"
+                               id="{{ inputOptions.name }}_{{ index }}"
+                               value="{{ value == true ? 'true' : (value == false ? 'false' : value) }}"
+                               {% if is_checked %}checked{% endif %}
+                               {% if inputOptions.require|default(false) %}required{% endif %}
+                               {% if inputOptions.disabled|default(false) %}disabled{% endif %}
+                               aria-describedby="{{ inputOptions.name }}_help_{{ index }}"
+                        >
+                        
+                        <label class="custom-control-label" for="{{ inputOptions.name }}_{{ index }}">
+                            {{ inputOptions.label[index] }}
+                        </label>
+
+                        {# Help text if provided #}
+                        {% if inputOptions.helpText is defined and inputOptions.helpText[index] is defined %}
+                            <small id="{{ inputOptions.name }}_help_{{ index }}" class="form-text text-muted">
+                                {{ inputOptions.helpText[index] }}
+                            </small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endmacro %}
+
 {# --- End Radio button Field -- #}
 
 {# --- Export buttom Field -- #}
@@ -217,13 +260,13 @@
 
 {# --- multi select Field -- #}
 {% macro multiSelect_field(selectOptions) %}
-    <div class="form-group">
+    <div class="form-group multiSelectForm">
         {% if selectOptions.label is defined %}
             <label class="form-label">{{ selectOptions.label|e }}</label>
         {% endif %}
         <div class="dropdown">
-			<button class="btn w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-				{{ selectOptions.button_label is defined ? selectOptions.button_label : 'Select Options' }}
+			<button class="btn w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">------ 
+				{{ selectOptions.button_label is defined ? selectOptions.button_label : 'Select Options' }} ------
 				<i class="bi-chevron-down"></i> 
 			</button>
             <div class="dropdown-menu dropdownEpaphroditesSelector w-100" aria-labelledby="dropdownMenuButton">

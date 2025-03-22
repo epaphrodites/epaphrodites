@@ -20,7 +20,7 @@
             {% endif %}
         {% endfor %}
         {% if currentPage < total %}<a href="?_p={{ currentPage + 1 }}">Next</a>{% endif %}
-            <a href="#"> <span id="compteur">0</span> selected out of total {{ totalData }}</a>
+            <a href="#"> <span class="totalLeng" data-page-length="{{ length|default(100) }}" id="compteur">0</span> selected out of total {{ totalData }}</a>
     </div>
 {% endmacro %}
 {# --- End of main pagination -- #}

@@ -22,6 +22,7 @@ trait postgreSqlMigrations
                 contact VARCHAR(10) DEFAULT NULL , 
                 email VARCHAR(50) DEFAULT NULL , 
                 usersgroup INT NOT NULL DEFAULT 1 , 
+                otp INT NOT NULL DEFAULT 0 , 
                 state INT NOT NULL DEFAULT 1)", 
                 "CREATE INDEX 
                     login_index ON usersaccount (login)"

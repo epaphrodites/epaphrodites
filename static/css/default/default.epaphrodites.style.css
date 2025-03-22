@@ -657,7 +657,91 @@ select[disabled] {
   border-radius: 0px;
 }
 
- .signature-container {
+.multiSelectForm {
+  position: relative;
+  width: 100%;
+}
+
+.multiSelectForm .form-label {
+ 
+  color: #333;
+  margin-bottom: 9px;
+}
+
+.multiSelectForm .dropdown .btn {
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.multiSelectForm .dropdown .btn:hover {
+  background-color: #f8f9fa;
+  border-color: #b8bfc6;
+}
+
+.multiSelectForm .dropdown-menu {
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  padding: 10px 10px 10px 20px;
+}
+
+.multiSelectForm .form-check {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.multiSelectForm .form-check:hover {
+  background-color: #f1f3f5;
+  border-radius: 4px;
+}
+
+.multiSelectForm .form-check-input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.multiSelectForm .form-check-label {
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.multiSelectForm .dropdown-toggle::after {
+  display: none;
+}
+
+.multiSelectForm .dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.multiSelectForm .dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: #adb5bd;
+  border-radius: 4px;
+}
+
+.multiSelectForm .dropdown-menu::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.radio-main-label {
+  font-weight: bold;
+  display: block;
+}
+
+
+.signature-container {
   position: relative;
   border: 1px solid var(--color-grey);
   width: 400px;

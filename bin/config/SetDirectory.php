@@ -28,6 +28,9 @@ define('_DIR_VENDOR_', 'vendor');
 # Front files extension in end
 define('_MAIN_EXTENSION_', '_ep');
 
+# Session use OTP method
+define('_OTP_METHOD_', false);
+
 # Users session name
 define('_SESSION_', 'session');
 
@@ -120,6 +123,12 @@ define('_AUTH_LOGIN_', 'login');
 
 # Session auth contact
 define('_AUTH_CONTACT_', 'contact');
+
+# Session auth otp
+define('_AUTH_OTP_', 'sessionOTP');
+
+# Session auth sending
+define('_AUTH_OTP_SENDIND_', 'otpSending');
 
 # Session auth email
 define('_AUTH_EMAIL_', 'email');

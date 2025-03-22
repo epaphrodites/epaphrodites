@@ -44,7 +44,6 @@ class datas
         return $key === null ? $list : ($list[$key] ?? 0);
     }
       
-    
     /**
      * Authorization actions
      *
