@@ -53,15 +53,16 @@ final class update extends UpdateUpdate
   public function updateUserDatas(
     string $userName,
     string $email,
-    string $number
+    string $number,
+    int $otpStatut
   ): bool{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlUpdateUserDatas($userName, $email, $number),
-      'redis' => $this->noSqlRedisUpdateUserDatas($userName, $email, $number),
+      'mongodb' => $this->noSqlUpdateUserDatas($userName, $email, $number, $otpStatut),
+      'redis' => $this->noSqlRedisUpdateUserDatas($userName, $email, $number, $otpStatut),
 
-      default => $this->sqlUpdateUserDatas($userName, $email, $number),
+      default => $this->sqlUpdateUserDatas($userName, $email, $number, $otpStatut),
     };
   }
 

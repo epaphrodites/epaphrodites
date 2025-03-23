@@ -227,16 +227,17 @@ class update extends UpdateUpdate
     public function sqlUpdateUserDatas(
         string $usersname, 
         string $email, 
-        string $number
+        string $number,
+        int $otpStatut
     ):mixed
     {
         
         if (static::initNamespace()['verify']->onlyNumber($number, 11) === false) {
 
             $this->table('usersaccount')
-                ->set(['contact', 'email', 'namesurname', 'state'])
+                ->set(['contact', 'email', 'namesurname', 'state', 'otp'])
                 ->where('login')
-                ->param([$number, $email, $usersname, 1, static::initNamespace()['session']->login()])
+                ->param([$number, $email, $usersname, 1, $otpStatut, static::initNamespace()['session']->login()])
                 ->UQuery();
 
             $_SESSION["usersname"] = $usersname;

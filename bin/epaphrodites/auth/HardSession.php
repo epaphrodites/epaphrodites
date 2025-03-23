@@ -15,7 +15,7 @@ class HardSession extends GeneralConfig{
      * @param mixed $nameSurname
      * @return void
     */
-    public function StartSession( $id , $login , $nameSurname , $contact , $email , $usersGroup, $sessionOTP )
+    public function StartSession( $id , $login , $nameSurname , $contact , $email , $usersGroup, $sessionOTP, $otpVerification )
     {
 
         // Set id session value
@@ -38,5 +38,8 @@ class HardSession extends GeneralConfig{
 
         // Set Session OTP
         $this->SetSession( _AUTH_OTP_ , $sessionOTP );
+
+        // Set session otp verification
+        $this->SetSession( _AUTH_VERIFY_ , $otpVerification );
     }
 }

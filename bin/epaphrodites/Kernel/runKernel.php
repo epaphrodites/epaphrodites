@@ -76,6 +76,15 @@ class runKernel extends ConfigHttp
         }
 
         /**
+         * Force users to users to save his informations
+         * @return string
+         */
+        if ( !empty(static::class('session')->email()) && static::class('session')->otpVerification() == 1) {
+
+            $this->GetUrl = (string) $this->InterfaceManager->otpVerification();
+        }
+
+        /**
          * Splitting the URL returned by the GetUrl method into an array
          * @return array
          */

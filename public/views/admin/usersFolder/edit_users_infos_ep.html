@@ -40,7 +40,7 @@
                             }) 
                         }}     
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         {{ input_field(
                             { 
                                 maxlength : 10 , 
@@ -53,15 +53,14 @@
                             })  
                         }}
                     </div> 
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         {{ radio_field({
                             mainLabel : 'OTP Method',
-                            name: 'otp_status',
+                            name: '__otpStatus__',
                             label: ['Active', 'Disabled'],
-                            values: [true, false],
-                            checked: false
+                            values: [ 1, 0],
+                            checked: select.otp|e
                         }) }}
-                        
                     </div>                    
                     <div class="col-md-12">
                         {{ submit({

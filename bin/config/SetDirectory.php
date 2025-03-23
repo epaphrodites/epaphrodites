@@ -1,8 +1,8 @@
 <?php
 
-/**************************************************************
+/**********************************************************************
  ****************| DEFINE EPAPHRODITES CONSTANT |********************** 
- ***************************************************************/
+ **********************************************************************/
 
 # Config language
 define('_LANG_', 'eng');
@@ -29,7 +29,7 @@ define('_DIR_VENDOR_', 'vendor');
 define('_MAIN_EXTENSION_', '_ep');
 
 # Session use OTP method
-define('_OTP_METHOD_', false);
+define('_OTP_METHOD_', true);
 
 # Users session name
 define('_SESSION_', 'session');
@@ -128,7 +128,7 @@ define('_AUTH_CONTACT_', 'contact');
 define('_AUTH_OTP_', 'sessionOTP');
 
 # Session auth sending
-define('_AUTH_OTP_SENDIND_', 'otpSending');
+define('_AUTH_VERIFY_', 'otpVerify');
 
 # Session auth email
 define('_AUTH_EMAIL_', 'email');

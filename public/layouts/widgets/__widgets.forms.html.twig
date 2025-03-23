@@ -146,56 +146,47 @@
 
 {# --- Radio button Field -- #}
 {% macro radio_field(inputOptions) %}
-    {# Validation checks using Twig's built-in functionality #}
+
     {% if inputOptions.label is not defined %}
         <div class="alert alert-danger">Error: 'label' option is required</div>
     {% elseif inputOptions.name is not defined %}
         <div class="alert alert-danger">Error: 'name' option is required</div>
     {% else %}
-        <div class="radio-group">
-            {# Main label if provided #}
-            {% if inputOptions.mainLabel is defined %}
-                <label class="radio-main-label" id="{{ inputOptions.name }}_group">{{ inputOptions.mainLabel }}</label>
-            {% endif %}
-            
-            {# Role and aria attributes for accessibility #}
-            <div class="radio-options" 
-                 role="radiogroup" 
-                 {% if inputOptions.mainLabel is defined %}aria-labelledby="{{ inputOptions.name }}_group"{% endif %}>
-                
-                {% for index in range(0, inputOptions.label|length) %}
-                    {% set value = inputOptions.values[index] | default(loop.index) %}
-                    {% set is_checked = inputOptions.checked is defined and inputOptions.checked == value %}
-                    
-                    <div class="custom-control custom-radio {{ inputOptions.class|default('') }}">
-                        <input type="radio" 
-                               class="custom-control-input"
-                               name="{{ inputOptions.name }}"
-                               id="{{ inputOptions.name }}_{{ index }}"
-                               value="{{ value == true ? 'true' : (value == false ? 'false' : value) }}"
-                               {% if is_checked %}checked{% endif %}
-                               {% if inputOptions.require|default(false) %}required{% endif %}
-                               {% if inputOptions.disabled|default(false) %}disabled{% endif %}
-                               aria-describedby="{{ inputOptions.name }}_help_{{ index }}"
-                        >
-                        
-                        <label class="custom-control-label" for="{{ inputOptions.name }}_{{ index }}">
-                            {{ inputOptions.label[index] }}
-                        </label>
+		<div class="radio-group">
+			{% if inputOptions.mainLabel is defined %}
+				<label class="radio-main-label" id="{{ inputOptions.name }}_group">{{ inputOptions.mainLabel }}</label>
+			{% endif %}
 
-                        {# Help text if provided #}
-                        {% if inputOptions.helpText is defined and inputOptions.helpText[index] is defined %}
-                            <small id="{{ inputOptions.name }}_help_{{ index }}" class="form-text text-muted">
-                                {{ inputOptions.helpText[index] }}
-                            </small>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+			<div class="radio-options" role="radiogroup" {% if inputOptions.mainLabel is defined %}aria-labelledby="{{ inputOptions.name }}_group"{% endif %}>
+				{% for index in range(0, inputOptions.label|length - 1) %}
+					{% set value = (inputOptions.values is defined and inputOptions.values[index] is defined) ? inputOptions.values[index] : index %}
+					{% set is_checked = inputOptions.checked is defined and inputOptions.checked|e == value|e %}
+					
+					<div class="custom-control custom-radio {{ inputOptions.class|default('') }}">
+						<input type="radio" class="custom-control-input"
+							name="{{ inputOptions.name }}"
+							id="{{ inputOptions.name }}_{{ index }}"
+							value="{{ value }}"
+							{% if is_checked %}checked{% endif %}
+							{% if inputOptions.require|default(false) %}required{% endif %}
+							{% if inputOptions.disabled|default(false) %}disabled{% endif %}
+							aria-describedby="{{ inputOptions.name }}_help_{{ index }}">
+
+						<label class="custom-control-label" for="{{ inputOptions.name }}_{{ index }}">
+							{{ inputOptions.label[index] }}
+						</label>
+
+						{% if inputOptions.helpText is defined and inputOptions.helpText[index] is defined %}
+							<small id="{{ inputOptions.name }}_help_{{ index }}" class="form-text text-muted">
+								{{ inputOptions.helpText[index] }}
+							</small>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
     {% endif %}
 {% endmacro %}
-
 {# --- End Radio button Field -- #}
 
 {# --- Export buttom Field -- #}

@@ -9,3 +9,88 @@
     <script> async function copyContent() { var textField = document.getElementById("{{ copyOptions.content is defined and copyOptions.content ? copyOptions.content }}"); var copyButton = document.getElementById("{{ copyOptions.button is defined and copyOptions.button ? copyOptions.button }}"); if (!textField) { console.error("The textToCopy element was not found."); return; } if (!copyButton) { console.error("The copyButton element was not found."); return; } try { await navigator.clipboard.writeText(textField.value); {% if copyOptions.iconFinal is defined %} copyButton.innerHTML = "<i class='{{ copyOptions.iconFinal }}'></i> {{ copyOptions.final }}"; {% else %} copyButton.textContent = "{{ copyOptions.final | default('Copied!') }}"; {% endif %} setTimeout(function() { {% if copyOptions.iconInit is defined %} copyButton.innerHTML = "<i class='{{ copyOptions.iconInit }}'></i> {{ copyOptions.init }}"; {% else %}  copyButton.textContent = "{{ copyOptions.init | default('Copy text') }}"; {% endif %} }, 2000); } catch (err) { console.error("Failed to copy text: ", err); copyButton.textContent = "Failed to copy text."; setTimeout(function() { {% if copyOptions.iconInit is defined %} copyButton.innerHTML = "<i class='{{ copyOptions.iconInit }}'></i> {{ copyOptions.init }}"; {% else %} copyButton.textContent = "{{ copyOptions.init | default('Copy text') }}"; {% endif %}  }, 2000); } } </script>
 {% endmacro %}
 {# ----- End Copy content ----- #}
+
+{# --- Clock Field -- #}
+{% macro clock() %}
+    <div class="digital-clock">
+        <div class="week">
+            <div>SUN</div>
+            <div>MON</div>
+            <div>TUE</div>
+            <div>WED</div>
+            <div>THU</div>
+            <div>FRI</div>
+            <div>SAT</div>
+        </div>
+        <div class="time">
+            <div class="hour">00</div>
+            <div class="dot">:</div>
+            <div class="min">00</div>
+            <div class="dot">:</div>
+            <div class="sec">00</div>
+        </div>
+        <div class="date"></div>
+    </div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const day = now.getDay();
+            
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = now.toLocaleDateString('en-GB', options);
+
+            document.querySelector('.hour').textContent = hours;
+            document.querySelector('.min').textContent = minutes;
+            document.querySelector('.sec').textContent = seconds;
+            document.querySelector('.date').textContent = formattedDate;
+
+            document.querySelectorAll('.week div').forEach((el, index) => {
+                el.classList.toggle('active', index === day);
+            });
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+{% endmacro %}
+{# --- End Clock Field -- #}
+
+{% macro calendar() %}
+    <div id="calendar"></div>
+    <script>
+        function generateCalendar() {
+            const calendar = document.getElementById('calendar');
+            const now = new Date();
+            const month = now.getMonth();
+            const year = now.getFullYear();
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+
+            const monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+            const dayNames = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
+
+            let calendarHTML = `<div class="calendar-header"><span>${monthNames[month]} ${year}</span></div>`;
+            calendarHTML += '<div class="calendar-body">';
+            dayNames.forEach(day => {
+                calendarHTML += `<div class="calendar-day-name">${day}</div>`;
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += '<div class="calendar-day empty"></div>';
+            }
+
+            for (let date = 1; date <= lastDate; date++) {
+                calendarHTML += `<div class="calendar-day">${date}</div>`;
+            }
+
+            calendarHTML += '</div>';
+            calendar.innerHTML = calendarHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', generateCalendar);
+    </script>
+{% endmacro %}

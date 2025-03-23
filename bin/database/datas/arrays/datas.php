@@ -18,21 +18,13 @@ class datas
     ): array|int|string|null
     {
 
-        $usersList = [
+        $list = [
             1 => [ '_id' => 1, 'label' => 'SUPER ADMINISTRATOR' ],
             2 => [ '_id' => 2, 'label' => 'ADMINISTRATOR' ],
             3 => [ '_id' => 3, 'label' => 'USERS' ],
         ];
 
-        if ($key === null) {
-            return array_values($usersList);
-        }
-
-        if (!isset($usersList[$key])) {
-            return null;
-        }
-
-        return $usersList[$key][$need] ?? null;
+        return $this->returnData($list, $key, $need );
     }
 
     /**
@@ -55,15 +47,7 @@ class datas
             ['_id' => 'eklou', 'label' => 'Eklou Colors'],
         ];
 
-        if ($key === null) {
-            return array_values($list);
-        }
-
-        if (!isset($list[$key])) {
-            return null;
-        }
-
-        return $list[$key][$need] ?? null;
+        return $this->returnData($list, $key, $need );
     }
       
     /**
@@ -121,5 +105,30 @@ class datas
             [
                 1 => "SET USERS GROUP COLOR"
             ];
-    }     
+    }  
+    
+    /**
+     * Summary of returnData
+     * 
+     * @param array $list
+     * @param int|string|null $key
+     * @param string $need
+     * @return array|int|string|null
+     */
+    private function returnData( 
+        array $list = [],
+        int|string|null $key = null,
+        string $need = '_id'
+    ): array|int|string|null{
+
+        if ($key === null) {
+            return array_values($list);
+        }
+
+        if (!isset($list[$key])) {
+            return null;
+        }
+
+        return $list[$key][$need] ?? null;
+    }
 }

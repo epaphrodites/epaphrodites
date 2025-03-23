@@ -42,6 +42,17 @@ class ConfigDashboardPages extends ConfigUsersMainPages
         $this->interface = 'users/edit_users_infos/';
 
         return $this->interface;
-    }    
+    } 
+    
+    /** 
+     * Login interface manager
+     */
+    public function otpVerification():string
+    {
+
+        $this->interface = 'setting/send_otp_code_by_email/';
+
+        return $this->interface;
+    }  
 
 }

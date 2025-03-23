@@ -29,12 +29,12 @@ class DanhoAuth extends StartUsersSession
       $result = static::getGuard('sql')->checkUsers($login);
 
       if (!empty($result)) {
-
+        
           if (static::getGuard('guard')->AuthenticatedPassword($result[0]["password"], $usersPassword) == true && $result[0]["state"] == 1) {
            
             $otpSession = _OTP_METHOD_ == true && $result[0]["otp"] == 1 ? $this->sendOTPCode($result[0]["email"]) : null ;
 
-            $this->StartUsersSession($result[0]["_id"], $result[0]["login"], $result[0]["namesurname"], $result[0]["contact"], $result[0]["email"], $result[0]["usersgroup"], $otpSession);
+            $this->StartUsersSession($result[0]["_id"], $result[0]["login"], $result[0]["namesurname"], $result[0]["contact"], $result[0]["email"], $result[0]["usersgroup"], $otpSession, $result[0]["otp"]);
 
             return true;
           } else {

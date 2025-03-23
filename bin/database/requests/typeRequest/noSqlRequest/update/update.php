@@ -19,7 +19,8 @@ class update extends Builders
     public function noSqlUpdateUserDatas(
         string $usersname, 
         string $email, 
-        string $number
+        string $number,
+        int $otpStatut
     ): bool
     {
 
@@ -34,6 +35,7 @@ class update extends Builders
                 'email' => $email,
                 'namesurname' => $usersname,
                 'state' => 1,
+                'otp' => $otpStatut
             ],
         ];   
 
@@ -72,7 +74,8 @@ class update extends Builders
     public function noSqlRedisUpdateUserDatas(
         string $usersname, 
         string $email, 
-        string $number
+        string $number,
+        int $otpStatut
     ): bool
     {
 
@@ -83,6 +86,7 @@ class update extends Builders
             'email' => $email,
             'namesurname' => $usersname,
             'state' => 1,
+            'otp' => $otpStatut
         ];   
 
         $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
