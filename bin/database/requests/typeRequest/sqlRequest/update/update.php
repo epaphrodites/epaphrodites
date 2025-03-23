@@ -62,13 +62,13 @@ class update extends UpdateUpdate
      *
      * @param string|null $login
      * @param string|null $password
-     * @param int|null $UserGroup
+     * @param int|null $usersGroup
      * @return bool
      */
     public function sqlConsoleUpdateUsers(
         string|null $login = null, 
         string|null $password = null, 
-        int|null $UserGroup = null
+        int|null $usersGroup = null
     ): bool
     {
         $GetDatas = static::initQuery()['getid']->sqlGetUsersDatas($login);
@@ -76,12 +76,12 @@ class update extends UpdateUpdate
         if (!empty($GetDatas)) {
 
             $password = $password !== null ? $password : $login;
-            $UserGroup = $UserGroup !== null ? $UserGroup : $GetDatas[0]['usersgroup'];
+            $usersGroup = $usersGroup !== null ? $usersGroup : $GetDatas[0]['usersgroup'];
 
             $this->table('usersaccount')
                 ->set(['password', 'usersgroup'])
                 ->where('login')
-                ->param([static::initConfig()['guard']->CryptPassword($password), $UserGroup, "$login"])
+                ->param([static::initConfig()['guard']->CryptPassword($password), $usersGroup, "$login"])
                 ->UQuery();
 
             return true;

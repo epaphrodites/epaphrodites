@@ -1,5 +1,5 @@
 {# --- main pagination -- #}
-{% macro pagination_field(currentPage, total, totalData) %}
+{% macro pagination_field(currentPage, total, totalData, length) %}
     <div class="pagination">
         {% if currentPage > 1 %}<a href="?_p={{ currentPage - 1 }}">Previous</a>{% endif %}
         {% if currentPage > 1 %}<a href="?_p=1">1</a>{% endif %}
@@ -26,7 +26,7 @@
 {# --- End of main pagination -- #}
 
 {# --- datable pagination -- #}
-{% macro dataTable_pagination( pagination , length ) %}
+{% macro dataTable_pagination( pagination, length ) %}
     <div class="custom-pagination">
         <span class="pagination-button" id="prev-button">&laquo;</span>
         <span id="pagination-numbers" class="pagination-numbers"></span>

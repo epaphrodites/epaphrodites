@@ -403,13 +403,13 @@ class update extends Builders
      *
      * @param string $login
      * @param string $password
-     * @param int $UserGroup
+     * @param int $usersGroup
      * @return bool
      */
     public function noSqlConsoleUpdateUsers(
         string $login , 
         string $password , 
-        int $UserGroup 
+        int $usersGroup 
     ): bool
     {
         $GetDatas = static::initQuery()['getid']->noSqlGetUsersDatas($login);
@@ -417,12 +417,12 @@ class update extends Builders
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
+            $usersGroup = $usersGroup !== NULL ? $usersGroup : $GetDatas[0]['usersgroup'];
 
             $filter = [ 'login' => $login ];
     
             $update = [
-                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $UserGroup ]
+                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $usersGroup ]
             ];   
     
             $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);

@@ -9,30 +9,31 @@ final class select extends SelectSelect
 
   public function selectUsersColors(): array
   {
-      $namespace = static::initNamespace();
-      $json = $namespace['json'];
-      $datas = $namespace['datas'];
-  
-      $groupColors = array_column(
-          $json->path(_DIR_COLORS_PATH_)->get(),
-          'color',
-          'usersGroup'
-      );
-  
-      return array_map(
-          fn(string $groupName, string|int $groupId): array => [
-              'usersGroup' => $groupId,
-              'color' => $groupColors[$groupId] ?? '',
-              'groupName' => $groupName
-          ],
-          $datas->userGroup(),
-          array_keys($datas->userGroup())
-      );
+
+    $namespace = static::initNamespace();
+    $json = $namespace['json'];
+    $datas = $namespace['datas'];
+
+    $groupColors = array_column(
+        $json->path(_DIR_COLORS_PATH_)->get(),
+        'color',
+        'usersGroup'
+    );
+
+    return array_map(
+        fn(array $group): array => [
+            '_id' => $group['_id'],
+            'label' => $group['label'],
+            'color' => $groupColors[$group['_id']] ?? 'No Color'
+        ],
+        $datas->usersGroup()
+    );
   }
 
 
   /**
    * Request to get users list
+   * 
    * @param int $currentPage
    * @param int $numLine
    * @return array

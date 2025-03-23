@@ -10,16 +10,36 @@ final class update extends UpdateUpdate
   /**
    * Request to update users rights
    * 
-   * @param int|null $userGroup
+   * @param int|null $usersGroup
    * @param int|null $etat
    * @return bool
    */
   public function updateUserRights(
-    string|int|null $userGroup = null, 
-    int|null $state = null
+    string|int|null $usersRightSelected = null, 
+    int|null $state = null,
+    int|null $usersGroup = null
   ): bool{
 
-    return static::initConfig()['updright']->UpdateUsersRights($userGroup, $state) === true ? true : false;
+      $stateLabel = $state == 1 ? 'Granted' : 'Restricted';
+
+      if(static::initConfig()['updright']->UpdateUsersRights($usersRightSelected, $state) == true ){
+
+        $config = static::initQuery()['setting'];
+        $actions = "This users group is {$stateLabel} : " . static::initNamespace()['datas']->usersGroup($usersGroup, 'label');
+
+        match (_FIRST_DRIVER_) {
+
+          'mongodb' => $config->noSqlActionsRecente($actions),
+          'redis' => $config->noSqlRedisActionsRecente($actions),
+    
+          default => $config->ActionsRecente($actions),
+        };
+
+        return true;
+      }
+    
+    return false;
+
   }
 
   /**
@@ -133,21 +153,21 @@ final class update extends UpdateUpdate
    *
    * @param string $login
    * @param string $password
-   * @param int $UserGroup
+   * @param int $usersGroup
    * @return bool
    */
   public function ConsoleUpdateUsers(
     string $login,
     string $password,
-    int $userGroup
+    int $usersGroup
   ): bool{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlConsoleUpdateUsers($login, $password, $userGroup),
-      'redis' => $this->noSqlConsoleUpdateUsers($login, $password, $userGroup),
+      'mongodb' => $this->noSqlConsoleUpdateUsers($login, $password, $usersGroup),
+      'redis' => $this->noSqlConsoleUpdateUsers($login, $password, $usersGroup),
 
-      default => $this->sqlConsoleUpdateUsers($login, $password, $userGroup)
+      default => $this->sqlConsoleUpdateUsers($login, $password, $usersGroup)
     };
   }
 }

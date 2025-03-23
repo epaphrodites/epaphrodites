@@ -1,5 +1,5 @@
 {% extends layouts %}
-{% from forms import input_field, import_field, submit %}
+{% from forms import input_field, multiSelect_field, submit %}
 {% from breadcrumb import breadcrumb_field %} 
 {% from message import alert_msg %}
 {% block content %} 
@@ -13,13 +13,12 @@
                 <div class="col-12">
                     {{ input_field( 
                         {
+                            disabled : true,
                             name : '__group__', 
                             label : 'Users group' , 
                             maxlength : 50 , 
                             require : true , 
-                            value : datas.userGroup(type) , 
-                            character : 'mixed' ,
-                            readOnly : true
+                            value : usersSelected
                         })
                     }}
                 </div>
@@ -50,9 +49,9 @@
                     <div class="form-group">
                         <label>Authorizations</label>
                         <select class="form-select custom-select selecteur" name="__actions__" required>
-                        {% for datas in datas.autorisation() %}
+                        {% for data in data.autorisation() %}
                             {% set counter = (counter | default (0)+1) %}
-                                <option value="{{ counter|e-1 }}">{{ datas }}</option>
+                                <option value="{{ counter|e-1 }}">{{ data }}</option>
                         {% endfor %}
                         </select>
                     </div>

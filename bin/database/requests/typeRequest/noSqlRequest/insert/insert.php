@@ -11,16 +11,16 @@ class insert extends Builders
      * Add users to the system from the console
      *
      * @param string|null $login
-     * @param int|null $userGroup
+     * @param int|null $usersGroup
      * @return bool
      */
     public function noSqladdUsers(
         string|null $login = null,
-        int|null $userGroup = null
+        int|null $usersGroup = null
     ):bool
     {
 
-        if (!empty($login) && !empty($userGroup) && count(static::initQuery()['getid']->noSqlGetUsersDatas($login)) < 1) {
+        if (!empty($login) && !empty($usersGroup) && count(static::initQuery()['getid']->noSqlGetUsersDatas($login)) < 1) {
 
             $document = [
                 'login' => $login,
@@ -28,7 +28,7 @@ class insert extends Builders
                 'namesurname' => NULL,
                 'contact' => NULL,
                 'email' => NULL,
-                'usersgroup' => $userGroup,
+                'usersgroup' => $usersGroup,
                 'state' => 1,
             ];
 
@@ -48,10 +48,10 @@ class insert extends Builders
      */
     public function noSqlRedisAddUsers(
         string|null $login = null,
-        int|null $userGroup = null
+        int|null $usersGroup = null
     ):bool{
         
-        if (!empty($login) && !empty($userGroup) && count(static::initQuery()['getid']->noSqlRedisGetUsersDatas($login)) < 1) {
+        if (!empty($login) && !empty($usersGroup) && count(static::initQuery()['getid']->noSqlRedisGetUsersDatas($login)) < 1) {
 
             $document =[
                 'login' => $login,
@@ -59,7 +59,7 @@ class insert extends Builders
                 'namesurname' => NULL,
                 'contact' => NULL,
                 'email' => NULL,
-                'usersgroup' => $userGroup,
+                'usersgroup' => $usersGroup,
                 'state' => 1,
             ];
 
@@ -79,17 +79,17 @@ class insert extends Builders
      *
      * @param string|null $login
      * @param string|null $password
-     * @param int|null $userGroup
+     * @param int|null $usersGroup
      * @return bool
      */
     public function noSqlConsoleAddUsers(
         string|null $login = null, 
         string|null $password = null, 
-        int|null $userGroup = null
+        int|null $usersGroup = null
     ):bool
     {
 
-        $userGroup = $userGroup !== NULL ? $userGroup : 1;
+        $usersGroup = $usersGroup !== NULL ? $usersGroup : 1;
       
         if (!empty($login) && count(static::initQuery()['getid']->noSqlGetUsersDatas($login)) < 1) {
 
@@ -99,7 +99,7 @@ class insert extends Builders
                 'namesurname' => NULL,
                 'contact' => NULL,
                 'email' => NULL,
-                'usersgroup' => $userGroup,
+                'usersgroup' => $usersGroup,
                 'state' => 1
             ];
             
@@ -120,10 +120,10 @@ class insert extends Builders
     public function noSqlRedisConsoleAddUsers(
         string|null $login = null, 
         string|null $password = null, 
-        int|null $userGroup = null
+        int|null $usersGroup = null
     ):bool{
         
-        $userGroup = $userGroup !== NULL ? $userGroup : 1;
+        $usersGroup = $usersGroup !== NULL ? $usersGroup : 1;
 
         if (!empty($login) && count(static::initQuery()['getid']->noSqlRedisGetUsersDatas($login)) < 1) {
 
@@ -133,7 +133,7 @@ class insert extends Builders
                 'namesurname' => NULL,
                 'contact' => NULL,
                 'email' => NULL,
-                'usersgroup' => $userGroup,
+                'usersgroup' => $usersGroup,
                 'state' => 1,
             ];
 

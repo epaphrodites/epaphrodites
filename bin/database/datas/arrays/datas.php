@@ -6,60 +6,77 @@ class datas
 {
 
     /**
-     * List of users group
+     * users Group list
      * 
-     * @param int $key
-     * @return array|null
+     * @param int|string|null $key
+     * @param string $need
+     * @return array|int|string|null
      */
-    public function userGroup(
-        int|null $key = null
-    ): array|string|int|null
+    public function usersGroup(
+        int|string|null $key = null,
+        string $need = '_id'
+    ): array|int|string|null
     {
-        $list = [
-            1 => 'SUPER ADMINISTRATOR',
-            2 => 'ADMINISTRATOR',
-            3 => 'USERS',
+
+        $usersList = [
+            1 => [ '_id' => 1, 'label' => 'SUPER ADMINISTRATOR' ],
+            2 => [ '_id' => 2, 'label' => 'ADMINISTRATOR' ],
+            3 => [ '_id' => 3, 'label' => 'USERS' ],
         ];
-    
-        return $key === null ? $list : ($list[$key] ?? 0);
+
+        if ($key === null) {
+            return array_values($usersList);
+        }
+
+        if (!isset($usersList[$key])) {
+            return null;
+        }
+
+        return $usersList[$key][$need] ?? null;
     }
 
     /**
-     * Get the list of dashboard colors or a specific color by key.
-     * 
-     * @param int|null $key The index of the color to retrieve (null to return the full list).
-     * @return array|int The list of colors or a specific color by key, or 0 if the key is invalid.
+     * Get the list of dashboard colors or a specific color property by key.
+     *
+     * @param string|int|null $key The index of the color to retrieve (null to return the full list).
+     * @param string $property The property to return ('_id' or 'label', defaults to '_id').
+     * @return array{_id: string, label: string[]|string|null}
      */
     public function colorsList(
-        int|null $key = null
-    ): array|string|int|null{
+        string|int|null $key = null,
+        string $need = '_id'
+    ): array|string|null {
+
         $list = [
-            [ '_id' => 'main', 'label' => 'MAIN COLORS' ],
-            [ '_id' => 'noella', 'label' => 'NOELLA COLORS' ],
-            [ '_id' => 'shlomo', 'label' => 'SHLOMO COLORS' ],
-            [ '_id' => 'yedidia', 'label' => 'YEDIDIAH COLORS' ],
-            [ '_id' => 'eklou', 'label' => 'EKLOU COLORS' ],
+            ['_id' => 'main', 'label' => 'Main Colors'],
+            ['_id' => 'noella', 'label' => 'Noella Colors'],
+            ['_id' => 'shlomo', 'label' => 'Shlomo Colors'],
+            ['_id' => 'yedidia', 'label' => 'Yedidiah Colors'],
+            ['_id' => 'eklou', 'label' => 'Eklou Colors'],
         ];
-        
-        return $key === null ? $list : ($list[$key] ?? 0);
+
+        if ($key === null) {
+            return array_values($list);
+        }
+
+        if (!isset($list[$key])) {
+            return null;
+        }
+
+        return $list[$key][$need] ?? null;
     }
       
     /**
      * Authorization actions
      *
-     * @param int|null $key Authorization key
-     * @return array|string|int
+     * @return array
      */
-    public function autorisation(
-        int|null $key = null
-    ): array|string|int|null {
+    public function autorisation(): array {
 
-        $list = [
+        return [
             1 => 'DENY',
             2 => 'ALLOW',
         ];
-
-        return $key === null ? $list : ($list[$key] ?? 0);
     }
 
     /**

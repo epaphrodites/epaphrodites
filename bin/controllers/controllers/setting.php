@@ -9,7 +9,7 @@ final class setting extends MainSwitchers
     
     private object $msg;
     private object $env;
-    private object $datas;
+    private object $data;
     private object $count;
     private object $getId;
     private object $mozart;
@@ -46,7 +46,7 @@ final class setting extends MainSwitchers
         $this->insert = $this->getFunctionObject(static::initQuery(), 'insert');
         $this->delete = $this->getFunctionObject(static::initQuery(), 'delete');
         $this->update = $this->getFunctionObject(static::initQuery(), 'update');
-        $this->datas = $this->getFunctionObject(static::initNamespace(), 'datas');
+        $this->data = $this->getFunctionObject(static::initNamespace(), 'datas');
         $this->mozart = $this->getFunctionObject(static::initNamespace(), 'mozart');
     }      
 
@@ -61,9 +61,9 @@ final class setting extends MainSwitchers
     ): void
     {
 
-        $userGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
+        $usersGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
 
-        if (static::isValidMethod(true) && $userGroup !== 0) {
+        if (static::isValidMethod(true) && $usersGroup !== 0) {
 
             if(static::isArray('__rights__')){
 
@@ -71,7 +71,7 @@ final class setting extends MainSwitchers
 
                 foreach( $allSelectedPages as $pageSelected){
 
-                    $this->result = $this->insert->AddUsersRights($userGroup, $pageSelected, static::getPost('__actions__'));
+                    $this->result = $this->insert->AddUsersRights($usersGroup, $pageSelected, static::getPost('__actions__'));
                 }
 
                 [$this->ans, $this->alert] = static::Responses(
@@ -82,17 +82,15 @@ final class setting extends MainSwitchers
             }
         }
 
-        $usersSelected = $userGroup !== 0 ? $this->datas->userGroup($userGroup) : 'ERROR';
+        $usersSelected = $usersGroup !== 0 ? $this->data->usersGroup($usersGroup, 'label') : 'ERROR';
 
         $this->views( $html, 
             [
-                'type' => $userGroup,
-                'usersSelected' => $usersSelected,
-                'env' => $this->env,
+                'data' => $this->data,
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
-                'datas' => $this->datas,
-                'select' => $this->mozart
+                'select' => $this->mozart,
+                'usersSelected' => $usersSelected,
             ],
             true
         );
@@ -109,16 +107,16 @@ final class setting extends MainSwitchers
     ): void
     {
 
-        $userGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
+        $usersGroup = static::isGet('_see', 'int') ? static::getGet('_see') : 0;
 
         if (static::isValidMethod(true)&&static::arrayNoEmpty(['group'])) {
 
             // Authorize user right
             if (static::isSelected('_sendselected_', 1 )) {
 
-                foreach (static::isArray('group') as $UsersGroup) {
+                foreach (static::isArray('group') as $UsersGroupSelect ) {
 
-                    $this->result = $this->update->updateUserRights($UsersGroup, 1);
+                    $this->result = $this->update->updateUserRights($UsersGroupSelect, 1, $usersGroup);
                 }
 
                 [$this->ans, $this->alert] = static::Responses(
@@ -133,7 +131,7 @@ final class setting extends MainSwitchers
 
                 foreach (static::isArray('group') as $usersGroupSelected) {
 
-                    $this->result = $this->update->updateUserRights($usersGroupSelected, 0);
+                    $this->result = $this->update->updateUserRights($usersGroupSelected, 0, $usersGroup);
                 }
 
                 [$this->ans, $this->alert] = static::Responses(
@@ -148,7 +146,7 @@ final class setting extends MainSwitchers
 
                 foreach (static::isArray('group') as $usersGroupSelected) {
 
-                    $this->result = $this->delete->DeletedUsersRights($usersGroupSelected);
+                    $this->result = $this->delete->DeletedUsersRights($usersGroupSelected, $usersGroup);
                 }
 
                 [$this->ans, $this->alert] = static::Responses(
@@ -164,7 +162,7 @@ final class setting extends MainSwitchers
                 'reponse' => $this->ans,
                 'alert' => $this->alert,
                 'list' => $this->mozart,
-                'select' => $this->getId->getUsersRights($userGroup),
+                'select' => $this->getId->getUsersRights($usersGroup),
             ],
             true
         );
@@ -197,7 +195,7 @@ final class setting extends MainSwitchers
 
         $this->views( $html, 
             [
-                'select' => $this->datas->userGroup(),
+                'select' => $this->data->usersGroup(),
                 'auth' => static::class('session'),
                 'reponse' => $this->ans,
                 'alert' => $this->alert

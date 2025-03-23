@@ -90,11 +90,11 @@ trait getAndUpdateRights
     
     /**
      * Request to select user rights by user type.
-     * @param int $idUserGroup
+     * @param int $idusersGroup
      * @return array
      */
     private function showYediadiahRights(
-        int $idUserGroup
+        int $idusersGroup
     ): array{
 
         $result = [];
@@ -102,7 +102,7 @@ trait getAndUpdateRights
 
        foreach ($jsonFileDatas as $key => $value) {
            
-            if (is_array($value) && $value['usersRightsGroup'] == $idUserGroup) {
+            if (is_array($value) && $value['usersRightsGroup'] == $idusersGroup) {
                 $result[] = $value;
             }
         }

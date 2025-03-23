@@ -13,8 +13,10 @@ class ConfigDashboardPages extends ConfigUsersMainPages
      * @param string $key|null
      * @return string
      */
-    public function admin(?int $key = null, ?string $url = null)
-    {
+    public function admin(
+        int|null $key = null, 
+        string|null $url = null
+    ):string{
 
         if ($key !== null) {
 
@@ -34,7 +36,7 @@ class ConfigDashboardPages extends ConfigUsersMainPages
     /** 
      * Login interface manager
      */
-    public function identification()
+    public function identification():string
     {
 
         $this->interface = 'users/edit_users_infos/';

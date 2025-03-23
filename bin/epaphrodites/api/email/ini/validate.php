@@ -41,7 +41,7 @@ trait validate{
         ];
     }
    
-/**
+    /**
      * Vérifie si une adresse email est valide
      */
     private function isValidEmail(string $email): bool {

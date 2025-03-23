@@ -52,7 +52,7 @@ class SendMail extends config
 
             $sendResult = $this->processBatches($validContacts);
             
-            $result = array_merge($result, $sendResult);
+            return $result = array_merge($result, $sendResult);
 
         } catch (Exception $e) {
             $this->handleError("Critical error: " . $e->getMessage());
