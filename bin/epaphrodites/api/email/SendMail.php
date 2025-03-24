@@ -16,7 +16,7 @@ class SendMail extends config
      * @param null|string $file
      * @return bool
      */
-    public function sendEmail(
+    private function sendEmailByPhp(
         array $contacts = [], 
         string $msgHeader = '', 
         string $msgContent = '', 
@@ -52,6 +52,39 @@ class SendMail extends config
         } catch (Exception $e) {
             error_log("Email sending error: " . $e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * To use this function, you must install python 3
+     * and run this commande "pip install googletrans==4.0.0-rc1"
+     * @param mixed $text
+     * @param string $lang
+     * @return mixed
+     */
+    private function sendEmailByPython(
+        string $text, 
+        string $lang
+    ){
+
+        if (empty($text)&&empty($lang)) {
+            throw new Exception("verify your content text ans abrevation language");
+        }
+
+        return static::initConfig()['python']->executePython('translatWords', ["text" => $text , "lang"=>$lang ]);
+    }  
+    
+    public function sendEmail(
+        array $contacts = [], 
+        string $msgHeader = '', 
+        string $msgContent = '', 
+        string|null $file = null
+    ): bool 
+    {
+        if(__EMAIL_METHOD__ == 'python'){
+            return false;
+        }else{
+            return $this->sendEmailByPhp($contacts, $msgHeader, $msgContent, $file);
         }
     }
 }
