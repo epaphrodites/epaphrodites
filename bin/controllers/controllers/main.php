@@ -79,7 +79,7 @@ final class main extends MainSwitchers
     ):void
     {
 
-        if (static::isValidMethod()) {
+        if (static::isValidMethod(true)) {
 
             static::initConfig()['otp']->verificateOTP(
                 static::getPost('__otp__')
