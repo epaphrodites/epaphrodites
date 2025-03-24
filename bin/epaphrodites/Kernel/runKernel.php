@@ -79,7 +79,7 @@ class runKernel extends ConfigHttp
          * Force users to users to verificate OTP
          * @return string
          */
-        if ( !empty(static::class('session')->email()) && static::class('session')->otpVerification() == 1 && _OTP_METHOD_ == true) {
+        if ( !empty(static::class('session')->email()) && static::class('session')->otpVerification() == 1 && _OTP_METHOD_ == true && static::class('session')->otpAuthentification() == false ) {
 
             $this->GetUrl = (string) $this->InterfaceManager->otpVerification();
         }

@@ -21,8 +21,8 @@ final class main extends MainSwitchers
      */
     private function initializeObjects(): void
     {
-        $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
         $this->visit = $this->getObject(static::$initNamespace, 'visit');
+        $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
     }
 
     /**
@@ -79,8 +79,11 @@ final class main extends MainSwitchers
     ):void
     {
 
-        if (static::isValidMethod(true)) {
+        if (static::isValidMethod()) {
 
+            static::initConfig()['otp']->verificateOTP(
+                static::getPost('__otp__')
+            );
         }
 
         $this->views($html, 

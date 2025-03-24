@@ -20,7 +20,7 @@ class SendMail extends config
         array $contacts = [], 
         string $msgHeader = '', 
         string $msgContent = '', 
-        ?string $file = null
+        string|null $file = null
     ): bool 
     {
         try {
@@ -54,6 +54,4 @@ class SendMail extends config
             return false;
         }
     }
-    
-    
 }

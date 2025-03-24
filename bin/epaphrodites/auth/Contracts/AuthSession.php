@@ -41,8 +41,22 @@ interface AuthSession
     public function otp():string|null;
 
     /**
+     * @return int|null
+     */    
+    public function otpVerification():int|null;
+
+    /**
+     * @return bool
+     */    
+    public function otpAuthentification():bool;   
+    
+    /**
+     * @return int|null
+     */    
+    public function otpConfirmation():int|null;    
+
+    /**
      * @return mixed
      */    
     public function token_csrf():mixed;
-
 }
