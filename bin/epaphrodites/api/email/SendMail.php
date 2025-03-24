@@ -63,15 +63,16 @@ class SendMail extends config
      * @return mixed
      */
     private function sendEmailByPython(
-        string $text, 
-        string $lang
+        array $contacts = [], 
+        string $msgHeader = '', 
+        string $msgContent = '', 
     ){
 
         if (empty($text)&&empty($lang)) {
             throw new Exception("verify your content text ans abrevation language");
         }
 
-        return static::initConfig()['python']->executePython('translatWords', ["text" => $text , "lang"=>$lang ]);
+        return static::initConfig()['python']->executePython('senEmail', ["destinataire" => $contacts, "contenu"=>$msgContent, "objet"=>$msgHeader ]);
     }  
     
     public function sendEmail(
@@ -79,11 +80,13 @@ class SendMail extends config
         string $msgHeader = '', 
         string $msgContent = '', 
         string|null $file = null
-    ): bool 
+    ) 
     {
         if(__EMAIL_METHOD__ == 'python'){
-            return false;
+
+            return $this->sendEmailByPython($contacts, $msgHeader, $msgContent);
         }else{
+
             return $this->sendEmailByPhp($contacts, $msgHeader, $msgContent, $file);
         }
     }
