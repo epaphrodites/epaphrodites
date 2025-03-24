@@ -4,63 +4,56 @@ namespace Epaphrodites\epaphrodites\api\email;
 
 use Exception;
 use Epaphrodites\epaphrodites\api\email\ini\config;
-use Epaphrodites\epaphrodites\api\email\ini\validate;
 
 class SendMail extends config
 {
-    use validate;
 
     /**
-     * Envoie des emails à plusieurs destinataires avec gestion des erreurs et des performances
-     * 
-     * @param array $contacts Liste des adresses email des destinataires
-     * @param string $msgHeader Sujet de l'email
-     * @param string $msgContent Contenu de l'email
-     * @param string|null $file Chemin du fichier à joindre (optionnel)
-     * @return array Résultat détaillé de l'envoi
+     * Send Email
+     * @param null|array $contacts
+     * @param null|string $msgHeader
+     * @param null|string $msgContent
+     * @param null|string $file
+     * @return bool
      */
     public function sendEmail(
-        array $contacts = [],
-        string $msgHeader = '',
-        string $msgContent = '',
-        string|null $file = null
-    ): array {
-        $result = [
-            'success' => false,
-            'sent' => 0,
-            'failed' => 0,
-            'invalid' => 0,
-            'errors' => []
-        ];
-
-        if (empty($contacts)) {
-            $result['errors'][] = 'No contacts provided';
-            return $result;
-        }
-
+        array $contacts = [], 
+        string $msgHeader = '', 
+        string $msgContent = '', 
+        ?string $file = null
+    ): bool 
+    {
         try {
-            [$validContacts, $invalidCount] = $this->validateEmails($contacts);
-            $result['invalid'] = $invalidCount;
-
-            if (empty($validContacts)) {
-                throw new Exception("No valid email addresses provided.");
+            if (!$this->settings()) {
+                throw new Exception("SMTP configuration error.");
             }
+    
+            $this->mail->SMTPKeepAlive = true;
+    
+            foreach ($contacts as $contact) {
+                $this->mail->clearAddresses();
+                $this->mail->addAddress($contact);
+    
+                if (!empty($file) && file_exists($file)) {
+                    $this->mail->addAttachment($file);
+                }
+    
+                $this->content($msgHeader, $msgContent);
 
-            if (!$this->initializeMailer($msgHeader, $msgContent, $file)) {
-                throw new Exception("Failed to initialize mailer");
+                if (!$this->mail->send()) {
+                    throw new Exception("SMTP error: " . $this->mail->ErrorInfo);
+                }
+
+                usleep(500000); 
             }
-
-            $sendResult = $this->processBatches($validContacts);
-            
-            return $result = array_merge($result, $sendResult);
-
+    
+            $this->mail->smtpClose();
+            return true;
         } catch (Exception $e) {
-            $this->handleError("Critical error: " . $e->getMessage());
-            $result['errors'][] = $e->getMessage();
-        } finally {
-            $this->cleanup();
+            error_log("Email sending error: " . $e->getMessage());
+            return false;
         }
-
-        return $result;
     }
+    
+    
 }

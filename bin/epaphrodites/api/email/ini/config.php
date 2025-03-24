@@ -20,7 +20,7 @@ class config
     {
         try {
             // Enable SMTP debugging (optional)
-            $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            #$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
 
             // Use SMTP for sending emails
             $this->mail->isSMTP();
@@ -50,10 +50,8 @@ class config
         }
     }
 
-    protected function content(
-        string $msgHeader, 
-        string $msgContent
-    ){
+    protected function content(string $msgHeader, string $msgContent)
+    {
         // Set email format to HTML
         $this->mail->isHTML(true);
 

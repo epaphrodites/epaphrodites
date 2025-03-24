@@ -75,8 +75,6 @@ body {
     width: 30%;
     box-shadow: var(--box-shadow-three);
     padding: 17px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
     background: #ffffff;
 }
 

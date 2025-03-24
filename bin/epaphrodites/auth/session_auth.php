@@ -132,7 +132,20 @@ class session_auth implements AuthSession
         return !empty($this->config->GetSessions(_AUTH_VERIFY_))
                                     ? $this->config->GetSessions(_AUTH_VERIFY_) 
                                     : NULL;
-    }        
+    }   
+    
+    /**
+     * 
+     * User session otp activation
+     * @return int|null
+     */
+    public function otpConfirmation():int|null
+    {
+        
+        return !empty($this->config->GetSessions(_AUTH_VERIFY_))
+                                    ? $this->config->GetSessions(_AUTH_VERIFY_) 
+                                    : NULL;
+    } 
 
     /**
      * 

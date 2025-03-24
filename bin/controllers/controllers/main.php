@@ -6,9 +6,10 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class main extends MainSwitchers
 {
+    private object $visit;
+    private object $session;
     private string $ans = '';
     private string $alert = '';
-    private object $visit;
 
     public function __construct()
     {
@@ -20,11 +21,13 @@ final class main extends MainSwitchers
      */
     private function initializeObjects(): void
     {
+        $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
         $this->visit = $this->getObject(static::$initNamespace, 'visit');
     }
 
     /**
      * Index page
+     * 
      * @param string $html
      * @return void
      */
@@ -63,5 +66,27 @@ final class main extends MainSwitchers
                 'reponse' => $this->ans
             ]
         );
+    }
+
+    /**
+     * OTP verification page
+     * 
+     * @param string $html
+     * @return void
+     */
+    public final function confirmOtpCodeSendByEmail(
+        string $html
+    ):void
+    {
+
+        if (static::isValidMethod(true)) {
+
+        }
+
+        $this->views($html, 
+        [
+            'email' => $this->session->email()
+        ]
+    );
     }
 }

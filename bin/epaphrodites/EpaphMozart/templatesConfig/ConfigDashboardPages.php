@@ -45,12 +45,12 @@ class ConfigDashboardPages extends ConfigUsersMainPages
     } 
     
     /** 
-     * Login interface manager
+     * OTP verification interface manager
      */
     public function otpVerification():string
     {
 
-        $this->interface = 'setting/send_otp_code_by_email/';
+        $this->interface = _FAKE_."confirm_otp_code_send_by_email/";
 
         return $this->interface;
     }  
