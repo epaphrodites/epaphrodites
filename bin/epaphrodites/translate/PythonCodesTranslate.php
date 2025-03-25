@@ -17,17 +17,17 @@ class PythonCodesTranslate extends GeneralConfig
      * @return mixed
      */
     public function executePython(
-        ?string $pyFunction = null, 
+        string|null $pyFunction = null, 
         array $datas = []
     ):mixed{
         $getJsonContent = $this->loadJsonConfig();
-
+     
         if (!empty($getJsonContent[$pyFunction])) {
 
             $scriptInfo = $getJsonContent[$pyFunction];
 
             $mergedDatas = array_merge(['function' => $scriptInfo["function"]], $datas);
-
+            
             return $this->pythonSystemCode(_PYTHON_FILE_FOLDERS_ . $scriptInfo["script"], $mergedDatas);
         } else {
             return false;

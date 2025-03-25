@@ -1,42 +1,36 @@
 import os
 import sys
 import json
+import base64
 import smtplib
 import configparser
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
+sys.path.append('bin/epaphrodites/python/config/')
+from initJsonLoader import InitJsonLoader
+
 # Résolution du chemin du fichier de configuration
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), '..', 'bin/config', 'email.ini')
+#CONFIG_PATH = os.path.join(os.path.dirname(__file__), '..', 'bin/config', 'email.ini')
 
 class SendEmail:
     @staticmethod
-    def configurer_email(fichier_config=CONFIG_PATH):
-        """
-        Lire la configuration email depuis un fichier INI
-        :param fichier_config: Chemin du fichier de configuration
-        :return: Dictionnaire de configuration
-        """
-        # Vérification de l'existence du fichier de configuration
-        if not os.path.exists(fichier_config):
-            raise FileNotFoundError(f"Le fichier de configuration {fichier_config} n'existe pas.")
-        
-        config = configparser.ConfigParser()
-        config.read(fichier_config)
-        
+    def configurer_email():
+
         return {
-            "server": config['EMAIL']['SERVER'],
-            "port": config.getint('EMAIL', 'PORT'),
-            "users": config['EMAIL']['USER'],
-            "password": config['EMAIL']['PASSWORD'],
-            "no_replay": config['EMAIL'].get('HIDE_EMAIL', config['EMAIL']['USER'])
+            "server": "smtp.hostinger.com",
+            "port": 587,
+            "users": 'smtp@epaphrodite.org',
+            "password": "5?zzC66GSw#E",
+            "no_replay": "no-reply@epaphrodite.org"
         }
 
     @staticmethod
     def envoyer_email(destinataires, sujet, contenu, fichiers=None):
-        config = SendEmail.configurer_email()
         
+        config = SendEmail.configurer_email()
+
         try:
             # Créer le message
             msg = MIMEMultipart()
@@ -78,25 +72,17 @@ def main():
         print("Usage: python send_email.py '<json_values>'")
         sys.exit(1)
     
-    json_values = sys.argv[1]
-    
-    try:
-        json_datas = json.loads(json_values)
-    except json.JSONDecodeError:
-        print("Erreur : Le paramètre d'entrée n'est pas un JSON valide.")
-        sys.exit(1)
-    
-    required_fields = ['destinataire', 'contenu', 'objet']
-    if not all(field in json_datas for field in required_fields):
-        print(f"Erreur : Le JSON doit contenir les champs {', '.join(required_fields)}.")
-        sys.exit(1)
+    json_values_encoded = sys.argv[1]
+
+    json_values_decoded = base64.b64decode(json_values_encoded).decode("utf-8")
+        
+    json_datas = json.loads(json_values_decoded)
     
     try:
         SendEmail.envoyer_email(
             destinataires=json_datas['destinataire'],
             sujet=json_datas['objet'],
-            contenu=json_datas['contenu'],
-            fichiers=json_datas.get('file', [])
+            contenu=json_datas['contenu']
         )
         print("E-mail envoyé avec succès !")
     

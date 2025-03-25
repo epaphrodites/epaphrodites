@@ -72,7 +72,7 @@ class SendMail extends config
             throw new Exception("verify your content text ans abrevation language");
         }
 
-        return $this->pip()->executePython('senEmail', ["destinataire" => [$contacts], "contenu"=>$msgContent, "objet"=>$msgHeader ]);
+        return $this->pip()->executePython('sendEmail', ["destinataire" => $contacts, "contenu"=>$msgContent, "objet"=>$msgHeader ]);
     }  
     
     public function sendEmail(

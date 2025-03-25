@@ -8,7 +8,7 @@
 define('_LANG_', 'eng');
 
 # Python version in use
-define('_PYTHON_', 'python');
+define('_PYTHON_', 'python3');
 
 # Python version in use (php or python)
 define('__EMAIL_METHOD__', 'python');

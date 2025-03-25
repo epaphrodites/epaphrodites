@@ -14,7 +14,7 @@ class epaphroditesOTP{
      * @return void
      */
     public function verificateOTP( 
-        string $otpSending = 'inknow'
+        string $otpSending = 'unknown'
     ):void{
 
         $sessionOTP = $this->epaphroditesClass('session')->otp();
