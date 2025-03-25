@@ -28,23 +28,23 @@ class SendEmail:
 
     @staticmethod
     def envoyer_email(destinataires, sujet, contenu, fichiers=None):
-        
-        config = SendEmail.configurer_email()
 
+        config = SendEmail.configurer_email()
+        
         try:
             # Créer le message
             msg = MIMEMultipart()
             msg['From'] = config["users"]  # Utiliser l'adresse de connexion
             msg['To'] = ", ".join(destinataires)
             
-            # Ajouter un header Reply-To si vous voulez une adresse de réponse différente
+            # Ajouter un header Reply-To si nécessaire
             if config.get('no_replay') and config['no_replay'] != config["users"]:
                 msg.add_header('Reply-To', config['no_replay'])
             
             msg['Subject'] = sujet
             
-            # Ajouter le contenu
-            msg.attach(MIMEText(contenu, 'plain'))
+            # Ajouter le contenu HTML
+            msg.attach(MIMEText(contenu, 'html'))  # <--- Ici on précise 'html'
             
             # Ajouter les pièces jointes
             if fichiers:
@@ -66,6 +66,7 @@ class SendEmail:
         except Exception as e:
             print(f"❌ Erreur lors de l'envoi de l'email: {e}")
             raise
+
 
 def main():
     if len(sys.argv) < 2:
