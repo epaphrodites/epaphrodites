@@ -17,10 +17,10 @@ class SendMail extends config
      * @return bool
      */
     private function sendEmailByPhp(
-        array $contacts = [], 
-        string $msgHeader = '', 
-        string $msgContent = '', 
-        string|null $file = null
+        array $contacts, 
+        string $msgHeader, 
+        string $msgContent, 
+        string|null $file
     ): bool 
     {
         try {
@@ -68,17 +68,17 @@ class SendMail extends config
         string $msgContent = '', 
     ){
 
-        if (empty($text)&&empty($lang)) {
+        if (empty($contacts)&&empty($msgContent)) {
             throw new Exception("verify your content text ans abrevation language");
         }
 
-        return static::initConfig()['python']->executePython('senEmail', ["destinataire" => $contacts, "contenu"=>$msgContent, "objet"=>$msgHeader ]);
+        return $this->pip()->executePython('senEmail', ["destinataire" => [$contacts], "contenu"=>$msgContent, "objet"=>$msgHeader ]);
     }  
     
     public function sendEmail(
-        array $contacts = [], 
-        string $msgHeader = '', 
-        string $msgContent = '', 
+        array $contacts, 
+        string $msgHeader, 
+        string $msgContent, 
         string|null $file = null
     ) 
     {

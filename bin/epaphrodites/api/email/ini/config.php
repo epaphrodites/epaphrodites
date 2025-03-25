@@ -5,6 +5,7 @@ namespace Epaphrodites\epaphrodites\api\email\ini;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Epaphrodites\epaphrodites\translate\PythonCodesTranslate;
 
 class config
 {
@@ -69,5 +70,10 @@ class config
         $content = parse_ini_file($ini, true);
 
         return $content;
+    }
+
+    protected function pip():object{
+
+        return new PythonCodesTranslate;
     }
 }
