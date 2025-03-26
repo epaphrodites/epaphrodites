@@ -51,10 +51,15 @@
             <div class="col-lg-3 mb-3">
                 <div class="row">
                     <div class="col-lg-12">
-                        {{ clock() }}
+                        {{ clock({
+                            days: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+                            lang: "en-GB"
+                        }) }}
                     </div>
                     <div class="col-lg-12">
-                        {{ calendar() }}
+                        {{ calendar({
+                            lang: "en-GB"
+                        }) }}
                     </div>
                     <div class="col-lg-12 mb-12">
                         <div class="card hystory">

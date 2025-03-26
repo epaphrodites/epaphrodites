@@ -24,7 +24,7 @@ class DanhoAuth extends StartUsersSession
 
     if(!empty($login)&&!empty($usersPassword)){
 
-    if ((static::class('verify')->onlyNumberAndCharacter($login, 12)) === false) {
+    if ((static::class('verify')->onlyNumberAndCharacter($login, 15)) === false) {
 
       $result = static::getGuard('sql')->checkUsers($login);
 

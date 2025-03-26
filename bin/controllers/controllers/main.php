@@ -69,7 +69,7 @@ final class main extends MainSwitchers
     }
 
     /**
-     * OTP verification page
+     * OTP verification page (OTP)
      * 
      * @param string $html
      * @return void
