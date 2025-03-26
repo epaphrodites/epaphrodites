@@ -17,7 +17,7 @@ class config
         $this->mail = new PHPMailer(true);
     }
 
-    protected function settings()
+    protected function settings():bool
     {
         try {
             // Enable SMTP debugging (optional)

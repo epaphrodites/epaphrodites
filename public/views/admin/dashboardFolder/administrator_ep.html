@@ -98,20 +98,36 @@
             label: 'Epaphrodite Example Chart',
             datasets: [
                 {
-                    chartType : 'pie',
-                    keyLabel : 'true',
+                    chartType : 'bar',
+                    keyLabel : 'false',
                     keys : [ 'title', 'title1', 'title2', 'title3' ],
                     values : [ 'value', 'value1', 'value2', 'value3' ],
                     data: [
-                        { "value" : 12969, "title" : "BLUE" },
-                        { "value1" : 3530, "title1" : "YELLOW" },
-                        { "value2" : 24593, "title2" : "GREEN" },
-                        { "value3" : 6465, "title3" : "PINK" }
+                        { "value" : 12969, "title" : "JANUARY" },
+                        { "value1" : 3530, "title1" : "FEBRUARY" },
+                        { "value2" : 24593, "title2" : "MARCH" },
+                        { "value3" : 6465, "title3" : "APRIL" }
                     ],
                     border: 0,
                     radius : 0,
                     borderColor: '#d32b01',
-                    color: ['#04a642', '#b2f4a7', '#FCC447', '#dc143c']
+                    color: ['#9bcec6']
+                },
+                {
+                    chartType : 'bar',
+                    keyLabel : 'false',
+                    keys : [ 'title', 'title1', 'title2', 'title3' ],
+                    values : [ 'value', 'value1', 'value2', 'value3' ],
+                    data: [
+                        { "value" : 7969, "title" : "JANUARY" },
+                        { "value1" : 10530, "title1" : "FEBRUARY" },
+                        { "value2" : 14593, "title2" : "MARCH" },
+                        { "value3" : 10465, "title3" : "APRIL" }
+                    ],
+                    border: 0,
+                    radius : 0,
+                    borderColor: '#d32b01',
+                    color: ['#ff7d9f']
                 }
             ]
         } 

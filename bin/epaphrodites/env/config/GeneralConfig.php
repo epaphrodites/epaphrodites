@@ -134,7 +134,8 @@ class GeneralConfig extends ApiStaticKeygen
         if ($this->isBase64($output)) {
             $output = base64_decode($output);
         }
-
+        
+        var_dump($output);die;
         return trim($output);
     }
 

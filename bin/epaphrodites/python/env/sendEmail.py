@@ -1,7 +1,5 @@
 import os
 import sys
-import json
-import base64
 import smtplib
 import configparser
 from email.mime.multipart import MIMEMultipart
@@ -11,42 +9,43 @@ from email.mime.application import MIMEApplication
 sys.path.append('bin/epaphrodites/python/config/')
 from initJsonLoader import InitJsonLoader
 
-# Résolution du chemin du fichier de configuration
-#CONFIG_PATH = os.path.join(os.path.dirname(__file__), '..', 'bin/config', 'email.ini')
+CONFIG_PATH = os.path.join('bin/config', 'email.ini')
 
 class SendEmail:
     @staticmethod
     def configurer_email():
 
+        if not os.path.exists(CONFIG_PATH):
+            raise FileNotFoundError(f"The {CONFIG_PATH} configuration file does not exist.")
+        
+        config = configparser.ConfigParser()
+        config.read(CONFIG_PATH)
+        
         return {
-            "server": "smtp.hostinger.com",
-            "port": 587,
-            "users": 'smtp@epaphrodite.org',
-            "password": "5?zzC66GSw#E",
-            "no_replay": "no-reply@epaphrodite.org"
+            "server": config['EMAIL']['SERVER'],
+            "port": config.getint('EMAIL', 'PORT'),
+            "users": config['EMAIL']['USER'],
+            "password": config['EMAIL']['PASSWORD'],
+            "no_replay": config['EMAIL'].get('HIDE_EMAIL', config['EMAIL']['USER'])
         }
 
     @staticmethod
-    def envoyer_email(destinataires, sujet, contenu, fichiers=None):
+    def send_email(recipient, subject, content, fichiers=None):
 
         config = SendEmail.configurer_email()
         
         try:
-            # Créer le message
             msg = MIMEMultipart()
-            msg['From'] = config["users"]  # Utiliser l'adresse de connexion
-            msg['To'] = ", ".join(destinataires)
+            msg['From'] = config["users"]
+            msg['To'] = ", ".join(recipient)
             
-            # Ajouter un header Reply-To si nécessaire
             if config.get('no_replay') and config['no_replay'] != config["users"]:
                 msg.add_header('Reply-To', config['no_replay'])
             
-            msg['Subject'] = sujet
+            msg['Subject'] = subject
             
-            # Ajouter le contenu HTML
-            msg.attach(MIMEText(contenu, 'html'))  # <--- Ici on précise 'html'
+            msg.attach(MIMEText(content, 'html'))
             
-            # Ajouter les pièces jointes
             if fichiers:
                 for fichier in fichiers:
                     if os.path.exists(fichier):
@@ -55,37 +54,36 @@ class SendEmail:
                             piece_jointe.add_header('Content-Disposition', 'attachment', filename=os.path.basename(fichier))
                             msg.attach(piece_jointe)
             
-            # Connexion et envoi
             with smtplib.SMTP(config["server"], config["port"]) as server:
                 server.starttls()
                 server.login(config["users"], config["password"])
                 server.send_message(msg)
-            
-            print("✅ Email envoyé avec succès !")
         
         except Exception as e:
-            print(f"❌ Erreur lors de l'envoi de l'email: {e}")
+            print(f"Error sending email: {e}")
             raise
 
-
 def main():
+    
     if len(sys.argv) < 2:
-        print("Usage: python send_email.py '<json_values>'")
+        print("Usage: python sendEmail.py '<json_values>'")
         sys.exit(1)
     
     json_values_encoded = sys.argv[1]
 
-    json_values_decoded = base64.b64decode(json_values_encoded).decode("utf-8")
-        
-    json_datas = json.loads(json_values_decoded)
+    json_datas = InitJsonLoader.loadJsonValues(json_values_encoded, ',')
+    
+    if 'recipient' not in json_datas or 'subject' not in json_datas or 'content' not in json_datas:
+        print("The JSON file must contain 'recipient', 'subject' and 'content'.")
+        sys.exit(1)
     
     try:
-        SendEmail.envoyer_email(
-            destinataires=json_datas['destinataire'],
-            sujet=json_datas['objet'],
-            contenu=json_datas['contenu']
+        SendEmail.send_email(
+            recipient=json_datas['recipient'],
+            subject=json_datas['subject'],
+            content=json_datas['content']
         )
-        print("E-mail envoyé avec succès !")
+        print("E-mail successfully sent!")
     
     except ValueError as e:
         print(str(e))
