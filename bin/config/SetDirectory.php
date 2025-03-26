@@ -8,10 +8,10 @@
 define('_LANG_', 'eng');
 
 # Python version in use
-define('_PYTHON_', 'python3');
+define('_PYTHON_', 'python');
 
 # Python version in use (php or python)
-define('__EMAIL_METHOD__', 'python');
+define('__EMAIL_METHOD__', 'php');
 
 # Config front files
 define('_FRONT_', '.html');
