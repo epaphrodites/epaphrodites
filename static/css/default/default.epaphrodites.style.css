@@ -16,6 +16,7 @@
     --main-text-color : #333;
     --color-blue-other : #1e253a;
     --color-white-other : #fcfbfb;
+    --gauge-background : #fff;
 
     /* Main font-size */
     --main-size: 0.9rem;
@@ -887,4 +888,40 @@ select[disabled] {
 .calendar-day.empty:hover {
   background: transparent;
   color: var(--dark-color);
+}
+
+.gauge-container {
+  width: 125px;
+  height: 125px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.gauge {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.5s linear;
+}
+
+.gauge::before {
+  content: "";
+  width: 75%;
+  height: 75%;
+  background: var(--gauge-background);
+  border-radius: 50%;
+  position: absolute;
+}
+
+.gauge span {
+  position: absolute;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--color-red);
 }

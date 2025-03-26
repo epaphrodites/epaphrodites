@@ -94,3 +94,11 @@
         document.addEventListener('DOMContentLoaded', generateCalendar);
     </script>
 {% endmacro %}
+
+{% macro progressMeter(options) %}
+    <div class="gauge-container">
+        <div class="gauge" id="gauge" data-progress="{{ options.indicator }}">
+            <span id="percentage">0%</span>
+        </div>
+    </div>
+{% endmacro %}

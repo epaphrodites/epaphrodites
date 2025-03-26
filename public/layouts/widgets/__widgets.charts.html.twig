@@ -115,14 +115,13 @@
 {# --- Chart --- #}
 {% macro charts(chartOptions) %}
     <script>
-        
         function isLightColor(color) {
             const rgb = hexToRgb(color);
             if (!rgb) return true;
             const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
             return luminance > 0.5;
         }
-
+    
         function hexToRgb(hex) {
             if (!hex) return null;
             if (hex.startsWith('rgb')) {
@@ -148,9 +147,16 @@
             }
             return null;
         }
-
+    
+        function generateDefaultColors(count) {
+            const palette = [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                '#FF9F40', '#8AC24A', '#F06292', '#7986CB', '#A1887F'
+            ];
+            return palette.slice(0, Math.min(count, palette.length));
+        }
+    
         document.addEventListener('DOMContentLoaded', function () {
-            
             var pourcentage = {{ chartOptions.pourcentage is defined ? chartOptions.pourcentage|lower : 'true' }};
             var chartOptionsData = {{ chartOptions.datasets|json_encode|raw }};
             var id = "{{ chartOptions.id is defined ? chartOptions.id|e('js') : 'epaphroditeChart' }}";
@@ -164,60 +170,58 @@
             var inheritedTextColor = computedStyle.color || 'inherit';
             var inheritedBackgroundColor = computedStyle.backgroundColor || 'transparent';
 
-            var keyLabel = chartOptionsData[0].keyLabel ?? true;
-            var globalLabels = chartOptionsData[0].keys.map(function(key) {
-                if (keyLabel) {
-                    return chartOptionsData[0].data.find(item => item[key] !== undefined)?.[key] || key;
-                }
-                return key;
+            var dataset = chartOptionsData[0];
+            var itemCount = Math.min(dataset.keys.length, dataset.values.length);
+
+            var globalLabels = dataset.data.slice(0, itemCount).map((item, index) => {
+                return item[dataset.keys[index]] || '';
             });
 
             var datasets = chartOptionsData.map(function(dataset) {
-                var totalDataset = dataset.data.reduce(function(sum, item) {
-                    return sum + dataset.values.reduce(function(subSum, valueKey) {
-                        return subSum + (item[valueKey] !== undefined ? item[valueKey] : 0);
-                    }, 0);
+                var limitedData = dataset.data.slice(0, itemCount);
+                var totalDataset = limitedData.reduce(function(sum, item, index) {
+                    return sum + (item[dataset.values[index]] || 0);
                 }, 0);
 
-                var originalValues = dataset.values.map(function(valueKey) {
-                    return dataset.data.reduce(function(sum, item) {
-                        const value = item[valueKey] !== undefined ? item[valueKey] : 0;
-                        return sum + value;
-                    }, 0);
-                });
+                var chartType = dataset.chartType || 'bar';
+                var isPieLike = ['pie', 'doughnut'].includes(chartType);
+                var isBarOrLine = ['bar', 'line'].includes(chartType);
 
-                var data = dataset.values.map(function(valueKey) {
-                    return dataset.data.reduce(function(sum, item) {
-                        const value = item[valueKey] !== undefined ? item[valueKey] : 0;
-                        return sum + (pourcentage && totalDataset > 0 ? (value / totalDataset * 100) : value);
-                    }, 0);
-                });
+                var backgroundColors = (dataset.color || generateDefaultColors(itemCount)).slice(0, itemCount);
+                if (isBarOrLine && dataset.legendLabels) {
+                    backgroundColors = Array(itemCount).fill(dataset.color ? dataset.color[0] : generateDefaultColors(1)[0]);
+                }
 
-                var backgroundColors = dataset.color || [];
-                var borderColors = dataset.color 
-                    ? dataset.color.map(color => color.startsWith('#') ? color : color) 
-                    : backgroundColors.map(color => color.replace(/0.2\)$/, "1)"));
-
+                var borderColors = backgroundColors.map(color => 
+                    color.startsWith('rgba') ? color.replace(/[\d\.]+\)$/, '1)') : color
+                );
                 var textColors = backgroundColors.map(color => 
-                    isLightColor(color) ? '#000000' : '#ffffff'
+                    isLightColor(color) ? '#000000' : '#FFFFFF'
                 );
 
-                return {
-                    label: dataset.values,
-                    data: data,
-                    originalValues: originalValues,
-                    backgroundColor: backgroundColors.length ? backgroundColors : ['rgba(54, 162, 235, 0.2)'],
-                    borderColor: borderColors.length ? borderColors : ['rgba(54, 162, 235, 1)'],
-                    textColor: textColors,
-                    type: dataset.chartType || 'bar',
-                    borderWidth: dataset.border || 1,
-                    keys: dataset.keys || []
-                };
-            });
+                var legendLabel = dataset.label || dataset.keys.slice(0, itemCount).join(' vs ');
+                if (isBarOrLine && dataset.legendLabels) {
+                    legendLabel = dataset.legendLabels.slice(0, itemCount);
+                }
 
-            generateChart(id, globalLabels, datasets, chartLabel, indexAxis, position, pourcentage, inheritedTextColor, inheritedBackgroundColor);
+                return {
+                    label: isBarOrLine && dataset.legendLabels ? legendLabel : [legendLabel],
+                    data: limitedData.map((item, index) => {
+                        const value = item[dataset.values[index]] || 0;
+                        return pourcentage && totalDataset > 0 ? (value / totalDataset * 100) : value;
+                    }),
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: dataset.border || 1,
+                    textColor: textColors,
+                    type: chartType,
+                    originalValues: limitedData.map((item, index) => item[dataset.values[index]] || 0)
+                };
         });
 
+        generateChart(id, globalLabels, datasets, chartLabel, indexAxis, position, pourcentage, inheritedTextColor, inheritedBackgroundColor);
+    });
+    
         function generateChart(chartId, labels, datasets, chartLabel, indexAxis, position, pourcentage, inheritedTextColor, inheritedBackgroundColor) {
             var ctx = document.getElementById(chartId).getContext('2d');
             new Chart(ctx, {
@@ -234,13 +238,8 @@
                     scales: ['pie', 'doughnut'].includes(datasets[0].type) ? {} : {
                         x: { 
                             beginAtZero: true,
-                            grid: {
-                                display: false,
-                                color: 'transparent'
-                            },
-                            ticks: {
-                                color: inheritedTextColor
-                            }
+                            grid: { display: false, color: 'transparent' },
+                            ticks: { color: inheritedTextColor }
                         },
                         y: {
                             beginAtZero: true,
@@ -250,9 +249,7 @@
                                     return pourcentage ? value + '%' : value;
                                 }
                             },
-                            grid: {
-                                color: 'rgba(0,0,0,0.1)'
-                            }
+                            grid: { color: 'rgba(0,0,0,0.1)' }
                         }
                     },
                     plugins: {
@@ -271,15 +268,11 @@
                             bodyColor: inheritedTextColor,
                             borderColor: inheritedTextColor,
                             callbacks: {
-                                label: function (tooltipItem) {
+                                label: function(tooltipItem) {
                                     const dataset = tooltipItem.dataset;
                                     const index = tooltipItem.dataIndex;
-                                    const labelKey = tooltipItem.label;
-                                    
                                     const originalValue = dataset.originalValues[index];
-                                    const formattedValue = originalValue.toLocaleString();
-                                    
-                                    return `${labelKey} : ${formattedValue}`;
+                                    return `${labels[index]}: ${originalValue.toLocaleString()}`;
                                 }
                             }
                         },
@@ -288,24 +281,20 @@
                             display: true,
                             text: chartLabel,
                             padding: 10,
-                            font: {
-                                weight: 'bold',
-                                size: 17
-                            }
+                            font: { weight: 'bold', size: 17 }
                         },
                         datalabels: {
                             display: true,
                             align: 'center',
                             color: function(context) {
-                                const backgroundColor = context.dataset.backgroundColor[context.dataIndex];
-                                return isLightColor(backgroundColor) ? '#000000' : '#ffffff';
+                                return context.dataset.textColor?.[context.dataIndex] || 
+                                    (isLightColor(context.dataset.backgroundColor[context.dataIndex]) ? '#000000' : '#FFFFFF');
                             },
-                            font: {
-                                weight: 'bold',
-                                size: 14
-                            },
-                            formatter: function (value) {
-                                return pourcentage ? value.toFixed(0) + '%' : value;
+                            font: { weight: 'bold', size: 14 },
+                            formatter: function(value, context) {
+                                return pourcentage 
+                                    ? value.toFixed(0) + '%' 
+                                    : context.dataset.originalValues?.[context.dataIndex] || value;
                             }
                         }
                     }

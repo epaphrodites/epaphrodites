@@ -1,13 +1,13 @@
 {% extends layouts %}
 {% from charts import charts, echarts, xChart, scattedChart %}
-{% from tools import clock, calendar %}
+{% from tools import clock, calendar, progressMeter %}
 {% block content %}
 
     <div class="container-fluid dashboard">
         <div class="row">
             <div class="col-lg-9 mb-9">
                 <div class="row">
-                    <div class="col-lg-6 mb-6">
+                    <div class="col-lg-4 mb-6">
                         <div class="card menuUsers">
                             <div class="card-body">
                                 <p class="card-text" id="count"><strong>0{{ data.usersGroup()|length }}</strong></p>
@@ -15,12 +15,20 @@
                             <h4 class="card-header"><i class="bi bi-gear"></i> USERS GROUP</h4>
                         </div>
                     </div>
-                    <div class="col-lg-6 mb-3">
+                    <div class="col-lg-4 mb-3">
                         <div class="card menuUsers">
                             <div class="card-body">
                                 <p class="card-text" id="count"><strong>{{ count.sqlCountAllUsers }}</strong></p>
                             </div>
                             <h4 class="card-header"><i class="bi bi-people"></i> USERS</h4>
+                        </div>
+                    </div> 
+                    <div class="col-lg-4 mb-3">
+                        <div class="card menuUsers">
+                            {{ progressMeter({
+                                indicator : 7500/100
+                            }) }}
+                            <h4 class="card-header"><i class="bi bi-people"></i> PROGRESS INDICATOR</h4>
                         </div>
                     </div> 
                     <div class="col-lg-12 mb-15" id="dashChart">
@@ -99,35 +107,35 @@
             datasets: [
                 {
                     chartType : 'bar',
-                    keyLabel : 'false',
+                    legendLabels: ['First screening'],
                     keys : [ 'title', 'title1', 'title2', 'title3' ],
                     values : [ 'value', 'value1', 'value2', 'value3' ],
                     data: [
                         { "value" : 12969, "title" : "JANUARY" },
                         { "value1" : 3530, "title1" : "FEBRUARY" },
-                        { "value2" : 24593, "title2" : "MARCH" },
+                        { "value2" : 20593, "title2" : "MARCH" },
                         { "value3" : 6465, "title3" : "APRIL" }
                     ],
                     border: 0,
                     radius : 0,
                     borderColor: '#d32b01',
-                    color: ['#9bcec6']
+                    color: ['#ff7d9f']
                 },
                 {
                     chartType : 'bar',
-                    keyLabel : 'false',
+                    legendLabels: ['Second screening'],
                     keys : [ 'title', 'title1', 'title2', 'title3' ],
                     values : [ 'value', 'value1', 'value2', 'value3' ],
                     data: [
                         { "value" : 7969, "title" : "JANUARY" },
-                        { "value1" : 10530, "title1" : "FEBRUARY" },
-                        { "value2" : 14593, "title2" : "MARCH" },
-                        { "value3" : 10465, "title3" : "APRIL" }
+                        { "value1" : 8530, "title1" : "FEBRUARY" },
+                        { "value2" : 15593, "title2" : "MARCH" },
+                        { "value3" : 16465, "title3" : "APRIL" }
                     ],
                     border: 0,
                     radius : 0,
                     borderColor: '#d32b01',
-                    color: ['#ff7d9f']
+                    color: ['#f6ca6c']
                 }
             ]
         } 
