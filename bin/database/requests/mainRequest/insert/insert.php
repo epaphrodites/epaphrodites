@@ -10,21 +10,21 @@ final class insert extends InsertInsert
     /**
      * Add users rights
      * 
-     * @param int|null $userGroup
+     * @param int|null $usersGroup
      * @param string|null $pages
      * @param string|null $actions
      * @return bool
      */
     public function AddUsersRights(
-      int|null $userGroup = null, 
+      int|null $usersGroup = null, 
       string|null $pages = null, 
       string|null  $actions = null
     ):bool{
 
-      if (static::initConfig()['addright']->AddUsersRights($userGroup, $pages, $actions) === true) {
+      if (static::initConfig()['addright']->AddUsersRights($usersGroup, $pages, $actions) === true) {
         
             $config = static::initQuery()['setting'];
-            $actions = "Assign a right to the user group : " . static::initNamespace()['datas']->userGroup($userGroup);
+            $actions = "Assign a right to the user group : " . static::initNamespace()['datas']->usersGroup($usersGroup, 'label');
 
             match (_FIRST_DRIVER_) {
 
@@ -72,20 +72,20 @@ final class insert extends InsertInsert
   /**
    * Add a new users
    * @param string $login
-   * @param int $userGroup
+   * @param int $usersGroup
    * @return bool
    */
   public function addUsers(
     string $login, 
-    int $userGroup
+    int $usersGroup
   ):bool{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqladdUsers($login , $userGroup),
-      'redis' => $this->noSqlRedisAddUsers($login , $userGroup),
+      'mongodb' => $this->noSqladdUsers($login , $usersGroup),
+      'redis' => $this->noSqlRedisAddUsers($login , $usersGroup),
 
-      default => $this->sqlAddUsers($login , $userGroup),
+      default => $this->sqlAddUsers($login , $usersGroup),
     };    
   } 
   
@@ -93,21 +93,21 @@ final class insert extends InsertInsert
    * Add a new users from console
    * @param string $login
    * @param string $password
-   * @param int $UserGroup
+   * @param int $usersGroup
    * @return array
    */
   public function ConsoleAddUsers(
     string $login,
     string $password,
-    int $UserGroup
+    int $usersGroup
   ):bool{
 
     return match (_FIRST_DRIVER_) {
 
-      'mongodb' => $this->noSqlConsoleAddUsers($login , $password, $UserGroup),
-      'redis' => $this->noSqlRedisConsoleAddUsers($login , $password, $UserGroup),
+      'mongodb' => $this->noSqlConsoleAddUsers($login , $password, $usersGroup),
+      'redis' => $this->noSqlRedisConsoleAddUsers($login , $password, $usersGroup),
 
-      default => $this->sqlConsoleAddUsers($login , $password, $UserGroup),
+      default => $this->sqlConsoleAddUsers($login , $password, $usersGroup),
     };     
   }  
 

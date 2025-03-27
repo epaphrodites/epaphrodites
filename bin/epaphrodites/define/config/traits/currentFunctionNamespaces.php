@@ -57,6 +57,7 @@ trait currentFunctionNamespaces
             'xls' => new \PhpOffice\PhpSpreadsheet\Reader\Xls,
             'xlsx' => new \PhpOffice\PhpSpreadsheet\Reader\Xlsx,
             'auth' => new \Epaphrodites\epaphrodites\danho\DanhoAuth,
+            'otp' => new \Epaphrodites\epaphrodites\auth\epaphroditesOTP,
             'guard' => new \Epaphrodites\epaphrodites\danho\GuardPassword,
             'addright' => new \Epaphrodites\epaphrodites\yedidiah\AddRights,
             'process' => new \Epaphrodites\database\config\process\process,

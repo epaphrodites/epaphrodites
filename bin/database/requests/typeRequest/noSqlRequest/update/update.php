@@ -19,7 +19,8 @@ class update extends Builders
     public function noSqlUpdateUserDatas(
         string $usersname, 
         string $email, 
-        string $number
+        string $number,
+        int $otpStatut
     ): bool
     {
 
@@ -34,6 +35,7 @@ class update extends Builders
                 'email' => $email,
                 'namesurname' => $usersname,
                 'state' => 1,
+                'otp' => $otpStatut
             ],
         ];   
 
@@ -72,7 +74,8 @@ class update extends Builders
     public function noSqlRedisUpdateUserDatas(
         string $usersname, 
         string $email, 
-        string $number
+        string $number,
+        int $otpStatut
     ): bool
     {
 
@@ -83,6 +86,7 @@ class update extends Builders
             'email' => $email,
             'namesurname' => $usersname,
             'state' => 1,
+            'otp' => $otpStatut
         ];   
 
         $this->key('usersaccount')->index($login)->rset($datas)->updRedis();
@@ -403,13 +407,13 @@ class update extends Builders
      *
      * @param string $login
      * @param string $password
-     * @param int $UserGroup
+     * @param int $usersGroup
      * @return bool
      */
     public function noSqlConsoleUpdateUsers(
         string $login , 
         string $password , 
-        int $UserGroup 
+        int $usersGroup 
     ): bool
     {
         $GetDatas = static::initQuery()['getid']->noSqlGetUsersDatas($login);
@@ -417,12 +421,12 @@ class update extends Builders
         if (!empty($GetDatas)) {
 
             $password = $password !== NULL ? $password : $login;
-            $UserGroup = $UserGroup !== NULL ? $UserGroup : $GetDatas[0]['usersgroup'];
+            $usersGroup = $usersGroup !== NULL ? $usersGroup : $GetDatas[0]['usersgroup'];
 
             $filter = [ 'login' => $login ];
     
             $update = [
-                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $UserGroup ]
+                '$set' => [ 'password' => static::initConfig()['guard']->CryptPassword($password), 'usersgroup' => $usersGroup ]
             ];   
     
             $this->db(1)->selectCollection('usersaccount')->updateMany($filter, $update);

@@ -60,7 +60,7 @@ final class users extends MainSwitchers
 
         if (static::isValidMethod(true)) {
 
-            $this->result = $this->update->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'));
+            $this->result = $this->update->updateUserDatas(static::getPost('__username__'), static::getPost('__email__'), static::getPost('__contact__'), static::getPost('__otpStatus__'));
             
             [$this->ans, $this->alert] = static::Responses(
                 $this->result, [  

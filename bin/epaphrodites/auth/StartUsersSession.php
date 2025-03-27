@@ -15,13 +15,15 @@ class StartUsersSession extends epaphroditeClass
     $authNameSurname, 
     $authContact, 
     $authEmail, 
-    $authUsersGroup
+    $authUsersGroup,
+    $authOTP,
+    $otpVerify
   )
   {
   
     session_status() === PHP_SESSION_ACTIVE ?: session_start();
 
-    static::class('global')->StartSession($authId, $authLogin, $authNameSurname, $authContact, $authEmail, $authUsersGroup);
+    static::class('global')->StartSession($authId, $authLogin, $authNameSurname, $authContact, $authEmail, $authUsersGroup, $authOTP, $otpVerify);
 
     session_regenerate_id();
 

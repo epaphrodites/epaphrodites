@@ -19,7 +19,7 @@
                     {% for select in select %} {% set counter = (counter | default (0))+1 %}
                         <tr>
                             <td class='tblcenter' style="width: 3%">{{ counter|e }}</td>
-                            <td class="text-uppercase" style="width: 20%">{{ select }}</td>
+                            <td class="text-uppercase" style="width: 20%">{{ select.label }}</td>
                             <td style="width: 50%" id="tdTableContent">
                                 <button type="btn" name="__edit__" rel="tooltip" class="btn btn-just-icon btn-sm"><a style="text-decoration:none;" href="{{ __pathId( 'setting@assign_user_access_rights' , { '_see': counter }) }}"><i class="icofont-key"></i> Add Access Rights</a></button>
                                 <button type="btn" name="__edit__" rel="tooltip" class="btn btn-just-icon btn-sm"><a style="text-decoration:none;" href="{{ __pathId( 'setting@list_of_user_rights_management' , { '_see': counter }) }}"><i class="icofont-eye"></i> List of Access Rights</a></button>

@@ -60,6 +60,7 @@ trait sqlServerMigrations
                 contact VARCHAR(10) NULL,
                 email VARCHAR(50) NULL,
                 usersgroup INTEGER NOT NULL DEFAULT '1',
+                otp INTEGER NOT NULL DEFAULT '0',
                 state INTEGER NOT NULL DEFAULT '1'
             );
 

@@ -110,6 +110,58 @@ class session_auth implements AuthSession
 
     /**
      * 
+     * User session otp
+     * @return string
+     */
+    public function otp():string|null
+    {
+        
+        return !empty($this->config->GetSessions(_AUTH_OTP_))
+                                    ? $this->config->GetSessions(_AUTH_OTP_) 
+                                    : NULL;
+    } 
+    
+    /**
+     * 
+     * User session otp activation
+     * @return int|null
+     */
+    public function otpVerification():int|null
+    {
+        
+        return !empty($this->config->GetSessions(_AUTH_VERIFY_))
+                                    ? $this->config->GetSessions(_AUTH_VERIFY_) 
+                                    : NULL;
+    }   
+    
+    /**
+     * 
+     * User session otp Authentification
+     * @return bool
+     */
+    public function otpAuthentification():bool
+    {
+
+        return !empty($this->config->GetSessions(_AUTH_CONFIRM_))
+                                    ? $this->config->GetSessions(_AUTH_CONFIRM_) 
+                                    : false;
+    }      
+
+    /**
+     * 
+     * User session otp confirmation
+     * @return int|null
+     */
+    public function otpConfirmation():int|null
+    {
+        
+        return !empty($this->config->GetSessions(_AUTH_VERIFY_))
+                                    ? $this->config->GetSessions(_AUTH_VERIFY_) 
+                                    : NULL;
+    } 
+
+    /**
+     * 
      * User cookies token_csrf data
      * @var mixed $token_csrf
      * @return mixed

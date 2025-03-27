@@ -59,13 +59,13 @@ class YedidiaGetRights extends epaphroditeClass{
     }
 
     /**
-     * @param int $userGroup
+     * @param int $usersGroup
      * @return array
      */
     public function getUsersRights(
-    int $userGroup
+    int $usersGroup
     ):array{
 
-        return $this->showYediadiahRights($userGroup);
+        return $this->showYediadiahRights($usersGroup);
     }
 }

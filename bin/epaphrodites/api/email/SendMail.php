@@ -3,44 +3,34 @@
 namespace Epaphrodites\epaphrodites\api\email;
 
 use Epaphrodites\epaphrodites\api\email\ini\config;
+use Epaphrodites\epaphrodites\api\email\ini\usingMethod;
 
 class SendMail extends config
 {
 
+    use usingMethod;
+    
     /**
-     * Send Email
-     * @param null|array $contacts
-     * @param null|string $msgHeader
-     * @param null|string $msgContent
-     * @param null|string $file
-     * @return bool
+     * Send mail
+     * 
+     * @param array $contacts
+     * @param string $msgHeader
+     * @param string $msgContent
+     * @param string|null $file
      */
     public function sendEmail(
-        array|null $contacts = null, 
-        string|null $msgHeader = null, 
-        string|null $msgContent = null, 
+        array $contacts, 
+        string $msgHeader, 
+        string $msgContent, 
         string|null $file = null
-    ):bool
+    ) 
     {
-        if ($this->settings() === true) {
-            foreach ($contacts as $contact) {
-                $this->mail->addAddress($contact);
-            }
+        if(__EMAIL_METHOD__ == 'python'){
 
-            // Attachments
-            // if ($file != null) {
-            //    $this->mail->addAttachment(_DIR_FILES_, $file);
-            // }
-
-            $this->content($msgHeader, $msgContent);
-
-            if ($this->mail->send()) {
-                return true;
-            } else {
-                return false;
-            }
+            return $this->sendEmailByPython($contacts, $msgHeader, $msgContent, $file);
         }else{
-            return false;
+
+            return $this->sendEmailByPhp($contacts, $msgHeader, $msgContent, $file);
         }
     }
 }

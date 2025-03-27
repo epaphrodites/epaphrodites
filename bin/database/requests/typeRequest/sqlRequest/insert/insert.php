@@ -12,24 +12,24 @@ class insert extends InsertInsert
      *
      * @param string|null $login
      * @param string|null $password
-     * @param int|null $UserGroup
+     * @param int|null $usersGroup
      * @return bool
      */
     public function sqlConsoleAddUsers(
         string|null $login = null, 
         string|null $password = null, 
-        int|null $UserGroup = null
+        int|null $usersGroup = null
     ):bool
     {
 
-        $UserGroup = $UserGroup !== NULL ? $UserGroup : 1;
+        $usersGroup = $usersGroup !== NULL ? $usersGroup : 1;
 
         if (!empty($login) && count(static::initQuery()['getid']->sqlGetUsersDatas($login)) < 1) {
 
             $this->table('usersaccount')
                 ->insert(' login , password , usersgroup ')
                 ->values(' ? , ? , ? ')
-                ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($password), $UserGroup])
+                ->param([static::initNamespace()['env']->no_space($login), static::initConfig()['guard']->CryptPassword($password), $usersGroup])
                 ->IQuery();
 
             return true;

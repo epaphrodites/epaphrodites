@@ -53,6 +53,7 @@ trait mysqlMigrations
                 email VARCHAR(50) DEFAULT NULL , 
                 usersgroup INTEGER(1) NOT NULL DEFAULT '1' , 
                 state INTEGER(1) NOT NULL DEFAULT '1' , 
+                otp INTEGER(1) NOT NULL DEFAULT '0' , 
                 PRIMARY KEY(_id) , 
                 INDEX (login) )")->setQuery();
     }

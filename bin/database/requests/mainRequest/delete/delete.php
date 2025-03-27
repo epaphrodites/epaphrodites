@@ -14,10 +14,27 @@ final class delete extends DeleteDelete
      * @return bool
     */
     public function DeletedUsersRights(
-        string $idRights
+        string $idRights,
+        int $usersGroup
     ):bool{
 
-        return  static::initConfig()['delright']->DeletedUsersRights($idRights) === true ? true : false;
+        if(static::initConfig()['delright']->DeletedUsersRights($idRights) == true){
+
+            $config = static::initQuery()['setting'];
+            $actions = " Delete this users group rights : " . static::initNamespace()['datas']->usersGroup($usersGroup, 'label');
+    
+            match (_FIRST_DRIVER_) {
+    
+              'mongodb' => $config->noSqlActionsRecente($actions),
+              'redis' => $config->noSqlRedisActionsRecente($actions),
+        
+              default => $config->ActionsRecente($actions),
+            };
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +47,24 @@ final class delete extends DeleteDelete
         int $usersGroup
     ):bool{
 
-        return  static::initConfig()['delright']->EmptyAllUsersRight($usersGroup) === true ? true : false;
+
+        if(static::initConfig()['delright']->EmptyAllUsersRight($usersGroup) == true){
+
+            $config = static::initQuery()['setting'];
+            $actions = " Delete all this users group rights : " . static::initNamespace()['datas']->usersGroup($usersGroup, 'label');
+    
+            match (_FIRST_DRIVER_) {
+    
+              'mongodb' => $config->noSqlActionsRecente($actions),
+              'redis' => $config->noSqlRedisActionsRecente($actions),
+        
+              default => $config->ActionsRecente($actions),
+            };
+
+            return true;
+        }
+
+        return false;
     }    
 
 }
