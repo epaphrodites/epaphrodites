@@ -27,7 +27,7 @@
                                     {
                                         name:'filtre',
                                         init: "Users group",
-                                        datas : data.userGroup,
+                                        datas : data.usersGroup,
                                         onchange : "filterForm();",
                                         class : "dropdown",
                                         position : position
@@ -68,7 +68,9 @@
                             {{ select_field({
                                 init :"USERS GROUP",
                                 name : selected.login|e ~ "__group__",
-                                datas : data.userGroup(),
+                                value : "_id",
+                                selected : "label",
+                                datas : data.usersGroup(),
                                 position : selected.usersgroup|e,
                                 require : true })
                             }}

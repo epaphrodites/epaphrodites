@@ -96,7 +96,7 @@ class get_id extends SelectGet_id
         $login = static::initNamespace()['env']->no_space($login);
 
         $result = $this->table('usersaccount')
-                        ->like('login')
+                        ->where('login')
                         ->param([$login])
                         ->SQuery();
 
@@ -117,7 +117,7 @@ class get_id extends SelectGet_id
         $login = static::initNamespace()['env']->no_space($login);
 
         $result = $this->table('usersaccount')
-                        ->like('login')
+                        ->where('login')
                         ->param([$login])
                         ->SQuery();
 

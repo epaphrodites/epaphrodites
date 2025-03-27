@@ -22,6 +22,7 @@ trait sqLiteMigrations
                 contact TEXT DEFAULT NULL,
                 email TEXT DEFAULT NULL,
                 usersgroup INTEGER NOT NULL DEFAULT 1,
+                otp INTEGER NOT NULL DEFAULT 0,
                 state INTEGER NOT NULL DEFAULT 1)",
                 "CREATE INDEX IF NOT EXISTS 
                     login_index ON usersaccount (login)"

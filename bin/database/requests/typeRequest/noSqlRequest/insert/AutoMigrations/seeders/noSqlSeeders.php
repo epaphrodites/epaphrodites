@@ -18,6 +18,7 @@ trait noSqlSeeders{
       'email' => NULL,
       'usersgroup' => 1,
       'state' => 1,
+      'otp' => 0
     ];
 
     $this->db(1)->selectCollection('usersaccount')->insertOne($document);
@@ -37,6 +38,7 @@ trait noSqlSeeders{
       'email' => NULL,
       'usersgroup' => 1,
       'state' => 1,
+      'otp' => 0
     ];
 
     $this->key('usersaccount')->id('_id')->index('admin')->param($document)->addToRedis();

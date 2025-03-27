@@ -20,6 +20,7 @@ trait oracleMigrations
                 contact VARCHAR2(10) NULL,
                 email VARCHAR2(50) NULL,
                 usersgroup NUMBER DEFAULT 1 NOT NULL,
+                otp NUMBER DEFAULT 0 NOT NULL,
                 state NUMBER DEFAULT 1 NOT NULL)\';
             EXCEPTION
                 WHEN OTHERS THEN

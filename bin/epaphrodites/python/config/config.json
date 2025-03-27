@@ -38,5 +38,9 @@
     "translatWords": {
         "script": "env\/translatWords.py",
         "function": "func_translatWords"
+    },
+    "sendEmail": {
+        "script": "env\/sendEmail.py",
+        "function": "senEmail"
     }
 }

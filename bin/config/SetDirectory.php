@@ -1,14 +1,17 @@
 <?php
 
-/**************************************************************
+/**********************************************************************
  ****************| DEFINE EPAPHRODITES CONSTANT |********************** 
- ***************************************************************/
+ **********************************************************************/
 
 # Config language
 define('_LANG_', 'eng');
 
 # Python version in use
 define('_PYTHON_', 'python');
+
+# Python version in use (php or python)
+define('__EMAIL_METHOD__', 'php');
 
 # Config front files
 define('_FRONT_', '.html');
@@ -120,6 +123,18 @@ define('_AUTH_LOGIN_', 'login');
 
 # Session auth contact
 define('_AUTH_CONTACT_', 'contact');
+
+# Session use OTP method
+define('_OTP_METHOD_', true);
+
+# Session auth OTP
+define('_AUTH_OTP_', 'sessionOTP');
+
+# Session auth OTP Verification
+define('_AUTH_VERIFY_', 'otpVerify');
+
+# Session auth OTP Cinfirmation
+define('_AUTH_CONFIRM_', 'otpConfirm');
 
 # Session auth email
 define('_AUTH_EMAIL_', 'email');
