@@ -40,6 +40,7 @@
                             }) 
                         }}     
                     </div>
+                    
                     <div class="col-md-10">
                         {{ input_field(
                             { 
@@ -53,6 +54,7 @@
                             })  
                         }}
                     </div> 
+
                     <div class="col-md-2">
                         {{ radio_field({
                             mainLabel : 'OTP Method',
@@ -61,7 +63,8 @@
                             values: [ 1, 0],
                             checked: select.otp|e
                         }) }}
-                    </div>                    
+                    </div>   
+
                     <div class="col-md-12">
                         {{ submit({
                             label : 'Save your informations',

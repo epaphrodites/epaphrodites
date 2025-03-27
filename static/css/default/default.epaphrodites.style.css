@@ -945,3 +945,122 @@ select[disabled] {
   font-weight: bold;
   color: var(--color-red);
 }
+
+.editor-container {
+  font-family: 'Arial', sans-serif;
+  border: 1px solid #e0e0e0;
+  padding: 5px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.editor-container .toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  background: linear-gradient(to bottom, #f9f9f9, #f0f0f0);
+  border-bottom: 1px solid #e0e0e0;
+  align-items: center;
+}
+
+.editor-container .toolbar-btn {
+  padding: 6px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  font-size: 20px;
+}
+
+.editor-container .toolbar-btn:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.editor-container .toolbar-btn i {
+  color: #333;
+}
+
+.editor-container .toolbar-btn:hover i {
+  color: var(--color-red);
+}
+
+.editor-container .toolbar select {
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  min-width: 120px;
+}
+
+.editor-container .toolbar select.textSize {
+  min-width: 80px;
+}
+
+.editor-container .toolbar input[type="color"] {
+  border: none;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.editor-container .separator {
+  width: 1px;
+  height: 24px;
+  background: #ddd;
+  margin: 0 8px;
+}
+
+.editor-container .editor {
+  min-height: 400px;
+  max-height: 400px;
+  padding: 10px;
+  background: white;
+  line-height: 1.6;
+  overflow-y: auto;
+  border: 0.5px solid #666;
+}
+
+.editor-container .table-palette {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.editor-container .table-grid {
+  display: inline-block;
+}
+
+.editor-container .table-row {
+  display: flex;
+}
+
+.editor-container .table-cell {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  background: #f0f0f0;
+  margin: 1px;
+  cursor: pointer;
+}
+
+.editor-container .table-cell.highlighted {
+  background: var(--color-red);
+}
+
+.editor-container .table-size-display {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #333;
+}
