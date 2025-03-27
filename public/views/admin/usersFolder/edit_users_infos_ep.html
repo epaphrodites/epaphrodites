@@ -13,10 +13,10 @@
                 {{ __csrf() }} 
 
                 {% for select in select %} 
-
                     <div class="col-md-12">
                         {{ input_field(
                             {
+                                upper : true,
                                 maxlength : 70 , 
                                 require : true , 
                                 character : "string" ,
@@ -27,6 +27,7 @@
                             })
                         }} 
                     </div>
+                    
                     <div class="col-md-12">
                         {{ input_field(
                             {
@@ -71,7 +72,6 @@
                             icon : 'bi bi-pen'
                         }) }}
                     </div>
-
                 {% endfor %}
             </div>
         </form>
