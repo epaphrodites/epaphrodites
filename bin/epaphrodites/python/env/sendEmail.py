@@ -1,38 +1,20 @@
 import os
 import sys
 import smtplib
-import configparser
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
 sys.path.append('bin/epaphrodites/python/config/')
 from initJsonLoader import InitJsonLoader
-
-CONFIG_PATH = os.path.join('bin/config', 'email.ini')
+from smtpConfig import smtpConfig
 
 class SendEmail:
-    @staticmethod
-    def configurer_email():
-
-        if not os.path.exists(CONFIG_PATH):
-            raise FileNotFoundError(f"The {CONFIG_PATH} configuration file does not exist.")
-        
-        config = configparser.ConfigParser()
-        config.read(CONFIG_PATH)
-        
-        return {
-            "server": config['EMAIL']['SERVER'],
-            "port": config.getint('EMAIL', 'PORT'),
-            "users": config['EMAIL']['USER'],
-            "password": config['EMAIL']['PASSWORD'],
-            "no_replay": config['EMAIL'].get('HIDE_EMAIL', config['EMAIL']['USER'])
-        }
 
     @staticmethod
     def send_email(recipient, subject, content, fichiers=None):
 
-        config = SendEmail.configurer_email()
+        config = smtpConfig.configurer_email()
         
         try:
             msg = MIMEMultipart()
