@@ -7,10 +7,10 @@
 #include "ext/standard/info.h"
 #include "php_epaphrodites.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_epaphrodites_hello, 0, 0, 0) 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_epaphrodites_hello, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-PHP_FUNCTION(epaphrodites_hello) {
+PHP_FUNCTION(epaphrodites_hello_c) {
     php_printf("Hello depuis l'extension Epaphrodites!\n");
 }
 

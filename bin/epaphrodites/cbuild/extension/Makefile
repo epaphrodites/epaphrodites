@@ -1,26 +1,22 @@
-srcdir = /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
-builddir = /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
-top_srcdir = /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
-top_builddir = /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
+srcdir = /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
+builddir = /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
+top_srcdir = /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
+top_builddir = /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension
 EGREP = /usr/bin/grep -E
 SED = /usr/bin/sed
-CONFIGURE_COMMAND = './configure' '--enable-epaphrodites'
-CONFIGURE_OPTIONS = '--enable-epaphrodites'
-SHLIB_SUFFIX_NAME = so
+AWK = awk
+SHLIB_SUFFIX_NAME = dylib
 SHLIB_DL_SUFFIX_NAME = so
-AWK = gawk
 shared_objects_epaphrodites = .lo
 PHP_PECL_EXTENSION = epaphrodites
 PHP_MODULES = $(phplibdir)/epaphrodites.la
 PHP_ZEND_EX =
 all_targets = $(PHP_MODULES) $(PHP_ZEND_EX)
 install_targets = install-modules install-headers
-prefix = /usr
+prefix = /usr/local/Cellar/php/8.4.4
 exec_prefix = $(prefix)
 libdir = ${exec_prefix}/lib
-prefix = /usr
-phplibdir = /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/modules
-phpincludedir = /usr/include/php/20230831
+phpincludedir = /usr/local/Cellar/php/8.4.4/include/php
 CC = cc
 CFLAGS = -g -O2
 CFLAGS_CLEAN = $(CFLAGS) -D_GNU_SOURCE
@@ -29,24 +25,22 @@ CPPFLAGS = -DHAVE_CONFIG_H
 CXX =
 CXXFLAGS =
 CXXFLAGS_CLEAN = $(CXXFLAGS)
-EXTENSION_DIR = /usr/lib/php/20230831
-PHP_EXECUTABLE = /usr/bin/php8.3
+EXTENSION_DIR = /usr/local/Cellar/php/8.4.4/pecl/20240924
+PHP_EXECUTABLE = /usr/local/Cellar/php/8.4.4/bin/php
 EXTRA_LDFLAGS =
 EXTRA_LIBS =
-INCLUDES = -I/usr/include/php/20230831 -I/usr/include/php/20230831/main -I/usr/include/php/20230831/TSRM -I/usr/include/php/20230831/Zend -I/usr/include/php/20230831/ext -I/usr/include/php/20230831/ext/date/lib
-LFLAGS =
+INCLUDES = -I/usr/local/Cellar/php/8.4.4/include/php -I/usr/local/Cellar/php/8.4.4/include/php/main -I/usr/local/Cellar/php/8.4.4/include/php/TSRM -I/usr/local/Cellar/php/8.4.4/include/php/Zend -I/usr/local/Cellar/php/8.4.4/include/php/ext -I/usr/local/Cellar/php/8.4.4/include/php/ext/date/lib
 LDFLAGS =
-SHARED_LIBTOOL =
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-SHELL = /bin/bash
+SHELL = /bin/sh
 INSTALL_HEADERS =
 BUILD_CC = cc
+phplibdir = /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/modules
 mkinstalldirs = $(top_srcdir)/build/shtool mkdir -p
 INSTALL = $(top_srcdir)/build/shtool install -c
 INSTALL_DATA = $(INSTALL) -m 644
 
-DEFS = -I$(top_builddir)/include -I$(top_builddir)/main -I$(top_srcdir)
-COMMON_FLAGS = $(DEFS) $(INCLUDES) $(EXTRA_INCLUDES) $(CPPFLAGS) $(PHP_FRAMEWORKPATH)
+COMMON_FLAGS = $(INCLUDES) $(EXTRA_INCLUDES) $(CPPFLAGS) $(PHP_FRAMEWORKPATH)
 
 all: $(all_targets)
 	@echo
@@ -60,7 +54,7 @@ build-binaries: $(PHP_BINARIES)
 
 libphp.la: $(PHP_GLOBAL_OBJS) $(PHP_SAPI_OBJS)
 	$(LIBTOOL) --tag=CC --mode=link $(CC) $(LIBPHP_CFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) -rpath $(phptempdir) $(EXTRA_LDFLAGS) $(LDFLAGS) $(PHP_RPATHS) $(PHP_GLOBAL_OBJS) $(PHP_SAPI_OBJS) $(EXTRA_LIBS) $(ZEND_EXTRA_LIBS) -o $@
-	-@$(LIBTOOL) --silent --tag=CC --mode=install cp $@ $(phptempdir)/$@ >/dev/null 2>&1
+	-@$(LIBTOOL) --tag=CC --mode=install cp $@ $(phptempdir)/$@ >/dev/null 2>&1
 
 libs/libphp.bundle: $(PHP_GLOBAL_OBJS) $(PHP_SAPI_OBJS)
 	$(CC) $(MH_BUNDLE_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(LDFLAGS) $(EXTRA_LDFLAGS) $(PHP_GLOBAL_OBJS:.lo=.o) $(PHP_SAPI_OBJS:.lo=.o) $(PHP_FRAMEWORKS) $(EXTRA_LIBS) $(ZEND_EXTRA_LIBS) -o $@ && cp $@ libs/libphp.so
@@ -162,21 +156,22 @@ clean:
 	find . -name \*.so | xargs rm -f
 	find . -name .libs -a -type d|xargs rm -rf
 	rm -f libphp.la $(SAPI_CLI_PATH) $(SAPI_CGI_PATH) $(SAPI_LITESPEED_PATH) $(SAPI_FPM_PATH) $(OVERALL_TARGET) modules/* libs/*
-	rm -f ext/opcache/jit/zend_jit_x86.c
-	rm -f ext/opcache/jit/zend_jit_arm64.c
-	rm -f ext/opcache/minilua
+	rm -f ext/opcache/jit/ir/gen_ir_fold_hash
+	rm -f ext/opcache/jit/ir/minilua
+	rm -f ext/opcache/jit/ir/ir_fold_hash.h
+	rm -f ext/opcache/jit/ir/ir_emit_x86.h
+	rm -f ext/opcache/jit/ir/ir_emit_aarch64.h
 
 distclean: clean
 	rm -f Makefile config.cache config.log config.status Makefile.objects Makefile.fragments libtool main/php_config.h main/internal_functions_cli.c main/internal_functions.c Zend/zend_dtrace_gen.h Zend/zend_dtrace_gen.h.bak Zend/zend_config.h
 	rm -f main/build-defs.h scripts/phpize
-	rm -f ext/date/lib/timelib_config.h ext/mbstring/libmbfl/config.h ext/oci8/oci8_dtrace_gen.h ext/oci8/oci8_dtrace_gen.h.bak
+	rm -f ext/date/lib/timelib_config.h ext/mbstring/libmbfl/config.h
 	rm -f scripts/man1/phpize.1 scripts/php-config scripts/man1/php-config.1 sapi/cli/php.1 sapi/cgi/php-cgi.1 sapi/phpdbg/phpdbg.1 ext/phar/phar.1 ext/phar/phar.phar.1
 	rm -f sapi/fpm/php-fpm.conf sapi/fpm/init.d.php-fpm sapi/fpm/php-fpm.service sapi/fpm/php-fpm.8 sapi/fpm/status.html
 	rm -f ext/phar/phar.phar ext/phar/phar.php
 	if test "$(srcdir)" != "$(builddir)"; then \
-	  rm -f ext/phar/phar/phar.inc; \
+		rm -f ext/phar/phar/phar.inc; \
 	fi
-	$(EGREP) define'.*include/php' $(top_srcdir)/configure | $(SED) 's/.*>//'|xargs rm -f
 
 prof-gen:
 	CCACHE_DISABLE=1 $(MAKE) PROF_FLAGS=-fprofile-generate all
@@ -203,10 +198,9 @@ prof-use:
 	fi;
 
 .PHONY: all clean install distclean test prof-gen prof-clean prof-use
-.NOEXPORT:
 -include .dep
-.lo: /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c
-	$(LIBTOOL) --tag=CC --mode=compile $(CC) -I. -I/home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)   -DZEND_COMPILE_DL_EXT=1 -c /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c -o .lo  -MMD -MF .dep -MT .lo
+.lo: /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) -I. -I/Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)   -DZEND_COMPILE_DL_EXT=1 -c /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c -o .lo  -MMD -MF .dep -MT .lo
 $(phplibdir)/epaphrodites.la: ./epaphrodites.la
 	$(LIBTOOL) --tag=CC --mode=install cp ./epaphrodites.la $(phplibdir)
 

@@ -1,6 +1,6 @@
 -include .dep
-.lo: /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c
-	$(LIBTOOL) --tag=CC --mode=compile $(CC) -I. -I/home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)   -DZEND_COMPILE_DL_EXT=1 -c /home/desps/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c -o .lo  -MMD -MF .dep -MT .lo
+.lo: /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c
+	$(LIBTOOL) --tag=CC --mode=compile $(CC) -I. -I/Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)   -DZEND_COMPILE_DL_EXT=1 -c /Users/konanaimeysraelndri/devAppStation/epaphrodites/bin/epaphrodites/cbuild/extension/../functions/epaphrodites.c -o .lo  -MMD -MF .dep -MT .lo
 $(phplibdir)/epaphrodites.la: ./epaphrodites.la
 	$(LIBTOOL) --tag=CC --mode=install cp ./epaphrodites.la $(phplibdir)
 

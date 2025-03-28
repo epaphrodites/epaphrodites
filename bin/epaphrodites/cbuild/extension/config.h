@@ -1,7 +1,8 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Whether to build epaphrodites as dynamic module */
+/* Define to 1 if the PHP extension 'epaphrodites' is built as a dynamic
+   module. */
 #define COMPILE_DL_EPAPHRODITES 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
@@ -37,9 +38,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define to the sub-directory where libtool stores uninstalled libraries. */
-#define LT_OBJDIR ".libs/"
-
 /* Define to the address where bug reports for this package should be sent. */
 /* #undef PACKAGE_BUGREPORT */
 
@@ -58,7 +56,7 @@
 /* Define to the version of this package. */
 /* #undef PACKAGE_VERSION */
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1
