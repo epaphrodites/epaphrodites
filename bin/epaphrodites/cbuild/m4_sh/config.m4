@@ -1,6 +1,8 @@
 PHP_ARG_ENABLE(heredia, whether to enable the Heredia extension,
 [  --enable-heredia   Enable Heredia extension support])
-PHP_ADD_INCLUDE([cbuild/m4_sh])
+
+PHP_ADD_INCLUDE([../m4_sh])
+
 CFLAGS="$CFLAGS -I$(pwd)/cbuild/m4_sh"
 CPPFLAGS="$CPPFLAGS -I$(pwd)/cbuild/m4_sh"
 

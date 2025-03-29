@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Détecte la version PHP installée
-PHP_VERSION=$(php -r "echo PHP_VERSION_ID;")
-PHP_VERSION_MAJOR_MINOR=$((PHP_VERSION / 10000))
+PHP_VERSION_MAJOR=$(php -r "echo PHP_MAJOR_VERSION;")
+PHP_VERSION_MINOR=$(php -r "echo PHP_MINOR_VERSION;")
 
 # Vérifie si l'extension Heredia est déjà chargée
 is_extension_loaded() {
@@ -10,12 +10,8 @@ is_extension_loaded() {
     return $?
 }
 
-# Obtenir la version PHP dynamiquement (par exemple, PHP 8.3 -> 8)
-PHP_VERSION_MAJOR=$(php -r "echo PHP_MAJOR_VERSION;")
-PHP_VERSION_MINOR=$(php -r "echo PHP_MINOR_VERSION;")
-
 # Accéder au répertoire de l'extension
-EXT_DIR="$(pwd)/bin/epaphrodites/cbuild/extension"  # Définit dynamiquement le chemin de l'extension
+EXT_DIR="$(pwd)/bin/epaphrodites/cbuild/extension"
 MODULE_DIR="${EXT_DIR}/modules"
 
 # Fonction pour compiler l'extension Heredia pour Linux/Mac
@@ -23,49 +19,64 @@ compile_extension_linux_mac() {
     echo "Compilation de l'extension Heredia pour $OSTYPE avec PHP $PHP_VERSION_MAJOR.$PHP_VERSION_MINOR"
 
     # Vérifie que nous sommes dans le bon répertoire
+    if [ ! -d "$EXT_DIR" ]; then
+        echo "Erreur: le répertoire $EXT_DIR n'existe pas."
+        exit 1
+    fi
+
     cd "$EXT_DIR" || { echo "Erreur: impossible d'accéder à $EXT_DIR"; exit 1; }
 
-    # Vérifie les permissions des fichiers et répertoires nécessaires
+    # Vérifie si phpize est disponible
+    if ! command -v phpize &>/dev/null; then
+        echo "Erreur: phpize non trouvé. Installez-le avec : sudo apt install php-dev"
+        exit 1
+    fi
+
+    # Vérifie si les permissions sont correctes
     if [ ! -w "$EXT_DIR" ]; then
-        echo "Erreur: Pas de permission d'écriture dans le répertoire $EXT_DIR. Utilisation de sudo."
+        echo "Erreur: Pas de permission d'écriture dans $EXT_DIR. Utilisation de sudo."
         sudo chown -R $USER:$USER "$EXT_DIR" || { echo "Erreur: impossible de modifier les permissions."; exit 1; }
     fi
 
-    # Préparer l'extension pour la compilation
+    # Vérifie si config.h.in existe, sinon on génère les fichiers de configuration
+    if [ ! -f "config.h.in" ]; then
+        echo "config.h.in manquant. Tentative de régénération des fichiers de configuration avec autoreconf."
+        autoreconf -i || { echo "Erreur: autoreconf a échoué"; exit 1; }
+    fi
+
+    # Compilation de l'extension
     phpize || { echo "Erreur: phpize a échoué"; exit 1; }
-
-    # Configurer l'extension
     ./configure --enable-heredia || { echo "Erreur: échec de la configuration"; exit 1; }
-
-    # Compiler l'extension
     make || { echo "Erreur: échec de la compilation"; exit 1; }
-
-    # Installer l'extension
     sudo make install || { echo "Erreur: échec de l'installation"; exit 1; }
 
-    # Créer un lien symbolique pour le module dans le répertoire des extensions PHP
-    EXT_PATH="/usr/local/lib/php/extensions/no-debug-non-zts-${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}"
-    sudo ln -sf "${MODULE_DIR}/heredia.so" "$EXT_PATH" || { echo "Erreur: échec de la création du lien symbolique"; exit 1; }
+    # Trouver le répertoire d'extensions PHP
+    EXT_PATH=$(php -r "echo ini_get('extension_dir');")
 
-    # Ajouter l'extension au fichier php.ini
-    PHP_INI_DIR="/etc/php/${PHP_VERSION_MAJOR}/cli"
-    PHP_FPM_INI_DIR="/etc/php/${PHP_VERSION_MAJOR}/fpm"
+    if [ -z "$EXT_PATH" ]; then
+        echo "Erreur: impossible de déterminer le répertoire des extensions PHP."
+        exit 1
+    fi
+
+    sudo ln -sf "${MODULE_DIR}/heredia.so" "$EXT_PATH/heredia.so" || { echo "Erreur: échec de la création du lien symbolique"; exit 1; }
+
+    # Trouver le fichier php.ini et ajouter l'extension
+    PHP_INI_FILE=$(php --ini | grep "Loaded Configuration File" | awk '{print $4}')
     
-    # Vérifier que les répertoires php.ini existent
-    sudo mkdir -p "$PHP_INI_DIR" "$PHP_FPM_INI_DIR" || { echo "Erreur: impossible de créer les répertoires php.ini"; exit 1; }
+    if [ -z "$PHP_INI_FILE" ]; then
+        echo "Erreur: impossible de localiser php.ini"
+        exit 1
+    fi
 
-    echo "extension=heredia.so" | sudo tee -a "$PHP_INI_DIR/php.ini"
-    echo "extension=heredia.so" | sudo tee -a "$PHP_FPM_INI_DIR/php.ini"
+    echo "extension=heredia.so" | sudo tee -a "$PHP_INI_FILE"
 
     # Redémarrer PHP-FPM si nécessaire
     if command -v systemctl &>/dev/null; then
         sudo systemctl restart php$PHP_VERSION_MAJOR-fpm || { echo "Erreur: échec du redémarrage de PHP-FPM"; exit 1; }
-    else
-        echo "systemctl non trouvé, redémarrage ignoré."
     fi
 
     # Vérification de l'installation
-    php -m | grep heredia
+    php -m | grep -q 'heredia'
     if [ $? -eq 0 ]; then
         echo "L'extension Heredia est installée et activée."
     else
@@ -74,53 +85,12 @@ compile_extension_linux_mac() {
     fi
 }
 
-# Fonction pour compiler l'extension Heredia pour Windows (avec Cygwin ou MinGW)
-compile_extension_windows() {
-    echo "Compilation de l'extension Heredia pour Windows avec PHP $PHP_VERSION_MAJOR.$PHP_VERSION_MINOR"
-
-    # Définir les variables nécessaires
-    EXT_DIR="bin/epaphrodites/cbuild/extension"
-    PHP_DIR="C:/path/to/php"  # Remplacer par le chemin vers PHP sur Windows
-    PHPIZE="$PHP_DIR/phpize.exe"
-    MAKE="$PHP_DIR/nmake.exe"
-
-    # Accéder au répertoire de l'extension
-    cd $EXT_DIR || { echo "Erreur: impossible d'accéder au répertoire $EXT_DIR"; exit 1; }
-
-    # Préparer l'extension pour la compilation
-    $PHPIZE || { echo "Erreur: phpize a échoué"; exit 1; }
-
-    # Configurer l'extension
-    ./configure --enable-heredia --prefix=$PHP_DIR || { echo "Erreur: échec de la configuration"; exit 1; }
-
-    # Compiler l'extension
-    $MAKE || { echo "Erreur: échec de la compilation"; exit 1; }
-
-    # Installer l'extension
-    $MAKE install || { echo "Erreur: échec de l'installation"; exit 1; }
-
-    # Ajouter l'extension au php.ini
-    echo "extension=heredia.dll" >> $PHP_DIR/php.ini
-
-    # Vérification
-    php -m | findstr heredia
-    if [ $? -eq 0 ]; then
-        echo "L'extension Heredia est installée et activée sur Windows."
-    else
-        echo "L'extension Heredia n'a pas pu être installée."
-        exit 1
-    fi
-}
-
 # Détecter le système d'exploitation et appeler la fonction de compilation appropriée
 if is_extension_loaded; then
-    echo "L'extension Heredia est déjà installée et activée. Compilation pour prendre en compte les nouvelles données."
-    compile_extension_linux_mac
-elif [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
-    compile_extension_linux_mac
-elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "mingw"* ]]; then
-    compile_extension_windows
+    echo "L'extension Heredia est déjà installée et activée."
 else
-    echo "Système d'exploitation non supporté pour l'installation automatique."
-    exit 1
+    case "$OSTYPE" in
+        linux*|darwin*) compile_extension_linux_mac ;;
+        *) echo "Système d'exploitation non supporté"; exit 1 ;;
+    esac
 fi
