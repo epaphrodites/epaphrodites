@@ -3,7 +3,7 @@ server.log
 counter.json
 test/
 results/
-bin/epaphrodites/cbuild/test
+bin/epaphrodites/cbuild/extension
 pdfs/
 sqLite.session.sql
 postgres.session.sql
