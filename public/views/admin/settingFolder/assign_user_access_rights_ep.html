@@ -4,7 +4,12 @@
 {% from message import alert_msg %}
 {% block content %} 
 {{ alert_msg( reponse , alert ) }}
-{{ breadcrumb_field( "USER RIGHTS MANAGEMENT", "setting@management_of_user_access_rights" ,"ASSIGNING RIGHTS TO USERS" )}}
+{{ breadcrumb_field( 
+    { 
+        "USER RIGHTS MANAGEMENT" : "setting@management_of_user_access_rights" ,
+        "ASSIGNING RIGHTS TO USERS" : null 
+    } 
+)}}
 
     <div class="container">
         <form class="laodForm" method="POST" novalidate>

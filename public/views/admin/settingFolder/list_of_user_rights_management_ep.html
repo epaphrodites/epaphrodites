@@ -4,7 +4,12 @@
 {% from message import alert_msg %} 
 {% block content %}
 {{ alert_msg( reponse , alert ) }}
-{{ breadcrumb_field( "USERS RIGHT MANAGEMENT", "setting@management_of_user_access_rights" ,"USERS AUTHORIZATIONS" )}}
+{{ breadcrumb_field(
+    {
+        "USERS RIGHT MANAGEMENT": "setting@management_of_user_access_rights",
+        "USERS AUTHORIZATIONS" : null
+    }
+) }}
 
     <div class="container">
         <div class="row">
