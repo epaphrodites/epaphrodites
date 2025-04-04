@@ -1,27 +1,31 @@
 {# --- Breadcrumb Field --- #}
-{% macro breadcrumb_field(firstTitle, secondHref, secondTitle, thirdTitle) %}
+{% macro breadcrumb_field(options) %}
 	<nav aria-label="breadcrumb" class="custom-breadcrumb">
 		<ol class="breadcrumb">
-			{% if firstTitle %}
-				<li class="breadcrumb-item first-item">
-					<a href="{{ __host() }}">DASHBOARD</a>
-				</li>
-				{% if not secondTitle and not thirdTitle %}
-					<span class="breadcombTitle">{{ firstTitle }}</span>
-				{% endif %}
-			{% endif %}
+			<li class="breadcrumb-item first-item">
+				<a href="{{ __host() }}">DASHBOARD</a>
+			</li>
+		
+			{% if options is iterable %}
+				{% set keys = options|keys %}
+				{% set lastIndex = keys|length - 1 %}
+				
+				{% for i, key in keys %}
+				{% set value = options[key] %}
+				
+				{% if i < lastIndex %}
 
-			{% if secondTitle and secondHref %}
-				<li class="breadcrumb-item second-item">
-					<a href="{{ __path(secondHref) }}">{{ secondTitle }}</a>
-				</li>
-				{% if not thirdTitle %}
-					<span class="breadcombTitle">{{ firstTitle }}</span>
-				{% endif %}
-			{% endif %}
+					<li class="breadcrumb-item {% if i == 0 %}second-item{% endif %}">
+					<a href="{{ __path(value) }}">{{ key }}</a>
+					</li>
+				{% else %}
 
-			{% if thirdTitle %}
-				<li class="breadcrumb-item active" aria-current="page">{{ thirdTitle }}</li>
+					<li class="breadcrumb-item active" aria-current="page">{{ key }}</li>
+				{% endif %}
+				{% endfor %}
+			{% else %}
+
+				<li class="breadcrumb-item active" aria-current="page">{{ options }}</li>
 			{% endif %}
 		</ol>
 	</nav>
