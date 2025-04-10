@@ -35,7 +35,7 @@ class auth extends Builders
   private function ifKeyExist():bool
   {
 
-    $result = $this->key('usersaccount')->index('*')->isExist();
+    $result = $this->key('usersaccount')->index('*')->checkIsExist();
 
     return $result;
   }  
