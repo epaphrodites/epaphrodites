@@ -478,6 +478,33 @@ trait buildQueryChaines
      * @param int $db
      * @return bool
      */
+    public function checkIsExist(int $db = 1): bool
+    {
+        $getConnexion = $this->rdb($db);
+        $index = isset($this->index) ? ":{$this->index}" : '';
+        $key = "{$getConnexion['db']}:{$this->key}{$index}";
+    
+        if (strpos($key, '*') === false) {
+            return (bool)$getConnexion['connexion']->exists($key);
+        }
+    
+        $redis = $getConnexion['connexion'];
+        $cursor = null;
+        $it = null;
+        
+        while ($keys = $redis->scan($it, $key, 3)) {
+            if (!empty($keys)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * @param int $db
+     * @return bool
+     */
     public function isExist(
         int $db = 1
     ): bool{
