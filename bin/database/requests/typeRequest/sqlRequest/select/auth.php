@@ -14,15 +14,10 @@ class auth extends SelectAuth
   protected function if_table_exist(): bool
   {
 
-    try {
+    $result = $this->table('usersaccount')->except()->SQuery();
 
-      $this->table('usersaccount')->SQuery();
+    return count($result) > 0 ? true : false;
 
-      return true;
-    } catch (\Exception $e) {
-
-      return false;
-    }
   }
 
   /**
@@ -35,7 +30,8 @@ class auth extends SelectAuth
     string $login
   ):array|bool{
 
-    if ($this->if_table_exist() === true) {
+
+    if ($this->if_table_exist() == true) {
 
       $result = $this->table('usersaccount')
           ->like('login')
@@ -62,7 +58,7 @@ class auth extends SelectAuth
     string $login
   ):array|bool{
 
-    if ($this->if_table_exist() === true) {
+    if ($this->if_table_exist() == true) {
 
       $result = $this->table('usersaccount')
           ->like('login')

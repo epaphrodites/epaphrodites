@@ -6,6 +6,7 @@ trait queryChaines
 {
 
     private $table;
+    private $except;
     private $key;
     private $lastIndex;
     private $rdb;
@@ -67,10 +68,8 @@ trait queryChaines
      * @param null|int $close
      * @return bool
      */
-    public function close(
-        $close = false
-    ): mixed{
-        $this->close = $close;
+    public function close():mixed{
+        $this->close = true;
 
         return $this;
     }
@@ -242,6 +241,18 @@ trait queryChaines
 
         $this->table = "$table";
 
+        return $this;
+    }
+
+    /**
+     * No display error
+     * 
+     * @return bool
+     */
+    public function except():mixed{
+
+        $this->except = true;
+        
         return $this;
     }
 

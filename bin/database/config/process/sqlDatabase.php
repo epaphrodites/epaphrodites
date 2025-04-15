@@ -37,9 +37,10 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         array $datas = [],
         bool $param = false,
         bool $closeConnection = false,
-        int $db = 1
+        int $db = 1,
+        bool $except = false
     ): ?array{
-
+        
         try {
         $connection = $this->dbConnect($db);
         $request = $connection->prepare($sqlChaine);
@@ -63,7 +64,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
     } catch (\Throwable $e) {
 
         // Detailed error handling in non-production environments
-        if (!_PRODUCTION_) {
+        if (!_PRODUCTION_&&!$except) {
             $errorType = get_class($e);
             $errorMessage = htmlspecialchars($e->getMessage(), ENT_QUOTES);
             $errorFile = $e->getFile();
@@ -112,7 +113,8 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         array $datas = [], 
         bool $param = false, 
         bool $closeConnection = false, 
-        int $db = 1
+        int $db = 1,
+        bool $except = false
     ):bool{
         $connection = $this->dbConnect($db);
         $connection->beginTransaction();
@@ -142,7 +144,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
             }
 
             // Error handling in non-production environments
-            if (!_PRODUCTION_) {
+            if (!_PRODUCTION_&&!$except) {
                 $errorType = get_class($e);
                 $errorMessage = htmlspecialchars($e->getMessage(), ENT_QUOTES);
                 $errorFile = $e->getFile();
