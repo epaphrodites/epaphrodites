@@ -12,9 +12,18 @@ use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigration
 class checkDatabase extends getConnexion
 {
 
+    /**
+     * Database connexion
+     * 
+     * @param int $db
+     * @param bool $state
+     * @throws \Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException
+     * @return array|object
+     */
     protected function dbConnect(
-        int $db = 1
-    )
+        int $db = 1,
+        bool $state = false
+    ):array|object
     {
 
         $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
@@ -23,37 +32,37 @@ class checkDatabase extends getConnexion
         switch ($mainDriver) {
                 // If the driver is MySQL, connect to MySQL using the Mysql method
             case 'mysql':
-                return $this->Mysql($db);
+                return $this->Mysql($db, $state);
                 break;
 
                 // If the driver is Oracle, connect to Oracle using the Oracle method
             case 'oracle':
-                return $this->oracledb($db);
+                return $this->oracledb($db, $state);
                 break;                
 
                 // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
             case 'pgsql':
-                return $this->PostgreSQL($db);
+                return $this->PostgreSQL($db, $state);
                 break;
 
                 // If the driver is sqlite, connect to sqlite using the sqlite method
             case 'sqlite':
-                return $this->sqLite($db);
+                return $this->sqLite($db, $state);
                 break;
 
                 // If the driver is SqlServer, connect to SqlServer using the MongoDB method
             case 'sqlserver':
-                return $this->SqlServer($db);
+                return $this->SqlServer($db, $state);
                 break;              
 
                 // If the driver is MongoDB, connect to MongoDB using the MongoDB method
             case 'mongodb':
-                return $this->MongoDB($db);
+                return $this->MongoDB($db, $state);
                 break;
 
                 // If the driver is MongoDB, connect to MongoDB using the MongoDB method
             case 'redis':
-                return $this->RedisDB($db);
+                return $this->RedisDB($db, $state);
                 break;
 
             default:
@@ -61,6 +70,15 @@ class checkDatabase extends getConnexion
         }
     }
 
+    /**
+     * Database connexion
+     * 
+     * @param string|null $dbName
+     * @param int $db
+     * @param bool $requestAction
+     * @throws \Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException
+     * @return bool
+     */
     public function etablishConnect(
         string|null $dbName = null, 
         int $db = 1 , 
@@ -100,6 +118,12 @@ class checkDatabase extends getConnexion
         }
     }
 
+    /**
+     * Run seeder
+     * 
+     * @param int $db
+     * @throws \Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException
+     */
     public function SeederGenerated(
         int $db = 1
     )

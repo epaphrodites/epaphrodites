@@ -17,9 +17,9 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      * @param int $bd
      * @return int|null
      */
-    private function closeConnection(int $bd): int|null
+    private function closeConnection(int $db, bool $state = false):void
     {
-        return NULL; // Placeholder function for disconnection
+         $this->dbConnect($db, $state); // Placeholder function for disconnection
     }
 
     /**
@@ -39,6 +39,8 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         bool $closeConnection = false,
         int $db = 1
     ): ?array{
+
+        try {
         $connection = $this->dbConnect($db);
         $request = $connection->prepare($sqlChaine);
 
@@ -53,10 +55,46 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         $result = $request->fetchAll();
 
         if ($closeConnection) {
-            $this->closeConnection($db);
+            $this->closeConnection($db, true);
         }
 
         return $result;
+
+    } catch (\Throwable $e) {
+
+        // Detailed error handling in non-production environments
+        if (!_PRODUCTION_) {
+            $errorType = get_class($e);
+            $errorMessage = htmlspecialchars($e->getMessage(), ENT_QUOTES);
+            $errorFile = $e->getFile();
+            $errorLine = $e->getLine();
+            $sqlPreview = htmlspecialchars(substr($sqlChaine, 0, 200), ENT_QUOTES);
+            $paramsPreview = htmlspecialchars(json_encode($datas, JSON_PRETTY_PRINT), ENT_QUOTES);
+
+            error_log("[$errorType] $errorMessage in $errorFile on line $errorLine | SQL: $sqlPreview");
+
+            echo <<<HTML
+            <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 20px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
+                <strong>Database Exception:</strong> {$errorType}<br>
+                <strong>Message:</strong> {$errorMessage}<br>
+                <strong>File:</strong> {$errorFile}<br>
+                <strong>Line:</strong> {$errorLine}<br><br>
+                <strong>SQL Query:</strong><br>
+                <div style='background: white; padding: 10px; margin: 5px 0; border-radius: 4px; color: #333;'>
+                    {$sqlPreview}...
+                </div>
+                <strong>Parameters:</strong><br>
+                <pre style='background: white; padding: 10px; margin: 5px 0; border-radius: 4px; color: #333;'>
+                    {$paramsPreview}
+                </pre>
+            </div>
+            HTML;
+        } else {
+            error_log("Database error: " . $e->getMessage());
+        }
+
+        return [];
+    }       
     }
 
     /**
@@ -75,7 +113,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         bool $param = false, 
         bool $closeConnection = false, 
         int $db = 1
-    ): bool{
+    ):bool{
         $connection = $this->dbConnect($db);
         $connection->beginTransaction();
 
@@ -91,16 +129,40 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
             $result = $request->execute();
 
             if ($closeConnection) {
-                $this->closeConnection($db);
+                $this->closeConnection($db, true);
             }
 
             $connection->commit();
             return $result;
             
         } catch (\Exception $e) {
+             // Rollback transaction if an error occurs
             if ($connection->inTransaction()) {
                 $connection->rollBack();
             }
+
+            // Error handling in non-production environments
+            if (!_PRODUCTION_) {
+                $errorType = get_class($e);
+                $errorMessage = htmlspecialchars($e->getMessage(), ENT_QUOTES);
+                $errorFile = $e->getFile();
+                $errorLine = $e->getLine();
+
+                // Output styled error message with details
+                echo <<<HTML
+                <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 20px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
+                    <strong>Database Exception:</strong> {$errorType}<br>
+                    <strong>Message:</strong> {$errorMessage}<br>
+                    <strong>File:</strong> {$errorFile}<br>
+                    <strong>Line:</strong> {$errorLine}<br><br>
+                </div>
+                HTML;
+                
+                exit;
+            } else {
+                error_log("Database error: " . $e->getMessage());
+            }
+
             return false;
         }
     }

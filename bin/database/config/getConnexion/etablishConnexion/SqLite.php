@@ -80,9 +80,9 @@ trait SqLite
      * @return object
      */
     public function sqLite(
-        int $db = 1
-    ):object
-    {
+        int $db = 1,
+        bool $state = false
+    ):object|array{
 
         return $this->getSqLite($db);
     }
