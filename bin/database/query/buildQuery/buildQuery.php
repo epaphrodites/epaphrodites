@@ -75,7 +75,7 @@ trait buildQuery
 
         $close = isset($this->close) && $this->close == true ? true : false;
         $this->db = NULL;
-        $this->param = NULL;
+        $this->param = [];
         $this->except = NULL;
 
 
@@ -100,7 +100,7 @@ trait buildQuery
         $exceptErrorDisplay = $this->except ? $this->except : false;
         $close = isset($this->close) && $this->close === true ? true : false;
         $this->db = NULL;
-        $this->param = NULL;
+        $this->param = [];
         $this->except = false;
 
         // Execute the INSERT query and return the result

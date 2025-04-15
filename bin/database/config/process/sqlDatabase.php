@@ -118,6 +118,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
     ):bool{
         $connection = $this->dbConnect($db);
         $connection->beginTransaction();
+        
 
         try {
             $request = $connection->prepare($sqlChaine);
@@ -138,6 +139,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
             return $result;
             
         } catch (\Exception $e) {
+
              // Rollback transaction if an error occurs
             if ($connection->inTransaction()) {
                 $connection->rollBack();
