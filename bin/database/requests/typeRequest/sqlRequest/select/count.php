@@ -15,7 +15,7 @@ class count extends SelectCount
   public function sqlCountAllUsers(): int
   {
 
-    $result = $this->table('usersaccount')
+    $result = $this->table('usersaccounts')
                   ->SQuery("COUNT(*) AS nbre");
 
     $result = static::initNamespace()['env']->dictKeyToLowers($result);

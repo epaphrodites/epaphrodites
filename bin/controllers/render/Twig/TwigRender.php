@@ -18,7 +18,21 @@ class TwigRender extends TwigConfig implements ContractsTwigRender{
       array $array = [] 
     ):void
     {
-      echo $this->getTwigEnvironmentInstance()->render($view . _FRONT_ , $array );
+
+      try {
+
+        echo $this->getTwigEnvironmentInstance()->render($view . _FRONT_ , $array );
+    } catch (\Throwable $e) {
+        if (!_PRODUCTION_) {
+            echo '<pre>' . $e . '</pre>';
+        } else {
+            // En production : log ou message générique
+            error_log($e);
+            echo 'Une erreur est survenue. Veuillez réessayer plus tard.';
+        }
+    }
+    
+
     }    
 
 }
