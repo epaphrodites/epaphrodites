@@ -1,0 +1,7 @@
+cd /bin/epaphrodites/cbuild/library
+ln -s ../config/config.m4 .
+make clean
+phpize
+./configure --enable-schlomo
+make
+cp modules/schlomo.so ../extension/
