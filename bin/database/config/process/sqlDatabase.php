@@ -40,7 +40,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
         int $db = 1,
         bool $except = false
     ): ?array{
-        
+       
         try {
         $connection = $this->dbConnect($db);
         $request = $connection->prepare($sqlChaine);

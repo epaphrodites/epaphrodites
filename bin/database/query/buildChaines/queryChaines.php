@@ -65,14 +65,24 @@ trait queryChaines
     /**
      * Enables or disables connection closure
      *
-     * @param null|int $close
-     * @return bool
+     * @return mixed
      */
     public function close():mixed{
         $this->close = true;
 
         return $this;
     }
+
+    /**
+     * No display error
+     * 
+     * @return mixed
+     */
+    public function except():mixed{
+        $this->except = true;
+        
+        return $this;
+    }    
 
     /**
      * Sets parameters for the query
@@ -241,18 +251,6 @@ trait queryChaines
 
         $this->table = "$table";
 
-        return $this;
-    }
-
-    /**
-     * No display error
-     * 
-     * @return bool
-     */
-    public function except():mixed{
-
-        $this->except = true;
-        
         return $this;
     }
 

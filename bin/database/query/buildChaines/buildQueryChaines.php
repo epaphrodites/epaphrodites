@@ -11,7 +11,7 @@ trait buildQueryChaines
      * @return array
      */
     public function SQuery(
-        $propriety = NULL
+        string|null $propriety = null
     ): array{
 
         if ($propriety === NULL&&!isset($this->sumCase)) {
