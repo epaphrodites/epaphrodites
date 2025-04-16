@@ -8,11 +8,11 @@ trait buildQueryChaines
     /**
      * select query chaine
      * @param array|null $propriety
-     * @return array
+     * @return mixed
      */
     public function SQuery(
         string|null $propriety = null
-    ): array{
+    ):mixed{
 
         if ($propriety === NULL&&!isset($this->sumCase)) {
             $propriety = '*';

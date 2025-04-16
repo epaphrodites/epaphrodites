@@ -75,7 +75,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
             error_log("[$errorType] $errorMessage in $errorFile on line $errorLine | SQL: $sqlPreview");
 
             echo <<<HTML
-            <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 20px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
+            <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 70px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
                 <strong>Database Exception:</strong> {$errorType}<br>
                 <strong>Message:</strong> {$errorMessage}<br>
                 <strong>File:</strong> {$errorFile}<br>
@@ -90,6 +90,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
                 </pre>
             </div>
             HTML;
+            
         } else {
             error_log("Database error: " . $e->getMessage());
         }
@@ -154,15 +155,14 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
 
                 // Output styled error message with details
                 echo <<<HTML
-                <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 20px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
+                <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 70px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
                     <strong>Database Exception:</strong> {$errorType}<br>
                     <strong>Message:</strong> {$errorMessage}<br>
                     <strong>File:</strong> {$errorFile}<br>
                     <strong>Line:</strong> {$errorLine}<br><br>
                 </div>
                 HTML;
-                
-                exit;
+
             } else {
                 error_log("Database error: " . $e->getMessage());
             }
