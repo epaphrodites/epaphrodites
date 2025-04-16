@@ -1,7 +1,49 @@
-cd /bin/epaphrodites/cbuild/library
-ln -s ../config/config.m4 .
+#!/bin/bash
+
+# Couleur verte pour les messages de succès
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Fonction d’attente animée
+wait_animation() {
+  echo -n "⏳ Please wait"
+  for i in {1..3}; do
+    sleep 0.5
+    echo -n "."
+  done
+  echo
+}
+
+echo "🔧 [1/7] Moving into build directory..."
+cd bin/epaphrodites/cbuild/library || { echo "❌ Failed to change directory."; exit 1; }
+echo -e "${GREEN}✅ Done${NC}"
+
+echo "🔗 [2/7] Creating symbolic link to config.m4..."
+ln -sf ../config/config.m4 .
+echo -e "${GREEN}✅ Link created${NC}"
+
+echo "🧹 [3/7] Cleaning previous builds..."
+wait_animation
 make clean
+echo -e "${GREEN}✅ Cleaned${NC}"
+
+echo "🧪 [4/7] Running phpize..."
+wait_animation
 phpize
+echo -e "${GREEN}✅ Phpize completed${NC}"
+
+echo "⚙️ [5/7] Configuring with --enable-schlomo..."
+wait_animation
 ./configure --enable-schlomo
+echo -e "${GREEN}✅ Configuration successful${NC}"
+
+echo "🔨 [6/7] Building the extension..."
+wait_animation
 make
+echo -e "${GREEN}✅ Build successful${NC}"
+
+echo "📦 [7/7] Copying schlomo.so to extension directory..."
 cp modules/schlomo.so ../extension/
+echo -e "${GREEN}✅ Extension copied${NC}"
+
+echo -e "${GREEN}🎉 Script completed successfully!${NC}"
