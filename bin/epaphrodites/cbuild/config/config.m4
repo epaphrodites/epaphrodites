@@ -1,6 +1,8 @@
-PHP_ARG_ENABLE(schlomo, whether to enable schlomo extension,
-[  --enable-schlomo      Enable schlomo support])
+PHP_ARG_ENABLE(shlomo, whether to enable the Shlomo extension,
+[  --enable-shlomo   Enable Shlomo extension support])
 
-if test "$PHP_SCHLOMO" != "no"; then
-  PHP_NEW_EXTENSION(schlomo, ../functions/schlomo.c, $ext_shared)
+if test "$PHP_SHLOMO" != "no"; then
+    AC_DEFINE(HAVE_SHLOMO, 1, [Have Shlomo extension])
+    PHP_NEW_EXTENSION(shlomo, ../functions/shlomo.c, $ext_shared)
+    PHP_ADD_INCLUDE([../config])
 fi
