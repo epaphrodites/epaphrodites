@@ -144,3 +144,5 @@ Password : admin
 ### Contributing
 
 Contributions are always welcome!!
+
+chmod +x shlomo 
