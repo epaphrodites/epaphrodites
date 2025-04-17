@@ -7,6 +7,25 @@
 #include <sys/stat.h>
 
 // ========================================================================
+// SECTION 0: ARGINFO
+// ========================================================================
+
+ZEND_BEGIN_ARG_INFO(arginfo_shlomo_hello, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_shlomo_factorial, 0, 1, IS_LONG, 0)
+    ZEND_ARG_TYPE_INFO(0, num, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_shlomo_reverse_string, 0, 1, IS_STRING, 0)
+    ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_shlomo_file_stats, 0, 1, MAY_BE_ARRAY|MAY_BE_FALSE)
+    ZEND_ARG_TYPE_INFO(0, filepath, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+// ========================================================================
 // SECTION 1: MATHEMATIQUES FUNCTION
 // ========================================================================
 
@@ -117,9 +136,8 @@ PHP_FUNCTION(shlomo_file_stats) {
 // ========================================================================
 
 // Welcome function
-PHP_FUNCTION(shlomo_hello)
-{
-    RETURN_STRING("Welcome to Epaphrodites C function!\n");
+PHP_FUNCTION(shlomo_hello) {
+    RETURN_STRING("Welcome to Epaphrodites est la!\n");
 }
 
 // ========================================================================
@@ -128,10 +146,10 @@ PHP_FUNCTION(shlomo_hello)
 
 // PHP Functions Mapping
 static const zend_function_entry shlomo_functions[] = {
-    PHP_FE(shlomo_hello, NULL)
-    PHP_FE(shlomo_factorial, NULL)
-    PHP_FE(shlomo_reverse_string, NULL)
-    PHP_FE(shlomo_file_stats, NULL)
+    PHP_FE(shlomo_hello, arginfo_shlomo_hello)
+    PHP_FE(shlomo_factorial, arginfo_shlomo_factorial)
+    PHP_FE(shlomo_reverse_string, arginfo_shlomo_reverse_string)
+    PHP_FE(shlomo_file_stats, arginfo_shlomo_file_stats)
     PHP_FE_END
 };
 

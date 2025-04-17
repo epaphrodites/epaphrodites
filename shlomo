@@ -52,6 +52,10 @@ restart_php_service() {
 
 # ==================== SCRIPT START ==================== #
 
+echo "📁 [0/8] Ensuring 'library' directory exists..."
+mkdir -p bin/epaphrodites/cbuild/library
+echo -e "${GREEN}✅ Directory ready${NC}"
+
 echo "🔧 [1/8] Moving into build directory..."
 cd bin/epaphrodites/cbuild/library || { echo -e "${RED}❌ Failed to change directory.${NC}"; exit 1; }
 echo -e "${GREEN}✅ Done${NC}"
@@ -88,7 +92,6 @@ echo "📦 [7/8] Copying $SO_NAME to extension directory..."
 cp "modules/$SO_NAME" "$EXT_PATH/"
 echo -e "${GREEN}✅ Extension copied to $EXT_PATH/${NC}"
 
-# Génère un fichier .ini automatiquement
 CONF_D_PATH=$(find_conf_d_path)
 EXT_FULL_PATH="$(pwd | sed 's/library/extension/')/$SO_NAME"
 INI_FILE="$CONF_D_PATH/${EXT_NAME}.ini"
