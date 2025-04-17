@@ -24,6 +24,5 @@ ZEND_END_MODULE_GLOBALS(shlomo)
 
 // Déclarations des fonctions exposées à PHP
 PHP_FUNCTION(shlomo_hello);
-PHP_FUNCTION(shlomo_add);  // si tu ajoutes une autre fonction par exemple
 
 #endif /* PHP_SHLOMO_H */
