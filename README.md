@@ -138,7 +138,7 @@ composer dump-autoload
 php heredia create:db epaphroditesdb
 ```
 
-#### Install python component
+#### 🐍 Install python component
 - Note: This command is intended for users who have previously installed Python on their machine. It simplifies the installation of specific Python libraries essential for the optimal functioning of the Epaphrodites framework. Furthermore, you have the freedom, at your level, to integrate other libraries according to the requirements of your projects :
 
 ```bash  
@@ -166,12 +166,16 @@ Password : admin
 
 - [Documentation](https://epaphrodite.org/)
 
-### Authors
+### 👥 Authors
 
 - [Y'srael Aime N'DRI (Lead) ](https://github.com/ysrael-aime-ndri)
 
-### Contributing
+### 🤝 Contributing
 
-Contributions are always welcome!!
+Contributions are welcome! Fork the repo, make changes, and submit a pull request.
 
+Don't forget to set executable permissions if needed:
+
+```bash
 chmod +x shlomo 
+```
