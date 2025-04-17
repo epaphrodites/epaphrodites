@@ -1,90 +1,71 @@
-![](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)
+![Epaphrodites Logo](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
+---
+
 ## 👋 About Epaphrodites
-Epaphrodites combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodites can offer for your web projects.
 
-## System needs
-What you should know before starting the installation. To create a new application, please first ensure that your computer meets the following requirements.
+**Epaphrodites** is a modern, modular, and open-source framework that combines the power of **PHP**, **Python**, and **C**.
 
-# 🧩 PHP Required & Optional Extensions (PHP >= 8.2)
+It emphasizes:
+- ✨ Simplicity
+- 🛠️ Flexibility
+- 🌐 Multi-database support
+- 💡 Developer-friendly tools
+- 🧠 Native integration of C for performance-critical components
 
-## ✅ Required PHP Extensions
-
-- **OpenSSL PHP Extension**  
-  _SSL/TLS encryption, secure connections_
-
-- **ZIP PHP Extension**  
-  _Compression/decompression of ZIP archives_
-
-- **GD Extension**  
-  _Image manipulation: resizing, filters, etc._
-
-- **intl PHP Extension**  
-  _Internationalization, locale management, multilingual date formatting_
-
-- **PDO PHP Extension**  
-  _Unified interface for database access_
-
-- **JSON PHP Extension**  
-  _Encoding/decoding JSON data_
-
-- **XML PHP Extension**  
-  _Parsing and manipulating XML files_
-
-- **Mbstring PHP Extension**  
-  _Handling multi-byte character strings (UTF-8, etc.)_
-
-- **pdo_sqlite Extension**  
-  _PDO driver for SQLite3_
+Designed for developers who want full control of their stack, Epaphrodites bridges interpreted and compiled logic to deliver speed without sacrificing convenience.
 
 ---
 
-## 🔧 Optional Extensions
+## 🧩 PHP Required & Optional Extensions (PHP >= 8.2)
 
-- **Redis Extension**  
-  _Connect to Redis for caching/sessions_
+### ✅ Required PHP Extensions
 
-- **pdo_oci Extension**  
-  _PDO driver for Oracle Database_
+- **OpenSSL** — SSL/TLS encryption, secure connections  
+- **ZIP** — Compression/decompression of ZIP archives  
+- **GD** — Image manipulation: resizing, filters, etc.  
+- **intl** — Internationalization, locale/date formatting  
+- **PDO** — Unified database interface  
+- **JSON** — JSON data encoding/decoding  
+- **XML** — Parsing and manipulating XML files  
+- **Mbstring** — Multi-byte string support (e.g. UTF-8)  
+- **pdo_sqlite** — PDO driver for SQLite3
 
-- **pdo_mysql Extension**  
-  _PDO driver for MySQL/MariaDB_
+---
 
-- **mongodb Extension**  
-  _Connect to MongoDB (NoSQL database)_
+### 🔧 Optional Extensions
 
-- **pdo_pgsql Extension**  
-  _PDO driver for PostgreSQL_
-
-- **pdo_sqlsrv Extension**  
-  _PDO driver for Microsoft SQL Server_
+- **Redis** — Caching & sessions with Redis  
+- **pdo_oci** — Oracle DB support  
+- **pdo_mysql** — MySQL/MariaDB support  
+- **mongodb** — MongoDB (NoSQL) integration  
+- **pdo_pgsql** — PostgreSQL support  
+- **pdo_sqlsrv** — Microsoft SQL Server support
 
 ---
 
 ## ⚙️ System Dependencies
 
-- **PHP Dev Tools**  
-  _Required to compile PHP extensions → `php-dev` (Linux) / `php` (macOS)_
-
-- **Python3**  
-  _For integrating Python scripts if necessary_
+- **PHP Dev Tools** — Required to compile extensions (`php-dev` for Linux / `php` for macOS)  
+- **Python3** — Needed for Python integration  
+- **C Compiler** — Recommended for building native components and optimizing extensions
 
 ---
 
 ## 💡 Key Notes
 
-- Required extensions ensure essential features like DB access, encryption, text, and image processing.
-- Optional extensions depend on your specific tech stack (e.g., Redis for caching, SQL Server for Microsoft projects).
-- System dependencies are crucial for compilation (`phpize`) and interoperability (e.g., Python integration).
+- Required extensions provide core features (DB, encryption, image/text processing).
+- Optional ones depend on your tech stack.
+- System dependencies are critical for compilation (`phpize`) and C/Python interoperability.
 
+---
 
 ## 🚀 Installation
 
 ```bash
 composer create-project epaphrodites/epaphrodites your-project-name
-```
 
 ⚠️ Caution : If, after executing the previous command, the installation does not proceed as expected or if you encounter any issues, try running the following command :
 
