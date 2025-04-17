@@ -29,7 +29,7 @@ ZEND_END_ARG_INFO()
 // SECTION 1: MATHEMATIQUES FUNCTION
 // ========================================================================
 
-// Fonction interne pour le calcul de factorielle
+// Internal function for factorial calculation
 static zend_long calculate_factorial(zend_long num) {
     zend_long result = 1;
     
@@ -44,7 +44,7 @@ static zend_long calculate_factorial(zend_long num) {
     return result;
 }
 
-// Fonction exposée à PHP pour la factorielle
+// PHP-exposed function for factorial
 PHP_FUNCTION(shlomo_factorial) {
     zend_long num;
     zend_long result;
@@ -56,7 +56,7 @@ PHP_FUNCTION(shlomo_factorial) {
     result = calculate_factorial(num);
     
     if (result == -1) {
-        php_error_docref(NULL, E_WARNING, "Le nombre doit être positif");
+        php_error_docref(NULL, E_WARNING, "The number must be positive");
         RETURN_FALSE;
     }
     
@@ -67,7 +67,7 @@ PHP_FUNCTION(shlomo_factorial) {
 // SECTION 2: MANAGEMENT CHARCHAR FUNCTION
 // ========================================================================
 
-// Fonction interne pour inverser une chaîne
+// Internal function to invert a string
 static char* reverse_string(char *str, size_t str_len) {
     char *result = (char *) emalloc(str_len + 1);
     
@@ -79,7 +79,7 @@ static char* reverse_string(char *str, size_t str_len) {
     return result;
 }
 
-// Fonction exposée à PHP pour inverser une chaîne
+// Function exposed to PHP to invert a string
 PHP_FUNCTION(shlomo_reverse_string) {
     char *str;
     size_t str_len;
@@ -99,7 +99,7 @@ PHP_FUNCTION(shlomo_reverse_string) {
 // SECTION 3: MANAGEMENT FILES FUNCTION
 // ========================================================================
 
-// Fonction interne pour obtenir les stats d'un fichier
+// Function exposed to PHP to invert a string
 static zend_bool get_file_stats(char *filepath, struct stat *filestat) {
     if (stat(filepath, filestat) != 0) {
         return 0; // fail
@@ -107,7 +107,7 @@ static zend_bool get_file_stats(char *filepath, struct stat *filestat) {
     return 1; // success
 }
 
-// Fonction exposée à PHP pour obtenir les stats d'un fichier
+// Function exposed to PHP to invert a string
 PHP_FUNCTION(shlomo_file_stats) {
     char *filepath;
     size_t filepath_len;
@@ -118,7 +118,7 @@ PHP_FUNCTION(shlomo_file_stats) {
     ZEND_PARSE_PARAMETERS_END();
     
     if (!get_file_stats(filepath, &filestat)) {
-        php_error_docref(NULL, E_WARNING, "Impossible d'accéder au fichier: %s", filepath);
+        php_error_docref(NULL, E_WARNING, "Unable to access file: %s", filepath);
         RETURN_FALSE;
     }
     
@@ -137,7 +137,7 @@ PHP_FUNCTION(shlomo_file_stats) {
 
 // Welcome function
 PHP_FUNCTION(shlomo_hello) {
-    RETURN_STRING("Welcome to Epaphrodites est la!\n");
+    RETURN_STRING("Welcome to Epaphrodites in C!\n");
 }
 
 // ========================================================================
