@@ -8,23 +8,77 @@ Epaphrodites combines simplicity, compatibility with `Python`, support for `mult
 ## System needs
 What you should know before starting the installation. To create a new application, please first ensure that your computer meets the following requirements.
 
-- PHP >= 8.2
-- OpenSSL PHP Extension
-- ZIP PHP Extension
-- gd Extension
-- intl PHP Extension
-- PDO PHP Extension
-- JSON PHP Extension
-- XML PHP Extension
-- Mbstring PHP Extension
-- pdo_sqlite Extension for sqlite3
-- Redis Extension (if you use Redis)
-- pdo_oci Extension (if you use oracle)
-- pdo_mysql Extension (if you use Mysql)
-- mongodb Extension (if you use MongoDB)
-- pdo_pgsql Extension (if you use PostgreSQL)
-- pdo_sqlsrv Extension (if you use sqlServer)
-- Python3 installation (If you prefer to include elements of code written in Python)
+# 🧩 PHP Required & Optional Extensions (PHP >= 8.2)
+
+## ✅ Required PHP Extensions
+
+- **OpenSSL PHP Extension**  
+  _SSL/TLS encryption, secure connections_
+
+- **ZIP PHP Extension**  
+  _Compression/decompression of ZIP archives_
+
+- **GD Extension**  
+  _Image manipulation: resizing, filters, etc._
+
+- **intl PHP Extension**  
+  _Internationalization, locale management, multilingual date formatting_
+
+- **PDO PHP Extension**  
+  _Unified interface for database access_
+
+- **JSON PHP Extension**  
+  _Encoding/decoding JSON data_
+
+- **XML PHP Extension**  
+  _Parsing and manipulating XML files_
+
+- **Mbstring PHP Extension**  
+  _Handling multi-byte character strings (UTF-8, etc.)_
+
+- **pdo_sqlite Extension**  
+  _PDO driver for SQLite3_
+
+---
+
+## 🔧 Optional Extensions
+
+- **Redis Extension**  
+  _Connect to Redis for caching/sessions_
+
+- **pdo_oci Extension**  
+  _PDO driver for Oracle Database_
+
+- **pdo_mysql Extension**  
+  _PDO driver for MySQL/MariaDB_
+
+- **mongodb Extension**  
+  _Connect to MongoDB (NoSQL database)_
+
+- **pdo_pgsql Extension**  
+  _PDO driver for PostgreSQL_
+
+- **pdo_sqlsrv Extension**  
+  _PDO driver for Microsoft SQL Server_
+
+---
+
+## ⚙️ System Dependencies
+
+- **PHP Dev Tools**  
+  _Required to compile PHP extensions → `php-dev` (Linux) / `php` (macOS)_
+
+- **Python3**  
+  _For integrating Python scripts if necessary_
+
+---
+
+## 💡 Key Notes
+
+- Required extensions ensure essential features like DB access, encryption, text, and image processing.
+- Optional extensions depend on your specific tech stack (e.g., Redis for caching, SQL Server for Microsoft projects).
+- System dependencies are crucial for compilation (`phpize`) and interoperability (e.g., Python integration).
+
 
 ## 🚀 Installation
 
