@@ -21,8 +21,5 @@ ZEND_END_MODULE_GLOBALS(shlomo)
 
 // Declare your PHP functions here
 PHP_FUNCTION(shlomo_hello);
-PHP_FUNCTION(shlomo_factorial);
-PHP_FUNCTION(shlomo_reverse_string);
-PHP_FUNCTION(shlomo_file_stats);
 
 #endif
