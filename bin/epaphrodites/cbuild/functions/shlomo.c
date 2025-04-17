@@ -117,8 +117,9 @@ PHP_FUNCTION(shlomo_file_stats) {
 // ========================================================================
 
 // Fonction de bienvenue
-PHP_FUNCTION(shlomo_hello) {
-    php_printf("Bienvenu sur epaphrodites C!\n");
+PHP_FUNCTION(shlomo_hello)
+{
+    RETURN_STRING("Bienvenu sur epaphrodites C avec ce test!\n");
 }
 
 // ========================================================================
