@@ -12,7 +12,8 @@ trait mongodb
      * @return object
      */
     private function setMongoDBConnexion(
-        int $db
+        int $db = 1,
+        bool $state = false
     ):object
     {
 
@@ -93,9 +94,9 @@ trait mongodb
      * @return object
     */    
     public function MongoDB(
-        int $db = 1
-    ):object
-    {
+        int $db = 1,
+        bool $state = false
+    ):object|array{
 
         return $this->setMongoDBConnexion($db);
     }

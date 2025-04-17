@@ -250,5 +250,4 @@ trait eklouBuildMethod{
             echo "Erreur : " . $e->getMessage();
         }
     }    
-    
 }

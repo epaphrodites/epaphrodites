@@ -48,7 +48,8 @@ trait redisdb
      * @return array|object
      */
     public function RedisDB(
-        int $db = 1
+        int $db = 1,
+        bool $state = false
     ):array|object
     {
 

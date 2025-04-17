@@ -75,9 +75,9 @@ trait SqlServer{
      * @return object
      */
     public function SqlServer(
-        int $db = 1
-    ):object
-    {
+        int $db = 1,
+        bool $state = false
+    ):object|array{
 
         return $this->setSqlServerConnexion($db);
     }  

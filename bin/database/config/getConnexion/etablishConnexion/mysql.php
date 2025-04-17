@@ -7,31 +7,43 @@ use PDOException;
 
 trait mysql{
 
+    // At the top of your class
+    private ?PDO $pdo = null;
+
     /**
-     * Connexion Mysql
-     * @param integer $db
-     * @return object
-    */
+     * Establishes or closes the MySQL connection.
+     *
+     * @param int $db    The database ID.
+     * @param bool $state If true, closes the connection. If false, connects (if not already).
+     * @return object|null The PDO connection object or null if closed.
+     */
     private function setMysqlConnexion(
-        int $db
-    ):object
-    {
-
-        // Try to connect to database to etablish connexion
-        try {
-
-            return new PDO(
-                static::MYSQL_DNS($db) . 'dbname=' . static::DB_DATABASE($db),
-                static::DB_USER($db),
-                static::DB_PASSWORD($db),
-                static::dbOptions()
-            );
-
-            // If impossible send error message        
-        } catch (PDOException $e) {
-           
-            throw new PDOException(static::getError($e->getMessage()));
+        int $db, 
+        bool $state = false
+    ): ?object{
+        if ($state == true) {
+            // Close the connection by setting the PDO instance to null
+            $this->pdo = null;
+            return null;
         }
+
+        // If no active connection, establish a new one
+        if ($this->pdo == null) {
+            try {
+                $this->pdo = new PDO(
+                    static::MYSQL_DNS($db) . 'dbname=' . static::DB_DATABASE($db),
+                    static::DB_USER($db),
+                    static::DB_PASSWORD($db),
+                    static::dbOptions()
+                );
+            } catch (PDOException $e) {
+                // Throw a formatted error message if connection fails
+                throw new PDOException(static::getError($e->getMessage()));
+            }
+        }
+
+        // Return the existing or newly created connection
+        return $this->pdo;
     }
 
     /**
@@ -77,11 +89,11 @@ trait mysql{
      * @return object
      */
     public function Mysql(
-        int $db = 1
-    ):object
-    {
+        int $db = 1,
+        bool $state = false
+    ):object|array{
 
-        return $this->setMysqlConnexion($db);
+        return $this->setMysqlConnexion($db, $state);
     }
 
     /**

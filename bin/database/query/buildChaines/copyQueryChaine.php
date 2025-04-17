@@ -68,9 +68,7 @@ trait copyQueryChaine {
             'pgsql' => $this->postresMethod($sourceConn, $targetConn),
             'mysql' => $this->mysqlMethod($sourceConn, $targetConn),
         };
-
     }
-
 
     /**
      * get database connexion
@@ -79,12 +77,11 @@ trait copyQueryChaine {
      * @return array|object
      */
     private function getdbConnexion(
-        int $db = 1) {
+        int $db = 1
+    ):array|object {
             
         $connexion = (new \Epaphrodites\database\config\process\getDatabase)->GetConnexion($db);
 
         return $connexion;
     }
-      
 }
-

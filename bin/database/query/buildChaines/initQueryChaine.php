@@ -7,7 +7,7 @@ trait initQueryChaine{
     /**
      * @return void
      */
-    protected function initQueryChaine():void{
+    public function initQueryChaine():void{
        
         $this->table = NULL;
 

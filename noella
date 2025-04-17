@@ -1,0 +1,97 @@
+# ==================== CONFIG ==================== #
+
+$extName = "shlomo"
+$soName = "$extName.dll"  # .dll sous Windows
+$configFile = "config.m4"
+$extPath = "..\extension"
+$configPath = "..\config\$configFile"
+$libraryPath = "bin\epaphrodites\cbuild\library"
+
+# ==================== COLORS ==================== #
+function Write-Green { param($msg) ; Write-Host $msg -ForegroundColor Green }
+function Write-Red   { param($msg) ; Write-Host $msg -ForegroundColor Red }
+function Wait-Animation {
+    Write-Host -NoNewline "⏳ Please wait"
+    1..3 | ForEach-Object {
+        Start-Sleep -Milliseconds 500
+        Write-Host -NoNewline "."
+    }
+    Write-Host ""
+}
+
+# ==================== DIRECTORY SETUP ==================== #
+
+Write-Host "📁 [0/8] Ensuring 'library' directory exists..."
+if (-Not (Test-Path $libraryPath)) {
+    New-Item -ItemType Directory -Path $libraryPath | Out-Null
+}
+Write-Green "✅ Directory ready"
+
+# ==================== BUILD PROCESS ==================== #
+
+Set-Location $libraryPath
+
+Write-Host "🔗 [1/8] Copying config.m4..."
+Copy-Item -Path $configPath -Destination . -Force
+Write-Green "✅ Config copied"
+
+Write-Host "🧹 [2/8] Cleaning previous builds..."
+Wait-Animation
+Invoke-Expression "make clean"
+Write-Green "✅ Cleaned"
+
+Write-Host "🧪 [3/8] Running phpize..."
+Wait-Animation
+Invoke-Expression "phpize"
+Write-Green "✅ Phpize done"
+
+Write-Host "⚙️ [4/8] Configuring extension..."
+Wait-Animation
+Invoke-Expression "./configure --enable-$extName"
+Write-Green "✅ Configuration successful"
+
+Write-Host "🔨 [5/8] Compiling extension..."
+Wait-Animation
+Invoke-Expression "make"
+if ($LASTEXITCODE -ne 0) {
+    Write-Red "❌ Build failed. Please check your C code."
+    exit 1
+}
+Write-Green "✅ Build successful"
+
+Write-Host "📦 [6/8] Copying DLL to extension folder..."
+$soSource = "modules\$soName"
+Copy-Item -Path $soSource -Destination $extPath -Force
+Write-Green "✅ Copied to $extPath"
+
+# ==================== INI REGISTRATION ==================== #
+
+Write-Host "📄 [7/8] Registering extension in php.ini..."
+
+# Detect php.ini path
+$phpInfo = php --ini
+$iniLine = $phpInfo | Select-String "Loaded Configuration File" | ForEach-Object { $_.ToString() }
+$iniPath = $iniLine -replace '.*:\s+', ''
+
+if (-not (Test-Path $iniPath)) {
+    Write-Red "❌ Could not find php.ini. Aborting."
+    exit 1
+}
+
+$extFullPath = Resolve-Path "$extPath\$soName"
+
+if ((Get-Content $iniPath) -notmatch "$soName") {
+    Add-Content -Path $iniPath -Value "`n; Shlomo Extension`nextension=$extFullPath"
+    Write-Green "✅ Added to php.ini"
+} else {
+    Write-Host "ℹ️ Extension already registered in php.ini"
+}
+
+# ==================== RESTART SUGGESTION ==================== #
+
+Write-Host "♻️ [8/8] Please restart your web server (Apache/Nginx) manually:"
+Write-Host "- For XAMPP: Restart Apache via Control Panel"
+Write-Host "- For WAMP: Click on WAMP icon → Restart all services"
+Write-Host "- For Laragon: Click 'Reload' or restart Apache"
+
+Write-Green "🎉 Extension '$extName' built and registered successfully!"

@@ -73,7 +73,10 @@ trait postgreSQL{
      * @param integer $db
      * @return object
     */   
-    public function PostgreSQL(int $db = 1){
+    public function PostgreSQL(
+        int $db = 1,
+        bool $state = false
+    ):object|array{
 
         return $this->setPostgreSQLConnexion($db);
     }  

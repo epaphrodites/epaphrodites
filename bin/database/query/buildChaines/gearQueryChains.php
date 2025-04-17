@@ -357,7 +357,7 @@ trait gearQueryChains
      * Check database driver
      * @return string
      */
-    private function driver($key): string
+    public function driver($key): string
     {
         $db = max(1, (int) $key);
         return GetConfig::DB_DRIVER($db);

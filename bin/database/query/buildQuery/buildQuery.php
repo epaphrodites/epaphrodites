@@ -70,12 +70,17 @@ trait buildQuery
     {
         $param = $this->param ?? null;
         $setParam = !is_null($this->param);
-        $close = isset($this->close) && $this->close === true ? true : false;
-        $db = isset($this->db)&&$db===1 ? $this->db : $db;
+        $db = isset($this->db)&&$db==1 ? $this->db : $db;
+        $exceptErrorDisplay = $this->except ? $this->except : false;
+
+        $close = isset($this->close) && $this->close == true ? true : false;
         $this->db = NULL;
-        
+        $this->param = [];
+        $this->except = NULL;
+
+
         // Execute the SELECT query and return the result
-        return static::initConfig()['process']->select($query, $param, $setParam, $close, $db);
+        return static::initConfig()['process']->select($query, $param, $setParam, $close, $db, $exceptErrorDisplay);
     }
 
     /**
@@ -91,12 +96,15 @@ trait buildQuery
     {
         $param = $this->param ?? null;
         $setParam = !is_null($this->param);
-        $close = isset($this->close) && $this->close === true ? true : false;
         $db = isset($this->db)&&$db===1 ? $this->db : $db;
+        $exceptErrorDisplay = $this->except ? $this->except : false;
+        $close = isset($this->close) && $this->close === true ? true : false;
         $this->db = NULL;
+        $this->param = [];
+        $this->except = false;
 
         // Execute the INSERT query and return the result
-        return static::initConfig()['process']->runRequest($query, $param, $setParam, $close, $db);
+        return static::initConfig()['process']->runRequest($query, $param, $setParam, $close, $db, $exceptErrorDisplay);
     }    
 
     /**

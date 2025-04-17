@@ -39,8 +39,9 @@ trait oracledb{
      * @return object
     */   
     public function oracledb(
-        int $db = 1
-    ){
+        int $db = 1,
+        bool $state = false
+    ):object|array{
 
         return $this->setOracledbConnexion($db);
     }   

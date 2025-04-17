@@ -16,6 +16,9 @@ define('__EMAIL_METHOD__', 'php');
 # Session use OTP method (accepted : false or true)
 define('_OTP_METHOD_', false);
 
+# Set Production and developpment mode (accepted : false or true)
+define('_PRODUCTION_', false);
+
 # Config front files
 define('_FRONT_', '.html');
 
