@@ -3,8 +3,7 @@
 
 extern zend_module_entry shlomo_module_entry;
 #define phpext_shlomo_ptr &shlomo_module_entry
-
-#define PHP_SHLOMO_VERSION "0.1"
+#define PHP_SHLOMO_VERSION "0.2"
 
 #ifdef ZTS
 #include "TSRM.h"
@@ -12,7 +11,7 @@ extern zend_module_entry shlomo_module_entry;
 
 // Si tu ajoutes des globals plus tard
 ZEND_BEGIN_MODULE_GLOBALS(shlomo)
-    // long example_global;
+ // long example_global;
 ZEND_END_MODULE_GLOBALS(shlomo)
 
 // Accès aux globals
@@ -24,5 +23,8 @@ ZEND_END_MODULE_GLOBALS(shlomo)
 
 // Déclarations des fonctions exposées à PHP
 PHP_FUNCTION(shlomo_hello);
+PHP_FUNCTION(shlomo_factorial);
+PHP_FUNCTION(shlomo_reverse_string);
+PHP_FUNCTION(shlomo_file_stats);
 
 #endif /* PHP_SHLOMO_H */
