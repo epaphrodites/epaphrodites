@@ -1,42 +1,71 @@
-![](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)
+![Epaphrodites Logo](https://github.com/epaphrodites/epaphrodites/blob/master/static/img/logo.png)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
+---
+
 ## 👋 About Epaphrodites
-Epaphrodites combines simplicity, compatibility with `Python`, support for `multiple databases`, and a commitment to `open-source` principles. It's a promising solution for web programming enthusiasts seeking a flexible, transparent, and evolving development environment. Join this passionate community and explore the opportunities that Epaphrodites can offer for your web projects.
 
-## System needs
-What you should know before starting the installation. To create a new application, please first ensure that your computer meets the following requirements.
+**Epaphrodites** is a modern, modular, and open-source framework that combines the power of **PHP**, **Python**, and **C**.
 
-- PHP >= 8.2
-- OpenSSL PHP Extension
-- ZIP PHP Extension
-- gd Extension
-- intl PHP Extension
-- PDO PHP Extension
-- JSON PHP Extension
-- XML PHP Extension
-- Mbstring PHP Extension
-- pdo_sqlite Extension for sqlite3
-- Redis Extension (if you use Redis)
-- pdo_oci Extension (if you use oracle)
-- pdo_mysql Extension (if you use Mysql)
-- mongodb Extension (if you use MongoDB)
-- pdo_pgsql Extension (if you use PostgreSQL)
-- pdo_sqlsrv Extension (if you use sqlServer)
-- Python3 installation (If you prefer to include elements of code written in Python)
+It emphasizes:
+- ✨ Simplicity
+- 🛠️ Flexibility
+- 🌐 Multi-database support
+- 💡 Developer-friendly tools
+- 🧠 Native integration of C for performance-critical components
+
+Designed for developers who want full control of their stack, Epaphrodites bridges interpreted and compiled logic to deliver speed without sacrificing convenience.
+
+---
+
+## 🧩 PHP Required & Optional Extensions (PHP >= 8.2)
+
+### ✅ Required PHP Extensions
+
+- **OpenSSL** — SSL/TLS encryption, secure connections  
+- **ZIP** — Compression/decompression of ZIP archives  
+- **GD** — Image manipulation: resizing, filters, etc.  
+- **intl** — Internationalization, locale/date formatting  
+- **PDO** — Unified database interface  
+- **JSON** — JSON data encoding/decoding  
+- **XML** — Parsing and manipulating XML files  
+- **Mbstring** — Multi-byte string support (e.g. UTF-8)  
+- **pdo_sqlite** — PDO driver for SQLite3
+
+---
+
+### 🔧 Optional Extensions
+
+- **Redis** — Caching & sessions with Redis  
+- **pdo_oci** — Oracle DB support  
+- **pdo_mysql** — MySQL/MariaDB support  
+- **mongodb** — MongoDB (NoSQL) integration  
+- **pdo_pgsql** — PostgreSQL support  
+- **pdo_sqlsrv** — Microsoft SQL Server support
+
+---
+
+## ⚙️ System Dependencies
+
+- **PHP Dev Tools** — Required to compile extensions (`php-dev` for Linux / `php` for macOS)  
+- **Python3** — Needed for Python integration  
+- **C Compiler** — Recommended for building native components and optimizing extensions
+
+---
+
+## 💡 Key Notes
+
+- Required extensions provide core features (DB, encryption, image/text processing).
+- Optional ones depend on your tech stack.
+- System dependencies are critical for compilation (`phpize`) and C/Python interoperability.
+
+---
 
 ## 🚀 Installation
 
 ```bash
 composer create-project epaphrodites/epaphrodites your-project-name
-```
-
-⚠️ Caution : If, after executing the previous command, the installation does not proceed as expected or if you encounter any issues, try running the following command :
-
-```bash
-cd your-project-name
-php epaphrodites install component
 ```
 
 ⚠️ Recommendation : If you have already installed `MongoDB` on your machine and wish to incorporate its usage into your project, please execute the following command:
