@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 // ========================================================================
-// SECTION 1: FONCTIONS MATHÉMATIQUES
+// SECTION 1: MATHEMATIQUES FUNCTION
 // ========================================================================
 
 // Fonction interne pour le calcul de factorielle
@@ -15,7 +15,7 @@ static zend_long calculate_factorial(zend_long num) {
     zend_long result = 1;
     
     if (num < 0) {
-        return -1; // Signal d'erreur
+        return -1; // error
     }
     
     for (zend_long i = 1; i <= num; i++) {
@@ -45,7 +45,7 @@ PHP_FUNCTION(shlomo_factorial) {
 }
 
 // ========================================================================
-// SECTION 2: FONCTIONS DE MANIPULATION DE CHAÎNES
+// SECTION 2: MANAGEMENT CHARCHAR FUNCTION
 // ========================================================================
 
 // Fonction interne pour inverser une chaîne
@@ -77,15 +77,15 @@ PHP_FUNCTION(shlomo_reverse_string) {
 }
 
 // ========================================================================
-// SECTION 3: FONCTIONS DE MANIPULATION DE FICHIERS
+// SECTION 3: MANAGEMENT FILES FUNCTION
 // ========================================================================
 
 // Fonction interne pour obtenir les stats d'un fichier
 static zend_bool get_file_stats(char *filepath, struct stat *filestat) {
     if (stat(filepath, filestat) != 0) {
-        return 0; // échec
+        return 0; // fail
     }
-    return 1; // succès
+    return 1; // success
 }
 
 // Fonction exposée à PHP pour obtenir les stats d'un fichier
@@ -113,20 +113,20 @@ PHP_FUNCTION(shlomo_file_stats) {
 }
 
 // ========================================================================
-// SECTION 4: FONCTION PRINCIPALE DE BIENVENUE
+// SECTION 4: WELCOME FUNCTION
 // ========================================================================
 
-// Fonction de bienvenue
+// Welcome function
 PHP_FUNCTION(shlomo_hello)
 {
-    RETURN_STRING("Bienvenu sur epaphrodites C avec ce test!\n");
+    RETURN_STRING("Welcome to Epaphrodites C function!\n");
 }
 
 // ========================================================================
-// SECTION 5: CONFIGURATION DU MODULE
+// SECTION 5: CONFIGURATION
 // ========================================================================
 
-// Mapping des fonctions PHP
+// PHP Functions Mapping
 static const zend_function_entry shlomo_functions[] = {
     PHP_FE(shlomo_hello, NULL)
     PHP_FE(shlomo_factorial, NULL)
@@ -138,8 +138,8 @@ static const zend_function_entry shlomo_functions[] = {
 // Module entry
 zend_module_entry shlomo_module_entry = {
     STANDARD_MODULE_HEADER,
-    "shlomo", // nom de l'extension
-    shlomo_functions, // fonctions exposées
+    "shlomo", // extension name
+    shlomo_functions, // functions
     NULL, // MINIT
     NULL, // MSHUTDOWN
     NULL, // RINIT
