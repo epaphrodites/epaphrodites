@@ -174,7 +174,7 @@ Password : admin
 
 Contributions are welcome! Fork the repo, make changes, and submit a pull request.
 
-Don't forget to set executable permissions if needed:
+Don't forget to set executable permissions if you needed to use C in your project :
 
 ```bash
 chmod +x shlomo 
