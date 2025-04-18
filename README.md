@@ -145,6 +145,18 @@ php heredia create:db epaphroditesdb
 php heredia pip:component
 ```
 
+#### 🔧 Compile C components
+- Note: This command is for users who have C development tools installed on their machine. It compiles the C components essential for performance-critical operations in the Epaphrodites framework:
+
+```bash  
+sudo ./shlomo
+```
+
+- Ensure you've set the proper executable permissions before running: :
+
+```bash
+chmod +x shlomo 
+```
 ### 🔥 Run your App
 - Note: For SQL databases, you must create your database before running your application. In the case of MongoDB, the system will generate your database based on your configuration.
 
@@ -173,9 +185,3 @@ Password : admin
 ### 🤝 Contributing
 
 Contributions are welcome! Fork the repo, make changes, and submit a pull request.
-
-Don't forget to set executable permissions if you needed to use C in your project :
-
-```bash
-chmod +x shlomo 
-```
