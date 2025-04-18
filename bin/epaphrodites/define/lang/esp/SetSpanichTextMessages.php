@@ -30,7 +30,7 @@ class SetSpanichTextMessages
             'back' => "Volver a la página de inicio",
             '404' => "¡Oops! No se encontró la página",
             'connexion' => "Por favor, vuelve a conectar",
-            'version' => 'EPAPHRODITES V0.01 (PHP 8.3 & PYTHON 3)',
+            'version' => 'EPAPHRODITES V0.01 (PHP 8.3 + PYTHON 3 + C)',
             'succes' => "Procesamiento completado exitosamente",
             'user-exist' => 'Lo siento, este usuario ya existe.',
             'noformat' => "El formato del archivo es incorrecto",
