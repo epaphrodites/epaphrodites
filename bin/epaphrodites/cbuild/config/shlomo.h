@@ -10,7 +10,6 @@ extern zend_module_entry shlomo_module_entry;
 #endif
 
 ZEND_BEGIN_MODULE_GLOBALS(shlomo)
-
 ZEND_END_MODULE_GLOBALS(shlomo)
 
 #ifdef ZTS
@@ -19,7 +18,11 @@ ZEND_END_MODULE_GLOBALS(shlomo)
 #define SHLOMO_G(v) (shlomo_globals.v)
 #endif
 
-// Declare your PHP functions here
+// Declare PHP-exposed functions
 PHP_FUNCTION(shlomo_hello);
+PHP_FUNCTION(shlomo_async);
+PHP_FUNCTION(shlomo_await);
+PHP_FUNCTION(shlomo_then);
+PHP_FUNCTION(shlomo_task_info);
 
 #endif
