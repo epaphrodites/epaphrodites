@@ -29,7 +29,7 @@ class SetFrenchTextMessages
                 'site-title' => 'ACCUEIL | EPAPHRODITES',
                 'description' => 'framework epaphrodites',
                 'error_text' => 'Erreur txt epaphrodites',
-                'version' => 'EPAPHRODITES V0.01 (PHP 8.3 + PYTHON 3 + C)',
+                'version' => 'EPAPHRODITES V0.01 (PHP 8.4 + PYTHON 3 + C)',
                 'fileempty' => 'Aucun fichier selectionné !!!',
                 'false-mail' => 'Désolé, ce mail est incorrect.',
                 'noformat' => 'Le format du fichier incorrecte !',
