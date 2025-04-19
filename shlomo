@@ -2,11 +2,11 @@
 
 # ==================== CONFIG ==================== #
 
-EXT_NAME="shlomo"
+EXT_NAME="$1"
 SO_NAME="$EXT_NAME.so"
 CONFIG_FILE="config.m4"
 EXT_PATH="../extension"
-CONFIG_PATH="../config/$CONFIG_FILE"
+CONFIG_PATH="../config/$EXT_NAME/$CONFIG_FILE"
 
 # Couleurs
 GREEN='\033[0;32m'
@@ -61,8 +61,13 @@ cd bin/epaphrodites/cbuild/library || { echo -e "${RED}❌ Failed to change dire
 echo -e "${GREEN}✅ Done${NC}"
 
 echo "🔗 [2/8] Linking $CONFIG_FILE..."
-ln -sf "$CONFIG_PATH" .
-echo -e "${GREEN}✅ Link created${NC}"
+if [ -f "$CONFIG_PATH" ]; then
+  ln -sf "$CONFIG_PATH" .
+  echo -e "${GREEN}✅ Link created${NC}"
+else
+  echo -e "${RED}❌ Config file $CONFIG_PATH not found. Please check the config directory.${NC}"
+  exit 1
+fi
 
 echo "🧹 [3/8] Cleaning previous builds..."
 wait_animation
