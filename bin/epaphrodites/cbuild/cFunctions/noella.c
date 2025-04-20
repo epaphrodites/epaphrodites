@@ -14,7 +14,7 @@ This extension is motivated by the following goals:
   - Maintain simplicity and modularity for easy integration and evolution
 
 "Noella" represents clarity and precision — bringing sharp, native tools
-to the fingertips of PHP developers.
+to the fingertips of PHP developers
 
 ===============================================================================
 */
@@ -24,7 +24,7 @@ to the fingertips of PHP developers.
 #endif
 
 #include "php.h"
-#include "../cbuild/config/noella/noella.h"
+#include "../config/noella/noella.h"
 
 // ========================================================================
 // ARGINFO
@@ -37,7 +37,7 @@ ZEND_END_ARG_INFO()
 // ========================================================================
 PHP_FUNCTION(hello_noella)
 {
-    php_printf("Hello from Noella!\n");
+    php_printf("Hello from Noella extension!\n");
 }
 
 // ========================================================================

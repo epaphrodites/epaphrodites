@@ -7,7 +7,8 @@ SO_NAME="$EXT_NAME.so"
 CONFIG_FILE="config.m4"
 EXT_PATH="../extension"
 CONFIG_PATH="../config/$EXT_NAME/$CONFIG_FILE"
-HEADER_PATH="$CONFIG_DIR/$EXT_NAME.h"
+HEADER_PATH="bin/epaphrodites/cbuild/config/$EXT_NAME/$EXT_NAME.h"
+M4_PATH="bin/epaphrodites/cbuild/config/$EXT_NAME/$CONFIG_FILE"
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -55,8 +56,8 @@ restart_php_service() {
 
 echo "🔍 Checking required config and header files..."
 
-if [ ! -f "$CONFIG_PATH" ]; then
-  echo -e "${RED}❌ Missing config file: $CONFIG_PATH${NC}"
+if [ ! -f "$M4_PATH" ]; then
+  echo -e "${RED}❌ Missing config file: $M4_PATH${NC}"
   exit 1
 fi
 
@@ -77,9 +78,9 @@ echo "🔧 [1/8] Moving into build directory..."
 cd bin/epaphrodites/cbuild/library || { echo -e "${RED}❌ Failed to change directory.${NC}"; exit 1; }
 echo -e "${GREEN}✅ Done${NC}"
 
-echo "🔗 [2/8] Linking $CONFIG_FILE..."
+echo "🔗 [2/8] Linking config.m4..."
 if [ -f "$CONFIG_PATH" ]; then
-  ln -sf "$CONFIG_PATH" .
+  ln -sf "$CONFIG_PATH" config.m4
   echo -e "${GREEN}✅ Link created${NC}"
 else
   echo -e "${RED}❌ Config file $CONFIG_PATH not found. Please check the config directory.${NC}"

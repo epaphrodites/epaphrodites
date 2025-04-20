@@ -20,7 +20,7 @@ and low-level C.
 */
 
 #include "php.h"
-#include "../cbuild/config/shlomo/shlomo.h"
+#include "../config/shlomo/shlomo.h"
 #include "zend_exceptions.h"
 #include "zend_API.h"
 #include "zend_types.h"
