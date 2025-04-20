@@ -30,6 +30,7 @@ class ConsoleKernel
             new \Epaphrodites\epaphrodites\Console\commands\CommandFirstDrivers,
             new \Epaphrodites\epaphrodites\Console\commands\CommandRequestFiles,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddSqlRequest,
+            new \Epaphrodites\epaphrodites\Console\commands\commandaddCExtensions,
             new \Epaphrodites\epaphrodites\Console\commands\CommandAddNoSqlRequest,
             new \Epaphrodites\epaphrodites\Console\commands\commandcopyDatabaseTable,
             new \Epaphrodites\epaphrodites\Console\commands\commandpythonComponents,
