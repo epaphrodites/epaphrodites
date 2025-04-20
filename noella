@@ -1,97 +1,131 @@
+#!/bin/bash
+
 # ==================== CONFIG ==================== #
 
-$extName = "shlomo"
-$soName = "$extName.dll"  # .dll sous Windows
-$configFile = "config.m4"
-$extPath = "..\extension"
-$configPath = "..\config\$configFile"
-$libraryPath = "bin\epaphrodites\cbuild\library"
+EXT_NAME="$1"
+SO_NAME="$EXT_NAME.so"
+CONFIG_FILE="config.m4"
+EXT_PATH="../extension"
+CONFIG_PATH="../config/$EXT_NAME/$CONFIG_FILE"
+HEADER_PATH="../config/$EXT_NAME/$EXT_NAME.h"
 
-# ==================== COLORS ==================== #
-function Write-Green { param($msg) ; Write-Host $msg -ForegroundColor Green }
-function Write-Red   { param($msg) ; Write-Host $msg -ForegroundColor Red }
-function Wait-Animation {
-    Write-Host -NoNewline "⏳ Please wait"
-    1..3 | ForEach-Object {
-        Start-Sleep -Milliseconds 500
-        Write-Host -NoNewline "."
-    }
-    Write-Host ""
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# ==================== FUNCTIONS ==================== #
+
+wait_animation() {
+  echo -n "⏳ Please wait"
+  for i in {1..3}; do
+    sleep 0.5
+    echo -n "."
+  done
+  echo
 }
 
-# ==================== DIRECTORY SETUP ==================== #
-
-Write-Host "📁 [0/8] Ensuring 'library' directory exists..."
-if (-Not (Test-Path $libraryPath)) {
-    New-Item -ItemType Directory -Path $libraryPath | Out-Null
-}
-Write-Green "✅ Directory ready"
-
-# ==================== BUILD PROCESS ==================== #
-
-Set-Location $libraryPath
-
-Write-Host "🔗 [1/8] Copying config.m4..."
-Copy-Item -Path $configPath -Destination . -Force
-Write-Green "✅ Config copied"
-
-Write-Host "🧹 [2/8] Cleaning previous builds..."
-Wait-Animation
-Invoke-Expression "make clean"
-Write-Green "✅ Cleaned"
-
-Write-Host "🧪 [3/8] Running phpize..."
-Wait-Animation
-Invoke-Expression "phpize"
-Write-Green "✅ Phpize done"
-
-Write-Host "⚙️ [4/8] Configuring extension..."
-Wait-Animation
-Invoke-Expression "./configure --enable-$extName"
-Write-Green "✅ Configuration successful"
-
-Write-Host "🔨 [5/8] Compiling extension..."
-Wait-Animation
-Invoke-Expression "make"
-if ($LASTEXITCODE -ne 0) {
-    Write-Red "❌ Build failed. Please check your C code."
-    exit 1
-}
-Write-Green "✅ Build successful"
-
-Write-Host "📦 [6/8] Copying DLL to extension folder..."
-$soSource = "modules\$soName"
-Copy-Item -Path $soSource -Destination $extPath -Force
-Write-Green "✅ Copied to $extPath"
-
-# ==================== INI REGISTRATION ==================== #
-
-Write-Host "📄 [7/8] Registering extension in php.ini..."
-
-# Detect php.ini path
-$phpInfo = php --ini
-$iniLine = $phpInfo | Select-String "Loaded Configuration File" | ForEach-Object { $_.ToString() }
-$iniPath = $iniLine -replace '.*:\s+', ''
-
-if (-not (Test-Path $iniPath)) {
-    Write-Red "❌ Could not find php.ini. Aborting."
-    exit 1
+detect_php_version() {
+  php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;' 2>/dev/null
 }
 
-$extFullPath = Resolve-Path "$extPath\$soName"
-
-if ((Get-Content $iniPath) -notmatch "$soName") {
-    Add-Content -Path $iniPath -Value "`n; Shlomo Extension`nextension=$extFullPath"
-    Write-Green "✅ Added to php.ini"
-} else {
-    Write-Host "ℹ️ Extension already registered in php.ini"
+find_conf_d_path() {
+  php --ini | grep "Scan for additional .ini files in" | awk -F': ' '{print $2}'
 }
 
-# ==================== RESTART SUGGESTION ==================== #
+restart_php_service_unix() {
+  echo "♻️  Restarting PHP service if needed..."
 
-Write-Host "♻️ [8/8] Please restart your web server (Apache/Nginx) manually:"
-Write-Host "- For XAMPP: Restart Apache via Control Panel"
-Write-Host "- For WAMP: Click on WAMP icon → Restart all services"
-Write-Host "- For Laragon: Click 'Reload' or restart Apache"
+  if command -v brew &>/dev/null; then
+    echo "🔁 Detected Homebrew (macOS)"
+    brew services restart php
+  elif command -v systemctl &>/dev/null; then
+    php_version=$(detect_php_version)
+    echo "🔁 Detected systemd (Linux), trying to restart php-fpm..."
+    sudo systemctl restart "php${php_version}-fpm" || sudo systemctl restart php-fpm
+  elif command -v apachectl &>/dev/null; then
+    echo "🔁 Apache detected"
+    sudo apachectl restart
+  else
+    echo -e "${RED}⚠️  No known service manager detected. Please restart PHP manually.${NC}"
+  fi
+}
 
-Write-Green "🎉 Extension '$extName' built and registered successfully!"
+restart_php_service_windows() {
+  echo "♻️  (Windows) Please restart your web server (e.g., Apache/Nginx or PHP service) manually."
+}
+
+# ==================== PRE-CHECKS ==================== #
+
+echo "🔍 Checking required config and header files..."
+
+if [ ! -f "$CONFIG_PATH" ]; then
+  echo -e "${RED}❌ Missing config file: $CONFIG_PATH${NC}"
+  exit 1
+fi
+
+if [ ! -f "$HEADER_PATH" ]; then
+  echo -e "${RED}❌ Missing header file: $HEADER_PATH${NC}"
+  exit 1
+fi
+
+echo -e "${GREEN}✅ Config and header files found${NC}"
+
+# ==================== SCRIPT START ==================== #
+
+echo "📁 [0/8] Ensuring 'library' directory exists..."
+mkdir -p bin/epaphrodites/cbuild/library
+echo -e "${GREEN}✅ Directory ready${NC}"
+
+echo "🔧 [1/8] Moving into build directory..."
+cd bin/epaphrodites/cbuild/library || { echo -e "${RED}❌ Failed to change directory.${NC}"; exit 1; }
+echo -e "${GREEN}✅ Done${NC}"
+
+echo "🔗 [2/8] Linking $CONFIG_FILE..."
+ln -sf "$CONFIG_PATH" .
+echo -e "${GREEN}✅ Link created${NC}"
+
+echo "🧹 [3/8] Cleaning previous builds..."
+wait_animation
+make clean
+echo -e "${GREEN}✅ Cleaned${NC}"
+
+echo "🧪 [4/8] Running phpize..."
+wait_animation
+phpize
+echo -e "${GREEN}✅ Phpize completed${NC}"
+
+echo "⚙️ [5/8] Configuring extension with --enable-$EXT_NAME..."
+wait_animation
+./configure --enable-$EXT_NAME
+echo -e "${GREEN}✅ Configuration successful${NC}"
+
+echo "🔨 [6/8] Building the extension..."
+wait_animation
+make
+if [ $? -ne 0 ]; then
+  echo -e "${RED}❌ Build failed. Fix your C code and retry.${NC}"
+  exit 1
+fi
+echo -e "${GREEN}✅ Build successful${NC}"
+
+echo "📦 [7/8] Copying $SO_NAME to extension directory..."
+cp "modules/$SO_NAME" "$EXT_PATH/"
+echo -e "${GREEN}✅ Extension copied to $EXT_PATH/${NC}"
+
+CONF_D_PATH=$(find_conf_d_path)
+EXT_FULL_PATH="$(pwd | sed 's/library/extension/')/$SO_NAME"
+INI_FILE="$CONF_D_PATH/${EXT_NAME}.ini"
+
+echo "📄 [8/8] Writing $INI_FILE..."
+echo "extension=$EXT_FULL_PATH" | sudo tee "$INI_FILE" >/dev/null
+echo -e "${GREEN}✅ INI registered: $INI_FILE${NC}"
+
+# Detect OS and restart PHP service accordingly
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "cygwin" ]]; then
+  restart_php_service_windows
+else
+  restart_php_service_unix
+fi
+
+echo -e "${GREEN}🎉 Extension '$EXT_NAME' built and loaded successfully!${NC}"

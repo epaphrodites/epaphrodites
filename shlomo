@@ -7,8 +7,9 @@ SO_NAME="$EXT_NAME.so"
 CONFIG_FILE="config.m4"
 EXT_PATH="../extension"
 CONFIG_PATH="../config/$EXT_NAME/$CONFIG_FILE"
+HEADER_PATH="$CONFIG_DIR/$EXT_NAME.h"
 
-# Couleurs
+# Colors for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
@@ -49,6 +50,22 @@ restart_php_service() {
     echo -e "${RED}⚠️  No known service manager detected. Please restart PHP manually.${NC}"
   fi
 }
+
+# ==================== PRE-CHECKS ==================== #
+
+echo "🔍 Checking required config and header files..."
+
+if [ ! -f "$CONFIG_PATH" ]; then
+  echo -e "${RED}❌ Missing config file: $CONFIG_PATH${NC}"
+  exit 1
+fi
+
+if [ ! -f "$HEADER_PATH" ]; then
+  echo -e "${RED}❌ Missing header file: $HEADER_PATH${NC}"
+  exit 1
+fi
+
+echo -e "${GREEN}✅ Config and header files found${NC}"
 
 # ==================== SCRIPT START ==================== #
 

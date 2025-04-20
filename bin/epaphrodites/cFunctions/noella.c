@@ -3,18 +3,18 @@
                                  MOTIVATION
 ===============================================================================
 
-The "shlomo" module is a PHP extension written in C, designed for the
-Epaphrodites framework. Its goal is to bring native power to PHP: raw
-performance, real multitasking, and low-level capabilities, all while keeping
-a clean and simple interface for PHP developers.
+The "noella" module is a PHP extension written in C, created for the
+Epaphrodites framework. Its purpose is to deliver focused, high-performance
+features to PHP, leveraging the power of native code while maintaining a
+developer-friendly interface.
 
-This extension is motivated by three core principles:
-  - Speed up critical operations using native C functions
-  - Enable real asynchronous execution (via pthreads) from PHP
-  - Provide a modular, extensible base for future framework needs
+This extension is motivated by the following goals:
+  - Introduce lightweight, efficient functions for frequent tasks
+  - Serve as a foundation for specialized logic required by the framework
+  - Maintain simplicity and modularity for easy integration and evolution
 
-"Shlomo" means "peace" — symbolizing the harmony between high-level PHP
-and low-level C.
+"Noella" represents clarity and precision — bringing sharp, native tools
+to the fingertips of PHP developers.
 
 ===============================================================================
 */
@@ -24,7 +24,7 @@ and low-level C.
 #endif
 
 #include "php.h"
-#include "../config/noella/noella.h"
+#include "../cbuild/config/noella/noella.h"
 
 // ========================================================================
 // ARGINFO
