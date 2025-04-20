@@ -149,13 +149,15 @@ php heredia pip:component
 - Note: This command is for users who have C development tools installed on their machine. It compiles the C components essential for performance-critical operations in the Epaphrodites framework:
 
 ```bash  
-sudo ./shlomo
+sudo ./kouadio - g
 ```
+- Option `-i`: Directly inserts the extension
+- Option `-g`: Generates and inserts C components
 
 - Ensure you've set the proper executable permissions before running: :
 
 ```bash
-chmod +x shlomo 
+chmod +x kouadio 
 ```
 ### 🔥 Run your App
 - Note: For SQL databases, you must create your database before running your application. In the case of MongoDB, the system will generate your database based on your configuration.

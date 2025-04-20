@@ -1,0 +1,363 @@
+# ==================== PHP Extension Installer for Windows ====================
+# Supports XAMPP, Laragon, and WAMP server packages
+# Author: Y'srael Aimé N'dri
+# License: MIT
+# Description: This script installs PHP extensions on Windows for various server packages.
+# It automates the process of copying the extension, creating INI files, and restarting services.
+# It also includes error handling and user-friendly output messages.
+# The script is designed to be run from the command line and requires appropriate permissions.
+# ============================================================================ #
+
+
+# ==================== CONFIG ================================ #
+param (
+    [Parameter(Mandatory=$true, Position=0)]
+    [string]$ExtName,
+    
+    [Parameter(Mandatory=$true, Position=1)]
+    [string]$TypeExecution,
+    
+    [Parameter(Mandatory=$false, Position=2)]
+    [string]$ServerType = "auto"
+)
+
+$SoName = "$ExtName.dll"
+$ConfigFile = "config.m4"
+$ExtPath = "..\extension"
+$ConfigPath = "..\config\$ExtName\$ConfigFile"
+$HeaderPath = "bin\epaphrodites\cbuild\config\$ExtName\$ExtName.h"
+$M4Path = "bin\epaphrodites\cbuild\config\$ExtName\$ConfigFile"
+
+# ANSI Colors - Windows PowerShell compatible approach
+function Write-ColorOutput($ForegroundColor) {
+    $fc = $host.UI.RawUI.ForegroundColor
+    $host.UI.RawUI.ForegroundColor = $ForegroundColor
+    if ($args) {
+        Write-Output $args
+    }
+    $host.UI.RawUI.ForegroundColor = $fc
+}
+
+function Write-Green($text) {
+    Write-ColorOutput Green $text
+}
+
+function Write-Red($text) {
+    Write-ColorOutput Red $text
+}
+
+function Write-Yellow($text) {
+    Write-ColorOutput Yellow $text
+}
+
+function Write-Blue($text) {
+    Write-ColorOutput Cyan $text
+}
+
+# ==================== FUNCTIONS ==================== #
+function Show-Usage {
+    Write-Yellow "Usage: .\install-extension.ps1 <extension_name> [-g|-i] [xampp|laragon|wamp|auto]"
+    Write-Yellow "  -g : Generate and install the extension (build from source)"
+    Write-Yellow "  -i : Install an existing extension from the extension directory"
+    Write-Yellow "  Last parameter (optional): Web server type (xampp, laragon, wamp, auto). Default is auto."
+    Write-Yellow "Example: .\install-extension.ps1 myextension -g xampp"
+    exit 1
+}
+
+function Wait-Animation {
+    Write-Host "⏳ Please wait" -NoNewline
+    for ($i = 0; $i -lt 3; $i++) {
+        Start-Sleep -Milliseconds 500
+        Write-Host "." -NoNewline
+    }
+    Write-Host ""
+}
+
+function Detect-PHPVersion {
+    try {
+        $phpVersion = & php -r "echo PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;" 2>$null
+        return $phpVersion
+    }
+    catch {
+        Write-Red "❌ Could not detect PHP version. Make sure PHP is in your PATH."
+        exit 1
+    }
+}
+
+function Find-ConfDPath {
+    try {
+        $iniPaths = & php --ini | Select-String -Pattern "Scan for additional .ini files in"
+        if ($iniPaths) {
+            $confDPath = $iniPaths -replace "Scan for additional .ini files in:", "" -replace "\s+", ""
+            return $confDPath.Trim()
+        }
+        else {
+            # If not found, try to locate php.ini and use its directory
+            $phpIniPath = & php -r "echo php_ini_loaded_file();" 2>$null
+            if ($phpIniPath) {
+                return [System.IO.Path]::GetDirectoryName($phpIniPath)
+            }
+            else {
+                Write-Red "❌ Could not find PHP's additional .ini files directory."
+                exit 1
+            }
+        }
+    }
+    catch {
+        Write-Red "❌ Error finding PHP's .ini directory: $_"
+        exit 1
+    }
+}
+
+function Detect-ServerInstallation {
+    if ($ServerType -ne "auto") {
+        return $ServerType
+    }
+    
+    # Try to detect installed server packages
+    $xamppPath = $null
+    $laragonPath = $null
+    $wampPath = $null
+    
+    # Check for XAMPP
+    $possibleXamppPaths = @(
+        "C:\xampp",
+        "D:\xampp"
+    )
+    foreach ($path in $possibleXamppPaths) {
+        if (Test-Path $path) {
+            $xamppPath = $path
+            break
+        }
+    }
+    
+    # Check for Laragon
+    $possibleLaragonPaths = @(
+        "C:\laragon",
+        "D:\laragon"
+    )
+    foreach ($path in $possibleLaragonPaths) {
+        if (Test-Path $path) {
+            $laragonPath = $path
+            break
+        }
+    }
+    
+    # Check for WAMP
+    $possibleWampPaths = @(
+        "C:\wamp",
+        "C:\wamp64",
+        "D:\wamp",
+        "D:\wamp64"
+    )
+    foreach ($path in $possibleWampPaths) {
+        if (Test-Path $path) {
+            $wampPath = $path
+            break
+        }
+    }
+    
+    # Determine which server to use based on detection
+    if ($xamppPath) {
+        return "xampp"
+    }
+    elseif ($laragonPath) {
+        return "laragon"
+    }
+    elseif ($wampPath) {
+        return "wamp"
+    }
+    else {
+        return "unknown"
+    }
+}
+
+function Get-ServerPaths {
+    $serverType = Detect-ServerInstallation
+    $phpVersion = Detect-PHPVersion
+    
+    $result = @{
+        ServerType = $serverType
+        PHPPath = $null
+        ExtPath = $null
+        ServerPath = $null
+    }
+    
+    switch ($serverType) {
+        "xampp" {
+            $possiblePaths = @(
+                "C:\xampp",
+                "D:\xampp"
+            )
+            foreach ($basePath in $possiblePaths) {
+                if (Test-Path $basePath) {
+                    $result.ServerPath = $basePath
+                    $result.PHPPath = Join-Path $basePath "php"
+                    $result.ExtPath = Join-Path $result.PHPPath "ext"
+                    break
+                }
+            }
+        }
+        "laragon" {
+            $possiblePaths = @(
+                "C:\laragon",
+                "D:\laragon"
+            )
+            foreach ($basePath in $possiblePaths) {
+                if (Test-Path $basePath) {
+                    $result.ServerPath = $basePath
+                    $result.PHPPath = Join-Path $basePath "bin\php\php$phpVersion"
+                    $result.ExtPath = Join-Path $result.PHPPath "ext"
+                    break
+                }
+            }
+        }
+        "wamp" {
+            $possiblePaths = @(
+                "C:\wamp",
+                "C:\wamp64",
+                "D:\wamp",
+                "D:\wamp64"
+            )
+            foreach ($basePath in $possiblePaths) {
+                if (Test-Path $basePath) {
+                    $result.ServerPath = $basePath
+                    $result.PHPPath = Join-Path $basePath "bin\php\php$phpVersion"
+                    $result.ExtPath = Join-Path $result.PHPPath "ext"
+                    break
+                }
+            }
+        }
+        default {
+            Write-Yellow "⚠️ Server type not recognized. Using PHP from PATH."
+            $phpExe = (Get-Command php -ErrorAction SilentlyContinue).Source
+            if ($phpExe) {
+                $result.PHPPath = [System.IO.Path]::GetDirectoryName($phpExe)
+                $result.ExtPath = Join-Path $result.PHPPath "ext"
+            }
+        }
+    }
+    
+    return $result
+}
+
+function Restart-Server {
+    $serverInfo = Get-ServerPaths
+    $serverType = $serverInfo.ServerType
+    $serverPath = $serverInfo.ServerPath
+    
+    Write-Blue "🔄 Detected server: $serverType"
+    
+    switch ($serverType) {
+        "xampp" {
+            Write-Host "🔄 Restarting XAMPP services..."
+            if (Test-Path "$serverPath\xampp-control.exe") {
+                # Try stopping and starting Apache (non-blocking way)
+                Start-Process -FilePath "$serverPath\xampp_stop.exe" -Wait
+                Start-Process -FilePath "$serverPath\xampp_start.exe"
+                Write-Green "✅ XAMPP services restarted."
+            }
+            else {
+                Write-Yellow "⚠️ XAMPP Control not found. Please restart XAMPP manually."
+            }
+        }
+        "laragon" {
+            Write-Host "🔄 Restarting Laragon services..."
+            if (Test-Path "$serverPath\laragon.exe") {
+                # Laragon doesn't have a CLI interface, suggest manual restart
+                Write-Yellow "⚠️ Please restart Laragon services manually from the Laragon UI."
+            }
+        }
+        "wamp" {
+            Write-Host "🔄 Restarting WAMP services..."
+            if (Test-Path "$serverPath\wampmanager.exe") {
+                # WAMP doesn't have reliable CLI controls, suggest manual restart
+                Write-Yellow "⚠️ Please restart WAMP services manually from the WAMP tray icon."
+            }
+        }
+        default {
+            Write-Yellow "⚠️ Server type not recognized. Please restart your web server manually."
+        }
+    }
+}
+
+function Install-ExistingExtension {
+    $serverInfo = Get-ServerPaths
+    $phpExtDir = $serverInfo.ExtPath
+    
+    # We'll look in both the server's extension directory and our local extension directory
+    $localExtFile = "bin\epaphrodites\cbuild\extension\$SoName"
+    
+    Write-Host "🔍 Checking if extension exists..."
+    if (Test-Path $localExtFile) {
+        $extFile = $localExtFile
+    }
+    else {
+        Write-Red "❌ Extension $SoName not found in $localExtFile"
+        exit 1
+    }
+    
+    Write-Green "✅ Extension file found: $extFile"
+    
+    # Copy the extension to the PHP extension directory
+    $targetPath = Join-Path $phpExtDir $SoName
+    Copy-Item -Path $extFile -Destination $targetPath -Force
+    Write-Green "✅ Extension copied to PHP extensions directory: $targetPath"
+    
+    # Create INI file in the configuration directory
+    $confDPath = Find-ConfDPath
+    $iniFilePath = Join-Path $confDPath "$ExtName.ini"
+    
+    Write-Host "📄 Creating INI file: $iniFilePath..."
+    Set-Content -Path $iniFilePath -Value "extension=$SoName" -Force
+    Write-Green "✅ INI file created: $iniFilePath"
+    
+    # Restart services
+    Restart-Server
+    Write-Green "🎉 Extension '$ExtName' successfully installed!"
+}
+
+function Generate-AndInstallExtension {
+    # For Windows, we can't easily build extensions from source directly
+    # We'll provide guidance on how to build with Visual Studio or WSL
+    
+    Write-Yellow "⚠️ Building PHP extensions from source on Windows requires Visual Studio or WSL (Windows Subsystem for Linux)."
+    Write-Yellow "⚠️ This script currently only supports installing pre-built extensions on Windows."
+    Write-Yellow "⚠️ Options for building PHP extensions on Windows:"
+    Write-Yellow "   1. Use WSL and follow the Linux build process"
+    Write-Yellow "   2. Use Visual Studio with PHP SDK (requires advanced setup)"
+    Write-Yellow "   3. Use a pre-built extension if available"
+    
+    # Ask if they want to install a pre-built extension instead
+    $installPrebuilt = Read-Host "Would you like to install a pre-built extension instead? (y/n)"
+    if ($installPrebuilt -eq "y" -or $installPrebuilt -eq "Y") {
+        Install-ExistingExtension
+    }
+    else {
+        Write-Yellow "Operation cancelled. No changes were made."
+    }
+}
+
+# ==================== MAIN ==================== #
+# Check arguments
+if ([string]::IsNullOrEmpty($ExtName) -or [string]::IsNullOrEmpty($TypeExecution)) {
+    Show-Usage
+}
+
+# Process execution type
+switch ($TypeExecution) {
+    "-g" {
+        Write-Green "📦 Generating and installing extension: $ExtName"
+        Write-Blue "🖥️ Server: $ServerType"
+        Generate-AndInstallExtension
+    }
+    "-i" {
+        Write-Green "📥 Installing existing extension: $ExtName"
+        Write-Blue "🖥️ Server: $ServerType"
+        Install-ExistingExtension
+    }
+    default {
+        Write-Red "❌ Invalid execution type: $TypeExecution"
+        Show-Usage
+    }
+}
