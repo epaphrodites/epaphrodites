@@ -46,7 +46,7 @@ class InstallComponent
 
     private function isVersionCompatible(): bool
     {
-        return version_compare(PHP_VERSION, '8.1.0', '>=');
+        return version_compare(PHP_VERSION, '8.2', '>=');
     }
 
     private function isExtensionLoaded(

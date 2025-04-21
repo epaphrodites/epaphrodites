@@ -68,6 +68,12 @@ Designed for developers who want full control of their stack, Epaphrodites bridg
 composer create-project epaphrodites/epaphrodites your-project-name
 ```
 
+- If the installation requires certain extensions, execute the following command to install them:
+
+```bash
+php epaphrodites -i
+```
+
 ⚠️ Recommendation : If you have already installed `MongoDB` on your machine and wish to incorporate its usage into your project, please execute the following command:
 
 ```bash
