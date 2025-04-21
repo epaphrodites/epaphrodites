@@ -8,30 +8,44 @@ use PDOException;
 trait SqLite
 {
 
+    private ?PDO $pdo = null;
+
     /**
      * Connexion PostgreSQL
      * @param integer $db
      * @return object
      */
     private function getSqLite(
-        int $db
-    ):object
-    {
+        int $db,
+        bool $state = false
+    ):?object{
 
-        // Try to connect to database to etablish connexion
-        try {
-            return new PDO(
-                static::SQLITE_DNS($db),
-                static::DB_USER($db),
-                static::DB_PASSWORD($db),
-                static::sqLiteOptions()
-            );
+        if ($state == true) {
+            // Close the connection by setting the PDO instance to null
+            $this->pdo = null;
+            return null;
+        }
+
+        if ($this->pdo == null) {  
+                  
+            // Try to connect to database to etablish connexion
+            try {
+                $this->pdo = new PDO(
+                    static::SQLITE_DNS($db),
+                    static::DB_USER($db),
+                    static::DB_PASSWORD($db),
+                    static::sqLiteOptions()
+                );
 
             // If impossible send error message    
-        } catch (PDOException $e) {
+            } catch (PDOException $e) {
 
-            throw new PDOException(static::getError($e->getMessage()));
+                throw new PDOException(static::getError($e->getMessage()));
+            }
         }
+
+        // Return the existing or newly created connection
+        return $this->pdo;
     }
 
     /**
@@ -84,7 +98,7 @@ trait SqLite
         bool $state = false
     ):object|array{
 
-        return $this->getSqLite($db);
+        return $this->getSqLite($db, $state);
     }
 
     /**

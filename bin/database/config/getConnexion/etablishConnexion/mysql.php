@@ -21,6 +21,7 @@ trait mysql{
         int $db, 
         bool $state = false
     ): ?object{
+        
         if ($state == true) {
             // Close the connection by setting the PDO instance to null
             $this->pdo = null;

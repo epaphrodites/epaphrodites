@@ -7,31 +7,45 @@ use PDOException;
 
 trait oracledb{
 
+    private ?PDO $pdo = null;
+
     /**
      * Connexion Oracledb
      * @param integer $db
      * @return object
     */
     private function setOracledbConnexion(
-        int $db
-    ):object
+        int $db,
+        bool $state = false
+    ):?object
     {
        
-        // Try to connect to database to etablish connexion
-        try {
-
-           return new PDO(
-                static::ORACLE_DNS($db),
-                static::DB_USER($db),
-                static::DB_PASSWORD($db),
-                static::oracleOptions()
-            );
-
-            // If impossible send error message        
-        } catch (PDOException $e) {
-
-            throw new PDOException(static::getError($e->getMessage()));
+        if ($state == true) {
+            // Close the connection by setting the PDO instance to null
+            $this->pdo = null;
+            return null;
         }
+
+        if ($this->pdo == null) { 
+            // Try to connect to database to etablish connexion
+            try {
+
+            $this->pdo = new PDO(
+                    static::ORACLE_DNS($db),
+                    static::DB_USER($db),
+                    static::DB_PASSWORD($db),
+                    static::oracleOptions()
+                );
+
+                // If impossible send error message        
+            } catch (PDOException $e) {
+
+                throw new PDOException(static::getError($e->getMessage()));
+            }
+        }
+
+        // Return the existing or newly created connection
+        return $this->pdo;
     } 
     
     /**
@@ -43,6 +57,6 @@ trait oracledb{
         bool $state = false
     ):object|array{
 
-        return $this->setOracledbConnexion($db);
+        return $this->setOracledbConnexion($db, $state);
     }   
 }
