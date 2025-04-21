@@ -73,6 +73,7 @@ composer create-project epaphrodites/epaphrodites your-project-name
 ```bash
 php epaphrodites -i
 ```
+---
 
 ⚠️ Recommendation : If you have already installed `MongoDB` on your machine and wish to incorporate its usage into your project, please execute the following command:
 
@@ -91,6 +92,8 @@ To execute "dump-autoload," run the command :
 ```bash
 composer dump-autoload
 ```
+
+---
 
 ## ⚙️ First configuration
 
@@ -144,6 +147,8 @@ composer dump-autoload
 php heredia create:db epaphroditesdb
 ```
 
+---
+
 #### 🐍 Install python component
 - Note: This command is intended for users who have previously installed Python on their machine. It simplifies the installation of specific Python libraries essential for the optimal functioning of the Epaphrodites framework. Furthermore, you have the freedom, at your level, to integrate other libraries according to the requirements of your projects :
 
@@ -165,6 +170,9 @@ sudo ./kouadio - g
 ```bash
 chmod +x kouadio 
 ```
+
+---
+
 ### 🔥 Run your App
 - Note: For SQL databases, you must create your database before running your application. In the case of MongoDB, the system will generate your database based on your configuration.
 
@@ -181,6 +189,8 @@ Password : admin
 ```
 
 😎 Enjoy yourself
+
+---
 
 ### 📗 Documentation
 
