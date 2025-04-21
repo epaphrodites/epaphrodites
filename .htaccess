@@ -50,7 +50,7 @@
     </Directory>
 
     # Deny access to unnecessary files and directories
-    <FilesMatch "^(heredia|noella|shlomo|bin/|public/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt|counter.json)$">
+    <FilesMatch "^(heredia|zaouly|kouadio|bin/|public/|vendor/|tests/|static/|error/|README.md|.gitignore|composer.json|composer.lock|package.json|phpunit.xml|.gitattributes|robots.txt|counter.json)$">
         Require all denied
     </FilesMatch>
 </IfModule>

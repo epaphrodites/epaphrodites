@@ -2,29 +2,32 @@
 
 class InstallComponent
 {
-    /**
-     * Array of extensions to install
-     * @var array $extensions
-     */
-    private array $extensions = [
-        'sqlite3',
-        'pdo_sqlite',
+    private array $requiredExtensions = [
+        'openssl',
+        'zip',
         'gd',
         'intl',
-        'fileinfo',
-        'pdo_mysql'
+        'pdo',
+        'json',
+        'xml',
+        'mbstring',
+        'pdo_sqlite',
     ];
 
-    /**
-     * Execute installation commands based on the OS
-     * @return void
-     */
-    public function executeCommands(): void
+    public function run(): void
     {
-        // Get the operating system name
+        if (!$this->isPhpInstalled()) {
+            echo "\033[31mPHP is not installed or not found in PATH ❌\033[0m" . PHP_EOL;
+            return;
+        }
+
+        if (!$this->isVersionCompatible()) {
+            echo "\033[31mPHP version must be >= 8.1 ❌ (current: " . PHP_VERSION . ")\033[0m" . PHP_EOL;
+            return;
+        }
+
         $os = php_uname('s');
 
-        // Use a match structure to call the appropriate installation method based on the OS
         match (true) {
             str_contains($os, 'Windows') => $this->installExtensionsOnWindows(),
             str_contains($os, 'Linux') => $this->installExtensionsOnLinux(),
@@ -32,222 +35,154 @@ class InstallComponent
             default => $this->handleUnsupportedOS($os),
         };
 
-        //$this->updateComposer();
+        $this->updateComposer();
     }
-    
-    /**
-     * Handle unsupported operating systems
-     * @return void
-     */
-    private function handleUnsupportedOS(string $os): void
+
+    private function isPhpInstalled(): bool
     {
-        echo "Unsupported operating system: $os" . PHP_EOL;
+        $phpVersion = shell_exec('php -v');
+        return is_string($phpVersion) && str_starts_with(trim($phpVersion), 'PHP');
     }
 
-    /**
-     * Execute a command and display its output in real-time
-     * @return void
-     */
-    private function executeCommand(string $command): void
+    private function isVersionCompatible(): bool
     {
-        echo "Running command: $command" . PHP_EOL;
-
-        $output = '';
-        $status = 0;
-
-        $handler = popen($command . ' 2>&1', 'r');
-        while (!feof($handler)) {
-            $char = fgetc($handler);
-            $output .= $char;
-
-            if ($char === "\n") {
-                echo $output;
-                $output = '';
-            } elseif ($char === false) {
-                break;
-            } else {
-                echo $this->getSpinner();
-                usleep(100000);
-            }
-        }
-
-        $status = pclose($handler);
-
-        if ($status !== 0) {
-            echo "Command execution failed with status: $status" . PHP_EOL;
-            echo "State: $output" . PHP_EOL;
-        }
+        return version_compare(PHP_VERSION, '8.2', '>=');
     }
 
-    /**
-     * Detect the package manager used on Linux
-     * @return string
-     */
-    private function detectPackageManager(): ?string
-    {
-        if (exec('command -v apt-get')) {
-            return 'apt-get';
-        } elseif (exec('command -v yum')) {
-            return 'yum';
-        } elseif (exec('command -v dnf')) {
-            return 'dnf';
-        } elseif (exec('command -v pacman')) {
-            return 'pacman';
-        }
-
-        return null;
+    private function isExtensionLoaded(
+        string $extension
+    ): bool{
+        return extension_loaded($extension);
     }
 
-    /**
-     * Get the installation command based on the package manager
-     * @return string
-     */
-    private function getInstallCommand(
-        string $packageManager, 
-        array $packages
-    ): ?string{
-        $installCommands = [
-            'apt-get' => 'sudo apt-get install -y ',
-            'yum' => 'sudo yum install -y ',
-            'dnf' => 'sudo dnf install -y ',
-            'pacman' => 'sudo pacman -S --noconfirm ',
-        ];
-
-        if (isset($installCommands[$packageManager])) {
-            return $installCommands[$packageManager] . implode(' ', $packages);
-        }
-
-        return null;
-    }    
-
-    /**
-     * Get an animated loading symbol
-     * @return string
-    */
-    private function getSpinner(): string
-    {
-        static $spinner = ['-', '\\', '|', '/'];
-        static $index = 0;
-
-        $symbol = $spinner[$index];
-        $index = ($index + 1) % count($spinner);
-
-        return "\r$symbol";
+    private function handleUnsupportedOS(
+        string $os
+    ): void{
+        echo "Unsupported OS: $os" . PHP_EOL;
     }
 
-    /**
-     * Install extensions on Linux
-     * @return void
-     */
     private function installExtensionsOnLinux(): void
     {
-        echo "Installing extensions on Linux..." . PHP_EOL;
+        echo "Checking extensions on Linux..." . PHP_EOL;
 
-        $packages = [
-            'php-sqlite3',
-            'php-gd',
-            'php-intl',
-            'php-zip'
-        ];
-
-        // Detect the package manager and get the installation command
-        $packageManager = $this->detectPackageManager();
-        $installCommand = $this->getInstallCommand($packageManager, $packages);
-
-        // Execute the installation command
-        $this->executeCommand($installCommand);
-
-        foreach ($this->extensions as $extension) {
-            echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
+        $manager = $this->detectPackageManager();
+        if (!$manager) {
+            echo "\033[31mNo supported package manager found ❌\033[0m" . PHP_EOL;
+            return;
         }
 
-        echo "\033[32mExtensions installed successfully on Linux.\033[0m ✅" . PHP_EOL;
-    }
+        $pkgPrefix = match ($manager) {
+            'apt-get', 'dnf', 'yum', 'pacman' => 'php-',
+            default => 'php-'
+        };
 
-    /**
-     * Install extensions on Windows
-     * @return void
-     */
-    private function installExtensionsOnWindows(): void
-{
-    echo "Installing extensions on Windows..." . PHP_EOL;
+        foreach ($this->requiredExtensions as $ext) {
+            if ($this->isExtensionLoaded($ext)) {
+                echo "\033[34m$ext .................................. already loaded ✅\033[0m" . PHP_EOL;
+                continue;
+            }
 
-    $phpIniPath = php_ini_loaded_file();
-    if ($phpIniPath === false) {
-        echo "Unable to locate the php.ini file." . PHP_EOL;
-        return;
-    }
-
-    $phpIniContent = file_get_contents($phpIniPath);
-    if ($phpIniContent === false) {
-        echo "Unable to read the php.ini file." . PHP_EOL;
-        return;
-    }
-
-    foreach ($this->extensions as $extension) {
-        $extensionLine = "extension=$extension";
-        if (strpos($phpIniContent, $extensionLine) !== 0) {
-            if (strpos($phpIniContent, ";$extensionLine") !== false) {
-                
-                $phpIniContent = str_replace(";$extensionLine", $extensionLine, $phpIniContent);
-                echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
-            } else {
-                
-                $phpIniContent .= "\n$extensionLine";
-                echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
+            $package = $pkgPrefix . str_replace('_', '-', $ext);
+            $cmd = $this->getInstallCommand($manager, [$package]);
+            if ($cmd) {
+                $this->executeCommand($cmd);
+                echo "\033[32mInstalled $ext ✅\033[0m" . PHP_EOL;
             }
         }
     }
 
-    if (file_put_contents($phpIniPath, $phpIniContent) === false) {
-        echo "Unable to write to the php.ini file." . PHP_EOL;
-        return;
-    }
-
-    echo "\033[32mExtensions installed successfully on Windows.\033[0m ✅" . PHP_EOL;
-}
-
-    /**
-     * Install extensions on macOS
-     * @return void
-     */
     private function installExtensionsOnMacOS(): void
     {
-        echo "Installing extensions on macOS..." . PHP_EOL;
-    
-        $packages = [
-            'intl' => 'printf "\n" | sudo pecl install --force intl',
-            'sqlite3' => 'brew install sqlite3',
-            'gd' => 'brew install gd',
-            'zip' => 'brew install zip',
-        ];
-    
-        foreach ($packages as $extension => $installCommand) {
-            $this->executeCommand($installCommand);
-            echo "\033[32m$extension............................done\033[0m" . PHP_EOL;
+        echo "Checking extensions on macOS..." . PHP_EOL;
+
+        foreach ($this->requiredExtensions as $ext) {
+            if ($this->isExtensionLoaded($ext)) {
+                echo "\033[34m$ext .................................. already loaded ✅\033[0m" . PHP_EOL;
+                continue;
+            }
+
+            echo "\033[33m$ext not loaded – please install manually or via pecl/brew ⚠️\033[0m" . PHP_EOL;
         }
-    
-        echo "\033[32mExtensions installed successfully on macOS.\033[0m ✅" . PHP_EOL;
     }
 
-    // /**
-    //  * Update project dependencies and dump autoload
-    //  * @return void
-    //  */
-    // private function updateComposer(): void
-    // {
-    //     echo "\nInstall, Updating project dependencies and dumping autoload..." . PHP_EOL;
+    private function installExtensionsOnWindows(): void
+    {
+        echo "Checking extensions on Windows..." . PHP_EOL;
 
-    //     $tasks = [
-    //         'update' => 'composer update',
-    //         'dump-autoload' => 'composer dump-autoload',
-    //     ];
+        $phpIniPath = php_ini_loaded_file();
+        if (!$phpIniPath || !file_exists($phpIniPath)) {
+            echo "\033[31mUnable to locate php.ini ❌\033[0m" . PHP_EOL;
+            return;
+        }
 
-    //     foreach ($tasks as $task => $command) {
-    //         $this->executeCommand($command);
-    //         echo "\033[32m$task............................done\033[0m" . PHP_EOL;
-    //     }
+        $iniContent = file_get_contents($phpIniPath);
+        $iniLines = explode("\n", $iniContent);
+        $modified = false;
 
-    //     echo "\033[32mDependency update and autoload dump completed successfully.\033[0m ✅" . PHP_EOL;
-    // }
+        foreach ($this->requiredExtensions as $extension) {
+            if ($this->isExtensionLoaded($extension)) {
+                echo "\033[34m$extension .................................. already loaded ✅\033[0m" . PHP_EOL;
+                continue;
+            }
+
+            $pattern = "/^\s*;?\s*extension\s*=\s*($extension|$extension\.dll)\b/i";
+            $found = false;
+
+            foreach ($iniLines as $line) {
+                if (preg_match($pattern, $line)) {
+                    echo "\033[33m$extension found but commented – SKIPPING as per policy ⚠️\033[0m" . PHP_EOL;
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $iniLines[] = "extension=$extension";
+                echo "\033[32m$extension .................................. added to php.ini ✅\033[0m" . PHP_EOL;
+                $modified = true;
+            }
+        }
+
+        if ($modified) {
+            file_put_contents($phpIniPath, implode("\n", $iniLines));
+            echo "\033[32mphp.ini updated ✅\033[0m" . PHP_EOL;
+        } else {
+            echo "\033[34mNo changes needed to php.ini 💤\033[0m" . PHP_EOL;
+        }
+    }
+
+    private function detectPackageManager(): ?string
+    {
+        foreach (['apt-get', 'dnf', 'yum', 'pacman'] as $manager) {
+            if (exec("command -v $manager")) return $manager;
+        }
+        return null;
+    }
+
+    private function getInstallCommand(
+        string $manager, 
+        array $packages
+    ): ?string{
+        return match ($manager) {
+            'apt-get' => 'sudo apt-get install -y ' . implode(' ', $packages),
+            'dnf' => 'sudo dnf install -y ' . implode(' ', $packages),
+            'yum' => 'sudo yum install -y ' . implode(' ', $packages),
+            'pacman' => 'sudo pacman -S --noconfirm ' . implode(' ', $packages),
+            default => null
+        };
+    }
+
+    private function executeCommand(
+        string $cmd
+    ): void{
+        echo "Running: $cmd" . PHP_EOL;
+        passthru($cmd);
+    }
+
+    private function updateComposer(): void
+    {
+        echo "Updating Composer..." . PHP_EOL;
+        $this->executeCommand("composer dump-autoload");
+        echo "\033[32mComposer .................................. updated ✅\033[0m" . PHP_EOL;
+    }
 }

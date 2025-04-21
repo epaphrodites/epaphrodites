@@ -7,30 +7,46 @@ use PDOException;
 
 trait postgreSQL{
 
+    private ?PDO $pdo = null;
+
     /**
      * Connexion PostgreSQL
      * @param integer $db
      * @return object
     */
     private function setPostgreSQLConnexion(
-        int $db
-    ):object
+        int $db,
+        bool $state = false
+    ):?object
     {
-        // Try to connect to database to etablish connexion
-        try {
 
-            return new PDO(
-                static::POSTGRES_SQL_DNS($db) . "dbname=" . static::DB_DATABASE($db),
-                static::DB_USER($db),
-                static::DB_PASSWORD($db),
-                static::dbOptions()
-            );
+        if ($state == true) {
+            // Close the connection by setting the PDO instance to null
+            $this->pdo = null;
+            return null;
+        }
+
+        if ($this->pdo == null) { 
+
+            // Try to connect to database to etablish connexion
+            try {
+
+                $this->pdo = new PDO(
+                    static::POSTGRES_SQL_DNS($db) . "dbname=" . static::DB_DATABASE($db),
+                    static::DB_USER($db),
+                    static::DB_PASSWORD($db),
+                    static::dbOptions()
+                );
 
             // If impossible send error message        
-        } catch (PDOException $e) {
+            } catch (PDOException $e) {
 
-            throw new PDOException(static::getError($e->getMessage()));
+                throw new PDOException(static::getError($e->getMessage()));
+            }
         }
+
+        // Return the existing or newly created connection
+        return $this->pdo;        
     }
 
     /**
@@ -78,7 +94,7 @@ trait postgreSQL{
         bool $state = false
     ):object|array{
 
-        return $this->setPostgreSQLConnexion($db);
+        return $this->setPostgreSQLConnexion($db, $state);
     }  
     
     /**

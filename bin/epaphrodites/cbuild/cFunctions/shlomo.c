@@ -20,7 +20,7 @@ and low-level C.
 */
 
 #include "php.h"
-#include "shlomo.h"
+#include "../config/shlomo/shlomo.h"
 #include "zend_exceptions.h"
 #include "zend_API.h"
 #include "zend_types.h"
@@ -285,7 +285,6 @@ PHP_MINFO_FUNCTION(shlomo)
 // ========================================================================
 // FUNCTION MAPPING
 // ========================================================================
-
 static const zend_function_entry shlomo_functions[] = {
     PHP_FE(shlomo_hello, arginfo_shlomo_hello)
     PHP_FE(shlomo_async, arginfo_shlomo_async)
@@ -298,7 +297,6 @@ static const zend_function_entry shlomo_functions[] = {
 // ========================================================================
 // MODULE ENTRY
 // ========================================================================
-
 zend_module_entry shlomo_module_entry = {
     STANDARD_MODULE_HEADER,
     "shlomo", // Extension name

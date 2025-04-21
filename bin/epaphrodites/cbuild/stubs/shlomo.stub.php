@@ -15,6 +15,13 @@
 function shlomo_hello(): string {}
 
 /**
+ * Displays a welcome message for the Epaphrodites framework.
+ * 
+ * @return string A welcome message string
+ */
+function hello_noella(): string {}
+
+/**
  * Executes a PHP function asynchronously in a separate thread.
  * 
  * @param callable $func The function to execute asynchronously

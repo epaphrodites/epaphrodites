@@ -7,31 +7,46 @@ use PDOException;
 
 trait SqlServer{
     
+    private ?PDO $pdo = null;
+
     /**
      * Connexion Sql Serveur
      * @param integer $db
      * @return object
     */
     private function setSqlServerConnexion(
-        int $db
-    ):object
+        int $db,
+        bool $state = false
+    ):?object
     {
 
-        // Try to connect to database to etablish connexion
-        try {
-            
-            return new PDO(
-                static::SQL_SERVER_DNS($db) . "Database=" . static::DB_DATABASE($db) , 
-                static::DB_USER($db), 
-                static::DB_PASSWORD($db) , 
-                static::sqlServerOption()
-            );
-
-            // If impossible send error message        
-        } catch (PDOException $e) {
-
-            throw new PDOException(static::getError($e->getMessage()));
+        if ($state == true) {
+            // Close the connection by setting the PDO instance to null
+            $this->pdo = null;
+            return null;
         }
+
+
+        if ($this->pdo == null) {  
+            // Try to connect to database to etablish connexion
+            try {
+                
+                $this->pdo = new PDO(
+                    static::SQL_SERVER_DNS($db) . "Database=" . static::DB_DATABASE($db) , 
+                    static::DB_USER($db), 
+                    static::DB_PASSWORD($db) , 
+                    static::sqlServerOption()
+                );
+
+                // If impossible send error message        
+            } catch (PDOException $e) {
+
+                throw new PDOException(static::getError($e->getMessage()));
+            }
+        }
+
+        // Return the existing or newly created connection
+        return $this->pdo;        
     }
 
     /**
@@ -63,7 +78,7 @@ trait SqlServer{
 
             return true;
             
-            // If impossible send error message        
+        // If impossible send error message        
         } catch (PDOException $e) {
 
             return false;
@@ -79,7 +94,7 @@ trait SqlServer{
         bool $state = false
     ):object|array{
 
-        return $this->setSqlServerConnexion($db);
+        return $this->setSqlServerConnexion($db, $state);
     }  
     
     /**

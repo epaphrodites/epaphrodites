@@ -1,6 +1,6 @@
 {
   "name": "epaphrodites/epaphrodites",
-  "description": "Epaphrodites framework combines simplicity, compatibility with Python, support for multiple databases, and a commitment to open-source principles.",
+  "description": "Epaphrodites framework seamlessly combines simplicity with robust compatibility across PHP, C, and Python, providing strong support for multiple databases while adhering to open-source principles.",
   "type": "project",
   "keywords": [
     "mongodb",
@@ -12,11 +12,12 @@
     "postgresql",
     "php",
     "python",
+    "c",
     "javascript",
     "twig",
     "html",
     "css",
-    "epaphrodite",
+    "epaphrodites",
     "Epaphrodites-framework"
   ],
   "license": "MIT",
@@ -29,8 +30,8 @@
   },
   "authors": [
     {
-      "name": "Y'srael Aimé N'dri",
-      "email": "ysraelaimendri@epaphrodite.org",
+      "name": "Y'srael Aimé N'DRI",
+      "email": "aimendrikonan@gmail.com",
       "role": "Lead Developer"
     }
   ],
