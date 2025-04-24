@@ -8,10 +8,12 @@ use PDO;
 class GetConfig extends errors
 {
 
-    /**
-     * @var array
-     */protected static function sqlServerOption(): array
-    {
+     /**
+      * sql Server OPTIONS
+      * @return array<bool|int>
+      */
+     protected static function sqlServerOption(): array
+     {
         return [
             PDO::SQLSRV_ATTR_ENCODING => PDO::SQLSRV_ENCODING_UTF8,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -61,16 +63,51 @@ class GetConfig extends errors
     }   
 
     /**
-     * @var string
-     * @return array|bool
+     * Load and parse the configuration file.
+     *
+     * @return array<string, array<string, mixed>> Parsed INI configuration as a structured array.
+     * @throws \RuntimeException If the configuration file is missing or invalid.
      */
-    private static function ConfigIniContent():array|bool
+    private static function ConfigIniContent(): array
     {
-        $ini = _DIR_CONFIG_INI_ . "Config.ini";
-        $content = parse_ini_file($ini, true);
+        $configPath = _DIR_CONFIG_INI_ . 'Config.ini';
 
-        return $content;
+        if (!is_file($configPath)) {
+            throw new \RuntimeException(message: "Configuration file not found: {$configPath}");
+        }
+
+        $parsed = parse_ini_file(
+            filename: $configPath,
+            process_sections: true,
+            scanner_mode: INI_SCANNER_TYPED
+        );
+
+        if (!is_array($parsed) || $parsed === [] || $parsed === false) {
+            throw new \RuntimeException(message: "Invalid or empty configuration file: {$configPath}");
+        }
+
+        return $parsed;
     }
+
+    /**
+     * Get the database section from config
+     */
+    private static function getSection(int $db): array
+    {
+        return static::ConfigIniContent()["{$db}_CONFIGURATION"];
+    }
+
+    /**
+     * Get a specific key from the database section.
+     *
+     * @param int $db The database identifier.
+     * @param string $key The key to retrieve.
+     * @return string The value associated with the key, or an empty string if not found.
+     */
+    private static function get(int $db, string $key): string
+    {
+        return static::getSection($db)[$key] ?? '';
+    }    
 
     /**
      * @var string
@@ -81,7 +118,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::ConfigIniContent()["{$db}DB_PORT"];
+        $Port = static::get($db, 'PORT');
 
         return empty($Port) ?: 'port=' . $Port . ';';
     }
@@ -95,7 +132,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::ConfigIniContent()["{$db}DB_PORT"];
+        $Port = static::get($db, 'PORT');
 
         return empty($Port) ? ";" : ",{$Port};";
     }  
@@ -109,7 +146,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::ConfigIniContent()["{$db}DB_PORT"];
+        $Port = static::get($db, 'PORT');
 
         return empty($Port) ? '' : "(PORT = $Port)";
     }  
@@ -123,7 +160,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $dbName = static::ConfigIniContent()["{$db}DB_DATABASE"];
+        $dbName = static::get($db, 'DATABASE');
 
         return "(CONNECT_DATA = (SERVICE_NAME = $dbName) )";
     }     
@@ -137,7 +174,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        $Port = static::ConfigIniContent()["{$db}DB_PORT"];
+        $Port = static::get($db, 'PORT');
 
         return empty($Port) ?: $Port;
     }
@@ -151,7 +188,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        $Port = static::ConfigIniContent()["{$db}DB_PORT"];
+        $Port = static::get($db, 'PORT');
 
         return empty($Port) ?: "port={$Port}";
     }
@@ -164,8 +201,8 @@ class GetConfig extends errors
     protected static function DB_PASSWORD(
         int $db
     ): string{
-
-        return static::ConfigIniContent()["{$db}DB_PASSWORD"];
+;
+        return static::get($db, 'PASSWORD');
     }
 
     /**
@@ -177,7 +214,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        return static::ConfigIniContent()["{$db}DB_DIVER"];
+        return static::get($db, 'DRIVER');
     }
 
     /**
@@ -189,7 +226,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        return static::ConfigIniContent()["{$db}DB_USER"];
+        return static::get($db, 'USER');
     }
 
     /**
@@ -201,7 +238,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        return static::ConfigIniContent()["{$db}DB_DATABASE"];
+        return static::get($db, 'DATABASE');
     }
 
     /**
@@ -213,7 +250,7 @@ class GetConfig extends errors
         int $db, 
         string|null $dbName = null
     ): string{
-        //If $dbName is not provided, get the default database name based on $db
+
         $dbName = $dbName ?? static::DB_DATABASE($db);
 
         return _DIR_SQLITE_DATAS_ . $dbName;
@@ -228,7 +265,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        return static::ConfigIniContent()["{$db}DB_SOCKET"];
+        return static::get($db, 'SOCKET');
     }
 
     /**
@@ -240,7 +277,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        return static::DB_SOCKET($db) == false ? 'host=' . static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
+        return static::DB_SOCKET($db) == false ? 'host=' . static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
     }
 
     /**
@@ -252,7 +289,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        return static::DB_SOCKET($db) == false ? 'server=' . static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
+        return static::DB_SOCKET($db) == false ? 'server=' . static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
     } 
     
     /**
@@ -264,7 +301,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-       return static::DB_SOCKET($db) == false ? "(HOST = ".static::ConfigIniContent()["{$db}DB_HOST"].")":static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
+       return static::DB_SOCKET($db) == false ? "(HOST = ".static::get($db, 'HOST').")": static::get($db, 'SOCKET_PATH');
     }      
 
     /**
@@ -276,7 +313,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        return static::DB_SOCKET($db) == false ? static::ConfigIniContent()["{$db}DB_HOST"] : static::ConfigIniContent()["{$db}DB_SOCKET_PATH"];
+        return static::DB_SOCKET($db) == false ? static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
     }
 
     /**

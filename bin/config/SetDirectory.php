@@ -1,155 +1,174 @@
 <?php
 
-/**********************************************************************
- ****************| DEFINE EPAPHRODITES CONSTANT |********************** 
- **********************************************************************/
+/**
+ * ╔════════════════════════════════════════════════════════════════════════════╗
+ * ║                            EPAPHRODITES FRAMEWORK                          ║
+ * ║                           → Global Constants File ←                        ║
+ * ╠════════════════════════════════════════════════════════════════════════════╣
+ * ║ This file defines all core constants used throughout the Epaphrodites      ║
+ * ║ framework. These constants govern system behavior, environment paths,      ║
+ * ║ session/auth protocols, database setup, and third-party integrations.      ║
+ * ║                                                                            ║
+ * ║ ▸ Update these values cautiously, especially in production environments.   ║
+ * ║ ▸ Designed for cross-language support (PHP / Python / C modules).          ║
+ * ║                                                                            ║
+ * ║ Structure:                                                                 ║
+ * ║   - Language & Runtime Options                                             ║
+ * ║   - Directory Structure                                                    ║
+ * ║   - Session & Authentication Settings                                      ║
+ * ║   - Database Driver Definitions                                            ║
+ * ║   - External Services & Logging                                            ║
+ * ╚════════════════════════════════════════════════════════════════════════════╝
+ */
 
-# Config language
+
+/*----------------------------------------------------------
+ | SYSTEM LANGUAGE & RUNTIME OPTIONS
+ *----------------------------------------------------------*/
+
+# System language (accepted: 'eng', 'fr', etc.)
 define('_LANG_', 'eng');
 
-# Python version in use
-define('_PYTHON_', 'python');
-
-# Python version in use (accepted : php or python)
+# Language used for background processing (accepted: 'php' or 'python')
 define('__EMAIL_METHOD__', 'php');
 
-# Session use OTP method (accepted : false or true)
+# Activate OTP-based session validation (accepted: true or false)
 define('_OTP_METHOD_', false);
 
-# Set Production and developpment mode (accepted : false or true)
+# Enable production mode (true = suppress debug info, false = dev mode)
 define('_PRODUCTION_', false);
 
-# Config front files
+# File extension used for frontend rendering (e.g., .html, .php)
 define('_FRONT_', '.html');
 
-# Config API token Key name
+# Default HTTP CSRF token field name
 define('_KEYGEN_', 'CRSF');
 
-# Main directory folder
-define('_DIR_MAIN_', 'bin');
+/*----------------------------------------------------------
+ | DEFAULT DATABASE DRIVER
+ *----------------------------------------------------------*/
 
-# Set database accpeted 'mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis'
+# Default database engine (accepted: mysql, oracle, pgsql, sqlserver, sqlite, mongodb, redis)
 define('_FIRST_DRIVER_', 'sqlite');
 
-# vendor directory
+/*----------------------------------------------------------
+ | DIRECTORY PATHS & MAIN STRUCTURE
+ *----------------------------------------------------------*/
+
+# Root folder for main binaries
+define('_DIR_MAIN_', 'bin');
+
+# Main vendor directory (for Composer or packages)
 define('_DIR_VENDOR_', 'vendor');
 
-# Front files extension in end
+# Extension for main route or module references
 define('_MAIN_EXTENSION_', '_ep');
 
-# Users session name
-define('_SESSION_', 'session');
-
-# Users Token CRSF name
-define('_CRSF_TOKEN_', 'crsfToken');
-
-# Views directories
+# Views directory for public content
 define('_DIR_VIEWS_', 'public');
 
-# Media files
+# Static media/documents directory
 define('_DIR_MEDIA_', 'static/docs/');
 
-# Main directory
+# Root base path of the project
 define('_ROOT_', dirname(__DIR__));
 
-# Images directory
+# Directory for public images
 define('_DIR_IMG_', 'static/img/');
 
-# Documentation directory
+# Directory for PDF and printable files
 define('_DIR_PDF_', 'static/docs/');
 
-# Main directory for all users
+# Template folder for all users
 define('_DIR_MAIN_TEMP_', '/views/main/');
 
-# Main directory for admin pages
+# Template folder for admin panel
 define('_DIR_ADMIN_TEMP_', '/views/admin/');
 
-# Database directory
+# Database-related scripts and configurations
 define('_DIR_database_', 'bin/database');
 
-# Migration directory
+# Migration system directory
 define('_DIR_MIGRATION_', 'bin/database/gearShift');
 
-# Epaphrodites main directory
+# Main Epaphrodites system folder
 define('_EPAPHRODITE_', 'bin/epaphrodites');
 
-# Console main directory
+# CLI/Console model files
 define('_CONSOLE_', 'bin/epaphrodites/Console/Models');
 
-# Main static datas (static storage)
+# Static array configuration files
 define('_DIR_CONFIG_', 'bin/database/datas/arrays/');
 
-# Main Json datas directory
+# JSON configuration/data files
 define('_DIR_JSON_DATAS_', 'bin/database/datas/json');
 
-# Main toml datas directory
+# TOML data files (optional use)
 define('_DIR_TOML_DATAS_', 'bin/database/datas/toml/');
 
-# Main sqLite datas directory
+# SQLite-based data store files
 define('_DIR_SQLITE_DATAS_', 'bin/database/datas/SqlLite/');
 
-# Main config ini directory
+# INI configuration files
 define('_DIR_CONFIG_INI_', 'bin/config/');
 
-# Set Application domaine when you are in local "epaphrodite-framework/"
-define('_DOMAINE_', "");
+# Project domain base when working in local (e.g., 'epaphrodite-framework/')
+define('_DOMAINE_', '');
 
-# Fake folders link
+# Path used for routing to fake (virtual) folders
 define('_FAKE_', 'view/');
 
-# Main home page
+# Homepage path (default entry)
 define('_HOME_', _FAKE_ . 'index/');
 
-# Login home page
+# Login page route
 define('_LOGIN_', _FAKE_ . 'login/');
 
-# Logout
+# Logout route
 define('_LOGOUT_', 'logout/');
 
-# python directory
+# Python execution files folder
 define('_PYTHON_FILE_FOLDERS_', 'bin/epaphrodites/python/');
 
-# Dashboard home page
+# Main dashboard entry point
 define('_DASHBOARD_', 'dashboard/');
 
-# Dashboard home folders
+# Main dashboard modules folder
 define('_DASHBOARD_FOLDERS_', 'dashboardFolder/');
 
-# Session auth id
+/*----------------------------------------------------------
+ | SESSION & AUTHENTICATION IDENTIFIERS
+ *----------------------------------------------------------*/
+
+# Global user session name
+define('_SESSION_', 'session');
+
+# CSRF protection token name
+define('_CRSF_TOKEN_', 'crsfToken');
+
+# Session keys for authenticated user context
 define('_AUTH_ID_', 'id');
-
-# Session auth type
 define('_AUTH_TYPE_', 'type');
-
-# Session auth nom et prenoms
 define('_AUTH_NAME_', 'usersname');
-
-# Session auth login
 define('_AUTH_LOGIN_', 'login');
-
-# Session auth contact
 define('_AUTH_CONTACT_', 'contact');
-
-# Session auth OTP
+define('_AUTH_EMAIL_', 'email');
 define('_AUTH_OTP_', 'sessionOTP');
-
-# Session auth OTP Verification
 define('_AUTH_VERIFY_', 'otpVerify');
-
-# Session auth OTP Cinfirmation
 define('_AUTH_CONFIRM_', 'otpConfirm');
 
-# Session auth email
-define('_AUTH_EMAIL_', 'email');
-
-# Token field name
+# CSRF token input field
 define('CSRF_FIELD_NAME', 'token_csrf');
 
-# Main developpement file
+/*----------------------------------------------------------
+ | LOGGING & EXTERNAL SERVICES
+ *----------------------------------------------------------*/
+
+# Default backend log file
 define('_SERVER_LOG_', 'server.log');
 
-# DeepLp API key
+# DeepL API key (used for translation if activated)
 define('_YOUR_DEEPL_API_KEY', 'INSERT_YOUR_API_KEY');
 
-# Users dashboard color config
+# Path to frontend color config (JSON format)
 define('_DIR_COLORS_PATH_', 'bin/config/Config.json');
