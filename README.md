@@ -114,29 +114,22 @@ composer dump-autoload
 
 4. Choose your first configuration
 ```bash  
-    // First DB username
-    1DB_USER =
-
-    // First DB password
-    1DB_PASSWORD =
-
-    // First DB port
-    1DB_PORT =
-
-    // First DB name
-    1DB_DATABASE = "epaphroditesdb.sqlite"
-
-    // First DB SOCKET support
-    1DB_SOCKET = false
-
-    // First DB socket
-    1DB_SOCKET_PATH = ""
-
-    // First DB host
-    1DB_HOST = "127.0.0.1" 
-
-    // First DB DRIVER - accepted : mysql/oracle/pgsql/sqlserver/sqlite/mongodb/redis
-    1DB_DIVER = "sqlite"
+[1_CONFIGURATION]
+# -----------------------------------------------------------------------
+#                      SQLITE CONFIGURATION                         
+#  Lightweight file-based database perfect for:                     
+#  . Small to medium applications                                   
+#  . Development and testing environments                           
+#  . Embedded systems with minimal configuration                    
+# -----------------------------------------------------------------------
+DRIVER = sqlite
+DATABASE = epaphroditesdb.sqlite
+HOST = 127.0.0.1
+PORT =
+USER =
+PASSWORD =
+SOCKET = false
+SOCKET_PATH =
 
 ```
 

@@ -9,7 +9,7 @@ class RunKernelTest extends TestCase
 {
     public function testGetSomeValueReturnsExpectedValue()
     {
-        require_once 'bin/epaphrodites/define/config/SetDirectory.php';
+        require_once 'bin/config/SetDirectory.php';
 
         $runKernel = new runKernel();
 
