@@ -29,6 +29,10 @@
 # System language (accepted: 'eng', 'fr', etc.)
 define('_LANG_', 'eng');
 
+# Python (accepted: 'python', 'python3')
+# For linux os: python3
+define('_PYTHON_', 'python');
+
 # Language used for background processing (accepted: 'php' or 'python')
 define('__EMAIL_METHOD__', 'php');
 
