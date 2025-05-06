@@ -5,6 +5,7 @@ class InstallComponent
     private array $requiredExtensions = [
         'openssl',
         'zip',
+        'fileinfo',
         'gd',
         'intl',
         'pdo',
