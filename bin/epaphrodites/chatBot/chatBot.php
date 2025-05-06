@@ -37,6 +37,7 @@ use initVariables, loadJson, cleanNormalize, jaccardCoefficient, mainBot, heredi
      */
     protected function findHerediaResponse(string $userMessage , string $botName):array
     {
+
        return $this->getHerediaResponse($userMessage , $botName);
     }    
 }

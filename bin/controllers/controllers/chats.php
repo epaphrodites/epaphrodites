@@ -80,7 +80,35 @@ final class chats extends MainSwitchers
         }
      
         $this->views( $html, [], true );
-    }   
+    }  
+    
+    /**
+     * This chatbot requires that Python be installed and model llama3:8b
+     * Start Epaphrodites Chatbot two
+     * @param string $html
+     * @return void
+     */
+    public final function startOllamaChatbot(
+        string $html
+    ): void
+    {
+
+        (string) $model = 'llama3:8b';
+
+        if (static::isValidMethod(true)) {
+            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
+    
+            echo $this->ajaxTemplate->otherChatMessageContent($send);
+            flush();
+    
+            $ollama_stream = $this->chatBot->ollamaChatBotModelProcess($send, $model);
+    
+            echo static::streamChunks($ollama_stream, true);
+            return;
+        }
+    
+        $this->views($html, [], true);
+    }      
 
     /**
     * Start Epaphrodites recognition

@@ -1,0 +1,98 @@
+{% extends layouts %}
+{% from ajax import send_ajax_request, get_ajax_request, send_ajax_stream_request %}
+{% from forms import textarea_field, submit %}
+{% from breadcrumb import breadcrumb_field %} 
+{% from tools import recognition %} 
+{% block content %}
+{{ breadcrumb_field('EPAPHRODITES OLLAMA CONFIGURATION CHATBOT' )}}
+
+
+
+  <div class="container">
+    <div class="chat-bot-content">
+      <div class="conversation"></div>
+        <div class="input-group">
+          <div id="input-container">
+            {{ submit(
+              {
+                icon : 'bi bi-mic',
+                color : 'transparent',
+                id : 'startButtonVoice',
+                mainClass : 'input-group-prepend'
+              }
+            )}}
+
+            {{ textarea_field(
+              {
+              require : true ,
+              name : '__send__' ,
+              id : '__send__' ,
+              rows : 2,
+              placeholder : 'Message to Epaphrodites Bot...'
+              }
+          )}}
+
+            {{ submit(
+              {
+                icon : 'bi bi-arrow-up-circle-fill',
+                color : 'transparent',
+                id : 'sendMessages',
+                iconId: 'statusIcon',
+                mainClass : 'input-group-prepend'
+              }
+            )}}
+        </div>
+        </div>
+      </div>
+  </div>
+
+  <!-- 
+  {{ get_ajax_request({
+    method : "POST",
+    url : "chats@start_ollama_chatbot",
+    msg : '.conversation',
+    type : 'html'
+  }) }}
+-->
+  {{
+    recognition({
+      button : "startButtonVoice",
+      field : "__send__"
+    })
+  }}
+
+  {{ send_ajax_stream_request({
+    submit: '#sendMessages',
+    msg: '.conversation',
+    url: 'chats@start_ollama_chatbot',
+    method: 'POST',
+    value: ['__send__'],
+    iconTarget: '#statusIcon',
+    loadingIcon: 'bi-hourglass-split',
+    thinkingIcon: 'bi-snow2',
+    workingIcon: 'bi-snow2'
+}) }}
+
+<style>
+
+  #input-container {
+    position: fixed;
+    bottom: 10px;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.conversation {
+  padding: 20px;
+  overflow-y: auto;
+  height: calc(100vh - 230px);
+  box-sizing: border-box;
+  width: 90%;
+  margin: auto;
+}
+</style>
+
+
+{% endblock %}

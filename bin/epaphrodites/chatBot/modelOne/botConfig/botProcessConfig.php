@@ -142,7 +142,34 @@ trait botProcessConfig
         }
 
         return $result;
-    }  
+    } 
+    
+    /**
+     * Lunch ollama llm model
+     * 
+     * @param string $usersMessages
+     * @param string $model
+     * @return array{question: string, response: mixed}
+     */
+    public function lunchOllamaProcessConfig(
+        string $usersMessages,
+        string $model = 'llama3:8b'
+    ):array{
+
+        $login = $this->getBotUsersConnected();
+        
+        $result = static::initConfig()['python']->executePython('lunchOllamallm', [ 
+            'login' => $login,
+            'prompt' => $usersMessages,
+            'model' => $model,
+            'max_tokens' => 2000,
+            'temperature' => 0.6,
+            'stream' => true,
+            'timeout' => 1000
+        ], true);
+
+        return $result;
+    }    
     
     /**
      * @return string

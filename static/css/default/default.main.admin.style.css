@@ -909,11 +909,10 @@ tr {
 .chat-bot-content .conversation {
   border: 1px solid #efefef;
   padding: 10px 15px;
-  min-height: 600px;
-  max-height: 600px;
   overflow-y: scroll;
   border-radius: 17px 17px 0px 0px;
   border-bottom: 0px;
+  margin-bottom: 47px;
 }
 
 .chat-bot-content .conversation::-webkit-scrollbar {

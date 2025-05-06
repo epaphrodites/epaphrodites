@@ -61,5 +61,18 @@ class processBotAnswers extends chatBot
     ): array
     {
         return $this->noellaChatBotProcessConfig($userMessage);
-    }      
+    }  
+    
+    /**
+     * Chatbot ollama llm
+     * @param string $userMessage
+     * @return array
+    */
+    public final function ollamaChatBotModelProcess(
+        string $userMessage,
+        string $model
+    ): array
+    {
+        return $this->lunchOllamaProcessConfig($userMessage, $model);
+    } 
 }

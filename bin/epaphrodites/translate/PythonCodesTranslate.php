@@ -10,25 +10,36 @@ class PythonCodesTranslate extends GeneralConfig
 {
     
     /**
-     * Execute Python script.
-     *
+     * Execute python scripts
+     * 
      * @param string|null $pyFunction
-     * @param array $datas
+     * @param array $data
+     * @param bool $useStreaming
      * @return mixed
      */
     public function executePython(
         string|null $pyFunction = null, 
-        array $datas = []
-    ):mixed{
+        array $data = [],
+        bool $useStreaming = false
+    ): mixed {
         $getJsonContent = $this->loadJsonConfig();
      
         if (!empty($getJsonContent[$pyFunction])) {
-
             $scriptInfo = $getJsonContent[$pyFunction];
-
-            $mergedDatas = array_merge(['function' => $scriptInfo["function"]], $datas);
+            $mergedDatas = array_merge(['function' => $scriptInfo["function"]], $data);
             
-            return $this->pythonSystemCode(_PYTHON_FILE_FOLDERS_ . $scriptInfo["script"], $mergedDatas);
+            $callback = $useStreaming ? function ($chunk) {
+                echo $chunk;
+                flush();
+                ob_flush();
+            } : null;
+            
+            return $this->pythonSystemCode(
+                _PYTHON_FILE_FOLDERS_ . $scriptInfo["script"], 
+                $mergedDatas,
+                $callback,
+                $useStreaming
+            );
         } else {
             return false;
         }

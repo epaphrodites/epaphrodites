@@ -1,6 +1,7 @@
 composer.lock
 server.log
 test.php
+test.html
 counter.json
 test/
 results/
