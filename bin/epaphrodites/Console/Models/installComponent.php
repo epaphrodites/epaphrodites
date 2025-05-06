@@ -37,6 +37,8 @@ class InstallComponent
         };
 
         $this->updateComposer();
+        $this->updateAutoload();
+        
     }
 
     private function isPhpInstalled(): bool
@@ -188,10 +190,17 @@ class InstallComponent
         passthru($cmd);
     }
 
+    private function updateAutoload(): void
+    {
+        echo "Composer autoload..." . PHP_EOL;
+        $this->executeCommand("composer dump-autoload");
+        echo "\033[32mAutoload .................................. updated ✅\033[0m" . PHP_EOL;
+    }
+
     private function updateComposer(): void
     {
         echo "Updating Composer..." . PHP_EOL;
-        $this->executeCommand("composer dump-autoload");
+        $this->executeCommand("composer update");
         echo "\033[32mComposer .................................. updated ✅\033[0m" . PHP_EOL;
     }
 }
