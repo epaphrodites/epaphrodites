@@ -34,6 +34,13 @@
             const conversationId = '{{ options.conversationId }}';
             const textareaId = '{{ options.textareaId }}';
             const buttonId = '{{ options.buttonId }}';
+            const statusIcon = document.getElementById('statusIcon'); // icône du bouton de soumission
+            const loadingIcon = 'bi bi-hourglass';  // Icône de réflexion
+            const processingIcon = 'bi bi-arrow-repeat';  // Icône pendant le traitement
+    
+            const model = '{{ options.model | default("llama3:8b") }}';
+            const maxTokens = {{ options.max_tokens | default(3000) }};
+            const temperature = {{ options.temperature | default(0.6) }};
     
             function getRecentMessages(maxMessages = 5) {
                 const conversation = document.getElementById(conversationId);
@@ -45,11 +52,20 @@
                 return text.split(/\s+/).length + text.split(/[\.,:;\(\)]/).length - 1;
             }
     
-            function appendMessage(content, isError = false) {
+            function appendMessage(content, sender = 'system') {
                 const conversation = document.getElementById(conversationId);
-                const message = document.createElement('p');
-                message.textContent = content;
-                if (isError) message.style.color = 'red';
+                const message = document.createElement('div');
+                message.style.marginBottom = '8px';
+                if (sender === 'user') {
+                    message.innerHTML = `<strong>You:</strong> ${content}`;
+                    message.style.color = '#0066cc';
+                } else if (sender === 'bot') {
+                    message.innerHTML = `<strong>Ollama:</strong> ${content}`;
+                    message.style.color = '#333';
+                } else {
+                    message.textContent = content;
+                    message.style.color = 'red';
+                }
                 conversation.appendChild(message);
                 conversation.scrollTop = conversation.scrollHeight;
             }
@@ -84,32 +100,37 @@
     
             async function sendToOllama() {
                 const textarea = document.getElementById(textareaId);
+                const button = document.getElementById(buttonId);
                 const prompt = textarea.value.trim();
                 if (!prompt) {
-                    appendMessage('Veuillez entrer un message.', true);
+                    appendMessage('Veuillez entrer un message.', 'error');
                     return;
                 }
     
-                const recentMessages = getRecentMessages();
-                const fullPrompt = `${recentMessages}\nUser: ${prompt}\nAssistant: `;
+                appendMessage(prompt, 'user');
+                textarea.disabled = true; // Désactive le champ de saisie pendant l'envoi
+                button.disabled = true; // Désactive le bouton "Envoyer"
+                statusIcon.className = loadingIcon; // Change l'icône en réflexion
     
-                console.log('Prompt envoyé:', fullPrompt);
-                console.log('Tokens estimés:', estimateTokens(fullPrompt));
+                const recentMessages = getRecentMessages();
+                const fullPrompt = `${recentMessages}\nYou: ${prompt}\nOllama: `;
     
                 const conversation = document.getElementById(conversationId);
-                const newMessage = document.createElement('p');
-                newMessage.textContent = '';
+                const newMessage = document.createElement('div');
+                newMessage.innerHTML = '<strong>Ollama:</strong> ';
+                newMessage.style.color = '#333';
                 conversation.appendChild(newMessage);
+                conversation.scrollTop = conversation.scrollHeight;
     
                 try {
                     const response = await fetch('http://localhost:11434/api/generate', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            model: 'llama3:8b',
+                            model: model,
                             prompt: fullPrompt,
-                            max_tokens: 3000,
-                            temperature: 0.6,
+                            max_tokens: maxTokens,
+                            temperature: temperature,
                             stream: true
                         })
                     });
@@ -118,20 +139,27 @@
                         throw new Error(`Erreur HTTP: ${response.status} ${response.statusText}`);
                     }
     
+                    statusIcon.className = processingIcon; // Change l'icône en traitement
+    
                     await readStream(response, (fragment) => {
-                        newMessage.textContent += fragment;
+                        newMessage.innerHTML += fragment;
                         conversation.scrollTop = conversation.scrollHeight;
                     });
     
-                    textarea.value = '';
+                    textarea.disabled = false; // Réactive le champ de saisie
+                    button.disabled = false; // Réactive le bouton "Envoyer"
+                    statusIcon.className = 'bi bi-arrow-up-circle-fill'; // Remet l'icône de flèche vers le haut
     
                 } catch (error) {
                     console.error('Erreur:', error);
-                    appendMessage(`Erreur lors de la communication avec Ollama: ${error.message}`, true);
+                    appendMessage(`Erreur lors de la communication avec Ollama: ${error.message}`, 'error');
+                    textarea.disabled = false;
+                    button.disabled = false;
+                    statusIcon.className = 'bi bi-arrow-up-circle-fill'; // Remet l'icône par défaut
                 }
             }
     
-            // Associer le bouton dynamiquement
+            // Ajout d'un écouteur d'événements pour le bouton et la touche "Enter"
             document.addEventListener('DOMContentLoaded', function () {
                 const button = document.getElementById(buttonId);
                 if (button) {
@@ -139,9 +167,17 @@
                 } else {
                     console.warn('Bouton non trouvé avec l\'ID:', buttonId);
                 }
+    
+                const textarea = document.getElementById(textareaId);
+                textarea.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault(); // Empêche le saut de ligne
+                        sendToOllama();
+                    }
+                });
             });
         })();
     </script>
     {% endmacro %}
     
-    
+        
