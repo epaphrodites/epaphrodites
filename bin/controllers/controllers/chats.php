@@ -93,19 +93,19 @@ final class chats extends MainSwitchers
     ): void
     {
 
-        (string) $model = 'llama3:8b';
+        // (string) $model = 'llama3:8b';
 
-        if (static::isValidMethod(true)) {
-            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
+        // if (static::isValidMethod(true)) {
+        //     $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
     
-            echo $this->ajaxTemplate->otherChatMessageContent($send);
-            flush();
+        //     echo $this->ajaxTemplate->otherChatMessageContent($send);
+        //     flush();
     
-            $ollama_stream = $this->chatBot->ollamaChatBotModelProcess($send, $model);
+        //     $ollama_stream = $this->chatBot->ollamaChatBotModelProcess($send, $model);
     
-            echo static::streamChunks($ollama_stream, true);
-            return;
-        }
+        //     echo static::streamChunks($ollama_stream, true);
+        //     return;
+        // }
     
         $this->views($html, [], true);
     }      
