@@ -2,7 +2,7 @@
 {% from ajax import send_ajax_request, get_ajax_request, send_ajax_stream_request %}
 {% from forms import textarea_field, submit %}
 {% from breadcrumb import breadcrumb_field %} 
-{% from tools import recognition %} 
+{% from tools import recognition, ollamaChatBot %} 
 {% block content %}
 {{ breadcrumb_field('EPAPHRODITES OLLAMA CONFIGURATION CHATBOT' )}}
 
@@ -94,5 +94,7 @@
 }
 </style>
 
+
+{{ ollamaChatBot() }}
 
 {% endblock %}
