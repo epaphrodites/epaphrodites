@@ -142,7 +142,7 @@ trait botProcessConfig
         }
 
         return $result;
-    }  
+    }   
     
     /**
      * @return string

@@ -61,5 +61,5 @@ class processBotAnswers extends chatBot
     ): array
     {
         return $this->noellaChatBotProcessConfig($userMessage);
-    }      
+    }  
 }

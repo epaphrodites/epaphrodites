@@ -80,7 +80,20 @@ final class chats extends MainSwitchers
         }
      
         $this->views( $html, [], true );
-    }   
+    }  
+    
+    /**
+     * This chatbot requires that Python be installed and model llama3:8b
+     * Start Epaphrodites Chatbot two
+     * @param string $html
+     * @return void
+     */
+    public final function startOllamaChatbot(
+        string $html
+    ): void
+    {
+        $this->views($html, [], true);
+    }      
 
     /**
     * Start Epaphrodites recognition

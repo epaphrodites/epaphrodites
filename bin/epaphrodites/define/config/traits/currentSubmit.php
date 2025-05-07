@@ -414,13 +414,12 @@ trait currentSubmit
         $data = $this->filterMethod($array, $method);
 
         foreach ($array as $key) {
-            // If a key is missing or its value is empty, return false
+
             if (!isset($data[$key]) || empty($data[$key])) {
                 return false;
             }
         }
 
-        // Return true if all keys have non-empty values
         return true;
     }
 
@@ -529,7 +528,7 @@ trait currentSubmit
         string $directory, 
         string $data
     ): bool {
-        // Validate that the directory exists and is writable
+     
         if (!is_dir($directory)) {
             throw new \InvalidArgumentException("The specified directory '$directory' does not exist.");
         }
@@ -538,22 +537,63 @@ trait currentSubmit
             throw new \InvalidArgumentException("The specified directory '$directory' is not writable.");
         }
 
-        // Ensure the data is not empty
         if (empty($data)) {
-            return false; // Early exit if there's no data to write
+            return false;
         }
 
-        // Generate a unique filename
         $filename = md5('signature_' . uniqid('', true)) . '.png';
         $filePath = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
 
-        // Write the data to the file
         $writeResult = file_put_contents($filePath, $data);
 
-        // Return true if writing was successful, false otherwise
         return $writeResult !== false;
     }
 
+    /**
+     * Streaming without cache
+     * 
+     * @param iterable $ollama_stream
+     * @param bool $withBuffering
+     * @return string
+     */
+    public static function streamChunks(
+        iterable $ollama_stream, 
+        bool $withBuffering = true
+    ): string{
+        $output = 'tres';
+
+        if ($withBuffering && !headers_sent()) {
+            header('Content-Type: text/html; charset=utf-8');
+            header('Cache-Control: no-cache, must-revalidate');
+            header('Connection: keep-alive');
+            header('X-Accel-Buffering: no');
+        }
+
+        if ($withBuffering) {
+            while (@ob_end_flush());
+            ob_implicit_flush(true);
+            set_time_limit(0);
+            echo str_repeat("<!-- ping -->\n", 5);
+            flush();
+        }
+
+        foreach ($ollama_stream as $chunk) {
+            $output .= $chunk . "\n";
+
+            if ($withBuffering) {
+                echo $chunk . "\n";
+                flush();
+                usleep(100000);
+            }
+        }
+
+        if ($withBuffering) {
+            echo "<!-- stream end -->";
+        }
+
+        return $output . 'test';
+    }
+  
     /**
      * Filters request data based on the HTTP method.
      *

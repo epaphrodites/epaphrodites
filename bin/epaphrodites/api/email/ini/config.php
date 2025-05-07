@@ -17,7 +17,7 @@ class config
         $this->mail = new PHPMailer(true);
     }
 
-    protected function settings():bool
+    public function settings():bool
     {
         try {
             // Enable SMTP debugging (optional)
@@ -51,7 +51,7 @@ class config
         }
     }
 
-    protected function content(string $msgHeader, string $msgContent)
+    public function content(string $msgHeader, string $msgContent)
     {
         // Set email format to HTML
         $this->mail->isHTML(true);
@@ -72,7 +72,7 @@ class config
         return $content;
     }
 
-    protected function pip():object{
+    public function pip():object{
 
         return new PythonCodesTranslate;
     }

@@ -5,32 +5,32 @@ namespace Epaphrodites\epaphrodites\shares\ajaxTemplate;
 trait chatBot{
   
     /**
-     * @param array $datas
+     * @param array $data
      * @param string $submit
      * @param string $chatBotName
      * @return string
      */
     public function chatMessageContent(
-        array $datas, 
+        array $data, 
         string $submit, 
         string $chatBotName = "EpaphroditesBot"
     ):string {
-        $datas = array_reverse($datas);
+        $data = array_reverse($data);
         $html = '<div class="chat-container">';
         $firstItem = true;
         
-        foreach ($datas as $key => $value) {
+        foreach ($data as $key => $value) {
             $additionalClass = $firstItem ? 'answers' : '';
             $html .= '
             <div class="chat-item">
                 <div class="msg">
                     <strong>You :</strong>
-                    <p class="user-msg">' . $datas[$key]["question"] . '</p>
+                    <p class="user-msg">' . $data[$key]["question"] . '</p>
                 </div>
                 <div class="msg">
                     <strong>'.$chatBotName.' :</strong>
                     <div class="bot-msg-'.$additionalClass.'">
-                        <p>' . nl2br($datas[$key]["answers"]) . '</p>
+                        <p>' . nl2br($data[$key]["answers"]) . '</p>
                     </div>
                 </div>
             </div>';
@@ -66,4 +66,25 @@ trait chatBot{
         
         return $html;
     }
+
+
+    public function otherChatMessageContent(
+        string $send
+    ): string{
+
+        $html = 
+        <<<HTML
+        <div class="chat-message user">
+            <strong>You :</strong> $send
+        </div>
+        <div class="chat-message bot">
+            <strong>Ollama :</strong> <span id="live-response"></span>
+        </div>
+        <div id="chat-end"></div>
+        HTML;
+    
+        return $html;
+    }
+    
+    
 }

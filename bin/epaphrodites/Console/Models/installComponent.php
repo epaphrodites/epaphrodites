@@ -5,6 +5,7 @@ class InstallComponent
     private array $requiredExtensions = [
         'openssl',
         'zip',
+        'fileinfo',
         'gd',
         'intl',
         'pdo',
@@ -36,6 +37,8 @@ class InstallComponent
         };
 
         $this->updateComposer();
+        $this->updateAutoload();
+        
     }
 
     private function isPhpInstalled(): bool
@@ -108,41 +111,48 @@ class InstallComponent
     private function installExtensionsOnWindows(): void
     {
         echo "Checking extensions on Windows..." . PHP_EOL;
-
+    
         $phpIniPath = php_ini_loaded_file();
         if (!$phpIniPath || !file_exists($phpIniPath)) {
             echo "\033[31mUnable to locate php.ini ❌\033[0m" . PHP_EOL;
             return;
         }
-
+    
         $iniContent = file_get_contents($phpIniPath);
         $iniLines = explode("\n", $iniContent);
         $modified = false;
-
+    
         foreach ($this->requiredExtensions as $extension) {
             if ($this->isExtensionLoaded($extension)) {
                 echo "\033[34m$extension .................................. already loaded ✅\033[0m" . PHP_EOL;
                 continue;
             }
-
+    
             $pattern = "/^\s*;?\s*extension\s*=\s*($extension|$extension\.dll)\b/i";
             $found = false;
-
-            foreach ($iniLines as $line) {
+    
+            foreach ($iniLines as $i => $line) {
                 if (preg_match($pattern, $line)) {
-                    echo "\033[33m$extension found but commented – SKIPPING as per policy ⚠️\033[0m" . PHP_EOL;
+                    if (str_starts_with(trim($line), ';')) {
+                        
+                        $iniLines[$i] = preg_replace('/^\s*;\s*/', '', $line);
+                        echo "\033[32m$extension .................................. uncommented ✅\033[0m" . PHP_EOL;
+                        $modified = true;
+                    } else {
+                        echo "\033[33m$extension already declared in php.ini ✅\033[0m" . PHP_EOL;
+                    }
                     $found = true;
                     break;
                 }
             }
-
+    
             if (!$found) {
                 $iniLines[] = "extension=$extension";
                 echo "\033[32m$extension .................................. added to php.ini ✅\033[0m" . PHP_EOL;
                 $modified = true;
             }
         }
-
+    
         if ($modified) {
             file_put_contents($phpIniPath, implode("\n", $iniLines));
             echo "\033[32mphp.ini updated ✅\033[0m" . PHP_EOL;
@@ -150,6 +160,7 @@ class InstallComponent
             echo "\033[34mNo changes needed to php.ini 💤\033[0m" . PHP_EOL;
         }
     }
+    
 
     private function detectPackageManager(): ?string
     {
@@ -179,10 +190,17 @@ class InstallComponent
         passthru($cmd);
     }
 
+    private function updateAutoload(): void
+    {
+        echo "Composer autoload..." . PHP_EOL;
+        $this->executeCommand("composer dump-autoload");
+        echo "\033[32mAutoload .................................. updated ✅\033[0m" . PHP_EOL;
+    }
+
     private function updateComposer(): void
     {
         echo "Updating Composer..." . PHP_EOL;
-        $this->executeCommand("composer dump-autoload");
+        $this->executeCommand("composer update");
         echo "\033[32mComposer .................................. updated ✅\033[0m" . PHP_EOL;
     }
 }
