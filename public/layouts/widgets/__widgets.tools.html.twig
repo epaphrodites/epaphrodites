@@ -29,39 +29,42 @@
 {# --- End Progress Field -- #}
 
 {% macro ollamaChatBot(options) %}
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{__js('markdown/marked.min')}}"></script>
     <script>
         (function () {
             const conversationId = '{{ options.conversationId }}';
             const textareaId = '{{ options.textareaId }}';
             const buttonId = '{{ options.buttonId }}';
             const statusIcon = document.getElementById('statusIcon');
-            const loadingIcon = 'bi bi-hourglass';
-            const processingIcon = 'bi bi-arrow-repeat';
-
+            const loadingIcon = 'bi bi-hourglass pulse-animation';
+            const processingIcon = 'bi bi-snow2 spin-animation';
+            const apiLink = 'http://localhost:11434/api/generate';
+    
             const model = '{{ options.model | default("llama3:8b") }}';
             const maxTokens = {{ options.max_tokens | default(3000) }};
             const temperature = {{ options.temperature | default(0.6) }};
-
+            const botName = '{{ options.botName | default("Ollama") }}';
+            const usersName = '{{ options.usersName | default("You") }}';
+    
             function getRecentMessages(maxMessages = 5) {
                 const conversation = document.getElementById(conversationId);
                 const messages = Array.from(conversation.children);
                 return messages.slice(-maxMessages).map(msg => msg.textContent).join('\n');
             }
-
+    
             function estimateTokens(text) {
                 return text.split(/\s+/).length + text.split(/[\.,:;\(\)]/).length - 1;
             }
-
+    
             function appendMessage(content, sender = 'system') {
                 const conversation = document.getElementById(conversationId);
                 const message = document.createElement('div');
                 message.style.marginBottom = '8px';
                 if (sender === 'user') {
-                    message.innerHTML = `<strong>You:</strong> ${content}`;
-                    message.style.color = '#0066cc';
+                    message.innerHTML = `<strong>${usersName}:</strong>\n ${content}`;
+                    message.style.color = '#333';
                 } else if (sender === 'bot') {
-                    message.innerHTML = `<strong>Ollama:</strong> ${content}`;
+                    message.innerHTML = `<strong>${botName}:</strong> ${content}`;
                     message.style.color = '#333';
                 } else {
                     message.textContent = content;
@@ -70,19 +73,19 @@
                 conversation.appendChild(message);
                 conversation.scrollTop = conversation.scrollHeight;
             }
-
+    
             async function readStream(response, onFragment) {
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let result = '';
-
+    
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
-
+    
                     const chunk = decoder.decode(value);
                     const lines = chunk.split('\n').filter(line => line.trim() !== '');
-
+    
                     for (const line of lines) {
                         try {
                             const json = JSON.parse(line);
@@ -91,47 +94,46 @@
                                 onFragment(json.response);
                             }
                         } catch (e) {
-                            console.error('Erreur de parsing JSON dans le flux:', e, 'Ligne:', line);
+                            console.error('JSON parsing error in stream:', e, 'Line:', line);
                         }
                     }
                 }
-
+    
                 return result;
             }
-
+    
             async function sendToOllama() {
                 const textarea = document.getElementById(textareaId);
                 const button = document.getElementById(buttonId);
                 const prompt = textarea.value.trim();
                 if (!prompt) {
-                    appendMessage('Veuillez entrer un message.', 'error');
+                    appendMessage('Please enter a message.', 'error');
                     return;
                 }
-
+    
                 appendMessage(prompt, 'user');
-                textarea.value = ''; // Vide le champ après l'envoi
+                textarea.value = '';
                 textarea.disabled = true;
                 button.disabled = true;
                 statusIcon.className = loadingIcon;
-
+    
                 const recentMessages = getRecentMessages();
-                const fullPrompt = `${recentMessages}\nYou: ${prompt}\nOllama: `;
-
+                const fullPrompt = `${recentMessages}\n${usersName}:\n${prompt}\n\n${botName}: `;
+    
                 const conversation = document.getElementById(conversationId);
                 const newMessage = document.createElement('div');
-                newMessage.innerHTML = '<strong>Ollama:</strong> ';
+                newMessage.innerHTML = `<strong>${botName}:</strong> `;
                 newMessage.style.color = '#333';
                 conversation.appendChild(newMessage);
                 conversation.scrollTop = conversation.scrollHeight;
-
-                // Ajout d'une zone de contenu Markdown
+    
                 const mdContent = document.createElement('div');
                 mdContent.style.marginTop = '4px';
                 mdContent.style.fontSize = '0.95em';
                 newMessage.appendChild(mdContent);
-
+    
                 try {
-                    const response = await fetch('http://localhost:11434/api/generate', {
+                    const response = await fetch(apiLink, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -142,42 +144,42 @@
                             stream: true
                         })
                     });
-
+    
                     if (!response.ok) {
-                        throw new Error(`Erreur HTTP: ${response.status} ${response.statusText}`);
+                        throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
                     }
-
+    
                     statusIcon.className = processingIcon;
-
+    
                     let accumulated = '';
-
+    
                     await readStream(response, (fragment) => {
                         accumulated += fragment;
                         mdContent.innerHTML = marked.parse(accumulated);
                         conversation.scrollTop = conversation.scrollHeight;
                     });
-
+    
                     textarea.disabled = false;
                     button.disabled = false;
                     statusIcon.className = 'bi bi-arrow-up-circle-fill';
-
+    
                 } catch (error) {
-                    console.error('Erreur:', error);
-                    appendMessage(`Erreur lors de la communication avec Ollama: ${error.message}`, 'error');
+                    console.error('Error:', error);
+                    appendMessage(`Error communicating with Ollama: ${error.message}`, 'error');
                     textarea.disabled = false;
                     button.disabled = false;
                     statusIcon.className = 'bi bi-arrow-up-circle-fill';
                 }
             }
-
+    
             document.addEventListener('DOMContentLoaded', function () {
                 const button = document.getElementById(buttonId);
                 if (button) {
                     button.addEventListener('click', sendToOllama);
                 } else {
-                    console.warn('Bouton non trouvé avec l\'ID:', buttonId);
+                    console.warn('Button not found with ID:', buttonId);
                 }
-
+    
                 const textarea = document.getElementById(textareaId);
                 textarea.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
@@ -189,41 +191,22 @@
         })();
     </script>
     <style>
-        #{{ options.conversationId }} div pre {
-            background-color: #1e1e1e; 
-            padding: 1em;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-word;
-            margin: 1em 0;
-        }
-
+        #{{ options.conversationId }} div pre,
         #{{ options.conversationId }} div code {
-            background-color: #2d2d2d;
-            color: #dcdcdc;
-            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            background-color: #222;
+            color: #dc143c;
+            padding: 0.5em;
+            border-radius: 6px;
+            overflow-x: auto;
             font-size: 0.95em;
-            line-height: 1.6;
-            padding: 0.2em 0.4em;
-            border-radius: 4px;
+            line-height: 1.5;
+            font-weight: 900;
         }
-
-        #{{ options.conversationId }} div code:not(pre code) {
-            padding: 0.2em 0.4em;
-            background-color: #2d2d2d;
-            border-radius: 4px;
-            font-size: 0.92em;
-        }
-
+    
         #{{ options.conversationId }} div pre {
             margin: 0.8em 0;
         }
-
-        #{{ options.conversationId }} div code {
-            background-color: #eef;
-        }
-
+    
         #{{ options.conversationId }} div h1,
         #{{ options.conversationId }} div h2,
         #{{ options.conversationId }} div h3 {
@@ -231,23 +214,23 @@
             margin: 0.8em 0 0.4em;
             color: #222;
         }
-
+    
         #{{ options.conversationId }} div ul,
         #{{ options.conversationId }} div ol {
             margin: 0.5em 0 0.5em 1.5em;
             padding-left: 1em;
         }
-
+    
         #{{ options.conversationId }} div p {
             margin: 0.5em 0;
             line-height: 1.6;
         }
-
+    
         #{{ options.conversationId }} div a {
-            color: #007acc;
+            color: #dc143c;
             text-decoration: underline;
         }
-
+    
         #{{ options.conversationId }} div blockquote {
             margin: 0.5em 0;
             padding-left: 1em;
@@ -255,9 +238,28 @@
             color: #666;
             font-style: italic;
         }
+    
+        .spin-animation {
+            animation: spin360 1s linear infinite;
+        }
+    
+        .pulse-animation {
+            animation: pulse 1s ease-in-out infinite;
+        }
+    
+        @keyframes spin360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
     </style>
-
-{% endmacro %}
+    {% endmacro %}
+    
 
     
         
