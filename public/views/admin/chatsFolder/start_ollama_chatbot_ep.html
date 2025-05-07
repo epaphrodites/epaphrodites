@@ -4,9 +4,7 @@
 {% from breadcrumb import breadcrumb_field %} 
 {% from tools import recognition, ollamaChatBot %} 
 {% block content %}
-{{ breadcrumb_field('EPAPHRODITES OLLAMA CONFIGURATION CHATBOT' )}}
-
-
+{{ breadcrumb_field('EPAPHRODITES OLLAMA CHATBOT' )}}
 
   <div class="container">
     <div class="chat-bot-content">
@@ -46,66 +44,25 @@
       </div>
   </div>
 
-  <!-- 
-  {{ get_ajax_request({
-    method : "POST",
-    url : "chats@start_ollama_chatbot",
-    msg : '.conversation',
-    type : 'html'
-  }) }}
-
-  {{
-    recognition({
-      button : "startButtonVoice",
-      field : "__send__"
-    })
-  }}
-
-  {{ send_ajax_stream_request({
-    submit: '#sendMessages',
-    msg: '.conversation',
-    url: 'chats@start_ollama_chatbot',
-    method: 'POST',
-    value: ['__send__'],
-    iconTarget: '#statusIcon',
-    loadingIcon: 'bi-hourglass-split',
-    thinkingIcon: 'bi-snow2',
-    workingIcon: 'bi-snow2'
-}) }}
--->
-<style>
-
-  #input-container {
-    position: fixed;
-    bottom: 10px;
-    width: 70%;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-.conversation {
-  padding: 20px;
-  overflow-y: auto;
-  height: calc(100vh - 230px);
-  box-sizing: border-box;
-  width: 90%;
-  margin: auto;
-}
-</style>
-
-
 {{ ollamaChatBot(
   {
     conversationId: 'conversation',
     textareaId: '__send__',
     buttonId: 'sendMessages'   ,
     model: 'llama3:8b',
-    max_tokens: 1500,
+    max_tokens: 2000,
     temperature: 0.7,
-    loadingIcon: '🤔', 
-    processingIcon: '⏳' 
+    statusIcon: 'statusIcon',
+    botName: 'Ollama',
+    usersName: 'You'
   }
 ) }}
+
+{{
+  recognition({
+    button : "startButtonVoice",
+    field : "__send__"
+  })
+}}
 
 {% endblock %}
