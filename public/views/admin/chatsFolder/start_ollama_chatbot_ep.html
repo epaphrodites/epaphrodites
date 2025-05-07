@@ -44,25 +44,25 @@
       </div>
   </div>
 
-{{ ollamaChatBot(
-  {
-    conversationId: 'conversation',
-    textareaId: '__send__',
-    buttonId: 'sendMessages'   ,
-    model: 'llama3:8b',
-    max_tokens: 2000,
-    temperature: 0.7,
-    statusIcon: 'statusIcon',
-    botName: 'Ollama',
-    usersName: 'You'
-  }
-) }}
+  {{ ollamaChatBot(
+    {
+      conversationId: 'conversation',
+      textareaId: '__send__',
+      buttonId: 'sendMessages'   ,
+      model: 'llama3:8b',
+      max_tokens: 2000,
+      temperature: 0.7,
+      statusIcon: 'statusIcon',
+      botName: 'Ollama',
+      usersName: 'You'
+    }
+  ) }}
 
-{{
-  recognition({
-    button : "startButtonVoice",
-    field : "__send__"
-  })
-}}
+  {{
+    recognition({
+      button : "startButtonVoice",
+      field : "__send__"
+    })
+  }}
 
 {% endblock %}
