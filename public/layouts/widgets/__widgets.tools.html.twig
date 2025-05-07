@@ -191,7 +191,7 @@
         })();
     </script>
     <style>
-        #{{ options.conversationId }} div pre, 
+        #{{ options.conversationId }} div pre,
         #{{ options.conversationId }} div code {
             color: #dc143c;
             padding: 0.5em;
@@ -204,6 +204,13 @@
 
         #{{ options.conversationId }} div pre {
             margin: 0.8em 0;
+            background: #222222;
+            font-weight: 100;
+        }
+
+        #{{ options.conversationId }} div pre code {
+            font-weight: 200;
+            color: #fff;
         }
 
         #{{ options.conversationId }} div h1,
@@ -227,6 +234,7 @@
 
         #{{ options.conversationId }} div a {
             color: #dc143c;
+            font-weight: 400;
             text-decoration: underline;
         }
 
