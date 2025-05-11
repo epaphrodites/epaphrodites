@@ -6,9 +6,11 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 
 final class chats extends MainSwitchers
 {
+    private object $json;
+    private object $data;
+    private object $chatBot;
     private array|bool $result = [];
     private object $ajaxTemplate;
-    private object $chatBot;
 
     /**
      * Initialize object properties when an instance is created
@@ -27,8 +29,10 @@ final class chats extends MainSwitchers
      */
     private function initializeObjects(): void
     {
-        $this->ajaxTemplate = $this->getObject( static::$initNamespace , "ajax");
+        $this->json = $this->getObject(static::$initNamespace, 'json');
         $this->chatBot = $this->getObject( static::$initNamespace , 'bot');
+        $this->data = $this->getFunctionObject(static::initNamespace(), 'datas');
+        $this->ajaxTemplate = $this->getObject( static::$initNamespace , "ajax");
     }  
 
     /**
@@ -92,6 +96,34 @@ final class chats extends MainSwitchers
         string $html
     ): void
     {
+
+        if (static::isValidMethod()) {
+            
+            // Save conversation
+            if(static::isAjax('__prompt__')&&static::isAjax('__response__')){
+
+                $prompts = static::isAjax('__prompt__');
+                $responses = static::isAjax('__response__');
+
+                $this->json->path( _DIR_JSON_DATAS_. '/ollama/archive.json')->add(
+                            [
+                                'prompt' => $prompts, 
+                                'reponses' => $responses
+                            ]);
+            }
+
+            // Get instructions
+            if(static::isAjax('__lang__')&&static::isAjax('__botName__')){
+
+                $lang = static::isAjax('__lang__');
+                $responses = static::isAjax('__botName__');
+
+               echo (string) $this->data->botInstructions( $lang, $responses );
+            }
+
+            return;
+        }
+
         $this->views($html, [], true);
     }      
 

@@ -140,37 +140,26 @@ trait currentSubmit
         return $clean ? $_POST[$key] : (static::noSpace($_POST[$key]) ?? '') ;
     }
 
-   /**
-     * Get the value from $_POST array for a given key with a default value.
-     *
-     * @param string $key The key to get.
-     * @return mixed The value for the key in $_POST or an empty string if not set.
+    /**
+     * Get data from ajax using method (GET ou POST)
+     * @param mixed $key
+     * @throws \InvalidArgumentException
+     * @throws \JsonException
      */
-    public static function isAjax($key): ?string
+    public static function isAjax(string $key): ?string
     {
-
-        if (empty($key) || !is_string($key)) {
+        if (empty($key)) {
             throw new \InvalidArgumentException('Invalid key: Key is required and must be a non-empty string.');
         }
     
-        try {
-            $method = $_SERVER['REQUEST_METHOD'];
-            $postData = match($method) {
-                'POST' => static::isPostJSON(),
-                default => static::isGetJSON(),
-            };
+        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        $result = match ($method) {
+            'POST' => self::isPostJSON($key),
+            'GET'  => self::isGetJSON($key),
+            default => null,
+        };
     
-            if ($postData !== null) {
-                $data = json_decode($postData, true, 512, JSON_THROW_ON_ERROR);
-    
-                return isset($data[$key]) ? static::noSpace($data[$key]) : null;
-            }
-        } catch (\JsonException $e) {
-
-            throw new \JsonException('JSON decoding error: ' . $e->getMessage(), 0, $e);
-        }
-    
-        return null;
+        return is_string($result) ? $result : null;
     }
 
     /**
@@ -208,46 +197,6 @@ trait currentSubmit
     
         return null;
     }
-    
-    /**
-     * @return null|string
-     */
-    private static function isPostJSON(): ?string
-    {
-        $parametres = array(); // Initializing an empty array to store POST parameters
-    
-        if ($_POST) {
-            foreach ($_POST as $key => $value) {
-                // Storing each POST parameter in the $parametres array
-                $parametres[$key] = $value;
-            }
-    
-            // Responding in JSON format
-            return json_encode($parametres);
-        }
-    
-        return null;
-    }
-
-    /**
-     * @return null|string
-    */
-    private static function isGetJSON(): ?string
-    {
-        $parametres = array(); // Initializing an empty array to store GET parameters
-    
-        if ($_GET) {
-            foreach ($_GET as $key => $value) {
-                // Storing each GET parameter in the $parametres array
-                $parametres[$key] = $value;
-            }
-    
-            // Responding in JSON format
-            return json_encode($parametres);
-        }
-    
-        return null;
-    }    
     
     /**
      * Check if a variable exists in the $_GET array.
@@ -593,6 +542,60 @@ trait currentSubmit
 
         return $output . 'test';
     }
+
+/**
+     * Process GET parameters and return as JSON.
+     * @param string|null $specificKey
+     * @return null|string|array
+     */
+    private static function isGetJSON(?string $specificKey = null): string|array|null
+    {
+        if ($specificKey !== null) {
+            return isset($_GET[$specificKey]) ? self::noSpace($_GET[$specificKey]) : null;
+        }
+    
+        if (!empty($_GET)) {
+            return self::noSpace($_GET);
+        }
+    
+        return null;
+    }
+    
+    /**
+     * Process POST parameters and return as JSON.
+     * @param string|null $specificKey
+     * @return null|string|array
+     */
+    private static function isPostJSON(?string $specificKey = null): string|array|null
+    {
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+
+        if (stripos($contentType, 'application/json') !== false) {
+            $input = file_get_contents('php://input');
+            if (!empty($input)) {
+                try {
+                    $data = json_decode($input, true, 512, JSON_THROW_ON_ERROR);
+                    if ($specificKey !== null) {
+                        return isset($data[$specificKey]) ? self::noSpace($data[$specificKey]) : null;
+                    }
+                    return self::noSpace($data);
+                } catch (\JsonException $e) {
+                    error_log('JSON decoding error: ' . $e->getMessage());
+                    return null;
+                }
+            }
+        }
+
+        if ($specificKey !== null) {
+            return isset($_POST[$specificKey]) ? self::noSpace($_POST[$specificKey]) : null;
+        }
+
+        if (!empty($_POST)) {
+            return self::noSpace($_POST);
+        }
+
+        return null;
+    }    
   
     /**
      * Filters request data based on the HTTP method.
