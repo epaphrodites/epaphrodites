@@ -46,17 +46,18 @@
 
   {{ ollamaChatBot(
     {
-      conversationId: 'conversation',
-      textareaId: '__send__',
-      buttonId: 'sendMessages'   ,
+      usersName: 'You',
+      botName: 'Noella',
       model: 'llama3:8b',
+      temperature: 0.6,
       max_tokens: 2000,
-      temperature: 0.7,
+      textareaId: '__send__',
+      conversationId: 'conversation',
+      buttonId: 'sendMessages',
       statusIcon: 'statusIcon',
-      botName: 'Ollama',
-      usersName: 'You'
+      path : 'chats@start_ollama_chatbot'
     }
-  ) }}
+  ) }}  
 
   {{
     recognition({
