@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Couleurs pour le terminal
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # No Color
+
+# Chemins attendus
+TRAIN_SCRIPT="bin/epaphrodites/chatBot/ragFaissModel/train_index.py"
+TEXT_DIR="static/docs/base-data"
+VECTOR_DIR="bin/database/datas/vector-data"
+
+echo -e "${BLUE}🔍 Étape 1 : Vérification de la présence du script d'entraînement...${NC}"
+if [ ! -f "$TRAIN_SCRIPT" ]; then
+  echo -e "${YELLOW}❌ Le fichier $TRAIN_SCRIPT est introuvable ! Assurez-vous qu'il existe.${NC}"
+  exit 1
+fi
+echo -e "${GREEN}✅ train_index.py trouvé.${NC}"
+echo ""
+
+echo -e "${BLUE}📁 Étape 2 : Vérification des dossiers requis...${NC}"
+
+if [ ! -d "$TEXT_DIR" ]; then
+  echo -e "${YELLOW}❌ Dossier manquant : $TEXT_DIR${NC}"
+  exit 1
+else
+  echo -e "${GREEN}✅ Dossier texte trouvé : $TEXT_DIR${NC}"
+fi
+
+if [ ! -d "$VECTOR_DIR" ]; then
+  echo -e "${YELLOW}❌ Dossier manquant : $VECTOR_DIR${NC}"
+  exit 1
+else
+  echo -e "${GREEN}✅ Dossier vectoriel trouvé : $VECTOR_DIR${NC}"
+fi
+
+echo ""
+echo -e "${BLUE}✂️ Étape 3 : Découpage des documents en petits blocs (chunks)...${NC}"
+sleep 1
+
+echo ""
+echo -e "${BLUE}🧠 Étape 4 : Génération des vecteurs d'embedding avec SentenceTransformer...${NC}"
+sleep 1
+
+echo ""
+echo -e "${BLUE}📦 Étape 5 : Construction de l'index FAISS et sauvegarde des données...${NC}"
+sleep 1
+
+echo ""
+echo -e "${GREEN}🚀 Lancement de l'entraînement...${NC}"
+python3 "$TRAIN_SCRIPT"
+
+if [ $? -eq 0 ]; then
+  echo ""
+  echo -e "${GREEN}✅ Entraînement terminé avec succès.${NC}"
+  echo -e "${GREEN}📁 Les fichiers suivants ont été générés dans '${VECTOR_DIR}':${NC}"
+  echo -e "${YELLOW}- faiss_index.idx"
+  echo -e "- chunks_metadata.npy${NC}"
+else
+  echo -e "${YELLOW}❌ Une erreur est survenue pendant l'entraînement.${NC}"
+fi

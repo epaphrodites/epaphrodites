@@ -1,0 +1,627 @@
+Database
+ Introduction
+ Configuration
+ Create database
+ Migration
+ Seeding
+ Query Builder
+ Select datas
+ Insert datas
+ Update datas
+ Delete datas
+ TOML and JSON
+ TOML file
+ JSON file
+# Introduction
+The integration of a database within a web application is of fundamental importance. It streamlines the storage and manipulation of previously recorded data in a personalized manner. Among the types of databases, we distinguish relational databases (SQL) and non-relational databases (NoSQL), each presenting specific advantages. The Epaphrodites framework stands out by allowing the simultaneous use of these two types of databases within the same project. This unique functionality provides exceptional adaptability, enabling developers to choose the solution that best suits the specific requirements of their application. Thus, Epaphrodites promotes optimal and personalized data management, effectively and flexibly meeting the diverse needs of web projects.
+
+# Configuration
+The Epaphrodites framework uses a file located in the following directory: bin/config/Config.ini. This file provides the ability to configure multiple databases of various types in an unlimited manner. In other words, you can add the configuration of multiple databases without any restrictions. However, it is strongly recommended to meticulously adhere to the configuration syntax specific to each type of database, including the numbering and spelling of various constants.
+Furthermore, the modular structure of the configuration file offers appreciable flexibility, allowing precise and efficient management of parameters to meet the specific requirements of each database integrated into your project. By strictly following the configuration guidelines, you ensure a seamless and optimal integration of your databases with the Epaphrodites framework, thereby enhancing the stability and performance of your web application.
+
+# ------------- CONFIGURATION BEGINING -------------
+
+[1_CONFIGURATION]
+
+DIVER = sqlite
+DATABASE = epaphroditedb.sqlite
+HOST = 127.0.0.1
+PORT =
+USER =
+PASSWORD =
+SOCKET = false
+SOCKET_PATH =
+
+# ---------------------------------------------------------
+
+[2_CONFIGURATION]
+
+DRIVER = mongodb
+DATABASE = epaphroditedb
+HOST = 127.0.0.1
+PORT = 27017
+USER =
+PASSWORD =
+SOCKET = false
+SOCKET_PATH =
+
+# ---------------- END OF CONFIGURATION -----------------
+
+Key	Description
+USER	Username for the first database connection.
+PASSWORD	Password used to authenticate the first database connection.
+PORT	Port number used to connect to the first database.
+DATABASE	Name of the target database (e.g., epaphroditedb).
+SOCKET	Boolean flag to enable or disable socket usage (true/false).
+SOCKET_PATH	Path to the socket file, if socket support is enabled.
+HOST	Database host address, typically 127.0.0.1 for localhost connections.
+DRIVER	Database driver type. Supported values: mysql, postgre, oracle, sqlserver, sqlite, mongodb, redis.
+Note : Each configuration key is prefixed with a number [<number>_CONFIGURATION] (e.g., [1_CONFIGURATION], [2_CONFIGURATION]) representing its index. This allows support for multiple databases in a single environment.
+
+To integrate a new configuration, simply duplicate the previous configuration and adjust the numbering accordingly. Each configuration must be associated with a unique numbering. It is recommended to carefully document each adjustment made to ensure clear and effective management of the various configurations within your project. A systematic approach ensures consistency and ease of maintenance as your settings evolve.
+
+# Create database
+Database management systems aim to enable the storage of information. Epaphrodites gives you the ability to create new databases using the following command: heredia create:db. This command relies on the driver and the configuration number to generate the database. However, make sure that the database connection (based on the chosen configuration) works correctly before executing the command.
+
+php heredia create:db your_db_name config_number// example : php heredia create:db epaphroditedb 2
+
+To permanently delete the database you have created, use the command heredia drop:db. This operation removes all data and configurations related to the database, so it is crucial to back up any vital information before proceeding. Proceed with extreme caution: once performed, this deletion is irreversible and can significantly impact your application if the database is currently in use.
+
+php heredia drop:db your_db_name config_number// example : php heredia drop:db epaphroditedb 2
+
+# Migration
+The essence of a migration lies in its ability to enable a dynamic and seamless creation of your tables right at the heart of the database. Within the Epaphrodites framework, the heredia migrate command paves the way for executing simultaneous migrations to four major database management systems: MySQL, Oracle, SQLite, SQL Server, and PostgreSQL. This targeted approach precisely meets a variety of specific needs, thus offering unprecedented adaptability.
+
+This versatility is complemented by remarkable efficiency in managing and organizing your data structures, thanks to the heredia make:schema command for schema generation. This process, both optimized and simplified, greatly facilitates the configuration and updating of your database environment. More than just a technical operation, the use of these commands ensures the consistency and integrity of your data across different environments, guaranteeing perfect synchronization and flawless integrity of your information, regardless of the platform used.
+
+ Create database table
+Here is an example of a command to dynamically generate a schema, allowing for flexibility and real-time adaptation to data changes.
+
+php heredia make:schema create_your_table_name_table // example : php heredia make:schema create_post_table
+
+After the execution of the previous code, the schema code will be automatically generated inside the file bin/database/gearShift/schema/makeUpGearShift.php. You will have the necessary flexibility to customize it to meet the specific needs of your projects. This allows you to ensure seamless integration and optimal adaptation to the technical environment of your application.
+
+                    
+                    
+
+                        
+/**
+* Create table your_table_name.
+* create 25/01/2024 23:07:14
+*/
+public function createYourTableName()
+{
+      return $this->createTable('your_table_name', function ($table) {
+             $table->addColumn('idyour_table_name', 'INTEGER', ['PRIMARY KEY']);
+             $table->addColumn('name', 'VARCHAR(100)');
+             $table->db(1);
+      });
+}
+
+                    
+
+                
+Beyond adding columns, you also have the option to incorporate other advanced features such as indexes and foreign keys, tailored to the specific requirements of your projects. This flexibility enhances the performance and efficiency of your databases according to their unique needs. These additional tools play a crucial role in improving data accessibility and security, thereby providing a strong foundation for data management and analysis. By enriching your database with these elements, you increase its robustness and its ability to support complex operations, ensuring better long-term data management.
+
+                    
+                    
+
+                        
+/**
+* MYSQL EXAMPLE SCHEMA
+* Create table post.
+* create 25/01/2024 23:07:14
+*/
+public function createPost()
+{
+      return $this->createTable('post', function ($table) {
+             $table->addColumn('idpost', 'INTEGER(11)', ['PRIMARY KEY', 'AUTO_INCREMENT']);
+             $table->addColumn('title', 'VARCHAR(100)', [ NOT NULL ]);
+             $table->addColumn('content', 'VARCHAR(100), [ NOT NULL ]');
+             $table->addColumn('created_at', 'DATETIME');
+             $table->addColumn('updated_at', 'DATETIME');
+             $table->addIndex('title');
+             $table->addForeign('category', '_id');
+             $table->db(3);
+      });
+}
+
+                    
+
+                
+ Add column to database table
+The following command allows you to generate columns for an existing table. This feature is useful when you want to modify the structure of your database without having to recreate the table from scratch.
+
+php heredia make:schema add_your_column_name_to_table_name_table// example : php heredia add_label_to_post_table
+
+Similarly to the previous command, the schema code will be generated in the following file: bin/database/gearShift/schema/makeUpGearShift.php. You have the option to modify it to fit your project's needs.
+
+                    
+                    
+
+                        
+/**
+* Add Column your_column_name
+* Create 25/01/2024 23:07:14
+*/
+public function addYourColumnNameToName()
+{
+      return $this->createColumn('your_table_name', function ($table) {
+             $table->addColumn('name');
+             $table->db(1);
+      });
+}
+
+                    
+
+                
+ Drop database table
+The Epaphrodites framework provides commands for efficiently deleting a table or a column within a database. This functionality ensures flexible and dynamic data structure management, allowing developers to quickly adapt their databases to the evolving needs of their projects. Furthermore, using these commands contributes to optimizing performance and maintaining data integrity by facilitating the secure removal of obsolete or unnecessary elements.
+
+php heredia make:schema drop_your_table_name_table// example : php heredia drop_post_table
+
+Following the execution of the previous command, the table schema will be generated and available in the following file: bin/database/gearShift/schema/makeDownGearShift.php. This step provides you with the flexibility to customize the schema according to the specific needs of your project, thus allowing for a tailored adaptation of your database structure.
+
+                    
+                    
+
+                        
+/**
+* Drop your_table_name.
+* Drop 25/01/2024 23:07:14
+*/
+public function dropYourTableName()
+{
+      return $this->dropTable('your_table_name', function ($table) {
+             $table->dropColumn('name');
+             $table->db(1);
+      });
+}
+
+                    
+
+                
+The major advantage of this schema lies in its ability to adapt to four different database management systems: MySQL, SQLite, Oracle, PostgreSQL, and SQL Server. You simply need to specify the number corresponding to the configuration of the database of your choice. This flexibility greatly facilitates integration with various development environments, thus allowing for extensive customization according to your project's requirements. Moreover, this modular approach ensures scalability and simplified maintenance, in line with the evolving needs of your applications.
+
+After setting up your schemas, you can run this command to complete the entire migration located in this file: bin/database/gearShift/schema/makeUpGearShift.php. This step is crucial to ensure that the new data structures are adequately integrated into your database. It also allows for the verification that all modifications meet expectations and function correctly. There are two types of migration: migrations for deletions -d and migrations for additions -u. This distinction enables a more flexible and targeted management of changes within your database, facilitating adaptation to the evolving needs of your system.
+
+php heredia migrate -u// example : migrations for additions
+
+php heredia migrate -d// example : migrations for deletions
+
+# Seeding
+Seeders, simple yet powerful methods, facilitate the generation of data directly integrated into the database. With the Epaphrodites framework, this operation is equally accessible through the command heredia make:seeder Simply specify the type of database, whether it be sql for relational databases or nosql for non-relational databases. All links to these seeders are available in the directory bin/database/seeders/ providing an efficient means to quickly populate your database with test or fictitious data. This streamlined approach expedites the development process, allowing you to work more efficiently on your application while avoiding the hassles associated with manual entry of test data.
+
+php heredia make:seeder sql/nosql // example : php heredia make:seeder sql
+
+Here is how to quickly create a seeder to generate data in your database :
+
+                    
+                    
+
+                        
+/**
+* Seed the application's database (sql/nosql).
+*/
+public function sqlRun(): void{
+
+      $this->table('useraccount')
+           ->insert('loginusers , userspwd , typeusers')
+           ->values( ' ? , ? , ?' )
+           ->param(['user', static::initConfig()['guard']->CryptPassword('user') , 1 ])
+           ->sdb(1)
+           ->IQuery();  
+}
+
+
+public function noSqlRun(): void{
+ 
+}
+
+                    
+
+                
+# Query Builder
+In web development, query builders are effective and flexible tools for creating and editing SQL and NoSQL queries. They simplify the process by providing a user-friendly interface, allowing developers to build queries intuitively. Additionally, these tools facilitate database management by automatically generating the corresponding SQL or NoSQL code for desired operations. These tools have become essential in modern web development, enhancing developer productivity and ensuring efficient management of interactions with databases.
+Epaphrodites allows you to create queries in a simple and intuitive manner. You have the flexibility to edit one or multiple queries of various types in the same file, thereby facilitating the simultaneous management of multiple databases.
+
+ Select datas
+ MySQL, postgreSQL, sqLite, sqlServer, Oracle
+mySQL, PostgreSQL, and SQLite are SQL-type databases; they share the same syntax within the Epaphrodites framework. In other words, the query builder editing method remains consistent. To illustrate this, here are some examples :
+
+                    
+                    
+
+                        
+/**
+* Get list of users per group.
+*/
+$this->table('user')
+      ->join(['actions|iduser=idactions'])
+      ->where('group')
+      ->limit(1,7)->offset(1,7) //Use offset only for sqlSrerver and oracle
+      ->orderBy('login', 'ASC')
+      ->param([$this->usersGroup])
+      ->SQuery();
+
+                    
+
+                
+In the previous example, we refined the query to extract the list of users based on their group. The selection was limited to 7 results and organized in ascending order based on the 'login' column. This optimization is embedded in the use of the Epaphrodites framework, renowned for its efficient and intuitive approach to query construction. The flexibility offered by this framework enables developers to easily tailor their queries to the specific needs of their application, resulting in a significant improvement in productivity and code clarity. The addition of a join with the 'actions' table enhances the power of this query, facilitating the association of relevant data from two distinct tables to obtain more comprehensive and informative results.
+
+In the following example, we will execute a query within the configuration 3 database. Our goal is to count the number of users belonging to groups whose numbers range from 1 to 3. The results will then be limited from 1 to 7, sorted in ascending order based on the 'login' column. By adding a layer of precision, this approach will provide us with a detailed overview of the specific segment of users we are targeting. Finally, the total number of records meeting these conditions will be tallied.
+
+                    
+                    
+
+                        
+/**
+* Get list of users per group.
+*/
+$this->table('user')
+      ->between('group')
+      ->limit(1,7)->offset(1,7) //Use offset only for sqlSrerver and oracle
+      ->orderBy('login', 'ASC')
+      ->param([1,3])
+      ->sdb(3)
+      ->SQuery('count(*) as nbre');
+
+                    
+
+                
+In the following example, we will execute a query within the configuration 7 database. The goal is to display the list of users with the login "heredia" and whose state is true (active). The query will select the 'login', 'email', and 'contact' columns from the 'user' table.
+
+                    
+                    
+
+                        
+/**
+* Get list of users per group.
+*/
+$this->table('user')
+      ->like('login')
+      ->and(['state'])
+      ->param(['heredia', true])
+      ->sdb(7)
+      ->SQuery('login ,email ,contact');
+
+                    
+
+                
+ mongodb
+MongoDB is a NoSQL database. Within the Epaphrodites framework, you have access to a query builder that is both flexible and robust. This combination provides a powerful solution for creating and editing MongoDB queries in an intuitive and efficient manner.
+
+                    
+                    
+
+                        
+/**
+*
+*/
+$this->db(3)
+     ->selectCollection('user')
+     ->find(['group' => 2] , ['limit' => 10 , 'skip' => 1]);
+
+                    
+
+                
+In the previous example, we selected the documents that meet the specified criteria in the 'user' collection of the database configured with the identifier 3, filtering those with 'group' equal to 2, and limiting the results to 10 with an offset (skip) of 1.
+
+ redis
+In this Redis query with Epaphrodites, you select the key actions, specify the index 'heredia', retrieve all entries, then apply a result limitation from 1 to 7. Finally, you use the redisGet(2) function to obtain the result from Redis with the database configured with identifier 2.
+
+                    
+                    
+
+                        
+/**
+*
+*/
+$this->key('actions')
+     ->index('heredia')
+     ->all()
+     ->rlimit(1, 7)
+     ->redisGet(2);
+
+                    
+
+                
+ Insert datas
+ MySQL, postgreSQL, sqLite, sqlServer, Oracle
+In this query, we will insert a new record into the user table. The specified columns are 'login', 'email', and 'contact', with the respective values 'heredia', 'heredia@gmail.com', and '111111111'. Then, the query is configured to be executed on the database configured with identifier 1. IQuery() is use for insertion requests.
+
+                    
+                    
+
+                        
+$this->table('user')
+     ->insert('login, email, contact')
+     ->values('?, ?, ?')
+     ->param(['heredia', 'heredia@gmail.com', '111111111'])
+     ->sdb(1)
+     ->IQuery();
+
+                    
+
+                
+ Mongodb
+In this query, we will insert data from a document into the user collection of a database configured with identifier 3. The document to be inserted is defined with the fields 'login', 'email', and 'contact', with respective values of 'heredia', 'heredia@gmail.com', and '111111111'. The insertOne() method is used to insert this document into the 'user' collection.
+
+                    
+                    
+
+                        
+$document = 
+   [
+     'login'=>'heredia',
+     'email'=> 'heredia@gmail.com' ,
+     'contact'=>'111111111'
+   ];
+
+$this->db(3)
+     ->selectCollection('user')
+     ->insertOne($document);
+
+                    
+
+                
+ Redis
+                    
+                    
+
+                        
+$document = 
+   [
+     'login'=>'heredia',
+     'email'=> 'heredia@gmail.com' ,
+     'contact'=>'111111111'
+   ];
+
+$this->key('user')
+     ->id('iduser')
+     ->index('heredia')
+     ->param($document)
+     ->addToRedis(3);
+
+                    
+
+                
+ Update datas
+ MySQL, postgreSQL, sqLite, sqlServer, Oracle
+                    
+                    
+
+                        
+$this->table('user')
+     ->set(['login', 'email', 'contact'])
+     ->where('login')
+     ->param(['heredia', 'yedidiah', 'yedidiah@gmail.com', '2222222222'])
+     ->UQuery();
+
+                    
+
+                
+Action	Explanation
+$this->table('user')	Selects the user table in the database where the operation will be performed.
+->set(['login', 'email', 'contact'])	Defines the columns to be modified in the user table: login, email, contact.
+->where('login')	Specifies a filtering condition based on the login column.
+->param(['heredia', 'yedidiah', 'yedidiah@gmail.com', '2222222222'])	Provides the parameter values to use in the query: heredia (login), yedidiah (login or other field), yedidiah@gmail.com (email), 2222222222 (contact number).
+->UQuery();	Executes the query, likely to perform an update (UPDATE) in the user table.
+ Mongodb
+                    
+                    
+
+                        
+$filter = 
+   [
+     'login'=>'heredia'
+   ];
+
+$document = 
+   [
+     'login'=>'yedidiah',
+     'email'=> 'yedidiah@gmail.com' ,
+     'contact'=>'2222222222'
+   ];
+
+$this->db(3)
+     ->selectCollection('user')
+     ->updateMany($document, $filter);
+
+                    
+
+                
+ Redis
+                    
+                    
+
+                        
+$document = 
+   [
+     'login'=>'yedidiah',
+     'email'=> 'yedidiah@gmail.com' ,
+     'contact'=>'2222222222'
+   ];
+
+$this->key('user')
+     ->index('heredia')
+     ->rset($document)
+     ->updRedis(3);
+
+                    
+
+                
+ Delete datas
+ MySQL, postgreSQL, sqLite, sqlServer, Oracle
+                    
+                    
+
+                        
+$this->table('user')
+     ->where('login')
+     ->param(['heredia'])
+     ->DQuery();
+
+                    
+
+                
+ Mongodb
+                    
+                    
+
+                        
+/**
+*
+*/
+$this->db(3)
+     ->selectCollection('user')
+     ->deleteMany(['login' => 'yedidiah']);
+
+                    
+
+                
+ Redis
+                    
+                    
+
+                        
+/**
+*
+*/
+$this->key('user')
+     ->index('yedidiah')
+     ->redisDel(2);
+
+                    
+
+                
+# TOML and JSON
+ TOML files
+TOML files are of paramount importance in storing and organizing configuration data in a clear and structured manner. Their simple syntax greatly facilitates the manipulation and understanding of information, making them a preferred choice for numerous projects. These files allow for a clear separation between configuration data and code, thus promoting modularity and simplifying maintenance. Additionally, Epaphrodtes offer a range of features for manipulating and storing information with increased flexibility and simplicity, thereby enhancing the efficiency of using TOML files.
+
+ Insert datas
+In the following code, we will store server configuration data in the file.toml file, using the previously defined information.
+
+                
+                
+
+                    
+$toml = new \Epaphrodites\epaphrodites\env\toml\Toml();
+
+$result = $toml->path('file.toml')
+               ->section('database')
+               ->add(['server' => '127.0.0.1','port' => 8011,'username' => 'username', 'driver' => 'sqlite']);
+
+/** Or you can use this **/
+
+$result = static::initNamespace()['toml']
+               ->path('file.toml')
+               ->section('database')
+               ->add(['server' => '127.0.0.1','port' => 8011,'username' => 'username', 'driver' => 'sqlite']);
+
+                
+
+            
+ Select datas
+                
+                
+
+                    
+$result = static::initNamespace()['toml']
+               ->path('file.toml')
+               ->section('database')
+               ->get(['driver' => 'sqlite']);
+
+                
+
+            
+ Delete datas
+                
+                
+
+                    
+$result = static::initNamespace()['toml']
+               ->path('file.toml')
+               ->section('database')
+               ->delete();
+
+                
+
+            
+ Update datas
+                
+                
+
+                    
+$result = static::initNamespace()['toml']
+               ->path('file.toml')
+               ->set(['server' => '127.0.0.2'])
+               ->update(['driver' => 'sqlite']);
+
+                
+
+            
+ JSON files
+JSON files play a crucial role in storing and exchanging structured data on the web. Their clear and readable format facilitates the transmission and manipulation of information across different systems and applications. As a widely used standard format, JSON files offer extensive compatibility and interoperability between technologies. Additionally, Epaphrodites have several functions to manipulate and store data in these files, thereby enhancing their usefulness and flexibility in various software development contexts.
+
+ Insert datas
+In the following code, we will store server configuration data in the file.json file, using the previously defined information.
+
+                
+                
+
+                    
+$json = new \Epaphrodites\epaphrodites\env\json\Json();
+
+$result = $json->path('file.json')
+               ->add(['server' => '127.0.0.1','port' => 8011,'username' => 'root', 'driver' => 'sqlite']);
+
+/** Or you can use this **/
+
+$result = static::initNamespace()['json']
+               ->path('file.json')
+               ->add(['server' => '127.0.0.1','port' => 8011,'username' => 'username', 'driver' => 'sqlite']);
+
+                
+
+            
+Element	Type	Description
+Json	Class / Instance	Represents the JSON file handler. It can be instantiated directly using new \Epaphrodites\epaphrodites\env\json\Json() or accessed dynamically via static::initNamespace()['json'].
+path($filename)	Method	Specifies the target JSON file to modify. Takes the file name or path as an argument (e.g., 'file.json'). This method returns the instance to allow for method chaining.
+add(array $data)	Method	Inserts or updates key/value pairs in the defined JSON file. The array can contain information such as server, port, username, driver, etc.
+ Select datas
+                
+                
+
+                    
+$result = static::initNamespace()['json']
+               ->path('file.json')
+               ->get(['driver' => 'sqlite']);
+
+                
+
+            
+ Delete datas
+                
+                
+
+                    
+$result = static::initNamespace()['json']
+               ->path('file.json')
+               ->where(['driver' => 'sqlite'])
+               ->delete();
+
+                
+
+            
+ Update datas
+                
+                
+
+                    
+$result = static::initNamespace()['json']
+               ->path('file.json')
+               ->where(['driver' => 'sqlite'])
+               ->update(['server' => '127.0.0.2']);
+
+                

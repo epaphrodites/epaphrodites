@@ -1,0 +1,155 @@
+Directory Structure
+ Introduction
+ Front-end
+ admin
+ errors
+ layouts
+ display
+ template
+ widgets
+ main
+ Back-end
+ Config
+ Console
+ controllers
+ database
+ epaphrodites
+# Introduction
+The architecture of an application is a crucial aspect of its design. It determines how different parts of the application interact with each other and significantly impacts its performance, maintainability, and security
+
+Epaphrodites is a PHP framework that provides a high level of flexibility in architecture. Its default structure is designed to be a good starting point for applications of all sizes, but it doesn't impose any restrictions on you. You can organize your application as you wish, based on your needs and preferences
+
+                    
+                    |--- bin
+                    |   |-- config
+                    |   |-- Console
+                    |   |-- controllers
+                    |   |-- database
+                    |   |-- epaphrodites
+                    |
+                    |--- error
+                    |
+                    |--- public
+                    |   |layouts
+                    |   |errors
+                    |   |views
+                    |
+                    |--- static
+                    |   |-- css
+                    |   |-- img
+                    |   |-- js
+                    |
+                    |--- tests
+                    |--- .htaccess
+                    |--- composer.json
+                    |--- heredia
+                    |--- epaphrodites
+                    |--- index.php
+                    |--- robots.txt
+                
+# Front-end
+The #FRONT-END of the Epaphrodites framework relies on two main categories of folders: the #public folder, reserved for HTML and Twig files, and the #static folder, which gathers CSS, JS, image files, and various static resources.
+
+ Public folder
+                    
+                    |--- errors
+                    |   |-- 403.html
+                    |   |-- 404.html
+                    |   |-- 419.html
+                    |   |-- 500.html
+                    |
+                    |--- layouts
+                    |   |-- display
+                    |   |-- template
+                    |   |-- widgets
+                    |
+                    |--- views
+                    |   |-- admin
+                    |   |-- main
+                
+# errors
+In this directory, you'll find custom error files, including 404, 500, 403, and others. These files are crucial for directing users to appropriate pages in case of issues, ensuring a consistent and smooth experience.
+
+# layouts
+This directory contains a variety of view templates and macros that you can utilize, customize, or enhance based on the specific needs of your project. We can find the following subdirectories there :
+
+# display
+In this directory, you'll find templates for the header and footer. These templates are designed to ensure visual and structural consistency across your project. You can customize and adapt them according to the specific needs of each page or section of your application
+
+# template
+In this directory section, you'll come across a compilation of meticulously structured Twig-formatted files. These specific files are utilized to define visualization templates designed for regular pages and the dashboard interface. The meticulous organization of these files streamlines the management of various views and allows for the customization of the user experience across different segments of the application
+
+# widgets
+In this directory, you'll find Twig-format files that incorporate macros. Each macro contains various templates: forms (input, select, submit...), pagination, Ajax functions, breadcrumbs, charts, and many more.
+
+# admin
+This directory contains various subdirectories and files associated with controllers. The files in the #admin directory are identifiable by their #html extension. However, you have the option to use a different extension based on the specific needs of your.
+
+# main
+In this directory, you will find views associated with controllers that do not require special access. We have the ability to add various page examples here, such as the index, login page, contact page, and many more. This organization provides a clear structure for your application development
+
+ Static folder
+                    |--- bootstrap-icons
+                    |--- css
+                    |   |-- animate.css
+                    |   |-- bootstrap
+                    |   |-- default
+                    |   |-- select2.mim.css
+                    |
+                    |--- font-aswesome
+                    |--- fonts
+                    |--- icofont
+                    |--- img
+                    |
+                    |--- js
+                    |   |-- bootstrap
+                    |   |-- chart
+                    |   |-- datatable
+                    |   |-- jquery
+                    |
+                
+# Back-end
+At the root of the back-end directory, you'll find the 'bin/' folder. Epaphrodites utilizes a combination of several file formats: PHP, Python, JSON, TOML, and .ini. This diversity provides extensive flexibility to the framework.
+The back-end of Epaphrodites is structured into three main groups :
+
+Configuration (config/ folder): Contains all the framework's configuration files
+Database management (database/ folder): Includes models, migrations, and scripts related to database interactions.
+Other programming files: Encompasses the remaining back-end components, such as controllers, services, and business logic scripts that ensure the proper functioning of the application.
+                    |--- config
+                    |   |-- config.ini
+                    |   |-- email.ini
+                    |   |-- setDirectory.php
+                    |   |-- config.json
+                    |
+                    |--- Console
+                    |
+                    |--- controllers
+                    |   |-- controllerMap
+                    |   |-- controllers
+                    |   |-- render
+                    |   |-- switchers
+                    |
+                    |--- database
+                    |   |-- config
+                    |   |-- datas
+                    |   |-- gearShift
+                    |   |-- query
+                    |   |-- requests
+                    |   |-- seeders
+                    |
+                    |--- epaphrodites
+                
+# Config
+In this directory, you will find the essential configuration files, including those related to the database, SMTP server, and constants. These files allow for easy adaptation of the framework's behavior based on the execution environment. Proper management of these configurations ensures the stability and security of the application.
+
+# Console
+Here, you'll find classes and functions specifically designed to be called from the terminal or PowerShell by Windows users. These functions are dedicated to various tasks such as file deletion, creation, and modification, providing an extensive range of features to streamline common operations.
+
+# controllers
+In this directory, you will find a set of optimized, flexible, and robust functions and classes designed to simplify the handling of controllers, routers, and other essential elements. Feel free to leverage their modular structure and adjust their parameters precisely to meet the technical requirements of your project.
+
+# database
+Through this directory, you will discover a set of meticulously crafted classes and functions aimed at simplifying the intricate management of connections and queries across multiple databases of various types. These tools provide an efficient and consistent abstraction, enabling optimized handling of connections and queries, regardless of the specifics and differences among the database systems used.
+
+# epaphrodites
+The epaphrodites directory contains several subdirectories that represent the core architecture of the framework, gathering a wide array of functions and classes developed in PHP and Python. These elements form a fundamental pillar of the development, ensuring the cohesion and flexibility of the framework. They facilitate the creation of robust and scalable applications by promoting system modularity and adaptability. It is worth noting that the list of these functions is not exhaustive. You also have the ability to customize and add functions according to the specific needs of your project. This directory is continuously enriched with new functionalities to meet evolving project requirements.
