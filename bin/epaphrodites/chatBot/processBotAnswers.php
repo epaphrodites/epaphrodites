@@ -61,5 +61,18 @@ class processBotAnswers extends chatBot
     ): array
     {
         return $this->noellaChatBotProcessConfig($userMessage);
-    }  
+    } 
+    
+    /**
+     * Chatbot model two customizable
+     * @param string $userMessage
+     * @param bool $learn
+     * @return array
+    */
+    public final function chatRagAndFaissProcess(
+        string $userMessage
+    )
+    {
+        return $this->faissAndRagBotProcessConfig($userMessage);
+    }      
 }

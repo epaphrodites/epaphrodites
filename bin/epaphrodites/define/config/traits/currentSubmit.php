@@ -509,7 +509,7 @@ trait currentSubmit
         iterable $ollama_stream, 
         bool $withBuffering = true
     ): string{
-        $output = 'tres';
+        $output = '';
 
         if ($withBuffering && !headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');

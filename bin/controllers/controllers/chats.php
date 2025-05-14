@@ -125,6 +125,33 @@ final class chats extends MainSwitchers
         }
 
         $this->views($html, [], true);
+    }  
+    
+    /**
+     * This chatbot requires that Python be installed
+     * Start Epaphrodites Chatbot two
+     * @param string $html
+     * @return void
+     */
+    public final function startRagAndFaissbotModel(
+        string $html
+    ): void
+    {
+
+        $result = $this->chatBot->chatRagAndFaissProcess("Comment generer une base de donnees");
+        if (static::isValidMethod()) {
+            
+            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
+
+
+           $result = static::streamChunks($result);
+            
+            echo $result;
+           
+            return;
+        }
+     
+        $this->views( $html, [], true );
     }      
 
     /**
