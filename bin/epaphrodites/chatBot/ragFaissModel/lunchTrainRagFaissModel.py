@@ -1,5 +1,4 @@
 # train_index.py
-
 import os
 import re
 import faiss
@@ -8,28 +7,14 @@ from pathlib import Path
 from typing import List, Dict, Tuple
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
-import signal
-import sys
 
-# Gestion du crash type Segmentation Fault
-def sigsegv_handler(signum, frame):
-    print("❌ Crash détecté : Segmentation fault pendant l'encodage. Vérifie PyTorch ou le modèle utilisé.")
-    sys.exit(1)
-
-signal.signal(signal.SIGSEGV, sigsegv_handler)
-
-# Chemins absolus
+BATCH_SIZE = 32
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 TEXT_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../../static/docs/base-data"))
 DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data"))
-
-# Paramètres
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 50
-EMBEDDING_MODEL = "sentence-transformers/paraphrase-MiniLM-L3-v2"  # ou "all-MiniLM-L6-v2"
-BATCH_SIZE = 32
-
-# Fichiers générés
 INDEX_FILE = os.path.join(DATA_DIR, "faiss_index.idx")
 METADATA_FILE = os.path.join(DATA_DIR, "chunks_metadata.npy")
 
@@ -44,7 +29,7 @@ class IndexTrainer:
         all_docs = []
         text_files = list(Path(self.text_dir).glob("**/*.txt"))
 
-        for text_path in tqdm(text_files, desc="Lecture fichiers"):
+        for text_path in tqdm(text_files, desc="Reading files"):
             try:
                 with open(text_path, 'r', encoding='utf-8') as file:
                     text = file.read().strip()
@@ -57,11 +42,11 @@ class IndexTrainer:
                             }
                         })
             except Exception as e:
-                print(f"Erreur lors de la lecture de {text_path}: {e}")
+                print(f"Error reading {text_path}: {e}")
         return all_docs
 
     def chunk_documents(self, documents: List[Dict]) -> Tuple[List[str], List[Dict]]:
-        for doc in tqdm(documents, desc="Découpage des documents"):
+        for doc in tqdm(documents, desc="Chunking documents"):
             text = re.sub(r'\s+', ' ', doc["content"])
             metadata = doc["metadata"]
             sentences = re.split(r'(?<=[.!?])\s+', text)
@@ -81,19 +66,10 @@ class IndexTrainer:
 
     def create_embeddings(self) -> np.ndarray:
         embeddings = []
-        for i in tqdm(range(0, len(self.chunks_text), BATCH_SIZE), desc="Création des embeddings"):
+        for i in tqdm(range(0, len(self.chunks_text), BATCH_SIZE), desc="Creating embeddings"):
             batch = self.chunks_text[i:i + BATCH_SIZE]
-            try:
-                batch_embeddings = self.embedding_model.encode(
-                    batch,
-                    show_progress_bar=False,
-                    normalize_embeddings=True,
-                    convert_to_numpy=True
-                )
-                embeddings.append(batch_embeddings)
-            except Exception as e:
-                print(f"❌ Erreur pendant l'encodage du batch {i}: {e}")
-                sys.exit(1)
+            batch_embeddings = self.embedding_model.encode(batch)
+            embeddings.append(batch_embeddings)
         return np.vstack(embeddings)
 
     def build_and_save_index(self, embeddings: np.ndarray):
@@ -113,7 +89,7 @@ class IndexTrainer:
         self.chunk_documents(docs)
         embeddings = self.create_embeddings()
         self.build_and_save_index(embeddings)
-        print(f"\n✅ Index sauvegardé dans {DATA_DIR}")
+        print(f"\nIndex saved......................................................................✅")
 
 if __name__ == "__main__":
     trainer = IndexTrainer()
