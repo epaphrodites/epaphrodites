@@ -5,8 +5,9 @@ import faiss
 from langchain_community.llms import Ollama
 from sentence_transformers import SentenceTransformer
 
-INDEX_FILE = "../../database/datas/vector-data/faiss_index.idx"
-METADATA_FILE = "../../database/datas/vector-data/chunks_metadata.npy"
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+INDEX_FILE = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx"))
+METADATA_FILE = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy"))
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
 class LocalQA:

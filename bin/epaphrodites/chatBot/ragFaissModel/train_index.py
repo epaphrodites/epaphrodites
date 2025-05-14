@@ -1,4 +1,5 @@
 # train_index.py
+
 import os
 import re
 import faiss
@@ -7,16 +8,28 @@ from pathlib import Path
 from typing import List, Dict, Tuple
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+import signal
+import sys
 
+# Gestion du crash type Segmentation Fault
+def sigsegv_handler(signum, frame):
+    print("❌ Crash détecté : Segmentation fault pendant l'encodage. Vérifie PyTorch ou le modèle utilisé.")
+    sys.exit(1)
 
+signal.signal(signal.SIGSEGV, sigsegv_handler)
+
+# Chemins absolus
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 TEXT_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../../static/docs/base-data"))
 DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data"))
 
+# Paramètres
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "sentence-transformers/paraphrase-MiniLM-L3-v2"  # ou "all-MiniLM-L6-v2"
 BATCH_SIZE = 32
+
+# Fichiers générés
 INDEX_FILE = os.path.join(DATA_DIR, "faiss_index.idx")
 METADATA_FILE = os.path.join(DATA_DIR, "chunks_metadata.npy")
 
@@ -70,8 +83,17 @@ class IndexTrainer:
         embeddings = []
         for i in tqdm(range(0, len(self.chunks_text), BATCH_SIZE), desc="Création des embeddings"):
             batch = self.chunks_text[i:i + BATCH_SIZE]
-            batch_embeddings = self.embedding_model.encode(batch)
-            embeddings.append(batch_embeddings)
+            try:
+                batch_embeddings = self.embedding_model.encode(
+                    batch,
+                    show_progress_bar=False,
+                    normalize_embeddings=True,
+                    convert_to_numpy=True
+                )
+                embeddings.append(batch_embeddings)
+            except Exception as e:
+                print(f"❌ Erreur pendant l'encodage du batch {i}: {e}")
+                sys.exit(1)
         return np.vstack(embeddings)
 
     def build_and_save_index(self, embeddings: np.ndarray):
