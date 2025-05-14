@@ -10,7 +10,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 INDEX_FILE = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx"))
 METADATA_FILE = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy"))
 
-class LocalQA:
+class botCore:
     def __init__(self):
         self.embedding_model = SentenceTransformer(EMBEDDING_MODEL)
         self.index = faiss.read_index(INDEX_FILE)
@@ -57,11 +57,3 @@ RÉPONSE:"""
         print("\n📚 Sources utilisées :")
         for res in results:
             print("-", res["metadata"]["source"])
-
-if __name__ == "__main__":
-    qa = LocalQA()
-    while True:
-        question = input("\nPosez votre question (ou tapez 'q' pour quitter) : ")
-        if question.lower() == "q":
-            break
-        qa.ask(question)
