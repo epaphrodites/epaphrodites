@@ -1,4 +1,5 @@
 import os
+import sys
 import warnings
 import numpy as np
 import faiss
@@ -6,11 +7,13 @@ from sentence_transformers import SentenceTransformer
 import logging
 import timeout_decorator
 
-# Configurer le logging pour le débogage
+sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
+
+from constants import EMBEDDING_MODEL, INDEX_FILE, METADATA_FILE
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Ignorer les avertissements non critiques
 warnings.filterwarnings("ignore")
 
 # Déterminer quelle API LangChain utiliser
@@ -21,13 +24,8 @@ except ImportError:
     from langchain_community.llms import Ollama
     USE_NEW_API = False
 
-# Configuration des constantes
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-INDEX_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx")
-METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy")
-
 class BotCore:
+    
     def __init__(self):
         """Initialise le moteur de recherche sémantique et le modèle de langage."""
         logger.debug("Initializing BotCore")

@@ -1,5 +1,6 @@
 # train_index.py
 import os
+import sys
 import re
 import faiss
 import numpy as np
@@ -7,16 +8,8 @@ from pathlib import Path
 from typing import List, Dict, Tuple
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
-
-BATCH_SIZE = 32
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 50
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-TEXT_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../../static/docs/base-data"))
-DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data"))
-INDEX_FILE = os.path.join(DATA_DIR, "faiss_index.idx")
-METADATA_FILE = os.path.join(DATA_DIR, "chunks_metadata.npy")
+sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
+from constants import EMBEDDING_MODEL, TEXT_DIR, DATA_DIR, INDEX_FILE, METADATA_FILE, BATCH_SIZE, CHUNK_SIZE, CHUNK_OVERLAP
 
 class IndexTrainer:
     def __init__(self, text_dir: str = TEXT_DIR):
