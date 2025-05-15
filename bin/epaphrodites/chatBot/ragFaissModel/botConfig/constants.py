@@ -14,7 +14,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 TEXT_DIR = os.environ.get('TEXT_DIR', os.path.abspath(os.path.join(BASE_DIR, "../../../../static/docs/base-data/")))
 DATA_DIR = os.environ.get('DATA_DIR', os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data")))
 
-# Toujours dériver les fichiers des répertoires (pas de variables d'environnement directes pour les fichiers)
+# Toujours dériver les fichiers des répertoires
 INDEX_FILE = os.path.join(DATA_DIR, "faiss_index.idx")
 METADATA_FILE = os.path.join(DATA_DIR, "chunks_metadata.npy")
 REEL_INDEX_FILE = os.path.abspath(os.path.join(DATA_DIR, "faiss_index.idx"))
