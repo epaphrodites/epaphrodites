@@ -10,3 +10,6 @@ TEXT_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../../static/docs/base-
 DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data"))
 INDEX_FILE = os.path.join(DATA_DIR, "faiss_index.idx")
 METADATA_FILE = os.path.join(DATA_DIR, "chunks_metadata.npy")
+
+REEL_INDEX_FILE = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx"))
+REEL_METADATA_FILE = os.path.abspath(os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy"))

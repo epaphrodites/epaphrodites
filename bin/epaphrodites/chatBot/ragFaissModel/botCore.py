@@ -6,7 +6,7 @@ import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer 
 sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
-from constants import EMBEDDING_MODEL, INDEX_FILE, METADATA_FILE, LLAMA_MODEL
+from constants import EMBEDDING_MODEL, REEL_INDEX_FILE, REEL_METADATA_FILE, LLAMA_MODEL
 
 try:
     from langchain_ollama import OllamaLLM
@@ -15,11 +15,11 @@ except ImportError:
     from langchain_community.llms import Ollama
     USE_NEW_API = False
 
-class botCore:
+class BotCore:
     def __init__(self):
         self.embedding_model = SentenceTransformer(EMBEDDING_MODEL)
-        self.index = faiss.read_index(INDEX_FILE)
-        data = np.load(METADATA_FILE, allow_pickle=True).item()
+        self.index = faiss.read_index(REEL_INDEX_FILE)
+        data = np.load(REEL_METADATA_FILE, allow_pickle=True).item()
         self.chunks_text = data["chunks_text"]
         self.chunks_metadata = data["chunks_metadata"]
         
