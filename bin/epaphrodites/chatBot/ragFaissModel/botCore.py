@@ -4,15 +4,14 @@ import numpy as np
 import traceback
 from typing import List, Dict, Tuple, Any, Union
 
-# Configuration des chemins et constantes
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # Définir directement les constantes dans ce fichier
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Peut être remplacé par un modèle plus performant
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 INDEX_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx")
 METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy")
-TOP_K_RESULTS = 5
+TOP_K_RESULTS = 5  # Ajustable pour équilibrer précision et variété
 
 class BotCore:
 
@@ -31,7 +30,6 @@ class BotCore:
     
     def initialize(self) -> bool:
         try:
-
             if not os.path.exists(INDEX_FILE):
                 print(f"❌ Le fichier d'index {INDEX_FILE} n'existe pas.")
                 return False
@@ -50,9 +48,7 @@ class BotCore:
             try:
                 import faiss
                 self.index = faiss.read_index(INDEX_FILE)
-
             except Exception as e:
-
                 traceback.print_exc()
                 return False
             
@@ -78,21 +74,17 @@ class BotCore:
             return []
         
         try:
-            # Encoder la requête
             query_embedding = self.embedding_model.encode(
                 query,
                 convert_to_numpy=True,
                 normalize_embeddings=True
             ).reshape(1, -1).astype(np.float32)
             
-            # Rechercher les chunks les plus similaires
             distances, indices = self.index.search(query_embedding, min(top_k, len(self.chunks_text)))
             
-            # Préparer les résultats
             results = []
             for i, (dist, idx) in enumerate(zip(distances[0], indices[0])):
-                if idx >= 0 and idx < len(self.chunks_text):  # Vérifier que l'indice est valide
-                    # Convertir la distance L2 en score de similarité (plus petit = plus similaire, donc inverser)
+                if idx >= 0 and idx < len(self.chunks_text):
                     similarity_score = 1.0 / (1.0 + dist)
                     
                     result = {
@@ -140,10 +132,30 @@ class BotCore:
         if not results:
             return "Je ne trouve pas d'information pertinente pour répondre à cette question."
         
-        return f"Voici la réponse la plus pertinente à votre question:\n\n{results[0]['text']}"
+        try:
+            # Sélectionner le meilleur résultat pour la réponse principale
+            best_result = results[0]
+            main_answer = best_result["text"]
+            
+            # Si plusieurs résultats sont disponibles, ajouter une section "Autres informations"
+            additional_info = ""
+            if len(results) > 1:
+                additional_info = "\n\n**Autres informations pertinentes :**\n"
+                for result in results[1:min(3, len(results))]:  # Limiter à 2 résultats supplémentaires
+                    source = result["metadata"].get("source", "inconnu")
+                    text = result["text"][:300] + "..." if len(result["text"]) > 300 else result["text"]
+                    additional_info += f"- Source: {source}\n  {text}\n"
+            
+            # Construire la réponse finale
+            response = f"**Réponse à votre question :**\n{main_answer}{additional_info}"
+            return response
+            
+        except Exception as e:
+            print(f"❌ Erreur lors de la génération de la réponse: {e}")
+            traceback.print_exc()
+            return "Erreur lors de la génération de la réponse."
     
     def ask(self, question: str) -> Union[str, Dict[str, Any]]:
-
         try:
             # S'assurer que le moteur est initialisé
             if not self.is_initialized:
@@ -157,9 +169,9 @@ class BotCore:
             if not results:
                 return "Je ne trouve pas d'information pertinente pour répondre à cette question."
             
-            return results[0]['text']
+            # Générer une réponse basée sur les résultats
+            return self.generate_response(question, results)
             
         except Exception as e:
-
             print(f"Erreur dans ask(): {e}", file=sys.stderr)
             return "Je ne peux pas répondre à cette question pour le moment."
