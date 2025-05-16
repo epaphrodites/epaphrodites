@@ -7,10 +7,8 @@ from pathlib import Path
 from typing import List, Dict, Tuple, Optional
 from tqdm import tqdm
 import gc
-
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
 sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from constants import EMBEDDING_MODEL, TEXT_DIR, DATA_DIR, INDEX_FILE, METADATA_FILE, BATCH_SIZE, CHUNK_SIZE, CHUNK_OVERLAP
 
 class IndexTrainer:
@@ -45,7 +43,6 @@ class IndexTrainer:
             
         text_paths = []
         
-        # Méthode simplifiée pour trouver les fichiers .txt
         for file in all_files:
             file_path = os.path.join(self.text_dir, file)
             if os.path.isfile(file_path) and file.lower().endswith('.txt'):

@@ -1,99 +1,165 @@
 import os
 import sys
-import warnings
-warnings.filterwarnings("ignore") 
 import numpy as np
-import faiss
-from sentence_transformers import SentenceTransformer 
-sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
-from constants import EMBEDDING_MODEL, REEL_INDEX_FILE, REEL_METADATA_FILE, LLAMA_MODEL
+import traceback
+from typing import List, Dict, Tuple, Any, Union
 
-try:
-    from langchain_ollama import OllamaLLM
-    USE_NEW_API = True
-except ImportError:
-    from langchain_community.llms import Ollama
-    USE_NEW_API = False
+# Configuration des chemins et constantes
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+# Définir directement les constantes dans ce fichier
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+INDEX_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx")
+METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy")
+TOP_K_RESULTS = 5
 
 class BotCore:
+
     def __init__(self):
-        self.embedding_model = SentenceTransformer(EMBEDDING_MODEL)
-        self.index = faiss.read_index(REEL_INDEX_FILE)
-        data = np.load(REEL_METADATA_FILE, allow_pickle=True).item()
-        self.chunks_text = data["chunks_text"]
-        self.chunks_metadata = data["chunks_metadata"]
+        self.embedding_model = None
+        self.index = None
+        self.chunks_text = []
+        self.chunks_metadata = []
+        self.is_initialized = False
         
-        if USE_NEW_API:
-            self.llm = OllamaLLM(model=LLAMA_MODEL)
-        else:
-            self.llm = Ollama(model=LLAMA_MODEL)
+        # Initialiser automatiquement à la création de l'instance
+        try:
+            self.initialize()
+        except Exception as e:
+            print(f"❌ Erreur d'initialisation automatique: {e}", file=sys.stderr)
     
-    def search(self, query: str, top_k: int = 5):
-        query_embedding = self.embedding_model.encode([query])
-        distances, indices = self.index.search(query_embedding, top_k)
-        results = []
-        for i, idx in enumerate(indices[0]):
-            if idx < len(self.chunks_text):
-                results.append({
-                    "chunk": self.chunks_text[idx],
-                    "metadata": self.chunks_metadata[idx],
-                    "distance": distances[0][i]
-                })
-        return results
+    def initialize(self) -> bool:
+        try:
+
+            if not os.path.exists(INDEX_FILE):
+                print(f"❌ Le fichier d'index {INDEX_FILE} n'existe pas.")
+                return False
+                
+            if not os.path.exists(METADATA_FILE):
+                print(f"❌ Le fichier de métadonnées {METADATA_FILE} n'existe pas.")
+                return False
+            
+            try:
+                from sentence_transformers import SentenceTransformer
+                self.embedding_model = SentenceTransformer(EMBEDDING_MODEL)
+            except Exception as e:
+                traceback.print_exc()
+                return False
+        
+            try:
+                import faiss
+                self.index = faiss.read_index(INDEX_FILE)
+
+            except Exception as e:
+
+                traceback.print_exc()
+                return False
+            
+            try:
+                metadata_dict = np.load(METADATA_FILE, allow_pickle=True).item()
+                self.chunks_text = metadata_dict.get("chunks_text", [])
+                self.chunks_metadata = metadata_dict.get("chunks_metadata", [])
+            except Exception as e:
+                traceback.print_exc()
+                return False
+            
+            self.is_initialized = True
+            return True
+            
+        except Exception as e:
+            print(f"❌ Erreur lors de l'initialisation: {e}")
+            traceback.print_exc()
+            return False
     
-    def create_prompt(self, query: str, context: str) -> str:
-        return f"""Tu es un assistant IA qui répond aux questions en utilisant uniquement les informations fournies dans le contexte ci-dessous. Si la réponse ne se trouve pas dans le contexte, dis simplement que tu ne sais pas.
-
-CONTEXTE: {context}
-
-QUESTION: {query}
-
-RÉPONSE:"""
-    
-    def generate_answer(self, query: str, context: str) -> str:
-        prompt = self.create_prompt(query, context)
+    def search(self, query: str, top_k: int = TOP_K_RESULTS) -> List[Dict[str, Any]]:
+        if not self.is_initialized:
+            print("❌ Le moteur n'est pas initialisé. Exécutez initialize() d'abord.")
+            return []
         
         try:
-            if hasattr(self.llm, 'stream'):
-                full_response = ""
-                for chunk in self.llm.stream(prompt):
-                    full_response += chunk
-                return full_response
-            else:
-                return self.llm.invoke(prompt)
-        except Exception as e:
-            return f"Erreur lors de la génération de la réponse: {str(e)}"
-    
-    def stream_answer(self, query: str):
-        """Génère une réponse en mode streaming, retournant des morceaux de texte."""
-        try:
-            results = self.search(query)
-            context = "\n\n".join([
-                f"Document: {res['metadata']['filename']}\n{res['chunk']}"
-                for res in results
-            ])
+            # Encoder la requête
+            query_embedding = self.embedding_model.encode(
+                query,
+                convert_to_numpy=True,
+                normalize_embeddings=True
+            ).reshape(1, -1).astype(np.float32)
             
-            prompt = self.create_prompt(query, context)
+            # Rechercher les chunks les plus similaires
+            distances, indices = self.index.search(query_embedding, min(top_k, len(self.chunks_text)))
             
-            # Vérifier si le modèle supporte le streaming
-            if hasattr(self.llm, 'stream'):
-                for chunk in self.llm.stream(prompt):
-                    yield chunk
-            else:
-                # Fallback pour les modèles sans streaming
-                yield self.llm.invoke(prompt)
+            # Préparer les résultats
+            results = []
+            for i, (dist, idx) in enumerate(zip(distances[0], indices[0])):
+                if idx >= 0 and idx < len(self.chunks_text):  # Vérifier que l'indice est valide
+                    # Convertir la distance L2 en score de similarité (plus petit = plus similaire, donc inverser)
+                    similarity_score = 1.0 / (1.0 + dist)
+                    
+                    result = {
+                        "rank": i + 1,
+                        "chunk_id": idx,
+                        "similarity_score": similarity_score,
+                        "text": self.chunks_text[idx],
+                        "metadata": self.chunks_metadata[idx] if idx < len(self.chunks_metadata) else {"source": "unknown"}
+                    }
+                    results.append(result)
+            
+            return results
+            
         except Exception as e:
-            yield f"Une erreur est survenue: {str(e)}"
+            print(f"❌ Erreur lors de la recherche: {e}")
+            traceback.print_exc()
+            return []
     
-    def ask(self, query: str):
-        """Génère une réponse complète à partir d'une question."""
+    def format_results(self, results: List[Dict[str, Any]], with_metadata: bool = True) -> str:
+        if not results:
+            return "Aucun résultat trouvé."
+        
+        formatted_results = []
+        for result in results:
+            result_str = f"🔍 Résultat #{result['rank']} (Score: {result['similarity_score']:.4f})\n"
+            result_str += f"{'—' * 50}\n"
+            
+            if with_metadata:
+                metadata = result.get('metadata', {})
+                source = metadata.get('source', 'inconnu')
+                result_str += f"📄 Source: {source}\n"
+                result_str += f"{'—' * 50}\n"
+            
+            text = result.get('text', '')
+            if len(text) > 500:
+                text = text[:500] + "..."
+            
+            result_str += f"{text}\n"
+            result_str += f"{'—' * 50}\n"
+            formatted_results.append(result_str)
+        
+        return "\n".join(formatted_results)
+    
+    def generate_response(self, query: str, results: List[Dict[str, Any]]) -> str:
+        if not results:
+            return "Je ne trouve pas d'information pertinente pour répondre à cette question."
+        
+        return f"Voici la réponse la plus pertinente à votre question:\n\n{results[0]['text']}"
+    
+    def ask(self, question: str) -> Union[str, Dict[str, Any]]:
+
         try:
-            results = self.search(query)
-            context = "\n\n".join([
-                f"Document: {res['metadata']['filename']}\n{res['chunk']}"
-                for res in results
-            ])
-            answer = self.generate_answer(query, context)
-            return answer
+            # S'assurer que le moteur est initialisé
+            if not self.is_initialized:
+                success = self.initialize()
+                if not success:
+                    return "Échec de l'initialisation du moteur de recherche."
+            
+            # Effectuer la recherche
+            results = self.search(question)
+            
+            if not results:
+                return "Je ne trouve pas d'information pertinente pour répondre à cette question."
+            
+            return results[0]['text']
+            
         except Exception as e:
-            return f"Une erreur est survenue: {str(e)}"
+
+            print(f"Erreur dans ask(): {e}", file=sys.stderr)
+            return "Je ne peux pas répondre à cette question pour le moment."
