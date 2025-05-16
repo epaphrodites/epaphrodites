@@ -6,12 +6,11 @@ from typing import List, Dict, Tuple, Any, Union
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-# Définir directement les constantes dans ce fichier
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Peut être remplacé par un modèle plus performant
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 INDEX_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx")
 METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy")
-TOP_K_RESULTS = 5  # Ajustable pour équilibrer précision et variété
+TOP_K_RESULTS = 5
 
 class BotCore:
 
@@ -22,7 +21,6 @@ class BotCore:
         self.chunks_metadata = []
         self.is_initialized = False
         
-        # Initialiser automatiquement à la création de l'instance
         try:
             self.initialize()
         except Exception as e:
@@ -133,22 +131,11 @@ class BotCore:
             return "Je ne trouve pas d'information pertinente pour répondre à cette question."
         
         try:
-            # Sélectionner le meilleur résultat pour la réponse principale
+
             best_result = results[0]
             main_answer = best_result["text"]
             
-            # Si plusieurs résultats sont disponibles, ajouter une section "Autres informations"
-            additional_info = ""
-            if len(results) > 1:
-                additional_info = "\n\n**Autres informations pertinentes :**\n"
-                for result in results[1:min(3, len(results))]:  # Limiter à 2 résultats supplémentaires
-                    source = result["metadata"].get("source", "inconnu")
-                    text = result["text"][:300] + "..." if len(result["text"]) > 300 else result["text"]
-                    additional_info += f"- Source: {source}\n  {text}\n"
-            
-            # Construire la réponse finale
-            response = f"**Réponse à votre question :**\n{main_answer}{additional_info}"
-            return response
+            return main_answer
             
         except Exception as e:
             print(f"❌ Erreur lors de la génération de la réponse: {e}")
@@ -163,13 +150,11 @@ class BotCore:
                 if not success:
                     return "Échec de l'initialisation du moteur de recherche."
             
-            # Effectuer la recherche
             results = self.search(question)
             
             if not results:
                 return "Je ne trouve pas d'information pertinente pour répondre à cette question."
             
-            # Générer une réponse basée sur les résultats
             return self.generate_response(question, results)
             
         except Exception as e:
