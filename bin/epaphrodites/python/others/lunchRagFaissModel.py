@@ -25,6 +25,6 @@ if __name__ == '__main__':
         
         sys.exit(1) 
     
-    result = lunchRagFaissModel.askQuestions("Comment generer une base de donnees")
+    result = lunchRagFaissModel.askQuestions(json_datas['msg'])
     
     print(result)
