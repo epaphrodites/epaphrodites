@@ -1,5 +1,7 @@
+
 import os
 import sys
+import time
 import numpy as np
 import traceback
 from typing import List, Dict, Tuple, Any, Union
@@ -16,6 +18,40 @@ METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chun
 
 class BotCore:
 
+    _instances = {}
+    
+    @classmethod
+    def get_instance(cls, user_id="default"):
+
+        if user_id not in cls._instances:
+            cls._instances[user_id] = cls()
+        return cls._instances[user_id]
+    
+    @classmethod
+    def cleanup_sessions(cls, max_sessions=10, idle_timeout=3600):
+
+        current_time = time.time()
+        inactive_sessions = []
+        
+        for user_id, instance in cls._instances.items():
+            if instance.last_access_time and (current_time - instance.last_access_time > idle_timeout):
+                inactive_sessions.append(user_id)
+        
+        for user_id in inactive_sessions:
+
+            del cls._instances[user_id]
+        
+        if len(cls._instances) > max_sessions:
+            sorted_instances = sorted(
+                [(user_id, inst.last_access_time) for user_id, inst in cls._instances.items()],
+                key=lambda x: x[1] if x[1] is not None else 0
+            )
+            
+            to_remove = sorted_instances[:len(sorted_instances) - max_sessions]
+            for user_id, _ in to_remove:
+              
+                del cls._instances[user_id]
+    
     def __init__(self):
         self.embedding_model = None
         self.index = None
@@ -23,6 +59,7 @@ class BotCore:
         self.chunks_metadata = []
         self.is_initialized = False
         self.ollama_client = None
+        self.last_access_time = time.time()
         
         try:
             self.initialize()
@@ -171,6 +208,9 @@ Tu es un assistant IA utile. Repond à la question suivante en te basant sur le 
     
     def ask(self, question: str, stream=False):
         try:
+            # Mettre à jour le timestamp d'accès
+            self.last_access_time = time.time()
+            
             if not self.is_initialized:
                 success = self.initialize()
                 if not success:
