@@ -508,38 +508,41 @@ trait currentSubmit
     public static function streamChunks(
         iterable $ollama_stream, 
         bool $withBuffering = true
-    ): string{
+    ): string {
         $output = '';
-
+    
         if ($withBuffering && !headers_sent()) {
-            header('Content-Type: text/html; charset=utf-8');
-            header('Cache-Control: no-cache, must-revalidate');
+            header('Content-Type: text/event-stream'); // Set SSE content type
+            header('Cache-Control: no-cache');
             header('Connection: keep-alive');
             header('X-Accel-Buffering: no');
         }
-
+    
         if ($withBuffering) {
             while (@ob_end_flush());
             ob_implicit_flush(true);
             set_time_limit(0);
-            echo str_repeat("<!-- ping -->\n", 5);
+            echo "event: ping\ndata: {}\n\n"; // Initial ping event
             flush();
         }
-
+    
         foreach ($ollama_stream as $chunk) {
+            // Escape the chunk to prevent breaking SSE format
+            $escapedChunk = str_replace(["\n", "\r"], ['\\n', '\\r'], $chunk);
             $output .= $chunk . "\n";
-
+    
             if ($withBuffering) {
-                echo $chunk . "\n";
+                echo "data: $escapedChunk\n\n"; // SSE format
                 flush();
-                usleep(100000);
+                usleep(100000); // 100ms delay for pacing
             }
         }
-
+    
         if ($withBuffering) {
-            echo "<!-- stream end -->";
+            echo "event: end\ndata: Stream ended\n\n"; // End event
+            flush();
         }
-
+    
         return $output . 'test';
     }
 

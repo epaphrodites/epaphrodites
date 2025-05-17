@@ -1,5 +1,5 @@
 {% extends layouts %}
-{% from ajax import send_ajax_request, get_ajax_request %}
+{% from ajax import send_streaming_request, get_ajax_request %}
 {% from forms import input_field, textarea_field, submit %}
 {% from breadcrumb import breadcrumb_field %} 
 {% from tools import recognition %} 
@@ -44,7 +44,7 @@
       </div>
   </div>
 
-  {{ send_ajax_request({
+  {{ send_streaming_request({
     method : "POST",
     url : "chats@start_rag_and_faiss_bot_Model",
     value : ['__send__'],

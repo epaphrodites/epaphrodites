@@ -45,7 +45,7 @@ final class dashboard extends MainSwitchers
         $this->views( $html, 
             [
                 'select' => $this->select,
-                'count' => $this->count,
+                'count' => $this->count
             ],
             true
         );
@@ -64,7 +64,7 @@ final class dashboard extends MainSwitchers
         $this->views( $html, 
             [
                 'select' => $this->select,
-                'count' => $this->count,
+                'count' => $this->count
             ],
             true
         );
@@ -83,6 +83,7 @@ final class dashboard extends MainSwitchers
         $this->views( $html, 
             [
                 'select' => $this->select,
+                'count' => $this->count
             ], 
             true 
         );

@@ -9,7 +9,7 @@ from tqdm import tqdm
 import gc
 sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-from constants import EMBEDDING_MODEL, TEXT_DIR, DATA_DIR, INDEX_FILE, METADATA_FILE, BATCH_SIZE, CHUNK_SIZE, CHUNK_OVERLAP
+from constants import EMBEDDING_MODEL, TEXT_DIR, INDEX_FILE, METADATA_FILE, BATCH_SIZE, CHUNK_SIZE, CHUNK_OVERLAP
 
 class IndexTrainer:
     def __init__(self, text_dir: str = TEXT_DIR):
@@ -18,7 +18,7 @@ class IndexTrainer:
         self.chunks_metadata = []
 
     def load_embedding_model(self):
-        """Charger le modèle d'embedding avec gestion d'erreur"""
+
         try:
             from sentence_transformers import SentenceTransformer
             print(f"Chargement du modèle d'embedding: {EMBEDDING_MODEL}")

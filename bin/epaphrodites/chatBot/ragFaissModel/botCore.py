@@ -5,14 +5,14 @@ import time
 import numpy as np
 import traceback
 from typing import List, Dict, Tuple, Any, Union
+sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
+from constants import LLM_MODEL, EMBEDDING_MODEL, TOP_K_RESULTS
 import ollama
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-TOP_K_RESULTS = 5
-OLLAMA_MODEL = "llama3:8b"
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
 INDEX_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx")
 METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy")
 
@@ -24,17 +24,22 @@ class BotCore:
     def get_instance(cls, user_id="default"):
 
         if user_id not in cls._instances:
+            
             cls._instances[user_id] = cls()
+            
         return cls._instances[user_id]
     
     @classmethod
     def cleanup_sessions(cls, max_sessions=10, idle_timeout=3600):
 
         current_time = time.time()
+        
         inactive_sessions = []
         
         for user_id, instance in cls._instances.items():
+            
             if instance.last_access_time and (current_time - instance.last_access_time > idle_timeout):
+                
                 inactive_sessions.append(user_id)
         
         for user_id in inactive_sessions:
@@ -42,12 +47,16 @@ class BotCore:
             del cls._instances[user_id]
         
         if len(cls._instances) > max_sessions:
+            
             sorted_instances = sorted(
+                
                 [(user_id, inst.last_access_time) for user_id, inst in cls._instances.items()],
+                
                 key=lambda x: x[1] if x[1] is not None else 0
             )
             
             to_remove = sorted_instances[:len(sorted_instances) - max_sessions]
+            
             for user_id, _ in to_remove:
               
                 del cls._instances[user_id]
@@ -64,16 +73,16 @@ class BotCore:
         try:
             self.initialize()
         except Exception as e:
-            print(f"❌ Erreur d'initialisation automatique: {e}", file=sys.stderr)
+            print(f"❌ Automatic initialization error: {e}", file=sys.stderr)
     
     def initialize(self) -> bool:
         try:
             if not os.path.exists(INDEX_FILE):
-                print(f"❌ Le fichier d'index {INDEX_FILE} n'existe pas.")
+                print(f"❌ The index file {INDEX_FILE} don't exist.")
                 return False
                 
             if not os.path.exists(METADATA_FILE):
-                print(f"❌ Le fichier de métadonnées {METADATA_FILE} n'existe pas.")
+                print(f"❌ The metadata file {METADATA_FILE} don't exist.")
                 return False
             
             try:
@@ -92,8 +101,11 @@ class BotCore:
             
             try:
                 metadata_dict = np.load(METADATA_FILE, allow_pickle=True).item()
+                
                 self.chunks_text = metadata_dict.get("chunks_text", [])
+                
                 self.chunks_metadata = metadata_dict.get("chunks_metadata", [])
+                
             except Exception as e:
                 traceback.print_exc()
                 return False
@@ -101,23 +113,25 @@ class BotCore:
             try:
                 self.ollama_client = ollama.Client()
 
-                self.ollama_client.pull(OLLAMA_MODEL)
+                self.ollama_client.pull(LLM_MODEL)
+                
             except Exception as e:
-                print(f"❌ Erreur lors de l'initialisation d'Ollama: {e}")
+                print(f"❌ Initialization error: {e}")
                 traceback.print_exc()
                 return False
             
             self.is_initialized = True
+            
             return True
             
         except Exception as e:
-            print(f"❌ Erreur lors de l'initialisation: {e}")
+            print(f"❌ Error during initialization: {e}")
             traceback.print_exc()
             return False
     
     def search(self, query: str, top_k: int = TOP_K_RESULTS) -> List[Dict[str, Any]]:
         if not self.is_initialized:
-            print("❌ Le moteur n'est pas initialisé. Exécutez initialize() d'abord.")
+            print("❌ The engine is not initialized. Run initialize() first.")
             return []
         
         try:
@@ -146,17 +160,17 @@ class BotCore:
             return results
             
         except Exception as e:
-            print(f"❌ Erreur lors de la recherche: {e}")
+            print(f"❌ Search error: {e}")
             traceback.print_exc()
             return []
     
     def format_results(self, results: List[Dict[str, Any]], with_metadata: bool = True) -> str:
         if not results:
-            return "Aucun résultat trouvé."
+            return "No result found"
         
         formatted_results = []
         for result in results:
-            result_str = f"🔍 Résultat #{result['rank']} (Score: {result['similarity_score']:.4f})\n"
+            result_str = f"🔍 Result #{result['rank']} (Score: {result['similarity_score']:.4f})\n"
             result_str += f"{'—' * 50}\n"
             
             if with_metadata:
@@ -175,54 +189,53 @@ class BotCore:
         
         return "\n".join(formatted_results)
     
-    def generate_response(self, query: str, results: List[Dict[str, Any]], stream=False):
+    def generate_response(self, query: str, results: List[Dict[str, Any]], stream=False ):
+        
         if not results:
-            return "Je ne trouve pas d'information pertinente pour répondre à cette question."
+            return "I can't find any relevant information to answer this question."
         
         try:
             context = "\n".join([result["text"] for result in results[:TOP_K_RESULTS]])
             
             prompt = f"""
-Tu es un assistant IA utile. Repond à la question suivante en te basant sur le contexte fourni. Si le contexte ne contient pas assez d'informations, utilise tes connaissances générales, mais indique clairement que tu complètes. Fournir une réponse claire et concise.
-
-**Question** : {query}
-
-**Contexte** :
-{context}
-
-**Réponse** :
-"""
+            You are an AI assistant. Answer the following question based on the provided context. If the context does not contain enough information, use your general knowledge, but clearly indicate that you are supplementing. Provide a clear and concise answer.
+            **Question** : {query}
+            **Context** :
+            {context}
+            **Answer** :
+            """
             
             if stream:
-                # Mode streaming
-                return self.ollama_client.generate(model=OLLAMA_MODEL, prompt=prompt, stream=True)
+
+                return self.ollama_client.generate(model=LLM_MODEL, prompt=prompt, stream=True)
             else:
-                # Mode standard
-                response = self.ollama_client.generate(model=OLLAMA_MODEL, prompt=prompt)
+
+                response = self.ollama_client.generate(model=LLM_MODEL, prompt=prompt)
+                
                 return response["response"].strip()
             
         except Exception as e:
-            print(f"❌ Erreur lors de la génération avec Ollama: {e}")
+            print(f"❌ Error during generation: {e}")
             traceback.print_exc()
-            return f"Erreur lors de la génération de la réponse: {str(e)}"
+            return f"Error generating response: {str(e)}"
     
     def ask(self, question: str, stream=False):
         try:
-            # Mettre à jour le timestamp d'accès
+
             self.last_access_time = time.time()
             
             if not self.is_initialized:
                 success = self.initialize()
                 if not success:
-                    return "Échec de l'initialisation du moteur de recherche."
+                    return "Search engine initialization failed."
             
             results = self.search(question)
             
             if not results:
-                return "Je ne trouve pas d'information pertinente pour répondre à cette question."
+                return "I can't find any relevant information to answer this question."
             
             return self.generate_response(question, results, stream=stream)
             
         except Exception as e:
-            print(f"Erreur dans ask(): {e}", file=sys.stderr)
-            return "Je ne peux pas répondre à cette question pour le moment."
+            print(f"Error in ask(): {e}", file=sys.stderr)
+            return "I can't answer that question at the moment."

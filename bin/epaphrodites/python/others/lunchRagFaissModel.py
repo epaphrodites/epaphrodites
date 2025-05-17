@@ -15,10 +15,13 @@ class lunchRagFaissModel:
     def cleanup_old_sessions(max_idle_time=3600, max_sessions=50):
 
         current_time = time.time()
+        
         inactive_sessions = []
         
         for user_id, last_access in lunchRagFaissModel.sessions_activity.items():
+            
             if current_time - last_access > max_idle_time:
+                
                 inactive_sessions.append(user_id)
         
         for user_id in inactive_sessions:
@@ -31,6 +34,7 @@ class lunchRagFaissModel:
                                     key=lambda x: x[1])
             
             to_remove = sorted_sessions[:len(sorted_sessions) - max_sessions]
+            
             for user_id, _ in to_remove:
 
                 del lunchRagFaissModel.sessions_activity[user_id]
@@ -43,6 +47,7 @@ class lunchRagFaissModel:
         lunchRagFaissModel.cleanup_old_sessions()
         
         bot = BotCore.get_instance(user_id)
+        
         result = bot.ask(message, stream=stream)
         
         if stream:
@@ -67,7 +72,9 @@ if __name__ == '__main__':
     json_datas = InitJsonLoader.loadJsonValues(json_values)
     
     if 'msg' not in json_datas:
+        
         print("The JSON file must contain 'msg'.")
+        
         sys.exit(1)
     
     user_id = json_datas.get('user_id', 'default')
