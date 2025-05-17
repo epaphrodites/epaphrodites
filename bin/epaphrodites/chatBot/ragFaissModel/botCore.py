@@ -3,14 +3,16 @@ import sys
 import numpy as np
 import traceback
 from typing import List, Dict, Tuple, Any, Union
+import ollama
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+TOP_K_RESULTS = 5
+OLLAMA_MODEL = "llama3:8b"
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 INDEX_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/faiss_index.idx")
 METADATA_FILE = os.path.join(BASE_DIR, "../../../database/datas/vector-data/chunks_metadata.npy")
-TOP_K_RESULTS = 5
 
 class BotCore:
 
@@ -20,6 +22,7 @@ class BotCore:
         self.chunks_text = []
         self.chunks_metadata = []
         self.is_initialized = False
+        self.ollama_client = None
         
         try:
             self.initialize()
@@ -55,6 +58,15 @@ class BotCore:
                 self.chunks_text = metadata_dict.get("chunks_text", [])
                 self.chunks_metadata = metadata_dict.get("chunks_metadata", [])
             except Exception as e:
+                traceback.print_exc()
+                return False
+            
+            try:
+                self.ollama_client = ollama.Client()
+
+                self.ollama_client.pull(OLLAMA_MODEL)
+            except Exception as e:
+                print(f"❌ Erreur lors de l'initialisation d'Ollama: {e}")
                 traceback.print_exc()
                 return False
             
@@ -126,25 +138,39 @@ class BotCore:
         
         return "\n".join(formatted_results)
     
-    def generate_response(self, query: str, results: List[Dict[str, Any]]) -> str:
+    def generate_response(self, query: str, results: List[Dict[str, Any]], stream=False):
         if not results:
             return "Je ne trouve pas d'information pertinente pour répondre à cette question."
         
         try:
-
-            best_result = results[0]
-            main_answer = best_result["text"]
+            context = "\n".join([result["text"] for result in results[:TOP_K_RESULTS]])
             
-            return main_answer
+            prompt = f"""
+Tu es un assistant IA utile. Repond à la question suivante en te basant sur le contexte fourni. Si le contexte ne contient pas assez d'informations, utilise tes connaissances générales, mais indique clairement que tu complètes. Fournir une réponse claire et concise.
+
+**Question** : {query}
+
+**Contexte** :
+{context}
+
+**Réponse** :
+"""
+            
+            if stream:
+                # Mode streaming
+                return self.ollama_client.generate(model=OLLAMA_MODEL, prompt=prompt, stream=True)
+            else:
+                # Mode standard
+                response = self.ollama_client.generate(model=OLLAMA_MODEL, prompt=prompt)
+                return response["response"].strip()
             
         except Exception as e:
-            print(f"❌ Erreur lors de la génération de la réponse: {e}")
+            print(f"❌ Erreur lors de la génération avec Ollama: {e}")
             traceback.print_exc()
-            return "Erreur lors de la génération de la réponse."
+            return f"Erreur lors de la génération de la réponse: {str(e)}"
     
-    def ask(self, question: str) -> Union[str, Dict[str, Any]]:
+    def ask(self, question: str, stream=False):
         try:
-            # S'assurer que le moteur est initialisé
             if not self.is_initialized:
                 success = self.initialize()
                 if not success:
@@ -155,7 +181,7 @@ class BotCore:
             if not results:
                 return "Je ne trouve pas d'information pertinente pour répondre à cette question."
             
-            return self.generate_response(question, results)
+            return self.generate_response(question, results, stream=stream)
             
         except Exception as e:
             print(f"Erreur dans ask(): {e}", file=sys.stderr)

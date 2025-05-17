@@ -7,10 +7,23 @@ from initJsonLoader import InitJsonLoader
 class lunchRagFaissModel:
 
     @staticmethod
-    def askQuestions(message):
+    def askQuestions(message, stream=True):
         bot = BotCore()
-        result = bot.ask(message)
-        return result
+        result = bot.ask(message, stream=stream)
+        
+        if stream:
+
+            for chunk in result:
+                if "response" in chunk:
+
+                    sys.stdout.write(chunk["response"])
+                    sys.stdout.flush()
+
+            sys.stdout.write("\n")
+            return ""
+        else:
+
+            return result
 
 
 if __name__ == '__main__':  
@@ -23,8 +36,6 @@ if __name__ == '__main__':
         
         print("The JSON file must contain 'msg'.")
         
-        sys.exit(1) 
+        sys.exit(1)
     
-    result = lunchRagFaissModel.askQuestions(json_datas['msg'])
-    
-    print(result)
+    lunchRagFaissModel.askQuestions(json_datas['msg'], stream=True)

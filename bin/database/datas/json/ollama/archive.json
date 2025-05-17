@@ -2,5 +2,17 @@
     "0": {
         "prompt": "bonjour",
         "reponses": "Bonjour ! Je suis ravi de vous aider. Pour commencer, pouvez-vous me dire ce que vous souhaitez savoir sur Epaphrodites ou comment je peux vous aider pour votre projet ?"
+    },
+    "1": {
+        "prompt": "bonjour",
+        "reponses": "Bonjour ! Je suis ravi de vous aider avec les instructions pour installer Epaphrodites. Pouvez-vous me dire ce que vous avez besoin de savoir ou accomplir en premier ?"
+    },
+    "2": {
+        "prompt": "Que sais de epaphrodites",
+        "reponses": "Bonjour ! Je suis Noella, votre assistant. Selon les informations que j'ai recues, Epaphrodites est un framework multi-langage concu pour ameliorer la performance, l'interoperabilite et la modularite de vos applications web. Il permet d'utiliser plusieurs types de base de donnees dans le meme projet, ce qui en fait un outil ideal pour developper des applications modernes et evolutives.Pour installer Epaphrodites, voici les etapes a suivre : creer un nouveau projet avec `composer create-project epaphrodites\/epaphrodites nom_de_votre_projet`, se positionner dans le repertoire du projet, mettre a jour les dependances avec `composer update`, regenerer l'autoloader avec `composer dump-autoload` et enfin lancer le serveur de developpement local avec `php heredia run:server --port=8000`.Une fois ces etapes terminees, votre application sera accessible a l'adresse http:\/\/localhost:8000."
+    },
+    "3": {
+        "prompt": "bonjour",
+        "reponses": "Bonjour ! Je suis ravi de vous aider. Vous avez des questions sur Epaphrodites ? Qu'est-ce que vous voulez savoir ?"
     }
 }
