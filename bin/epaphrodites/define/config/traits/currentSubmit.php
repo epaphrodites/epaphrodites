@@ -501,28 +501,28 @@ trait currentSubmit
     /**
      * Streaming without cache
      * 
-     * @param iterable $ollama_stream
+     * @param iterable $stream
      * @param bool $withBuffering
      * @return string
      */
     public static function streamChunks(
-        $ollama_stream,  // Maintenant de type mixte pour accepter booléen ou itérable
+        mixed $stream,
         bool $withBuffering = true
     ): string {
         $output = '';
         
-        if (is_bool($ollama_stream)) {
+        if (is_bool($stream)) {
 
-            if ($ollama_stream === true) {
+            if ($stream === true) {
                 $withBuffering = true;
             }
 
-            $ollama_stream = [];
+            $stream = [];
         }
         
-        if (!is_array($ollama_stream) && !($ollama_stream instanceof \Traversable)) {
+        if (!is_array($stream) && !($stream instanceof \Traversable)) {
 
-            $ollama_stream = [];
+            $stream = [];
         }
         
         if ($withBuffering && !headers_sent()) {
@@ -539,7 +539,7 @@ trait currentSubmit
             flush();
         }
         
-        foreach ($ollama_stream as $chunk) {
+        foreach ($stream as $chunk) {
 
             $escapedChunk = str_replace(["\n", "\r"], ['\\n', '\\r'], $chunk);
             $output .= $chunk . "\n";
