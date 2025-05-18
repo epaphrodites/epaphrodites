@@ -30,7 +30,7 @@
 define('_LANG_', 'eng');
 
 # Python (accepted: 'python', 'python3')
-# For linux os: python3
+# For linux os use : python3
 define('_PYTHON_', 'python');
 
 # Language used for background processing (accepted: 'php' or 'python')

@@ -12,64 +12,301 @@
     </script>
 {% endmacro %}
 
+
+
 {% macro send_streaming_request(ajaxOptions) %}
     <script>
-        $(document).ready(function() {
-            const formSelector = "{{ ajaxOptions.form | default('') | escape('js') }}";
-            const submitSelector = "{{ ajaxOptions.submit | default('') | escape('js') }}";
-            const messageSelector = "{{ ajaxOptions.msg | escape('js') }}";
-
-            $(document).on('submit', formSelector, function(event) {
+    $(document).ready(function() {
+        const formSelector = "{{ ajaxOptions.form | default('') | escape('js') }}";
+        const submitSelector = "{{ ajaxOptions.submit | default('') | escape('js') }}";
+        const messageSelector = "{{ ajaxOptions.msg | escape('js') }}";
+        const chatContainer = $(messageSelector);
+        
+        // S'assurer que le conteneur du chat a un style approprié pour le scrolling
+        chatContainer.css({
+            'max-height': '500px',
+            'overflow-y': 'auto',
+            'padding': '10px'
+        });
+        
+        // Fonction pour ajouter un message au conteneur de chat
+        function addMessage(sender, content, isUserMessage = false) {
+            const messageClass = isUserMessage ? 'user-message' : 'bot-message';
+            const senderClass = isUserMessage ? 'user-sender' : 'bot-sender';
+            
+            const messageHtml = `
+                <div class="message ${messageClass}">
+                    <div class="sender ${senderClass}">${sender}:</div>
+                    <div class="content">${content}</div>
+                </div>
+            `;
+            
+            chatContainer.append(messageHtml);
+            // Scroll vers le bas pour voir le nouveau message
+            chatContainer.scrollTop(chatContainer[0].scrollHeight);
+        }
+        
+        // Gestion de l'envoi du formulaire
+        $(document).on('submit', formSelector, function(event) {
+            event.preventDefault();
+            sendStreamingRequest();
+        });
+        
+        // Gestion du clic sur le bouton d'envoi
+        $(document).on('click', submitSelector, function(event) {
+            event.preventDefault();
+            sendStreamingRequest();
+        });
+        
+        // Gestion de la touche Entrée dans le champ de texte
+        $(document).on('keypress', "#{{ ajaxOptions.value[0] | escape('js') }}", function(event) {
+            if (event.which === 13 && !event.shiftKey) {
                 event.preventDefault();
                 sendStreamingRequest();
-            });
-
-            $(document).on('click', submitSelector, function() {
-                sendStreamingRequest();
-            });
-
-            $(document).on('keypress', formSelector, function(event) {
-                if (event.which === 13) {
-                    event.preventDefault();
-                    sendStreamingRequest();
-                }
-            });
-
-            async function sendStreamingRequest() {
-                var param = {};
-                {% for value in ajaxOptions.value %}
-                    var escapedValue = $("#{{ value | escape('js') }}").val();
-                    param["{{ value | escape('js') }}"] = escapedValue ? escapedValue : '';
-                {% endfor %}
-
-                const queryString = Object.keys(param)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(param[key]))
-                    .join('&');
-
-                $(messageSelector).html('');
-
-                const url = "{{ __path(ajaxOptions.url) | default('') | escape('js') }}" + (queryString ? '?' + queryString : '');
-                const response = await fetch(url, {
-                    headers: { 'Accept': 'text/plain' }
-                });
-
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    const chunk = decoder.decode(value, { stream: true });
-                    $(messageSelector).append(chunk.replace(/\n/g, '<br>'));
-                }
-
-                var fieldsToReset = Object.keys(param).map(function(key) {
-                    return '#' + key;
-                });
-                fieldsToReset.forEach(function(field) {
-                    $(field).val('');
-                });
             }
         });
+        
+        function sendStreamingRequest() {
+            // Récupérer le message de l'utilisateur
+            const userMessage = $("#{{ ajaxOptions.value[0] | escape('js') }}").val().trim();
+            
+            // Ne rien faire si le message est vide
+            if (!userMessage) return;
+            
+            // Ajouter le message de l'utilisateur au chat
+            addMessage('You', userMessage, true);
+            
+            // Préparer le conteneur pour la réponse du bot
+            const botResponseId = 'bot-response-' + Date.now();
+            addMessage('Bot', '<div id="' + botResponseId + '"></div>', false);
+            const botResponseContainer = $('#' + botResponseId);
+            
+            // Ajouter un indicateur de chargement
+            botResponseContainer.html('<div class="typing-indicator"><span></span><span></span><span></span></div>');
+            
+            // Préparer les données à envoyer
+            const formData = new FormData();
+            formData.append('{{ ajaxOptions.value[0] | escape('js') }}', userMessage);
+            
+            // Créer une requête fetch avec streaming
+            fetch("{{ __path(ajaxOptions.url) | default('') | escape('js') }}", {
+                method: "{{ ajaxOptions.method | default('POST') | escape('js') }}",
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur réseau: ' + response.status);
+                }
+                
+                // Créer un lecteur de flux
+                const reader = response.body.getReader();
+                let decoder = new TextDecoder();
+                let responseBuffer = '';
+                let fullResponse = '';
+                
+                // Fonction récursive pour traiter les chunks
+                function processStream() {
+                    return reader.read().then(({ done, value }) => {
+                        if (done) {
+                            // Traiter tout ce qui reste dans le buffer
+                            if (responseBuffer.length > 0) {
+                                parseSSEChunks(responseBuffer);
+                            }
+                            return;
+                        }
+                        
+                        // Convertir le chunk binaire en texte
+                        const chunk = decoder.decode(value, { stream: true });
+                        responseBuffer += chunk;
+                        
+                        // Extraire et traiter les événements SSE complets
+                        parseSSEChunks(responseBuffer);
+                        
+                        // Continuer à lire
+                        return processStream();
+                    });
+                }
+                
+                function parseSSEChunks(buffer) {
+                    // Diviser le buffer en événements SSE
+                    const events = buffer.split("\n\n");
+                    
+                    // Le dernier élément peut être incomplet, donc on le conserve pour la prochaine itération
+                    responseBuffer = events.pop() || '';
+                    
+                    for (const event of events) {
+                        const lines = event.split("\n");
+                        let eventType = '';
+                        let data = '';
+                        
+                        for (const line of lines) {
+                            if (line.startsWith('event:')) {
+                                eventType = line.substring(6).trim();
+                            } else if (line.startsWith('data:')) {
+                                data = line.substring(5).trim();
+                                
+                                // Ne pas traiter les événements ping ou end
+                                if (eventType === 'ping' || eventType === 'end' || data === '{}' || data === 'Stream ended') {
+                                    continue;
+                                }
+                                
+                                // Déséchappe les caractères escapés par PHP
+                                const unescapedData = data.replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+                                fullResponse += unescapedData;
+                                
+                                // Mettre à jour l'affichage
+                                botResponseContainer.html(fullResponse);
+                                chatContainer.scrollTop(chatContainer[0].scrollHeight);
+                            }
+                        }
+                    }
+                }
+                
+                // Démarrer le traitement du stream
+                return processStream();
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                botResponseContainer.html('<div class="error">Erreur de connexion: ' + error.message + '</div>');
+            })
+            .finally(() => {
+                // Réinitialiser le champ de saisie
+                $("#{{ ajaxOptions.value[0] | escape('js') }}").val('');
+            });
+        }
+    });
     </script>
-{% endmacro %}
+    
+    <style>
+    /* Styles CSS pour l'affichage des messages */
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    
+    .user-message {
+        background-color: #e6f7ff;
+        margin-left: 20%;
+        margin-right: 5%;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 5px;
+    }
+    
+    .bot-message {
+        background-color: #f0f0f0;
+        margin-left: 5%;
+        margin-right: 20%;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    
+    .sender {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .user-sender {
+        color: #0066cc;
+    }
+    
+    .bot-sender {
+        color: #666666;
+    }
+    
+    .content {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+    
+    .error {
+        color: red;
+        font-style: italic;
+    }
+    
+    /* Indicateur de chargement */
+    .typing-indicator {
+        display: inline-block;
+        padding: 10px;
+    }
+    
+    .typing-indicator span {
+        height: 8px;
+        width: 8px;
+        float: left;
+        margin: 0 1px;
+        background-color: #9E9EA1;
+        display: block;
+        border-radius: 50%;
+        opacity: 0.4;
+        animation: typing 1s infinite;
+    }
+    
+    .typing-indicator span:nth-of-type(1) {
+        animation-delay: 0s;
+    }
+    
+    .typing-indicator span:nth-of-type(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .typing-indicator span:nth-of-type(3) {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes typing {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.5); }
+        100% { transform: scale(1); }
+    }
+
+    /* Styles CSS pour l'affichage des messages */
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    
+    .user-message {
+        background-color: #e6f7ff;
+        margin-left: 20%;
+        margin-right: 5%;
+    }
+    
+    .bot-message {
+        background-color: #f0f0f0;
+        margin-left: 5%;
+        margin-right: 20%;
+    }
+    
+    .sender {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .user-sender {
+        color: #0066cc;
+    }
+    
+    .bot-sender {
+        color: #666666;
+    }
+    
+    .content {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+    
+    .error {
+        color: red;
+        font-style: italic;
+    }
+    </style>
+    {% endmacro %}

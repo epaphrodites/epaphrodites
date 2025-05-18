@@ -19,7 +19,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
      */
     private function closeConnection(int $db, bool $state = false):void
     {
-         $this->dbConnect($db, $state); // Placeholder function for disconnection
+         $this->dbConnect($db, $state);
     }
 
     /**
@@ -144,6 +144,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
             }
 
             $connection->commit();
+
             return $result;
             
         } catch (\Exception $e) {
@@ -173,10 +174,10 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
 
             // Error handling in no-production environments (with terminal)
             if (!_PRODUCTION_&&!$except&&$terminal){
-                error_log("Database error: " . $e->getMessage());
+               $result = error_log("Database error: " . $e->getMessage());
             }
 
-            return false;
+            return $result;
         }
     }
 }

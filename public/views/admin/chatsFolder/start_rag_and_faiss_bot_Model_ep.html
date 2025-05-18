@@ -46,11 +46,11 @@
 
   {{ send_streaming_request({
     method : "POST",
-    url : "chats@start_rag_and_faiss_bot_Model",
+    url : "chats@start_rag_and_faiss_bot_Model", 
     value : ['__send__'],
     submit : '#sendMessages',
     msg : '.conversation'
-  }) }}
+ }) }}
 
   {{
     recognition({

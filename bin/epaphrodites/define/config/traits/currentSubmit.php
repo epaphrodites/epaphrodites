@@ -506,44 +506,56 @@ trait currentSubmit
      * @return string
      */
     public static function streamChunks(
-        iterable $ollama_stream, 
+        $ollama_stream,  // Maintenant de type mixte pour accepter booléen ou itérable
         bool $withBuffering = true
     ): string {
         $output = '';
-    
+        
+        if (is_bool($ollama_stream)) {
+
+            if ($ollama_stream === true) {
+                $withBuffering = true;
+            }
+
+            $ollama_stream = [];
+        }
+        
+        if (!is_array($ollama_stream) && !($ollama_stream instanceof \Traversable)) {
+
+            $ollama_stream = [];
+        }
+        
         if ($withBuffering && !headers_sent()) {
-            header('Content-Type: text/event-stream'); // Set SSE content type
+            header('Content-Type: text/event-stream');
             header('Cache-Control: no-cache');
             header('Connection: keep-alive');
             header('X-Accel-Buffering: no');
         }
-    
+        
         if ($withBuffering) {
             while (@ob_end_flush());
             ob_implicit_flush(true);
             set_time_limit(0);
-            echo "event: ping\ndata: {}\n\n"; // Initial ping event
             flush();
         }
-    
+        
         foreach ($ollama_stream as $chunk) {
-            // Escape the chunk to prevent breaking SSE format
+
             $escapedChunk = str_replace(["\n", "\r"], ['\\n', '\\r'], $chunk);
             $output .= $chunk . "\n";
-    
+            
             if ($withBuffering) {
-                echo "data: $escapedChunk\n\n"; // SSE format
+                echo "$escapedChunk\n\n";
                 flush();
-                usleep(100000); // 100ms delay for pacing
+                usleep(100000);
             }
         }
-    
+        
         if ($withBuffering) {
-            echo "event: end\ndata: Stream ended\n\n"; // End event
             flush();
         }
-    
-        return $output . 'test';
+        
+        return $output;
     }
 
 /**

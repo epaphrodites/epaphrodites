@@ -138,6 +138,13 @@ final class chats extends MainSwitchers
     ): void
     {
 
+        $result = $this->chatBot->chatRagAndFaissProcess("comment creer une base de donnees");
+
+        $streamingResult = static::streamChunks($result, true);
+
+        echo $streamingResult;
+        die;
+
         if (static::isValidMethod()) {
             
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
