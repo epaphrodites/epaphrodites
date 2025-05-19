@@ -39,12 +39,18 @@ class LunchServer extends AddServerConfig
         $port = $input->getOption('port');
         $address = "127.0.0.1";
         try {
+
             $this->validatePort($port);
             if ($this->isPortInUse($port, $address)) {
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
-            $this->startServer($port, $address, $output);
+
+           # $this->startServer($port, $address, $output);
+
+            $this->runPythonServer($port, $address, $output);
+
             return self::SUCCESS;
+
         } catch (InvalidArgumentException $e) {
             $output->writeln("<error>Invalid argument: " . $e->getMessage() . "</error>");
             return self::FAILURE;
@@ -111,4 +117,70 @@ class LunchServer extends AddServerConfig
         fclose($socket);
         return true;
     }
+
+private function runPythonServer(
+    string $port = "5000",
+    string $address = "127.0.0.1",
+    OutputInterface $output
+): void {
+    // Correction du chemin vers le fichier Python
+    // Attention: vérifiez si cette construction de chemin est correcte pour votre projet
+    $scriptPath = rtrim(_PYTHON_FILE_FOLDERS_, '/') . "/config/server.py";
+    $pythonExecutable = _PYTHON_;
+    
+    // Vérifier si le fichier existe et afficher le chemin complet
+    if (!file_exists($scriptPath)) {
+        $output->writeln("❌ Erreur : Le fichier $scriptPath n'existe pas.");
+        return;
+    }
+    
+    // Construire la commande avec le bon échappement des arguments
+    $command = sprintf(
+        '%s %s %s %s',
+        escapeshellcmd($pythonExecutable),
+        escapeshellarg($scriptPath),
+        escapeshellarg($port),
+        escapeshellarg($address)
+    );
+    
+    // Configuration pour capturer la sortie
+    $descriptorspec = [
+        0 => ["pipe", "r"],  // stdin
+        1 => ["pipe", "w"],  // stdout - capture de la sortie 
+        2 => ["pipe", "w"]   // stderr - capture des erreurs
+    ];
+    
+    // Lancer le processus en arrière-plan
+    $process = proc_open($command, $descriptorspec, $pipes);
+    
+    if (is_resource($process)) {
+        // Laisser le temps au serveur de démarrer
+        sleep(1);
+        
+        // Lire la sortie et les erreurs
+        $stdout = stream_get_contents($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+        
+        // Fermer les pipes
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        
+        // Afficher les messages de sortie
+        if (strpos($stdout, "Serveur Python démarré") !== false) {
+            $output->writeln("✅ Serveur Python lancé sur http://$address:$port");
+        } else {
+            $output->writeln("⚠️ Démarrage du serveur Python...");
+            $output->writeln("http://$address:$port");
+            
+            if (!empty($stderr)) {
+                $output->writeln("⚠️ Message d'erreur du serveur Python:");
+                $output->writeln($stderr);
+            }
+        }
+    } else {
+        $output->writeln("❌ Erreur : impossible de démarrer le serveur Python.");
+    }
+}
+
 }
