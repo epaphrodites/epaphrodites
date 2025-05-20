@@ -41,15 +41,16 @@ class LunchServer extends AddServerConfig
         try {
 
             $this->validatePort($port);
+
+            $this->killPythonPort(_PYTHON_SERVER_PORT_);
+
             if ($this->isPortInUse($port, $address)) {
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
 
-           # $this->startServer($port, $address, $output);
+           $this->startServer($port, $address, $output);
 
-            $this->runPythonServer($port, $address, $output);
-
-            return self::SUCCESS;
+           return self::SUCCESS;
 
         } catch (InvalidArgumentException $e) {
             $output->writeln("<error>Invalid argument: " . $e->getMessage() . "</error>");
@@ -118,69 +119,92 @@ class LunchServer extends AddServerConfig
         return true;
     }
 
-private function runPythonServer(
-    string $port = "5000",
-    string $address = "127.0.0.1",
-    OutputInterface $output
-): void {
-    // Correction du chemin vers le fichier Python
-    // Attention: vérifiez si cette construction de chemin est correcte pour votre projet
-    $scriptPath = rtrim(_PYTHON_FILE_FOLDERS_, '/') . "/config/server.py";
-    $pythonExecutable = _PYTHON_;
-    
-    // Vérifier si le fichier existe et afficher le chemin complet
-    if (!file_exists($scriptPath)) {
-        $output->writeln("❌ Erreur : Le fichier $scriptPath n'existe pas.");
-        return;
-    }
-    
-    // Construire la commande avec le bon échappement des arguments
-    $command = sprintf(
-        '%s %s %s %s',
-        escapeshellcmd($pythonExecutable),
-        escapeshellarg($scriptPath),
-        escapeshellarg($port),
-        escapeshellarg($address)
-    );
-    
-    // Configuration pour capturer la sortie
-    $descriptorspec = [
-        0 => ["pipe", "r"],  // stdin
-        1 => ["pipe", "w"],  // stdout - capture de la sortie 
-        2 => ["pipe", "w"]   // stderr - capture des erreurs
-    ];
-    
-    // Lancer le processus en arrière-plan
-    $process = proc_open($command, $descriptorspec, $pipes);
-    
-    if (is_resource($process)) {
-        // Laisser le temps au serveur de démarrer
-        sleep(1);
-        
-        // Lire la sortie et les erreurs
-        $stdout = stream_get_contents($pipes[1]);
-        $stderr = stream_get_contents($pipes[2]);
-        
-        // Fermer les pipes
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
-        
-        // Afficher les messages de sortie
-        if (strpos($stdout, "Serveur Python démarré") !== false) {
-            $output->writeln("✅ Serveur Python lancé sur http://$address:$port");
-        } else {
-            $output->writeln("⚠️ Démarrage du serveur Python...");
-            $output->writeln("http://$address:$port");
-            
-            if (!empty($stderr)) {
-                $output->writeln("⚠️ Message d'erreur du serveur Python:");
-                $output->writeln($stderr);
-            }
+   /**
+     * Stops all processes listening on a specified TCP port.
+     *
+     * @param int $port The TCP port whose processes should be terminated
+     * @param bool $force If true, forces process termination (SIGKILL on Unix, /F on Windows)
+     * @param bool $silent If true, suppresses error messages
+     * @return array{success: bool, killed: int, errors: array} Operation result
+     */
+    private function killPythonPort(
+        int $port,
+        bool $force = true,
+        bool $silent = false
+    ): array {
+        if ($port <= 0 || $port > 65535) {
+            return [
+                'success' => false,
+                'killed' => 0,
+                'errors' => ['Invalid port. Must be between 1 and 65535']
+            ];
         }
-    } else {
-        $output->writeln("❌ Erreur : impossible de démarrer le serveur Python.");
+        $errors = [];
+        $pids = [];
+        
+        try {
+            if (PHP_OS_FAMILY === 'Windows') {
+                $command = "netstat -ano | findstr :{$port}";
+                exec($command, $lines, $exitCode);
+                
+                if ($exitCode !== 0 && !$silent) {
+                    $errors[] = "Error executing netstat command (code: $exitCode)";
+                }
+                
+                foreach ($lines as $line) {
+                    if (preg_match('/(?:TCP|UDP).+?:\d+\s+(?:\S+\s+)*?(\d+)/i', $line, $m)) {
+                        $pids[] = $m[1];
+                    }
+                }
+                
+                foreach (array_unique($pids) as $pid) {
+                    if ($pid <= 4 || $pid == getmypid()) {
+                        $errors[] = "Skipping PID $pid (system process or current process)";
+                        continue;
+                    }
+                    
+                    $killCommand = "taskkill /PID $pid" . ($force ? " /F" : "");
+                    exec($killCommand, $output, $killExitCode);
+                    
+                    if ($killExitCode !== 0 && !$silent) {
+                        $errors[] = "Failed to terminate process $pid (code: $killExitCode)";
+                    }
+                }
+            } else {
+                $command = "lsof -i tcp:{$port} -t 2>/dev/null";
+                exec($command, $pids, $exitCode);
+                
+                if ($exitCode !== 0 && $exitCode !== 1 && !$silent) {
+                    $errors[] = "Error executing lsof command (code: $exitCode)";
+                }
+                
+                $pids = array_filter(array_map('trim', $pids), function($pid) {
+                    return is_numeric($pid) && $pid > 0 && $pid != getmypid();
+                });
+                
+                foreach ($pids as $pid) {
+                    $killCommand = "kill " . ($force ? "-9 " : "") . escapeshellarg($pid) . " 2>/dev/null";
+                    exec($killCommand, $output, $killExitCode);
+                    
+                    if ($killExitCode !== 0 && !$silent) {
+                        $errors[] = "Failed to terminate process $pid (code: $killExitCode)";
+                    }
+                }
+            }
+            
+            $killedCount = count(array_unique($pids));
+            
+            return [
+                'success' => ($killedCount > 0 && count($errors) === 0),
+                'killed' => $killedCount,
+                'errors' => $errors
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'killed' => 0,
+                'errors' => [$e->getMessage()]
+            ];
+        }
     }
-}
-
 }

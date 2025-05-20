@@ -36,6 +36,13 @@ final class main extends MainSwitchers
     ):void
     {
 
+        $env = $this->getObject(static::$initNamespace, 'env');
+
+        $response = $env->request('/bot');
+        print_r($response);
+        die;
+
+
         $this->views($html, []);
     }
     

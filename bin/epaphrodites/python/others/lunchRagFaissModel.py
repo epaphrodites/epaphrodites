@@ -2,12 +2,16 @@
 import sys
 import time
 import json
+import os
 sys.path.append('bin/epaphrodites/python/config/')
 sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/')
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
+
 from botCore import BotCore
 from initJsonLoader import InitJsonLoader
 
-class lunchRagFaissModel:
+class LunchRagFaissModel:
 
     sessions_activity = {}
     
@@ -18,7 +22,7 @@ class lunchRagFaissModel:
         
         inactive_sessions = []
         
-        for user_id, last_access in lunchRagFaissModel.sessions_activity.items():
+        for user_id, last_access in LunchRagFaissModel.sessions_activity.items():
             
             if current_time - last_access > max_idle_time:
                 
@@ -26,25 +30,25 @@ class lunchRagFaissModel:
         
         for user_id in inactive_sessions:
   
-            del lunchRagFaissModel.sessions_activity[user_id]
+            del LunchRagFaissModel.sessions_activity[user_id]
             
-        if len(lunchRagFaissModel.sessions_activity) > max_sessions:
+        if len(LunchRagFaissModel.sessions_activity) > max_sessions:
 
-            sorted_sessions = sorted(lunchRagFaissModel.sessions_activity.items(), 
+            sorted_sessions = sorted(LunchRagFaissModel.sessions_activity.items(), 
                                     key=lambda x: x[1])
             
             to_remove = sorted_sessions[:len(sorted_sessions) - max_sessions]
             
             for user_id, _ in to_remove:
 
-                del lunchRagFaissModel.sessions_activity[user_id]
+                del LunchRagFaissModel.sessions_activity[user_id]
     
     @staticmethod
     def askQuestions(message, user_id="default", stream=True):
 
-        lunchRagFaissModel.sessions_activity[user_id] = time.time()
+        LunchRagFaissModel.sessions_activity[user_id] = time.time()
         
-        lunchRagFaissModel.cleanup_old_sessions()
+        LunchRagFaissModel.cleanup_old_sessions()
         
         bot = BotCore.get_instance(user_id)
         
@@ -64,19 +68,5 @@ class lunchRagFaissModel:
           
             return result
 
-
-if __name__ == '__main__':  
     
-    json_values = sys.argv[1]
-    
-    json_datas = InitJsonLoader.loadJsonValues(json_values)
-    
-    if 'msg' not in json_datas:
-        
-        print("The JSON file must contain 'msg'.")
-        
-        sys.exit(1)
-    
-    user_id = json_datas.get('user_id', 'default')
-    
-    lunchRagFaissModel.askQuestions(json_datas['msg'], user_id=user_id, stream=True)
+#LunchRagFaissModel.askQuestions(json_datas['msg'], user_id=user_id, stream=True)

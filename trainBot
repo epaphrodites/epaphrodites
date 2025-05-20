@@ -92,18 +92,11 @@ def run_script(script_path, input_dir, output_dir):
         print(f"📂 Output directory..............................................................✅\n")
         
         # Execute the Python script
-        result = subprocess.run(
+        subprocess.run(
             [sys.executable, str(script_path)],
             env=env,
             check=True
         )
-        
-        if result.returncode == 0:
-            print(f"\n✅ Indexing completed successfully!")
-            print(f"🔍 FAISS index created...........................................................✅")
-            print(f"📊 Metadata saved................................................................✅")
-        else:
-            print(f"\n❌ Indexing failed (code: {result.returncode})")
     
     except subprocess.CalledProcessError as e:
         print(f"\n❌ Error while running script: {e}")
