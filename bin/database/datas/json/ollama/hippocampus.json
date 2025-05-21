@@ -74,7 +74,7 @@
             "steps": [
               "Install Composer",
               "Create an Epaphrodites project: `composer create-project epaphrodites/epaphrodites project-name`",
-              "Check dependencies: `php epaphrodites -i`",
+              "Install extensions: `php epaphrodites -i`",
               "Install MongoDB (optional): `composer require mongodb/mongodb`",
               "Update libraries: `composer update`",
               "Generate autoloading: `composer dump-autoload`"
@@ -120,26 +120,6 @@
           "Start the server: `php heredia run:server --port=8000`",
           "Access at: `http://127.0.0.1:8000`"
         ]
-      },
-      {
-        "title": "DEPLOYMENT",
-        "subsections": [
-          {
-            "title": "Apache",
-            "content": "Default configuration with `.htaccess` file",
-            "requirements": [
-              "Enable `mod_rewrite` module"
-            ]
-          },
-          {
-            "title": "Nginx",
-            "content": "Basic configuration: (see provided configuration snippets)"
-          }
-        ]
-      },
-      {
-        "title": "CONCLUSION",
-        "content": "Epaphrodites is a versatile and adaptable environment, ideal for modern projects. Its multilingual support, modular approach, and active community make it a top choice for developers.\n\nHappy exploring and coding with Epaphrodites!"
       }
     ]
   }
