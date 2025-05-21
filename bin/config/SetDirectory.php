@@ -37,7 +37,7 @@ define('_PYTHON_', 'python');
 define('_RUN_PYTHON_SERVER_', true);
 
 # Define python server default port
-define('_PYTHON_SERVER_PORT_', 5000);
+define('_PYTHON_SERVER_PORT_', 5001);
 
 # Language used for background processing (accepted: 'php' or 'python')
 define('__EMAIL_METHOD__', 'php');

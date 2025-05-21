@@ -36,11 +36,33 @@ final class main extends MainSwitchers
     ):void
     {
 
-        $env = $this->getObject(static::$initNamespace, 'env');
+        // $env = $this->getObject(static::$initNamespace, 'env');
 
-        $response = $env->request('/bot');
-        print_r($response);
-        die;
+        // $response = $env->request(
+        //     '/bot', 
+        //     data: [
+        //         'prompt' => 'Hello, world!',
+        //         'user_id' => 'user123',
+        //         'stream' => true
+        //     ],
+        //     method: 'POST',
+        //     options: [
+        //         'stream' => true,
+        //         'responseType' => 'stream',
+        //         'headers' => ['Accept' => 'text/event-stream'],
+        //         'streamCallback' => function ($data) {
+        //             if (isset($data['response'])) {
+        //                 echo "AI Response: {$data['response']}\n";
+        //             } elseif (isset($data['error'])) {
+        //                 echo "Error: {$data['error']}\n";
+        //             } elseif (isset($data['raw'])) {
+        //                 echo "Raw: {$data['raw']}\n";
+        //             }
+        //         },
+        //     ]
+        // );
+        // var_dump($response);
+        // die;
 
 
         $this->views($html, []);

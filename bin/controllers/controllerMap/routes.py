@@ -1,24 +1,27 @@
-import importlib
 import sys
 import os
+import importlib
 
+# Ajouter le chemin racine pour les imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 class Routes:
+    # Charger le module une seule fois au démarrage
+    controllers_module = importlib.import_module("bin.controllers.controllers.apiControlleurs")
+    ApiControlleurs = controllers_module.ApiControlleurs
+
     @staticmethod
-    def routes(path):
+    def routes(path, data=None):
         try:
-
-            controllers_module = importlib.import_module("bin.controllers.controllers.apiControlleurs")
-            importlib.reload(controllers_module)
-
-            ApiControlleurs = controllers_module.ApiControlleurs
-
-            ApiControlleurs.routes = {
-                "/bot": ApiControlleurs.ragFaissModel,
+            # Définir les routes dynamiquement
+            Routes.ApiControlleurs.routes = {
+                "/bot": lambda: Routes.ApiControlleurs.ragFaissModel(data),
+                "/health": lambda: ({"status": "ok"}, 200)
             }
 
-            return ApiControlleurs.route(path)
+            # Appeler la route correspondante
+            handler = Routes.ApiControlleurs.routes.get(path, Routes.ApiControlleurs.not_found)
+            return handler()
 
         except Exception as e:
-            return (f'{{"error": "Routing failed", "details": "{str(e)}"}}', 500)
+            return ({"error": "Routing failed", "details": str(e)}, 500)

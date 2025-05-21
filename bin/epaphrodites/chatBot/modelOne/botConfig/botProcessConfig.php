@@ -153,11 +153,9 @@ trait botProcessConfig
     ){
         $result = "";
         
-        #$login = $this->getBotUsersConnected();
-
         if (!empty($userMessage)) {
 
-            $result = static::initConfig()['python']->executePython('lunchRagFaissModel', ["msg" => $userMessage ], true);
+            $result = static::initConfig()['python']->executePython('lunchRagFaissModel', [ "prompt" => $userMessage ], true);
         }
 
         return $result;

@@ -14,5 +14,9 @@
     "3": {
         "prompt": "bonjour",
         "reponses": "Bonjour ! Je suis ravi de vous aider. Vous avez des questions sur Epaphrodites ? Qu'est-ce que vous voulez savoir ?"
+    },
+    "4": {
+        "prompt": "comment creer une base de donnees",
+        "reponses": "Bonjour ! Pour creer une base de donnees avec Epaphrodites, voici les etapes a suivre :1. Creez un fichier de configuration pour votre base de donnees, par exemple `database.php`. Ce fichier sera utilise par le framework pour se connecter a la base de donnees.```php<?phpreturn [ 'default' => 'mysql', 'connections' => [ 'mysql' => [ 'driver' => 'mysql', 'host' => 'localhost', 'database' => 'nom_de_votre_base_de_donnees', 'username' => 'votre_nom_utilisateur', 'password' => 'votre_mot_de_passe', 'port' => 3306, ], ],];```2. Mettez a jour la configuration de votre projet en inclu le fichier de configuration que vous avez cree :```php<?phpreturn [ \/\/ ... 'database' => require_once 'database.php',];```3. Creez une instance du gestionnaire de base de donnees (DB) dans votre code PHP, par exemple dans un controleur :```php<?phpnamespace App\\Http\\Controllers;use Epaphrodites\\Database\\DB;class YourController extends Controller{ public function __construct() { $this->db = new DB(); }}```4. Utilisez la methode `connection()` pour vous connecter a votre base de donnees :```php<?php\/\/ ...public function yourMethod(){ $connection = $this->db->connection('mysql'); \/\/ ...}```C'est tout ! Vous etes maintenant pret a utiliser Epaphrodites avec votre base de donnees. N'hesitez pas a me poser d'autres questions si vous avez besoin de plus de details."
     }
 }
