@@ -32,12 +32,6 @@ class runKernel extends ConfigHttp
     {
 
         /**
-         * Run python server
-         * @return void
-        */
-        $this->runPythonServer();
-
-        /**
          * @return string
          */
         $this->GetUrl = (string) $this->HttpResponses();
