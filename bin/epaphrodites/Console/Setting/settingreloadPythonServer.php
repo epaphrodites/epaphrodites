@@ -10,9 +10,11 @@ class settingreloadPythonServer extends Command
         
     protected function configure()
     {
-        $this->setDescription('Add your command description')
+        $this->setDescription('Start or reload python server')
                 ->setHelp('This is help.')
-                ->addOption('r', 'r', InputOption::VALUE_NONE, 'Up migration');
+                ->addOption('r', 'r', InputOption::VALUE_NONE, 'Reload python server')
+                ->addOption('k', 'k', InputOption::VALUE_NONE, 'Kill python server')
+                ->addOption('s', 's', InputOption::VALUE_NONE, 'Start python server');
     }
 }        
         

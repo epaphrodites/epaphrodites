@@ -42,8 +42,6 @@ class LunchServer extends AddServerConfig
 
             $this->validatePort($port);
 
-            $this->killPythonPort(_PYTHON_SERVER_PORT_);
-
             if ($this->isPortInUse($port, $address)) {
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
@@ -117,94 +115,5 @@ class LunchServer extends AddServerConfig
     
         fclose($socket);
         return true;
-    }
-
-   /**
-     * Stops all processes listening on a specified TCP port.
-     *
-     * @param int $port The TCP port whose processes should be terminated
-     * @param bool $force If true, forces process termination (SIGKILL on Unix, /F on Windows)
-     * @param bool $silent If true, suppresses error messages
-     * @return array{success: bool, killed: int, errors: array} Operation result
-     */
-    private function killPythonPort(
-        int $port,
-        bool $force = true,
-        bool $silent = false
-    ): array {
-        if ($port <= 0 || $port > 65535) {
-            return [
-                'success' => false,
-                'killed' => 0,
-                'errors' => ['Invalid port. Must be between 1 and 65535']
-            ];
-        }
-        $errors = [];
-        $pids = [];
-        
-        try {
-            if (PHP_OS_FAMILY === 'Windows') {
-                $command = "netstat -ano | findstr :{$port}";
-                exec($command, $lines, $exitCode);
-                
-                if ($exitCode !== 0 && !$silent) {
-                    $errors[] = "Error executing netstat command (code: $exitCode)";
-                }
-                
-                foreach ($lines as $line) {
-                    if (preg_match('/(?:TCP|UDP).+?:\d+\s+(?:\S+\s+)*?(\d+)/i', $line, $m)) {
-                        $pids[] = $m[1];
-                    }
-                }
-                
-                foreach (array_unique($pids) as $pid) {
-                    if ($pid <= 4 || $pid == getmypid()) {
-                        $errors[] = "Skipping PID $pid (system process or current process)";
-                        continue;
-                    }
-                    
-                    $killCommand = "taskkill /PID $pid" . ($force ? " /F" : "");
-                    exec($killCommand, $output, $killExitCode);
-                    
-                    if ($killExitCode !== 0 && !$silent) {
-                        $errors[] = "Failed to terminate process $pid (code: $killExitCode)";
-                    }
-                }
-            } else {
-                $command = "lsof -i tcp:{$port} -t 2>/dev/null";
-                exec($command, $pids, $exitCode);
-                
-                if ($exitCode !== 0 && $exitCode !== 1 && !$silent) {
-                    $errors[] = "Error executing lsof command (code: $exitCode)";
-                }
-                
-                $pids = array_filter(array_map('trim', $pids), function($pid) {
-                    return is_numeric($pid) && $pid > 0 && $pid != getmypid();
-                });
-                
-                foreach ($pids as $pid) {
-                    $killCommand = "kill " . ($force ? "-9 " : "") . escapeshellarg($pid) . " 2>/dev/null";
-                    exec($killCommand, $output, $killExitCode);
-                    
-                    if ($killExitCode !== 0 && !$silent) {
-                        $errors[] = "Failed to terminate process $pid (code: $killExitCode)";
-                    }
-                }
-            }
-            
-            $killedCount = count(array_unique($pids));
-            
-            return [
-                'success' => ($killedCount > 0 && count($errors) === 0),
-                'killed' => $killedCount,
-                'errors' => $errors
-            ];
-        } catch (\Exception $e) {
-            return [
-                'success' => false,
-                'killed' => 0,
-                'errors' => [$e->getMessage()]
-            ];
-        }
     }
 }

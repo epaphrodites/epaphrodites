@@ -11,6 +11,8 @@ class modelreloadPythonServer extends settingreloadPythonServer
 {
     private const TIMEOUT_SECONDS = 5;
     private const SLEEP_MICROSECONDS = 200_000;
+    private const ERROR_PORT_IN_USE = 'The port %d is currently in use.❌';
+
 
     /**
      * Executes the command to restart the Python server.
@@ -19,38 +21,98 @@ class modelreloadPythonServer extends settingreloadPythonServer
      * @param OutputInterface $output
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input, 
+        OutputInterface $output
+    ): int{
+        $result = "No options";
+        $port = _PYTHON_SERVER_PORT_;
+
+        $this->validateConfig();
+        
+        if ($this->isPortInUse($port)) {
+            throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
+        }
+
+        if($input->getOption('r')){
+            $result = $this->reloadServer($port, $output);
+        }
+
+        if($input->getOption('s')){
+            $result = $this->startPythonServer($port, $output);
+        }
+
+        if($input->getOption('k')){
+            $result = $this->killPythonPort($port);
+        }        
+
+        $output->writeln("<info>The server has been Started successfully! ✅</info>");
+        return $result;
+    }
+
+
+    private function startPythonServer( 
+        int $port, 
+        OutputInterface $output
+    ):int{
+
         try {
             // Validate configuration constants
-            $this->validateConfig();
 
             // Kill existing processes on the specified port
-            $killResult = $this->killPythonPort(_PYTHON_SERVER_PORT_);
+            $killResult = $this->killPythonPort($port);
 
             if (!$killResult['success'] && !empty($killResult['errors'])) {
                 foreach ($killResult['errors'] as $error) {
                     $output->writeln("<error>Error: $error</error>");
                 }
+
+                return false;
+            }
+
+            // Start the Python server
+            $this->startServer($port);
+
+            return false;
+
+        } catch (RuntimeException $e) {
+            $output->writeln("<error>Failed to started server: {$e->getMessage()}</error>");
+            return static::FAILURE;
+        }  
+    }
+
+
+    private function reloadServer(
+    int  $port, 
+    OutputInterface $output
+    ){
+
+        try {
+            // Validate configuration constants
+            
+
+            // Kill existing processes on the specified port
+            $killResult = $this->killPythonPort($port);
+
+            if (!$killResult['success'] && !empty($killResult['errors'])) {
+                foreach ($killResult['errors'] as $error) {
+                    $output->writeln("<error>Error: $error</error>");
+                }
+
                 return static::FAILURE;
             }
 
             // Start the Python server
-            $this->startServer();
+            $this->startServer($port);
 
-            $output->writeln("<info>The server has been reloaded successfully! ✅</info>");
             return static::SUCCESS;
         } catch (RuntimeException $e) {
             $output->writeln("<error>Failed to restart server: {$e->getMessage()}</error>");
             return static::FAILURE;
-        }
+        }        
     }
 
-    /**
-     * Validates required configuration constants.
-     *
-     * @throws RuntimeException
-     */
+
     private function validateConfig(): void
     {
         if (!defined('_PYTHON_') || empty(_PYTHON_)) {
@@ -64,16 +126,12 @@ class modelreloadPythonServer extends settingreloadPythonServer
         }
     }
 
-    /**
-     * Stops all processes listening on a specified TCP port.
-     *
-     * @param int $port The TCP port to terminate processes on
-     * @param bool $force If true, forces process termination
-     * @param bool $silent If true, suppresses error messages
-     * @return array{success: bool, killed: int, errors: array<string>} Operation result
-     */
-    private function killPythonPort(int $port, bool $force = true, bool $silent = false): array
-    {
+
+    private function killPythonPort(
+        int $port, 
+        bool $force = true, 
+        bool $silent = false
+    ): array{
         if ($port <= 0 || $port > 65535) {
             return [
                 'success' => false,
@@ -154,14 +212,12 @@ class modelreloadPythonServer extends settingreloadPythonServer
      *
      * @throws RuntimeException
      */
-    private function startServer(): void
-    {
-        if ($this->isRunning()) {
-            return;
-        }
+    private function startServer(
+        int $port
+    ): void{
 
         $python = escapeshellcmd(_PYTHON_ ?? 'python3');
-        $port = "--port " . escapeshellarg((string)_PYTHON_SERVER_PORT_);
+        $port = "--port " . escapeshellarg((int)$port);
         $filePath = escapeshellarg(_PYTHON_FILE_FOLDERS_ . 'config/server.py');
         $logFile = escapeshellarg('pythonServer.log');
 
@@ -191,30 +247,27 @@ class modelreloadPythonServer extends settingreloadPythonServer
 
         $start = time();
         while (time() - $start < self::TIMEOUT_SECONDS) {
-            if ($this->isRunning()) {
-                return;
-            }
+
             usleep(self::SLEEP_MICROSECONDS);
         }
 
         throw new RuntimeException('The Python server could not be started within the timeout period.');
     }
 
-    /**
-     * Checks if the server is running on the specified port.
-     *
-     * @return bool
-     */
-    private function isRunning(): bool
-    {
-        $port = (int)(_PYTHON_SERVER_PORT_ ?? 5000);
-        $fp = @fsockopen('127.0.0.1', $port, $errno, $errstr, 1.0);
-
-        if ($fp) {
-            fclose($fp);
-            return true;
+    private function isPortInUse(
+        int $port, 
+        string $host = '127.0.0.1'
+    ):bool{
+        $timeout = 1;
+    
+        $socket = @fsockopen($host, $port, $errorCode, $errorMessage, $timeout);
+    
+        if ($socket === false) {
+            return false;
         }
+    
+        fclose($socket);
 
-        return false;
+        return true;
     }
 }

@@ -36,11 +36,11 @@
         const conversationId = '{{ options.conversationId }}';
         const textareaId = '{{ options.textareaId }}';
         const buttonId = '{{ options.buttonId }}';
+        const model = '{{ options.model | default("llama3:8b") }}';
+        const addInstruction = '{{ options.OthersIntructions | default("")  }}'
         const loadingIcon = '{{ options.loadingIcon | default("bi bi-hourglass") }}';
         const processingIcon = '{{ options.processingIcon | default("bi bi-snow2") }}';
         const archivePath = '{{ __path(options.path) }}';
-        const apiLink = '{{ options.apiLink | default("http://localhost:11434/api/generate") }}';
-        const model = '{{ options.model | default("llama3:8b") }}';
         const maxTokens = {{ options.max_tokens | default(3000) }};
         const temperature = {{ options.temperature | default(0.6) }};
         const botName = '{{ options.botName | default("Epaphrodites") }}';
@@ -48,6 +48,7 @@
         const statusIconId = '{{ options.statusIcon | default("statusIcon") }}';
         const historyLimit = {{ options.historyLimit | default(10) }};
         const timeoutDuration = {{ options.timeout | default(60000) }};
+        const apiLink = '{{ options.apiLink | default("http://localhost:11434/api/generate") }}';
     
         function getRecentMessages(maxMessages = historyLimit) {
             const conversation = document.getElementById(conversationId);
@@ -74,10 +75,10 @@
             console.log('Language detected:', botLang);
             return botLang;
         }
-    
+
         const compactInstructions = {
-            fr: (botName) => `# Instructions pour ${botName}\nTu es ${botName}, assistant expert.`,
-            en: (botName) => `# Instructions for ${botName}\nYou are ${botName}, an expert assistant.`
+            fr: (botName) => `# Instructions pour ${botName}\nTu es ${botName}, assistant expert. ${addInstruction}`,
+            en: (botName) => `# Instructions for ${botName}\nYou are ${botName}, an expert assistant. ${addInstruction}`
         };
     
         async function epaphroditesInstruction(lang = 'fr', botName) {
