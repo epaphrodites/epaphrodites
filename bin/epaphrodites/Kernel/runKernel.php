@@ -31,13 +31,12 @@ class runKernel extends ConfigHttp
     private function Start(): void
     {
 
-
-        $this->autoStarted();
-
         /**
          * @return string
          */
         $this->GetUrl = (string) $this->HttpResponses();
+
+        $this->autoStarted();
 
         /**
          * Get user authentification page or destroy session
