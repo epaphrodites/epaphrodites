@@ -1,27 +1,41 @@
 import sys
 import os
-import importlib
+import re
 
-# Ajouter le chemin racine pour les imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+from bin.controllers.controllers.apiControlleurs import ApiControlleurs
 
-class Routes:
-    # Charger le module une seule fois au démarrage
-    controllers_module = importlib.import_module("bin.controllers.controllers.apiControlleurs")
-    ApiControlleurs = controllers_module.ApiControlleurs
+class Route:
+    def __init__(self, method, pattern, handler):
+        self.method = method
+        self.pattern = re.compile(pattern)
+        self.handler = handler
 
-    @staticmethod
-    def routes(path, data=None):
-        try:
-            # Définir les routes dynamiquement
-            Routes.ApiControlleurs.routes = {
-                "/bot": lambda: Routes.ApiControlleurs.ragFaissModel(data),
-                "/health": lambda: ({"status": "ok"}, 200)
-            }
+    def matches(self, method, path):
+        if self.method == method:
+            match = self.pattern.match(path)
+            if match:
+                return True, match.groups()
+        return False, ()
 
-            # Appeler la route correspondante
-            handler = Routes.ApiControlleurs.routes.get(path, Routes.ApiControlleurs.not_found)
-            return handler()
+class Router:
+    def __init__(self):
+        self.routes = []
+        self.controller = ApiControlleurs()
+        self._register_routes()
 
-        except Exception as e:
-            return ({"error": "Routing failed", "details": str(e)}, 500)
+    def add_route(self, method, pattern, handler):
+        self.routes.append(Route(method, pattern, handler))
+
+    def resolve(self, method, path):
+        for route in self.routes:
+            matched, params = route.matches(method, path)
+            if matched:
+                return route.handler, params
+        return self.controller.not_found, ()
+    
+    def _register_routes(self):
+        self.add_route("GET", r"^/hello$", self.controller.hello)
+        self.add_route("POST", r"^/user$", self.controller.create)
+        self.add_route("PUT", r"^/user/(\d+)$", self.controller.update)
+        self.add_route("DELETE", r"^/user/(\d+)$", self.controller.delete)

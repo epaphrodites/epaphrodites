@@ -12,9 +12,9 @@ class settingreloadPythonServer extends Command
     {
         $this->setDescription('Start or reload python server')
                 ->setHelp('This is help.')
-                ->addOption('r', 'r', InputOption::VALUE_NONE, 'Reload python server')
-                ->addOption('k', 'k', InputOption::VALUE_NONE, 'Kill python server')
-                ->addOption('s', 's', InputOption::VALUE_NONE, 'Start python server');
+                ->addOption('reload', 'r', InputOption::VALUE_NONE, 'Reload python server')
+                ->addOption('kill', 'k', InputOption::VALUE_NONE, 'Kill python server')
+                ->addOption('start', 's', InputOption::VALUE_NONE, 'Start python server');
     }
 }        
         

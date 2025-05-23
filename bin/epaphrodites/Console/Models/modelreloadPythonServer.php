@@ -4,6 +4,8 @@ namespace Epaphrodites\epaphrodites\Console\Models;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
 use Epaphrodites\epaphrodites\Console\Setting\settingreloadPythonServer;
 use RuntimeException;
 
@@ -12,444 +14,351 @@ use RuntimeException;
  */
 class modelreloadPythonServer extends settingreloadPythonServer
 {
-    // Configuration constants
-    private const TIMEOUT_SECONDS = 5;
-    private const SLEEP_MICROSECONDS = 200_000;
-    private const PORT_CHECK_TIMEOUT = 1;
-    
-    // Error messages
-    private const ERROR_PORT_IN_USE = 'The port %d is currently in use. ❌';
-    private const ERROR_PYTHON_PATH = 'Python executable path (_PYTHON_) is not defined.';
-    private const ERROR_INVALID_PORT = 'Invalid or undefined server port (_PYTHON_SERVER_PORT_).';
-    private const ERROR_SERVER_FILE = 'Python server file does not exist (_PYTHON_FILE_FOLDERS_/config/server.py).';
-    private const ERROR_PROCESS_START = 'Failed to start the Python server process.';
-    private const ERROR_SERVER_TIMEOUT = 'The Python server could not be started within the timeout period.';
-    
-    // Success messages
-    private const SUCCESS_SERVER_STARTED = 'The server has been started successfully! ✅';
-    private const SUCCESS_SERVER_RELOADED = 'The server has been reloaded successfully! ✅';
-    private const SUCCESS_PORT_KILLED = 'Port processes terminated successfully! ✅';
 
     /**
-     * Executes the command to manage the Python server based on input options.
-     *
-     * @param InputInterface $input Console input interface
-     * @param OutputInterface $output Console output interface
-     * @return int Command execution status
-     * @throws RuntimeException When configuration is invalid or operations fail
+     * Exécute le serveur Python server.py dans le contexte d'une commande Symfony
+     * 
+     * @param string $scriptPath Chemin vers le fichier server.py
+     * @param int $port Port du serveur
+     * @param string $host Adresse IP du serveur (par défaut 127.0.0.1)
+     * @param bool $background Exécuter en arrière-plan (par défaut true)
+     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
+     * @return array Résultat de l'exécution
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function executePythonServer($scriptPath, $port, $host = '127.0.0.1', $background = true, $output = null) 
     {
-        try {
-            $this->validateConfiguration();
-            $port = $this->getServerPort();
-            
-            // Check if port is already in use for certain operations
-            if ($input->getOption('s') && $this->isPortInUse($port)) {
-                throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
-            }
-
-            return $this->handleServerOperation($input, $output, $port);
-            
-        } catch (RuntimeException $e) {
-            $output->writeln("<error>{$e->getMessage()}</error>");
-            return static::FAILURE;
-        }
-    }
-
-    /**
-     * Handles the specific server operation based on input options.
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param int $port
-     * @return int
-     */
-    private function handleServerOperation(InputInterface $input, OutputInterface $output, int $port): int
-    {
-        if ($input->getOption('r')) {
-            return $this->reloadServer($port, $output);
+        if (!file_exists($scriptPath)) {
+            $error = "Le fichier $scriptPath n'existe pas";
+            $output->writeln("<error>$error</error>");
+            return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
         }
 
-        if ($input->getOption('s')) {
-            return $this->startPythonServer($port, $output);
-        }
+        $output->writeln("<info>Lancement du serveur Python sur $host:$port</info>");
+        $command = "python " . escapeshellarg($scriptPath) . " --host=" . escapeshellarg($host) . " --port=" . escapeshellarg($port);
 
-        if ($input->getOption('k')) {
-            return $this->killPortProcesses($port, $output);
-        }
-
-        $output->writeln("<comment>No operation specified. Use -r (reload), -s (start), or -k (kill).</comment>");
-        return static::SUCCESS;
-    }
-
-    /**
-     * Starts the Python server on the specified port.
-     *
-     * @param int $port Server port
-     * @param OutputInterface $output Console output
-     * @return int Operation status
-     */
-    private function startPythonServer(int $port, OutputInterface $output): int
-    {
-        try {
-            $killResult = $this->terminatePortProcesses($port);
-            
-            if (!$killResult['success']) {
-                $this->outputErrors($output, $killResult['errors']);
-                return static::FAILURE;
-            }
-
-            $this->startServerProcess($port);
-            $output->writeln("<info>" . self::SUCCESS_SERVER_STARTED . "</info>");
-            
-            return static::SUCCESS;
-            
-        } catch (RuntimeException $e) {
-            $output->writeln("<error>Failed to start server: {$e->getMessage()}</error>");
-            return static::FAILURE;
-        }
-    }
-
-    /**
-     * Reloads the Python server (kills existing processes and starts new one).
-     *
-     * @param int $port Server port
-     * @param OutputInterface $output Console output
-     * @return int Operation status
-     */
-    private function reloadServer(int $port, OutputInterface $output): int
-    {
-        try {
-            $killResult = $this->terminatePortProcesses($port);
-            
-            if (!$killResult['success']) {
-                $this->outputErrors($output, $killResult['errors']);
-                return static::FAILURE;
-            }
-
-            $this->startServerProcess($port);
-            $output->writeln("<info>" . self::SUCCESS_SERVER_RELOADED . "</info>");
-            
-            return static::SUCCESS;
-            
-        } catch (RuntimeException $e) {
-            $output->writeln("<error>Failed to reload server: {$e->getMessage()}</error>");
-            return static::FAILURE;
-        }
-    }
-
-    /**
-     * Kills processes running on the specified port.
-     *
-     * @param int $port Server port
-     * @param OutputInterface $output Console output
-     * @return int Operation status
-     */
-    private function killPortProcesses(int $port, OutputInterface $output): int
-    {
-        try {
-            $killResult = $this->terminatePortProcesses($port);
-            
-            if ($killResult['success']) {
-                $output->writeln("<info>" . self::SUCCESS_PORT_KILLED . "</info>");
-                $output->writeln("<comment>Terminated {$killResult['killed']} process(es).</comment>");
+        if ($background) {
+            if (PHP_OS_FAMILY === 'Windows') {
+                // Windows: Exécuter en arrière-plan et récupérer le PID
+                $command = "start /B " . $command . " > nul 2>&1";
+                $pidCommand = "wmic process where \"CommandLine like '%" . basename($scriptPath) . "%' and Name='python.exe'\" get ProcessId";
             } else {
-                $this->outputErrors($output, $killResult['errors']);
+                // Linux/Unix/Mac: Exécuter en arrière-plan et récupérer le PID
+                $command = $command . " > /dev/null 2>&1 & echo $!";
             }
-            
-            return $killResult['success'] ? static::SUCCESS : static::FAILURE;
-            
-        } catch (RuntimeException $e) {
-            $output->writeln("<error>Failed to kill port processes: {$e->getMessage()}</error>");
-            return static::FAILURE;
-        }
-    }
-
-    /**
-     * Validates all required configuration constants.
-     *
-     * @throws RuntimeException When configuration is invalid
-     */
-    private function validateConfiguration(): void
-    {
-        if (!defined('_PYTHON_') || empty(_PYTHON_)) {
-            throw new RuntimeException(self::ERROR_PYTHON_PATH);
         }
 
-        if (!defined('_PYTHON_SERVER_PORT_') || !$this->isValidPort(_PYTHON_SERVER_PORT_)) {
-            throw new RuntimeException(self::ERROR_INVALID_PORT);
-        }
+        $output_array = [];
+        $returnCode = 0;
 
-        if (!defined('_PYTHON_FILE_FOLDERS_') || !$this->serverFileExists()) {
-            throw new RuntimeException(self::ERROR_SERVER_FILE);
-        }
-    }
-
-    /**
-     * Checks if the given port number is valid.
-     *
-     * @param mixed $port Port to validate
-     * @return bool True if valid, false otherwise
-     */
-    private function isValidPort($port): bool
-    {
-        return is_numeric($port) && $port > 0 && $port <= 65535;
-    }
-
-    /**
-     * Checks if the Python server file exists.
-     *
-     * @return bool True if file exists, false otherwise
-     */
-    private function serverFileExists(): bool
-    {
-        return file_exists(_PYTHON_FILE_FOLDERS_ . 'config/server.py');
-    }
-
-    /**
-     * Gets the configured server port.
-     *
-     * @return int Server port number
-     */
-    private function getServerPort(): int
-    {
-        return (int)_PYTHON_SERVER_PORT_;
-    }
-
-    /**
-     * Terminates processes running on the specified port.
-     *
-     * @param int $port Port number
-     * @param bool $force Whether to force kill processes
-     * @param bool $silent Whether to suppress error messages
-     * @return array Result with success status, kill count, and errors
-     */
-    private function terminatePortProcesses(int $port, bool $force = true, bool $silent = false): array
-    {
-        if (!$this->isValidPort($port)) {
-            return [
-                'success' => false,
-                'killed' => 0,
-                'errors' => ['Invalid port. Must be between 1 and 65535']
+        if ($background && PHP_OS_FAMILY === 'Windows') {
+            // Exécuter la commande en arrière-plan
+            exec($command, $output_array, $returnCode);
+            // Attendre un court instant pour que le processus démarre
+            sleep(1);
+            // Récupérer le PID
+            exec($pidCommand, $pidOutput);
+            $pid = null;
+            foreach ($pidOutput as $line) {
+                if (is_numeric(trim($line))) {
+                    $pid = (int) trim($line);
+                    break;
+                }
+            }
+            $result = [
+                'success' => $returnCode === 0,
+                'error' => $returnCode !== 0 ? "Erreur lors du lancement (code: $returnCode)" : null,
+                'output' => $output_array,
+                'pid' => $pid,
+                'background' => true
+            ];
+        } else {
+            exec($command, $output_array, $returnCode);
+            $pid = PHP_OS_FAMILY !== 'Windows' && $background ? (int) end($output_array) : null;
+            $result = [
+                'success' => $returnCode === 0,
+                'error' => $returnCode !== 0 ? "Erreur lors de l'exécution (code: $returnCode)" : null,
+                'output' => $output_array,
+                'pid' => $pid,
+                'background' => $background
             ];
         }
 
-        try {
-            $pids = $this->getProcessesOnPort($port);
-            $errors = [];
-            $killedCount = 0;
-
-            foreach ($pids as $pid) {
-                if ($this->isSystemProcess($pid)) {
-                    if (!$silent) {
-                        $errors[] = "Skipping PID $pid (system process or current process)";
-                    }
-                    continue;
-                }
-
-                if ($this->killProcess($pid, $force)) {
-                    $killedCount++;
-                } elseif (!$silent) {
-                    $errors[] = "Failed to terminate process $pid";
-                }
-            }
-
-            return [
-                'success' => ($killedCount > 0 || empty($errors)),
-                'killed' => $killedCount,
-                'errors' => $errors
-            ];
-            
-        } catch (\Exception $e) {
-            return [
-                'success' => false,
-                'killed' => 0,
-                'errors' => [$e->getMessage()]
-            ];
-        }
-    }
-
-    /**
-     * Gets process IDs running on the specified port.
-     *
-     * @param int $port Port number
-     * @return array Array of process IDs
-     */
-    private function getProcessesOnPort(int $port): array
-    {
-        $pids = [];
-
-        if (PHP_OS_FAMILY === 'Windows') {
-            $command = "netstat -ano | findstr :{$port}";
-            exec($command, $lines);
-
-            foreach ($lines as $line) {
-                if (preg_match('/(?:TCP|UDP).+?:\d+\s+(?:\S+\s+)*?(\d+)/i', $line, $matches)) {
-                    $pids[] = (int)$matches[1];
-                }
-            }
-        } else {
-            $command = "lsof -i tcp:{$port} -t 2>/dev/null";
-            exec($command, $pidLines);
-            
-            $pids = array_filter(
-                array_map('trim', $pidLines),
-                fn($pid) => is_numeric($pid) && $pid > 0
-            );
-        }
-
-        return array_unique($pids);
-    }
-
-    /**
-     * Checks if a process ID represents a system process that shouldn't be killed.
-     *
-     * @param int $pid Process ID
-     * @return bool True if system process, false otherwise
-     */
-    private function isSystemProcess(int $pid): bool
-    {
-        return $pid <= 4 || $pid === getmypid();
-    }
-
-    /**
-     * Kills a specific process.
-     *
-     * @param int $pid Process ID
-     * @param bool $force Whether to force kill
-     * @return bool True if successful, false otherwise
-     */
-    private function killProcess(int $pid, bool $force = true): bool
-    {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $command = "taskkill /PID $pid" . ($force ? " /F" : "");
-        } else {
-            $command = "kill " . ($force ? "-9 " : "") . escapeshellarg($pid) . " 2>/dev/null";
-        }
-
-        exec($command, $output, $exitCode);
-        return $exitCode === 0;
-    }
-
-    /**
-     * Starts the Python server process in the background.
-     *
-     * @param int $port Server port
-     * @throws RuntimeException When server fails to start
-     */
-    private function startServerProcess(int $port): void
-    {
-        $command = $this->buildServerCommand($port);
-        $descriptorSpec = $this->getProcessDescriptors();
-
-        $process = proc_open($command, $descriptorSpec, $pipes);
-
-        if (!is_resource($process)) {
-            throw new RuntimeException(self::ERROR_PROCESS_START);
-        }
-
-        $this->cleanupProcessResources($pipes);
-        proc_close($process);
-
-        $this->waitForServerStart();
-    }
-
-    /**
-     * Builds the command to start the Python server.
-     *
-     * @param int $port Server port
-     * @return string Complete command string
-     */
-    private function buildServerCommand(int $port): string
-    {
-        $python = escapeshellcmd(_PYTHON_ ?? 'python3');
-        $portArg = "--port " . escapeshellarg($port);
-        $filePath = escapeshellarg(_PYTHON_FILE_FOLDERS_ . 'config/server.py');
-        $logFile = escapeshellarg('pythonServer.log');
-
-        if (PHP_OS_FAMILY === 'Windows') {
-            return "start /B $python $filePath $portArg > $logFile 2>&1";
-        } else {
-            return "bash -c " . escapeshellarg("nohup $python $filePath $portArg >> $logFile 2>&1 &");
-        }
-    }
-
-    /**
-     * Gets process descriptors for server startup.
-     *
-     * @return array Process descriptor specification
-     */
-    private function getProcessDescriptors(): array
-    {
-        return [
-            0 => ['pipe', 'r'],
-            1 => ['file', 'pythonServer.log', 'a'],
-            2 => ['file', 'pythonServer.log', 'a'],
-        ];
-    }
-
-    /**
-     * Cleans up process resources.
-     *
-     * @param array $pipes Process pipes to close
-     */
-    private function cleanupProcessResources(array $pipes): void
-    {
-        foreach ($pipes as $pipe) {
-            if (is_resource($pipe)) {
-                fclose($pipe);
+        if ($output) {
+            $output->writeln("<info>Commande exécutée : $command</info>");
+            if ($result['success']) {
+                $output->writeln("<comment>Serveur lancé avec succès" . ($pid ? " (PID: $pid)" : "") . "</comment>");
+            } else {
+                $output->writeln("<error>Échec du lancement: {$result['error']}</error>");
+                $output->writeln("<comment>Sortie: " . implode("\n", $output_array) . "</comment>");
             }
         }
+
+        return $result;
     }
 
     /**
-     * Waits for the server to start within the timeout period.
-     *
-     * @throws RuntimeException When server doesn't start within timeout
+     * Vérifie si le serveur Python est en cours d'exécution
+     * 
+     * @param int $port Port du serveur
+     * @param string $host Adresse IP du serveur
+     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
+     * @return bool True si le serveur répond, false sinon
      */
-    private function waitForServerStart(): void
+    protected function isPythonServerRunning($port, $host = '127.0.0.1', $output = null) 
     {
-        $start = time();
+        $connection = @fsockopen($host, $port, $errno, $errstr, 1);
+        if ($connection) {
+            fclose($connection);
+            if ($output) {
+                $output->writeln("<info>✅ Serveur Python actif sur http://$host:$port</info>");
+            }
+            return true;
+        }
         
-        while (time() - $start < self::TIMEOUT_SECONDS) {
-            usleep(self::SLEEP_MICROSECONDS);
-            // Here you could add actual server health check
+        if ($output) {
+            $output->writeln("<comment>Serveur Python non accessible sur http://$host:$port</comment>");
         }
-
-        // For now, we assume success after timeout
-        // In a real implementation, you'd check if the server is actually responding
+        return false;
     }
 
     /**
-     * Checks if a port is currently in use.
-     *
-     * @param int $port Port number to check
-     * @param string $host Host to check (default: localhost)
-     * @return bool True if port is in use, false otherwise
+     * Arrête un processus Python par son PID
+     * 
+     * @param int $pid PID du processus
+     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
+     * @return bool True si le processus a été arrêté, false sinon
      */
-    private function isPortInUse(int $port, string $host = '127.0.0.1'): bool
+    protected function stopPythonServer($pid, $output = null) 
     {
-        $socket = @fsockopen($host, $port, $errorCode, $errorMessage, self::PORT_CHECK_TIMEOUT);
-
-        if ($socket === false) {
+        if (!$pid) {
+            if ($output) {
+                $output->writeln("<comment>Aucun PID fourni</comment>");
+            }
             return false;
         }
 
-        fclose($socket);
-        return true;
+        if (PHP_OS_FAMILY === 'Windows') {
+            $command = "taskkill /F /PID " . escapeshellarg($pid);
+        } else {
+            $command = "kill " . escapeshellarg($pid);
+        }
+
+        $output_array = [];
+        $returnCode = 0;
+        exec($command, $output_array, $returnCode);
+        
+        $success = $returnCode === 0;
+        if ($output) {
+            if ($success) {
+                $output->writeln("<comment>✅ Processus $pid arrêté</comment>");
+            } else {
+                $output->writeln("<error>❌ Impossible d'arrêter le processus $pid</error>");
+            }
+        }
+        
+        return $success;
     }
 
     /**
-     * Outputs errors to the console.
-     *
-     * @param OutputInterface $output Console output
-     * @param array $errors Array of error messages
+     * Trouve et arrête tous les processus Python qui utilisent un port spécifique
+     * 
+     * @param int $port Port à libérer
+     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
+     * @return array Résultat de l'opération
      */
-    private function outputErrors(OutputInterface $output, array $errors): void
+    protected function killPythonServerByPort($port, $output = null) 
     {
-        foreach ($errors as $error) {
-            $output->writeln("<error>Error: $error</error>");
+        if ($output) {
+            $output->writeln("<info>Recherche des processus utilisant le port $port...</info>");
         }
+        
+        if (PHP_OS_FAMILY === 'Windows') {
+            $command = "netstat -ano | findstr :$port";
+            $cmd_output = [];
+            exec($command, $cmd_output);
+            
+            $pids = [];
+            foreach ($cmd_output as $line) {
+                if (preg_match('/\s+(\d+)$/', $line, $matches)) {
+                    $pids[] = $matches[1];
+                }
+            }
+            
+            $killed = [];
+            foreach (array_unique($pids) as $pid) {
+                if ($this->stopPythonServer($pid, $output)) {
+                    $killed[] = $pid;
+                }
+            }
+            
+            $result = [
+                'success' => !empty($killed),
+                'killed_pids' => $killed,
+                'message' => empty($killed) ? "Aucun processus trouvé sur le port $port" : "Processus arrêtés: " . implode(', ', $killed)
+            ];
+            
+            if ($output) {
+                $output->writeln("<comment>{$result['message']}</comment>");
+            }
+            
+            return $result;
+        } else {
+            $command = "lsof -ti:$port | xargs kill -9";
+            $output_array = [];
+            $returnCode = 0;
+            exec($command, $output_array, $returnCode);
+            
+            $result = [
+                'success' => $returnCode === 0,
+                'killed_pids' => [],
+                'message' => $returnCode === 0 ? "Processus sur le port $port arrêtés" : "Aucun processus trouvé ou erreur"
+            ];
+            
+            if ($output) {
+                $output->writeln("<comment>{$result['message']}</comment>");
+            }
+            
+            return $result;
+        }
+    }
+
+    /**
+     * Méthode execute pour commande Symfony Console
+     * Gère les options -s (start), -r (reload), -k (kill)
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $port = _PYTHON_SERVER_PORT_;
+        $host = '127.0.0.1';
+        $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
+
+        // Vérifier quelle option a été passée
+        $start = $input->getOption('start');
+        $reload = $input->getOption('reload');
+        $kill = $input->getOption('kill');
+
+        // Vérifier qu'une seule option est utilisée
+        $optionsCount = ($start ? 1 : 0) + ($reload ? 1 : 0) + ($kill ? 1 : 0);
+        if ($optionsCount > 1) {
+            $output->writeln('<error>Erreur : Veuillez spécifier une seule option (-s, -r ou -k).</error>');
+            return Command::FAILURE;
+        }
+        if ($optionsCount === 0) {
+            $output->writeln('<error>Erreur : Aucune option spécifiée. Utilisez -s (démarrer), -r (redémarrer) ou -k (arrêter).</error>');
+            return Command::FAILURE;
+        }
+
+        // Exécuter l'action correspondante
+        if ($start) {
+            $output->writeln("<info>🚀 Tentative de démarrage du serveur Python sur http://$host:$port...</info>");
+            return $this->startServer($input, $output);
+        } elseif ($reload) {
+            $output->writeln("<info>🔄 Tentative de redémarrage du serveur Python sur http://$host:$port...</info>");
+            return $this->reloadServer($input, $output);
+        } elseif ($kill) {
+            $output->writeln("<info>🛑 Tentative d'arrêt du serveur Python sur http://$host:$port...</info>");
+            return $this->stopServer($output);
+        }
+
+        return Command::FAILURE;
+    }
+
+    /**
+     * Méthode pour démarrer le serveur Python
+     */
+    public function startServer(InputInterface $input, OutputInterface $output): int
+    {
+        $port = _PYTHON_SERVER_PORT_;
+        $host = '127.0.0.1';
+        $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
+
+        // Vérifier si le serveur est déjà en cours
+        if ($this->isPythonServerRunning($port, $host, $output)) {
+            $output->writeln("<comment>⚠️ Le serveur est déjà en cours d'exécution sur http://$host:$port.</comment>");
+            return Command::SUCCESS;
+        }
+
+        // Lancer le serveur
+        $result = $this->executePythonServer($filePath, $port, $host, true, $output);
+
+        if (!$result['success']) {
+            $output->writeln("<error>❌ Échec du lancement du serveur Python: {$result['error']}</error>");
+            return Command::FAILURE;
+        }
+
+        // Attendre que le serveur démarre
+        $output->writeln('<comment>⏳ Attente du démarrage du serveur...</comment>');
+        $attempts = 0;
+        $maxAttempts = 10;
+
+        while ($attempts < $maxAttempts) {
+            sleep(1);
+            if ($this->isPythonServerRunning($port, $host)) {
+                $output->writeln("<info>✅ Serveur Python démarré avec succès !</info>");
+                $output->writeln("<comment>🌐 Accessible sur http://$host:$port</comment>");
+                if ($result['pid']) {
+                    $output->writeln("<comment>📋 PID du processus: {$result['pid']}</comment>");
+                }
+                return Command::SUCCESS;
+            }
+            $attempts++;
+        }
+
+        $output->writeln("<error>❌ Le serveur ne répond pas après $maxAttempts tentatives</error>");
+        if ($result['pid']) {
+            $this->stopPythonServer($result['pid'], $output);
+        }
+
+        return Command::FAILURE;
+    }
+
+    /**
+     * Méthode pour arrêter le serveur Python
+     */
+    public function stopServer(OutputInterface $output): int
+    {
+        $port = _PYTHON_SERVER_PORT_;
+        $host = '127.0.0.1';
+
+        if (!$this->isPythonServerRunning($port, $host, $output)) {
+            $output->writeln("<comment>⚠️ Aucun serveur Python en cours d'exécution sur http://$host:$port</comment>");
+            return Command::SUCCESS;
+        }
+
+        $killResult = $this->killPythonServerByPort($port, $output);
+
+        if ($killResult['success']) {
+            $output->writeln("<info>✅ Serveur Python arrêté avec succès !</info>");
+            if (!empty($killResult['killed_pids'])) {
+                $output->writeln("<comment>📋 PIDs arrêtés: " . implode(', ', $killResult['killed_pids']) . "</comment>");
+            }
+            return Command::SUCCESS;
+        } else {
+            $output->writeln("<error>❌ Échec de l'arrêt du serveur Python: {$killResult['message']}</error>");
+            return Command::FAILURE;
+        }
+    }
+
+    /**
+     * Méthode pour redémarrer le serveur Python
+     */
+    public function reloadServer(InputInterface $input, OutputInterface $output): int
+    {
+        $port = _PYTHON_SERVER_PORT_;
+        $host = '127.0.0.1';
+
+        $output->writeln("<info>🔄 Redémarrage du serveur Python sur http://$host:$port...</info>");
+
+        // Arrêter le serveur
+        $stopResult = $this->stopServer($output);
+        if ($stopResult !== Command::SUCCESS) {
+            return $stopResult;
+        }
+
+        // Attendre un peu
+        sleep(2);
+
+        // Redémarrer
+        return $this->startServer($input, $output);
     }
 }
