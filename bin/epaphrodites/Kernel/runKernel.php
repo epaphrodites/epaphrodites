@@ -36,8 +36,6 @@ class runKernel extends ConfigHttp
          */
         $this->GetUrl = (string) $this->HttpResponses();
 
-        $this->autoStarted();
-
         /**
          * Get user authentification page or destroy session
          * @var mixed $GetUrl
