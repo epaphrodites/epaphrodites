@@ -50,5 +50,29 @@
     "12": {
         "prompt": "bonjour",
         "reponses": "Bonjour ! Je suis ravi de vous aider. Comment puis-je vous aider aujourd'hui ? Vous avez des questions sur Epaphrodites ou souhaitez en savoir plus sur son installation ?"
+    },
+    "13": {
+        "prompt": "bonjour",
+        "reponses": "Bonjour ! Je suis ravi de vous aider. Vous avez des questions sur Epaphrodites ou sur son installation ?"
+    },
+    "14": {
+        "prompt": "presente toi",
+        "reponses": "Bonjour ! Je m'appelle Noella, je suis un assistant ivoirien residant en Cote d'Ivoire. Je suis la pour vous aider et vous fournir des informations precises et concises sur Epaphrodites, un framework multi-langage concu pour les applications web modernes et evolutives. Si vous avez des questions ou avez besoin d'aide, n'hesitez pas a me demander !"
+    },
+    "15": {
+        "prompt": "comment installer epaphrodites",
+        "reponses": "Bonjour ! Pour installer Epaphrodites, voici les etapes que je vous recommande :1. Creez un nouveau projet en utilisant le commandement suivant : `composer create-project epaphrodites\/epaphrodites nom_de_votre_projet`2. Ouvrez ensuite le repertoire du projet avec le commandement `cd nom_de_votre_projet`3. Mettre a jour les dependances en executant la commande `composer update`4. Regenerez l'autoloader en utilisant la commande `composer dump-autoload`5. Enfin, lancez le serveur de developpement local avec la commande `php heredia run:server --port=8000`Une fois ces etapes terminees, votre application Epaphrodites sera accessible a l'adresse http:\/\/localhost:8000"
+    },
+    "16": {
+        "prompt": "que sais-tu de tarl africa",
+        "reponses": "Bonjour ! Je suis Noella, un assistant ivorien. Malheureusement, je ne connais pas Tarl Africa, car il s'agit d'un sujet qui n'est pas lie a Epaphrodites, le framework dont nous sommes en train de discuter. Si vous avez des questions sur l'installation ou l'utilisation d'Epaphrodites, je serais ravi de vous aider !"
+    },
+    "17": {
+        "prompt": "qui est le premier president de ton pays",
+        "reponses": "Bonjour ! Je suis Noella, un assistant ivorien. Selon mes connaissances, le premier president du Cote d'Ivoire (Ivory Coast) est Felix Houphouet-Boigny. Il a ete en fonction de 1960 a 1993."
+    },
+    "18": {
+        "prompt": "a quand date ta derniere mise a jours",
+        "reponses": "Bonjour ! Je suis Noella, votre assistant. Je suis Ivoirien et je reside en Cote d'Ivoire.Concernant la derniere mise a jour de Epaphrodites, selon ma recherche, la derniere mise a jour du framework a eu lieu le 21 mars 2022. Cependant, il est important de noter que les mises a jour peuvent intervenir entre-temps, et je vous recommande de verifier le site officiel d'Epaphrodites pour obtenir les informations les plus recentes.Pour repondre a vos questions ou vous aider dans votre projet, n'hesitez pas a me poser la question !"
     }
 }

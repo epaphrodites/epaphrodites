@@ -31,6 +31,9 @@ class runKernel extends ConfigHttp
     private function Start(): void
     {
 
+
+        $this->autoStarted();
+
         /**
          * @return string
          */

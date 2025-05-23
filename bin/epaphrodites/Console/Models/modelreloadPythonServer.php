@@ -16,33 +16,33 @@ class modelreloadPythonServer extends settingreloadPythonServer
 {
 
     /**
-     * Exécute le serveur Python server.py dans le contexte d'une commande Symfony
+     * Executes the Python server.py in the context of a Symfony command
      * 
-     * @param string $scriptPath Chemin vers le fichier server.py
-     * @param int $port Port du serveur
-     * @param string $host Adresse IP du serveur (par défaut 127.0.0.1)
-     * @param bool $background Exécuter en arrière-plan (par défaut true)
-     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
-     * @return array Résultat de l'exécution
+     * @param string $scriptPath Path to the server.py file
+     * @param int $port Server port
+     * @param string $host Server IP address (default 127.0.0.1)
+     * @param bool $background Run in background (default true)
+     * @param OutputInterface|null $output Symfony output interface (optional)
+     * @return array Execution result
      */
     protected function executePythonServer($scriptPath, $port, $host = '127.0.0.1', $background = true, $output = null) 
     {
         if (!file_exists($scriptPath)) {
-            $error = "Le fichier $scriptPath n'existe pas";
+            $error = "The file $scriptPath does not exist";
             $output->writeln("<error>$error</error>");
             return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
         }
 
-        $output->writeln("<info>Lancement du serveur Python sur $host:$port</info>");
+        $output->writeln("<info>Starting Python server on $host:$port</info>");
         $command = "python " . escapeshellarg($scriptPath) . " --host=" . escapeshellarg($host) . " --port=" . escapeshellarg($port);
 
         if ($background) {
             if (PHP_OS_FAMILY === 'Windows') {
-                // Windows: Exécuter en arrière-plan et récupérer le PID
+                // Windows: Run in background and retrieve PID
                 $command = "start /B " . $command . " > nul 2>&1";
                 $pidCommand = "wmic process where \"CommandLine like '%" . basename($scriptPath) . "%' and Name='python.exe'\" get ProcessId";
             } else {
-                // Linux/Unix/Mac: Exécuter en arrière-plan et récupérer le PID
+                // Linux/Unix/Mac: Run in background and retrieve PID
                 $command = $command . " > /dev/null 2>&1 & echo $!";
             }
         }
@@ -51,11 +51,11 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $returnCode = 0;
 
         if ($background && PHP_OS_FAMILY === 'Windows') {
-            // Exécuter la commande en arrière-plan
+            // Execute command in background
             exec($command, $output_array, $returnCode);
-            // Attendre un court instant pour que le processus démarre
+            // Wait briefly for the process to start
             sleep(1);
-            // Récupérer le PID
+            // Retrieve PID
             exec($pidCommand, $pidOutput);
             $pid = null;
             foreach ($pidOutput as $line) {
@@ -66,7 +66,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
             }
             $result = [
                 'success' => $returnCode === 0,
-                'error' => $returnCode !== 0 ? "Erreur lors du lancement (code: $returnCode)" : null,
+                'error' => $returnCode !== 0 ? "Error during launch (code: $returnCode)" : null,
                 'output' => $output_array,
                 'pid' => $pid,
                 'background' => true
@@ -76,7 +76,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $pid = PHP_OS_FAMILY !== 'Windows' && $background ? (int) end($output_array) : null;
             $result = [
                 'success' => $returnCode === 0,
-                'error' => $returnCode !== 0 ? "Erreur lors de l'exécution (code: $returnCode)" : null,
+                'error' => $returnCode !== 0 ? "Error during execution (code: $returnCode)" : null,
                 'output' => $output_array,
                 'pid' => $pid,
                 'background' => $background
@@ -84,12 +84,12 @@ class modelreloadPythonServer extends settingreloadPythonServer
         }
 
         if ($output) {
-            $output->writeln("<info>Commande exécutée : $command</info>");
+            $output->writeln("<info>Command executed: $command</info>");
             if ($result['success']) {
-                $output->writeln("<comment>Serveur lancé avec succès" . ($pid ? " (PID: $pid)" : "") . "</comment>");
+                $output->writeln("<comment>Server launched successfully" . ($pid ? " (PID: $pid)" : "") . "</comment>");
             } else {
-                $output->writeln("<error>Échec du lancement: {$result['error']}</error>");
-                $output->writeln("<comment>Sortie: " . implode("\n", $output_array) . "</comment>");
+                $output->writeln("<error>Launch failed: {$result['error']}</error>");
+                $output->writeln("<comment>Output: " . implode("\n", $output_array) . "</comment>");
             }
         }
 
@@ -97,12 +97,12 @@ class modelreloadPythonServer extends settingreloadPythonServer
     }
 
     /**
-     * Vérifie si le serveur Python est en cours d'exécution
+     * Checks if the Python server is running
      * 
-     * @param int $port Port du serveur
-     * @param string $host Adresse IP du serveur
-     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
-     * @return bool True si le serveur répond, false sinon
+     * @param int $port Server port
+     * @param string $host Server IP address
+     * @param OutputInterface|null $output Symfony output interface (optional)
+     * @return bool True if the server responds, false otherwise
      */
     protected function isPythonServerRunning($port, $host = '127.0.0.1', $output = null) 
     {
@@ -110,29 +110,29 @@ class modelreloadPythonServer extends settingreloadPythonServer
         if ($connection) {
             fclose($connection);
             if ($output) {
-                $output->writeln("<info>✅ Serveur Python actif sur http://$host:$port</info>");
+                $output->writeln("<info>✅ Python server active on http://$host:$port</info>");
             }
             return true;
         }
         
         if ($output) {
-            $output->writeln("<comment>Serveur Python non accessible sur http://$host:$port</comment>");
+            $output->writeln("<comment>Python server not accessible on http://$host:$port</comment>");
         }
         return false;
     }
 
     /**
-     * Arrête un processus Python par son PID
+     * Stops a Python process by its PID
      * 
-     * @param int $pid PID du processus
-     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
-     * @return bool True si le processus a été arrêté, false sinon
+     * @param int $pid Process PID
+     * @param OutputInterface|null $output Symfony output interface (optional)
+     * @return bool True if the process was stopped, false otherwise
      */
     protected function stopPythonServer($pid, $output = null) 
     {
         if (!$pid) {
             if ($output) {
-                $output->writeln("<comment>Aucun PID fourni</comment>");
+                $output->writeln("<comment>No PID provided</comment>");
             }
             return false;
         }
@@ -150,9 +150,9 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $success = $returnCode === 0;
         if ($output) {
             if ($success) {
-                $output->writeln("<comment>✅ Processus $pid arrêté</comment>");
+                $output->writeln("<comment>✅ Process $pid stopped</comment>");
             } else {
-                $output->writeln("<error>❌ Impossible d'arrêter le processus $pid</error>");
+                $output->writeln("<error>❌ Unable to stop process $pid</error>");
             }
         }
         
@@ -160,16 +160,16 @@ class modelreloadPythonServer extends settingreloadPythonServer
     }
 
     /**
-     * Trouve et arrête tous les processus Python qui utilisent un port spécifique
+     * Finds and stops all Python processes using a specific port
      * 
-     * @param int $port Port à libérer
-     * @param OutputInterface|null $output Interface de sortie Symfony (optionnel)
-     * @return array Résultat de l'opération
+     * @param int $port Port to free
+     * @param OutputInterface|null $output Symfony output interface (optional)
+     * @return array Operation result
      */
     protected function killPythonServerByPort($port, $output = null) 
     {
         if ($output) {
-            $output->writeln("<info>Recherche des processus utilisant le port $port...</info>");
+            $output->writeln("<info>Searching for processes using port $port...</info>");
         }
         
         if (PHP_OS_FAMILY === 'Windows') {
@@ -194,7 +194,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $result = [
                 'success' => !empty($killed),
                 'killed_pids' => $killed,
-                'message' => empty($killed) ? "Aucun processus trouvé sur le port $port" : "Processus arrêtés: " . implode(', ', $killed)
+                'message' => empty($killed) ? "No processes found on port $port" : "Processes stopped: " . implode(', ', $killed)
             ];
             
             if ($output) {
@@ -211,7 +211,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $result = [
                 'success' => $returnCode === 0,
                 'killed_pids' => [],
-                'message' => $returnCode === 0 ? "Processus sur le port $port arrêtés" : "Aucun processus trouvé ou erreur"
+                'message' => $returnCode === 0 ? "Processes on port $port stopped" : "No processes found or error"
             ];
             
             if ($output) {
@@ -223,8 +223,8 @@ class modelreloadPythonServer extends settingreloadPythonServer
     }
 
     /**
-     * Méthode execute pour commande Symfony Console
-     * Gère les options -s (start), -r (reload), -k (kill)
+     * Execute method for Symfony Console command
+     * Handles options -s (start), -r (reload), -k (kill)
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -232,31 +232,31 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $host = '127.0.0.1';
         $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
 
-        // Vérifier quelle option a été passée
+        // Check which option was passed
         $start = $input->getOption('start');
         $reload = $input->getOption('reload');
         $kill = $input->getOption('kill');
 
-        // Vérifier qu'une seule option est utilisée
+        // Verify only one option is used
         $optionsCount = ($start ? 1 : 0) + ($reload ? 1 : 0) + ($kill ? 1 : 0);
         if ($optionsCount > 1) {
-            $output->writeln('<error>Erreur : Veuillez spécifier une seule option (-s, -r ou -k).</error>');
+            $output->writeln('<error>Error: Please specify only one option (-s, -r, or -k).</error>');
             return Command::FAILURE;
         }
         if ($optionsCount === 0) {
-            $output->writeln('<error>Erreur : Aucune option spécifiée. Utilisez -s (démarrer), -r (redémarrer) ou -k (arrêter).</error>');
+            $output->writeln('<error>Error: No option specified. Use -s (start), -r (reload), or -k (stop).</error>');
             return Command::FAILURE;
         }
 
-        // Exécuter l'action correspondante
+        // Execute the corresponding action
         if ($start) {
-            $output->writeln("<info>🚀 Tentative de démarrage du serveur Python sur http://$host:$port...</info>");
+            $output->writeln("<info>🚀 Attempting to start Python server on http://$host:$port...</info>");
             return $this->startServer($input, $output);
         } elseif ($reload) {
-            $output->writeln("<info>🔄 Tentative de redémarrage du serveur Python sur http://$host:$port...</info>");
+            $output->writeln("<info>🔄 Attempting to reload Python server on http://$host:$port...</info>");
             return $this->reloadServer($input, $output);
         } elseif ($kill) {
-            $output->writeln("<info>🛑 Tentative d'arrêt du serveur Python sur http://$host:$port...</info>");
+            $output->writeln("<info>🛑 Attempting to stop Python server on http://$host:$port...</info>");
             return $this->stopServer($output);
         }
 
@@ -264,7 +264,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
     }
 
     /**
-     * Méthode pour démarrer le serveur Python
+     * Method to start the Python server
      */
     public function startServer(InputInterface $input, OutputInterface $output): int
     {
@@ -272,39 +272,39 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $host = '127.0.0.1';
         $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
 
-        // Vérifier si le serveur est déjà en cours
+        // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
-            $output->writeln("<comment>⚠️ Le serveur est déjà en cours d'exécution sur http://$host:$port.</comment>");
+            $output->writeln("<comment>⚠️ The server is already running on http://$host:$port.</comment>");
             return Command::SUCCESS;
         }
 
-        // Lancer le serveur
+        // Launch the server
         $result = $this->executePythonServer($filePath, $port, $host, true, $output);
 
         if (!$result['success']) {
-            $output->writeln("<error>❌ Échec du lancement du serveur Python: {$result['error']}</error>");
+            $output->writeln("<error>❌ Failed to launch Python server: {$result['error']}</error>");
             return Command::FAILURE;
         }
 
-        // Attendre que le serveur démarre
-        $output->writeln('<comment>⏳ Attente du démarrage du serveur...</comment>');
+        // Wait for the server to start
+        $output->writeln('<comment>⏳ Waiting for server to start...</comment>');
         $attempts = 0;
         $maxAttempts = 10;
 
         while ($attempts < $maxAttempts) {
             sleep(1);
             if ($this->isPythonServerRunning($port, $host)) {
-                $output->writeln("<info>✅ Serveur Python démarré avec succès !</info>");
-                $output->writeln("<comment>🌐 Accessible sur http://$host:$port</comment>");
+                $output->writeln("<info>✅ Python server started successfully!</info>");
+                $output->writeln("<comment>🌐 Accessible at http://$host:$port</comment>");
                 if ($result['pid']) {
-                    $output->writeln("<comment>📋 PID du processus: {$result['pid']}</comment>");
+                    $output->writeln("<comment>📋 Process PID: {$result['pid']}</comment>");
                 }
                 return Command::SUCCESS;
             }
             $attempts++;
         }
 
-        $output->writeln("<error>❌ Le serveur ne répond pas après $maxAttempts tentatives</error>");
+        $output->writeln("<error>❌ Server did not respond after $maxAttempts attempts</error>");
         if ($result['pid']) {
             $this->stopPythonServer($result['pid'], $output);
         }
@@ -313,7 +313,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
     }
 
     /**
-     * Méthode pour arrêter le serveur Python
+     * Method to stop the Python server
      */
     public function stopServer(OutputInterface $output): int
     {
@@ -321,44 +321,44 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $host = '127.0.0.1';
 
         if (!$this->isPythonServerRunning($port, $host, $output)) {
-            $output->writeln("<comment>⚠️ Aucun serveur Python en cours d'exécution sur http://$host:$port</comment>");
+            $output->writeln("<comment>⚠️ No Python server running on http://$host:$port</comment>");
             return Command::SUCCESS;
         }
 
         $killResult = $this->killPythonServerByPort($port, $output);
 
         if ($killResult['success']) {
-            $output->writeln("<info>✅ Serveur Python arrêté avec succès !</info>");
+            $output->writeln("<info>✅ Python server stopped successfully!</info>");
             if (!empty($killResult['killed_pids'])) {
-                $output->writeln("<comment>📋 PIDs arrêtés: " . implode(', ', $killResult['killed_pids']) . "</comment>");
+                $output->writeln("<comment>📋 Stopped PIDs: " . implode(', ', $killResult['killed_pids']) . "</comment>");
             }
             return Command::SUCCESS;
         } else {
-            $output->writeln("<error>❌ Échec de l'arrêt du serveur Python: {$killResult['message']}</error>");
+            $output->writeln("<error>❌ Failed to stop Python server: {$killResult['message']}</error>");
             return Command::FAILURE;
         }
     }
 
     /**
-     * Méthode pour redémarrer le serveur Python
+     * Method to reload the Python server
      */
     public function reloadServer(InputInterface $input, OutputInterface $output): int
     {
         $port = _PYTHON_SERVER_PORT_;
         $host = '127.0.0.1';
 
-        $output->writeln("<info>🔄 Redémarrage du serveur Python sur http://$host:$port...</info>");
+        $output->writeln("<info>🔄 Reloading Python server on http://$host:$port...</info>");
 
-        // Arrêter le serveur
+        // Stop the server
         $stopResult = $this->stopServer($output);
         if ($stopResult !== Command::SUCCESS) {
             return $stopResult;
         }
 
-        // Attendre un peu
+        // Wait briefly
         sleep(2);
 
-        // Redémarrer
+        // Restart
         return $this->startServer($input, $output);
     }
 }
