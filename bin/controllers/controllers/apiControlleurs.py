@@ -23,4 +23,4 @@ class ApiControlleurs:
         return 200, f"Utilisateur {user_id} supprimé"
 
     def not_found(self, request):
-        return 404, "Route non trouvée"
+        return 404, "Route not found"
