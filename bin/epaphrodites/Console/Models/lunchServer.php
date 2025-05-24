@@ -46,7 +46,7 @@ class LunchServer extends AddServerConfig
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
 
-           $this->startServer($port, $address, $output);
+           $this->startServer($port, $address, $output, $input );
 
            return self::SUCCESS;
 
@@ -66,16 +66,21 @@ class LunchServer extends AddServerConfig
     private function startServer(
         $port,
         $host,
-        OutputInterface $output
+        OutputInterface $output,
+        InputInterface $input
     ){
-        $output->writeln("<info>🚀 Starting Epaphrodites development server...</info>");
-        $output->writeln(sprintf("Target: <fg=gray>http://$host:%d</fg=gray>", $port));
+
+        $output->writeln("╭─────────────────────────────────────────────────────────────╮");
+        $output->writeln("│ 🔱  <info>Epaphrodites Framework — <fg=gray>Development Suite Booting...</></info>   │");
+        $output->writeln("╰─────────────────────────────────────────────────────────────╯");
         $output->writeln("");
-        $output->writeln("<bg=blue>[OK] Epaphrodites Server is running</bg=blue>");
+        $output->writeln("🚀 <fg=cyan>Launch Target</>:      <href=http://127.0.0.1:8000><fg=gray>http://127.0.0.1:8000</></>");
+        $output->writeln("🎯 Mode:               <fg=gray>Development</>");
+        $output->writeln("📦 Version:            <fg=gray>Epaphrodites v1.0.0</>");
         $output->writeln("");
-        $output->writeln(sprintf("Development server is running at <fg=gray>http://$host:%d</fg=gray>", $port));
-        $output->writeln("<comment>Quit the server with CONTROL-C.</comment>");
-    
+        $output->writeln("🖥️  <fg=green>PHP Server</>:        ✅ <info>Running</info>");
+        $output->writeln("   └── Stop with:       <comment>CTRL + C</comment>");
+        $output->writeln("");
         $logFile = _SERVER_LOG_;
         $command = "php -S $host:$port > $logFile 2>&1";
         $process = proc_open($command, [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']], $pipes);
@@ -83,11 +88,20 @@ class LunchServer extends AddServerConfig
         if (!is_resource($process)) {
             throw new RuntimeException("Failed to start the server.");
         }
-    
-        while (proc_get_status($process)['running']) {
-            usleep(100000); // Wait for 100ms
+  
+        if(_RUN_PYTHON_SERVER_ == true){
+            $pythonServer = new \Epaphrodites\epaphrodites\Console\Models\modelreloadPythonServer;
+            $pythonServer->startServer( $input , $output, true);
+        }
+
+        if(_RUN_PYTHON_SERVER_ == false){
+             $output->writeln("<comment>(Note: Python server not detected — running PHP only mode)</comment>");
         }
     
+        while (proc_get_status($process)['running']) {
+            usleep(100000);
+        }
+
         $exitCode = proc_close($process);
         if ($exitCode !== 0) {
             throw new RuntimeException(sprintf("Server exited with code %d", $exitCode));

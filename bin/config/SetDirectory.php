@@ -33,6 +33,9 @@ define('_LANG_', 'eng');
 # For linux os use : python3
 define('_PYTHON_', 'python');
 
+# Run python server (accepted 'true' or 'false')
+define('_RUN_PYTHON_SERVER_', true);
+
 # Define python server default port
 define('_PYTHON_SERVER_PORT_', 5001);
 

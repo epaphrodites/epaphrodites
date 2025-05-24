@@ -25,7 +25,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
      * @param OutputInterface|null $output Symfony output interface (optional)
      * @return array Execution result
      */
-    protected function executePythonServer($scriptPath, $port, $host = '127.0.0.1', $background = true, $output = null) 
+    protected function executePythonServer($scriptPath, $port, $host = '127.0.0.1', $background = true, $output = null, $allMsg) 
     {
         if (!file_exists($scriptPath)) {
             $error = "The file $scriptPath does not exist";
@@ -33,7 +33,13 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
         }
 
-        $output->writeln("<info>Starting Python server...</info>");
+        $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
+        if($allMsg) {
+            $output->writeln("");
+            $output->writeln("╭─────────────────────────────────────────────────────────────╮");
+            $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
+            $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+        }
         $command = "python " . escapeshellarg($scriptPath) . " --host=" . escapeshellarg($host) . " --port=" . escapeshellarg($port);
 
         if ($background) {
@@ -110,13 +116,13 @@ class modelreloadPythonServer extends settingreloadPythonServer
         if ($connection) {
             fclose($connection);
             if ($output) {
-                $output->writeln("<info>✅ Python server active </info>");
+               $output->writeln("🐍 <fg=green>Python Server</>:      ✅ <info>Running</info>");
             }
             return true;
         }
         
         if ($output) {
-            $output->writeln("<comment>Python server not accessible </comment>");
+            $output->writeln("🐍 <fg=green>Python Server</>:      ✅ <info>Running</info>");
         }
         return false;
     }
@@ -263,7 +269,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
     /**
      * Method to start the Python server
      */
-    public function startServer(InputInterface $input, OutputInterface $output): int
+    public function startServer(InputInterface $input, OutputInterface $output, bool $allMsg = false): int
     {
         $port = _PYTHON_SERVER_PORT_;
         $host = '127.0.0.1';
@@ -271,12 +277,19 @@ class modelreloadPythonServer extends settingreloadPythonServer
 
         // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
-            $output->writeln("<comment>⚠️ The server is already running .</comment>");
+            $output->writeln("   └── Status:          ⚠️ <comment>Already running</comment>");
+            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
+        if($allMsg) {
+            $output->writeln("");
+            $output->writeln("╭─────────────────────────────────────────────────────────────╮");
+            $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
+            $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+        }
             return Command::SUCCESS;
         }
 
         // Launch the server
-        $result = $this->executePythonServer($filePath, $port, $host, true, $output);
+        $result = $this->executePythonServer($filePath, $port, $host, true, $output, $allMsg);
 
         if (!$result['success']) {
             $output->writeln("<error>❌ Failed to launch Python server: {$result['error']}</error>");
