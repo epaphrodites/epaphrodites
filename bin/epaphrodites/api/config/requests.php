@@ -14,7 +14,7 @@ class Requests {
      */
     public static function request(
         string $path, 
-        string $method = 'GET', 
+        string $method = 'POST', 
         $data = null, 
         $usersHeaders = []
     ):array {

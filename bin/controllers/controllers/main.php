@@ -37,8 +37,8 @@ final class main extends MainSwitchers
     {
 
 
-        //$getTest = \Epaphrodites\epaphrodites\api\Config\Requests::class;
-        //var_dump($getTest::request('/hello'));
+       // $getTest = \Epaphrodites\epaphrodites\api\Config\Requests::class;
+        //var_dump($getTest::request('/bot'));
         //die;
 
         $this->views($html, []);
