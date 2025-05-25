@@ -27,8 +27,7 @@ class ApiControllers:
             response = {
                 "status": "success",
                 "model": "faiss-rag",
-                "prompt": prompt,
-                "response": f"Réponse RAG pour: {prompt}"
+                "prompt": prompt
             }
             return 200, response
             
