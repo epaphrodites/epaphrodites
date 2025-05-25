@@ -16,7 +16,7 @@ class ApiControllers:
         return 200, {"message": "Hello from python API", "streaming_supported": True}    
     
     def faissRagModel(self, request, stream_handler=None, body=None):
-        """Handler RAG classique (sans streaming)"""
+
         try:
             data = {}
             if body:
