@@ -174,12 +174,16 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
         }
 
-        $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
         if ($allMsg) {
+            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
             $output->writeln("");
             $output->writeln("╭─────────────────────────────────────────────────────────────╮");
             $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
             $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+        }
+
+        if ($allMsg == false) {
+           $output->writeln("<info>✅ Python server has been reload successfully!</info>");
         }
 
         // Define the log file path

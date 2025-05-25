@@ -15,7 +15,7 @@ class Requests {
     public static function request(
         string $path, 
         string $method = 'POST', 
-        $data = null, 
+        array $data = [], 
         $usersHeaders = []
     ):array {
 
@@ -72,5 +72,4 @@ class Requests {
          $apiUrl = '127.0.0.1:'._PYTHON_SERVER_PORT_."{$path}";
          return $apiUrl;
     }
-
 }

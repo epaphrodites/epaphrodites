@@ -36,10 +36,9 @@ final class main extends MainSwitchers
     ):void
     {
 
-
-       // $getTest = \Epaphrodites\epaphrodites\api\Config\Requests::class;
-        //var_dump($getTest::request('/bot'));
-        //die;
+       $getTest = \Epaphrodites\epaphrodites\api\Config\Requests::class;
+        var_dump($getTest::request('/bot-rag-faiss-model', 'POST', [ "prompt"=> "Comment creer une base de donnees"]));
+        die;
 
         $this->views($html, []);
     }
