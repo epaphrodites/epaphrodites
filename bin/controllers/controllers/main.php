@@ -36,13 +36,6 @@ final class main extends MainSwitchers
     ):void
     {
 
-        $getTest = \Epaphrodites\epaphrodites\api\Config\Requests::class;
-
-       $result = $getTest::get('/hello');
-
-       var_dump($result);
-        die;
-
         $this->views($html, []);
     }
     

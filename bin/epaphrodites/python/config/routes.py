@@ -5,7 +5,6 @@ import re
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
 
 from bin.controllers.controllers.apiControllers import ApiControllers
-
 from bin.controllers.controllerMap.routesConfig import RoutesConfig
 
 class Route:

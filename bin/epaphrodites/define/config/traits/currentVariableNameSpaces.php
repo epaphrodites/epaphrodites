@@ -49,6 +49,7 @@ trait currentVariableNameSpaces
         'session' => \Epaphrodites\epaphrodites\auth\session_auth::class,
         'deepl' => \Epaphrodites\epaphrodites\api\translate\deepLp::class,
         'msg' => \Epaphrodites\epaphrodites\define\SetTextMessages::class,
+        'requests' => \Epaphrodites\epaphrodites\api\Config\Requests::class,
         'secure' => \Epaphrodites\epaphrodites\CsrfToken\csrf_secure::class,
         'cookies' => \Epaphrodites\epaphrodites\auth\SetUsersCookies::class,
         'bot' => \Epaphrodites\epaphrodites\chatBot\processBotAnswers::class,

@@ -7,6 +7,7 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 final class chats extends MainSwitchers
 {
     private object $json;
+    private object $requests;
     private object $data;
     private object $chatBot;
     private array|bool $result = [];
@@ -30,8 +31,9 @@ final class chats extends MainSwitchers
     private function initializeObjects(): void
     {
         $this->json = $this->getObject(static::$initNamespace, 'json');
+        $this->data = $this->getObject(static::$initNamespace, 'datas');
         $this->chatBot = $this->getObject( static::$initNamespace , 'bot');
-        $this->data = $this->getFunctionObject(static::initNamespace(), 'datas');
+        $this->requests = $this->getObject(static::$initNamespace, 'requests');
         $this->ajaxTemplate = $this->getObject( static::$initNamespace , "ajax");
     }  
 
@@ -138,13 +140,25 @@ final class chats extends MainSwitchers
     ): void
     {
 
+            $result = $this->requests->streamRequest(
+                '/bot-rag-faiss-model', [
+                'prompt' => 'quel est la commande pour creer une base de donnees',
+                'user_id' => 'default'
+                ],true
+            );
+var_dump($result);die();
         if (static::isValidMethod()) {
             
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
-            $result = $this->chatBot->chatRagAndFaissProcess($send);
+            $result = $this->requests->streamRequest(
+                '/bot-rag-faiss-model', [
+                'prompt' => $send,
+                'user_id' => 'default'
+                ],true
+            );
 
-            $streamingResult = static::streamChunks($result);
+            $streamingResult = static::streamChunks($result ["data"]);
 
             echo $streamingResult;
            
