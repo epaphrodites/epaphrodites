@@ -4,6 +4,8 @@ import json
 import time
 from http import HTTPStatus
 from typing import Tuple, Union, Iterator
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+from bin.epaphrodites.chatBot.ragFaissModel.botCore import modelBotCore
 
 class ApiControllers:
     
@@ -24,10 +26,16 @@ class ApiControllers:
             
             prompt = data.get('prompt', 'prompt')
             
+            user_id = data.get('user_id', 'user_id')
+            
+            bot = modelBotCore.get_instance(user_id)
+        
+            result = bot.ask(prompt, stream=False)
+            
             response = {
                 "status": "success",
                 "model": "faiss-rag",
-                "prompt": prompt
+                "prompt": result
             }
             return 200, response
             

@@ -5,8 +5,14 @@ import time
 import numpy as np
 import traceback
 from typing import List, Dict, Tuple, Any, Union
-sys.path.append('bin/epaphrodites/chatBot/ragFaissModel/botConfig/')
-from constants import LLM_MODEL, EMBEDDING_MODEL, TOP_K_RESULTS
+
+BATCH_SIZE = 32
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+TOP_K_RESULTS = 5
+LLM_MODEL = "llama3:8b"
+EMBEDDING_MODEL = os.environ.get('EMBEDDING_MODEL', "all-MiniLM-L6-v2")
+
 import ollama
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
