@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def load_router():
 
     try:
-        router_path = os.path.join(os.path.dirname(__file__), '../../../..', 'bin/controllers/controllerMap/routes.py')
+        router_path = os.path.join(os.path.dirname(__file__), '../../../..', 'bin/epaphrodites/python/config/routes.py')
         spec = importlib.util.spec_from_file_location("routes", router_path)
         routes_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(routes_module)
@@ -27,42 +27,23 @@ def load_router():
         logger.error(f"Failed to load router: {e}")
 
         sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
-        from bin.controllers.controllerMap.routes import Router
+        from bin.epaphrodites.python.config.routes import Router
         return Router()
 
 class StreamingHandler:
-    
     def __init__(self, request_handler):
         self.request_handler = request_handler
         self.is_streaming = False
         
-    def start_stream(self, status_code=200, content_type="text/plain"):
-
+    def start_stream(self, status_code=200, content_type="text/event-stream; charset=utf-8"):
         self.request_handler.send_response(status_code)
         self.request_handler.send_header("Content-Type", content_type)
-        self.request_handler.send_header("Transfer-Encoding", "chunked")
         self.request_handler.send_header("Cache-Control", "no-cache")
         self.request_handler.send_header("Connection", "keep-alive")
         self.request_handler.end_headers()
         self.is_streaming = True
         
-    def write_chunk(self, data):
-
-        if not self.is_streaming:
-            raise RuntimeError("Stream not started")
-            
-        if isinstance(data, str):
-            data = data.encode('utf-8')
-        elif isinstance(data, (dict, list)):
-            data = json.dumps(data, separators=(',', ':')).encode('utf-8')
-            
-        chunk_size = hex(len(data))[2:].encode('utf-8')
-        self.request_handler.wfile.write(chunk_size + b'\r\n')
-        self.request_handler.wfile.write(data + b'\r\n')
-        self.request_handler.wfile.flush()
-        
-    def write_sse_chunk(self, data, event_type="message", event_id=None):
-
+    def write_chunk(self, data, event_type="message", event_id=None):
         if not self.is_streaming:
             raise RuntimeError("Stream not started")
             
@@ -73,23 +54,29 @@ class StreamingHandler:
             sse_data += f"event: {event_type}\n"
             
         if isinstance(data, (dict, list)):
-            data = json.dumps(data, separators=(',', ':'))
+            data = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
             
         sse_data += f"data: {data}\n\n"
         
-        chunk_data = sse_data.encode('utf-8')
-        chunk_size = hex(len(chunk_data))[2:].encode('utf-8')
-        self.request_handler.wfile.write(chunk_size + b'\r\n')
-        self.request_handler.wfile.write(chunk_data + b'\r\n')
-        self.request_handler.wfile.flush()
+        try:
+            chunk_data = sse_data.encode('utf-8')
+            self.request_handler.wfile.write(chunk_data)
+            self.request_handler.wfile.flush()
+        except BrokenPipeError:
+            logger.debug("Client disconnected during streaming")
+            self.is_streaming = False
+            raise
         
     def end_stream(self):
-
         if self.is_streaming:
-
-            self.request_handler.wfile.write(b'0\r\n\r\n')
-            self.request_handler.wfile.flush()
-            self.is_streaming = False
+            try:
+                self.request_handler.wfile.write(b"event: complete\ndata: {}\n\n")
+                self.request_handler.wfile.flush()
+                self.is_streaming = False
+            except BrokenPipeError:
+                logger.debug("Client disconnected during stream termination")
+            except Exception as e:
+                logger.error(f"Error ending stream: {e}")
 
 class CustomHandler(BaseHTTPRequestHandler):
     

@@ -4,6 +4,12 @@ namespace Epaphrodites\epaphrodites\api\Config;
 
 class Requests {
 
+    private const DEFAULT_HEADERS = [
+        'Content-Type: application/json',
+        'Accept: application/json',
+        'User-Agent: Epaphrodites-API-Client/1.0'
+    ];
+
     /**
      * API request
      * @param string $path
@@ -14,7 +20,7 @@ class Requests {
      * @param callable|null $streamCallback
      * @return array{data: mixed, error: bool, status: mixed|array{error: bool, message: string}}
      */
-    public static function request(
+    private static function request(
         string $path, 
         string $method = 'POST', 
         array $data = [], 
@@ -23,20 +29,15 @@ class Requests {
         ?callable $streamCallback = null
     ):array {
 
-        (array) $mainMeaders = [
-            'Content-Type: application/json'
-        ];
+        $headers = [ ...$usersHeaders, ...self::DEFAULT_HEADERS ];
 
-        $headers = [ ...$usersHeaders, ...$mainMeaders ];
-
-        // Ajouter le paramètre stream aux données si nécessaire
         if ($stream) {
             $data['stream'] = true;
         }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, static::makePath($path));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, !$stream); // false pour streaming
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, !$stream);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
@@ -48,11 +49,10 @@ class Requests {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }
 
-        // Configuration pour le streaming
         if ($stream) {
             curl_setopt($ch, CURLOPT_WRITEFUNCTION, function($ch, $data) use ($streamCallback) {
                 if ($streamCallback && is_callable($streamCallback)) {
-                    // Traiter chaque chunk de données reçu
+                  
                     $streamCallback($data);
                 }
                 return strlen($data);
@@ -70,7 +70,6 @@ class Requests {
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        // Pour le streaming, la réponse est traitée via le callback
         if ($stream) {
             return [
                 'error' => $httpCode >= 400,
@@ -89,7 +88,8 @@ class Requests {
     }
 
     /**
-     * API request with streaming support - méthode simplifiée
+     * API request with streaming support
+     * 
      * @param string $path
      * @param array $data
      * @param bool $stream
@@ -112,9 +112,37 @@ class Requests {
             streamCallback: $onChunk
         );
     }
+
+    /**
+     * 
+     * @param string $path
+     * @param string $method
+     * @param array $data
+     * @param mixed $usersHeaders
+     * @param bool $stream
+     * @param mixed $onChunk
+     * @return array{data: mixed, error: bool, status: array{error: bool, message: string|mixed}}
+     */
+    public static function get(
+        string $path, 
+        string $method = 'POST', 
+        array $data = [], 
+        $usersHeaders = [],
+        bool $stream = false,
+        ?callable $onChunk = null
+    ):array {
+
+        return static::request(
+            path: $path,
+            method: $method,
+            data: $data,
+            usersHeaders: $usersHeaders,
+            stream: $stream,
+            streamCallback: $onChunk
+        );        
+    }
     
     /**
-     * Make path
      * @param string $path
      * @return string
      */

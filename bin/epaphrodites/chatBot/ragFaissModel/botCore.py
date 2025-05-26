@@ -225,7 +225,7 @@ class modelBotCore:
             traceback.print_exc()
             return f"Error generating response: {str(e)}"
     
-    def ask(self, question: str, stream=False):
+    def ask(self, question: str, stream=True):
         try:
 
             self.last_access_time = time.time()

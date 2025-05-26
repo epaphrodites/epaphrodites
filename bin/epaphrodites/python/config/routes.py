@@ -2,8 +2,11 @@ import sys
 import os
 import re
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
+
 from bin.controllers.controllers.apiControllers import ApiControllers
+
+from bin.controllers.controllerMap.routesConfig import RoutesConfig
 
 class Route:
     def __init__(self, method, pattern, handler):
@@ -22,6 +25,7 @@ class Router:
     def __init__(self):
         self.routes = []
         self.controller = ApiControllers()
+        self.routes_config = RoutesConfig(self, self.controller)
         self._register_routes()
     
     def add_route(self, method, pattern, handler):
@@ -35,5 +39,4 @@ class Router:
         return self.controller.not_found, []
     
     def _register_routes(self):
-        self.add_route("POST", r"^/hello$", self.controller.helloEpaphrodites)
-        self.add_route("POST", r"^/bot-rag-faiss-model$", self.controller.faissRagModel)
+        self.routes_config.register_routes()

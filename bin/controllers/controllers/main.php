@@ -38,15 +38,9 @@ final class main extends MainSwitchers
 
         $getTest = \Epaphrodites\epaphrodites\api\Config\Requests::class;
 
-        $result = $getTest::streamRequest('/bot-rag-faiss-model', [
-            'prompt' => 'Comment creer une base de donnees',
-            'user_id' => 'user123'
-        ], true, function($chunk) {
-            echo $chunk;
-            flush();
-        });
+       $result = $getTest::get('/hello');
 
-        var_dump($result);
+       var_dump($result);
         die;
 
         $this->views($html, []);
