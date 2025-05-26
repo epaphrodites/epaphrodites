@@ -173,7 +173,7 @@ class ThreadedHTTPServer(HTTPServer):
 
 class Server:
     
-    def __init__(self, host='127.0.0.1', port=8000):
+    def __init__(self, host='127.0.0.1', port=5001):
         self.host = host
         self.port = port
         self.httpd = None
@@ -211,7 +211,7 @@ def parse_arguments():
 
     parser = argparse.ArgumentParser(description="Production HTTP server with streaming support")
     parser.add_argument("--host", default="127.0.0.1", help="Host address")
-    parser.add_argument("--port", type=int, default=8000, help="Port number")
+    parser.add_argument("--port", type=int, default=5001, help="Port number")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 

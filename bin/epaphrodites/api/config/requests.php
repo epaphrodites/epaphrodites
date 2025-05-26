@@ -27,7 +27,7 @@ class Requests {
         $usersHeaders = [],
         bool $stream = false,
         ?callable $streamCallback = null
-    ):array {
+    ): array {
 
         $headers = [ ...$usersHeaders, ...self::DEFAULT_HEADERS ];
 
@@ -52,7 +52,6 @@ class Requests {
         if ($stream) {
             curl_setopt($ch, CURLOPT_WRITEFUNCTION, function($ch, $data) use ($streamCallback) {
                 if ($streamCallback && is_callable($streamCallback)) {
-                  
                     $streamCallback($data);
                 }
                 return strlen($data);
@@ -101,7 +100,7 @@ class Requests {
         array $data = [],
         bool $stream = false,
         ?callable $onChunk = null
-    ):array {
+    ): array {
         
         return static::request(
             path: $path,
@@ -114,13 +113,76 @@ class Requests {
     }
 
     /**
+     * Streaming without cache
+     * 
+     * @param string $path
+     * @param array $data
+     * @param bool $withBuffering
+     * @return string
+     */
+    public static function streamChunks(
+        string $path,
+        array $data = [],
+        bool $withBuffering = true
+    ): string {
+        $output = '';
+
+        if ($withBuffering && !headers_sent()) {
+            header('Content-Type: text/event-stream');
+            header('Cache-Control: no-cache');
+            header('Connection: keep-alive');
+            header('X-Accel-Buffering: no');
+        }
+
+        if ($withBuffering) {
+            while (@ob_end_flush());
+            ob_implicit_flush(true);
+            set_time_limit(0);
+            flush();
+        }
+
+        $streamCallback = function($chunk) use (&$output, $withBuffering) {
+            $escapedChunk = str_replace(["\n", "\r"], ['\\n', '\\r'], $chunk);
+            $output .= $chunk . "\n";
+            
+            if ($withBuffering) {
+                echo "$escapedChunk\n\n";
+                flush();
+                usleep(100000);
+            }
+        };
+
+        $response = static::streamRequest(
+            path: $path,
+            data: $data,
+            stream: true,
+            onChunk: $streamCallback
+        );
+
+        if ($response['error']) {
+            $output .= "Error: " . ($response['message'] ?? 'Unknown error') . "\n";
+            if ($withBuffering) {
+                echo "Error: " . ($response['message'] ?? 'Unknown error') . "\n\n";
+                flush();
+            }
+        }
+
+        if ($withBuffering) {
+            flush();
+        }
+
+        return $output;
+    }
+
+    /**
+     * API request with flexible method
      * 
      * @param string $path
      * @param string $method
      * @param array $data
      * @param mixed $usersHeaders
      * @param bool $stream
-     * @param mixed $onChunk
+     * @param callable|null $onChunk
      * @return array{data: mixed, error: bool, status: array{error: bool, message: string|mixed}}
      */
     public static function get(
@@ -130,7 +192,7 @@ class Requests {
         $usersHeaders = [],
         bool $stream = false,
         ?callable $onChunk = null
-    ):array {
+    ): array {
 
         return static::request(
             path: $path,
@@ -143,14 +205,15 @@ class Requests {
     }
     
     /**
+     * Build API URL
      * @param string $path
      * @return string
      */
     private static function makePath(
         string $path
-    ):string{
-
-         $apiUrl = '127.0.0.1:'._PYTHON_SERVER_PORT_."{$path}";
-         return $apiUrl;
+    ): string {
+        $apiUrl = '127.0.0.1:' . _PYTHON_SERVER_PORT_ . "{$path}";
+        return $apiUrl;
     }
 }
+?>

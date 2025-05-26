@@ -7,7 +7,7 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 final class chats extends MainSwitchers
 {
     private object $json;
-    private object $requests;
+    private static object $requests;
     private object $data;
     private object $chatBot;
     private array|bool $result = [];
@@ -33,7 +33,7 @@ final class chats extends MainSwitchers
         $this->json = $this->getObject(static::$initNamespace, 'json');
         $this->data = $this->getObject(static::$initNamespace, 'datas');
         $this->chatBot = $this->getObject( static::$initNamespace , 'bot');
-        $this->requests = $this->getObject(static::$initNamespace, 'requests');
+        self::$requests = $this->getObject(static::$initNamespace, 'requests');
         $this->ajaxTemplate = $this->getObject( static::$initNamespace , "ajax");
     }  
 
@@ -140,27 +140,16 @@ final class chats extends MainSwitchers
     ): void
     {
 
-            $result = $this->requests->streamRequest(
-                '/bot-rag-faiss-model', [
-                'prompt' => 'quel est la commande pour creer une base de donnees',
-                'user_id' => 'default'
-                ],true
-            );
-var_dump($result);die();
         if (static::isValidMethod()) {
             
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
-            $result = $this->requests->streamRequest(
-                '/bot-rag-faiss-model', [
+            $result = self::$requests::streamChunks('/bot-rag-faiss-model', [
                 'prompt' => $send,
-                'user_id' => 'default'
-                ],true
-            );
+                'user_id' => 'user123'
+                ], true);
 
-            $streamingResult = static::streamChunks($result ["data"]);
-
-            echo $streamingResult;
+            echo $result;
            
             return;
         }
