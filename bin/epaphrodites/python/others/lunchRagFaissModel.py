@@ -56,13 +56,11 @@ class LunchRagFaissModel:
                     if "response" in chunk:
                         chunk_text = chunk["response"]
                         response_chunks.append(chunk_text)
-                        # Utilisation de print au lieu de sys.stdout.write pour Windows
+
                         print(chunk_text, end='', flush=True)
                 
-                # Retour à la ligne final
-                print()  # Équivalent à sys.stdout.write("\n")
+                print()
                 
-                # Optionnel : retourner la réponse complète
                 return ''.join(response_chunks)
                 
             except Exception as e:
