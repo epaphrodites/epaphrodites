@@ -69,8 +69,8 @@ class modelreloadPythonServer extends settingreloadPythonServer
         // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
             $output->writeln("   └── Status:          ⚠️ <comment>Already running</comment>");
+            if($allMsg) {
             $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
-        if($allMsg) {
             $output->writeln("");
             $output->writeln("╭─────────────────────────────────────────────────────────────╮");
             $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
@@ -143,8 +143,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
      */
     public function reloadServer(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln("<info>🔄 Reloading Python server</info>");
-
+    
         // Stop the server
         $stopResult = $this->stopServer($output);
         if ($stopResult !== Command::SUCCESS) {
