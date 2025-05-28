@@ -140,14 +140,18 @@ final class chats extends MainSwitchers
     ): void
     {
 
+        $response = self::$requests::stream('/bot-rag-faiss-model', [ 'variable1'=>'test'], false);
+        var_dump($response);
+                die;
+
         if (static::isValidMethod()) {
             
             $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
 
-            $result = self::$requests::streamChunks('/bot-rag-faiss-model', [
+            $result = self::$requests::stream('/bot-rag-faiss-model', [
                 'prompt' => $send,
                 'user_id' => 'user123'
-                ], true);
+                ], [], false);
 
             echo $result;
            

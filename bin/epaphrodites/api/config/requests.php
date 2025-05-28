@@ -2,8 +2,11 @@
 
 namespace Epaphrodites\epaphrodites\api\Config;
 
-class Requests {
-
+class Requests
+{
+    /**
+     * Default headers for API requests
+     */
     private const DEFAULT_HEADERS = [
         'Content-Type: application/json',
         'Accept: application/json',
@@ -12,63 +15,81 @@ class Requests {
 
     /**
      * API request
+     *
      * @param string $path
      * @param string $method
-     * @param mixed $data
-     * @param mixed $usersHeaders
+     * @param array $data
+     * @param array $usersHeaders
      * @param bool $stream
      * @param callable|null $streamCallback
-     * @return array{data: mixed, error: bool, status: mixed|array{error: bool, message: string}}
+     * @return array{data: mixed, error: bool, status: int|array{error: bool, message: string}}
      */
     private static function request(
-        string $path, 
-        string $method = 'POST', 
-        array $data = [], 
-        $usersHeaders = [],
+        string $path,
+        string $method = 'POST',
+        array $data = [],
+        array $usersHeaders = [], // Type corrigé de mixed à array
         bool $stream = false,
         ?callable $streamCallback = null
     ): array {
+        // Fusion des en-têtes avec priorité aux en-têtes utilisateur
+        $headers = array_merge(self::DEFAULT_HEADERS, $usersHeaders);
 
-        $headers = [ ...$usersHeaders, ...self::DEFAULT_HEADERS ];
-
-        if ($stream) {
-            $data['stream'] = true;
-        }
-
+        // Initialisation de cURL
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, static::makePath($path));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, !$stream);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method)); // Normalisation de la méthode
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // À considérer : activer en production avec certificats valides
+
+        // Ajout des en-têtes si non vides
         if (!empty($headers)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
-        
-        if ($data && in_array($method, ['POST', 'PUT'])) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        // Gestion des données pour POST/PUT
+        if (!empty($data) && in_array(strtoupper($method), ['POST', 'PUT'])) {
+            $jsonData = json_encode($data);
+            if ($jsonData === false) {
+                return [
+                    'error' => true,
+                    'status' => 0,
+                    'message' => 'Failed to encode data to JSON'
+                ];
+            }
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         }
 
+        // Gestion du streaming
         if ($stream) {
-            curl_setopt($ch, CURLOPT_WRITEFUNCTION, function($ch, $data) use ($streamCallback) {
+            curl_setopt($ch, CURLOPT_WRITEFUNCTION, function ($ch, $data) use ($streamCallback) {
                 if ($streamCallback && is_callable($streamCallback)) {
-                    $streamCallback($data);
+                    call_user_func($streamCallback, $data);
                 }
                 return strlen($data);
             });
         }
-        
+
+        // Exécution de la requête
         $response = curl_exec($ch);
-        
-        if (curl_errno($ch)) {
+
+        // Gestion des erreurs cURL
+        if ($response === false) {
             $error = curl_error($ch);
+            $errno = curl_errno($ch);
             curl_close($ch);
-            return ['error' => true, 'message' => $error];
+            return [
+                'error' => true,
+                'status' => 0,
+                'message' => "cURL error ($errno): $error"
+            ];
         }
-        
+
+        // Récupération du code HTTP
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
+        // Gestion de la réponse pour le streaming
         if ($stream) {
             return [
                 'error' => $httpCode >= 400,
@@ -76,32 +97,39 @@ class Requests {
                 'data' => ['streaming' => true, 'completed' => true]
             ];
         }
-        
+
+        // Décodage de la réponse JSON
         $decodedResponse = json_decode($response, true);
-        
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return [
+                'error' => true,
+                'status' => $httpCode,
+                'message' => 'Failed to decode JSON response: ' . json_last_error_msg()
+            ];
+        }
+
         return [
             'error' => $httpCode >= 400,
             'status' => $httpCode,
-            'data' => $decodedResponse
+            'data' => $decodedResponse ?? []
         ];
     }
 
     /**
      * API request with streaming support
-     * 
+     *
      * @param string $path
      * @param array $data
      * @param bool $stream
      * @param callable|null $onChunk
      * @return array
      */
-    public static function streamRequest(
+    public static function stream(
         string $path,
         array $data = [],
         bool $stream = false,
         ?callable $onChunk = null
     ): array {
-        
         return static::request(
             path: $path,
             method: 'POST',
@@ -113,87 +141,24 @@ class Requests {
     }
 
     /**
-     * Streaming without cache
-     * 
-     * @param string $path
-     * @param array $data
-     * @param bool $withBuffering
-     * @return string
-     */
-    public static function streamChunks(
-        string $path,
-        array $data = [],
-        bool $withBuffering = true
-    ): string {
-        $output = '';
-
-        if ($withBuffering && !headers_sent()) {
-            header('Content-Type: text/event-stream');
-            header('Cache-Control: no-cache');
-            header('Connection: keep-alive');
-            header('X-Accel-Buffering: no');
-        }
-
-        if ($withBuffering) {
-            while (@ob_end_flush());
-            ob_implicit_flush(true);
-            set_time_limit(0);
-            flush();
-        }
-
-        $streamCallback = function($chunk) use (&$output, $withBuffering) {
-            $escapedChunk = str_replace(["\n", "\r"], ['\\n', '\\r'], $chunk);
-            $output .= $chunk . "\n";
-            
-            if ($withBuffering) {
-                echo "$escapedChunk\n\n";
-                flush();
-                usleep(100000);
-            }
-        };
-
-        $response = static::streamRequest(
-            path: $path,
-            data: $data,
-            stream: true,
-            onChunk: $streamCallback
-        );
-
-        if ($response['error']) {
-            $output .= "Error: " . ($response['message'] ?? 'Unknown error') . "\n";
-            if ($withBuffering) {
-                echo "Error: " . ($response['message'] ?? 'Unknown error') . "\n\n";
-                flush();
-            }
-        }
-
-        if ($withBuffering) {
-            flush();
-        }
-
-        return $output;
-    }
-
-    /**
-     * API request with flexible method
-     * 
+     * Generic API request
+     *
      * @param string $path
      * @param string $method
      * @param array $data
-     * @param mixed $usersHeaders
+     * @param array $usersHeaders
      * @param bool $stream
      * @param callable|null $onChunk
-     * @return array{data: mixed, error: bool, status: array{error: bool, message: string|mixed}}
+     * @return array{data: mixed, error: bool, status: int|array{error: bool, message: string}}
      */
     public static function get(
-        string $path, 
-        string $method = 'POST', 
-        array $data = [], 
-        $usersHeaders = [],
+        string $path,
+        string $method = 'POST',
+        array $data = [],
+        array $usersHeaders = [],
         bool $stream = false,
         ?callable $onChunk = null
     ): array {
-
         return static::request(
             path: $path,
             method: $method,
@@ -201,19 +166,25 @@ class Requests {
             usersHeaders: $usersHeaders,
             stream: $stream,
             streamCallback: $onChunk
-        );        
+        );
     }
-    
+
     /**
-     * Build API URL
+     * Build API path
+     *
      * @param string $path
      * @return string
+     * @throws \RuntimeException if _PYTHON_SERVER_PORT_ is not defined
      */
     private static function makePath(
         string $path
     ): string {
-        $apiUrl = '127.0.0.1:' . _PYTHON_SERVER_PORT_ . "{$path}";
-        return $apiUrl;
+        if (!defined('_PYTHON_SERVER_PORT_')) {
+            throw new \RuntimeException('Python server port is not defined');
+        }
+
+        // Nettoyage du chemin
+        $path = ltrim($path, '/');
+        return "http://127.0.0.1:" . _PYTHON_SERVER_PORT_ . "/{$path}";
     }
 }
-?>

@@ -16,7 +16,7 @@ final class main extends MainSwitchers
         $this->initializeObjects();
     }
 
-        /**
+    /**
      * @return void
      */
     private function initializeObjects(): void
