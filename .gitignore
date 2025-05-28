@@ -7,6 +7,7 @@ test.html
 counter.json
 test/
 results/
+aResources/
 bin/epaphrodites/cbuild/library
 pdfs/
 sqLite.session.sql

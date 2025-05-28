@@ -7,7 +7,6 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 final class chats extends MainSwitchers
 {
     private object $json;
-    private static object $requests;
     private object $data;
     private object $chatBot;
     private array|bool $result = [];
@@ -33,7 +32,6 @@ final class chats extends MainSwitchers
         $this->json = $this->getObject(static::$initNamespace, 'json');
         $this->data = $this->getObject(static::$initNamespace, 'datas');
         $this->chatBot = $this->getObject( static::$initNamespace , 'bot');
-        self::$requests = $this->getObject(static::$initNamespace, 'requests');
         $this->ajaxTemplate = $this->getObject( static::$initNamespace , "ajax");
     }  
 
@@ -127,39 +125,7 @@ final class chats extends MainSwitchers
         }
 
         $this->views($html, [], true);
-    }  
-    
-    /**
-     * This chatbot requires that Python be installed
-     * Start Epaphrodites Chatbot two
-     * @param string $html
-     * @return void
-     */
-    public final function startRagAndFaissbotModel(
-        string $html
-    ): void
-    {
-
-        $response = self::$requests::stream('/bot-rag-faiss-model', [ 'variable1'=>'test'], false);
-        var_dump($response);
-                die;
-
-        if (static::isValidMethod()) {
-            
-            $send = static::isAjax('__send__') ? static::isAjax('__send__') : '';
-
-            $result = self::$requests::stream('/bot-rag-faiss-model', [
-                'prompt' => $send,
-                'user_id' => 'user123'
-                ], [], false);
-
-            echo $result;
-           
-            return;
-        }
-     
-        $this->views( $html, [], true );
-    }      
+    }    
 
     /**
     * Start Epaphrodites recognition

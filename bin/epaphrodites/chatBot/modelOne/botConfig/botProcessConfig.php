@@ -145,23 +145,6 @@ trait botProcessConfig
     }  
     
     /**
-     * @param string $userMessage
-     * @return array
-     */
-    private function faissAndRagBotProcessConfig(
-        string $userMessage
-    ){
-        $result = "";
-        
-        if (!empty($userMessage)) {
-
-            $result = static::initConfig()['python']->executePython('lunchRagFaissModel', [ "prompt" => $userMessage ], true);
-        }
-
-        return $result;
-    }     
-    
-    /**
      * @return string
      */
     protected function getBotUsersConnected(): string
