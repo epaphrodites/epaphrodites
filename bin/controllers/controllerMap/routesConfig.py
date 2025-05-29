@@ -6,4 +6,4 @@ class RoutesConfig:
     
     def register_routes(self):
         self.router.add_route("POST", r"^/hello$", self.controller.helloEpaphrodites)
-        self.router.add_route("POST", r"^/bot-rag-faiss-model$", self.controller.sendAndGetData)
+        self.router.add_route("POST", r"^/send$", self.controller.sendAndGetData)
