@@ -13,8 +13,8 @@ class ApiControllers:
         logger.debug("Handling helloEpaphrodites")
         return 200, {"message": "Hello from python API"}
     
-    def faissRagModel(self, request_handler, stream_handler, body=None, *args):
-        logger.debug(f"Handling faissRagModel with body: {body}")
+    def sendAndGetData(self, request_handler, stream_handler, body=None, *args):
+        logger.debug(f"Handling sendAndGetData with body: {body}")
         try:
             if body is None:
                 logger.error("No request body provided")
@@ -26,19 +26,18 @@ class ApiControllers:
                 logger.error("Invalid JSON format in request body")
                 return 400, {"error": "Invalid JSON format in request body"}
 
-            variable1 = data.get('variable1', 'default_value1')
             variable2 = data.get('variable2', 'default_value2')
 
             response = {
                 "status": "success",
                 "received_variables": {
-                    "variable1": variable1,
                     "variable2": variable2
                 },
-                "message": "Variables processed by faissRagModel"
+                "message": "Variables processed by sendAndGetData"
             }
-            logger.debug(f"faissRagModel response: {response}")
+            logger.debug(f"sendAndGetData response: {response}")
             return 200, response
+        
         except Exception as e:
-            logger.error(f"Error in faissRagModel: {str(e)}")
+            logger.error(f"Error in sendAndGetData: {str(e)}")
             return 500, {"error": f"Error processing request: {str(e)}"}

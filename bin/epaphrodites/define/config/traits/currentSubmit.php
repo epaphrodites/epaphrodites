@@ -505,7 +505,7 @@ trait currentSubmit
      * @param bool $withBuffering
      * @return string
      */
-    public static function streamChunks(
+    public static function stream(
         mixed $stream,
         bool $withBuffering = true
     ): string {
