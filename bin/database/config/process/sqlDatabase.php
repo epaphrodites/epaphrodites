@@ -72,27 +72,9 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
                 $errorMessage = htmlspecialchars($e->getMessage(), ENT_QUOTES);
                 $errorFile = $e->getFile();
                 $errorLine = $e->getLine();
-                $sqlPreview = htmlspecialchars(substr($sqlChaine, 0, 200), ENT_QUOTES);
-                $paramsPreview = htmlspecialchars(json_encode($datas, JSON_PRETTY_PRINT), ENT_QUOTES);
 
-                error_log("[$errorType] $errorMessage in $errorFile on line $errorLine | SQL: $sqlPreview");
-
-                echo <<<HTML
-                <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 70px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
-                    <strong>Database Exception:</strong> {$errorType}<br>
-                    <strong>Message:</strong> {$errorMessage}<br>
-                    <strong>File:</strong> {$errorFile}<br>
-                    <strong>Line:</strong> {$errorLine}<br><br>
-                    <strong>SQL Query:</strong><br>
-                    <div style='background: white; padding: 10px; margin: 5px 0; border-radius: 4px; color: #333;'>
-                        {$sqlPreview}...
-                    </div>
-                    <strong>Parameters:</strong><br>
-                    <pre style='background: white; padding: 10px; margin: 5px 0; border-radius: 4px; color: #333;'>
-                        {$paramsPreview}
-                    </pre>
-                </div>
-                HTML;
+                // Output styled error message with details
+                $this->displayErrors( $errorType, $errorMessage, $errorFile, $errorLine);
             }
 
             // Error handling in no-production environments (with terminal)
@@ -162,14 +144,7 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
                 $errorLine = $e->getLine();
 
                 // Output styled error message with details
-                echo <<<HTML
-                <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 70px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
-                    <strong>Database Exception:</strong> {$errorType}<br>
-                    <strong>Message:</strong> {$errorMessage}<br>
-                    <strong>File:</strong> {$errorFile}<br>
-                    <strong>Line:</strong> {$errorLine}<br><br>
-                </div>
-                HTML;
+                $this->displayErrors( $errorType, $errorMessage, $errorFile, $errorLine);
             }
 
             // Error handling in no-production environments (with terminal)
@@ -177,7 +152,33 @@ class sqlDatabase extends SwitchDatabase implements DatabaseRequest
                $result = error_log("Database error: " . $e->getMessage());
             }
 
-            return $result;
+            return false;
         }
+    }
+
+    /**
+     * Display styled error message
+     * 
+     * @param string $errorType
+     * @param string $errorMessage
+     * @param string $errorFile
+     * @param int $errorLine
+     * @return void
+     */    
+    private function displayErrors( 
+        string $errorType, 
+        string $errorMessage, 
+        string $errorFile, 
+        int $errorLine
+    ):void{
+
+        echo <<<HTML
+        <div style='background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 20px; margin: 70px;font-family: monospace;color: #990000;border-radius: 8px;box-shadow: 2px 2px 6px rgba(0,0,0,0.1);'>
+        <strong>Database Exception:</strong> {$errorType}<br>
+        <strong>Message:</strong> {$errorMessage}<br>
+        <strong>File:</strong> {$errorFile}<br>
+        <strong>Line:</strong> {$errorLine}<br><br>
+        </div>
+        HTML;        
     }
 }
