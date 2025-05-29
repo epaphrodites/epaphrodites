@@ -26,14 +26,10 @@ class ApiControllers:
                 logger.error("Invalid JSON format in request body")
                 return 400, {"error": "Invalid JSON format in request body"}
 
-            variable2 = data.get('variable2', 'default_value2')
+            variable = data.get('variable', 'default_value')
 
             response = {
-                "status": "success",
-                "received_variables": {
-                    "variable2": variable2
-                },
-                "message": "Variables processed by sendAndGetData"
+                "variable": variable
             }
             logger.debug(f"sendAndGetData response: {response}")
             return 200, response
