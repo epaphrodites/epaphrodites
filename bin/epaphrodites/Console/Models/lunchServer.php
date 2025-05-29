@@ -195,8 +195,7 @@ class LunchServer extends AddServerConfig
         $maxAttempts = 10;
         while ($attempts < $maxAttempts) {
             if ($this->isPortInUse($port, $host)) {
-                $output->writeln("🖥️  <fg=green>PHP Server</>:        ✅ <info>Running</info>");
-                $output->writeln("   └── Stop with:       <comment>CTRL + C</comment>");
+                $output->writeln("🖥️  <fg=green>PHP Server</>:         ✅ <info>Running</info>");
                 $output->writeln("");
                 return;
             }

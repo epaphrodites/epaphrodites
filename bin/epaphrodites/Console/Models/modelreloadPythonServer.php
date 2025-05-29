@@ -65,10 +65,8 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
 
         if ($this->isPythonServerRunning($port, $host, $output)) {
-            $output->writeln("   └── Status:          ⚠️ <comment>Already running</comment>");
-            if($allMsg) {
-            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
-        }
+            $output->writeln("   └── Status:         ⚠️ <comment> Already running</comment>");
+
             return Command::SUCCESS;
         }
 
@@ -168,10 +166,6 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $error = "The file $scriptPath does not exist";
             $output->writeln("<error>$error</error>");
             return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
-        }
-
-        if ($allMsg) {
-            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
         }
 
         if ($allMsg == false) {
