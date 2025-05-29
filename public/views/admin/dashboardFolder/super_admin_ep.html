@@ -107,7 +107,7 @@
             id: 'epaphroditeChart',
             orientation : 'vertical',
             position : 'bottom',
-            pourcentage: 'true',
+            percentage: 'true',
             label: 'Epaphrodite Example Chart',
             datasets: [
                 {
@@ -150,7 +150,7 @@
         {
             id: "epaphroditeEchartOne",
             label: "Sample EChart pie",
-            pourcentage: 'true',
+            percentage: 'true',
             orientation: "vertical",
             position: "bottom",
             datasets: [
@@ -175,7 +175,7 @@
         {
             id: "epaphroditeEchartTwo",
             label: "Sample EChart daughnut",
-            pourcentage: 'true',
+            percentage: 'true',
             orientation: "vertical",
             position: "bottom",
             datasets: [
@@ -200,13 +200,13 @@
         {
             id: "epaphroditeEchartThree",
             label: "Sample xChart",
-            pourcentage: 'true',
-            orientation: "vertical",
-            position: "right",
+            percentage: 'true',
+            orientation: "horizontal",
             useLegende : "true",
             datasets: [
                 {
-                    chartType : 'line',
+                    label: '2024',
+                    chartType : 'bar',
                     keys : [ 'title' ],
                     values : [ 'value'],
                     data: [
@@ -215,7 +215,23 @@
                         { "value" : 24593, "title" : "MARCH" },
                         { "value" : 6465, "title" : "APRIL" }
                     ],
-                    color: ['#ff7d9f', '#afc7ab', '#f5d592', '#9dbeca'],
+                    color: ['#F39C12'],
+                    borderColors : '#ff7d9f',
+                    raduis : 0.1
+                },
+                {
+                    label: '2025',
+                    chartType : 'bar',
+                    keys : [ 'title' ],
+                    values : [ 'value'],
+                    legendes : [ 'value1', 'value2', 'value3', 'value4'],
+                    data: [
+                        { "value" : 15969, "title" : "JANUARY" },
+                        { "value" : 3530, "title" : "FEBRUARY" },
+                        { "value" : 20593, "title" : "MARCH" },
+                        { "value" : 8465, "title" : "APRIL" }
+                    ],
+                    color: ['#afc7ab'],
                     borderColors : '#ff7d9f',
                     raduis : 0.1
                 }
@@ -226,7 +242,7 @@
     {{ scattedChart({
         id: "epaphroditeEchartFour",
         position: 'bottom',
-        pourcentage: 'true',
+        percentage: 'true',
         label: "Sample scattedChart",
         orientation: 'vertical',
         keyLabel : 'false',
