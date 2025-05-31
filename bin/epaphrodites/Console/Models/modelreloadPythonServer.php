@@ -134,14 +134,12 @@ class modelreloadPythonServer extends settingreloadPythonServer
 
         // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
-            $output->writeln("   └── Status:          ⚠️ <comment>Already running</comment>");
+            $output->writeln("   └── Stop with:       <fg=gray>php heredia server -k</>");
             if($allMsg) {
                 $output->writeln("");
-                $output->writeln("╭─────────────────────────────────────────────────────────────╮");
-                $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
-                $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+                $output->writeln("🎉 <fg=cyan>Happy coding with Epaphrodites!</>");
                 $output->writeln("");
-                $output->writeln("💡 <comment>Press Ctrl+C to stop all servers</comment>");
+                $output->writeln("💡 <comment>Press Ctrl+C to quit</comment>");
             }
             return Command::SUCCESS;
         }
@@ -256,13 +254,11 @@ class modelreloadPythonServer extends settingreloadPythonServer
         }
 
         if ($allMsg) {
-            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
+            $output->writeln("   └── Stop with:       <fg=gray>php heredia server -k</>");
             $output->writeln("");
-            $output->writeln("╭─────────────────────────────────────────────────────────────╮");
-            $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
-            $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+            $output->writeln("🎉 <fg=cyan>Happy coding with Epaphrodites!</>");
             $output->writeln("");
-            $output->writeln("💡 <comment>Press Ctrl+C to stop all servers</comment>");
+            $output->writeln("💡 <comment>Press Ctrl+C to quit</comment>");
         }
 
         if ($allMsg == false) {

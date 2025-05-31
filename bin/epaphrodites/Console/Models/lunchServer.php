@@ -168,10 +168,10 @@ class LunchServer extends AddServerConfig
         $output->writeln("╰─────────────────────────────────────────────────────────────╯");
         $output->writeln("");
         $output->writeln("🚀 <fg=cyan>Launch Target</>:      <href=http://127.0.0.1:8000><fg=gray>http://127.0.0.1:8000</></>");
-        $output->writeln("🎯 Mode:               <fg=gray>Development</>");
-        $output->writeln("📦 Version:            <fg=gray>Epaphrodites v1.0.0</>");
+        $output->writeln("🎯 <fg=cyan>Mode</>:               <fg=gray>Development</>");
+        $output->writeln("📦 <fg=cyan>Version</>:            <fg=gray>Epaphrodites v1.0.0</>");
         $output->writeln("");
-        $output->writeln("🖥️  <fg=green>PHP Server</>:        ✅ <info>Running</info>");
+        $output->writeln("🖥️ <fg=green>PHP Server</>:         ✅ <info>Running</info>");
 
         $output->writeln("");
         
