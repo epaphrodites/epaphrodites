@@ -4,8 +4,10 @@ namespace Epaphrodites\epaphrodites\Console\Models;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Epaphrodites\epaphrodites\Console\Setting\settingreloadPythonServer;
+use RuntimeException;
 
 /**
  * Model for managing Python server lifecycle (start, stop, reload)
@@ -64,12 +66,20 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $host = '127.0.0.1';
         $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
 
+        // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
-            $output->writeln("   └── Status:         ⚠️ <comment> Already running</comment>");
-
+            $output->writeln("   └── Status:          ⚠️ <comment>Already running</comment>");
+            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
+        if($allMsg) {
+            $output->writeln("");
+            $output->writeln("╭─────────────────────────────────────────────────────────────╮");
+            $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
+            $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+        }
             return Command::SUCCESS;
         }
 
+        // Launch the server
         $result = $this->executePythonServer($filePath, $port, $host, true, $output, $allMsg);
 
         if (!$result['success']) {
@@ -77,6 +87,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return Command::FAILURE;
         }
 
+        // Wait for the server to start
         $attempts = 0;
         $maxAttempts = 10;
 
@@ -132,7 +143,8 @@ class modelreloadPythonServer extends settingreloadPythonServer
      */
     public function reloadServer(InputInterface $input, OutputInterface $output): int
     {
-    
+        $output->writeln("<info>🔄 Reloading Python server</info>");
+
         // Stop the server
         $stopResult = $this->stopServer($output);
         if ($stopResult !== Command::SUCCESS) {
@@ -154,13 +166,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
      * @param bool $allMsg Display all messages (default false)
      * @return array Execution result
      */
-    protected function executePythonServer(
-        string $scriptPath, 
-        int $port, 
-        string $host = '127.0.0.1', 
-        bool $background = true, 
-        object|null $output = null, 
-        bool $allMsg = false) 
+    protected function executePythonServer($scriptPath, $port, $host = '127.0.0.1', $background = true, $output = null, $allMsg = false) 
     {
         if (!file_exists($scriptPath)) {
             $error = "The file $scriptPath does not exist";
@@ -168,30 +174,40 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
         }
 
+        if ($allMsg) {
+            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
+            $output->writeln("");
+            $output->writeln("╭─────────────────────────────────────────────────────────────╮");
+            $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
+            $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+        }
+
         if ($allMsg == false) {
            $output->writeln("<info>✅ Python server has been reload successfully!</info>");
         }
 
+        // Define the log file path
         $logFile = 'pythonServer.log';
-
+        // Ensure the logs directory exists
         $logDir = dirname($logFile);
         if (!is_dir($logDir)) {
             mkdir($logDir, 0755, true);
         }
 
+        // Construct the command with logging
         $command = "python " . escapeshellarg($scriptPath) . " --host=" . escapeshellarg($host) . " --port=" . escapeshellarg($port);
         
         if ($background) {
             if (PHP_OS_FAMILY === 'Windows') {
-               
+                // Redirect output to log file (append mode)
                 $command = "start /B " . $command . " >> " . escapeshellarg($logFile) . " 2>&1";
                 $pidCommand = "wmic process where \"CommandLine like '%" . basename($scriptPath) . "%' and Name='python.exe'\" get ProcessId";
             } else {
-                
+                // Redirect output to log file (append mode)
                 $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1 & echo $!";
             }
         } else {
-           
+            // Non-background mode: still log to file
             $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1";
         }
 
