@@ -4,10 +4,8 @@ namespace Epaphrodites\epaphrodites\Console\Models;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Epaphrodites\epaphrodites\Console\Setting\settingreloadPythonServer;
-use RuntimeException;
 
 /**
  * Model for managing Python server lifecycle (start, stop, reload)
@@ -64,14 +62,11 @@ class modelreloadPythonServer extends settingreloadPythonServer
     private function forceStopServer()
     {
         $port = _PYTHON_SERVER_PORT_;
-        $host = '127.0.0.1';
 
-        // First try to stop by PID if we have it
         if ($this->currentPid) {
             $this->stopPythonServer($this->currentPid, $this->output);
         }
 
-        // Then kill by port to make sure
         $this->killPythonServerByPort($port, $this->output);
     }
 
@@ -85,12 +80,10 @@ class modelreloadPythonServer extends settingreloadPythonServer
     ): int{
         $this->output = $output;
 
-        // Check which option was passed
         $start = $input->getOption('start');
         $reload = $input->getOption('reload');
         $kill = $input->getOption('kill');
 
-        // Verify only one option is used
         $optionsCount = ($start ? 1 : 0) + ($reload ? 1 : 0) + ($kill ? 1 : 0);
         if ($optionsCount > 1) {
             $output->writeln('<error>Error: Please specify only one option (-s, -r, or -k).</error>');
@@ -101,13 +94,11 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return Command::FAILURE;
         }
 
-        // Setup signal handlers
         $this->setupSignalHandlers();
 
-        // Execute the corresponding action
         if ($start) {
             $output->writeln("<info>🚀 Attempting to start Python server ...</info>");
-            return $this->startServer($input, $output);
+            return $this->startServer($input, $output, false);
         } elseif ($reload) {
             $output->writeln("<info>🔄 Attempting to reload Python server ...</info>");
             return $this->reloadServer($input, $output);
@@ -132,7 +123,6 @@ class modelreloadPythonServer extends settingreloadPythonServer
         $host = '127.0.0.1';
         $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
 
-        // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
             $output->writeln("   └── Stop with:       <fg=gray>php heredia server -k</>");
             if($allMsg) {
@@ -144,7 +134,6 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return Command::SUCCESS;
         }
 
-        // Launch the server
         $result = $this->executePythonServer($filePath, $port, $host, true, $output, $allMsg);
 
         if (!$result['success']) {
@@ -152,17 +141,13 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return Command::FAILURE;
         }
 
-        // Store the PID for signal handling
         $this->currentPid = $result['pid'];
-
-        // Wait for the server to start
         $attempts = 0;
         $maxAttempts = 10;
 
         while ($attempts < $maxAttempts && !$this->shutdownInProgress) {
             sleep(1);
             
-            // Process pending signals if pcntl is available
             if (extension_loaded('pcntl')) {
                 pcntl_signal_dispatch();
             }
@@ -221,16 +206,15 @@ class modelreloadPythonServer extends settingreloadPythonServer
      */
     public function reloadServer(InputInterface $input, OutputInterface $output): int
     {
+
         $this->output = $output;
         $output->writeln("<info>🔄 Reloading Python server</info>");
 
-        // Stop the server
         $stopResult = $this->stopServer($output);
         if ($stopResult !== Command::SUCCESS) {
             return $stopResult;
         }
 
-        // Restart
         return $this->startServer($input, $output);
     }
 
@@ -244,7 +228,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
      * @param OutputInterface|null $output Symfony output interface (optional)
      * @param bool $allMsg Display all messages (default false)
      * @return array Execution result
-     */
+    */
     protected function executePythonServer($scriptPath, $port, $host = '127.0.0.1', $background = true, $output = null, $allMsg = false) 
     {
         if (!file_exists($scriptPath)) {
@@ -261,61 +245,80 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $output->writeln("💡 <comment>Press Ctrl+C to quit</comment>");
         }
 
-        if ($allMsg == false) {
-           $output->writeln("<info>✅ Python server has been reload successfully!</info>");
-        }
-
-        // Define the log file path
         $logFile = 'pythonServer.log';
-        // Ensure the logs directory exists
         $logDir = dirname($logFile);
         if (!is_dir($logDir)) {
             mkdir($logDir, 0755, true);
         }
 
-        // Construct the command with logging
-        $command = "python " . escapeshellarg($scriptPath) . " --host=" . escapeshellarg($host) . " --port=" . escapeshellarg($port);
+
+        $command = _PYTHON_." " . escapeshellarg($scriptPath) . " --host=" . escapeshellarg($host) . " --port=" . escapeshellarg($port);
         
         if ($background) {
             if (PHP_OS_FAMILY === 'Windows') {
-                // Redirect output to log file (append mode)
-                $command = "start /B " . $command . " >> " . escapeshellarg($logFile) . " 2>&1";
-                $pidCommand = "wmic process where \"CommandLine like '%" . basename($scriptPath) . "%' and Name='python.exe'\" get ProcessId";
-            } else {
-                // Redirect output to log file (append mode)
-                $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1 & echo $!";
-            }
-        } else {
-            // Non-background mode: still log to file
-            $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1";
-        }
 
-        $output_array = [];
-        $returnCode = 0;
-
-        if ($background && PHP_OS_FAMILY === 'Windows') {
-            exec($command, $output_array, $returnCode);
-
-            sleep(1);
-
-            exec($pidCommand, $pidOutput);
-            $pid = null;
-            foreach ($pidOutput as $line) {
-                if (is_numeric(trim($line))) {
-                    $pid = (int) trim($line);
-                    break;
+                $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1";
+                $process = popen('start /B cmd /C "' . $command . '"', 'r');
+                if ($process === false) {
+                    $error = "Failed to launch Python server";
+                    $output->writeln("<error>$error</error>");
+                    return ['success' => false, 'error' => $error, 'output' => null, 'pid' => null];
                 }
+
+                pclose($process);
+
+                sleep(1);
+
+                $pidCommand = 'tasklist /FI "IMAGENAME eq python.exe" /FO CSV /NH';
+                $pidOutput = [];
+                exec($pidCommand, $pidOutput);
+                $pid = null;
+                foreach ($pidOutput as $line) {
+
+                    $columns = str_getcsv($line);
+                    if (count($columns) >= 2 && $columns[0] === 'python.exe' && is_numeric($columns[1])) {
+
+                        $cmdLineCheck = 'wmic process where ProcessId=' . $columns[1] . ' get CommandLine';
+                        $cmdOutput = [];
+                        exec($cmdLineCheck, $cmdOutput);
+                        foreach ($cmdOutput as $cmdLine) {
+                            if (strpos($cmdLine, basename($scriptPath)) !== false) {
+                                $pid = (int)$columns[1];
+                                break 2;
+                            }
+                        }
+                    }
+                }
+
+                $result = [
+                    'success' => $pid !== null,
+                    'error' => $pid === null ? "Could not retrieve PID for Python process" : null,
+                    'output' => [],
+                    'pid' => $pid,
+                    'background' => true
+                ];
+            } else {
+
+                $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1 & echo $!";
+                $output_array = [];
+                $returnCode = 0;
+                exec($command, $output_array, $returnCode);
+                $pid = $background ? (int) end($output_array) : null;
+                $result = [
+                    'success' => $returnCode === 0,
+                    'error' => $returnCode !== 0 ? "Error during execution (code: $returnCode)" : null,
+                    'output' => $output_array,
+                    'pid' => $pid,
+                    'background' => $background
+                ];
             }
-            $result = [
-                'success' => $returnCode === 0,
-                'error' => $returnCode !== 0 ? "Error during launch (code: $returnCode)" : null,
-                'output' => $output_array,
-                'pid' => $pid,
-                'background' => true
-            ];
         } else {
+
+            $command = $command . " >> " . escapeshellarg($logFile) . " 2>&1";
+            $output_array = [];
+            $returnCode = 0;
             exec($command, $output_array, $returnCode);
-            $pid = PHP_OS_FAMILY !== 'Windows' && $background ? (int) end($output_array) : null;
+            $pid = null;
             $result = [
                 'success' => $returnCode === 0,
                 'error' => $returnCode !== 0 ? "Error during execution (code: $returnCode)" : null,
@@ -325,12 +328,10 @@ class modelreloadPythonServer extends settingreloadPythonServer
             ];
         }
 
-        if ($output) {
-            if (!$result['success']) {
-                $output->writeln("<error>Launch failed: {$result['error']}</error>");
-                $output->writeln("<comment>Check logs at: $logFile</comment>");
-                $output->writeln("<comment>Output: " . implode("\n", $output_array) . "</comment>");
-            }
+        if ($output && !$result['success']) {
+            $output->writeln("<error>Launch failed: {$result['error']}</error>");
+            $output->writeln("<comment>Check logs at: $logFile</comment>");
+            $output->writeln("<comment>Output: " . implode("\n", $result['output']) . "</comment>");
         }
 
         return $result;
@@ -399,7 +400,6 @@ class modelreloadPythonServer extends settingreloadPythonServer
         
         return $success;
     }
-
     
     /**
      * Finds and stops all Python processes using a specific port

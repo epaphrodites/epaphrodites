@@ -34,18 +34,28 @@ class LunchServer extends AddServerConfig
     /**
      * Sets up signal handlers for graceful shutdown
      */
-    private function setupSignalHandlers()
+    private function setupSignalHandlers(OutputInterface $output)
     {
-        // Check if pcntl extension is available
-        if (!extension_loaded('pcntl')) {
-            return false;
-        }
 
-        // Install signal handlers
-        pcntl_signal(SIGINT, [$this, 'handleShutdownSignal']);
-        pcntl_signal(SIGTERM, [$this, 'handleShutdownSignal']);
-        
-        return true;
+        if (function_exists('pcntl_signal')) {
+            pcntl_signal( SIGINT, function() use ($output){
+                $this->shutdown($output);
+                exit(0);
+            });
+
+            pcntl_signal( SIGTERM, function() use ($output){
+                $this->shutdown($output);
+                exit(0);
+            });            
+        }
+    }
+
+    private function shutdown(OutputInterface $output){
+
+        if(_RUN_PYTHON_SERVER_== true){
+            $pythonServer = new \Epaphrodites\epaphrodites\Console\Models\modelreloadPythonServer;
+            $pythonServer->stopServer($output);
+        }
     }
 
     /**
@@ -78,7 +88,7 @@ class LunchServer extends AddServerConfig
      */
     private function stopAllServers()
     {
-        // Stop Python server if it's running
+
         if ($this->pythonServer && _RUN_PYTHON_SERVER_ == true) {
             if ($this->output) {
                 $this->output->writeln("<comment>🐍 Stopping Python server...</comment>");
@@ -86,7 +96,6 @@ class LunchServer extends AddServerConfig
             $this->pythonServer->stopServer($this->output);
         }
 
-        // Stop PHP server if it's running
         if ($this->phpProcess && is_resource($this->phpProcess)) {
             if ($this->output) {
                 $this->output->writeln("<comment>🔱 Stopping PHP server...</comment>");
@@ -94,13 +103,11 @@ class LunchServer extends AddServerConfig
             
             $status = proc_get_status($this->phpProcess);
             if ($status['running']) {
-                // Try to terminate gracefully first
+
                 proc_terminate($this->phpProcess);
                 
-                // Wait a bit for graceful shutdown
                 sleep(1);
                 
-                // Force kill if still running
                 $status = proc_get_status($this->phpProcess);
                 if ($status['running']) {
                     proc_terminate($this->phpProcess, 9);
@@ -133,12 +140,7 @@ class LunchServer extends AddServerConfig
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
 
-            // Setup signal handlers
-            $signalsAvailable = $this->setupSignalHandlers();
-            if (!$signalsAvailable) {
-                $output->writeln("<comment>⚠️ Signal handling not available (pcntl extension missing). Use Ctrl+C to force stop.</comment>");
-                $output->writeln("");
-            }
+            $this->setupSignalHandlers($output);
 
             $this->startServer($port, $address, $output, $input);
 
@@ -192,17 +194,15 @@ class LunchServer extends AddServerConfig
              $output->writeln("<comment>(Note: Python server not detected — running PHP only mode)</comment>");
         }
     
-        // Main server loop with signal handling
         while (proc_get_status($this->phpProcess)['running'] && !$this->shutdownInProgress) {
-            // Process pending signals if pcntl is available
+
             if (extension_loaded('pcntl')) {
                 pcntl_signal_dispatch();
             }
             
-            usleep(100000); // 100ms
+            usleep(100000);
         }
 
-        // Clean shutdown if not already in progress
         if (!$this->shutdownInProgress) {
             $exitCode = proc_close($this->phpProcess);
             if ($exitCode !== 0) {
