@@ -14,6 +14,67 @@ use RuntimeException;
  */
 class modelreloadPythonServer extends settingreloadPythonServer
 {
+    private $shutdownInProgress = false;
+    private $currentPid = null;
+    private $output = null;
+
+    /**
+     * Sets up signal handlers for graceful shutdown
+     */
+    private function setupSignalHandlers()
+    {
+        // Check if pcntl extension is available
+        if (!extension_loaded('pcntl')) {
+            return false;
+        }
+
+        // Install signal handlers
+        pcntl_signal(SIGINT, [$this, 'handleShutdownSignal']);
+        pcntl_signal(SIGTERM, [$this, 'handleShutdownSignal']);
+        
+        return true;
+    }
+
+    /**
+     * Signal handler for graceful shutdown
+     */
+    public function handleShutdownSignal($signal)
+    {
+        if ($this->shutdownInProgress) {
+            return;
+        }
+        
+        $this->shutdownInProgress = true;
+        
+        if ($this->output) {
+            $this->output->writeln("");
+            $this->output->writeln("<info>🛑 Python server shutdown signal received...</info>");
+        }
+
+        $this->forceStopServer();
+        
+        if ($this->output) {
+            $this->output->writeln("<info>✅ Python server stopped successfully!</info>");
+        }
+    }
+
+    /**
+     * Force stop the Python server
+     */
+    private function forceStopServer()
+    {
+        $port = _PYTHON_SERVER_PORT_;
+        $host = '127.0.0.1';
+
+        // First try to stop by PID if we have it
+        if ($this->currentPid) {
+            $this->stopPythonServer($this->currentPid, $this->output);
+        }
+
+        // Then kill by port to make sure
+        $this->killPythonServerByPort($port, $this->output);
+    }
+
     /**
      * Execute method for Symfony Console command
      * Handles options -s (start), -r (reload), -k (kill)
@@ -22,6 +83,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
         InputInterface $input, 
         OutputInterface $output
     ): int{
+        $this->output = $output;
 
         // Check which option was passed
         $start = $input->getOption('start');
@@ -38,6 +100,9 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $output->writeln('<error>Error: No option specified. Use -s (start), -r (reload), or -k (stop).</error>');
             return Command::FAILURE;
         }
+
+        // Setup signal handlers
+        $this->setupSignalHandlers();
 
         // Execute the corresponding action
         if ($start) {
@@ -62,6 +127,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
         OutputInterface $output, 
         bool $allMsg = false
     ): int{
+        $this->output = $output;
         $port = _PYTHON_SERVER_PORT_;
         $host = '127.0.0.1';
         $filePath = _PYTHON_FILE_FOLDERS_ . 'config/server.py';
@@ -69,13 +135,14 @@ class modelreloadPythonServer extends settingreloadPythonServer
         // Check if the server is already running
         if ($this->isPythonServerRunning($port, $host, $output)) {
             $output->writeln("   └── Status:          ⚠️ <comment>Already running</comment>");
-            $output->writeln("   └── Stop with:       <comment>php heredia server -k</comment>");
-        if($allMsg) {
-            $output->writeln("");
-            $output->writeln("╭─────────────────────────────────────────────────────────────╮");
-            $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
-            $output->writeln("╰─────────────────────────────────────────────────────────────╯");
-        }
+            if($allMsg) {
+                $output->writeln("");
+                $output->writeln("╭─────────────────────────────────────────────────────────────╮");
+                $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
+                $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+                $output->writeln("");
+                $output->writeln("💡 <comment>Press Ctrl+C to stop all servers</comment>");
+            }
             return Command::SUCCESS;
         }
 
@@ -87,17 +154,29 @@ class modelreloadPythonServer extends settingreloadPythonServer
             return Command::FAILURE;
         }
 
+        // Store the PID for signal handling
+        $this->currentPid = $result['pid'];
+
         // Wait for the server to start
         $attempts = 0;
         $maxAttempts = 10;
 
-        while ($attempts < $maxAttempts) {
+        while ($attempts < $maxAttempts && !$this->shutdownInProgress) {
             sleep(1);
+            
+            // Process pending signals if pcntl is available
+            if (extension_loaded('pcntl')) {
+                pcntl_signal_dispatch();
+            }
+            
             if ($this->isPythonServerRunning($port, $host)) {
-    
                 return Command::SUCCESS;
             }
             $attempts++;
+        }
+
+        if ($this->shutdownInProgress) {
+            return Command::SUCCESS;
         }
 
         $output->writeln("<error>❌ Server did not respond after $maxAttempts attempts</error>");
@@ -116,6 +195,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
      */
     public function stopServer(OutputInterface $output): int
     {
+        $this->output = $output;
         $port = _PYTHON_SERVER_PORT_;
         $host = '127.0.0.1';
 
@@ -143,6 +223,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
      */
     public function reloadServer(InputInterface $input, OutputInterface $output): int
     {
+        $this->output = $output;
         $output->writeln("<info>🔄 Reloading Python server</info>");
 
         // Stop the server
@@ -180,6 +261,8 @@ class modelreloadPythonServer extends settingreloadPythonServer
             $output->writeln("╭─────────────────────────────────────────────────────────────╮");
             $output->writeln("│ 🎉 <info>All systems are online. Happy coding with Epaphrodites!</info>  │");
             $output->writeln("╰─────────────────────────────────────────────────────────────╯");
+            $output->writeln("");
+            $output->writeln("💡 <comment>Press Ctrl+C to stop all servers</comment>");
         }
 
         if ($allMsg == false) {
@@ -321,6 +404,7 @@ class modelreloadPythonServer extends settingreloadPythonServer
         return $success;
     }
 
+    
     /**
      * Finds and stops all Python processes using a specific port
      * 

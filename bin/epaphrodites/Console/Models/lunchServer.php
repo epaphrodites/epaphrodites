@@ -11,6 +11,11 @@ use RuntimeException;
 class LunchServer extends AddServerConfig
 {
     private const ERROR_PORT_IN_USE = 'The port %d is currently in use.❌';
+    
+    private $phpProcess = null;
+    private $pythonServer = null;
+    private $output = null;
+    private $shutdownInProgress = false;
 
     /**
      * Validates if the port number is within the valid range.
@@ -27,6 +32,87 @@ class LunchServer extends AddServerConfig
     }
 
     /**
+     * Sets up signal handlers for graceful shutdown
+     */
+    private function setupSignalHandlers()
+    {
+        // Check if pcntl extension is available
+        if (!extension_loaded('pcntl')) {
+            return false;
+        }
+
+        // Install signal handlers
+        pcntl_signal(SIGINT, [$this, 'handleShutdownSignal']);
+        pcntl_signal(SIGTERM, [$this, 'handleShutdownSignal']);
+        
+        return true;
+    }
+
+    /**
+     * Signal handler for graceful shutdown
+     */
+    public function handleShutdownSignal($signal)
+    {
+        if ($this->shutdownInProgress) {
+            return;
+        }
+        
+        $this->shutdownInProgress = true;
+        
+        if ($this->output) {
+            $this->output->writeln("");
+            $this->output->writeln("<info>🛑 Shutdown signal received. Stopping all servers...</info>");
+        }
+
+        $this->stopAllServers();
+        
+        if ($this->output) {
+            $this->output->writeln("<info>✅ All servers stopped successfully. Goodbye!</info>");
+        }
+        
+        exit(0);
+    }
+
+    /**
+     * Stops all running servers
+     */
+    private function stopAllServers()
+    {
+        // Stop Python server if it's running
+        if ($this->pythonServer && _RUN_PYTHON_SERVER_ == true) {
+            if ($this->output) {
+                $this->output->writeln("<comment>🐍 Stopping Python server...</comment>");
+            }
+            $this->pythonServer->stopServer($this->output);
+        }
+
+        // Stop PHP server if it's running
+        if ($this->phpProcess && is_resource($this->phpProcess)) {
+            if ($this->output) {
+                $this->output->writeln("<comment>🔱 Stopping PHP server...</comment>");
+            }
+            
+            $status = proc_get_status($this->phpProcess);
+            if ($status['running']) {
+                // Try to terminate gracefully first
+                proc_terminate($this->phpProcess);
+                
+                // Wait a bit for graceful shutdown
+                sleep(1);
+                
+                // Force kill if still running
+                $status = proc_get_status($this->phpProcess);
+                if ($status['running']) {
+                    proc_terminate($this->phpProcess, 9);
+                }
+            }
+            
+            proc_close($this->phpProcess);
+            $this->phpProcess = null;
+        }
+    }
+
+    /**
      * Executes the command to start the server.
      * @param InputInterface $input
      * @param OutputInterface $output
@@ -36,19 +122,27 @@ class LunchServer extends AddServerConfig
         InputInterface $input,
         OutputInterface $output
     ){
+        $this->output = $output;
         $port = $input->getOption('port');
         $address = "127.0.0.1";
+        
         try {
-
             $this->validatePort($port);
 
             if ($this->isPortInUse($port, $address)) {
                 throw new RuntimeException(sprintf(self::ERROR_PORT_IN_USE, $port));
             }
 
-           $this->startServer($port, $address, $output, $input );
+            // Setup signal handlers
+            $signalsAvailable = $this->setupSignalHandlers();
+            if (!$signalsAvailable) {
+                $output->writeln("<comment>⚠️ Signal handling not available (pcntl extension missing). Use Ctrl+C to force stop.</comment>");
+                $output->writeln("");
+            }
 
-           return self::SUCCESS;
+            $this->startServer($port, $address, $output, $input);
+
+            return self::SUCCESS;
 
         } catch (InvalidArgumentException $e) {
             $output->writeln("<error>Invalid argument: " . $e->getMessage() . "</error>");
@@ -69,7 +163,6 @@ class LunchServer extends AddServerConfig
         OutputInterface $output,
         InputInterface $input
     ){
-
         $output->writeln("╭─────────────────────────────────────────────────────────────╮");
         $output->writeln("│ 🔱  <info>Epaphrodites Framework — <fg=gray>Development Suite Booting...</></info>   │");
         $output->writeln("╰─────────────────────────────────────────────────────────────╯");
@@ -79,36 +172,46 @@ class LunchServer extends AddServerConfig
         $output->writeln("📦 Version:            <fg=gray>Epaphrodites v1.0.0</>");
         $output->writeln("");
         $output->writeln("🖥️  <fg=green>PHP Server</>:        ✅ <info>Running</info>");
-        $output->writeln("   └── Stop with:       <comment>CTRL + C</comment>");
+
         $output->writeln("");
+        
         $logFile = _SERVER_LOG_;
         $command = "php -S $host:$port > $logFile 2>&1";
-        $process = proc_open($command, [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']], $pipes);
+        $this->phpProcess = proc_open($command, [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']], $pipes);
     
-        if (!is_resource($process)) {
+        if (!is_resource($this->phpProcess)) {
             throw new RuntimeException("Failed to start the server.");
         }
   
         if(_RUN_PYTHON_SERVER_ == true){
-            $pythonServer = new \Epaphrodites\epaphrodites\Console\Models\modelreloadPythonServer;
-            $pythonServer->startServer( $input , $output, true);
+            $this->pythonServer = new \Epaphrodites\epaphrodites\Console\Models\modelreloadPythonServer;
+            $this->pythonServer->startServer($input, $output, true);
         }
 
         if(_RUN_PYTHON_SERVER_ == false){
              $output->writeln("<comment>(Note: Python server not detected — running PHP only mode)</comment>");
         }
     
-        while (proc_get_status($process)['running']) {
-            usleep(100000);
+        // Main server loop with signal handling
+        while (proc_get_status($this->phpProcess)['running'] && !$this->shutdownInProgress) {
+            // Process pending signals if pcntl is available
+            if (extension_loaded('pcntl')) {
+                pcntl_signal_dispatch();
+            }
+            
+            usleep(100000); // 100ms
         }
 
-        $exitCode = proc_close($process);
-        if ($exitCode !== 0) {
-            throw new RuntimeException(sprintf("Server exited with code %d", $exitCode));
+        // Clean shutdown if not already in progress
+        if (!$this->shutdownInProgress) {
+            $exitCode = proc_close($this->phpProcess);
+            if ($exitCode !== 0) {
+                throw new RuntimeException(sprintf("Server exited with code %d", $exitCode));
+            }
+            
+            $output->writeln("");
+            $output->writeln(sprintf("<info>Server stopped with exit code %d</info>", $exitCode));
         }
-    
-        $output->writeln("");
-        $output->writeln(sprintf("<info>Server stopped with exit code %d</info>", $exitCode));
     }
 
     /**
