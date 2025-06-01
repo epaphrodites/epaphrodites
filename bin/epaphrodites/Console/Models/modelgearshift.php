@@ -80,6 +80,6 @@ class modelgearshift extends settinggearshift
     {
        
         $database = new Builders;
-        $database->multiChaine($queryChaine)->setMultiQuery($db);
+        $database->multiChaine($queryChaine)->setMultiQuery($db, true);
     }
 }

@@ -12,13 +12,14 @@ trait buildQuery
      * @return mixed
      */
     public function getQuery(
-        int $db = 1
+        int $db = 1,
+        bool $terminal = false
     ): mixed
     {
         $query = "$this->chaine"; // Get initial query chain
 
         // Execute the SELECT query
-        return $this->selectBuildRequest($query , $db);
+        return $this->selectBuildRequest($query, $db, $terminal);
     }   
     
     /**
@@ -27,12 +28,13 @@ trait buildQuery
      * @return string
      */
     public function setQuery(
-        int $db = 1
+        int $db = 1,
+        bool $terminal = false
     ): string
     {
         $query = "$this->chaine";
         
-        return $this->executeBuildRequest($query , $db);
+        return $this->executeBuildRequest($query, $db, $terminal);
     }  
     
     /**
@@ -41,7 +43,8 @@ trait buildQuery
      * @return string
      */
     public function setMultiQuery(
-        int $db = 1
+        int $db = 1,
+        bool $terminal = false
     ): bool
     {
         $result = false;
@@ -50,7 +53,7 @@ trait buildQuery
     
             if(!empty($query)){
     
-                $result = $this->executeBuildRequest($query , $db);
+                $result = $this->executeBuildRequest($query, $db, $terminal);
             }
         }
         
@@ -65,7 +68,8 @@ trait buildQuery
      */
     public function selectBuildRequest(
         string $query , 
-        int $db = 1
+        int $db = 1,
+        bool $terminal = false
     ):mixed
     {
         $param = $this->param ?? null;
@@ -80,7 +84,7 @@ trait buildQuery
 
 
         // Execute the SELECT query and return the result
-        return static::initConfig()['process']->select($query, $param, $setParam, $close, $db, $exceptErrorDisplay);
+        return static::initConfig()['process']->select($query, $param, $setParam, $close, $db, $exceptErrorDisplay, $terminal);
     }
 
     /**
@@ -91,7 +95,8 @@ trait buildQuery
      */
     public function executeBuildRequest(
         string $query, 
-        int $db = 1
+        int $db = 1,
+        bool $terminal = false
     ): mixed
     {
         $param = $this->param ?? null;
@@ -102,9 +107,9 @@ trait buildQuery
         $this->db = NULL;
         $this->param = [];
         $this->except = false;
-
+        
         // Execute the INSERT query and return the result
-        return static::initConfig()['process']->runRequest($query, $param, $setParam, $close, $db, $exceptErrorDisplay);
+        return static::initConfig()['process']->runRequest($query, $param, $setParam, $close, $db, $exceptErrorDisplay, $terminal);
     }    
 
     /**

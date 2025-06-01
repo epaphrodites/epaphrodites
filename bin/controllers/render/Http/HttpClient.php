@@ -2,8 +2,13 @@
 
 namespace Epaphrodites\controllers\render\Http;
 
+use RuntimeException;
+
 class HttpClient extends HttpRequest
 {
+
+    private const TIMEOUT_SECONDS = 15;
+    private const SLEEP_MICROSECONDS = 200_000;
 
     /**
      * @return mixed
@@ -29,6 +34,4 @@ class HttpClient extends HttpRequest
             ? substr($httpRequest, 1)
             : _DASHBOARD_;
     }
-    
-
 }

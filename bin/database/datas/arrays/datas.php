@@ -27,8 +27,9 @@ class datas
         return $this->returnData($list, $key, $need );
     }
 
-/**
+    /**
      * Bot instructions
+     * 
      * @param string $lang
      * @param string $botName
      * @return string

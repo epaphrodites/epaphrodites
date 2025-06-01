@@ -30,8 +30,8 @@ final class chats extends MainSwitchers
     private function initializeObjects(): void
     {
         $this->json = $this->getObject(static::$initNamespace, 'json');
+        $this->data = $this->getObject(static::$initNamespace, 'datas');
         $this->chatBot = $this->getObject( static::$initNamespace , 'bot');
-        $this->data = $this->getFunctionObject(static::initNamespace(), 'datas');
         $this->ajaxTemplate = $this->getObject( static::$initNamespace , "ajax");
     }  
 
@@ -87,8 +87,8 @@ final class chats extends MainSwitchers
     }  
     
     /**
-     * This chatbot requires that Python be installed and model llama3:8b
-     * Start Epaphrodites Chatbot two
+     * This chatbot requires that model llama3:8b be installed
+     * 
      * @param string $html
      * @return void
      */
@@ -125,7 +125,7 @@ final class chats extends MainSwitchers
         }
 
         $this->views($html, [], true);
-    }      
+    }    
 
     /**
     * Start Epaphrodites recognition

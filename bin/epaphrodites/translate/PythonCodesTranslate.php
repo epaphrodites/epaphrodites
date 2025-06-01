@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Epaphrodites\epaphrodites\translate;
 
 use Epaphrodites\epaphrodites\env\config\GeneralConfig;
+use InvalidArgumentException;
+use RuntimeException;
 
 class PythonCodesTranslate extends GeneralConfig
 {

@@ -53,6 +53,7 @@ trait currentVariableNameSpaces
         'cookies' => \Epaphrodites\epaphrodites\auth\SetUsersCookies::class,
         'bot' => \Epaphrodites\epaphrodites\chatBot\processBotAnswers::class,
         'qrcode' => \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode::class,
+        'requests' => \Epaphrodites\epaphrodites\api\requests\Requests::class,
         'verify' => \Epaphrodites\epaphrodites\env\VerifyInputCharacteres::class,
         'response' => \Epaphrodites\epaphrodites\env\config\ResponseSequence::class,
         'visit' => \Epaphrodites\epaphrodites\EpaphMozart\Visitors\visitorCount::class,

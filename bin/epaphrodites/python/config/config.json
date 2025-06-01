@@ -35,7 +35,11 @@
         "script": "others\/lunchBotModelThree.py",
         "function": "func_lunchModelThree"
     },
-    "translatWords": {
+    "lunchRagFaissModel": {
+        "script": "others\/lunchRagFaissModel.py",
+        "function": "func_ragFaiss"
+    },
+        "translatWords": {
         "script": "env\/translatWords.py",
         "function": "func_translatWords"
     },

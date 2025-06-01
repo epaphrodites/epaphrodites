@@ -88,7 +88,7 @@ class GeneralConfig extends ApiStaticKeygen
         array $data = [],
         ?callable $onData = null,
         bool $useStreaming = false,
-        int $timeout = 120
+        int $timeout = 3600
     ): mixed {
     
         if (empty($scriptPath) || !is_file($scriptPath) || !is_readable($scriptPath)) {

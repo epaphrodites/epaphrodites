@@ -74,5 +74,15 @@ trait pyEnv{
         }
 
         return static::initConfig()['python']->executePython('translatWords', ["text" => $text , "lang"=>$lang ]);
-    }      
+    } 
+    
+    public function request(
+        string $endpoint, 
+        array $data = [], 
+        string $method = 'GET', 
+        array $options = []
+    ): array{
+     
+        return static::initConfig()['python']->pyApi( $endpoint, $data, $method , $options );
+    }
 }

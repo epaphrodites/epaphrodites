@@ -10,13 +10,13 @@ final class main extends MainSwitchers
     private object $session;
     private string $ans = '';
     private string $alert = '';
-
+    
     public function __construct()
     {
         $this->initializeObjects();
     }
 
-        /**
+    /**
      * @return void
      */
     private function initializeObjects(): void

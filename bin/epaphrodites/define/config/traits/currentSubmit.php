@@ -501,46 +501,61 @@ trait currentSubmit
     /**
      * Streaming without cache
      * 
-     * @param iterable $ollama_stream
+     * @param iterable $stream
      * @param bool $withBuffering
      * @return string
      */
-    public static function streamChunks(
-        iterable $ollama_stream, 
+    public static function stream(
+        mixed $stream,
         bool $withBuffering = true
-    ): string{
-        $output = 'tres';
+    ): string {
+        $output = '';
+        
+        if (is_bool($stream)) {
 
+            if ($stream === true) {
+                $withBuffering = true;
+            }
+
+            $stream = [];
+        }
+        
+        if (!is_array($stream) && !($stream instanceof \Traversable)) {
+
+            $stream = [];
+        }
+        
         if ($withBuffering && !headers_sent()) {
-            header('Content-Type: text/html; charset=utf-8');
-            header('Cache-Control: no-cache, must-revalidate');
+            header('Content-Type: text/event-stream');
+            header('Cache-Control: no-cache');
             header('Connection: keep-alive');
             header('X-Accel-Buffering: no');
         }
-
+        
         if ($withBuffering) {
             while (@ob_end_flush());
             ob_implicit_flush(true);
             set_time_limit(0);
-            echo str_repeat("<!-- ping -->\n", 5);
             flush();
         }
+        
+        foreach ($stream as $chunk) {
 
-        foreach ($ollama_stream as $chunk) {
+            $escapedChunk = str_replace(["\n", "\r"], ['\\n', '\\r'], $chunk);
             $output .= $chunk . "\n";
-
+            
             if ($withBuffering) {
-                echo $chunk . "\n";
+                echo "$escapedChunk\n\n";
                 flush();
                 usleep(100000);
             }
         }
-
+        
         if ($withBuffering) {
-            echo "<!-- stream end -->";
+            flush();
         }
-
-        return $output . 'test';
+        
+        return $output;
     }
 
 /**

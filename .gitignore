@@ -1,10 +1,13 @@
 composer.lock
 server.log
+pythonServer.log
+pythonServer.log
 test.php
 test.html
 counter.json
 test/
 results/
+aResources/
 bin/epaphrodites/cbuild/library
 pdfs/
 sqLite.session.sql

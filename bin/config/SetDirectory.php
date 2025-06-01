@@ -30,8 +30,14 @@
 define('_LANG_', 'eng');
 
 # Python (accepted: 'python', 'python3')
-# For linux os: python3
+# For linux os use : python3
 define('_PYTHON_', 'python');
+
+# Run python server (accepted 'true' or 'false')
+define('_RUN_PYTHON_SERVER_', false);
+
+# Define python server default port
+define('_PYTHON_SERVER_PORT_', 5001);
 
 # Language used for background processing (accepted: 'php' or 'python')
 define('__EMAIL_METHOD__', 'php');

@@ -16,7 +16,7 @@ trait deeplTranslate{
         $params = [
             'auth_key' => $this->getApiKey(),
             'text' => $text,
-            'target_lang' => $targetLanguage,
+            'target_lang' => $targetLanguage
         ];
     
         $ch = curl_init();

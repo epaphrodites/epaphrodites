@@ -36,6 +36,7 @@ class auth extends SelectAuth
       $result = $this->table('usersaccount')
           ->like('login')
           ->param([$login])
+          ->except()
           ->SQuery();
 
       return $result;
@@ -63,6 +64,7 @@ class auth extends SelectAuth
       $result = $this->table('usersaccount')
           ->like('login')
           ->param([$login])
+          ->except()
           ->SQuery();
 
       return static::initNamespace()['env']->dictKeyToLowers($result);
