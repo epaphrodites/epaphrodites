@@ -115,7 +115,7 @@ trait SqLite
     ): bool
     {
 
-        $this->ifExtensionExist('pdo_sqlite');
+        $this->ifExtensionExist('sqlite3');
         return $this->setSqLiteConnexionWithoutDatabase($dbName, $db, $requestAction);
     }
 }
