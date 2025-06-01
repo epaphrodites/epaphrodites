@@ -94,6 +94,7 @@ trait mysql{
         bool $state = false
     ):object|array{
 
+        $this->ifExtensionExist('pdo_mysql');
         return $this->setMysqlConnexion($db, $state);
     }
 
@@ -110,6 +111,7 @@ trait mysql{
         bool $actionType
     ):bool{
 
+        $this->ifExtensionExist('pdo_mysql');
         return $this->setMysqlConnexionWithoutDatabase($dbName, $db, $actionType);
     }    
 }

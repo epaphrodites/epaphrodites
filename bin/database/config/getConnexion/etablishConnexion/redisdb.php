@@ -53,6 +53,7 @@ trait redisdb
     ):array|object
     {
 
+        $this->ifExtensionExist('redis');
         return $this->setRedisDBConnexion($db);
     }
 }

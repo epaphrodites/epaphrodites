@@ -56,5 +56,5 @@ class dnsConfig extends GetConfig{
     ):string{
 
         return 'sqlite:' . static::DB_SQLITE($db);
-    }   
+    }
 }

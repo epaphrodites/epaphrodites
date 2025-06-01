@@ -98,6 +98,7 @@ trait SqLite
         bool $state = false
     ):object|array{
 
+        $this->ifExtensionExist('pdo_sqlite');
         return $this->getSqLite($db, $state);
     }
 
@@ -114,6 +115,7 @@ trait SqLite
     ): bool
     {
 
+        $this->ifExtensionExist('sqlite3');
         return $this->setSqLiteConnexionWithoutDatabase($dbName, $db, $requestAction);
     }
 }
