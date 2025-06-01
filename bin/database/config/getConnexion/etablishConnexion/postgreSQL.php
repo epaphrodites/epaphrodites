@@ -94,6 +94,7 @@ trait postgreSQL{
         bool $state = false
     ):object|array{
 
+        $this->ifExtensionExist('pdo_pgsql');
         return $this->setPostgreSQLConnexion($db, $state);
     }  
     
@@ -110,6 +111,7 @@ trait postgreSQL{
     ):bool
     {
 
+        $this->ifExtensionExist('pdo_pgsql');
         return $this->setPostgreSQLConnexionWithoutDatabase($dbName , $db , $actionType);
     }    
 }

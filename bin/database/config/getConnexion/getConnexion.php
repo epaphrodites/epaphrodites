@@ -10,10 +10,11 @@ use Database\Epaphrodites\config\getConnexion\etablishConnexion\redisdb;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\mongodb;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\oracledb;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\SqlServer;
+use Database\Epaphrodites\config\getConnexion\etablishConnexion\Extension;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\postgreSQL;
 
 class getConnexion extends dnsConfig implements DriversConnexion
 {
 
-    use mysql, oracledb, postgreSQL, mongodb, SqLite, SqlServer, redisdb;
+    use mysql, oracledb, postgreSQL, mongodb, SqLite, SqlServer, redisdb, Extension;
 }

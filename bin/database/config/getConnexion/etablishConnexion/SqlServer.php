@@ -94,6 +94,7 @@ trait SqlServer{
         bool $state = false
     ):object|array{
 
+        $this->ifExtensionExist('pdo_sqlsrv');
         return $this->setSqlServerConnexion($db, $state);
     }  
     
@@ -109,7 +110,7 @@ trait SqlServer{
         bool $actionType 
     ):bool
     {
-
+        $this->ifExtensionExist('pdo_sqlsrv');
         return $this->setSqlServerConnexionWithoutDatabase($dbName , $db, $actionType);
     }      
 }

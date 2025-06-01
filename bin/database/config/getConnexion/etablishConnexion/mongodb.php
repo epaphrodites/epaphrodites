@@ -98,6 +98,7 @@ trait mongodb
         bool $state = false
     ):object|array{
 
+        $this->ifExtensionExist('mongodb');
         return $this->setMongoDBConnexion($db);
     }
 
@@ -114,6 +115,7 @@ trait mongodb
     ):bool
     {
 
+        $this->ifExtensionExist('mongodb');
         return $this->setMongoDBConnexionWithoutDatabase($dbName, $db, $actionType);
     }
 }

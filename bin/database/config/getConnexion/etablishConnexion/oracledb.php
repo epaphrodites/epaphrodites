@@ -57,6 +57,7 @@ trait oracledb{
         bool $state = false
     ):object|array{
 
+        $this->ifExtensionExist('PDO_OCI');
         return $this->setOracledbConnexion($db, $state);
     }   
 }
