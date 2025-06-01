@@ -87,8 +87,8 @@ final class chats extends MainSwitchers
     }  
     
     /**
-     * This chatbot requires that Python be installed and model llama3:8b
-     * Start Epaphrodites Chatbot two
+     * This chatbot requires that model llama3:8b be installed
+     * 
      * @param string $html
      * @return void
      */

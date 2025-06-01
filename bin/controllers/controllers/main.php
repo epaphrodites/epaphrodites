@@ -10,8 +10,7 @@ final class main extends MainSwitchers
     private object $session;
     private string $ans = '';
     private string $alert = '';
-    private static object $requests;
-
+    
     public function __construct()
     {
         $this->initializeObjects();
@@ -23,7 +22,6 @@ final class main extends MainSwitchers
     private function initializeObjects(): void
     {
         $this->visit = $this->getObject(static::$initNamespace, 'visit');
-        self::$requests = $this->getObject(static::$initNamespace, 'requests');
         $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
     }
 
