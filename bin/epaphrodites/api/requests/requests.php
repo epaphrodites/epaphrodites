@@ -1,10 +1,10 @@
 <?php
 namespace Epaphrodites\epaphrodites\api\requests;
-use Epaphrodites\epaphrodites\api\Config\CurlSetopt;
+use Epaphrodites\epaphrodites\api\config\curlSetopt;
 
-class Requests
+class requests
 {
-    use CurlSetopt;
+    use curlSetopt;
 
     /**
      * API request with streaming support (simplified)

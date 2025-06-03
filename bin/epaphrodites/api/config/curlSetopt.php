@@ -1,7 +1,7 @@
 <?php
-namespace Epaphrodites\epaphrodites\api\Config;
+namespace Epaphrodites\epaphrodites\api\config;
 
-trait CurlSetopt
+trait curlSetopt
 {
     /**
      * Default headers for API requests
