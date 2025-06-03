@@ -12,8 +12,9 @@ trait Extension{
      * @throws \InvalidArgumentException If the extension name is empty or invalid.
      * @throws \RuntimeException If the extension is not loaded.
      */
-    protected function ifExtensionExist(string $extensionName): void
-    {
+    protected function ifExtensionExist(
+        string $extensionName
+    ): void{
         if (empty(trim($extensionName))) {
             throw new \InvalidArgumentException('The extension name cannot be empty.');
         }
