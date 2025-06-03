@@ -30,7 +30,7 @@ trait currentFunctionNamespaces
             'cookies' => new \Epaphrodites\epaphrodites\auth\SetUsersCookies,
             'qrcode' => new \Epaphrodites\epaphrodites\QRCodes\GenerateQRCode,
             'bot' => new \Epaphrodites\epaphrodites\chatBot\processBotAnswers,
-            'requests' => new \Epaphrodites\epaphrodites\api\requests\Requests,
+            'requests' => new \Epaphrodites\epaphrodites\api\requests\requests,
             'verify' => new \Epaphrodites\epaphrodites\env\VerifyInputCharacteres,
             'response' => new \Epaphrodites\epaphrodites\env\config\ResponseSequence,
             'visit' => new \Epaphrodites\epaphrodites\EpaphMozart\Visitors\visitorCount,

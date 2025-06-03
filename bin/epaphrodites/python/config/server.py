@@ -11,8 +11,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 logging.basicConfig(
     level=logging.WARNING,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    stream=sys.stdout
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler('pythonServer.log')
+    ]
 )
+
 logger = logging.getLogger(__name__)
 
 def load_router():
@@ -202,7 +206,7 @@ class Server:
             self.stop()
 
     def stop(self):
-        """Arrêt propre du serveur"""
+        
         if self.httpd:
             self.httpd.server_close()
             logger.info("Server stopped")
