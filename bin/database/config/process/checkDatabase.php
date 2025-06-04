@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Epaphrodites\database\config\process;
 
 use Epaphrodites\database\config\getConnexion\getConnexion;
+use Epaphrodites\database\config\process\envLoader as EnvLoader;
 use Epaphrodites\epaphrodites\ErrorsExceptions\epaphroditeException;
 use Epaphrodites\database\requests\typeRequest\sqlRequest\insert\AutoMigrations\InitSeederGenerated;
 use Epaphrodites\database\requests\typeRequest\noSqlRequest\insert\AutoMigrations\InitNoSeederGenerated;
@@ -25,6 +26,9 @@ class checkDatabase extends getConnexion
         bool $state = false
     ):array|object
     {
+        
+        // Load env
+        checkDatabase::env();
 
         $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
 
@@ -84,6 +88,9 @@ class checkDatabase extends getConnexion
         int $db = 1 , 
         bool $requestAction = true
     ){
+
+        // Load env
+        checkDatabase::env();
 
         // Switch based on the database driver type
         switch (static::DB_DRIVER($db)) {
@@ -169,5 +176,14 @@ class checkDatabase extends getConnexion
             default:
                 throw new epaphroditeException("Unsupported database driver");
         }
+    }
+
+    /**
+     * Load Env variables
+     * @return void
+     */
+    public static function env():void{
+
+        EnvLoader::init(_ENV_EDITABLE_);
     }
 }

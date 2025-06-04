@@ -114,7 +114,7 @@ class modelEnvManagers extends settingEnvManagers
         OutputInterface $output
     ): int {
         if (!$this->isFileReadable($iniPath)) {
-            $output->writeln("<error>Configuration file is not readable: $iniPath</error>");
+            $output->writeln("<error>Configuration file is not readable</error>");
             return static::FAILURE;
         }
 
@@ -130,12 +130,12 @@ class modelEnvManagers extends settingEnvManagers
         $output->writeln($message);
 
         if (file_put_contents($envPath, $envContent) === false) {
-            $output->writeln("<error>Failed to write .env file at: $envPath</error>");
+            $output->writeln("<error>Failed to write .env file</error>");
             return static::FAILURE;
         }
 
         chmod($envPath, 0600); // Secure file permissions
-        $output->writeln("<info>.env file successfully generated at: $envPath</info>");
+        $output->writeln("<info>.env file successfully generated</info>");
         return static::SUCCESS;
     }
 
@@ -150,7 +150,7 @@ class modelEnvManagers extends settingEnvManagers
     {
         $config = parse_ini_file($iniPath, true, INI_SCANNER_TYPED);
         if ($config === false) {
-            $output->writeln("<error>Failed to parse configuration file: $iniPath</error>");
+            $output->writeln("<error>Failed to parse configuration file</error>");
             return false;
         }
 
@@ -237,13 +237,13 @@ class modelEnvManagers extends settingEnvManagers
         OutputInterface $output
     ): int {
         if (!$this->isFileReadable($envPath)) {
-            $output->writeln("<error>.env file not found or not readable: $envPath</error>");
+            $output->writeln("<error>.env file not found or not readable</error>");
             return static::FAILURE;
         }
 
         $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         if ($lines === false) {
-            $output->writeln("<error>Failed to read .env file: $envPath</error>");
+            $output->writeln("<error>Failed to read .env file</error>");
             return static::FAILURE;
         }
 
@@ -254,7 +254,7 @@ class modelEnvManagers extends settingEnvManagers
             }
 
             if (!str_contains($line, '=')) {
-                $output->writeln("<comment>Skipping invalid line: $line</comment>");
+                $output->writeln("<comment>Skipping invalid line</comment>");
                 continue;
             }
 
@@ -263,7 +263,7 @@ class modelEnvManagers extends settingEnvManagers
             $value = trim($value);
 
             if ($key === '') {
-                $output->writeln("<comment>Skipping empty key in line: $line</comment>");
+                $output->writeln("<comment>Skipping empty key in line</comment>");
                 continue;
             }
 
@@ -274,7 +274,7 @@ class modelEnvManagers extends settingEnvManagers
             }
         }
 
-        $output->writeln("<info>Environment variables loaded successfully from: $envPath</info>");
+        $output->writeln("<info>Environment variables loaded successfully</info>");
         return static::SUCCESS;
     }
 }

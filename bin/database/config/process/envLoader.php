@@ -20,8 +20,10 @@ final class envLoader
      * @param bool $forceRegeneration Force regeneration of .env file
      * @throws \RuntimeException If file operations fail or configuration is invalid
      */
-    public static function init(bool $forceRegeneration = false): void
-    {
+    public static function init(
+        bool $forceRegeneration = false
+    ): void{
+        
         if (self::$isLoaded && !$forceRegeneration) {
             return;
         }
@@ -55,8 +57,10 @@ final class envLoader
      * @param string $file File name
      * @return string Full path to file
      */
-    private static function buildPath(string $file): string
-    {
+    private static function buildPath(
+        string $file
+    ): string{
+
         return rtrim(self::CONFIG_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . ltrim($file, DIRECTORY_SEPARATOR);
     }
 
@@ -67,8 +71,11 @@ final class envLoader
      * @throws \RuntimeException If file operations or parsing fail
      * @throws \InvalidArgumentException If configuration values are invalid
      */
-    private static function generateEnvFromIni(string $iniPath, string $envPath): void
-    {
+    private static function generateEnvFromIni(
+        string $iniPath, 
+        string $envPath
+    ): void{
+
         if (!file_exists($iniPath) || !is_readable($iniPath)) {
             throw new \RuntimeException("INI file not found or unreadable: $iniPath");
         }
@@ -125,7 +132,6 @@ final class envLoader
             error_log("EnvLoader warnings: " . implode('; ', $warnings));
         }
 
-        // Use file locking to prevent race conditions
         $tempFile = $envPath . '.tmp';
         $handle = fopen($tempFile, 'w');
         if ($handle === false) {
@@ -162,8 +168,10 @@ final class envLoader
      * @param string $envPath Path to .env file
      * @throws \RuntimeException If file operations fail
      */
-    private static function loadEnvFile(string $envPath): void
-    {
+    private static function loadEnvFile(
+        string $envPath
+    ): void{
+
         if (!file_exists($envPath) || !is_readable($envPath)) {
             throw new \RuntimeException(".env file not found or not readable: $envPath");
         }
@@ -188,7 +196,6 @@ final class envLoader
                 continue;
             }
 
-            // Handle quoted values
             $value = self::parseValue($value);
 
             putenv("$key=$value");
@@ -202,8 +209,9 @@ final class envLoader
      * @param mixed $value Value to sanitize
      * @return string Sanitized string
      */
-    private static function sanitize(mixed $value): string
-    {
+    private static function sanitize(
+        mixed $value
+    ): string{
         if ($value === null || $value === '') {
             return '';
         }
@@ -222,13 +230,16 @@ final class envLoader
      * @param string $value Raw value from .env
      * @return string Parsed value
      */
-    private static function parseValue(string $value): string
-    {
-        // Remove surrounding quotes and handle escaped quotes
+    private static function parseValue(
+        string $value
+    ): string{
+        
         if (preg_match('/^[\'"]?(.*?)[\'"]?$/', $value, $matches)) {
             $value = $matches[1];
         }
+
         $value = str_replace(['\"', "\'"], ['"', "'"], $value);
+
         return $value;
     }
 }

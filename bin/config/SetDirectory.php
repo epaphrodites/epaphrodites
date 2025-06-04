@@ -50,7 +50,7 @@ define('_PRODUCTION_', false);
 
 # Enable environment variables modification 
 # (true = allow modification after load, false = prevent modification after load)
-define('_ENV_MODIFIABLE_', false);
+define('_ENV_EDITABLE_', false);
 
 # File extension used for frontend rendering (e.g., .html, .php)
 define('_FRONT_', '.html');

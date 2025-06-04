@@ -113,7 +113,7 @@ class GetConfig extends errors
         $value = getenv($key);
 
         if ($value === false) {
-            var_dump($key);die;
+
             throw new \InvalidArgumentException(sprintf('Environment variable "%s" not found', $key));
         }
 
