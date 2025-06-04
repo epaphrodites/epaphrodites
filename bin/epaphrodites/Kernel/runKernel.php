@@ -2,6 +2,7 @@
 
 namespace Epaphrodites\epaphrodites\Kernel;
 
+use Epaphrodites\database\config\process\envLoader as EnvLoader;
 use Epaphrodites\controllers\render\Http\ConfigHttp;
 use Epaphrodites\controllers\switchers\GetControllers;
 use Epaphrodites\epaphrodites\EpaphMozart\templatesConfig\ConfigDashboardPages;
@@ -30,6 +31,11 @@ class runKernel extends ConfigHttp
      */
     private function Start(): void
     {
+
+        /**
+         * @return void
+        */
+        EnvLoader::init();
 
         /**
          * @return string

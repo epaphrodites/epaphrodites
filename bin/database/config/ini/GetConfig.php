@@ -90,6 +90,37 @@ class GetConfig extends errors
     }
 
     /**
+     * Loads an environment variable for a specific database index
+     *
+     * @param int $db Database index (must be positive)
+     * @param string $env Environment variable key suffix (e.g., 'HOST', 'USER')
+     * @return string The environment variable value
+     * @throws \InvalidArgumentException If the database index is invalid or the variable is not found
+     */
+    private static function loadEnv(int $db, string $env): string
+    {
+        if ($db <= 0) {
+            throw new \InvalidArgumentException('Database index must be a positive integer');
+        }
+
+        if (empty($env) || !preg_match('/^[A-Z_]+$/', $env)) {
+            throw new \InvalidArgumentException(
+                'Environment variable suffix must be non-empty and contain only uppercase letters and underscores'
+            );
+        }
+
+        $key = sprintf('%dDB_%s', $db, $env);
+        $value = getenv($key);
+
+        if ($value === false) {
+            var_dump($key);die;
+            throw new \InvalidArgumentException(sprintf('Environment variable "%s" not found', $key));
+        }
+
+        return (string)$value;
+    }
+
+    /**
      * Get the database section from config
      */
     private static function getSection(int $db): array
@@ -118,7 +149,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ?: 'port=' . $Port . ';';
     }
@@ -132,7 +163,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ? ";" : ",{$Port};";
     }  
@@ -146,7 +177,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ? '' : "(PORT = $Port)";
     }  
@@ -174,7 +205,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ?: $Port;
     }
@@ -188,7 +219,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ?: "port={$Port}";
     }
@@ -201,8 +232,8 @@ class GetConfig extends errors
     protected static function DB_PASSWORD(
         int $db
     ): string{
-;
-        return static::get($db, 'PASSWORD');
+        
+        return static::loadEnv($db, 'PASSWORD');
     }
 
     /**
@@ -226,7 +257,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        return static::get($db, 'USER');
+        return static::loadEnv($db, 'USER');
     }
 
     /**
@@ -276,8 +307,8 @@ class GetConfig extends errors
     protected static function DB_HOST(
         int $db
     ):mixed{
-
-        return static::DB_SOCKET($db) == false ? 'host=' . static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
+        
+        return static::DB_SOCKET($db) == false ? 'host=' . static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
     }
 
     /**
@@ -289,7 +320,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        return static::DB_SOCKET($db) == false ? 'server=' . static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
+        return static::DB_SOCKET($db) == false ? 'server=' . static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
     } 
     
     /**
@@ -301,7 +332,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-       return static::DB_SOCKET($db) == false ? "(HOST = ".static::get($db, 'HOST').")": static::get($db, 'SOCKET_PATH');
+       return static::DB_SOCKET($db) == false ? "(HOST = ".static::get($db, 'HOST').")": static::loadEnv($db, 'SOCKET_PATH');
     }      
 
     /**
@@ -313,7 +344,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        return static::DB_SOCKET($db) == false ? static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
+        return static::DB_SOCKET($db) == false ? static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
     }
 
     /**
