@@ -35,7 +35,7 @@ class runKernel extends ConfigHttp
         /**
          * @return void
         */
-        EnvLoader::init();
+        EnvLoader::init(_ENV_MODIFIABLE_);
 
         /**
          * @return string
