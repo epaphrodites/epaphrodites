@@ -8,14 +8,32 @@ import threading
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-logging.basicConfig(
-    level=logging.WARNING,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('pythonServer.log')
+def setup_logging():
+    handlers = [logging.StreamHandler(sys.stdout)]
+    
+    log_locations = [
+        'pythonServer.log',
+        os.path.join(os.path.expanduser("~"), "pythonServer.log"),
+        os.path.join(os.path.dirname(__file__), "pythonServer.log"),
+        os.path.join(os.environ.get('TEMP', '/tmp'), "pythonServer.log")
     ]
+    
+    for log_path in log_locations:
+        try:
+            handlers.append(logging.FileHandler(log_path))
+            break
+        except PermissionError:
+            continue
+    else:
+        print("Unable to create a log file, using console output only.")
+    
+    logging.basicConfig(
+        level=logging.WARNING,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=handlers
 )
+    
+setup_logging()
 
 logger = logging.getLogger(__name__)
 
