@@ -173,7 +173,7 @@ class LunchServer extends AddServerConfig
         $output->writeln("🎯 <fg=cyan>Mode</>:               <fg=gray>Development</>");
         $output->writeln("📦 <fg=cyan>Version</>:            <fg=gray>Epaphrodites v1.0.0</>");
         $output->writeln("");
-        $output->writeln("🖥️ <fg=green>PHP Server</>:         ✅ <info>Running</info>");
+        $output->writeln("🖥️ <fg=green>PHP Server</>:          ✅ <info>Running</info>");
 
         $output->writeln("");
         
