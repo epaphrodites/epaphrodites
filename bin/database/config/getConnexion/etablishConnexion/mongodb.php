@@ -60,6 +60,10 @@ trait mongodb
 
         $options = empty(static::DB_USER($db)) && empty(static::DB_PASSWORD($db)) ? [] : $param;
 
+        if(!class_exists('\MongoDB\Client')){
+            throw new \Exception("Mongodb class database not found.");
+        }
+
         // Try to connect to database to etablish connexion
         try {
 

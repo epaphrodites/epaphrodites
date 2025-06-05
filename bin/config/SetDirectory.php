@@ -48,6 +48,10 @@ define('_OTP_METHOD_', false);
 # Enable production mode (true = suppress debug info, false = dev mode)
 define('_PRODUCTION_', false);
 
+# Enable environment variables modification 
+# (true = allow modification after load, false = prevent modification after load)
+define('_ENV_EDITABLE_', false);
+
 # File extension used for frontend rendering (e.g., .html, .php)
 define('_FRONT_', '.html');
 

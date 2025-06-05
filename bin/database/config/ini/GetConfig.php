@@ -90,6 +90,37 @@ class GetConfig extends errors
     }
 
     /**
+     * Loads an environment variable for a specific database index
+     *
+     * @param int $db Database index (must be positive)
+     * @param string $env Environment variable key suffix (e.g., 'HOST', 'USER')
+     * @return string The environment variable value
+     * @throws \InvalidArgumentException If the database index is invalid or the variable is not found
+     */
+    private static function loadEnv(int $db, string $env): string
+    {
+        if ($db <= 0) {
+            throw new \InvalidArgumentException('Database index must be a positive integer');
+        }
+
+        if (empty($env) || !preg_match('/^[A-Z_]+$/', $env)) {
+            throw new \InvalidArgumentException(
+                'Environment variable suffix must be non-empty and contain only uppercase letters and underscores'
+            );
+        }
+
+        $key = sprintf('%dDB_%s', $db, $env);
+        $value = getenv($key);
+
+        if ($value === false) {
+
+            throw new \InvalidArgumentException(sprintf('Environment variable "%s" not found', $key));
+        }
+
+        return (string)$value;
+    }
+
+    /**
      * Get the database section from config
      */
     private static function getSection(int $db): array
@@ -110,7 +141,7 @@ class GetConfig extends errors
     }    
 
     /**
-     * @var string
+     * Load the port from the environment variable
      * @param int $db
      * @return string
      */
@@ -118,13 +149,13 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ?: 'port=' . $Port . ';';
     }
 
     /**
-     * @var string
+     * Load the port from the environment variable
      * @param int $db
      * @return string
      */
@@ -132,27 +163,27 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ? ";" : ",{$Port};";
     }  
     
     /**
-     * @var string
+     * Load the port from the environment variable
      * @param int $db
      * @return string
      */
     protected static function ORACLE_PORT(
         int $db
     ):string{
-
-        $Port = static::get($db, 'PORT');
+         
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ? '' : "(PORT = $Port)";
     }  
     
     /**
-     * @var string
+     * Load the database name from configuration
      * @param int $db
      * @return string
      */
@@ -166,7 +197,7 @@ class GetConfig extends errors
     }     
 
     /**
-     * @var string
+     * Load the port from the environment variable
      * @param int $db
      * @return string
      */
@@ -174,39 +205,41 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        $Port = static::get($db, 'PORT');
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ?: $Port;
     }
 
     /**
-     * @var string
+     * Load the port from the environment variable
      * @param int $db
      * @return string
      */
     protected static function DB_MysqlPORT(
         int $db
     ): string{
-
-        $Port = static::get($db, 'PORT');
+        
+        $Port = static::loadEnv($db, 'PORT');
 
         return empty($Port) ?: "port={$Port}";
     }
 
     /**
-     * @var string
+     * Load the password from the environment variable
      * @param int $db
      * @return string
      */
     protected static function DB_PASSWORD(
         int $db
     ): string{
-;
-        return static::get($db, 'PASSWORD');
+        
+        $password = static::loadEnv($db, 'PASSWORD');
+
+        return $password;
     }
 
     /**
-     * @var string
+     * Load the driver from the environment variable
      * @param int $db
      * @return string
      */
@@ -214,35 +247,41 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        return static::get($db, 'DRIVER');
+        $drivers = static::get($db, key: 'DRIVER');
+
+        return $drivers;
     }
 
     /**
-     * @var string
+     * Load the user from the environment variable
      * @param int $db
      * @return string
      */
     protected static function DB_USER(
         int $db
     ): string{
+        
+        $users = static::loadEnv($db, 'USER');
 
-        return static::get($db, 'USER');
+        return $users;
     }
 
     /**
-     * @var string
+     * Load the database name from configuration
      * @param int $db
      * @return string
      */
     protected static function DB_DATABASE(
         int $db
     ): string{
+        
+        $database = static::get($db, 'DATABASE');
 
-        return static::get($db, 'DATABASE');
+        return $database;
     }
 
     /**
-     * @var string
+     * Load the database name from configuration
      * @param int $db
      * @return string
      */
@@ -251,33 +290,38 @@ class GetConfig extends errors
         string|null $dbName = null
     ): string{
 
+        
         $dbName = $dbName ?? static::DB_DATABASE($db);
 
         return _DIR_SQLITE_DATAS_ . $dbName;
     }
 
     /**
-     * @var string
+     * Load the socket status from configuration
      * @param int $db
      * @return string
      */
     protected static function DB_SOCKET(
         int $db
     ): string{
+        
+        $socket = static::get($db, 'SOCKET');
 
-        return static::get($db, 'SOCKET');
+        return $socket;
     }
 
     /**
-     * @var string
+     * If the socket is not set, use the HOST from the configuration
      * @param int $db
      * @return mixed
      */
     protected static function DB_HOST(
         int $db
     ):mixed{
+        
+        $host = static::DB_SOCKET($db) == false ? 'host=' . static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
 
-        return static::DB_SOCKET($db) == false ? 'host=' . static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
+        return $host;
     }
 
     /**
@@ -289,11 +333,13 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        return static::DB_SOCKET($db) == false ? 'server=' . static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
+        $sqlServerHost = static::DB_SOCKET($db) == false ? 'server=' . static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
+
+        return $sqlServerHost;
     } 
     
     /**
-     * @var string
+     * If the socket is not set, use the HOST from the configuration
      * @param int $db
      * @return mixed
      */
@@ -301,19 +347,23 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-       return static::DB_SOCKET($db) == false ? "(HOST = ".static::get($db, 'HOST').")": static::get($db, 'SOCKET_PATH');
+        $oracleHost = static::DB_SOCKET($db) == false ? "(HOST = ".static::get($db, 'HOST').")": static::loadEnv($db, 'SOCKET_PATH');
+
+       return $oracleHost;
     }      
 
     /**
-     * @var string
+     * If the socket is not set, use the HOST from the configuration
      * @param int $db
      * @return mixed
      */
     protected static function noDB_HOST(
         int $db
     ):mixed{
+        
+        $noDbHost = static::DB_SOCKET($db) == false ? static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
 
-        return static::DB_SOCKET($db) == false ? static::get($db, 'HOST') : static::get($db, 'SOCKET_PATH');
+        return $noDbHost;
     }
 
     /**

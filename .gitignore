@@ -6,6 +6,7 @@ test.php
 test.html
 counter.json
 test/
+bin/config/.env
 results/
 aResources/
 bin/epaphrodites/cbuild/library
