@@ -26,7 +26,7 @@ class checkDatabase extends getConnexion
         bool $state = false
     ):array|object
     {
-        
+
         // Load env
         checkDatabase::env();
 
@@ -95,27 +95,27 @@ class checkDatabase extends getConnexion
         // Switch based on the database driver type
         switch (static::DB_DRIVER($db)) {
 
-                // If the driver is MySQL, connect to MySQL using the Mysql method
+            // If the driver is MySQL, connect to MySQL using the Mysql method
             case 'mysql':
                 return $this->etablishMysql($dbName, $db , $requestAction);
                 break;
 
-                // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
+            // If the driver is PostgreSQL, connect to PostgreSQL using the PostgreSQL method
             case 'pgsql':
                 return $this->etablishPostgreSQL($dbName, $db, $requestAction);
                 break;
 
-                // If the driver is sqlite, connect to sqlite using the sqlite method
+            // If the driver is sqlite, connect to sqlite using the sqlite method
             case 'sqlite':
                 return $this->etablishsqLite($dbName, $db, $requestAction);
                 break;
 
-                // If the driver is sqlserver, connect to sqlserver using the sqlserver method
+            // If the driver is sqlserver, connect to sqlserver using the sqlserver method
             case 'sqlserver':
                 return $this->etablishSqlServer($dbName, $db , $requestAction);
                 break;         
 
-                // If the driver is MongoDB, connect to MongoDB using the MongoDB method
+            // If the driver is MongoDB, connect to MongoDB using the MongoDB method
             case 'mongodb':
                 return $this->etablishMongoDB($dbName, $db, $requestAction);
                 break;
@@ -135,40 +135,41 @@ class checkDatabase extends getConnexion
         int $db = 1
     )
     {
+
         // Switch based on the database driver type
         switch (static::DB_DRIVER($db)) {
 
-                // If the driver is MySQL, create the table using InitSeederGenerated
+            // If the driver is MySQL, create the table using InitSeederGenerated
             case 'mysql':
                 return (new InitSeederGenerated)->createTableMysql();
                 break;
 
-                // If the driver is Oracle, create the table using InitSeederGenerated
+            // If the driver is Oracle, create the table using InitSeederGenerated
             case 'oracle':
                 return (new InitSeederGenerated)->createTableOracle();
                 break;                
 
-                // If the driver is PostgreSQL, create the table using InitSeederGenerated
+            // If the driver is PostgreSQL, create the table using InitSeederGenerated
             case 'pgsql':
                 return (new InitSeederGenerated)->createTablePostgreSQL();
                 break;
 
-                // If the driver is sqlLite, create collections using InitNoSeederGenerated
+            // If the driver is sqlLite, create collections using InitNoSeederGenerated
             case 'sqlite':
                 return (new InitSeederGenerated)->createTableSqLite();
                 break;
 
-                // If the driver is sqlServer, create collections using InitNoSeederGenerated
+            // If the driver is sqlServer, create collections using InitNoSeederGenerated
             case 'sqlserver':
                 return (new InitSeederGenerated)->createTableSqlServer();
                 break;
 
-                // If the driver is MongoDB, create collections using InitNoSeederGenerated
+            // If the driver is MongoDB, create collections using InitNoSeederGenerated
             case 'mongodb':
                 return (new InitNoSeederGenerated)->createMongoCollections();
                 break;
 
-                // If the driver is MongoDB, create collections using InitNoSeederGenerated
+            // If the driver is MongoDB, create collections using InitNoSeederGenerated
             case 'redis':
                 return (new InitNoSeederGenerated)->CreateRedisMigration();
                 break;                
