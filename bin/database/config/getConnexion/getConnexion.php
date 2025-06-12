@@ -10,7 +10,7 @@ use Database\Epaphrodites\config\getConnexion\etablishConnexion\redisdb;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\mongodb;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\oracledb;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\SqlServer;
-use Database\Epaphrodites\config\getConnexion\etablishConnexion\extension as Extension;
+use Database\Epaphrodites\config\getConnexion\etablishConnexion\getExtension as Extension;
 use Database\Epaphrodites\config\getConnexion\etablishConnexion\postgreSQL;
 
 class getConnexion extends dnsConfig implements DriversConnexion

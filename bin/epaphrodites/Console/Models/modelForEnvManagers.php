@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Epaphrodites\epaphrodites\Console\Models;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Epaphrodites\epaphrodites\Console\Setting\settingEnvManagers;
+use Epaphrodites\epaphrodites\Console\Setting\settingForEnvManagers;
 use RuntimeException;
 use InvalidArgumentException;
 
-class modelEnvManagers extends settingEnvManagers
+class modelForEnvManagers extends settingForEnvManagers
 {
     private const CONFIG_DIR = _DIR_CONFIG_INI_;
     private const INI_FILE = 'Config.ini';
