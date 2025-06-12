@@ -3,7 +3,7 @@
 namespace Database\Epaphrodites\config\getConnexion\etablishConnexion;
 
 
-trait extension{
+trait getExtension{
 
     /**
      * Checks if a PHP extension is loaded.
