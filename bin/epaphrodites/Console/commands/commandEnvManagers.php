@@ -2,9 +2,9 @@
 
 namespace Epaphrodites\epaphrodites\Console\commands;
 
-use Epaphrodites\epaphrodites\Console\Models\modelenvManagers;
+use Epaphrodites\epaphrodites\Console\Models\modelEnvManagers;
 
-class commandEnvManagers extends modelenvManagers{
+class commandEnvManagers extends modelEnvManagers{
 
     protected static $defaultName = 'env';
 }
