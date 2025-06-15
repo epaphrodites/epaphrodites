@@ -1,0 +1,19 @@
+# Configuration de mise à jour - packages/epaphrodites
+# Généré automatiquement lors de l'installation
+
+version: "1.0.0"
+package: "packages/epaphrodites"
+auto_update: true
+check_interval: 3600
+last_check: null
+
+# Paramètres de mise à jour
+update:
+  enabled: true
+  backup_before_update: true
+  notification: true
+  
+# URLs de vérification
+urls:
+  check: "https://epaphrodite.org/api/check-version"
+  download: "https://epaphrodite.org/api/download"
