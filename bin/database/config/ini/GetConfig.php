@@ -191,7 +191,7 @@ class GetConfig extends errors
         int $db
     ):string{
 
-        $dbName = static::get($db, 'DATABASE');
+        $dbName = static::loadEnv($db, 'DATABASE');
 
         return "(CONNECT_DATA = (SERVICE_NAME = $dbName) )";
     }     
@@ -247,7 +247,7 @@ class GetConfig extends errors
         int $db
     ): string{
 
-        $drivers = static::get($db, key: 'DRIVER');
+        $drivers = static::loadEnv($db, 'DRIVER');
 
         return $drivers;
     }
@@ -275,7 +275,7 @@ class GetConfig extends errors
         int $db
     ): string{
         
-        $database = static::get($db, 'DATABASE');
+        $database = static::loadEnv($db, 'DATABASE');
 
         return $database;
     }
@@ -319,7 +319,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
         
-        $host = static::DB_SOCKET($db) == false ? 'host=' . static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
+        $host = static::DB_SOCKET($db) == false ? 'host=' . static::loadEnv($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
 
         return $host;
     }
@@ -333,7 +333,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        $sqlServerHost = static::DB_SOCKET($db) == false ? 'server=' . static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
+        $sqlServerHost = static::DB_SOCKET($db) == false ? 'server=' . static::loadEnv($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
 
         return $sqlServerHost;
     } 
@@ -347,7 +347,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
 
-        $oracleHost = static::DB_SOCKET($db) == false ? "(HOST = ".static::get($db, 'HOST').")": static::loadEnv($db, 'SOCKET_PATH');
+        $oracleHost = static::DB_SOCKET($db) == false ? "(HOST = ".static::loadEnv($db, 'HOST').")": static::loadEnv($db, 'SOCKET_PATH');
 
        return $oracleHost;
     }      
@@ -361,7 +361,7 @@ class GetConfig extends errors
         int $db
     ):mixed{
         
-        $noDbHost = static::DB_SOCKET($db) == false ? static::get($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
+        $noDbHost = static::DB_SOCKET($db) == false ? static::loadEnv($db, 'HOST') : static::loadEnv($db, 'SOCKET_PATH');
 
         return $noDbHost;
     }

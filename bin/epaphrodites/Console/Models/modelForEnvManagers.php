@@ -201,6 +201,9 @@ class modelForEnvManagers extends settingForEnvManagers
 
             $index = $matches[1];
             $envContent .= sprintf("# Database configuration %s\n", $index);
+            $envContent .= sprintf("%sDB_HOST=%s\n", $index, $this->sanitizeValue($settings['HOST'] ?? ''));
+            $envContent .= sprintf("%sDB_DRIVER=%s\n", $index, $this->sanitizeValue($settings['DRIVER'] ?? ''));
+            $envContent .= sprintf("%sDB_DATABASE=%s\n", $index, $this->sanitizeValue($settings['DATABASE'] ?? ''));
             $envContent .= sprintf("%sDB_PORT=%s\n", $index, $this->sanitizeValue($settings['PORT'] ?? ''));
             $envContent .= sprintf("%sDB_USER=%s\n", $index, $this->sanitizeValue($settings['USER'] ?? ''));
             $envContent .= sprintf("%sDB_PASSWORD=%s\n", $index, $this->sanitizeValue($settings['PASSWORD'] ?? ''));

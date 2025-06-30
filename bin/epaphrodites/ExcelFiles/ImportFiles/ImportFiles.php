@@ -63,14 +63,7 @@ class ImportFiles extends FilesExtension
 
             $result = static::initConfig()['python']->executePython('importExcelFiles', ["excel" => $filePath, 'ext' => ".{$Extension}"]);
 
-            $result = json_decode($result, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-
-                throw new \Exception("Error decoding JSON result from Python: " . json_last_error_msg());
-            }
-
-            return $result;
+            return is_array($result) ? $result : [];
     
         }else{return []; }
     }

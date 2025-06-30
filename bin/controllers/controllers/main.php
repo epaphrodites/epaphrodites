@@ -7,6 +7,7 @@ use Epaphrodites\controllers\switchers\MainSwitchers;
 final class main extends MainSwitchers
 {
     private object $visit;
+    private object $request;
     private object $session;
     private string $ans = '';
     private string $alert = '';
@@ -22,6 +23,7 @@ final class main extends MainSwitchers
     private function initializeObjects(): void
     {
         $this->visit = $this->getObject(static::$initNamespace, 'visit');
+        $this->request = $this->getObject(static::$initNamespace, 'requests');
         $this->session = $this->getFunctionObject(static::initNamespace(), 'session');
     }
 
@@ -35,6 +37,9 @@ final class main extends MainSwitchers
         string $html
     ):void
     {
+
+        $result = $this->request->pyGet('hello');
+        var_dump($result);die;
 
         $this->views($html, []);
     }
