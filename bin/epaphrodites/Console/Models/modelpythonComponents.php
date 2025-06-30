@@ -83,11 +83,35 @@ class modelpythonComponents extends settingpythonComponents
                 'success' => 'Pandas installation completed',
                 'already_installed' => 'Pandas is already installed'
             ],
+            'pip install mysql.connector' => [
+                'success' => 'mysql.connector installation completed',
+                'already_installed' => 'mysql.connector is already installed'
+            ],
+            'pip install psycopg2' => [
+                'success' => 'psycopg2 installation completed',
+                'already_installed' => 'psycopg2 is already installed'
+            ],    
+            'pip install oracledb' => [
+                'success' => 'oracledb installation completed',
+                'already_installed' => 'oracledb is already installed'
+            ], 
+            'pip install pyodbc' => [
+                'success' => 'pyodbc installation completed',
+                'already_installed' => 'pyodbc is already installed'
+            ],   
+            'pip install pymongo' => [
+                'success' => 'Mongodb installation completed',
+                'already_installed' => 'Mongodb is already installed'
+            ],
+            'pip install redis' => [
+                'success' => 'Redis installation completed',
+                'already_installed' => 'Redis is already installed'
+            ],                                  
             'pip install pycryptodome' => [
                 'success' => 'pycryptodome installation completed',
                 'already_installed' => 'pycryptodome is already installed'
             ],
-            'pip3 install pytesseract' => [
+            'pip install pytesseract' => [
                 'success' => 'pytesseract installation completed',
                 'already_installed' => 'pytesseract is already installed'
             ],

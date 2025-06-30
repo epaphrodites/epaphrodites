@@ -7,6 +7,6 @@ class Select:
     
     def getUsersData():
         cursor = query.sdb(1)
-        cursor.execute("SELECT * FROM drena")
-        results = cursor.fetchall()
-        return results
+        #cursor.execute("SELECT * FROM drena")
+        #results = cursor.fetchall()
+        return cursor
