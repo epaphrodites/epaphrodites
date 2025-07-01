@@ -8,7 +8,7 @@ class BuildQuery:
     
     @staticmethod
     def sdb( db : int):
-        
+       
         return SwitchDatabase.dbConnect(db)
     
     @staticmethod

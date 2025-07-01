@@ -3,7 +3,6 @@ import logging
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-
 from bin.database.requests.typeRequest.sqlRequest.select.select import Select
 
 logging.basicConfig(level=logging.DEBUG)

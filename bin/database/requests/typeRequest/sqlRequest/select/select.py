@@ -6,7 +6,10 @@ from bin.database.query.buildQuery.buildQuery import BuildQuery as query
 class Select:
     
     def getUsersData():
-        cursor = query.sdb(1)
-        cursor.execute("SELECT * FROM drena")
-        results = cursor.fetchall()
-        return results
+        
+        conn = query.sdb(1)
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM schools;")
+            return cur.fetchall()
+        
+        return cursor
