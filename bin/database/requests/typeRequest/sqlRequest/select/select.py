@@ -9,7 +9,7 @@ class Select:
         
         conn = query.sdb(1)
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM schools;")
+            cur.execute("SELECT * FROM inspections;")
             return cur.fetchall()
         
         return cursor

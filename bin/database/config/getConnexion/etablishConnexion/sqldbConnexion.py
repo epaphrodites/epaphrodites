@@ -46,7 +46,6 @@ except ImportError as e:
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../..')))
 
-# Configuration robuste des chemins
 SQLITE_PATH = os.getenv("SQLITE_PATH", "bin/database/datas/SqlLite/")
 
 class DatabaseConnectionError(Exception):
@@ -64,7 +63,7 @@ class SqldbConnexion:
     
     # Validation des configurations requises
     REQUIRED_FIELDS = {
-        'postgresql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
+        'pgsql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
         'mysql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
         'sqlite': ['DATABASE'],
         'oracle': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
@@ -73,7 +72,7 @@ class SqldbConnexion:
     
     # Ports par défaut
     DEFAULT_PORTS = {
-        'postgresql': 5432,
+        'pgsql': 5432,
         'mysql': 3306,
         'oracle': 1521,
         'sqlserver': 1433
@@ -121,7 +120,7 @@ class SqldbConnexion:
     def _check_driver_availability(db_type: str) -> None:
         """Vérifie la disponibilité du driver"""
         availability = {
-            'postgresql': PSYCOPG2_AVAILABLE,
+            'pgsql': PSYCOPG2_AVAILABLE,
             'mysql': PYMYSQL_AVAILABLE,
             'sqlite': SQLITE3_AVAILABLE,
             'oracle': ORACLE_AVAILABLE,
@@ -137,14 +136,12 @@ class SqldbConnexion:
     @staticmethod
     def postgreSQL(config: Dict[str, Any]) -> Union[object, str]:
         """Connexion PostgreSQL robuste"""
-        db_type = 'postgresql'
+        db_type = 'pgsql'
         
         try:
             SqldbConnexion._check_driver_availability(db_type)
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
-            
-            logger.info(f"Tentative de connexion PostgreSQL à {clean_config['HOST']}:{clean_config['PORT']}")
             
             conn = psycopg2.connect(
                 dbname=clean_config["DATABASE"],
@@ -156,12 +153,6 @@ class SqldbConnexion:
                 application_name="SqldbConnexion"
             )
             
-            # Test de la connexion
-            with conn.cursor() as cursor:
-                cursor.execute("SELECT 1")
-                cursor.fetchone()
-            
-            logger.info("Connexion PostgreSQL réussie")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
@@ -185,8 +176,6 @@ class SqldbConnexion:
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
             
-            logger.info(f"Tentative de connexion MySQL à {clean_config['HOST']}:{clean_config['PORT']}")
-            
             conn = pymysql.connect(
                 host=clean_config["HOST"],
                 port=int(clean_config["PORT"]),
@@ -201,12 +190,6 @@ class SqldbConnexion:
                 autocommit=False
             )
             
-            # Test de la connexion
-            with conn.cursor() as cursor:
-                cursor.execute("SELECT 1")
-                cursor.fetchone()
-            
-            logger.info("Connexion MySQL réussie")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
@@ -244,8 +227,6 @@ class SqldbConnexion:
             # Créer le répertoire si nécessaire
             os.makedirs(os.path.dirname(db_path), exist_ok=True)
             
-            logger.info(f"Tentative de connexion SQLite à {db_path}")
-            
             conn = sqlite3.connect(
                 db_path,
                 timeout=30,
@@ -258,10 +239,6 @@ class SqldbConnexion:
             conn.execute("PRAGMA temp_store=MEMORY")
             conn.execute("PRAGMA mmap_size=268435456")  # 256MB
             
-            # Test de la connexion
-            conn.execute("SELECT 1")
-            
-            logger.info("Connexion SQLite réussie")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
@@ -284,9 +261,7 @@ class SqldbConnexion:
             SqldbConnexion._check_driver_availability(db_type)
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
-            
-            logger.info(f"Tentative de connexion Oracle à {clean_config['HOST']}:{clean_config['PORT']}")
-            
+
             dsn = cx_Oracle.makedsn(
                 clean_config["HOST"], 
                 clean_config["PORT"], 
@@ -300,12 +275,6 @@ class SqldbConnexion:
                 encoding="UTF-8"
             )
             
-            # Test de la connexion
-            with conn.cursor() as cursor:
-                cursor.execute("SELECT 1 FROM DUAL")
-                cursor.fetchone()
-            
-            logger.info("Connexion Oracle réussie")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
@@ -329,8 +298,6 @@ class SqldbConnexion:
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
             
-            logger.info(f"Tentative de connexion SQL Server à {clean_config['HOST']}:{clean_config['PORT']}")
-            
             conn_str = (
                 f"DRIVER={{ODBC Driver 17 for SQL Server}};"
                 f"SERVER={clean_config['HOST']},{clean_config['PORT']};"
@@ -344,12 +311,6 @@ class SqldbConnexion:
             
             conn = pyodbc.connect(conn_str)
             
-            # Test de la connexion
-            with conn.cursor() as cursor:
-                cursor.execute("SELECT 1")
-                cursor.fetchone()
-            
-            logger.info("Connexion SQL Server réussie")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
@@ -362,43 +323,3 @@ class SqldbConnexion:
             error_msg = f"Erreur inattendue SQL Server : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
-
-    @staticmethod
-    def get_connection(db_type: str, config: Dict[str, Any]) -> Union[object, str]:
-        """
-        Méthode utilitaire robuste pour obtenir une connexion selon le type
-        Usage: SqldbConnexion.get_connection('postgresql', config)
-        """
-        if not isinstance(db_type, str):
-            raise ValueError("Le type de base de données doit être une chaîne de caractères")
-        
-        methods = {
-            'postgresql': SqldbConnexion.postgreSQL,
-            'mysql': SqldbConnexion.mysql,
-            'sqlite': SqldbConnexion.sqlite,
-            'oracle': SqldbConnexion.oracle,
-            'sqlserver': SqldbConnexion.sqlserver
-        }
-        
-        db_type_lower = db_type.lower().strip()
-        if db_type_lower not in methods:
-            available_types = ', '.join(methods.keys())
-            raise ValueError(f"Type de base de données non supporté: {db_type}. Types disponibles: {available_types}")
-        
-        return methods[db_type_lower](config)
-
-    @staticmethod
-    def test_connection(db_type: str, config: Dict[str, Any]) -> bool:
-        """
-        Test de connexion sans maintenir la connexion ouverte
-        Retourne True si succès, False sinon
-        """
-        try:
-            conn = SqldbConnexion.get_connection(db_type, config)
-            if hasattr(conn, 'close'):
-                conn.close()
-            logger.info(f"Test de connexion {db_type} réussi")
-            return True
-        except Exception as e:
-            logger.error(f"Test de connexion {db_type} échoué: {e}")
-            return False
