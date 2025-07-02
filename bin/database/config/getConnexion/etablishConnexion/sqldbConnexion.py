@@ -3,11 +3,9 @@ import os
 import logging
 from typing import Dict, Any, Union, Optional
 
-# Configuration du logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Imports conditionnels avec gestion des erreurs
 try:
     import psycopg2
     from psycopg2 import OperationalError
@@ -49,19 +47,17 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 SQLITE_PATH = os.getenv("SQLITE_PATH", "bin/database/datas/SqlLite/")
 
 class DatabaseConnectionError(Exception):
-    """Exception personnalisée pour les erreurs de connexion"""
+
     def __init__(self, db_type: str, message: str, original_error: Exception = None):
         self.db_type = db_type
         self.original_error = original_error
         super().__init__(message)
 
 class ConfigurationError(Exception):
-    """Exception pour les erreurs de configuration"""
     pass
 
 class SqldbConnexion:
     
-    # Validation des configurations requises
     REQUIRED_FIELDS = {
         'pgsql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
         'mysql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
@@ -70,7 +66,6 @@ class SqldbConnexion:
         'sqlserver': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD']
     }
     
-    # Ports par défaut
     DEFAULT_PORTS = {
         'pgsql': 5432,
         'mysql': 3306,
@@ -80,7 +75,7 @@ class SqldbConnexion:
     
     @staticmethod
     def _validate_config(config: Dict[str, Any], db_type: str) -> None:
-        """Valide la configuration avant connexion"""
+        
         if not isinstance(config, dict):
             raise ConfigurationError(f"Configuration doit être un dictionnaire pour {db_type}")
         
@@ -90,7 +85,6 @@ class SqldbConnexion:
         if missing_fields:
             raise ConfigurationError(f"Champs manquants pour {db_type}: {missing_fields}")
         
-        # Validation spécifique des ports
         if 'PORT' in config and config['PORT']:
             try:
                 port = int(config['PORT'])
@@ -101,15 +95,13 @@ class SqldbConnexion:
     
     @staticmethod
     def _sanitize_config(config: Dict[str, Any], db_type: str) -> Dict[str, Any]:
-        """Nettoie et normalise la configuration"""
+
         sanitized = config.copy()
         
-        # Nettoyer les espaces
         for key, value in sanitized.items():
             if isinstance(value, str):
                 sanitized[key] = value.strip()
         
-        # Ajouter les ports par défaut si manquants
         if not sanitized.get('PORT') and db_type in SqldbConnexion.DEFAULT_PORTS:
             sanitized['PORT'] = SqldbConnexion.DEFAULT_PORTS[db_type]
             logger.info(f"Port par défaut utilisé pour {db_type}: {sanitized['PORT']}")
@@ -135,7 +127,6 @@ class SqldbConnexion:
     
     @staticmethod
     def postgreSQL(config: Dict[str, Any]) -> Union[object, str]:
-        """Connexion PostgreSQL robuste"""
         db_type = 'pgsql'
         
         try:
@@ -149,7 +140,7 @@ class SqldbConnexion:
                 password=clean_config["PASSWORD"],
                 host=clean_config["HOST"],
                 port=clean_config["PORT"],
-                connect_timeout=30,  # Timeout de connexion
+                connect_timeout=30,
                 application_name="SqldbConnexion"
             )
             
@@ -168,7 +159,6 @@ class SqldbConnexion:
 
     @staticmethod
     def mysql(config: Dict[str, Any]) -> Union[object, str]:
-        """Connexion MySQL robuste"""
         db_type = 'mysql'
         
         try:
@@ -205,7 +195,6 @@ class SqldbConnexion:
 
     @staticmethod
     def sqlite(config: Dict[str, Any]) -> Union[object, str]:
-        """Connexion SQLite robuste"""
         db_type = 'sqlite'
         
         try:
@@ -213,18 +202,15 @@ class SqldbConnexion:
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
             
-            # Construction du chemin sécurisé
             db_filename = clean_config["DATABASE"]
             if not db_filename.endswith('.db') and not db_filename.endswith('.sqlite'):
                 db_filename += '.db'
             
             db_path = os.path.join(SQLITE_PATH, db_filename)
             
-            # Sécurité : éviter les path traversal
             if '..' in db_path or not db_path.startswith(SQLITE_PATH):
                 raise ConfigurationError(f"Chemin de base de données non sécurisé: {db_path}")
             
-            # Créer le répertoire si nécessaire
             os.makedirs(os.path.dirname(db_path), exist_ok=True)
             
             conn = sqlite3.connect(
@@ -233,11 +219,10 @@ class SqldbConnexion:
                 check_same_thread=False
             )
             
-            # Configuration SQLite optimisée
             conn.execute("PRAGMA journal_mode=WAL")
             conn.execute("PRAGMA synchronous=NORMAL")
             conn.execute("PRAGMA temp_store=MEMORY")
-            conn.execute("PRAGMA mmap_size=268435456")  # 256MB
+            conn.execute("PRAGMA mmap_size=268435456")
             
             return conn
             
@@ -254,7 +239,7 @@ class SqldbConnexion:
 
     @staticmethod
     def oracle(config: Dict[str, Any]) -> Union[object, str]:
-        """Connexion Oracle robuste"""
+
         db_type = 'oracle'
         
         try:
@@ -290,7 +275,6 @@ class SqldbConnexion:
 
     @staticmethod
     def sqlserver(config: Dict[str, Any]) -> Union[object, str]:
-        """Connexion SQL Server robuste"""
         db_type = 'sqlserver'
         
         try:
