@@ -3,18 +3,15 @@ import os
 import logging
 from typing import Dict, Any, Union, Optional
 
-# Configuration du logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Imports conditionnels avec gestion des erreurs
 try:
     import pymongo
     from pymongo import MongoClient
     from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError, ConfigurationError as MongoConfigError
     PYMONGO_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"MongoDB driver non disponible: {e}")
     PYMONGO_AVAILABLE = False
 
 try:
@@ -22,7 +19,6 @@ try:
     from redis.exceptions import ConnectionError as RedisConnectionError, TimeoutError as RedisTimeoutError
     REDIS_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"Redis driver non disponible: {e}")
     REDIS_AVAILABLE = False
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../..')))
@@ -40,8 +36,7 @@ class ConfigurationError(Exception):
 
 class NoSqldbConnexion:
     """Gestionnaire de connexions NoSQL (MongoDB, Redis)"""
-    
-    # Validation des configurations requises
+
     REQUIRED_FIELDS = {
         'mongodb': ['HOST', 'PORT', 'DATABASE'],
         'redis': ['HOST', 'PORT']
@@ -87,7 +82,6 @@ class NoSqldbConnexion:
         # Ajouter les ports par défaut si manquants
         if not sanitized.get('PORT') and db_type in NoSqldbConnexion.DEFAULT_PORTS:
             sanitized['PORT'] = NoSqldbConnexion.DEFAULT_PORTS[db_type]
-            logger.info(f"Port par défaut utilisé pour {db_type}: {sanitized['PORT']}")
         
         return sanitized
     
@@ -319,84 +313,4 @@ class NoSqldbConnexion:
         try:
             return client.keys(pattern)
         except Exception as e:
-            logger.error(f"Erreur lors de la récupération des clés Redis: {e}")
-            return []
-
-# Exemple d'utilisation
-if __name__ == "__main__":
-    # Configuration MongoDB
-    config_mongodb = {
-        "HOST": "localhost",
-        "PORT": "27017",
-        "DATABASE": "ma_base_mongo",
-        "USER": "mon_user",  # Optionnel
-        "PASSWORD": "mon_password"  # Optionnel
-    }
-    
-    # Configuration Redis
-    config_redis = {
-        "HOST": "localhost",
-        "PORT": "6379",
-        "PASSWORD": "mon_password_redis",  # Optionnel
-        "DATABASE": "0"  # Numéro de la DB Redis (0-15)
-    }
-    
-    try:
-        print("=== Test MongoDB ===")
-        if NoSqldbConnexion.test_connection('mongodb', config_mongodb):
-            print("Test MongoDB réussi")
-            
-            # Connexion effective
-            db = NoSqldbConnexion.mongodb(config_mongodb)
-            print(f"Connexion MongoDB établie sur la base: {db.name}")
-            
-            # Lister les collections
-            collections = NoSqldbConnexion.get_mongodb_collections(db)
-            print(f"Collections disponibles: {collections}")
-            
-            # Test d'insertion/lecture
-            test_collection = db.test_collection
-            test_doc = {"test": "document", "timestamp": "2024"}
-            result = test_collection.insert_one(test_doc)
-            print(f"Document inséré avec ID: {result.inserted_id}")
-            
-            # Nettoyage
-            test_collection.delete_one({"_id": result.inserted_id})
-            db.client.close()
-            print("Connexion MongoDB fermée")
-        
-        print("\n=== Test Redis ===")
-        if NoSqldbConnexion.test_connection('redis', config_redis):
-            print("Test Redis réussi")
-            
-            # Connexion effective
-            r = NoSqldbConnexion.redis(config_redis)
-            print("Connexion Redis établie")
-            
-            # Informations du serveur
-            info = NoSqldbConnexion.get_redis_info(r)
-            print(f"Version Redis: {info.get('redis_version', 'N/A')}")
-            
-            # Test d'écriture/lecture
-            r.set("test_key", "test_value", ex=60)
-            value = r.get("test_key")
-            print(f"Test écriture/lecture: {value}")
-            
-            # Lister quelques clés
-            keys = NoSqldbConnexion.get_redis_keys(r, "test*")
-            print(f"Clés commençant par 'test': {keys}")
-            
-            # Nettoyage
-            r.delete("test_key")
-            r.connection_pool.disconnect()
-            print("Connexion Redis fermée")
-            
-    except ConfigurationError as e:
-        print(f"Erreur de configuration: {e}")
-    except DatabaseConnectionError as e:
-        print(f"Erreur de connexion: {e}")
-        if e.original_error:
-            print(f"Détail de l'erreur: {e.original_error}")
-    except Exception as e:
-        print(f"Erreur inattendue: {e}")
-        logger.exception("Erreur détaillée:")
+            return [ f"Erreur lors de la récupération des clés Redis: {e}" ]
