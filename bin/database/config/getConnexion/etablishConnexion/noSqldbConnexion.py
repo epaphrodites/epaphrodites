@@ -12,7 +12,7 @@ try:
     from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError, ConfigurationError as MongoConfigError
     PYMONGO_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"MongoDB driver non disponible: {e}")
+    logger.warning(f"MongoDB driver not available: {e}")
     PYMONGO_AVAILABLE = False
 
 try:
@@ -20,7 +20,7 @@ try:
     from redis.exceptions import ConnectionError as RedisConnectionError, TimeoutError as RedisTimeoutError
     REDIS_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"Redis driver non disponible: {e}")
+    logger.warning(f"Redis driver not available: {e}")
     REDIS_AVAILABLE = False
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../..')))
@@ -92,7 +92,7 @@ class NoSqldbConnexion:
         if not availability.get(db_type, False):
             raise DatabaseConnectionError(
                 db_type, 
-                f"Driver non disponible pour {db_type}. Installez la librairie correspondante."
+                f"Driver not available For {db_type}. Install the corresponding library."
             )
     
     @staticmethod
@@ -125,12 +125,6 @@ class NoSqldbConnexion:
                 'appName': 'NoSqldbConnexion'
             }
             
-            if clean_config.get('SSL', False):
-                client_options.update({
-                    'ssl': True,
-                    'ssl_cert_reqs': 'CERT_NONE' if clean_config.get('SSL_CERT_REQS') == 'none' else 'CERT_REQUIRED'
-                })
-            
             client = MongoClient(uri, **client_options)
             
             database = client[clean_config['DATABASE']]
@@ -140,7 +134,7 @@ class NoSqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except (ConnectionFailure, ServerSelectionTimeoutError) as e:
-            error_msg = f"Erreur de connexion MongoDB : {e}"
+            error_msg = f"Connection error MongoDB : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except MongoConfigError as e:
@@ -196,7 +190,7 @@ class NoSqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except (RedisConnectionError, RedisTimeoutError) as e:
-            error_msg = f"Erreur de connexion Redis : {e}"
+            error_msg = f"Connection error Redis : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
