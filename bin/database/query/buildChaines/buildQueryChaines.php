@@ -7,7 +7,7 @@ trait buildQueryChaines
 
     /**
      * select query chaine
-     * @param array|null $propriety
+     * @param string|null $propriety
      * @return mixed
      */
     public function SQuery(
