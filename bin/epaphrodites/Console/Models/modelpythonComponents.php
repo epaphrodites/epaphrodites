@@ -83,21 +83,21 @@ class modelpythonComponents extends settingpythonComponents
                 'success' => 'Pandas installation completed',
                 'already_installed' => 'Pandas is already installed'
             ],
-            'pip install mysql.connector' => [
-                'success' => 'mysql.connector installation completed',
-                'already_installed' => 'mysql.connector is already installed'
+            'pip install pymysql' => [
+                'success' => 'mysql installation completed',
+                'already_installed' => 'mysql is already installed'
             ],
             'pip install psycopg2' => [
                 'success' => 'psycopg2 installation completed',
                 'already_installed' => 'psycopg2 is already installed'
             ],    
-            'pip install oracledb' => [
-                'success' => 'oracledb installation completed',
-                'already_installed' => 'oracledb is already installed'
+            'pip install cx_Oracle' => [
+                'success' => 'Oracle installation completed',
+                'already_installed' => 'Oracle is already installed'
             ], 
             'pip install pyodbc' => [
-                'success' => 'pyodbc installation completed',
-                'already_installed' => 'pyodbc is already installed'
+                'success' => 'Sql Server installation completed',
+                'already_installed' => 'Sql Server is already installed'
             ],   
             'pip install pymongo' => [
                 'success' => 'Mongodb installation completed',

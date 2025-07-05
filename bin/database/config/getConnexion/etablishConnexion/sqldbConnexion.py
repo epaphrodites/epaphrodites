@@ -11,35 +11,35 @@ try:
     from psycopg2 import OperationalError
     PSYCOPG2_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"PostgreSQL driver non disponible: {e}")
+    logger.warning(f"PostgreSQL driver not available: {e}")
     PSYCOPG2_AVAILABLE = False
 
 try:
     import sqlite3
     SQLITE3_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"SQLite driver non disponible: {e}")
+    logger.warning(f"SQLite driver not available: {e}")
     SQLITE3_AVAILABLE = False
 
 try:
     import pymysql
     PYMYSQL_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"MySQL driver non disponible: {e}")
+    logger.warning(f"MySQL driver not available: {e}")
     PYMYSQL_AVAILABLE = False
 
 try:
     import cx_Oracle
     ORACLE_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"Oracle driver non disponible: {e}")
+    logger.warning(f"Oracle driver not available: {e}")
     ORACLE_AVAILABLE = False
 
 try:
     import pyodbc
     PYODBC_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"SQL Server driver non disponible: {e}")
+    logger.warning(f"SQL Server driver not available: {e}")
     PYODBC_AVAILABLE = False
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../..')))
@@ -122,7 +122,7 @@ class SqldbConnexion:
         if not availability.get(db_type, False):
             raise DatabaseConnectionError(
                 db_type, 
-                f"Driver non disponible pour {db_type}. Installez la librairie correspondante."
+                f"driver not available for {db_type}. Install the corresponding library."
             )
     
     @staticmethod
@@ -149,7 +149,7 @@ class SqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except OperationalError as e:
-            error_msg = f"Erreur de connexion PostgreSQL : {e}"
+            error_msg = f"Connection error PostgreSQL : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
@@ -185,7 +185,7 @@ class SqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except pymysql.MySQLError as e:
-            error_msg = f"Erreur de connexion MySQL : {e}"
+            error_msg = f"Connection error MySQL : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
@@ -194,7 +194,7 @@ class SqldbConnexion:
             raise DatabaseConnectionError(db_type, error_msg, e)
 
     @staticmethod
-    def sqlite(config: Dict[str, Any]) -> Union[object, str]:
+    def sqLite(config: Dict[str, Any]) -> Union[object, str]:
         db_type = 'sqlite'
         
         try:
@@ -229,7 +229,7 @@ class SqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except sqlite3.Error as e:
-            error_msg = f"Erreur de connexion SQLite : {e}"
+            error_msg = f"Connection error SQLite : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
@@ -265,7 +265,7 @@ class SqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except cx_Oracle.Error as e:
-            error_msg = f"Erreur de connexion Oracle : {e}"
+            error_msg = f"Connection error Oracle : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
@@ -274,7 +274,7 @@ class SqldbConnexion:
             raise DatabaseConnectionError(db_type, error_msg, e)
 
     @staticmethod
-    def sqlserver(config: Dict[str, Any]) -> Union[object, str]:
+    def sqlServer(config: Dict[str, Any]) -> Union[object, str]:
         db_type = 'sqlserver'
         
         try:
@@ -300,7 +300,7 @@ class SqldbConnexion:
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except pyodbc.Error as e:
-            error_msg = f"Erreur de connexion SQL Server : {e}"
+            error_msg = f"Connection error SQL Server : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
