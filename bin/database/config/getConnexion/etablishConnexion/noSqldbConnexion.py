@@ -51,21 +51,21 @@ class NoSqldbConnexion:
     def _validate_config(config: Dict[str, Any], db_type: str) -> None:
 
         if not isinstance(config, dict):
-            raise ConfigurationError(f"Configuration doit être un dictionnaire pour {db_type}")
+            raise ConfigurationError(f"Configuration must be a dictionary for {db_type}")
         
         required_fields = NoSqldbConnexion.REQUIRED_FIELDS.get(db_type, [])
         missing_fields = [field for field in required_fields if not config.get(field)]
         
         if missing_fields:
-            raise ConfigurationError(f"Champs manquants pour {db_type}: {missing_fields}")
+            raise ConfigurationError(f"Missing fields for {db_type}: {missing_fields}")
         
         if 'PORT' in config and config['PORT']:
             try:
                 port = int(config['PORT'])
                 if not (1 <= port <= 65535):
-                    raise ConfigurationError(f"Port invalide pour {db_type}: {port}")
+                    raise ConfigurationError(f"Invalid port for {db_type}: {port}")
             except (ValueError, TypeError):
-                raise ConfigurationError(f"Port doit être un nombre pour {db_type}: {config['PORT']}")
+                raise ConfigurationError(f"Port must be a number for {db_type}: {config['PORT']}")
     
     @staticmethod
     def _sanitize_config(config: Dict[str, Any], db_type: str) -> Dict[str, Any]:
@@ -142,7 +142,7 @@ class NoSqldbConnexion:
             logger.error(error_msg)
             raise ConfigurationError(error_msg)
         except Exception as e:
-            error_msg = f"Erreur inattendue MongoDB : {e}"
+            error_msg = f"Unexpected error MongoDB : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
     
@@ -177,7 +177,7 @@ class NoSqldbConnexion:
                 try:
                     redis_options['db'] = int(clean_config['DATABASE'])
                 except (ValueError, TypeError):
-                    logger.warning(f"Base de données Redis invalide: {clean_config['DATABASE']}, utilisation de la DB 0")
+                    logger.warning(f"Invalid Redis database: {clean_config['DATABASE']}, using the DB 0")
                     redis_options['db'] = 0
             else:
                 redis_options['db'] = 0
@@ -194,6 +194,6 @@ class NoSqldbConnexion:
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Erreur inattendue Redis : {e}"
+            error_msg = f"Unexpected error Redis : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)

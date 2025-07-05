@@ -1,15 +1,12 @@
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../..')))
-from bin.database.query.buildQuery.buildQuery import BuildQuery as query
+from bin.database.query.buildChaines.builQueryChaines import db
 
 class Select:
     
     def getUsersData():
         
-        conn = query.sdb(1)
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM inspections;")
-            return cur.fetchall()
+        result = db(1).select("SELECT * FROM inspections").get()
         
-        return cursor
+        return result

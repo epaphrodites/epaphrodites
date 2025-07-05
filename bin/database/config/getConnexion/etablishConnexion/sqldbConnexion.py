@@ -77,21 +77,21 @@ class SqldbConnexion:
     def _validate_config(config: Dict[str, Any], db_type: str) -> None:
         
         if not isinstance(config, dict):
-            raise ConfigurationError(f"Configuration doit être un dictionnaire pour {db_type}")
+            raise ConfigurationError(f"Configuration must be a dictionary for {db_type}")
         
         required_fields = SqldbConnexion.REQUIRED_FIELDS.get(db_type, [])
         missing_fields = [field for field in required_fields if not config.get(field)]
         
         if missing_fields:
-            raise ConfigurationError(f"Champs manquants pour {db_type}: {missing_fields}")
+            raise ConfigurationError(f"Missing fields for {db_type}: {missing_fields}")
         
         if 'PORT' in config and config['PORT']:
             try:
                 port = int(config['PORT'])
                 if not (1 <= port <= 65535):
-                    raise ConfigurationError(f"Port invalide pour {db_type}: {port}")
+                    raise ConfigurationError(f"Invalid port for {db_type}: {port}")
             except (ValueError, TypeError):
-                raise ConfigurationError(f"Port doit être un nombre pour {db_type}: {config['PORT']}")
+                raise ConfigurationError(f"Port must be a number for {db_type}: {config['PORT']}")
     
     @staticmethod
     def _sanitize_config(config: Dict[str, Any], db_type: str) -> Dict[str, Any]:
@@ -104,13 +104,13 @@ class SqldbConnexion:
         
         if not sanitized.get('PORT') and db_type in SqldbConnexion.DEFAULT_PORTS:
             sanitized['PORT'] = SqldbConnexion.DEFAULT_PORTS[db_type]
-            logger.info(f"Port par défaut utilisé pour {db_type}: {sanitized['PORT']}")
+            logger.info(f"Default port used for {db_type}: {sanitized['PORT']}")
         
         return sanitized
     
     @staticmethod
     def _check_driver_availability(db_type: str) -> None:
-        """Vérifie la disponibilité du driver"""
+
         availability = {
             'pgsql': PSYCOPG2_AVAILABLE,
             'mysql': PYMYSQL_AVAILABLE,
@@ -153,7 +153,7 @@ class SqldbConnexion:
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Erreur inattendue PostgreSQL : {e}"
+            error_msg = f"Unexpected error PostgreSQL : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
@@ -189,7 +189,7 @@ class SqldbConnexion:
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Erreur inattendue MySQL : {e}"
+            error_msg = f"Unexpected error MySQL : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
@@ -233,7 +233,7 @@ class SqldbConnexion:
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Erreur inattendue SQLite : {e}"
+            error_msg = f"Unexpected error SQLite : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
@@ -269,7 +269,7 @@ class SqldbConnexion:
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Erreur inattendue Oracle : {e}"
+            error_msg = f"Unexpected error Oracle : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
@@ -304,6 +304,6 @@ class SqldbConnexion:
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Erreur inattendue SQL Server : {e}"
+            error_msg = f"Unexpected error SQL Server : {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
