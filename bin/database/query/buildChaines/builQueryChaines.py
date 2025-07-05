@@ -46,8 +46,6 @@ class QueryBuilder:
             print(f"Error during query execution : {e}")
             return False
 
-
 def db(n: int):
     conn = BuildQuery.sdb(n)
     return QueryBuilder(conn)
-
