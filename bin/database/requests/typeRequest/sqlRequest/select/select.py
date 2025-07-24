@@ -6,7 +6,5 @@ from bin.database.query.buildChaines.builQueryChaines import db
 class Select:
     
     def getUsersData():
-        
-        result = db(1).select("SELECT * FROM inspections").get()
-        
-        return result
+        results = db(1).select("SELECT * FROM drena").get()
+        return results

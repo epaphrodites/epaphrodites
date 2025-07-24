@@ -22,7 +22,8 @@ except ImportError as e:
     SQLITE3_AVAILABLE = False
 
 try:
-    import pymysql
+    import mysql.connector
+    from mysql.connector import Error as MySQLError
     PYMYSQL_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"MySQL driver not available: {e}")
@@ -47,16 +48,18 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 SQLITE_PATH = os.getenv("SQLITE_PATH", "bin/database/datas/SqlLite/")
 
 class DatabaseConnectionError(Exception):
-
+    """Exception levée lors d'erreurs de connexion à la base de données"""
     def __init__(self, db_type: str, message: str, original_error: Exception = None):
         self.db_type = db_type
         self.original_error = original_error
         super().__init__(message)
 
 class ConfigurationError(Exception):
+    """Exception levée lors d'erreurs de configuration"""
     pass
 
 class SqldbConnexion:
+    """Classe pour gérer les connexions aux différents types de bases de données"""
     
     REQUIRED_FIELDS = {
         'pgsql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
@@ -75,7 +78,7 @@ class SqldbConnexion:
     
     @staticmethod
     def _validate_config(config: Dict[str, Any], db_type: str) -> None:
-        
+        """Valide la configuration pour un type de base de données donné"""
         if not isinstance(config, dict):
             raise ConfigurationError(f"Configuration must be a dictionary for {db_type}")
         
@@ -110,7 +113,7 @@ class SqldbConnexion:
     
     @staticmethod
     def _check_driver_availability(db_type: str) -> None:
-
+        
         availability = {
             'pgsql': PSYCOPG2_AVAILABLE,
             'mysql': PYMYSQL_AVAILABLE,
@@ -122,11 +125,12 @@ class SqldbConnexion:
         if not availability.get(db_type, False):
             raise DatabaseConnectionError(
                 db_type, 
-                f"driver not available for {db_type}. Install the corresponding library."
+                f"Driver not available for {db_type}. Install the corresponding library."
             )
     
     @staticmethod
-    def postgreSQL(config: Dict[str, Any]) -> Union[object, str]:
+    def postgreSQL(config: Dict[str, Any]) -> object:
+        """Crée une connexion PostgreSQL"""
         db_type = 'pgsql'
         
         try:
@@ -144,57 +148,58 @@ class SqldbConnexion:
                 application_name="SqldbConnexion"
             )
             
+            logger.info(f"PostgreSQL connection established to {clean_config['HOST']}:{clean_config['PORT']}")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except OperationalError as e:
-            error_msg = f"Connection error PostgreSQL : {e}"
+            error_msg = f"Connection error PostgreSQL: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Unexpected error PostgreSQL : {e}"
+            error_msg = f"Unexpected error PostgreSQL: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
     @staticmethod
-    def mysql(config: Dict[str, Any]) -> Union[object, str]:
+    def mysql(config: Dict[str, Any]) -> object:
+        """Crée une connexion MySQL"""
         db_type = 'mysql'
-        
+
         try:
             SqldbConnexion._check_driver_availability(db_type)
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
             
-            conn = pymysql.connect(
+            # Correction : utiliser mysql.connector.connect() au lieu de mysql.connector()
+            conn = mysql.connector.connect(
                 host=clean_config["HOST"],
-                port=int(clean_config["PORT"]),
                 user=clean_config["USER"],
                 password=clean_config["PASSWORD"],
                 database=clean_config["DATABASE"],
-                charset='utf8mb4',
-                cursorclass=pymysql.cursors.DictCursor,
-                connect_timeout=30,
-                read_timeout=30,
-                write_timeout=30,
-                autocommit=False
+                port=clean_config["PORT"],
+                connection_timeout=30,
+                autocommit=True
             )
-            
+
+            logger.info(f"MySQL connection established to {clean_config['HOST']}:{clean_config['PORT']}")
             return conn
-            
+
         except (ConfigurationError, DatabaseConnectionError):
             raise
-        except pymysql.MySQLError as e:
-            error_msg = f"Connection error MySQL : {e}"
+        except MySQLError as e:
+            error_msg = f"Connection error MySQL: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Unexpected error MySQL : {e}"
+            error_msg = f"Unexpected error MySQL: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
     @staticmethod
-    def sqLite(config: Dict[str, Any]) -> Union[object, str]:
+    def sqLite(config: Dict[str, Any]) -> object:
+        """Crée une connexion SQLite"""
         db_type = 'sqlite'
         
         try:
@@ -208,7 +213,11 @@ class SqldbConnexion:
             
             db_path = os.path.join(SQLITE_PATH, db_filename)
             
-            if '..' in db_path or not db_path.startswith(SQLITE_PATH):
+            # Correction : normaliser le chemin pour une vérification plus robuste
+            normalized_path = os.path.normpath(db_path)
+            normalized_sqlite_path = os.path.normpath(SQLITE_PATH)
+            
+            if '..' in db_path or not normalized_path.startswith(normalized_sqlite_path):
                 raise ConfigurationError(f"Chemin de base de données non sécurisé: {db_path}")
             
             os.makedirs(os.path.dirname(db_path), exist_ok=True)
@@ -219,27 +228,29 @@ class SqldbConnexion:
                 check_same_thread=False
             )
             
+            # Optimisations SQLite
             conn.execute("PRAGMA journal_mode=WAL")
             conn.execute("PRAGMA synchronous=NORMAL")
             conn.execute("PRAGMA temp_store=MEMORY")
             conn.execute("PRAGMA mmap_size=268435456")
             
+            logger.info(f"SQLite connection established to {db_path}")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except sqlite3.Error as e:
-            error_msg = f"Connection error SQLite : {e}"
+            error_msg = f"Connection error SQLite: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Unexpected error SQLite : {e}"
+            error_msg = f"Unexpected error SQLite: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
     @staticmethod
-    def oracle(config: Dict[str, Any]) -> Union[object, str]:
-
+    def oracle(config: Dict[str, Any]) -> object:
+        """Crée une connexion Oracle"""
         db_type = 'oracle'
         
         try:
@@ -260,21 +271,23 @@ class SqldbConnexion:
                 encoding="UTF-8"
             )
             
+            logger.info(f"Oracle connection established to {clean_config['HOST']}:{clean_config['PORT']}")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except cx_Oracle.Error as e:
-            error_msg = f"Connection error Oracle : {e}"
+            error_msg = f"Connection error Oracle: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Unexpected error Oracle : {e}"
+            error_msg = f"Unexpected error Oracle: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
 
     @staticmethod
-    def sqlServer(config: Dict[str, Any]) -> Union[object, str]:
+    def sqlServer(config: Dict[str, Any]) -> object:
+        """Crée une connexion SQL Server"""
         db_type = 'sqlserver'
         
         try:
@@ -295,15 +308,16 @@ class SqldbConnexion:
             
             conn = pyodbc.connect(conn_str)
             
+            logger.info(f"SQL Server connection established to {clean_config['HOST']}:{clean_config['PORT']}")
             return conn
             
         except (ConfigurationError, DatabaseConnectionError):
             raise
         except pyodbc.Error as e:
-            error_msg = f"Connection error SQL Server : {e}"
+            error_msg = f"Connection error SQL Server: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)
         except Exception as e:
-            error_msg = f"Unexpected error SQL Server : {e}"
+            error_msg = f"Unexpected error SQL Server: {e}"
             logger.error(error_msg)
             raise DatabaseConnectionError(db_type, error_msg, e)

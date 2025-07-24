@@ -4,6 +4,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 from bin.database.requests.typeRequest.sqlRequest.select.select import Select
+#from bin.database.requests.typeRequest.noSqlRequest.select.select import Select as noSelect
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)

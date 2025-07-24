@@ -6,4 +6,5 @@ from bin.database.query.buildChaines.buildQueryNoSQL import mongo, redis
 class Select:
     
     def getUsersData():
-        pass
+        result = mongo(6).collection_name("usersaccount").find({})
+        return result
