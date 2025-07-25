@@ -48,18 +48,17 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 SQLITE_PATH = os.getenv("SQLITE_PATH", "bin/database/datas/SqlLite/")
 
 class DatabaseConnectionError(Exception):
-    """Exception levée lors d'erreurs de connexion à la base de données"""
+
     def __init__(self, db_type: str, message: str, original_error: Exception = None):
         self.db_type = db_type
         self.original_error = original_error
         super().__init__(message)
 
 class ConfigurationError(Exception):
-    """Exception levée lors d'erreurs de configuration"""
+
     pass
 
 class SqldbConnexion:
-    """Classe pour gérer les connexions aux différents types de bases de données"""
     
     REQUIRED_FIELDS = {
         'pgsql': ['HOST', 'PORT', 'DATABASE', 'USER', 'PASSWORD'],
@@ -78,7 +77,7 @@ class SqldbConnexion:
     
     @staticmethod
     def _validate_config(config: Dict[str, Any], db_type: str) -> None:
-        """Valide la configuration pour un type de base de données donné"""
+
         if not isinstance(config, dict):
             raise ConfigurationError(f"Configuration must be a dictionary for {db_type}")
         
@@ -130,7 +129,7 @@ class SqldbConnexion:
     
     @staticmethod
     def postgreSQL(config: Dict[str, Any]) -> object:
-        """Crée une connexion PostgreSQL"""
+
         db_type = 'pgsql'
         
         try:
@@ -166,23 +165,25 @@ class SqldbConnexion:
     def mysql(config: Dict[str, Any]) -> object:
         """Crée une connexion MySQL"""
         db_type = 'mysql'
-
+    
         try:
             SqldbConnexion._check_driver_availability(db_type)
             SqldbConnexion._validate_config(config, db_type)
             clean_config = SqldbConnexion._sanitize_config(config, db_type)
-            
-            # Correction : utiliser mysql.connector.connect() au lieu de mysql.connector()
+    
             conn = mysql.connector.connect(
                 host=clean_config["HOST"],
                 user=clean_config["USER"],
                 password=clean_config["PASSWORD"],
                 database=clean_config["DATABASE"],
                 port=clean_config["PORT"],
-                connection_timeout=30,
-                autocommit=True
+                connection_timeout=30,  # Ajout du timeout
+                autocommit=True,        # Optionnel : pour éviter les transactions pendantes
+                charset='utf8mb4',      # Encodage recommandé
+                use_unicode=True        # Support Unicode
             )
-
+            
+            # Ajout du log de confirmation (manquant dans le code original)
             logger.info(f"MySQL connection established to {clean_config['HOST']}:{clean_config['PORT']}")
             return conn
 
@@ -213,7 +214,6 @@ class SqldbConnexion:
             
             db_path = os.path.join(SQLITE_PATH, db_filename)
             
-            # Correction : normaliser le chemin pour une vérification plus robuste
             normalized_path = os.path.normpath(db_path)
             normalized_sqlite_path = os.path.normpath(SQLITE_PATH)
             

@@ -12,7 +12,7 @@ class CheckDatabase:
         
         config = CheckDatabase.env(db)
         main_driver = config.get('DRIVER', '').lower()
-        
+
         drivers = {
             "sqlite": sqlConnexion.sqLite,
             "mysql": sqlConnexion.mysql,
