@@ -20,7 +20,6 @@ class ApiControllers:
         result = Select.getUsersData()
         
         return 200, { "message" : result }
-        #logger.debug("Handling helloEpaphrodites")
         #return 200, {"message": "Hello from python API"}
     
     def sendAndGetData(self, request_handler, stream_handler, body=None, *args):
