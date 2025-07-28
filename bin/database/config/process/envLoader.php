@@ -110,6 +110,7 @@ final class envLoader
                 $warnings[] = "DB_SOCKET_PATH may be invalid in section [$section]: {$settings['DB_SOCKET_PATH']}";
             }
 
+            $envDriver = self::sanitize($settings['DRIVER'] ?? '');
             $envHost = self::sanitize($settings['HOST'] ?? '');
             $envDatabase = self::sanitize($settings['DATABASE'] ?? '');
             $envPort = self::sanitize($settings['PORT'] ?? '');
@@ -118,6 +119,7 @@ final class envLoader
             $envSocket = self::sanitize($settings['DB_SOCKET_PATH'] ?? '');
 
             $envContent .= "# DB Configuration $index" . PHP_EOL;
+            $envContent .= "{$index}DB_DRIVER=" . ($envDriver !== '' ? $envDriver : '""') . PHP_EOL;
             $envContent .= "{$index}DB_HOST=" . ($envHost !== '' ? $envHost : '""') . PHP_EOL;
             $envContent .= "{$index}DB_DATABASE=" . ($envDatabase !== '' ? $envDatabase : '""') . PHP_EOL;
             $envContent .= "{$index}DB_PORT=" . ($envPort !== '' ? $envPort : '""') . PHP_EOL;
