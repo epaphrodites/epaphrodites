@@ -3,8 +3,6 @@ import logging
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-from bin.database.requests.typeRequest.sqlRequest.select.select import Select
-#from bin.database.requests.typeRequest.noSqlRequest.select.select import Select as noSelect
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -17,10 +15,7 @@ class ApiControllers:
     
     def helloEpaphrodites(self, request_handler, stream_handler, body=None, *args):
         
-        result = Select.getUsersData()
-        
-        return 200, { "message" : result }
-        #return 200, {"message": "Hello from python API"}
+        return 200, {"message": "Hello from python API"}
     
     def sendAndGetData(self, request_handler, stream_handler, body=None, *args):
         logger.debug(f"Handling sendAndGetData with body: {body}")

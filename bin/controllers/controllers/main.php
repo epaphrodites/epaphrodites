@@ -38,8 +38,8 @@ final class main extends MainSwitchers
     ):void
     {
 
-        $result = $this->request->pyGet('hello');
-        var_dump($result);die;
+        #$result = $this->request->pyGet('hello');
+        #var_dump($result);die;
 
         $this->views($html, []);
     }
