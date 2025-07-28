@@ -43,8 +43,7 @@
   "require": {
     "chillerlan/php-qrcode": "^4.3",
     "brick/math": "^0.11.0",
-    "symfony/console": "^6.2",
-    "epaphrodites/packages": "^0.1.0"
+    "symfony/console": "^6.2"
   },
   "require-dev": {
     "php": ">=8.2",

@@ -50,7 +50,7 @@ class modelgearshift extends settinggearshift
             if($action==="up"){
 
                 foreach ( $schema->up() as $request ){
-                    
+                      
                     $this->executeQuery($request['request'] , $request['db']);
                 }
 
@@ -80,6 +80,7 @@ class modelgearshift extends settinggearshift
     {
        
         $database = new Builders;
+      
         $database->multiChaine($queryChaine)->setMultiQuery($db, true);
     }
 }

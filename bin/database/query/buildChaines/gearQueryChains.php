@@ -1,6 +1,7 @@
 <?php
 
 namespace Epaphrodites\database\query\buildChaines;
+use Epaphrodites\database\config\process\envLoader as EnvLoader;
 
 use Epaphrodites\database\config\ini\GetConfig;
 
@@ -359,7 +360,20 @@ trait gearQueryChains
      */
     public function driver($key): string
     {
+        // Load env
+        gearQueryChains::env();
+
         $db = max(1, (int) $key);
+
         return GetConfig::DB_DRIVER($db);
     }
+
+    /**
+     * Load Env variables
+     * @return void
+     */
+    public static function env():void{
+
+        EnvLoader::init(_ENV_EDITABLE_);
+    }    
 }
