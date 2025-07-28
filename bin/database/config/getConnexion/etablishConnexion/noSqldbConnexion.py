@@ -97,6 +97,7 @@ class NoSqldbConnexion:
     
     @staticmethod
     def mongodb(config: Dict[str, Any]) -> Union[object, str]:
+        
         db_type = 'mongodb'
         
         try:
@@ -148,6 +149,7 @@ class NoSqldbConnexion:
     
     @staticmethod
     def redis(config: Dict[str, Any]) -> Union[object, str]:
+
         db_type = 'redis'
         
         try:

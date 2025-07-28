@@ -163,7 +163,7 @@ class SqldbConnexion:
 
     @staticmethod
     def mysql(config: Dict[str, Any]) -> object:
-        """Crée une connexion MySQL"""
+
         db_type = 'mysql'
     
         try:
@@ -177,14 +177,12 @@ class SqldbConnexion:
                 password=clean_config["PASSWORD"],
                 database=clean_config["DATABASE"],
                 port=clean_config["PORT"],
-                connection_timeout=30,  # Ajout du timeout
-                autocommit=True,        # Optionnel : pour éviter les transactions pendantes
-                charset='utf8mb4',      # Encodage recommandé
-                use_unicode=True        # Support Unicode
+                connection_timeout=30,
+                autocommit=True,
+                charset='utf8mb4',
+                use_unicode=True
             )
             
-            # Ajout du log de confirmation (manquant dans le code original)
-            logger.info(f"MySQL connection established to {clean_config['HOST']}:{clean_config['PORT']}")
             return conn
 
         except (ConfigurationError, DatabaseConnectionError):
@@ -200,7 +198,7 @@ class SqldbConnexion:
 
     @staticmethod
     def sqLite(config: Dict[str, Any]) -> object:
-        """Crée une connexion SQLite"""
+
         db_type = 'sqlite'
         
         try:
@@ -218,7 +216,7 @@ class SqldbConnexion:
             normalized_sqlite_path = os.path.normpath(SQLITE_PATH)
             
             if '..' in db_path or not normalized_path.startswith(normalized_sqlite_path):
-                raise ConfigurationError(f"Chemin de base de données non sécurisé: {db_path}")
+                raise ConfigurationError(f"Unsecured database path: {db_path}")
             
             os.makedirs(os.path.dirname(db_path), exist_ok=True)
             
@@ -228,7 +226,6 @@ class SqldbConnexion:
                 check_same_thread=False
             )
             
-            # Optimisations SQLite
             conn.execute("PRAGMA journal_mode=WAL")
             conn.execute("PRAGMA synchronous=NORMAL")
             conn.execute("PRAGMA temp_store=MEMORY")
@@ -250,7 +247,7 @@ class SqldbConnexion:
 
     @staticmethod
     def oracle(config: Dict[str, Any]) -> object:
-        """Crée une connexion Oracle"""
+
         db_type = 'oracle'
         
         try:
@@ -287,7 +284,7 @@ class SqldbConnexion:
 
     @staticmethod
     def sqlServer(config: Dict[str, Any]) -> object:
-        """Crée une connexion SQL Server"""
+
         db_type = 'sqlserver'
         
         try:
