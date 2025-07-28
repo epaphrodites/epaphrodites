@@ -357,7 +357,7 @@ trait gearQueryChains
     /**
      * Check database driver
      * @return string
-     */
+    */
     public function driver($key): string
     {
         // Load env
@@ -372,7 +372,7 @@ trait gearQueryChains
      * Load Env variables
      * @return void
      */
-    public static function env():void{
+    private static function env():void{
 
         EnvLoader::init(_ENV_EDITABLE_);
     }    
