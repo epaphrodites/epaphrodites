@@ -37,9 +37,9 @@ final class envLoader
             $iniPath = self::buildPath(self::INI_FILE);
             $envPath = self::buildPath(self::ENV_FILE);
 
-            if (!is_writable(self::CONFIG_DIR)) {
+            if (!is_writable(self::CONFIG_DIR)&&_PRODUCTION_==false) {
                 throw new \RuntimeException("Config directory is not writable: " . self::CONFIG_DIR);
-            }
+            }            
 
             if ($forceRegeneration || !file_exists($envPath)) {
                 self::generateEnvFromIni($iniPath, $envPath);
