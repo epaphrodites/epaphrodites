@@ -34,7 +34,7 @@ define('_LANG_', 'eng');
 define('_PYTHON_', 'python');
 
 # Run python server (accepted 'true' or 'false')
-define('_RUN_PYTHON_SERVER_', true);
+define('_RUN_PYTHON_SERVER_', false);
 
 # Define python server default port
 define('_PYTHON_SERVER_PORT_', 5001);
