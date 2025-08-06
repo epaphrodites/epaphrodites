@@ -69,7 +69,7 @@
                         <td style="width: 15%" id="tdTableContent">
                             {{ select_field({
                                 init :"USERS GROUP",
-                                name : selected.login|e ~ "__group__",
+                                name : selected.login|e ~ "__group__[]",
                                 value : "_id",
                                 selected : "label",
                                 datas : data.usersGroup(),

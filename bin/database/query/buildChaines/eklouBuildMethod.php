@@ -140,10 +140,9 @@ trait eklouBuildMethod{
     ): void {
         
         try {
-            // Démarrer une transaction sur la base cible
+            
             $targetConn->beginTransaction();
     
-            // Récupérer toutes les tables du schéma source
             $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = '{$this->sourceDb}'";
             $allTables = $sourceConn->query($query)->fetchAll(\PDO::FETCH_COLUMN);
     
@@ -154,7 +153,7 @@ trait eklouBuildMethod{
             }
     
             foreach ($tables as $table) {
-                // Récupérer les colonnes de la table
+
                 $columnsQuery = "
                     SELECT column_name, data_type, is_nullable, column_default, character_maximum_length, extra
                     FROM information_schema.columns
@@ -166,7 +165,6 @@ trait eklouBuildMethod{
                     throw new \Exception("Impossible de récupérer les colonnes de la table '$table'.");
                 }
     
-                // Créer la table cible
                 $createTableQuery = "CREATE TABLE IF NOT EXISTS `$table` (\n";
                 $columnDefinitions = [];
                 foreach ($columns as $column) {
@@ -190,7 +188,6 @@ trait eklouBuildMethod{
                 $targetConn->exec("DROP TABLE IF EXISTS `$table`");
                 $targetConn->exec($createTableQuery);
     
-                // Copier les données en lots
                 $selectQuery = "SELECT * FROM `$table`";
                 $result = $sourceConn->query($selectQuery);
                 $rows = $result->fetchAll(\PDO::FETCH_ASSOC);
@@ -210,7 +207,6 @@ trait eklouBuildMethod{
                     }
                 }
     
-                // Ajouter la clé primaire
                 $primaryKeyQuery = "
                     SELECT column_name
                     FROM information_schema.key_column_usage
@@ -223,7 +219,6 @@ trait eklouBuildMethod{
                     $targetConn->exec("ALTER TABLE `$table` ADD PRIMARY KEY ($primaryKeyColumnsList)");
                 }
     
-                // Ajouter les index
                 $indexQuery = "
                     SELECT index_name, GROUP_CONCAT(column_name ORDER BY seq_in_index ASC) AS column_names
                     FROM information_schema.statistics
@@ -241,13 +236,12 @@ trait eklouBuildMethod{
                 }
             }
     
-            // Valider la transaction
             $targetConn->commit();
-            echo "Tables copiées avec succès de {$this->sourceDb} vers {$this->targetDb}.";
+            echo "Succefuly copy {$this->sourceDb} to {$this->targetDb}.";
         } catch (\Exception $e) {
-            // Annuler la transaction en cas d'erreur
+          
             $targetConn->rollBack();
-            echo "Erreur : " . $e->getMessage();
+            echo "Error : " . $e->getMessage();
         }
     }    
 }

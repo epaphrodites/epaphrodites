@@ -31,7 +31,7 @@ class checkDatabase extends getConnexion
         checkDatabase::env();
 
         $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
-
+        
         // Switch based on the database driver type
         switch ($mainDriver) {
                 // If the driver is MySQL, connect to MySQL using the Mysql method
@@ -92,8 +92,10 @@ class checkDatabase extends getConnexion
         // Load env
         checkDatabase::env();
 
+        $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
+
         // Switch based on the database driver type
-        switch (static::DB_DRIVER($db)) {
+        switch ($mainDriver) {
 
             // If the driver is MySQL, connect to MySQL using the Mysql method
             case 'mysql':
@@ -136,8 +138,13 @@ class checkDatabase extends getConnexion
     )
     {
 
+        // Load env
+        checkDatabase::env();
+
+        $mainDriver = $db !== 1 ? static::DB_DRIVER($db) : _FIRST_DRIVER_;
+
         // Switch based on the database driver type
-        switch (static::DB_DRIVER($db)) {
+        switch ($mainDriver) {
 
             // If the driver is MySQL, create the table using InitSeederGenerated
             case 'mysql':

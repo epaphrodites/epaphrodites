@@ -2,6 +2,7 @@ composer.lock
 server.log
 pythonServer.log
 test.php
+test.py
 test.html
 counter.json
 test/

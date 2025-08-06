@@ -162,7 +162,7 @@ class update extends Builders
      * @return bool
      */
     public function noSqlRedisUpdateEtatsUsers(
-        string $login
+         $login
     ): bool
     {
 
@@ -250,11 +250,10 @@ class update extends Builders
     /**
      * Reinitialize user password
      *
-     * @param string $login
      * @return bool
      */
     public function noSqlRedisInitUsersPassword(
-        string $login
+         $login
     ): bool
     {
 
@@ -275,13 +274,11 @@ class update extends Builders
     /**
      * Update users group
      *
-     * @param string $login
-     * @param int $usersGroup
      * @return bool
      */
     public function noSqlRedisToUpdateUsersGroup(
-        string $login,
-        int $usersGroup
+         $login,
+         $usersGroup
     ): bool
     {
 

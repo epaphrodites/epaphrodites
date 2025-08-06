@@ -37,9 +37,9 @@ final class envLoader
             $iniPath = self::buildPath(self::INI_FILE);
             $envPath = self::buildPath(self::ENV_FILE);
 
-            if (!is_writable(self::CONFIG_DIR)) {
+            if (!is_writable(self::CONFIG_DIR)&&_PRODUCTION_==false) {
                 throw new \RuntimeException("Config directory is not writable: " . self::CONFIG_DIR);
-            }
+            }            
 
             if ($forceRegeneration || !file_exists($envPath)) {
                 self::generateEnvFromIni($iniPath, $envPath);
@@ -110,12 +110,18 @@ final class envLoader
                 $warnings[] = "DB_SOCKET_PATH may be invalid in section [$section]: {$settings['DB_SOCKET_PATH']}";
             }
 
+            $envDriver = self::sanitize($settings['DRIVER'] ?? '');
+            $envHost = self::sanitize($settings['HOST'] ?? '');
+            $envDatabase = self::sanitize($settings['DATABASE'] ?? '');
             $envPort = self::sanitize($settings['PORT'] ?? '');
             $envUsers = self::sanitize($settings['USER'] ?? '');
             $envPassword = self::sanitize($settings['PASSWORD'] ?? '');
             $envSocket = self::sanitize($settings['DB_SOCKET_PATH'] ?? '');
 
             $envContent .= "# DB Configuration $index" . PHP_EOL;
+            $envContent .= "{$index}DB_DRIVER=" . ($envDriver !== '' ? $envDriver : '""') . PHP_EOL;
+            $envContent .= "{$index}DB_HOST=" . ($envHost !== '' ? $envHost : '""') . PHP_EOL;
+            $envContent .= "{$index}DB_DATABASE=" . ($envDatabase !== '' ? $envDatabase : '""') . PHP_EOL;
             $envContent .= "{$index}DB_PORT=" . ($envPort !== '' ? $envPort : '""') . PHP_EOL;
             $envContent .= "{$index}DB_USER=" . ($envUsers !== '' ? $envUsers : '""') . PHP_EOL;
             $envContent .= "{$index}DB_PASSWORD=" . ($envPassword !== '' ? $envPassword : '""') . PHP_EOL;
