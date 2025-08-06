@@ -57,10 +57,11 @@ class RedisQueryBuilder:
         return self.connection.incr(key, amount)
 
 def mongo(n: int):
-    return n
+
     connection = BuildQuery.ndb(n)
     return MongoQueryBuilder(connection)
 
 def redis(n: int):
+    
     connection = BuildQuery.ndb(n)
     return RedisQueryBuilder(connection)

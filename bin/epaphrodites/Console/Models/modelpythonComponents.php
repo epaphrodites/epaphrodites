@@ -83,6 +83,10 @@ class modelpythonComponents extends settingpythonComponents
                 'success' => 'Pandas installation completed',
                 'already_installed' => 'Pandas is already installed'
             ],
+            'pip install dotenv' => [
+                'success' => 'dotenv installation completed',
+                'already_installed' => 'dotenv is already installed'
+            ],            
             'pip install pymysql' => [
                 'success' => 'mysql installation completed',
                 'already_installed' => 'mysql is already installed'
