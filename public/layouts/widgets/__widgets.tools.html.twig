@@ -25,6 +25,9 @@
 {# --- Progress Field -- #}
 {% macro progressMeter(options) %}
     <div class="gauge-container"><div class="gauge" id="gauge" data-progress="{{ options.indicator }}"><span id="percentage">0%</span></div></div>
+    <script>
+        function animateGaugeFromHTML() {let gauge = document.getElementById("gauge");let percentageText = document.getElementById("percentage");let targetValue = parseFloat(gauge.getAttribute("data-progress")) || 0;let currentProgress = 0;let duration = 2000;let step = targetValue / (duration / 10);let interval = setInterval(() => {if (currentProgress >= targetValue) {clearInterval(interval);currentProgress = targetValue;} else {currentProgress += step;}gauge.style.background = `conic-gradient(#4CAF50 ${currentProgress}%, #ddd 0%)`;percentageText.textContent = currentProgress.toFixed(2) + "%";}, 10);}animateGaugeFromHTML();
+    </script>
 {% endmacro %}
 {# --- End Progress Field -- #}
 
