@@ -1,6 +1,6 @@
 {% extends layouts %}
 {% from charts import charts, echarts, xChart, scattedChart %}
-{% from tools import clock, calendar, progressMeter %}
+{% from tools import clock, calendar, progressMeter, progressBarMeter %}
 {% block content %}
 
     <div class="container-fluid dashboard">
@@ -26,7 +26,9 @@
                     <div class="col-lg-4 mb-3">
                         <div class="card menuUsers">
                             {{ progressMeter({
-                                indicator : 7500/100
+                                numerator: 75,
+                                denominator: 100,
+                                id: "indicator"
                             }) }}
                             <h4 class="card-header"><i class="bi bi-people"></i> PROGRESS INDICATOR</h4>
                         </div>
@@ -60,6 +62,20 @@
                         {{ calendar({
                             lang: "en-GB"
                         }) }}
+                    </div>
+                    <div class="col-lg-12 mb-10 mt-10">
+                        <div class="card" style="padding: 10px;border:1px solid #b40a04">
+                            {% set reportTrim1 = 40 %}
+                            {% set reportTrim2 = 40 %}
+                            {% set totalReport = 47 %}
+                            {{ progressBarMeter({
+                                "label": ["Rapport trimestre 1", "Rapport trimestre 2"],
+                                "numerator": [ reportTrim1, reportTrim2],
+                                "denominator": [totalReport, totalReport],
+                                "color": ["#b40a04", "#b40a04"],
+                                "id": ["progressBarForReportTrim1", "progressBarForReportTrim2"]
+                            }) }}
+                        </div>
                     </div>
                     <div class="col-lg-12 mb-12">
                         <div class="card hystory">
