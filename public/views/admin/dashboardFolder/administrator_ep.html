@@ -67,16 +67,13 @@
                         <div class="card" style="padding: 10px;border:1px solid #b40a04">
                             {% set reportTrim1 = 40 %}
                             {% set reportTrim2 = 40 %}
-                            {% set reportTrim3 = 40 %}
-                            {% set reportTrim4 = 40 %}
-                            {% set annualReport = 40 %}
                             {% set totalReport = 47 %}
                             {{ progressBarMeter({
-                                "label": ["Rapport trimestre 1", "Rapport trimestre 2", "Rapport trimestre 3", "Rapport trimestre 4", "Rapport annuel"],
-                                "numerator": [ reportTrim1, reportTrim2, reportTrim3, reportTrim4, annualReport],
-                                "denominator": [totalReport, totalReport, totalReport, totalReport, totalReport],
-                                "color": ["#b40a04", "#b40a04", "#b40a04", "#b40a04", "#b40a04"],
-                                "id": ["progressBarForReportTrim1", "progressBarForReportTrim2", "progressBarForReportTrim3", "progressBarForReportTrim4", "progressBarForReportTrim5"]
+                                "label": ["Progress bar meter 1", "Progress bar meter 2"],
+                                "numerator": [ reportTrim1, reportTrim2],
+                                "denominator": [totalReport, totalReport],
+                                "color": ["#b40a04", "#b40a04"],
+                                "id": ["progressBarForReportTrim1", "progressBarForReportTrim2"]
                             }) }}
                         </div>
                     </div>
