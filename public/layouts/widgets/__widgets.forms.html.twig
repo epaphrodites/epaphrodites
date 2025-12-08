@@ -239,7 +239,11 @@
                         {% endif %}
                     {% endif %}
                     <option {% if is_selected and not selected_option_found %} selected="selected" {% set selected_option_found = true %} {% endif %} value="{{ selectOptions.value is defined and selectOptions.value ? datas[selectOptions.value]|e : loop.index }}">
-                        {{ selectOptions.selected is defined and selectOptions.selected ? datas[selectOptions.selected]|e : datas|e }}
+                        {% if selectOptions.initSelected is defined %}
+                            {{ selectOptions.selected is defined and selectOptions.selected ? datas[selectOptions.initSelected]|e ~' | '~ datas[selectOptions.selected]|e : datas|e }}
+                        {% else %}
+                            {{ selectOptions.selected is defined and selectOptions.selected ? datas[selectOptions.selected]|e : datas|e }}
+                        {% endif %}
                     </option>
                 {% endfor %}
             {% endif %}
