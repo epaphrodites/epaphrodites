@@ -231,26 +231,28 @@ class datas
     
     /**
      * Summary of returnData
-     * 
      * @param array $list
      * @param int|string|null $key
      * @param string $need
+     * @param bool $zeroIndexed
      * @return array|int|string|null
      */
     private function returnData( 
         array $list = [],
         int|string|null $key = null,
-        string $need = '_id'
-    ): array|int|string|null{
-
+        string $need = '_id',
+        bool $zeroIndexed = true
+    ): array|int|string|null {
         if ($key === null) {
             return array_values($list);
         }
-
-        if (!isset($list[$key])) {
+        
+        $actualKey = ($zeroIndexed && is_int($key)) ? $key : $key - 1;
+        
+        if (!isset($list[$actualKey])) {
             return null;
         }
-
-        return $list[$key][$need] ?? null;
+        
+        return $list[$actualKey][$need] ?? null;
     }
 }
