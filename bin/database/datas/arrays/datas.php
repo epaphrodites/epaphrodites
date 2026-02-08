@@ -230,27 +230,40 @@ class datas
     }  
     
     /**
-     * Summary of returnData
+     * Returns data from a list
      * 
-     * @param array $list
-     * @param int|string|null $key
-     * @param string $need
+     * @param array $list List of elements
+     * @param int|string|null $key Search key (1-based index or _id if $searchById=true)
+     * @param string $need Field to return
+     * @param bool $searchById If true, search by _id, otherwise by position (1-based)
      * @return array|int|string|null
      */
     private function returnData( 
         array $list = [],
         int|string|null $key = null,
-        string $need = '_id'
-    ): array|int|string|null{
+        string $need = '_id',
+        bool $searchById = false
+    ): array|int|string|null {
 
         if ($key === null) {
-            return array_values($list);
+            return $list;
         }
-
-        if (!isset($list[$key])) {
+        
+        if ($searchById) {
+            foreach ($list as $item) {
+                if (isset($item['_id']) && $item['_id'] === $key) {
+                    return $item[$need] ?? null;
+                }
+            }
             return null;
         }
-
-        return $list[$key][$need] ?? null;
+        
+        $index = $key - 1;
+        
+        if (!isset($list[$index])) {
+            return null;
+        }
+        
+        return $list[$index][$need] ?? null;
     }
 }
